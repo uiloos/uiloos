@@ -1,0 +1,40 @@
+import { ActiveContent } from './ActiveContent/ActiveContent';
+
+import {
+  ActiveContentConfig,
+  ActionOptions,
+  ActiveContentSubscriber,
+  ItemPredicate,
+  IntervalCallback,
+  CooldownConfig,
+  CooldownCallback,
+  Autoplay,
+  Direction,
+  HistoryAction,
+  InsertedHistoryItem,
+  RemovedHistoryItem,
+  ActivatedHistoryItem,
+  SwappedHistoryItem,
+  MovedHistoryItem,
+  HistoryItem,
+} from './ActiveContent/types';
+
+export {
+  ActiveContent,
+  ActiveContentConfig,
+  ActionOptions,
+  ActiveContentSubscriber,
+  ItemPredicate,
+  IntervalCallback,
+  CooldownConfig,
+  CooldownCallback,
+  Autoplay,
+  Direction,
+  HistoryAction,
+  InsertedHistoryItem,
+  RemovedHistoryItem,
+  ActivatedHistoryItem,
+  SwappedHistoryItem,
+  MovedHistoryItem,
+  HistoryItem,
+};

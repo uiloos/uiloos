@@ -1,0 +1,15 @@
+node_modules/
+lerna-debug.log
+npm-debug.log
+
+packages/*/node_modules/
+packages/*/dist/
+packages/*/coverage/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+.DS_Store
