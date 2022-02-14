@@ -8,6 +8,7 @@ import {
   HistoryItem,
   ItemPredicate,
   ActiveContentSubscriber,
+  UnsubscribeFunction,
 } from './types';
 
 /**
@@ -29,8 +30,25 @@ import {
  * and more.
  */
 export class ActiveContent<T> {
-  // The observer / subscriber of the state of the ActiveContent.
-  private subscriber: ActiveContentSubscriber<T> = () => undefined;
+
+  /**
+   * Whether or not to inform subscribers of changes. Used in the
+   * `initialize` to temporarily stop subscriptions running the
+   *  initial activation.
+   *
+   * @private
+   * @memberof ActiveContent
+   */
+  private shouldInformSubscribers = false;
+
+  /**
+   * Contains the subscribers of the ActiveContent subscribers
+   * get informed of state changes within the ActiveContent.
+   *
+   * @private
+   * @type {ActiveContentSubscriber<T>}
+   */
+  private subscribers: ActiveContentSubscriber<T>[] = [];
 
   /*
     The timeoutId given back by calling window.setTimeout for when 
@@ -137,13 +155,21 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Set the subscriber of the ActiveContent which will get notified
+   * Subscribe to changes to ActiveContent which will get notified
    * of all changes in the ActiveContent.
    * 
+   * Returns an unsubscribe function which when called will unsubscribe
+   * from the ActiveContent.
+   * 
    * @param {ActiveContentSubscriber<T>} subscriber The subscriber which responds to changes in the active content.
+   * @returns {UnsubscribeFunction} A function which when called will unsubscribe from the ActiveContent.
    */
-  public setSubscriber(subscriber: ActiveContentSubscriber<T>) {
-    this.subscriber = subscriber;
+  public subscribe(subscriber: ActiveContentSubscriber<T>): UnsubscribeFunction {
+    this.subscribers.push(subscriber);
+
+    return () => {
+      this.subscribers = this.subscribers.filter(s => subscriber !== s);
+    }
   }
 
   /**
@@ -153,11 +179,10 @@ export class ActiveContent<T> {
    *
    * @param {ActiveContentConfig<T>} config The new configuration which will override the old one
    */
-  public initialize(config: ActiveContentConfig<T>) {
+  public initialize(config: ActiveContentConfig<T>): void {
     // Ignore changes for now, we will restore subscriber at the end
     // of the initialization process.
-    const nextSubscriber = this.subscriber;
-    this.subscriber = () => undefined;
+    this.shouldInformSubscribers = false;
 
     // It is important that isCircular is set before initializeABrokenContent
     // because initializeABrokenContent uses isCircular.
@@ -218,9 +243,8 @@ export class ActiveContent<T> {
     this.autoplay = this._autoplay;
 
     // Now start sending out changes.
-    this.subscriber = nextSubscriber;
-
-    this.subscriber(this);
+    this.shouldInformSubscribers = true;
+    this.informSubscribers();
   }
 
   // Creates a broken content which contains lies and deceptions...
@@ -255,7 +279,7 @@ export class ActiveContent<T> {
       isUserInteraction: true,
       cooldown: undefined,
     }
-  ) {
+  ): void {
     if (index < 0 || index >= this.contents.length) {
       throw new Error(
         'automata > ActiveContent.activateByIndex > could not activate: index out of bounds'
@@ -356,8 +380,7 @@ export class ActiveContent<T> {
     // Mark the time in unix epoch when the last activation occurred.
     this.activationCooldownTimer.setLastTime();
 
-    // Inform the subscriber
-    this.subscriber(this);
+    this.informSubscribers();
   }
 
   /**
@@ -375,7 +398,7 @@ export class ActiveContent<T> {
    * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
    * @throws Item not found error
    */
-  public activate(item: T, actionOptions?: ActionOptions<T>) {
+  public activate(item: T, actionOptions?: ActionOptions<T>): void {
     const index = this.getIndex(item);
     this.activateByIndex(index, actionOptions);
   }
@@ -420,7 +443,7 @@ export class ActiveContent<T> {
    *
    * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
    */
-  public next(actionOptions?: ActionOptions<T>) {
+  public next(actionOptions?: ActionOptions<T>): void {
     // Beware we cannot use `this.getNextIndex` because it does not limit
     // the index to the last possible index.
 
@@ -444,7 +467,7 @@ export class ActiveContent<T> {
    *
    * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
    */
-  public previous(actionOptions?: ActionOptions<T>) {
+  public previous(actionOptions?: ActionOptions<T>): void {
     // Beware we cannot use `this.getPreviousIndex` because it does not limit
     // the index to the last possible index.
 
@@ -466,7 +489,7 @@ export class ActiveContent<T> {
    *
    * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
    */
-  public first(actionOptions?: ActionOptions<T>) {
+  public first(actionOptions?: ActionOptions<T>): void {
     // Do nothing when content is empty
     if (this.isEmpty()) {
       return;
@@ -485,7 +508,7 @@ export class ActiveContent<T> {
    *
    * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
    */
-  public last(actionOptions?: ActionOptions<T>) {
+  public last(actionOptions?: ActionOptions<T>): void {
     // Do nothing when content is empty
     if (this.isEmpty()) {
       return;
@@ -619,7 +642,7 @@ export class ActiveContent<T> {
     if (index === 0 && this.contents.length === 1) {
       this.activateByIndex(0, actionOptions);
     } else {
-      this.subscriber(this);
+      this.informSubscribers();
     }
 
     return content;
@@ -825,7 +848,7 @@ export class ActiveContent<T> {
     // because it also informs.
 
     this.repairContents(false);
-    this.subscriber(this);
+    this.informSubscribers();
 
     return value;
   }
@@ -1094,7 +1117,7 @@ export class ActiveContent<T> {
 
     if (removedIndexes.length > 0 && !previousCalled) {
       this.repairContents(false);
-      this.subscriber(this);
+      this.informSubscribers();
     }
 
     return removed.map((r) => r.value);
@@ -1160,7 +1183,7 @@ export class ActiveContent<T> {
       time: new Date(),
     }));
 
-    this.subscriber(this);
+    this.informSubscribers();
   }
 
   /**
@@ -1499,7 +1522,7 @@ export class ActiveContent<T> {
       time: new Date(),
     }));
 
-    this.subscriber(this);
+    this.informSubscribers();
   }
 
   /**
@@ -1764,7 +1787,7 @@ export class ActiveContent<T> {
     content: Content<T>,
     index: number,
     contents: T[] | Content<T>[]
-  ) {
+  ): void {
     content.isFirst = index === 0;
     content.isLast = index === contents.length - 1;
 
@@ -1780,7 +1803,7 @@ export class ActiveContent<T> {
     }
   }
 
-  private becameEmpty() {
+  private becameEmpty(): void {
     this.activeIndex = -1;
     this.active = null;
     this.activeContent = null;
@@ -1789,7 +1812,7 @@ export class ActiveContent<T> {
     this.hasActiveChangedAtLeastOnce = true;
   }
 
-  private pushHistory(item: () => HistoryItem<T>) {
+  private pushHistory(item: () => HistoryItem<T>): void {
     // Track history if the developer wants it.
     if (this.keepHistoryFor > 0) {
       this.history.push(item());
@@ -1799,5 +1822,13 @@ export class ActiveContent<T> {
         this.history.shift();
       }
     }
+  }
+
+  private informSubscribers(): void {
+    if (!this.shouldInformSubscribers) {
+      return;
+    }
+
+    this.subscribers.forEach((subscriber) => subscriber(this));
   }
 }

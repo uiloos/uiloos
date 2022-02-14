@@ -1,24 +1,32 @@
 import { ActiveContent } from '../src/ActiveContent/ActiveContent';
 import { Content } from '../src/ActiveContent/Content';
-import { ActiveContentConfig } from '../src/ActiveContent/types';
+import {
+  ActiveContentConfig,
+  UnsubscribeFunction,
+} from '../src/ActiveContent/types';
 
 type TestConfig = Omit<ActiveContentConfig<string>, 'subscriber' | 'contents'>;
 
 describe('ActiveContent', () => {
+  let unsubscribe: UnsubscribeFunction | null = null;
+
+  afterEach(() => {
+    if (unsubscribe) {
+      unsubscribe();
+    }
+  });
+
   function setup(
     config: TestConfig = { isCircular: false, autoplay: undefined },
     contents = ['a', 'b', 'c']
   ) {
-    
-    const activeContent = new ActiveContent(
-      {
-        contents,
-        ...config,
-      },
-      );
-      
-  const subscriber = jest.fn();
-    activeContent.setSubscriber(subscriber);
+    const activeContent = new ActiveContent({
+      contents,
+      ...config,
+    });
+
+    const subscriber = jest.fn();
+    unsubscribe = activeContent.subscribe(subscriber);
 
     return { subscriber, contents, activeContent };
   }
@@ -27,7 +35,7 @@ describe('ActiveContent', () => {
     test('with initial active element', () => {
       const { activeContent, subscriber } = setup({ active: 'b' });
 
-      assertLastSubscriber(subscriber, {
+      assertState(activeContent, {
         active: 'b',
         activeContent: activeContent.contents[1],
         activeIndex: 1,
@@ -81,13 +89,13 @@ describe('ActiveContent', () => {
 
       expect(activeContent.active).toBe('b');
 
-      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
     test('with initial active index', () => {
       const { activeContent, subscriber } = setup({ activeIndex: 2 });
 
-      assertLastSubscriber(subscriber, {
+      assertState(activeContent, {
         active: 'c',
         activeContent: activeContent.contents[2],
         activeIndex: 2,
@@ -141,13 +149,13 @@ describe('ActiveContent', () => {
 
       expect(activeContent.active).toBe('c');
 
-      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
     test('that without any activator that first item is activated', () => {
       const { activeContent, subscriber } = setup();
 
-      assertLastSubscriber(subscriber, {
+      assertState(activeContent, {
         active: 'a',
         activeContent: activeContent.contents[0],
         activeIndex: 0,
@@ -201,13 +209,13 @@ describe('ActiveContent', () => {
 
       expect(activeContent.active).toBe('a');
 
-      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
     test('that without any content nothing is activated', () => {
       const { activeContent, subscriber } = setup(undefined, []);
 
-      assertLastSubscriber(subscriber, {
+      assertState(activeContent, {
         active: null,
         activeContent: null,
         activeIndex: -1,
@@ -221,7 +229,7 @@ describe('ActiveContent', () => {
 
       expect(activeContent.active).toBe(null);
 
-      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
     describe('reset behavior', () => {
@@ -335,8 +343,7 @@ describe('ActiveContent', () => {
             'automata > ActiveContent.activateByIndex > could not activate: index out of bounds'
           );
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(0);
 
           expect(activeContent.active).toBe('a');
         });
@@ -350,8 +357,7 @@ describe('ActiveContent', () => {
             'automata > ActiveContent.activateByIndex > could not activate: index out of bounds'
           );
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(0);
 
           expect(activeContent.active).toBe('a');
         });
@@ -362,8 +368,7 @@ describe('ActiveContent', () => {
 
         activeContent.activateByIndex(2);
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(1);
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
 
       describe('motion', () => {
@@ -374,12 +379,9 @@ describe('ActiveContent', () => {
               isCircular: true,
             });
 
-            // Initialize calls it the first time
-            expect(subscriber).toHaveBeenCalledTimes(1);
-
             activeContent.activateByIndex(1);
 
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
             assertLastSubscriber(subscriber, {
               active: 'b',
               activeContent: activeContent.contents[1],
@@ -434,7 +436,7 @@ describe('ActiveContent', () => {
 
             activeContent.activateByIndex(2);
 
-            expect(subscriber).toHaveBeenCalledTimes(3);
+            expect(subscriber).toHaveBeenCalledTimes(2);
             assertLastSubscriber(subscriber, {
               active: 'c',
               activeContent: activeContent.contents[2],
@@ -489,7 +491,7 @@ describe('ActiveContent', () => {
 
             activeContent.activateByIndex(0);
 
-            expect(subscriber).toHaveBeenCalledTimes(4);
+            expect(subscriber).toHaveBeenCalledTimes(3);
             assertLastSubscriber(subscriber, {
               active: 'a',
               activeContent: activeContent.contents[0],
@@ -549,12 +551,9 @@ describe('ActiveContent', () => {
               isCircular: true,
             });
 
-            // Initialize calls it the first time
-            expect(subscriber).toHaveBeenCalledTimes(1);
-
             activeContent.activateByIndex(1);
 
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
             assertLastSubscriber(subscriber, {
               active: 'b',
               activeContent: activeContent.contents[1],
@@ -609,7 +608,7 @@ describe('ActiveContent', () => {
 
             activeContent.activateByIndex(0);
 
-            expect(subscriber).toHaveBeenCalledTimes(3);
+            expect(subscriber).toHaveBeenCalledTimes(2);
             assertLastSubscriber(subscriber, {
               active: 'a',
               activeContent: activeContent.contents[0],
@@ -664,7 +663,7 @@ describe('ActiveContent', () => {
 
             activeContent.activateByIndex(2);
 
-            expect(subscriber).toHaveBeenCalledTimes(4);
+            expect(subscriber).toHaveBeenCalledTimes(3);
             assertLastSubscriber(subscriber, {
               active: 'c',
               activeContent: activeContent.contents[2],
@@ -723,12 +722,9 @@ describe('ActiveContent', () => {
           test('moving right', () => {
             const { activeContent, subscriber } = setup({ activeIndex: 0 });
 
-            // Initialize calls it the first time
-            expect(subscriber).toHaveBeenCalledTimes(1);
-
             activeContent.activateByIndex(1);
 
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
             assertLastSubscriber(subscriber, {
               active: 'b',
               activeContent: activeContent.contents[1],
@@ -783,7 +779,7 @@ describe('ActiveContent', () => {
 
             activeContent.activateByIndex(2);
 
-            expect(subscriber).toHaveBeenCalledTimes(3);
+            expect(subscriber).toHaveBeenCalledTimes(2);
             assertLastSubscriber(subscriber, {
               active: 'c',
               activeContent: activeContent.contents[2],
@@ -840,12 +836,9 @@ describe('ActiveContent', () => {
           test('moving left', () => {
             const { activeContent, subscriber } = setup({ activeIndex: 2 });
 
-            // Initialize calls it the first time
-            expect(subscriber).toHaveBeenCalledTimes(1);
-
             activeContent.activateByIndex(1);
 
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
             assertLastSubscriber(subscriber, {
               active: 'b',
               activeContent: activeContent.contents[1],
@@ -900,7 +893,7 @@ describe('ActiveContent', () => {
 
             activeContent.activateByIndex(0);
 
-            expect(subscriber).toHaveBeenCalledTimes(3);
+            expect(subscriber).toHaveBeenCalledTimes(2);
             assertLastSubscriber(subscriber, {
               active: 'a',
               activeContent: activeContent.contents[0],
@@ -962,20 +955,17 @@ describe('ActiveContent', () => {
               directions: { next: 'down', previous: 'up' },
             });
 
-            // Initialize calls it the first time
-            expect(subscriber).toHaveBeenCalledTimes(1);
-
             activeContent.activateByIndex(1);
 
-            expect(subscriber).toHaveBeenCalledTimes(2);
-            expect(subscriber.mock.calls[1][0]).toMatchObject({
+            expect(subscriber).toHaveBeenCalledTimes(1);
+            expect(subscriber.mock.calls[0][0]).toMatchObject({
               direction: 'down',
             });
 
             activeContent.activateByIndex(2);
 
-            expect(subscriber).toHaveBeenCalledTimes(3);
-            expect(subscriber.mock.calls[2][0]).toMatchObject({
+            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber.mock.calls[1][0]).toMatchObject({
               direction: 'down',
             });
           });
@@ -986,20 +976,17 @@ describe('ActiveContent', () => {
               directions: { next: 'down', previous: 'up' },
             });
 
-            // Initialize calls it the first time
-            expect(subscriber).toHaveBeenCalledTimes(1);
-
             activeContent.activateByIndex(1);
 
-            expect(subscriber).toHaveBeenCalledTimes(2);
-            expect(subscriber.mock.calls[1][0]).toMatchObject({
+            expect(subscriber).toHaveBeenCalledTimes(1);
+            expect(subscriber.mock.calls[0][0]).toMatchObject({
               direction: 'up',
             });
 
             activeContent.activateByIndex(0);
 
-            expect(subscriber).toHaveBeenCalledTimes(3);
-            expect(subscriber.mock.calls[2][0]).toMatchObject({
+            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber.mock.calls[1][0]).toMatchObject({
               direction: 'up',
             });
           });
@@ -1264,23 +1251,27 @@ describe('ActiveContent', () => {
   describe('insertion of elements', () => {
     describe('when it throws out of bounds', () => {
       test('throws out of bounds when index is to large', () => {
-        const { activeContent } = setup();
+        const { activeContent, subscriber } = setup();
 
         expect(() => {
           activeContent.insertAtIndex('d', 4);
         }).toThrowError(
           'automata > ActiveContent.insertAtIndex > could not insert: index out of bounds'
         );
+
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
 
       test('throws out of bounds when index is less than zero', () => {
-        const { activeContent } = setup();
+        const { activeContent, subscriber } = setup();
 
         expect(() => {
           activeContent.insertAtIndex('d', -1);
         }).toThrowError(
           'automata > ActiveContent.insertAtIndex > could not insert: index out of bounds'
         );
+
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
     });
 
@@ -1289,8 +1280,7 @@ describe('ActiveContent', () => {
 
       activeContent.unshift('z');
 
-      // Once for initialize
-      expect(subscriber).toHaveBeenCalledTimes(2);
+      expect(subscriber).toHaveBeenCalledTimes(1);
 
       assertLastSubscriber(subscriber, {
         active: 'z',
@@ -1324,8 +1314,7 @@ describe('ActiveContent', () => {
 
       activeContent.unshift('d');
 
-      // Once for initialize
-      expect(subscriber).toHaveBeenCalledTimes(2);
+      expect(subscriber).toHaveBeenCalledTimes(1);
 
       assertLastSubscriber(subscriber, {
         active: 'a',
@@ -1398,8 +1387,7 @@ describe('ActiveContent', () => {
 
       activeContent.insertAtIndex('d', 1);
 
-      // Once for initialize
-      expect(subscriber).toHaveBeenCalledTimes(2);
+      expect(subscriber).toHaveBeenCalledTimes(1);
 
       assertLastSubscriber(subscriber, {
         active: 'a',
@@ -1472,8 +1460,7 @@ describe('ActiveContent', () => {
 
       activeContent.push('d');
 
-      // Once for initialize
-      expect(subscriber).toHaveBeenCalledTimes(2);
+      expect(subscriber).toHaveBeenCalledTimes(1);
 
       assertLastSubscriber(subscriber, {
         active: 'a',
@@ -1547,8 +1534,7 @@ describe('ActiveContent', () => {
 
         activeContent.insertAtPredicate('d', (item) => item === 'b');
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'a',
@@ -1621,8 +1607,7 @@ describe('ActiveContent', () => {
 
         activeContent.insertAtPredicate('z', (item) => item === 'y');
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(1);
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
 
       describe('insertBeforePredicate', () => {
@@ -1631,8 +1616,7 @@ describe('ActiveContent', () => {
 
           activeContent.insertBeforePredicate('d', (item) => item === 'a');
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'a',
@@ -1705,8 +1689,7 @@ describe('ActiveContent', () => {
 
           activeContent.insertBeforePredicate('d', (item) => item === 'b');
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'a',
@@ -1781,8 +1764,7 @@ describe('ActiveContent', () => {
 
           activeContent.insertAfterPredicate('d', (item) => item === 'c');
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'a',
@@ -1855,8 +1837,7 @@ describe('ActiveContent', () => {
 
           activeContent.insertAfterPredicate('d', (item) => item === 'b');
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'a',
@@ -2014,23 +1995,27 @@ describe('ActiveContent', () => {
   describe('removal of elements', () => {
     describe('when it throws out of bounds', () => {
       test('throws out of bounds when index is to large', () => {
-        const { activeContent } = setup();
+        const { activeContent, subscriber } = setup();
 
         expect(() => {
           activeContent.removeByIndex(4);
         }).toThrowError(
           'automata > ActiveContent.removeByIndex > could not remove: index out of bounds'
         );
+
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
 
       test('throws out of bounds when index is less than zero', () => {
-        const { activeContent } = setup();
+        const { activeContent, subscriber } = setup();
 
         expect(() => {
           activeContent.removeByIndex(-1);
         }).toThrowError(
           'automata > ActiveContent.removeByIndex > could not remove: index out of bounds'
         );
+
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
     });
 
@@ -2039,8 +2024,7 @@ describe('ActiveContent', () => {
 
       activeContent.shift();
 
-      // Once for initialize
-      expect(subscriber).toHaveBeenCalledTimes(2);
+      expect(subscriber).toHaveBeenCalledTimes(1);
 
       assertLastSubscriber(subscriber, {
         active: null,
@@ -2061,8 +2045,7 @@ describe('ActiveContent', () => {
 
         const removedValue = activeContent.shift();
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -2111,8 +2094,7 @@ describe('ActiveContent', () => {
 
         const removedValue = activeContent.removeByIndex(1);
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'a',
@@ -2161,8 +2143,7 @@ describe('ActiveContent', () => {
 
         const removedValue = activeContent.pop();
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'a',
@@ -2213,8 +2194,7 @@ describe('ActiveContent', () => {
 
         const removedValue = activeContent.shift();
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -2263,8 +2243,7 @@ describe('ActiveContent', () => {
 
         const removedValue = activeContent.removeByIndex(1);
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'a',
@@ -2313,8 +2292,7 @@ describe('ActiveContent', () => {
 
         const removedValue = activeContent.pop();
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -2365,8 +2343,7 @@ describe('ActiveContent', () => {
 
         const removed = activeContent.removeByPredicate(() => true);
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: null,
@@ -2392,8 +2369,7 @@ describe('ActiveContent', () => {
               (item) => item === 'a'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'b',
@@ -2444,8 +2420,7 @@ describe('ActiveContent', () => {
               (item) => item === 'b'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'a',
@@ -2496,8 +2471,7 @@ describe('ActiveContent', () => {
               (item) => item === 'c'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'a',
@@ -2550,8 +2524,7 @@ describe('ActiveContent', () => {
               (item) => item === 'a'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'b',
@@ -2602,8 +2575,7 @@ describe('ActiveContent', () => {
               (item) => item === 'b'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'a',
@@ -2654,8 +2626,7 @@ describe('ActiveContent', () => {
               (item) => item === 'c'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'b',
@@ -2710,8 +2681,7 @@ describe('ActiveContent', () => {
               (item) => item === 'a' || item === 'b'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'c',
@@ -2754,8 +2724,7 @@ describe('ActiveContent', () => {
               (item) => item === 'b' || item === 'c'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'a',
@@ -2811,8 +2780,7 @@ describe('ActiveContent', () => {
               (item) => item === 'b' || item === 'c'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'd',
@@ -2869,8 +2837,7 @@ describe('ActiveContent', () => {
               (item) => item === 'b' || item === 'd'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'a',
@@ -2940,8 +2907,7 @@ describe('ActiveContent', () => {
               (item) => item === 'b' || item === 'd'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'c',
@@ -3011,8 +2977,7 @@ describe('ActiveContent', () => {
               (item) => item === 'b' || item === 'd'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'e',
@@ -3076,8 +3041,7 @@ describe('ActiveContent', () => {
               (item, index) => index > 0
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'a',
@@ -3117,8 +3081,7 @@ describe('ActiveContent', () => {
               (item) => item === 'a' || item === 'b'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'c',
@@ -3156,8 +3119,7 @@ describe('ActiveContent', () => {
               (item) => item === 'a' || item === 'b'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'c',
@@ -3200,8 +3162,7 @@ describe('ActiveContent', () => {
               (item) => item === 'b' || item === 'c'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'a',
@@ -3257,8 +3218,7 @@ describe('ActiveContent', () => {
               (item) => item === 'b' || item === 'c'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'a',
@@ -3315,8 +3275,7 @@ describe('ActiveContent', () => {
               (item) => item === 'b' || item === 'd'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'a',
@@ -3386,8 +3345,7 @@ describe('ActiveContent', () => {
               (item) => item === 'b' || item === 'd'
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'c',
@@ -3451,8 +3409,7 @@ describe('ActiveContent', () => {
               (item, index) => index > 0
             );
 
-            // Once for initialize
-            expect(subscriber).toHaveBeenCalledTimes(2);
+            expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
               active: 'a',
@@ -3490,8 +3447,7 @@ describe('ActiveContent', () => {
 
         const removed = activeContent.removeByPredicate((item) => item === 'y');
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(1);
+        expect(subscriber).toHaveBeenCalledTimes(0);
 
         expect(removed).toEqual([]);
       });
@@ -3501,8 +3457,7 @@ describe('ActiveContent', () => {
 
         const removed = activeContent.removeByPredicate((item) => item === 'y');
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(1);
+        expect(subscriber).toHaveBeenCalledTimes(0);
 
         expect(activeContent.hasActiveChangedAtLeastOnce).toBe(false);
 
@@ -3596,10 +3551,9 @@ describe('ActiveContent', () => {
 
       const removed = activeContent.pop();
 
-      // Once for initialize
-      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(subscriber).toHaveBeenCalledTimes(0);
 
-      assertLastSubscriber(subscriber, {
+      assertState(activeContent, {
         active: null,
         activeContent: null,
         activeIndex: -1,
@@ -3619,10 +3573,9 @@ describe('ActiveContent', () => {
 
       const removed = activeContent.shift();
 
-      // Once for initialize
-      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(subscriber).toHaveBeenCalledTimes(0);
 
-      assertLastSubscriber(subscriber, {
+      assertState(activeContent, {
         active: null,
         activeContent: null,
         activeIndex: -1,
@@ -3673,45 +3626,53 @@ describe('ActiveContent', () => {
       describe('when it throws out of bounds', () => {
         describe('when it throws out of bounds for index a', () => {
           test('throws out of bounds when index is to large', () => {
-            const { activeContent } = setup();
+            const { activeContent, subscriber } = setup();
 
             expect(() => {
               activeContent.swapByIndex(4, 0);
             }).toThrowError(
               'automata > ActiveContent.swapByIndex > could not swap: index a out of bounds'
             );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
           });
 
           test('throws out of bounds when index is less than zero', () => {
-            const { activeContent } = setup();
+            const { activeContent, subscriber } = setup();
 
             expect(() => {
               activeContent.swapByIndex(-1, 0);
             }).toThrowError(
               'automata > ActiveContent.swapByIndex > could not swap: index a out of bounds'
             );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
           });
         });
 
         describe('when it throws out of bounds for index b', () => {
           test('throws out of bounds when index is to large', () => {
-            const { activeContent } = setup();
+            const { activeContent, subscriber } = setup();
 
             expect(() => {
               activeContent.swapByIndex(0, 4);
             }).toThrowError(
               'automata > ActiveContent.swapByIndex > could not swap: index b out of bounds'
             );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
           });
 
           test('throws out of bounds when index is less than zero', () => {
-            const { activeContent } = setup();
+            const { activeContent, subscriber } = setup();
 
             expect(() => {
               activeContent.swapByIndex(0, -1);
             }).toThrowError(
               'automata > ActiveContent.swapByIndex > could not swap: index b out of bounds'
             );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
           });
         });
       });
@@ -3722,7 +3683,7 @@ describe('ActiveContent', () => {
         // Swap b with c
         activeContent.swapByIndex(1, 2);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -3783,7 +3744,7 @@ describe('ActiveContent', () => {
         // Swap c with b
         activeContent.swapByIndex(2, 1);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -3844,7 +3805,7 @@ describe('ActiveContent', () => {
         // Swap a with c
         activeContent.swapByIndex(0, 2);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -3908,7 +3869,7 @@ describe('ActiveContent', () => {
         // Swap a with c
         activeContent.swapByIndex(0, 2);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -3971,8 +3932,7 @@ describe('ActiveContent', () => {
 
         activeContent.swapByIndex(1, 1);
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(1);
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
     });
 
@@ -3982,7 +3942,7 @@ describe('ActiveContent', () => {
       // Swap b with c
       activeContent.swap('b', 'c');
 
-      expect(subscriber).toHaveBeenCalledTimes(2);
+      expect(subscriber).toHaveBeenCalledTimes(1);
 
       assertLastSubscriber(subscriber, {
         active: 'b',
@@ -4044,7 +4004,7 @@ describe('ActiveContent', () => {
         // Swap b with c
         activeContent.contents[1].swapWith('c');
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -4105,7 +4065,7 @@ describe('ActiveContent', () => {
         // Swap b with c
         activeContent.contents[1].swapWithByIndex(2);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -4166,7 +4126,7 @@ describe('ActiveContent', () => {
         // Swap b with c
         activeContent.contents[1].swapWithNext();
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -4227,7 +4187,7 @@ describe('ActiveContent', () => {
         // Swap b with a
         activeContent.contents[1].swapWithPrevious();
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -4289,45 +4249,53 @@ describe('ActiveContent', () => {
       describe('when it throws out of bounds', () => {
         describe('when it throws out of bounds for index "from"', () => {
           test('throws out of bounds when index is to large', () => {
-            const { activeContent } = setup();
+            const { activeContent, subscriber } = setup();
 
             expect(() => {
               activeContent.moveByIndex(4, 0);
             }).toThrowError(
               'automata > ActiveContent.moveByIndex > could not swap: index "from" out of bounds'
             );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
           });
 
           test('throws out of bounds when index is less than zero', () => {
-            const { activeContent } = setup();
+            const { activeContent, subscriber } = setup();
 
             expect(() => {
               activeContent.moveByIndex(-1, 0);
             }).toThrowError(
               'automata > ActiveContent.moveByIndex > could not swap: index "from" out of bounds'
             );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
           });
         });
 
         describe('when it throws out of bounds for index "too"', () => {
           test('throws out of bounds when index is to large', () => {
-            const { activeContent } = setup();
+            const { activeContent, subscriber } = setup();
 
             expect(() => {
               activeContent.moveByIndex(0, 4);
             }).toThrowError(
               'automata > ActiveContent.moveByIndex > could not swap: index "to" out of bounds'
             );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
           });
 
           test('throws out of bounds when index is less than zero', () => {
-            const { activeContent } = setup();
+            const { activeContent, subscriber } = setup();
 
             expect(() => {
               activeContent.moveByIndex(0, -1);
             }).toThrowError(
               'automata > ActiveContent.moveByIndex > could not swap: index "to" out of bounds'
             );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
           });
         });
       });
@@ -4346,7 +4314,7 @@ describe('ActiveContent', () => {
         const expected = ['a', 'c', 'D', 'e', 'b', 'f', 'g'];
         expect(activeContent.contents.map((c) => c.value)).toEqual(expected);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'D',
@@ -4467,7 +4435,7 @@ describe('ActiveContent', () => {
         const expected = ['a', 'b', 'D', 'c', 'e', 'f', 'g'];
         expect(activeContent.contents.map((c) => c.value)).toEqual(expected);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'D',
@@ -4588,7 +4556,7 @@ describe('ActiveContent', () => {
         const expected = ['b', 'c', 'D', 'e', 'f', 'g', 'a'];
         expect(activeContent.contents.map((c) => c.value)).toEqual(expected);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'D',
@@ -4709,7 +4677,7 @@ describe('ActiveContent', () => {
         const expected = ['a', 'e', 'b', 'c', 'D', 'f', 'g'];
         expect(activeContent.contents.map((c) => c.value)).toEqual(expected);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'D',
@@ -4830,7 +4798,7 @@ describe('ActiveContent', () => {
         const expected = ['a', 'b', 'c', 'e', 'D', 'f', 'g'];
         expect(activeContent.contents.map((c) => c.value)).toEqual(expected);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'D',
@@ -4951,7 +4919,7 @@ describe('ActiveContent', () => {
         const expected = ['g', 'a', 'b', 'c', 'D', 'e', 'f'];
         expect(activeContent.contents.map((c) => c.value)).toEqual(expected);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'D',
@@ -5072,7 +5040,7 @@ describe('ActiveContent', () => {
         const expected = ['a', 'b', 'c', 'D', 'f', 'e', 'g'];
         expect(activeContent.contents.map((c) => c.value)).toEqual(expected);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'D',
@@ -5193,7 +5161,7 @@ describe('ActiveContent', () => {
         const expected = ['a', 'c', 'b', 'D', 'e', 'f', 'g'];
         expect(activeContent.contents.map((c) => c.value)).toEqual(expected);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'D',
@@ -5314,7 +5282,7 @@ describe('ActiveContent', () => {
         const expected = ['a', 'b', 'c', 'e', 'D', 'f', 'g'];
         expect(activeContent.contents.map((c) => c.value)).toEqual(expected);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'D',
@@ -5435,7 +5403,7 @@ describe('ActiveContent', () => {
         const expected = ['a', 'b', 'D', 'c', 'e', 'f', 'g'];
         expect(activeContent.contents.map((c) => c.value)).toEqual(expected);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'D',
@@ -5556,7 +5524,7 @@ describe('ActiveContent', () => {
         const expected = ['D', 'a', 'b', 'c', 'e', 'f', 'g'];
         expect(activeContent.contents.map((c) => c.value)).toEqual(expected);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'D',
@@ -5677,7 +5645,7 @@ describe('ActiveContent', () => {
         const expected = ['a', 'b', 'c', 'e', 'f', 'g', 'D'];
         expect(activeContent.contents.map((c) => c.value)).toEqual(expected);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'D',
@@ -5793,7 +5761,7 @@ describe('ActiveContent', () => {
         // Move a beyond c
         activeContent.moveByIndex(0, 2);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -5856,7 +5824,7 @@ describe('ActiveContent', () => {
         // Move a beyond c
         activeContent.moveByIndex(1, 1);
 
-        expect(subscriber).toHaveBeenCalledTimes(1);
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
     });
 
@@ -5866,7 +5834,7 @@ describe('ActiveContent', () => {
       // Move a beyond c
       activeContent.move('a', 2);
 
-      expect(subscriber).toHaveBeenCalledTimes(2);
+      expect(subscriber).toHaveBeenCalledTimes(1);
 
       assertLastSubscriber(subscriber, {
         active: 'a',
@@ -5931,8 +5899,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'a' && index === 0
           );
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(0);
         });
 
         test('move to middle', () => {
@@ -5943,7 +5910,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'b' && index === 1
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6006,7 +5973,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'c' && index === 2
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6071,7 +6038,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'a' && index === 0
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6134,8 +6101,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'b' && index === 1
           );
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(0);
         });
 
         test('move to last', () => {
@@ -6146,8 +6112,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'c' && index === 2
           );
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6212,7 +6177,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'a' && index === 0
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6275,7 +6240,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'b' && index === 1
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6338,8 +6303,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'c' && index === 2
           );
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(0);
         });
       });
 
@@ -6348,8 +6312,7 @@ describe('ActiveContent', () => {
 
         activeContent.moveByIndexAtPredicate(0, (item) => item === 'z');
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(1);
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
     });
 
@@ -6363,8 +6326,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'a' && index === 0
           );
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(0);
         });
 
         test('move to before middle should do nothing', () => {
@@ -6375,8 +6337,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'b' && index === 1
           );
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(0);
         });
 
         test('move to before last', () => {
@@ -6387,7 +6348,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'c' && index === 2
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6452,7 +6413,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'a' && index === 0
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6515,7 +6476,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'b' && index === 1
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6578,8 +6539,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'c' && index === 2
           );
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(0);
         });
       });
 
@@ -6592,7 +6552,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'a' && index === 0
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6655,7 +6615,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'b' && index === 1
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6718,7 +6678,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'c' && index === 2
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6779,8 +6739,7 @@ describe('ActiveContent', () => {
 
         activeContent.moveByIndexBeforePredicate(0, (item) => item === 'z');
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(1);
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
     });
 
@@ -6794,7 +6753,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'a' && index === 0
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6857,7 +6816,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'b' && index === 1
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6920,7 +6879,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'c' && index === 2
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -6985,8 +6944,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'a' && index === 0
           );
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(0);
         });
 
         test('move to after middle', () => {
@@ -6997,7 +6955,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'b' && index === 1
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -7060,7 +7018,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'c' && index === 2
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -7125,7 +7083,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'a' && index === 0
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -7188,8 +7146,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'b' && index === 1
           );
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(0);
         });
 
         test('move to after last should do nothing', () => {
@@ -7200,8 +7157,7 @@ describe('ActiveContent', () => {
             (item, index) => item === 'c' && index === 2
           );
 
-          // Once for initialize
-          expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(0);
         });
       });
 
@@ -7210,8 +7166,7 @@ describe('ActiveContent', () => {
 
         activeContent.moveByIndexAfterPredicate(0, (item) => item === 'z');
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(1);
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
     });
 
@@ -7224,7 +7179,7 @@ describe('ActiveContent', () => {
           (item, index) => item === 'b' && index === 1
         );
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -7284,8 +7239,7 @@ describe('ActiveContent', () => {
 
         activeContent.moveAtPredicate('a', (item) => item === 'z');
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(1);
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
 
       test('when item is not found throw error', () => {
@@ -7308,7 +7262,7 @@ describe('ActiveContent', () => {
           (item, index) => item === 'c' && index === 2
         );
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -7368,8 +7322,7 @@ describe('ActiveContent', () => {
 
         activeContent.moveBeforePredicate('a', (item) => item === 'z');
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(1);
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
 
       test('when item is not found throw error', () => {
@@ -7392,7 +7345,7 @@ describe('ActiveContent', () => {
           (item, index) => item === 'a' && index === 0
         );
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -7452,8 +7405,7 @@ describe('ActiveContent', () => {
 
         activeContent.moveAfterPredicate('a', (item) => item === 'z');
 
-        // Once for initialize
-        expect(subscriber).toHaveBeenCalledTimes(1);
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
 
       test('when item is not found throw error', () => {
@@ -7474,7 +7426,7 @@ describe('ActiveContent', () => {
         // Move a beyond c
         activeContent.contents[0].moveToIndex(2);
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'a',
@@ -7536,7 +7488,7 @@ describe('ActiveContent', () => {
           (item, index) => item === 'b' && index === 1
         );
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -7598,7 +7550,7 @@ describe('ActiveContent', () => {
           (item, index) => item === 'c' && index === 2
         );
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'b',
@@ -7661,7 +7613,7 @@ describe('ActiveContent', () => {
           (item, index) => item === 'c' && index === 2
         );
 
-        expect(subscriber).toHaveBeenCalledTimes(2);
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
         assertLastSubscriber(subscriber, {
           active: 'a',
@@ -7723,7 +7675,7 @@ describe('ActiveContent', () => {
           // Move c before a
           activeContent.contents[2].moveToFirst();
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'a',
@@ -7784,7 +7736,7 @@ describe('ActiveContent', () => {
           // Move b before a
           activeContent.contents[1].moveToFirst();
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -7847,7 +7799,7 @@ describe('ActiveContent', () => {
           // Move a beyond c
           activeContent.contents[0].moveToLast();
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'a',
@@ -7908,7 +7860,7 @@ describe('ActiveContent', () => {
           // Move b beyond c
           activeContent.contents[1].moveToLast();
 
-          expect(subscriber).toHaveBeenCalledTimes(2);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
           assertLastSubscriber(subscriber, {
             active: 'b',
@@ -8564,6 +8516,40 @@ describe('ActiveContent', () => {
       expect(activeContent.history).toEqual([]);
     });
   });
+
+  describe('subscribers', () => {
+    test('multiple subscribers', () => {
+      const { activeContent, subscriber } = setup();
+
+      const secondSubscriber = jest.fn();
+      const removeSecondSubscriber = activeContent.subscribe(secondSubscriber);
+
+      const thirdSubscriber = jest.fn();
+      const removeThirdSubscriber = activeContent.subscribe(thirdSubscriber);
+
+      activeContent.activateByIndex(1);
+
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+
+      removeSecondSubscriber();
+
+      activeContent.activateByIndex(0);
+
+      expect(subscriber).toHaveBeenCalledTimes(2);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(2);
+
+      removeThirdSubscriber();
+
+      activeContent.activateByIndex(2);
+
+      expect(subscriber).toHaveBeenCalledTimes(3);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(2);
+    });
+  });
 });
 
 type ActiveContentSansContents<T> = Pick<
@@ -8597,23 +8583,20 @@ type TestContent<T> = Pick<
   | 'wasActiveBeforeLast'
 >;
 
-function assertLastSubscriber(
-  subscriber: jest.Mock<ActiveContent<string>, any>,
+function assertState(
+  state: ActiveContent<string>,
   expected: TestState<string>
 ) {
-  const lastCall = subscriber.mock.calls[subscriber.mock.calls.length - 1];
-  const call: ActiveContent<string> = lastCall[0];
-
   const callAsTestState: TestState<string> = {
-    active: call.active,
-    isCircular: call.isCircular,
-    autoplay: call.autoplay,
-    activeContent: call.activeContent,
-    activeIndex: call.activeIndex,
-    hasActiveChangedAtLeastOnce: call.hasActiveChangedAtLeastOnce,
-    direction: call.direction,
-    history: call.history,
-    contents: call.contents.map((content) => {
+    active: state.active,
+    isCircular: state.isCircular,
+    autoplay: state.autoplay,
+    activeContent: state.activeContent,
+    activeIndex: state.activeIndex,
+    hasActiveChangedAtLeastOnce: state.hasActiveChangedAtLeastOnce,
+    direction: state.direction,
+    history: state.history,
+    contents: state.contents.map((content) => {
       const contentAsTestContent: TestContent<string> = {
         active: content.active,
         index: content.index,
@@ -8633,4 +8616,15 @@ function assertLastSubscriber(
   };
 
   expect(callAsTestState).toEqual(expected);
+}
+
+
+function assertLastSubscriber(
+  subscriber: jest.Mock<ActiveContent<string>, any>,
+  expected: TestState<string>
+) {
+  const lastCall = subscriber.mock.calls[subscriber.mock.calls.length - 1];
+  const call: ActiveContent<string> = lastCall[0];
+
+  assertState(call, expected);
 }

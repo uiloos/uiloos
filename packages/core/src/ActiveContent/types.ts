@@ -147,6 +147,11 @@ export type ActionOptions<T> = {
 export type ActiveContentSubscriber<T> = (activeContent: ActiveContent<T>) => void;
 
 /**
+ * A function which when called will unsubscribe from the ActiveContent.
+ */
+export type UnsubscribeFunction = () => void;
+
+/**
  * Represents a callback which is given an item, and an index for
  * that item, and expects either true or false to be returned. Based
  * on the response it will perform an action.

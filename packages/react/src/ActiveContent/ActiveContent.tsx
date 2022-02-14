@@ -12,9 +12,13 @@ export function useActiveContent<T>(
   const [activeContent] = useState(() => new ActiveContentCore<T>(config));
 
   useEffect(() => {
-    activeContent.setSubscriber(() => {
+    const unsubsribe = activeContent.subscribe(() => {
       setCounter((value) => value + 1);
     });
+
+    return () => {
+      unsubsribe();
+    }
   }, []);
 
   return activeContent;
