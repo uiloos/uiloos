@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/@angular-devkit/core/src/workspace/workspace-schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "dev": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "architect": {
+       
+        "test": {
+          
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+          
+            "main": "src/test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "tsConfig": "./tsconfig.spec.json",
+            "codeCoverage": true
+          }
+        }
+       
+      }
+    }
+  },
+  "cli": {
+    "packageManager": "npm"
+  }
+}

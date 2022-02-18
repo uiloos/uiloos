@@ -13,3 +13,5 @@ packages/*/coverage/
 .eslintcache
 
 .DS_Store
+
+.angular
