@@ -42,13 +42,14 @@ export type ActiveContentConfig<T> = {
 
   /**
    * Whether or not autoplay is enabled. When autoplay is enabled
-   * it will automatically move the content to the right.
+   * it will automatically move to the next content, based on the
+   * interval.
    *
    * When `isCircular` is `true` content will move to the right
    * indefinitely. When `isCircular` is `false` it will stop autoplay
    * at the end of the content.
    */
-  autoplay?: Autoplay<T>;
+  autoplay?: AutoplayConfig<T>;
 
   /**
    * Describes which strings should be associated with what
@@ -192,7 +193,7 @@ export type CooldownCallback<T> = (item: T, index: number) => number;
  * that the ActiveContent will move to the next content by itself
  * after an interval.
  */
-export type Autoplay<T> = {
+export type AutoplayConfig<T> = {
   /**
    * The time in milliseconds before moving to the next content.
    */

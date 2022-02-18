@@ -40,7 +40,6 @@ describe('ActiveContent', () => {
         activeContent: activeContent.contents[1],
         activeIndex: 1,
         isCircular: false,
-        autoplay: false,
         direction: 'right',
         history: [],
         hasActiveChangedAtLeastOnce: false,
@@ -100,7 +99,6 @@ describe('ActiveContent', () => {
         activeContent: activeContent.contents[2],
         activeIndex: 2,
         isCircular: false,
-        autoplay: false,
         direction: 'right',
         history: [],
         hasActiveChangedAtLeastOnce: false,
@@ -160,7 +158,6 @@ describe('ActiveContent', () => {
         activeContent: activeContent.contents[0],
         activeIndex: 0,
         isCircular: false,
-        autoplay: false,
         direction: 'right',
         history: [],
         hasActiveChangedAtLeastOnce: false,
@@ -220,7 +217,6 @@ describe('ActiveContent', () => {
         activeContent: null,
         activeIndex: -1,
         isCircular: false,
-        autoplay: false,
         direction: 'right',
         history: [],
         hasActiveChangedAtLeastOnce: false,
@@ -251,7 +247,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -321,7 +316,6 @@ describe('ActiveContent', () => {
           activeContent: null,
           activeIndex: -1,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -386,7 +380,6 @@ describe('ActiveContent', () => {
               active: 'b',
               activeContent: activeContent.contents[1],
               activeIndex: 1,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -441,7 +434,6 @@ describe('ActiveContent', () => {
               active: 'c',
               activeContent: activeContent.contents[2],
               activeIndex: 2,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -496,7 +488,6 @@ describe('ActiveContent', () => {
               active: 'a',
               activeContent: activeContent.contents[0],
               activeIndex: 0,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -558,7 +549,6 @@ describe('ActiveContent', () => {
               active: 'b',
               activeContent: activeContent.contents[1],
               activeIndex: 1,
-              autoplay: false,
               direction: 'left',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -613,7 +603,6 @@ describe('ActiveContent', () => {
               active: 'a',
               activeContent: activeContent.contents[0],
               activeIndex: 0,
-              autoplay: false,
               direction: 'left',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -668,7 +657,6 @@ describe('ActiveContent', () => {
               active: 'c',
               activeContent: activeContent.contents[2],
               activeIndex: 2,
-              autoplay: false,
               direction: 'left',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -729,7 +717,6 @@ describe('ActiveContent', () => {
               active: 'b',
               activeContent: activeContent.contents[1],
               activeIndex: 1,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -784,7 +771,6 @@ describe('ActiveContent', () => {
               active: 'c',
               activeContent: activeContent.contents[2],
               activeIndex: 2,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -843,7 +829,6 @@ describe('ActiveContent', () => {
               active: 'b',
               activeContent: activeContent.contents[1],
               activeIndex: 1,
-              autoplay: false,
               direction: 'left',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -898,7 +883,6 @@ describe('ActiveContent', () => {
               active: 'a',
               activeContent: activeContent.contents[0],
               activeIndex: 0,
-              autoplay: false,
               direction: 'left',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -1287,7 +1271,6 @@ describe('ActiveContent', () => {
         activeContent: activeContent.contents[0],
         activeIndex: 0,
         isCircular: false,
-        autoplay: false,
         direction: 'right',
         history: [],
         hasActiveChangedAtLeastOnce: true,
@@ -1321,7 +1304,6 @@ describe('ActiveContent', () => {
         activeContent: activeContent.contents[1],
         activeIndex: 1,
         isCircular: false,
-        autoplay: false,
         direction: 'right',
         history: [],
         hasActiveChangedAtLeastOnce: false,
@@ -1394,7 +1376,6 @@ describe('ActiveContent', () => {
         activeContent: activeContent.contents[0],
         activeIndex: 0,
         isCircular: false,
-        autoplay: false,
         direction: 'right',
         history: [],
         hasActiveChangedAtLeastOnce: false,
@@ -1467,7 +1448,6 @@ describe('ActiveContent', () => {
         activeContent: activeContent.contents[0],
         activeIndex: 0,
         isCircular: false,
-        autoplay: false,
         direction: 'right',
         history: [],
         hasActiveChangedAtLeastOnce: false,
@@ -1541,7 +1521,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -1623,7 +1602,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[1],
             activeIndex: 1,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -1696,7 +1674,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[1],
             activeIndex: 1,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -1771,7 +1748,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[0],
             activeIndex: 0,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -1844,7 +1820,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[0],
             activeIndex: 0,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -2031,7 +2006,6 @@ describe('ActiveContent', () => {
         activeContent: null,
         activeIndex: -1,
         isCircular: false,
-        autoplay: false,
         direction: 'right',
         history: [],
         hasActiveChangedAtLeastOnce: true,
@@ -2052,7 +2026,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -2101,7 +2074,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -2150,7 +2122,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -2201,7 +2172,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: true,
@@ -2250,7 +2220,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'left',
           history: [],
           hasActiveChangedAtLeastOnce: true,
@@ -2299,7 +2268,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[1],
           activeIndex: 1,
           isCircular: false,
-          autoplay: false,
           direction: 'left',
           history: [],
           hasActiveChangedAtLeastOnce: true,
@@ -2350,7 +2318,6 @@ describe('ActiveContent', () => {
           activeContent: null,
           activeIndex: -1,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: true,
@@ -2376,7 +2343,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: false,
@@ -2427,7 +2393,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: false,
@@ -2478,7 +2443,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: false,
@@ -2531,7 +2495,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -2582,7 +2545,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'left',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -2633,7 +2595,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[1],
               activeIndex: 1,
               isCircular: false,
-              autoplay: false,
               direction: 'left',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -2688,7 +2649,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: false,
@@ -2731,7 +2691,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: false,
@@ -2787,7 +2746,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[1],
               activeIndex: 1,
               isCircular: false,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: false,
@@ -2844,7 +2802,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: false,
@@ -2914,7 +2871,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[1],
               activeIndex: 1,
               isCircular: false,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: false,
@@ -2984,7 +2940,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[2],
               activeIndex: 2,
               isCircular: false,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: false,
@@ -3048,7 +3003,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: false,
@@ -3088,7 +3042,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -3126,7 +3079,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'right',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -3169,7 +3121,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'left',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -3225,7 +3176,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'left',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -3282,7 +3232,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'left',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -3352,7 +3301,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[1],
               activeIndex: 1,
               isCircular: false,
-              autoplay: false,
               direction: 'left',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -3416,7 +3364,6 @@ describe('ActiveContent', () => {
               activeContent: activeContent.contents[0],
               activeIndex: 0,
               isCircular: false,
-              autoplay: false,
               direction: 'left',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -3558,7 +3505,6 @@ describe('ActiveContent', () => {
         activeContent: null,
         activeIndex: -1,
         isCircular: false,
-        autoplay: false,
         direction: 'right',
         history: [],
         hasActiveChangedAtLeastOnce: false,
@@ -3580,7 +3526,6 @@ describe('ActiveContent', () => {
         activeContent: null,
         activeIndex: -1,
         isCircular: false,
-        autoplay: false,
         direction: 'right',
         history: [],
         hasActiveChangedAtLeastOnce: false,
@@ -3690,7 +3635,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[2],
           activeIndex: 2,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -3751,7 +3695,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[2],
           activeIndex: 2,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -3812,7 +3755,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[1],
           activeIndex: 1,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -3876,7 +3818,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[1],
           activeIndex: 1,
           isCircular: true,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -3949,7 +3890,6 @@ describe('ActiveContent', () => {
         activeContent: activeContent.contents[2],
         activeIndex: 2,
         isCircular: false,
-        autoplay: false,
         direction: 'right',
         history: [],
         hasActiveChangedAtLeastOnce: false,
@@ -4011,7 +3951,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[2],
           activeIndex: 2,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -4072,7 +4011,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[2],
           activeIndex: 2,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -4133,7 +4071,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[2],
           activeIndex: 2,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -4194,7 +4131,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -4321,7 +4257,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[2],
           activeIndex: 2,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -4442,7 +4377,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[2],
           activeIndex: 2,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -4563,7 +4497,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[2],
           activeIndex: 2,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -4684,7 +4617,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[4],
           activeIndex: 4,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -4805,7 +4737,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[4],
           activeIndex: 4,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -4926,7 +4857,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[4],
           activeIndex: 4,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -5047,7 +4977,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[3],
           activeIndex: 3,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -5168,7 +5097,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[3],
           activeIndex: 3,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -5289,7 +5217,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[4],
           activeIndex: 4,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -5410,7 +5337,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[2],
           activeIndex: 2,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -5531,7 +5457,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -5652,7 +5577,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[6],
           activeIndex: 6,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -5768,7 +5692,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: true,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -5841,7 +5764,6 @@ describe('ActiveContent', () => {
         activeContent: activeContent.contents[2],
         activeIndex: 2,
         isCircular: false,
-        autoplay: false,
         direction: 'right',
         history: [],
         hasActiveChangedAtLeastOnce: false,
@@ -5917,7 +5839,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[0],
             activeIndex: 0,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -5980,7 +5901,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[0],
             activeIndex: 0,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6045,7 +5965,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[0],
             activeIndex: 0,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6119,7 +6038,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[2],
             activeIndex: 2,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6184,7 +6102,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[2],
             activeIndex: 2,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6247,7 +6164,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[2],
             activeIndex: 2,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6355,7 +6271,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[0],
             activeIndex: 0,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6420,7 +6335,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[0],
             activeIndex: 0,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6483,7 +6397,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[0],
             activeIndex: 0,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6559,7 +6472,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[2],
             activeIndex: 2,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6622,7 +6534,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[2],
             activeIndex: 2,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6685,7 +6596,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[2],
             activeIndex: 2,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6760,7 +6670,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[0],
             activeIndex: 0,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6823,7 +6732,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[0],
             activeIndex: 0,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6886,7 +6794,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[0],
             activeIndex: 0,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -6962,7 +6869,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[2],
             activeIndex: 2,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -7025,7 +6931,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[2],
             activeIndex: 2,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -7090,7 +6995,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[2],
             activeIndex: 2,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -7186,7 +7090,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -7269,7 +7172,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -7352,7 +7254,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -7433,7 +7334,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[2],
           activeIndex: 2,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -7495,7 +7395,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -7557,7 +7456,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[0],
           activeIndex: 0,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -7620,7 +7518,6 @@ describe('ActiveContent', () => {
           activeContent: activeContent.contents[2],
           activeIndex: 2,
           isCircular: false,
-          autoplay: false,
           direction: 'right',
           history: [],
           hasActiveChangedAtLeastOnce: false,
@@ -7682,7 +7579,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[1],
             activeIndex: 1,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -7743,7 +7639,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[0],
             activeIndex: 0,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -7806,7 +7701,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[2],
             activeIndex: 2,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -7867,7 +7761,6 @@ describe('ActiveContent', () => {
             activeContent: activeContent.contents[2],
             activeIndex: 2,
             isCircular: false,
-            autoplay: false,
             direction: 'right',
             history: [],
             hasActiveChangedAtLeastOnce: false,
@@ -7979,7 +7872,7 @@ describe('ActiveContent', () => {
       });
     });
 
-    describe('user calling autoplay', () => {
+    describe('user calling configureAutoplay', () => {
       test('that autoplay can be activated after the component has started', () => {
         jest.useFakeTimers();
 
@@ -7993,7 +7886,7 @@ describe('ActiveContent', () => {
 
         expect(activeContent.active).toBe('a');
 
-        activeContent.autoplay = autoplay;
+        activeContent.configureAutoplay(autoplay);
 
         jest.advanceTimersByTime(200);
 
@@ -8011,7 +7904,10 @@ describe('ActiveContent', () => {
         jest.advanceTimersByTime(200);
         expect(activeContent.active).toBe('b');
 
-        activeContent.autoplay = false;
+        // Stop the autoplay
+        activeContent.configureAutoplay(null);
+
+        // Should stay on 'b'
         jest.advanceTimersByTime(200);
         expect(activeContent.active).toBe('b');
       });
@@ -8121,6 +8017,113 @@ describe('ActiveContent', () => {
       // been set to null.
       jest.advanceTimersByTime(200);
       expect(activeContent.active).toBe(null);
+    });
+
+    test('that the autoplay can be paused and continued', () => {
+      jest.useFakeTimers();
+
+      const autoplay = { interval: 200 };
+      const { activeContent } = setup({ autoplay, isCircular: false });
+
+      // It should start with 'a' and be playing
+      expect(activeContent.active).toBe('a');
+      expect(activeContent.isPlaying()).toBe(true);
+
+      // After 200 seconds it should be on 'b'
+      jest.advanceTimersByTime(200);
+      expect(activeContent.active).toBe('b');
+
+      // Now we advance the time to the half way point
+      // between 'b' and 'c'.
+      expect(activeContent.isPlaying()).toBe(true);
+      jest.advanceTimersByTime(100);
+      expect(activeContent.isPlaying()).toBe(true);
+
+      // Now pause it at the half way.
+      activeContent.pause();
+      expect(activeContent.isPlaying()).toBe(false);
+
+      // When paused advancing the time should do nothing.
+      jest.advanceTimersByTime(100);
+      expect(activeContent.active).toBe('b');
+      expect(activeContent.isPlaying()).toBe(false);
+
+      // Even when advancing a huge amount of seconds, it should
+      // stay paused no matter what.
+      jest.advanceTimersByTime(10000);
+      expect(activeContent.active).toBe('b');
+      expect(activeContent.isPlaying()).toBe(false);
+
+      // Now press play, after 100 milliseconds it should have
+      // continued.
+      activeContent.play();
+      expect(activeContent.isPlaying()).toBe(true);
+
+      // After 80 milliseconds b should still be active though
+      jest.advanceTimersByTime(80);
+      expect(activeContent.active).toBe('b');
+
+      // Finally after 20 milliseconds it should be 'c'
+      jest.advanceTimersByTime(20);
+      expect(activeContent.active).toBe('c');
+
+      // It has reached the end and is no longer playing.
+      expect(activeContent.isPlaying()).toBe(false);
+    });
+
+    test('that the autoplay can be stopped and continued', () => {
+      jest.useFakeTimers();
+
+      const autoplay = { interval: 200 };
+      const { activeContent } = setup({ autoplay, isCircular: false });
+
+      // It should start with 'a' and be playing
+      expect(activeContent.active).toBe('a');
+      expect(activeContent.isPlaying()).toBe(true);
+
+      // After 200 seconds it should be on 'b'
+      jest.advanceTimersByTime(200);
+      expect(activeContent.active).toBe('b');
+
+      // Now we advance the time to the half way point
+      // between 'b' and 'c'.
+      expect(activeContent.isPlaying()).toBe(true);
+      jest.advanceTimersByTime(100);
+      expect(activeContent.isPlaying()).toBe(true);
+
+      // Now pause it at the half way, this should be forgotten
+      // because stop is not the same as pause.
+      activeContent.stop();
+      expect(activeContent.isPlaying()).toBe(false);
+
+      // When stopped advancing the time should do nothing.
+      jest.advanceTimersByTime(100);
+      expect(activeContent.active).toBe('b');
+      expect(activeContent.isPlaying()).toBe(false);
+
+      // Even when advancing a huge amount of seconds, it should
+      // stay stopped no matter what.
+      jest.advanceTimersByTime(10000);
+      expect(activeContent.active).toBe('b');
+      expect(activeContent.isPlaying()).toBe(false);
+
+      // Now press play, after 100 milliseconds it should have
+      // continued.
+      activeContent.play();
+      expect(activeContent.isPlaying()).toBe(true);
+
+      // After 100 milliseconds b should still be inactive because
+      // stopping is not the same as pausing.
+      jest.advanceTimersByTime(100);
+      expect(activeContent.active).toBe('b');
+
+      // Finally after 100 milliseconds it should be 'c', because
+      // that is the time it takes after a stop 100 + 100 = 200.
+      jest.advanceTimersByTime(100);
+      expect(activeContent.active).toBe('c');
+
+      // It has reached the end and is no longer playing.
+      expect(activeContent.isPlaying()).toBe(false);
     });
   });
 
@@ -8556,7 +8559,6 @@ type ActiveContentSansContents<T> = Pick<
   ActiveContent<T>,
   | 'active'
   | 'isCircular'
-  | 'autoplay'
   | 'activeContent'
   | 'activeIndex'
   | 'hasActiveChangedAtLeastOnce'
@@ -8589,8 +8591,7 @@ function assertState(
 ) {
   const callAsTestState: TestState<string> = {
     active: state.active,
-    isCircular: state.isCircular,
-    autoplay: state.autoplay,
+    isCircular: state.isCircular,  
     activeContent: state.activeContent,
     activeIndex: state.activeIndex,
     hasActiveChangedAtLeastOnce: state.hasActiveChangedAtLeastOnce,
@@ -8617,7 +8618,6 @@ function assertState(
 
   expect(callAsTestState).toEqual(expected);
 }
-
 
 function assertLastSubscriber(
   subscriber: jest.Mock<ActiveContent<string>, any>,

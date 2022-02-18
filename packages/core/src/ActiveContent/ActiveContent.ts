@@ -1,8 +1,9 @@
+import { Autoplay } from './Autoplay';
 import { Content } from './Content';
 import { CooldownTimer } from './CooldownTimer';
 import {
   ActionOptions,
-  Autoplay,
+  AutoplayConfig,
   ActiveContentConfig,
   Direction,
   HistoryItem,
@@ -18,7 +19,7 @@ import {
  *
  * This pattern is seen in many visual elements / components for
  * example:
- * 
+ *
  *  1. A tabs element: the user can select a singular tab.
  *
  *  2. A carrousel element: the user sees single slide, which my
@@ -30,7 +31,6 @@ import {
  * and more.
  */
 export class ActiveContent<T> {
-
   /**
    * Whether or not to inform subscribers of changes. Used in the
    * `initialize` to temporarily stop subscriptions running the
@@ -49,13 +49,6 @@ export class ActiveContent<T> {
    * @type {ActiveContentSubscriber<T>}
    */
   private subscribers: ActiveContentSubscriber<T>[] = [];
-
-  /*
-    The timeoutId given back by calling window.setTimeout for when 
-    autoplay is enabled. Is kept here so it can be cleared via
-    window.clearTimeout.
-  */
-  private autoplayTimeoutId: number | null = null;
 
   /**
    * The `Content` which the `ActiveContent` holds.
@@ -83,17 +76,7 @@ export class ActiveContent<T> {
    * the end of the content is reached, and whether the content should
    * go to the end when moving left of the start.
    */
-  public isCircular: boolean = false;
-
-  /**
-   * Whether or not autoplay is enabled. When autoplay is enabled
-   * it will automatically move the content to the right.
-   *
-   * When `isCircular` is `true` content will move to the right
-   * indefinitely. When `isCircular` is `false` it will stop autoplay
-   * at the end of the content.
-   */
-  private _autoplay: Autoplay<T> | false = false;
+  public isCircular: boolean = false;  
 
   /**
    * The direction the `ActiveContent` has previously moved to.
@@ -139,6 +122,12 @@ export class ActiveContent<T> {
   // The cooldown timer for activation
   private activationCooldownTimer!: CooldownTimer<T>;
 
+  // The autoplay instance for all autoplay related code.
+  // Note that it is undefined during initialization when
+  // activateByIndex is called. But we lie about the 
+  // type because otherwise there would be to many checks.
+  private autoplay!: Autoplay<T>;
+
   // The amount items that should be remembered in the history.
   private keepHistoryFor!: number;
 
@@ -147,7 +136,7 @@ export class ActiveContent<T> {
 
   /**
    * Creates an ActiveContent based on the ActiveContentConfig config.
-   * 
+   *
    * @param {ActiveContentConfig<T>} config The initial configuration of the ActiveContent.
    */
   constructor(config: ActiveContentConfig<T>) {
@@ -157,27 +146,31 @@ export class ActiveContent<T> {
   /**
    * Subscribe to changes to ActiveContent which will get notified
    * of all changes in the ActiveContent.
-   * 
+   *
    * Returns an unsubscribe function which when called will unsubscribe
    * from the ActiveContent.
-   * 
-   * @param {ActiveContentSubscriber<T>} subscriber The subscriber which responds to changes in the active content.
+   *
+   * @param {ActiveContentSubscriber<T>} subscriber The subscriber which responds to changes in the ActiveContent.
    * @returns {UnsubscribeFunction} A function which when called will unsubscribe from the ActiveContent.
    */
-  public subscribe(subscriber: ActiveContentSubscriber<T>): UnsubscribeFunction {
+  public subscribe(
+    subscriber: ActiveContentSubscriber<T>
+  ): UnsubscribeFunction {
     this.subscribers.push(subscriber);
 
     return () => {
-      this.subscribers = this.subscribers.filter(s => subscriber !== s);
-    }
+      this.subscribers = this.subscribers.filter((s) => subscriber !== s);
+    };
   }
 
   /**
    * Initializes the ActiveContent based on the config provided.
-   * This can effectively resets the Active content when called,
+   * This can effectively resets the ActiveContent when called,
    * including the history.
    *
    * @param {ActiveContentConfig<T>} config The new configuration which will override the old one
+   *
+   * @throws Interval cannot be negative or zero error
    */
   public initialize(config: ActiveContentConfig<T>): void {
     // Ignore changes for now, we will restore subscriber at the end
@@ -217,7 +210,7 @@ export class ActiveContent<T> {
       }
     }
 
-    // Reset the active content
+    // Reset the ActiveContent
     this.becameEmpty();
 
     // Set activate the content if it exists.
@@ -238,9 +231,9 @@ export class ActiveContent<T> {
     this.hasActiveChangedAtLeastOnce = false;
     this.direction = this.directions.next;
 
-    // Begin the autoplay
-    this._autoplay = config.autoplay !== undefined ? config.autoplay : false;
-    this.autoplay = this._autoplay;
+    // Begin the autoplay if it is configured
+    this.autoplay = new Autoplay(this, config.autoplay ? config.autoplay : null);
+    this.play();
 
     // Now start sending out changes.
     this.shouldInformSubscribers = true;
@@ -309,8 +302,8 @@ export class ActiveContent<T> {
     const previousIndex = this.getPreviousIndex(index);
 
     this.contents.forEach((content, i) => {
-      // If the content.active is true we found the old active item, 
-      // because it was already active when we encountered it. 
+      // If the content.active is true we found the old active item,
+      // because it was already active when we encountered it.
       content.wasActiveBeforeLast = content.active;
 
       content.active = index === i;
@@ -335,33 +328,10 @@ export class ActiveContent<T> {
       }
     });
 
+    // During initialization the autoplay is still undefined. This
+    // means that we lie about the type of this.autoplay.
     if (this.autoplay) {
-      if (
-        actionOptions &&
-        actionOptions.isUserInteraction &&
-        this.autoplay.stopsOnUserInteraction
-      ) {
-        // Stop when autoPlay.stopsOnUserInteraction is true and this
-        // is a user interaction.
-        this.autoplay = false;
-      } else if (this.isCircular === false && index === this.getLastIndex()) {
-        // When the ActiveContent is linear stop autoplay at the end.
-        this.autoplay = false;
-      } else {
-        // Move the autoplay to the next "timer", needed because
-        // each "item" can have a unique "interval" in which it
-        // is active.
-
-        // Store the old autoplay so we can continue with the settings.
-        const rememberedAutoplay = this._autoplay;
-
-        // Cancel the autoplay clear the timeout
-        this.autoplay = false;
-
-        // Now re-active the autoplay again, this will trigger the next
-        // timeout.
-        this.autoplay = rememberedAutoplay;
-      }
+      this.autoplay.onActiveIndexChanged(index, actionOptions);
     }
 
     this.pushHistory(() => ({
@@ -385,7 +355,7 @@ export class ActiveContent<T> {
 
   /**
    * Activates the given item based on identity by comparing the item
-   * via a `===` check. When multiple items match on `===` only the 
+   * via a `===` check. When multiple items match on `===` only the
    * first matching item is activated.
    *
    * If the item does not exist in the content array it will
@@ -518,69 +488,69 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Whether or not autoplay is enabled. When autoplay is enabled
-   * it will automatically move the content to the right.
+   * Whether or not the ActiveContent is playing.
    *
-   * When `isCircular` is `true` content will move to the right
-   * indefinitely. When `isCircular` is `false` it will stop autoplay
-   * at the end of the content.
+   * @returns {boolean} Whether or not the ActiveContent is playing.
    */
-  public get autoplay(): Autoplay<T> | false {
-    return this._autoplay;
+  public isPlaying(): boolean {
+    return this.autoplay.isPlaying();
   }
 
   /**
-   * When given an Autoplay it will activate the autoplay. When
-   * given `false` it will shut down the autoplay.
+   * Will start playing the ActiveContent based on the active
+   * autoplayConfig. When `autoplayConfig` is not defined nothing
+   * will happen when calling play.
    *
-   * Autoplay will shut down automatically when there is no content.
+   * When there is no more content the playing will stop automatically.
    *
-   * The autoplay will make the active content move on its own.
-   *
-   * @param {(Autoplay<T> | false)} Autoplay
    * @throws Interval cannot be negative or zero error
    */
-  public set autoplay(autoPlayConfig: Autoplay<T> | false) {
-    this._autoplay = autoPlayConfig;
+  public play(): void {
+    this.autoplay.play();
+  }
 
-    if (this.autoplayTimeoutId !== null) {
-      window.clearTimeout(this.autoplayTimeoutId);
-      this.autoplayTimeoutId = null;
-    }
+  /**
+   * When the ActiveContent is playing it will pause the autoplay.
+   *
+   * When paused the current autoplay interval is remember and resumed
+   * from that position when `play` is called again.
+   *
+   * For example: when the interval is 1 second and the `pause` is
+   * called after 0.8 seconds, it will after `play` is called, take
+   * 0.2 seconds to go to the next content.
+   */
+  public pause(): void {
+    this.autoplay.pause();
+  }
 
-    // Top the interval when autoplay is false or when the content
-    // has become empty.
-    if (this.autoplay === false || this.isEmpty()) {
-      return;
-    }
+  /**
+   * When the ActiveContent is playing it will stop the autoplay.
+   *
+   * By calling `play` again it is possible to restart the autoplay.
+   * However the interval will behave in this scenario as it if was
+   * reset. 
+   * 
+   * For example: when the interval is 1 second and the `stop` is 
+   * called after 0.8 seconds, it will after `play` is called, take
+   * 1 second to go to the next content. 
+   */
+  public stop(): void {
+    this.autoplay.stop();
+  }
 
-    const interval =
-      typeof this.autoplay.interval === 'number'
-        ? this.autoplay.interval
-        : this.autoplay.interval(
-            // This cast is valid because there is content at this point
-            // and one content must always be active.
-            this.active as T,
-            this.activeIndex
-          );
-
-    if (interval <= 0) {
-      throw new Error(
-        'automata > ActiveContent.autoplay interval cannot be negative or zero'
-      );
-    }
-
-    this.autoplayTimeoutId = window.setTimeout(() => {
-      // It could happen that during the interval the contents is
-      // now empty due to a removal, in this case we simply want to
-      // do nothing.
-      if (this.isEmpty()) {
-        return;
-      }
-
-      this.next({ isUserInteraction: false });
-      this.autoplay = this._autoplay;
-    }, interval);
+  /**
+   * Configures the autoplay, when the autoplay is `null` the autoplay
+   * is stopped.
+   *
+   * Can be used to reconfigure the speed of the autoplay after the
+   * ActiveContent has been created.
+   *
+   * @param {AutoplayConfig<T> | null} autoplay The new autoplay configuration
+   * @throws Interval cannot be negative or zero error
+   */
+  public configureAutoplay(autoplayConfig: AutoplayConfig<T> | null): void {
+    this.autoplay.setConfig(autoplayConfig);
+    this.play()
   }
 
   /**
@@ -877,7 +847,7 @@ export class ActiveContent<T> {
 
   /**
    * Removes the given item based on identity by comparing the item
-   * via a `===` check. When multiple items match on `===` only the 
+   * via a `===` check. When multiple items match on `===` only the
    * first matching item is removed.
    *
    * If the item does not exist in the content array it will
@@ -1188,8 +1158,8 @@ export class ActiveContent<T> {
 
   /**
    * Swaps the `Content` with item a, with the `Content` with
-   * item b. Swaps the items based on identity by comparing the items 
-   * via a `===` check. When multiple items match on `===` only the 
+   * item b. Swaps the items based on identity by comparing the items
+   * via a `===` check. When multiple items match on `===` only the
    * first matching item is swapped.
    *
    * Note: if the active `Content` is swapped, it will stay active,
@@ -1664,15 +1634,15 @@ export class ActiveContent<T> {
 
   /**
    * Gets the index for a given item.
-   * 
+   *
    * If the item does not exist in the content array it will
    * throw an error.
-   * 
+   *
    * @param {T} item The item to get the index for.
    * @returns {number} The index of the given item.
    * @throws Item not found error
    */
-   public getIndex(item: T): number {
+  public getIndex(item: T): number {
     const contents = this.contents;
     const length = contents.length;
 
