@@ -8,9 +8,9 @@
     "clean": "lerna run clean",
     "bootstrap": "lerna bootstrap",
     "clean-bootstrap": "npm run clean && npm run bootstrap",
-    "test": "npm run bootstrap && lerna run tsc && lerna run test",
+    "test": "npm run link && lerna run tsc && lerna run test",
     "build": "lerna run build",
-    "link": "npm run build && npm run bootstrap",
+    "link": "npm run bootstrap && npm run build",
     "tsc": "lerna run tsc"
   }
 }
