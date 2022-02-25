@@ -6,7 +6,7 @@ import ActiveContent from '../src/ActiveContent/ActiveContent';
 test('ActiveContent component', async () => {
   const { getByText } = render(ActiveContent, {
     props: {
-      options: {
+      config: {
         active: 'a',
         contents: ['a', 'b', 'c'],
       },

@@ -25,7 +25,7 @@
     "clean": "rm -rf node_modules && rm -rf coverage && rm -f .package.lock-json && rm -rf dist",
     "test": "vitest run --coverage",
     "tsc": "tsc --version && tsc --noEmit",
-    "build": "rm -rf dist && vite build && tsc"
+    "build": "rm -rf dist && vite build && tsc --emitDeclarationOnly --outfile dist/index"
   },
   "dependencies": {
     "@automata.dev/core": "0.0.0"

@@ -16,10 +16,8 @@
     "skipLibCheck": true,
 
     "sourceMap": true,
-    
+
     "declaration": true,
-  "emitDeclarationOnly": true,
-  "outFile": "dist/index",
 
     "preserveSymlinks": true,
 

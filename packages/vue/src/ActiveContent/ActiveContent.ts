@@ -5,10 +5,10 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'ActiveContent',
   props: {
-    options: { type: Object as () => ActiveContentConfig<unknown>, required: true },
+    config: { type: Object as () => ActiveContentConfig<unknown>, required: true },
   },
   setup(props) {
-    const activeContent = useActiveContent(props.options);
+    const activeContent = useActiveContent(props.config);
     return { activeContent };
   },
   template: `<slot :activeContent="activeContent"/>`,
