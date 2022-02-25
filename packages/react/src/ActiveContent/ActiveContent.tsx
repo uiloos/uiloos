@@ -28,8 +28,8 @@ type Props<T> = ActiveContentConfig<T> & {
   children: (activeContent: ActiveContentCore<T>) => ReactNode;
 };
 
-export function ActiveContent<T>({ children, ...rest }: Props<T>): JSX.Element {
-  const activeContent = useActiveContent(rest);
+export function ActiveContent<T>(props: Props<T>): JSX.Element {
+  const activeContent = useActiveContent(props);
 
-  return <>{children(activeContent)}</>;
+  return <>{props.children(activeContent)}</>;
 }

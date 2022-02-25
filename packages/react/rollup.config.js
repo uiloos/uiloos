@@ -8,31 +8,32 @@ const packageJson = require('./package.json');
 
 export default [
   {
-      input: 'src/index.ts',
-      output: [
-          {
-              file: packageJson.main,
-              format: 'cjs',
-              sourcemap: true,
-              name: '@automata.dev/react'
-          },
-          {
-              file: packageJson.module,
-              format: 'esm',
-              sourcemap: true
-          }
-      ],
-      plugins: [
-          external(),
-          resolve(),
-          commonjs(),
-          typescript({ tsconfig: './tsconfig.json' })
-      ],
+    input: 'src/index.ts',
+    output: [
+      {
+        file: packageJson.main,
+        format: 'cjs',
+        sourcemap: true,
+        name: '@automata.dev/react',
+      },
+      {
+        file: packageJson.module,
+        format: 'esm',
+        sourcemap: true,
+      },
+    ],
+    plugins: [
+      external(),
+      resolve(),
+      commonjs(),
+      typescript({ tsconfig: './tsconfig.json' }),
+    ],
+    external: ['react', '@automata.dev/core']
   },
   {
-      input: 'dist/esm/types/index.d.ts',
-      output: [{ file: 'dist/index.d.ts', format: "esm" }],
-      external: [/\.css$/],
-      plugins: [dts()],
+    input: 'dist/esm/types/index.d.ts',
+    output: [{ file: 'dist/index.d.ts', format: 'esm' }],
+    external: [/\.css$/],
+    plugins: [dts()],
   },
-]
+];
