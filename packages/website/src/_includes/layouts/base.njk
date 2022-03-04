@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>{{ title or renderData.title}} | Automata</title>
+    <link rel="stylesheet" type="text/css" href="/assets/main.css"/>
+  </head>
+
+  <body class="font-inter antialiased bg-white text-gray-900 tracking-tight">
+
+    <!-- Page wrapper -->
+    <div class="flex flex-col min-h-screen overflow-hidden">
+
+      {% include "../components/navigation.njk" %}
+
+      <!-- Page content -->
+      <main class="grow">
+        {{ content | safe }}
+      </main>
+
+      {% include "../components/footer.njk" %}
+    </div>
+
+    <script src="/assets/main.js"></script>
+  </body>
+
+</html>

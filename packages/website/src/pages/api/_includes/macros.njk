@@ -1,0 +1,174 @@
+{% set isNumber = r/^\d*(\.\d+)?$/g %}
+
+{% macro displayApi(definitions, subapi) %}
+  <div class="grid lg:grid-cols-2">
+  {% for def in definitions %}
+    <a 
+      href="/api/{{subapi}}/{{ def.name | slug}}/" 
+      class="block font-mono"
+    >
+      {% if def.kindString === 'Function' and def.signatures[0].type.name === 'JSX.Element' %}
+        <span class="border bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
+      {% elif def.kindString === 'Function' and def.name.startsWith('use') %}
+        <span class="border bg-yellow-400 font-medium text-white inline-block px-1 my-2 text-sm">{% if subapi === 'react' %}H${% else %}C{% endif %}</span>
+      {% elif def.kindString === 'Class' and def.decorators[0].type.name === 'Component' %}
+        <span class="border bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
+      {% elif def.type.qualifiedName === 'DefineComponent' %}
+        <span class="border bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
+      {% elif def.kindString === 'Class' and def.decorators[0].type.name === 'NgModule' %}
+        <span class="border bg-purple-400 font-medium text-white inline-block px-1 my-2 text-sm">M</span>
+      {% elif def.name === 'automataPlugin' %}
+        <span class="border bg-purple-400 font-medium text-white inline-block px-1 my-2 text-sm">P</span>
+      {% elif def.kindString === 'Class' %}
+        <span class="border bg-blue-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
+      {% elif def.kindString === 'Function' %}
+        <span class="border bg-green-400 font-medium text-white inline-block px-1 my-2 text-sm">F</span>
+      {% else %}
+        <span class="border bg-orange-400 font-medium text-white inline-block px-1 my-2 text-sm">T</span>
+      {% endif %}
+      
+      {{def.name}}
+    </a>
+  {% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro displayType(type, inlineUnion = true) %}
+  {% if type.type === 'reference' and type.typeArguments %}
+   <a class="underline text-blue-500" href="/api/core/{{ type.name | slug}}/">{{type.name}}&lt;{{type.typeArguments[0].name}}&gt;</a>
+  {% elif type.type === 'reference'%}
+    {% if type.name === "T" or type.name === "Date" %}
+      {{type.name}}
+    {% else %}
+      <a class="underline text-blue-500" href="/api/core/{{ type.name | slug}}/">{{type.name}}</a>
+    {% endif %}
+  {% elif type.type === 'intrinsic' %}
+    {{type.name}}
+  {% elif type.type === 'literal' %}
+    {% if type.value %}
+      {% if isNumber.test(type.value) %}
+        {{type.value}}
+      {% elif type.value === true %}
+        true
+      {% else %}
+        "{{type.value}}"
+      {% endif %}
+    {% elif type.value === null %}
+      null
+    {% elif type.value === false %}
+      false
+    {% elif type.value === undefined %}
+      undefined
+    {% endif %}
+  {% elif type.type === 'array' %}
+    <span class="flex">
+    <span>{{ displayType(type.elementType) }}</span><span>[]</span>
+  </span>
+  {% elif type.type === 'union' %}
+    {% for type in type.types %}
+      {% if not inlineUnion %} | {% endif %}
+      {{ displayType(type, inlineUnion) }}
+      {% if not loop.last and inlineUnion %} | {% endif %}
+      {% if not inlineUnion %} <br> {% endif %}
+    {% endfor %}
+  {% elif type.type === 'intersection' %}
+    {% for type in type.types %}
+      {% if not inlineUnion %} | {% endif %}
+      {{ displayType(type, inlineUnion) }}
+      {% if not loop.last and inlineUnion %} & {% endif %}
+      {% if not inlineUnion %} <br> {% endif %}
+    {% endfor %}
+  {% elif type.type === 'reflection' %}
+    <h5 class="h4">Object</h4>
+    {% for item in type.declaration.children %}
+      <div class="ml-4 mb-2 py-2 {% if not loop.last %} border-b-2 border-dashed {% endif %}">
+        <strong class="mb-2 font-mono">{{item.name}}</strong>: {{ displayType(item.type) }}
+
+        <p class="my-2">{{item.comment.shortText | escape | nl2br}}</p>
+
+        {% if item.comment.text %}
+          <p class="mb-2">{{item.comment.text | escape | nl2br}}</p>
+        {% endif %}
+
+        {% if item.signatures %}
+          {{displaySignatures(item.signatures)}}
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{% macro displaySignatures(signatures) %}
+  {% for signature in signatures %}
+    <p class="mb-4">{{signature.comment.shortText | escape | nl2br}}</p>
+    {% if signature.comment.text %}
+      <p class="mb-2">{{signature.comment.text | escape | nl2br}}</p>
+    {% endif %}
+
+    <h4 class="h4 mt-4 mb-2">Signature</h3>
+    <div class="font-mono bg-gray-700 text-white p-2 mb-2">
+      {% if not signature.parameters %}
+        <span class="text-purple-400">
+          {% if signature.name === '__type' %}
+            callback(): </span>{{ displayType(signature.type) }}
+          {% else %}
+            {{signature.name}}(): </span>{{ displayType(signature.type) }}
+          {% endif %}
+        </span>
+      {% else %}
+        <span class="text-purple-400">
+          {% if signature.name === '__type' %}
+          callback(
+        {% else %}
+            {{signature.name}}(
+        {% endif %}
+        </span>
+        {% for parameter in signature.parameters %}
+          <div class="ml-4 flex">
+            <span class="text-orange-400">{{parameter.name}}</span>
+            <span class="text-white">:</span>
+            <span class="ml-2">{{ displayType(parameter.type) }}</span>
+            {% if not loop.last %}
+              <span>,</span>{% endif %}
+          </div>
+        {% endfor %}
+        <span class="text-purple-400">):</span>{{ displayType(signature.type) }}
+      {% endif %}
+    </div>
+
+    {% if signature.parameters %}
+      <h4 class="h4 mt-4 mb-2">Parameters</h3>
+
+      {% for parameter in signature.parameters %}
+        <div class="mb-4">
+          <strong class="mb-2 font-mono">
+            <span>{{parameter.name}}:</span>
+            {{ displayType(parameter.type) }}
+          </strong>
+
+          <p class="mb-4">{{parameter.comment.shortText | escape | nl2br}}</p>
+          {% if parameter.comment.text %}
+            <p class="mb-2">{{parameter.comment.text | escape | nl2br}}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if signature.comment.returns %}
+      <h4 class="h4 mt-4 mb-2">Returns</h4>
+      <strong class="mb-2 font-mono">{{ displayType(signature.type) }}</strong>
+      <p class="mb-2">{{signature.comment.returns | escape | nl2br}}</p>
+    {% endif %}
+
+    {% if signature.comment.tags %}
+      <h4 class="h4 mt-4 mb-2">Throws</h3>
+      {% for tag in signature.comment.tags %}
+        <p class="mb-2">
+          {{tag.text}}
+        </p>
+      {% endfor %}
+    {% endif %}
+
+  {% endfor %}
+{% endmacro %}
+

@@ -1,0 +1,30 @@
+<div class="text-lg text-gray-600">
+  <h1 class="h1 text-gray-900 mb-4">
+    {{def.name}}
+
+    {% if def.typeParameter.length > 0 %}
+      &lt;{{def.typeParameter[0].name}}&gt;
+    {% endif %}
+  </h1>
+
+  <p class="text-2xl font-mono mb-4 text-red-800">COMPONENT</p>
+
+  {% for tag in def.comment.tags %}
+    {% if tag.tag === 'alias' %}
+      <p class="font-mono mb-4">&lt;{{tag.text}}&#x2F;&gt;</p>
+    {% endif %}
+  {% endfor %}
+
+  <p class="mb-4">{{def.comment.shortText | escape | nl2br}}</p>
+  {% if def.comment.text %}
+    <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
+  {% endif %}
+
+  <h2 class="h2 mb-2" id="inputs"><a href="#inputs">Inputs</a></h2>
+  {% for item in def.children %}
+    {% if not item.flags.isPrivate and item.kindString === 'Property' and item.decorators[0].name === 'Input' %}
+      {% include "../../_includes/property.njk" %}
+    {% endif %}
+  {% endfor %}
+
+</div>

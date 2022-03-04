@@ -1,0 +1,74 @@
+{% from "./macros.njk" import displayType, displaySignatures %}
+
+{% macro displayProperties(properties) %}
+  <h2 class="h2 mt-4 mb-2">Properties</h2>
+
+  {% for type in properties %}
+    <div class="border px-2 pt-4 mb-4">
+      <h3 class="h3 mb-2 font-mono">{{type.name}}
+        {% if type.flags.isOptional %}
+          <span class="text-sm italic">Optional</span>
+        {% else %}
+          <span class="text-sm italic">Required</span>
+        {% endif %}
+      </h3>
+
+      {% if type.type.type !== 'reflection' %}
+        <p class="mb-4 font-mono">
+          {{ displayType(type.type) }}
+        </p>
+      {% endif %}
+
+      <p class="mb-4">{{type.comment.shortText | escape | nl2br}}</p>
+      {% if type.comment.text %}
+        <p class="mb-2">{{type.comment.text | escape | nl2br}}</p>
+      {% endif %}
+
+      {% if type.type.type === 'reflection' %}
+        {{ displayType(type.type) }}
+      {% endif %}
+
+    </div>
+  {% endfor %}
+{% endmacro %}
+
+<div class="text-lg text-gray-600">
+  <h1 class="h1 text-gray-900 mb-4">{{def.name}}
+
+    {% if def.typeParameter.length > 0 %}
+      &lt;{{def.typeParameter[0].name}}&gt;
+    {% endif %}
+  </h1>
+
+  <p class="text-2xl font-mono mb-4 text-orange-800">TYPE DEFINITION</p>
+
+  {% if def.comment.shortText %}
+    <p class="mb-4">{{def.comment.shortText | escape | nl2br}}</p>
+  {% endif %}
+  {% if def.comment.text %}
+    <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
+  {% endif %}
+
+  {% if def.type.type === 'reflection' %}
+    {% if def.type.declaration.children %}
+      {{ displayProperties(def.type.declaration.children) }}
+    {% else %}
+      {{ displaySignatures(def.type.declaration.signatures) }}
+    {% endif %}
+  {% elif def.type.type === 'union' %}
+    <h2 class="h2 mt-4 mb-2">Union of</h2>
+    <p class="mb-4 font-mono">
+      {{ displayType(def.type, false) }}
+    </p>
+  {% elif def.type.type === 'intersection' %}
+    {% for inter in def.type.types %}
+      {% if inter.type === 'reference' %}
+        <h2 class="h2 mb-2 font-mono">Extends
+          <a class="underline text-blue-500" href="/api/core/{{ inter.name | slug}}/">{{inter.name}}</a>
+        </h2>
+      {% else %}
+        {{ displayProperties(inter.declaration.children) }}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+</div>

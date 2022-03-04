@@ -19,7 +19,8 @@
     "test": "jest --coverage",
     "start": "jest --watch --coverage",
     "tsc": "tsc --version && tsc --noEmit",
-    "build": "rm -rf dist && rollup -c"
+    "build": "rm -rf dist && rollup -c",
+    "apigen": "rm -rf apigen && typedoc src  --json ../website/src/_data/api/react.json"
   },
   "dependencies": {
     "@automata.dev/core": "0.0.0"
@@ -46,6 +47,7 @@
     "react": "17.0.2",
     "@testing-library/react": "12.1.2",
     "@testing-library/react-hooks": "7.0.2",
-    "@testing-library/user-event": "13.5.0"
+    "@testing-library/user-event": "13.5.0",
+    "typedoc": "0.22.12"
   }
 }

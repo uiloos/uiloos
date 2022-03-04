@@ -16,7 +16,7 @@ import {
  * ActiveContent is an automata which represents visual elements which
  * have multiple pieces of content, but only one piece of content which
  * is active at a time.
- *
+ * 
  * This pattern is seen in many visual elements / components for
  * example:
  *
@@ -26,9 +26,18 @@ import {
  *     autoplay to the next slide automatically.
  *
  *  3. A dropdown menu with one active menu item.
- *
- * The ActiveContent automata seeks to support all these elements,
- * and more.
+ * 
+ * Another way of defining the ActiveContent is that it is an array 
+ * / list like data structure, because it supports things like 
+ * insertion and removal. 
+ * 
+ * ActiveContent will make sure that when content is inserted, that
+ * the active content is not affected. 
+ * 
+ * When removing the active content the previous content in the 
+ * sequence is activated. This way there is always an active content,
+ * the only exception is when there is no content remaining, in that
+ * case the activeContent is null, and the activeIndex is -1. 
  */
 export class ActiveContent<T> {
   /**
@@ -263,7 +272,7 @@ export class ActiveContent<T> {
    * on `cooldown` and `autoplay`.
    *
    * @param {number} index The index to activate
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ActionOptions<T>} actionOptions The action options
    * @throws Index out of bounds error.
    */
   public activateByIndex(
@@ -365,7 +374,7 @@ export class ActiveContent<T> {
    * on `cooldown` and `autoplay`.
    *
    * @param {T} item The item to activate
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ActionOptions<T>} actionOptions The action options
    * @throws Item not found error
    */
   public activate(item: T, actionOptions?: ActionOptions<T>): void {
@@ -383,8 +392,8 @@ export class ActiveContent<T> {
    * With the `actionOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned is returned activates that item.
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will activate that item.
+   * @param {ActionOptions<T>} actionOptions The action options
    */
   public activateByPredicate(
     predicate: ItemPredicate<T>,
@@ -411,7 +420,7 @@ export class ActiveContent<T> {
    * With the `actionOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ActionOptions<T>} actionOptions The action options
    */
   public next(actionOptions?: ActionOptions<T>): void {
     // Beware we cannot use `this.getNextIndex` because it does not limit
@@ -435,7 +444,7 @@ export class ActiveContent<T> {
    * With the `actionOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ActionOptions<T>} actionOptions The action options
    */
   public previous(actionOptions?: ActionOptions<T>): void {
     // Beware we cannot use `this.getPreviousIndex` because it does not limit
@@ -457,7 +466,7 @@ export class ActiveContent<T> {
    * With the `actionOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ActionOptions<T>} actionOptions The action options
    */
   public first(actionOptions?: ActionOptions<T>): void {
     // Do nothing when content is empty
@@ -476,7 +485,7 @@ export class ActiveContent<T> {
    * With the `actionOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ActionOptions<T>} actionOptions The action options
    */
   public last(actionOptions?: ActionOptions<T>): void {
     // Do nothing when content is empty
@@ -545,7 +554,7 @@ export class ActiveContent<T> {
    * Can be used to reconfigure the speed of the autoplay after the
    * ActiveContent has been created.
    *
-   * @param {AutoplayConfig<T> | null} autoplay The new autoplay configuration
+   * @param {AutoplayConfig<T> | null} autoplayConfig The new autoplay configuration
    * @throws Interval cannot be negative or zero error
    */
   public configureAutoplay(autoplayConfig: AutoplayConfig<T> | null): void {
@@ -567,7 +576,7 @@ export class ActiveContent<T> {
    *
    * @param {T} item The item to add.
    * @param {number} index The index at which to insert the item.
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    * @throws Index out of bounds error.
    */
@@ -627,7 +636,7 @@ export class ActiveContent<T> {
    * and `autoplay` the inserted item has.
    *
    * @param {T} item The item to add.
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
   public push(item: T, actionOptions?: ActionOptions<T>): Content<T> {
@@ -643,7 +652,7 @@ export class ActiveContent<T> {
    * and `autoplay` the inserted item has.
    *
    * @param {T} item The item to add.
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
   public unshift(item: T, actionOptions?: ActionOptions<T>): Content<T> {
@@ -683,8 +692,8 @@ export class ActiveContent<T> {
    * and `autoplay` the inserted item has.
    *
    * @param {T} item The item to add.
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned inserts the item in that position.
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item in that position.
+   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
   public insertAtPredicate(
@@ -711,8 +720,8 @@ export class ActiveContent<T> {
    * and `autoplay` the inserted item has.
    *
    * @param {T} item The item to add.
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned inserts the item before that position.
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item before that position.
+   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
   public insertBeforePredicate(
@@ -739,8 +748,8 @@ export class ActiveContent<T> {
    * and `autoplay` the inserted item has.
    *
    * @param {T} item The item to add.
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned inserts the item after that position.
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item after that position.
+   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
   public insertAfterPredicate(
@@ -778,7 +787,7 @@ export class ActiveContent<T> {
    * array.
    *
    * @param {number} index The index at which to remove the item.
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {T} The removed value
    * @throws Index out of bounds error.
    */
@@ -874,7 +883,7 @@ export class ActiveContent<T> {
    * If after removal no items remain the activeIndex will become -1.
    *
    * @param {T} item The item to remove
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {T} The removed item wrapped in a `Content`
    * @throws Item not found error
    */
@@ -909,7 +918,7 @@ export class ActiveContent<T> {
    *
    * If after removal no items remain the activeIndex will become -1.
    *
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {T} The removed value
    */
   public pop(actionOptions?: ActionOptions<T>): T | undefined {
@@ -946,7 +955,7 @@ export class ActiveContent<T> {
    *
    * If after removal no items remain the activeIndex will become -1.
    *
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {T} The removed value
    */
   public shift(actionOptions?: ActionOptions<T>): T | undefined {
@@ -982,8 +991,8 @@ export class ActiveContent<T> {
    * If after removal no items remain the activeIndex will become -1.
    *
    * @param {T} item The item to add.
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned removes the item.
-   * @param {ActionOptions<T>} [actionOptions] The action options @see ActionOptions<T>
+   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will remove the item.
+   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {Content<T>[]} The removed items wrapped in a `Content`.
    */
   public removeByPredicate(
@@ -1539,7 +1548,7 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is moved.
    *
    * @param {number} index The index to move.
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned moves the item to that position.
+   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to that position.
    */
   public moveByIndexAtPredicate(
     index: number,
@@ -1555,7 +1564,7 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is moved.
    *
    * @param {number} index The index to move.
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned moves the item to before that position.
+   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to before that position.
    */
   public moveByIndexBeforePredicate(
     index: number,
@@ -1571,7 +1580,7 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is moved.
    *
    * @param {number} index The index to move.
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
+   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
    */
   public moveByIndexAfterPredicate(
     index: number,
@@ -1590,7 +1599,7 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is moved.
    *
    * @param {T} item The item to move.
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
+   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
    * @throws Item not found error
    */
   public moveAtPredicate(item: T, predicate: ItemPredicate<T>): void {
@@ -1608,7 +1617,7 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is moved.
    *
    * @param {number} index The index to move.
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
+   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
    */
   public moveBeforePredicate(item: T, predicate: ItemPredicate<T>): void {
     const index = this.getIndex(item);
@@ -1625,7 +1634,7 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is moved.
    *
    * @param {number} index The index to move.
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
+   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
    */
   public moveAfterPredicate(item: T, predicate: ItemPredicate<T>): void {
     const index = this.getIndex(item);
@@ -1673,6 +1682,7 @@ export class ActiveContent<T> {
    * circle around and return 0. When `isCircular` is `false` it will
    * stay on the last position and return the last index of the array.
    *
+   * @param {number} index The index to get the next index for
    * @returns {number} The next index of the sequence.
    */
   public getNextIndex(index: number): number {
@@ -1693,7 +1703,8 @@ export class ActiveContent<T> {
    * `isCircular` is `false` it will stay on the first position and
    * return 0.
    *
-   *  @returns {number} The previous index of the sequence.
+   * @param {number} index The index to get the previous index for
+   * @returns {number} The previous index of the sequence.
    */
   public getPreviousIndex(index: number): number {
     const previousIndex = index - 1;

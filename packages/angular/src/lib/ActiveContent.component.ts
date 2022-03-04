@@ -8,6 +8,11 @@ import {
 import { ActiveContentDirective } from './ActiveContent.directive';
 import { ActiveContent, ActiveContentConfig } from '@automata.dev/core';
 
+/**
+ * A component which wraps the ActiveContent from @automata.dev/core.
+ *  
+ * @alias aut-active-content
+ */
 @Component({
   selector: 'aut-active-content',
   template: `
@@ -21,8 +26,11 @@ import { ActiveContent, ActiveContentConfig } from '@automata.dev/core';
 })
 export class ActiveContentComponent<T> implements OnInit {
   @ContentChild(ActiveContentDirective, { read: TemplateRef })
-  autActiveContent: any;
+  private autActiveContent: any;
 
+  /**
+   * The initial configuration of the ActiveContent.
+   */
   @Input()
   config!: ActiveContentConfig<T>;
 

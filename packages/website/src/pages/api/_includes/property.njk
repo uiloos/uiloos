@@ -1,0 +1,14 @@
+{% from "./macros.njk" import displayType %}
+
+<div class="border px-2 pt-4 mb-4">
+  <h3 class="h3 mb-2 font-mono" id="{{item.name}}"><a href="#{{item.name}}">{{item.name}}</a></h3>
+
+  <p class="mb-4 font-mono">
+    {{ displayType(item.type) }}
+  </p>
+
+  <p class="mb-2">{{item.comment.shortText | escape | nl2br}}</p>
+  {% if item.comment.text %}
+    <p class="mb-2">{{item.comment.text | escape | nl2br}}</p>
+  {% endif %}
+</div>

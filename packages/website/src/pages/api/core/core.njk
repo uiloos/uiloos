@@ -1,0 +1,16 @@
+---
+title: Core | API
+layout: layouts/api.njk
+permalink: /api/core/
+---
+
+{% from "../_includes/macros.njk" import displayApi %}
+
+<div class="text-lg text-gray-600">
+  <h1 class="h1 text-gray-900 mb-4">Core</h1>
+
+  <p class="mb-8">The core of automata consists of pure JavaScript classes and functions.</p>
+
+  {{ displayApi(api.core.children, 'core') }}
+
+</div>

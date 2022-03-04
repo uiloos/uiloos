@@ -1,0 +1,23 @@
+---
+layout: layouts/api.njk
+permalink: "/api/react/{{ def.name | slug }}/"
+pagination:
+    data: api.react.children
+    size: 1
+    alias: def
+renderData:
+    title: "{{ def.name }} | React | API"
+    stickyNavigation: false
+---
+
+{% if def.kindString === 'Function' and def.signatures[0].type.name === 'JSX.Element' %}
+  {% include "./_includes/component.njk" %}
+{% elif def.kindString === 'Function' and def.name.startsWith('use') %}
+  {% include "./_includes/hook.njk" %}
+{% elif def.kindString === 'Class' %}
+  {% include "../_includes/class.njk" %}
+{% elif def.kindString === 'Type alias' %}
+  {% include "../_includes/typealias.njk" %}
+{% elif def.kindString === 'Function' %}
+  {% include "../_includes/function.njk" %}
+{% endif %}

@@ -8,7 +8,7 @@ export type ActiveContentConfig<T> = {
    * The contents which you want to display, can be an array of anything
    * you want.
    *
-   * Note: the `State` will wrap each item in the `contents` array
+   * Note: the `ActiveContent` will wrap each item in the `contents` array
    * inside of a `Content` item.
    */
   contents: T[];
@@ -53,11 +53,11 @@ export type ActiveContentConfig<T> = {
 
   /**
    * Describes which strings should be associated with what
-   * direction, will be the value of the `State` property
+   * direction, will be the value of the `ActiveContent` property
    * `direction`.
    *
-   * So when setting the direction `next` to `"up"` and the content
-   * moves up, the `state.direction` will be "up". Useful when
+   * So when setting the direction `next` to "up"` and the content
+   * moves up, the `ActiveContent.direction` will be "up". Useful when
    * wanting to apply CSS classes based on the direction.
    *
    * Defaults to `{ next: 'right', previous: 'left' }`.
@@ -65,7 +65,7 @@ export type ActiveContentConfig<T> = {
   directions?: Direction;
 
   /**
-   * For how many items the `history` may contain in the `state`.
+   * For how many items the `history` may contain in the `ActiveContent`.
    *
    * Defaults to `0` meaning that it will not track history.
    */
@@ -144,6 +144,8 @@ export type ActionOptions<T> = {
 /**
  * The subscriber which is informed of all state changes the
  * ActiveContent goes through.
+ * 
+ * @param {ActiveContent<T>} activeContent The active content which had changes.
  */
 export type ActiveContentSubscriber<T> = (activeContent: ActiveContent<T>) => void;
 
@@ -157,9 +159,9 @@ export type UnsubscribeFunction = () => void;
  * that item, and expects either true or false to be returned. Based
  * on the response it will perform an action.
  *
- * @param {T} item
- * @param {number} index
- * @returns {boolean}
+ * @param {T} item The item for which this predicate will determine if the action needs to be performed.
+ * @param {number} index The index of the item within the ActiveContent.
+ * @returns {boolean} Whether or not to perform the action associated with the predicate based on the given item and index.
  */
 export type ItemPredicate<T> = (item: T, index: number) => boolean;
 
@@ -168,23 +170,34 @@ export type ItemPredicate<T> = (item: T, index: number) => boolean;
  * that item, and expects to be given back the number of milliseconds
  * the item should be active before Autoplay moves on.
  *
- * @param {T} item
- * @param {number} index
- * @returns {number}
+ * @param {T} item The item for which the callback function must determine the number of milliseconds it is active.
+ * @param {number} index The index of the item within the ActiveContent.
+ * @returns {number} The time in milliseconds the item is active for the given item and index.. 
  */
 export type IntervalCallback<T> = (item: T, index: number) => number;
 
+/**
+ * Represents the configuration of the cooldown. 
+ * 
+ * Can be two possible things:
+ * 
+ * 1. A callback function which receives the item and index, and which 
+ *    is required to return the duration in milliseconds. Useful for
+ *    providing a different cooldown for different items.
+ * 
+ * 2. A number in milliseconds. When it is a number all items will
+ *    have the same cooldown.
+ */
 export type CooldownConfig<T> = CooldownCallback<T> | number;
 
 /**
  * Represents a callback which is given the active item, and the
  * active index for that item, and expects to be given the number of
- * milliseconds the item will not respond to interaction, or a promise
- * which when settled (resolved / rejected) stops the cooldown.
+ * milliseconds the item will not respond to interaction.
  *
- * @param {T} item
- * @param {number} index
- * @returns {number | Promise}
+ * @param {T} item The item for which the callback function must determine the cooldown duration.
+ * @param {number} index The index of the item within the ActiveContent.
+ * @returns {number} The time in milliseconds of the duration of the cooldown for the given item and index.
  */
 export type CooldownCallback<T> = (item: T, index: number) => number;
 
@@ -210,17 +223,30 @@ export type AutoplayConfig<T> = {
 
 /**
  * Describes which strings should be associated with what
- * direction. For example it could be `"right"` and `"left"`,
- * or `"down"` and `"up"`.
+ * direction. For example it could be "right" and "left",
+ * or "down" and "up".
  *
- * Will be the value of the `State` property `direction`.
+ * Will be the value of the `ActiveContent` property `direction`.
  *
  * Useful for when animations have a certain direction and you
  * name your animation CSS classes `left-animation` and
  * `right-animation`.
  */
 export type Direction = {
+  /**
+   * The name of the direction when moving to the next item of the
+   * `ActiveContent`.
+   * 
+   * Could for example be "right" or "down".
+   */
   next: string;
+
+  /**
+   * The name of the direction when moving to the previous item of the
+   * `ActiveContent`.
+   * 
+   * Could for example be "left" or "up".
+   */
   previous: string;
 };
 
@@ -275,7 +301,7 @@ export type InsertedHistoryItem<T> = BaseHistoryItem & {
 };
 
 /**
- * Represents an insertion into the ActiveContent.
+ * Represents an removal of an item of the ActiveContent.
  */
 export type RemovedHistoryItem<T> = BaseHistoryItem & {
   /**
@@ -330,7 +356,7 @@ export type SwappedHistoryItem<T> = BaseHistoryItem & {
   action: 'SWAPPED';
 
   /**
-   * The value of the "A" index which was swapped
+   * An object containing the value of the items which were swapped.
    */
   value: {
     /**
@@ -344,6 +370,9 @@ export type SwappedHistoryItem<T> = BaseHistoryItem & {
     b: T;
   };
 
+  /**
+   * An object containing the indexes of the items which were swapped.
+   */
   index: {
     /**
      * The index of the first item before it was swapped.
@@ -378,7 +407,8 @@ export type MovedHistoryItem<T> = BaseHistoryItem & {
   value: T;
 
   /**
-   * The index to which the item was moved to.
+   * An object containing the "from" and "to" index of the item which
+   * were moved.
    *
    * Note: this was the index at the time of the activation, it might
    * nog longer be accurate.
@@ -402,6 +432,10 @@ export type MovedHistoryItem<T> = BaseHistoryItem & {
   };
 };
 
+/**
+ * A HistoryItem represents an event happened in the ActiveContent.
+ * For example the insertion, removal, or activation of a Content<T>.
+ */
 export type HistoryItem<T> =
   | InsertedHistoryItem<T>
   | RemovedHistoryItem<T>

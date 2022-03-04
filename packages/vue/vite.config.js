@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue';
 export default defineConfig({
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/index.js'),
+      entry: path.resolve(__dirname, 'src/index.ts'),
       name: '@automata.dev/vue',
       fileName: (format) => `index.${format}.js`,
     },

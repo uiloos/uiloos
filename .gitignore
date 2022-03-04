@@ -6,6 +6,10 @@ packages/*/node_modules/
 packages/*/dist/
 packages/*/coverage/
 
+# Generated website
+packages/website/_site/
+packages/website/src/_data/api/
+
 # Optional npm cache directory
 .npm
 

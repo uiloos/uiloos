@@ -24,13 +24,15 @@
     "karma-jasmine": "4.0.1",
     "karma-chrome-launcher": "3.1.0",
     "karma-jasmine-html-reporter": "1.7.0",
-    "karma-coverage": "2.2.0"
+    "karma-coverage": "2.2.0",
+    "typedoc": "0.22.12"
   },
   "scripts": {
     "clean": "rm -rf node_modules && rm -rf coverage && rm -f .package.lock-json && rm -rf dist",
     "test": "ng test --code-coverage=true --watch=false",
     "start": "ng test --code-coverage=true",
     "tsc": "tsc --version && tsc --noEmit",
-    "build": "rm -rf dist && ng-packagr -p ng-package.json"
+    "build": "rm -rf dist && ng-packagr -p ng-package.json",
+    "apigen": "rm -rf apigen && typedoc src/public-api.ts  --json ../website/src/_data/api/angular.json"
   }
 }

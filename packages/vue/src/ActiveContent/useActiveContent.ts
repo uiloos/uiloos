@@ -6,6 +6,17 @@ import {
 
 import type { ActiveContentConfig, UnsubscribeFunction } from '@automata.dev/core'
 
+/**
+ * A composable which returns an ActiveContent from @automata.ui/core 
+ * which is configured by the config parameter. 
+ * 
+ * What the composable does is register itself to the ActiveContent for 
+ * changes, when a change is detected it makes sure that the component
+ * using the hook is re-rendered.
+ * 
+ * @param {ActiveContentConfig<T>} config  The initial configuration of the ActiveContent.
+ * @returns An instance of the ActiveContent from @automata.ui/core
+ */
 export function useActiveContent<T>(
   config: ActiveContentConfig<T>
 ): Ref<ActiveContentCore<T>> {

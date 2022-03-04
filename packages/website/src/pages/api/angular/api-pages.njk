@@ -1,0 +1,22 @@
+---
+layout: layouts/api.njk
+permalink: "/api/angular/{{ def.name | slug }}/"
+pagination:
+    data: api.angular.children
+    size: 1
+    alias: def
+renderData:
+    title: "{{ def.name }} | Angular | API"
+    stickyNavigation: false
+---
+
+{% if def.kindString === 'Class' and def.decorators[0].type.name === 'Component' %}
+  {% include "./_includes/component.njk" %}
+{% elif def.kindString === 'Class' and def.decorators[0].type.name === 'NgModule' %}
+  {% include "./_includes/module.njk" %}
+{% elif def.kindString === 'Class' %}
+  {% include "../_includes/class.njk" %}
+{% elif def.kindString === 'Type alias' %}
+  {% include "../_includes/typealias.njk" %}
+{% endif %}
+

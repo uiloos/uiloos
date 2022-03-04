@@ -1,0 +1,42 @@
+{% from "./macros.njk" import displaySignatures %}
+
+<div class="text-lg text-gray-600">
+  <h1 class="h1 text-gray-900 mb-4">
+    {{def.name}}
+
+    {% if def.typeParameter.length > 0 %}
+      &lt;{{def.typeParameter[0].name}}&gt;
+    {% endif %}
+  </h1>
+
+  <p class="text-2xl font-mono mb-4 text-blue-800">CLASS</p>
+
+  <p class="mb-4">{{def.comment.shortText | escape | nl2br}}</p>
+  {% if def.comment.text %}
+    <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
+  {% endif %}
+
+  {% for item in def.children %}
+    {% if not item.flags.isPrivate and item.kindString === 'Constructor' %}
+      <h2 class="h2 mb-2" id="constructor"><a href="#constructor">Constructor</a></h3>
+      <div class="border px-2 pt-4 mb-4">
+        {{ displaySignatures(item.signatures) }}
+      </div>
+    {% endif %}
+  {% endfor %}
+
+  <h2 class="h2 mb-2" id="properties"><a href="#properties">Properties</a></h2>
+  {% for item in def.children %}
+    {% if not item.flags.isPrivate and item.kindString === 'Property' %}
+      {% include "./property.njk" %}
+    {% endif %}
+  {% endfor %}
+
+  <h2 class="h2 mb-2" id="methods"><a href="#methods">Methods</a></h2>
+  {% for item in def.children %}
+    {% if not item.flags.isPrivate and item.kindString === 'Method' %}
+      {% include "./method.njk" %}
+    {% endif %}
+  {% endfor %}
+
+</div>

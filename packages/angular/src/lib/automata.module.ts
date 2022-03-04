@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { ActiveContentComponent } from './ActiveContent.component';
 
+/**
+ * An Angular module that includes all Automata Angular bindings.
+ */
 @NgModule({
   declarations: [
     ActiveContentComponent,
@@ -9,7 +12,6 @@ import { ActiveContentComponent } from './ActiveContent.component';
   ],
   exports: [
     ActiveContentComponent,
-
   ]
 })
 export class AutomataModule { }

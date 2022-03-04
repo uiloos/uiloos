@@ -1,4 +1,6 @@
 import { ActiveContent } from './ActiveContent/ActiveContent';
+import { Content } from './ActiveContent/Content';
+
 
 import {
   ActiveContentConfig,
@@ -12,6 +14,7 @@ import {
   AutoplayConfig,
   Direction,
   HistoryAction,
+  BaseHistoryItem,
   InsertedHistoryItem,
   RemovedHistoryItem,
   ActivatedHistoryItem,
@@ -22,6 +25,7 @@ import {
 
 export {
   ActiveContent,
+  Content,
   ActiveContentConfig,
   ActionOptions,
   ActiveContentSubscriber,
@@ -33,6 +37,7 @@ export {
   AutoplayConfig,
   Direction,
   HistoryAction,
+  BaseHistoryItem,
   InsertedHistoryItem,
   RemovedHistoryItem,
   ActivatedHistoryItem,

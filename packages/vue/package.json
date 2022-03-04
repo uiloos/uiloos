@@ -25,7 +25,8 @@
     "clean": "rm -rf node_modules && rm -rf coverage && rm -f .package.lock-json && rm -rf dist",
     "test": "vitest run --coverage",
     "tsc": "tsc --version && tsc --noEmit",
-    "build": "rm -rf dist && vite build && tsc --emitDeclarationOnly --outfile dist/index"
+    "build": "rm -rf dist && vite build && tsc --emitDeclarationOnly --outfile dist/index",
+    "apigen": "rm -rf apigen && typedoc src/index.ts --json ../website/src/_data/api/vue.json"
   },
   "dependencies": {
     "@automata.dev/core": "0.0.0"
@@ -42,6 +43,7 @@
     "@vitejs/plugin-vue": "2.2.0",
     "vitest": "0.3.5",
     "c8": "7.11.0",
-    "@testing-library/vue": "next"
+    "@testing-library/vue": "next",
+    "typedoc": "0.22.12"
   }
 }

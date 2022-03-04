@@ -1,0 +1,26 @@
+---
+layout: layouts/api.njk
+permalink: "/api/vue/{{ def.name | slug }}/"
+pagination:
+    data: api.vue.children
+    size: 1
+    alias: def
+renderData:
+    title: "{{ def.name }} | Vue | API"
+    stickyNavigation: false
+---
+
+{% if def.name === 'automataPlugin' %}
+  {% include "./_includes/plugin.njk" %}
+{% elif def.kindString === 'Function' and def.name.startsWith('use') %}
+  {% include "./_includes/composable.njk" %}
+{% elif def.type.qualifiedName === 'DefineComponent' %}
+  {% include "./_includes/component.njk" %}
+{% elif def.kindString === 'Class' %}
+  {% include "../_includes/class.njk" %}
+{% elif def.kindString === 'Type alias' %}
+  {% include "../_includes/typealias.njk" %}
+{% elif def.kindString === 'Function' %}
+  {% include "../_includes/function.njk" %}
+{% endif %}
+

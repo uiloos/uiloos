@@ -1,0 +1,17 @@
+---
+layout: layouts/api.njk
+permalink: "/api/core/{{ def.name | slug }}/"
+pagination:
+    data: api.core.children
+    size: 1
+    alias: def
+renderData:
+    title: "{{ def.name }} | core | API"
+    stickyNavigation: false
+---
+
+{% if def.kindString === 'Class' %}
+  {% include "../_includes/class.njk" %}
+{% elif def.kindString === 'Type alias' %}
+  {% include "../_includes/typealias.njk" %}
+{% endif %}

@@ -1,0 +1,26 @@
+---
+layout: ./layouts/base.njk
+---
+
+<section>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+    {% if renderData and renderData.stickyNavigation === false %} 
+    <div class="pt-12 pb-12 md:pb-20">
+    {% else %}
+    <div class="pt-32 pb-12 md:pb-20">
+    {% endif %}
+
+      <!-- Main content -->
+      <div class="md:flex md:justify-between">
+
+        {% include "../components/apinav.njk" %}
+
+        <!-- Page container -->
+        <div class="md:grow">
+          {{ content | safe }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

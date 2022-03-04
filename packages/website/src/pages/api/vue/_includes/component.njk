@@ -1,0 +1,36 @@
+{% from "../../_includes/macros.njk" import displayType %}
+
+<div class="text-lg text-gray-600">
+  <h1 class="h1 text-gray-900 mb-4">
+    {{def.name}}
+
+    {% if def
+      .signatures[0]
+      .typeParameter
+      .length > 0 %}
+      &lt;{{def.signatures[0].typeParameter[0].name}}&gt;
+    {% endif %}
+  </h1>
+
+  <p class="text-2xl font-mono mb-4 text-red-800">COMPONENT</p>
+
+  <p class="mb-4">{{def.comment.shortText | escape | nl2br}}</p>
+  {% if def.comment.text %}
+    <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
+  {% endif %}
+
+  <h2 class="h2 mb-2" id="props"><a href="#props">Props</a></h2>
+  {% for item in def.type.typeArguments[0].declaration.children %}
+    <div class="border px-2 pt-4 mb-4">
+      <h3 class="h3 mb-2 font-mono" id="{{item.name}}"><a href="#{{item.name}}">{{item.name}}</a></h3>
+
+      <p class="mb-4 font-mono">
+        {% for subitem in item.type.declaration.children %}
+          {% if subitem.name === 'type' %}
+            {{ displayType(subitem.type.declaration.signatures[0].type) }}
+          {% endif %}
+        {% endfor %}
+      </p>
+    </div>
+  {% endfor %}
+</div>

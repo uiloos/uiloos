@@ -2,7 +2,7 @@ import { ActiveContent } from './ActiveContent';
 import { ActionOptions, ItemPredicate } from './types';
 
 /**
- * Represents a piece of content in the `contents` of the `ActiveContent`.
+ * Represents a piece of content in the `contents` array of the `ActiveContent`.
  *
  * The purpose of the Content is to act as a wrapper around the
  * value which is actually in the contents array. It knows things like
@@ -42,11 +42,11 @@ export class Content<T> {
 
   /**
    * Whether or not the `Content` was the previous active item.
-   * 
-   * For example take the following scenario: if the `contents` 
-   * are `['a', 'b', 'c']` were 'a' is active. If we now activate 
-   * 'c' this means that for 'a' the `wasActiveBeforeLast` is now 
-   * `true`. Now when we activate 'b' next 'a' is no longer 
+   *
+   * For example take the following scenario: if the `contents`
+   * are `['a', 'b', 'c']` were 'a' is active. If we now activate
+   * 'c' this means that for 'a' the `wasActiveBeforeLast` is now
+   * `true`. Now when we activate 'b' next 'a' is no longer
    * `wasActiveBeforeLast`, but 'c' is.
    */
   public wasActiveBeforeLast = false;
@@ -87,6 +87,16 @@ export class Content<T> {
    */
   public isPrevious = false;
 
+  /**
+   * Creates an Content which belongs to the given ActiveContent.
+   *
+   * Note: you should never create instances of Content yourself. You
+   * are supposed to let ActiveContent do this for you.
+   *
+   * @param {ActiveContent<T>} activeContent The ActiveContent this Content belongs to.
+   * @param {number} index The index of this Content withing the ActiveContent.
+   * @param {T} value The value this Content wraps.
+   */
   constructor(activeContent: ActiveContent<T>, index: number, value: T) {
     this.activeContent = activeContent;
     this.index = index;
