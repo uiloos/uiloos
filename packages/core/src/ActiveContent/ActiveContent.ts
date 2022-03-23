@@ -13,7 +13,7 @@ import {
 } from './types';
 
 /**
- * ActiveContent is an automata which represents visual elements which
+ * ActiveContent is a class which represents visual elements which
  * have multiple pieces of content, but only one piece of content which
  * is active at a time.
  * 
@@ -284,7 +284,7 @@ export class ActiveContent<T> {
   ): void {
     if (index < 0 || index >= this.contents.length) {
       throw new Error(
-        'automata > ActiveContent.activateByIndex > could not activate: index out of bounds'
+        'uiloos > ActiveContent.activateByIndex > could not activate: index out of bounds'
       );
     }
 
@@ -587,7 +587,7 @@ export class ActiveContent<T> {
   ): Content<T> {
     if (index < 0 || index > this.contents.length) {
       throw new Error(
-        'automata > ActiveContent.insertAtIndex > could not insert: index out of bounds'
+        'uiloos > ActiveContent.insertAtIndex > could not insert: index out of bounds'
       );
     }
 
@@ -835,7 +835,7 @@ export class ActiveContent<T> {
   private doRemoveAtIndex(index: number): T {
     if (index < 0 || index > this.contents.length) {
       throw new Error(
-        'automata > ActiveContent.removeByIndex > could not remove: index out of bounds'
+        'uiloos > ActiveContent.removeByIndex > could not remove: index out of bounds'
       );
     }
 
@@ -1115,13 +1115,13 @@ export class ActiveContent<T> {
   public swapByIndex(a: number, b: number): void {
     if (a < 0 || a >= this.contents.length) {
       throw new Error(
-        'automata > ActiveContent.swapByIndex > could not swap: index a out of bounds'
+        'uiloos > ActiveContent.swapByIndex > could not swap: index a out of bounds'
       );
     }
 
     if (b < 0 || b >= this.contents.length) {
       throw new Error(
-        'automata > ActiveContent.swapByIndex > could not swap: index b out of bounds'
+        'uiloos > ActiveContent.swapByIndex > could not swap: index b out of bounds'
       );
     }
 
@@ -1201,13 +1201,13 @@ export class ActiveContent<T> {
   public moveByIndex(from: number, to: number): void {
     if (from < 0 || from >= this.contents.length) {
       throw new Error(
-        'automata > ActiveContent.moveByIndex > could not swap: index "from" out of bounds'
+        'uiloos > ActiveContent.moveByIndex > could not swap: index "from" out of bounds'
       );
     }
 
     if (to < 0 || to >= this.contents.length) {
       throw new Error(
-        'automata > ActiveContent.moveByIndex > could not swap: index "to" out of bounds'
+        'uiloos > ActiveContent.moveByIndex > could not swap: index "to" out of bounds'
       );
     }
 
@@ -1662,7 +1662,7 @@ export class ActiveContent<T> {
     }
 
     throw new Error(
-      'automata > ActiveContent.getIndex could not get index for item. Item not in contents array'
+      'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
     );
   }
 

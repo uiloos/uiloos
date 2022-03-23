@@ -14,7 +14,7 @@ export default [
               file: packageJson.main,
               format: 'cjs',
               sourcemap: true,
-              name: '@automata.dev/core'
+              name: '@uiloos/core'
           },
           {
               file: packageJson.module,

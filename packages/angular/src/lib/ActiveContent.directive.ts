@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[autActiveContent]',
+  selector: '[uiloosActiveContent]',
 })
 export class ActiveContentDirective {
   constructor() {}

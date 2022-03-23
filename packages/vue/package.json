@@ -1,12 +1,12 @@
 {
-  "name": "@automata.dev/vue",
+  "name": "@uiloos/vue",
   "version": "0.0.0",
-  "description": "The Vue bindings of the automata headless UI",
+  "description": "The Vue bindings of the uiloos headless UI",
   "keywords": [
     "tabs"
   ],
   "author": "Maarten Hus <maartenhus@gmail.com>",
-  "homepage": "http://automata.dev",
+  "homepage": "http://uiloos.dev",
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "./dist/index.umd.js",
   "module": "./dist/index.es.js",
@@ -29,7 +29,7 @@
     "apigen": "rm -rf apigen && typedoc src/index.ts --json ../website/src/_data/api/vue.json"
   },
   "dependencies": {
-    "@automata.dev/core": "0.0.0"
+    "@uiloos/core": "0.0.0"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

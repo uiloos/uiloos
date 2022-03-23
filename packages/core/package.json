@@ -1,12 +1,12 @@
 {
-  "name": "@automata.dev/core",
+  "name": "@uiloos/core",
   "version": "0.0.0",
-  "description": "The core of the automata headless UI",
+  "description": "The core of the uiloos headless UI",
   "keywords": [
     "tabs"
   ],
   "author": "Maarten Hus <maartenhus@gmail.com>",
-  "homepage": "http://automata.dev",
+  "homepage": "http://uiloos.dev",
   "license": "SEE LICENSE IN LICENSE.md",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",

@@ -76,7 +76,7 @@ export class Autoplay<T> {
 
     if (interval <= 0) {
       throw new Error(
-        'automata > ActiveContent.autoplay interval cannot be negative or zero'
+        'uiloos > ActiveContent.autoplay interval cannot be negative or zero'
       );
     }
 

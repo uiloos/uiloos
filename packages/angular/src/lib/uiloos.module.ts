@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { ActiveContentComponent } from './ActiveContent.component';
 
 /**
- * An Angular module that includes all Automata Angular bindings.
+ * An Angular module that includes all uiloos Angular bindings.
  */
 @NgModule({
   declarations: [
@@ -14,4 +14,4 @@ import { ActiveContentComponent } from './ActiveContent.component';
     ActiveContentComponent,
   ]
 })
-export class AutomataModule { }
+export class UiloosModule { }

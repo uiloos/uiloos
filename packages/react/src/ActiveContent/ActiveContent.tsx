@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import {
   ActiveContent as ActiveContentCore,
   ActiveContentConfig,
-} from '@automata.dev/core';
+} from '@uiloos/core';
 import { useActiveContent } from './useActiveContent';
 
 /**
@@ -16,19 +16,19 @@ import { useActiveContent } from './useActiveContent';
 export type ActiveContentProps<T> = ActiveContentConfig<T> & {
 
   /**
-   * A render function which accepts an ActiveContent from @automata.ui/core
+   * A render function which accepts an ActiveContent from @uiloos/core
    * as a parameter.
    * 
-   * @param {ActiveContentCore<T>} activeContent The ActiveContent from @automata.ui/core
+   * @param {ActiveContentCore<T>} activeContent The ActiveContent from @uiloos/core
    */
   children(activeContent: ActiveContentCore<T>): ReactNode;
 };
 
 /**
- * A component which wraps the ActiveContent from @automata.dev/core.
+ * A component which wraps the ActiveContent from @uiloos/core.
  * 
  * @param {ActiveContentProps<T>} props The properties of the ActiveContent component.
- * @returns A component which wraps the ActiveContent from @automata.dev/core.
+ * @returns A component which wraps the ActiveContent from @uiloos/core.
  */
 export function ActiveContent<T>(props: ActiveContentProps<T>): JSX.Element {
   const activeContent = useActiveContent(props);

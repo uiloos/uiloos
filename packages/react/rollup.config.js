@@ -14,7 +14,7 @@ export default [
         file: packageJson.main,
         format: 'cjs',
         sourcemap: true,
-        name: '@automata.dev/react',
+        name: '@uiloos/react',
       },
       {
         file: packageJson.module,
@@ -28,7 +28,7 @@ export default [
       commonjs(),
       typescript({ tsconfig: './tsconfig.json' }),
     ],
-    external: ['react', '@automata.dev/core']
+    external: ['react', '@uiloos/core']
   },
   {
     input: 'dist/esm/types/index.d.ts',

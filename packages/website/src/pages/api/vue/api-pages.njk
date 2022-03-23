@@ -10,7 +10,7 @@ renderData:
     stickyNavigation: false
 ---
 
-{% if def.name === 'automataPlugin' %}
+{% if def.name === 'uiloosPlugin' %}
   {% include "./_includes/plugin.njk" %}
 {% elif def.kindString === 'Function' and def.name.startsWith('use') %}
   {% include "./_includes/composable.njk" %}

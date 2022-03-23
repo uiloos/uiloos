@@ -1,12 +1,12 @@
 {
-  "name": "@automata.dev/react",
+  "name": "@uiloos/react",
   "version": "0.0.0",
-  "description": "The React bindings of the automata headless UI",
+  "description": "The React bindings of the uiloos headless UI",
   "keywords": [
     "tabs"
   ],
   "author": "Maarten Hus <maartenhus@gmail.com>",
-  "homepage": "http://automata.dev",
+  "homepage": "http://uiloos.dev",
   "license": "SEE LICENSE IN LICENSE.md",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
@@ -23,7 +23,7 @@
     "apigen": "rm -rf apigen && typedoc src  --json ../website/src/_data/api/react.json"
   },
   "dependencies": {
-    "@automata.dev/core": "0.0.0"
+    "@uiloos/core": "0.0.0"
   },
   "peerDependencies": {
     "react": "^17.0.2"

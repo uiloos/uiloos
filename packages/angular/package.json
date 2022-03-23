@@ -1,13 +1,13 @@
 {
-  "name": "@automata.dev/angular",
+  "name": "@uiloos/angular",
   "version": "0.0.0",
-  "description": "The Angular bindings of the automata headless UI",
+  "description": "The Angular bindings of the uiloos headless UI",
   "peerDependencies": {
     "@angular/common": "^13.2.0",
     "@angular/core": "^13.2.0"
   },
   "dependencies": {
-    "@automata.dev/core": "0.0.0"
+    "@uiloos/core": "0.0.0"
   },
   "devDependencies": {
 		"@types/estree": "0.0.51",

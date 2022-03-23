@@ -4,9 +4,9 @@ import ActiveContent from './ActiveContent/ActiveContent';
 import { useActiveContent } from './ActiveContent/useActiveContent';
 
 /**
- * The Automata Vue plugin, add it to vue via `app.use()`;
+ * The uiloos Vue plugin, add it to vue via `app.use()`;
  */
-const automataPlugin = {
+const uiloosPlugin = {
   install(Vue: any) {
     for (const prop in components) {
       if (components.hasOwnProperty(prop)) {
@@ -18,4 +18,4 @@ const automataPlugin = {
   },
 };
 
-export { automataPlugin, useActiveContent, ActiveContent };
+export { uiloosPlugin, useActiveContent, ActiveContent };

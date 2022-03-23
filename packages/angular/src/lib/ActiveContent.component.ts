@@ -6,15 +6,15 @@ import {
   Input,
 } from '@angular/core';
 import { ActiveContentDirective } from './ActiveContent.directive';
-import { ActiveContent, ActiveContentConfig } from '@automata.dev/core';
+import { ActiveContent, ActiveContentConfig } from '@uiloos/core';
 
 /**
- * A component which wraps the ActiveContent from @automata.dev/core.
+ * A component which wraps the ActiveContent from @uiloos/core.
  *  
- * @alias aut-active-content
+ * @alias uiloos-active-content
  */
 @Component({
-  selector: 'aut-active-content',
+  selector: 'uiloos-active-content',
   template: `
     <ng-container
       *ngTemplateOutlet="

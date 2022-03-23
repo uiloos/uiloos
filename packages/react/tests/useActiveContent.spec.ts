@@ -1,4 +1,4 @@
-import { ActiveContent as ActiveContentCore } from '@automata.dev/core';
+import { ActiveContent as ActiveContentCore } from '@uiloos/core';
 import { renderHook, act } from '@testing-library/react-hooks';
 
 import {

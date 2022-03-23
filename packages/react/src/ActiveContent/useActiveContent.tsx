@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import {
   ActiveContent,
   ActiveContentConfig,
-} from '@automata.dev/core';
+} from '@uiloos/core';
 
 /**
- * A hook which returns an ActiveContent from @automata.ui/core which
+ * A hook which returns an ActiveContent from @uiloos/core which
  * is configured by the config parameter. 
  * 
  * What the hook does is register itself to the ActiveContent for 
@@ -14,7 +14,7 @@ import {
  * using the hook is re-rendered.
  * 
  * @param {ActiveContentConfig<T>} config  The initial configuration of the ActiveContent.
- * @returns An instance of the ActiveContent from @automata.ui/core
+ * @returns An instance of the ActiveContent from @uiloos/core
  */
 export function useActiveContent<T>(
   config: ActiveContentConfig<T>

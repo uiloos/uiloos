@@ -64,7 +64,7 @@ export class CooldownTimer<T> {
 
   private assertCooldownNotNegativeOrZero(cooldownValue: number) {
     if (cooldownValue <= 0) {
-      throw new Error('automata > cooldown cannot be negative or zero');
+      throw new Error('uiloos > cooldown cannot be negative or zero');
     }
   }
 }

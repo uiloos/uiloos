@@ -334,7 +334,7 @@ describe('ActiveContent', () => {
           expect(() => {
             activeContent.activateByIndex(4);
           }).toThrowError(
-            'automata > ActiveContent.activateByIndex > could not activate: index out of bounds'
+            'uiloos > ActiveContent.activateByIndex > could not activate: index out of bounds'
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -348,7 +348,7 @@ describe('ActiveContent', () => {
           expect(() => {
             activeContent.activateByIndex(-1);
           }).toThrowError(
-            'automata > ActiveContent.activateByIndex > could not activate: index out of bounds'
+            'uiloos > ActiveContent.activateByIndex > could not activate: index out of bounds'
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -1032,7 +1032,7 @@ describe('ActiveContent', () => {
         expect(() => {
           activeContent.activate('d');
         }).toThrowError(
-          'automata > ActiveContent.getIndex could not get index for item. Item not in contents array'
+          'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
         );
 
         expect(activeContent.activateByIndex).toHaveBeenCalledTimes(0);
@@ -1240,7 +1240,7 @@ describe('ActiveContent', () => {
         expect(() => {
           activeContent.insertAtIndex('d', 4);
         }).toThrowError(
-          'automata > ActiveContent.insertAtIndex > could not insert: index out of bounds'
+          'uiloos > ActiveContent.insertAtIndex > could not insert: index out of bounds'
         );
 
         expect(subscriber).toHaveBeenCalledTimes(0);
@@ -1252,7 +1252,7 @@ describe('ActiveContent', () => {
         expect(() => {
           activeContent.insertAtIndex('d', -1);
         }).toThrowError(
-          'automata > ActiveContent.insertAtIndex > could not insert: index out of bounds'
+          'uiloos > ActiveContent.insertAtIndex > could not insert: index out of bounds'
         );
 
         expect(subscriber).toHaveBeenCalledTimes(0);
@@ -1975,7 +1975,7 @@ describe('ActiveContent', () => {
         expect(() => {
           activeContent.removeByIndex(4);
         }).toThrowError(
-          'automata > ActiveContent.removeByIndex > could not remove: index out of bounds'
+          'uiloos > ActiveContent.removeByIndex > could not remove: index out of bounds'
         );
 
         expect(subscriber).toHaveBeenCalledTimes(0);
@@ -1987,7 +1987,7 @@ describe('ActiveContent', () => {
         expect(() => {
           activeContent.removeByIndex(-1);
         }).toThrowError(
-          'automata > ActiveContent.removeByIndex > could not remove: index out of bounds'
+          'uiloos > ActiveContent.removeByIndex > could not remove: index out of bounds'
         );
 
         expect(subscriber).toHaveBeenCalledTimes(0);
@@ -3576,7 +3576,7 @@ describe('ActiveContent', () => {
             expect(() => {
               activeContent.swapByIndex(4, 0);
             }).toThrowError(
-              'automata > ActiveContent.swapByIndex > could not swap: index a out of bounds'
+              'uiloos > ActiveContent.swapByIndex > could not swap: index a out of bounds'
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -3588,7 +3588,7 @@ describe('ActiveContent', () => {
             expect(() => {
               activeContent.swapByIndex(-1, 0);
             }).toThrowError(
-              'automata > ActiveContent.swapByIndex > could not swap: index a out of bounds'
+              'uiloos > ActiveContent.swapByIndex > could not swap: index a out of bounds'
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -3602,7 +3602,7 @@ describe('ActiveContent', () => {
             expect(() => {
               activeContent.swapByIndex(0, 4);
             }).toThrowError(
-              'automata > ActiveContent.swapByIndex > could not swap: index b out of bounds'
+              'uiloos > ActiveContent.swapByIndex > could not swap: index b out of bounds'
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -3614,7 +3614,7 @@ describe('ActiveContent', () => {
             expect(() => {
               activeContent.swapByIndex(0, -1);
             }).toThrowError(
-              'automata > ActiveContent.swapByIndex > could not swap: index b out of bounds'
+              'uiloos > ActiveContent.swapByIndex > could not swap: index b out of bounds'
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -4190,7 +4190,7 @@ describe('ActiveContent', () => {
             expect(() => {
               activeContent.moveByIndex(4, 0);
             }).toThrowError(
-              'automata > ActiveContent.moveByIndex > could not swap: index "from" out of bounds'
+              'uiloos > ActiveContent.moveByIndex > could not swap: index "from" out of bounds'
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -4202,7 +4202,7 @@ describe('ActiveContent', () => {
             expect(() => {
               activeContent.moveByIndex(-1, 0);
             }).toThrowError(
-              'automata > ActiveContent.moveByIndex > could not swap: index "from" out of bounds'
+              'uiloos > ActiveContent.moveByIndex > could not swap: index "from" out of bounds'
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -4216,7 +4216,7 @@ describe('ActiveContent', () => {
             expect(() => {
               activeContent.moveByIndex(0, 4);
             }).toThrowError(
-              'automata > ActiveContent.moveByIndex > could not swap: index "to" out of bounds'
+              'uiloos > ActiveContent.moveByIndex > could not swap: index "to" out of bounds'
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -4228,7 +4228,7 @@ describe('ActiveContent', () => {
             expect(() => {
               activeContent.moveByIndex(0, -1);
             }).toThrowError(
-              'automata > ActiveContent.moveByIndex > could not swap: index "to" out of bounds'
+              'uiloos > ActiveContent.moveByIndex > could not swap: index "to" out of bounds'
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -7151,7 +7151,7 @@ describe('ActiveContent', () => {
         expect(() =>
           activeContent.moveAtPredicate('y', (item) => item === 'z')
         ).toThrowError(
-          'automata > ActiveContent.getIndex could not get index for item. Item not in contents array'
+          'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
         );
       });
     });
@@ -7233,7 +7233,7 @@ describe('ActiveContent', () => {
         expect(() =>
           activeContent.moveBeforePredicate('y', (item) => item === 'z')
         ).toThrowError(
-          'automata > ActiveContent.getIndex could not get index for item. Item not in contents array'
+          'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
         );
       });
     });
@@ -7315,7 +7315,7 @@ describe('ActiveContent', () => {
         expect(() =>
           activeContent.moveAfterPredicate('y', (item) => item === 'z')
         ).toThrowError(
-          'automata > ActiveContent.getIndex could not get index for item. Item not in contents array'
+          'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
         );
       });
     });
@@ -7819,7 +7819,7 @@ describe('ActiveContent', () => {
         expect(() => {
           setup({ autoplay });
         }).toThrowError(
-          'automata > ActiveContent.autoplay interval cannot be negative or zero'
+          'uiloos > ActiveContent.autoplay interval cannot be negative or zero'
         );
       });
 
@@ -7829,7 +7829,7 @@ describe('ActiveContent', () => {
         expect(() => {
           setup({ autoplay });
         }).toThrowError(
-          'automata > ActiveContent.autoplay interval cannot be negative or zero'
+          'uiloos > ActiveContent.autoplay interval cannot be negative or zero'
         );
       });
     });
@@ -8137,7 +8137,7 @@ describe('ActiveContent', () => {
             isUserInteraction: true,
             cooldown: -1,
           });
-        }).toThrowError('automata > cooldown cannot be negative or zero');
+        }).toThrowError('uiloos > cooldown cannot be negative or zero');
       });
 
       test('cannot be zero', () => {
@@ -8148,7 +8148,7 @@ describe('ActiveContent', () => {
             isUserInteraction: true,
             cooldown: 0,
           });
-        }).toThrowError('automata > cooldown cannot be negative or zero');
+        }).toThrowError('uiloos > cooldown cannot be negative or zero');
       });
     });
 
@@ -8156,13 +8156,13 @@ describe('ActiveContent', () => {
       test('cannot be less than zero', () => {
         expect(() => {
           setup({ cooldown: -1 });
-        }).toThrowError('automata > cooldown cannot be negative or zero');
+        }).toThrowError('uiloos > cooldown cannot be negative or zero');
       });
 
       test('cannot be zero', () => {
         expect(() => {
           setup({ cooldown: 0 });
-        }).toThrowError('automata > cooldown cannot be negative or zero');
+        }).toThrowError('uiloos > cooldown cannot be negative or zero');
       });
     });
 

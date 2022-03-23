@@ -7,13 +7,13 @@ import { ActiveContentDirective } from './ActiveContent.directive';
 
 it('ActiveContent component', async () => {
   await render(
-    `<aut-active-content [config]="{ active: 'a', contents: ['a', 'b', 'c']}">
-      <ul *autActiveContent="let activeContent">
+    `<uiloos-active-content [config]="{ active: 'a', contents: ['a', 'b', 'c']}">
+      <ul *uiloosActiveContent="let activeContent">
         <li *ngFor="let content of activeContent.contents" (click)="content.activate()">
           {{content.value}} {{content.active ? 'active' : 'inactive'}}
         </li>
       </ul>
-    </aut-active-content>
+    </uiloos-active-content>
   `,
     {
       declarations: [ActiveContentComponent, ActiveContentDirective],

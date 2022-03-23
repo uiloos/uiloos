@@ -1,12 +1,12 @@
-import { ActiveContentConfig } from '@automata.dev/core';
+import { ActiveContentConfig } from '@uiloos/core';
 import { useActiveContent } from './useActiveContent';
 import { defineComponent } from 'vue';
 
 /**
- * A component which wraps the ActiveContent from @automata.dev/core.
+ * A component which wraps the ActiveContent from @uiloos/core.
  * 
  * @param {ActiveContentConfig<T>} config The properties of the ActiveContent component.
- * @returns A component which wraps the ActiveContent from @automata.dev/core.
+ * @returns A component which wraps the ActiveContent from @uiloos/core.
  */
 const ActiveContent = defineComponent({
   name: 'ActiveContent',
