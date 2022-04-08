@@ -341,14 +341,6 @@ export class ActiveContent<T> {
           isUserInteraction: false,
         });
       }
-    } else if (this.maxActivationLimit === 1 && config.contents.length > 0) {
-
-      // TODO: remove this special limit === 1 idea, as it makes everything needlessly complex the dev should just active something.
-
-      // Special behavior for when the limit is one, this is really
-      // nice for UI elements such as tabs were we really want one
-      // item to be active at a time.
-      this.activateByIndex(0, { isUserInteraction: false });
     }
 
     // Set hasChanged to false again after activateByIndex has set it

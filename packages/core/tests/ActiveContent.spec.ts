@@ -409,259 +409,85 @@ describe('ActiveContent limit 1', () => {
       expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
-    describe('without any content activator', () => {
-      test('that first item is activated only when the limit is 1', () => {
-        const { activeContent, subscriber } = setup();
+    test('that no item is activated without any content activator', () => {
+      const { activeContent, subscriber } = setup({});
 
-        assertState(activeContent, {
-          active: ['a'],
-          activeContents: [activeContent.contents[0]],
-          activeIndexes: [0],
-          lastActivated: 'a',
-          lastActivatedContent: activeContent.contents[0],
-          lastActivatedIndex: 0,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: true,
-              value: 'a',
-              index: 0,
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: false,
-              value: 'b',
-              index: 1,
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: true,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              value: 'c',
-              index: 2,
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        });
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
+      assertState(activeContent, {
+        active: [],
+        activeContents: [],
+        activeIndexes: [],
+        lastActivated: null,
+        lastActivatedContent: null,
+        lastActivatedIndex: -1,
+        isCircular: false,
+        direction: 'right',
+        maxActivationLimit: 1,
+        maxActivationLimitBehavior: 'circular',
+        history: [],
+        hasActiveChangedAtLeastOnce: false,
+        contents: [
+          {
+            active: false,
+            value: 'a',
+            index: 0,
+            isFirst: true,
+            isLast: false,
+            hasNext: true,
+            hasPrevious: false,
+            isNext: false,
+            isPrevious: false,
+            hasBeenActiveBefore: false,
+          },
+          {
+            active: false,
+            value: 'b',
+            index: 1,
+            isFirst: false,
+            isLast: false,
+            hasNext: true,
+            hasPrevious: true,
+            isNext: false,
+            isPrevious: false,
+            hasBeenActiveBefore: false,
+          },
+          {
+            active: false,
+            value: 'c',
+            index: 2,
+            isFirst: false,
+            isLast: true,
+            hasNext: false,
+            hasPrevious: true,
+            isNext: false,
+            isPrevious: false,
+            hasBeenActiveBefore: false,
+          },
+        ],
       });
 
-      test('that no item is activated when the limit is false', () => {
-        const { activeContent, subscriber } = setup({
-          maxActivationLimit: false,
-        });
-
-        assertState(activeContent, {
-          active: [],
-          activeContents: [],
-          activeIndexes: [],
-          lastActivated: null,
-          lastActivatedContent: null,
-          lastActivatedIndex: -1,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: false,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: false,
-              value: 'a',
-              index: 0,
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              value: 'b',
-              index: 1,
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              value: 'c',
-              index: 2,
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        });
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
-      });
-
-      test('that no item is activated when the limit is more than 1', () => {
-        const { activeContent, subscriber } = setup({ maxActivationLimit: 2 });
-
-        assertState(activeContent, {
-          active: [],
-          activeContents: [],
-          activeIndexes: [],
-          lastActivated: null,
-          lastActivatedContent: null,
-          lastActivatedIndex: -1,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 2,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: false,
-              value: 'a',
-              index: 0,
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              value: 'b',
-              index: 1,
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              value: 'c',
-              index: 2,
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        });
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
-      });
+      expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
-    describe('without content behavior', () => {
-      test('that nothing is activated even when the limit is 1 since there is no content', () => {
-        const { activeContent, subscriber } = setup(undefined, []);
+    test('that nothing is activated without any content', () => {
+      const { activeContent, subscriber } = setup({}, []);
 
-        assertState(activeContent, {
-          active: [],
-          activeContents: [],
-          activeIndexes: [],
-          lastActivated: null,
-          lastActivatedContent: null,
-          lastActivatedIndex: -1,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [],
-        });
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
+      assertState(activeContent, {
+        active: [],
+        activeContents: [],
+        activeIndexes: [],
+        lastActivated: null,
+        lastActivatedContent: null,
+        lastActivatedIndex: -1,
+        isCircular: false,
+        direction: 'right',
+        maxActivationLimit: 1,
+        maxActivationLimitBehavior: 'circular',
+        history: [],
+        hasActiveChangedAtLeastOnce: false,
+        contents: [],
       });
 
-      test('that nothing is activated when the limit is false', () => {
-        const { activeContent, subscriber } = setup(
-          { maxActivationLimit: false },
-          []
-        );
-
-        assertState(activeContent, {
-          active: [],
-          activeContents: [],
-          activeIndexes: [],
-          lastActivated: null,
-          lastActivatedContent: null,
-          lastActivatedIndex: -1,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: false,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [],
-        });
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
-      });
-
-      test('that nothing is activated when the limit is more than 1', () => {
-        const { activeContent, subscriber } = setup(
-          { maxActivationLimit: 2 },
-          []
-        );
-
-        assertState(activeContent, {
-          active: [],
-          activeContents: [],
-          activeIndexes: [],
-          lastActivated: null,
-          lastActivatedContent: null,
-          lastActivatedIndex: -1,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 2,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [],
-        });
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
-      });
+      expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
     describe('reset behavior', () => {
@@ -676,7 +502,7 @@ describe('ActiveContent limit 1', () => {
 
         const contents = ['d', 'e', 'f', 'g'];
 
-        activeContent.initialize({ contents });
+        activeContent.initialize({ contents, activeIndexes: 0 });
 
         assertLastSubscriber(subscriber, {
           active: ['d'],
@@ -768,9 +594,10 @@ describe('ActiveContent limit 1', () => {
 
     describe('edge cases', () => {
       test('when circular and there is only one item, it is both previous and next, and last and first', () => {
-        const { activeContent, subscriber } = setup({ isCircular: true }, [
-          'a',
-        ]);
+        const { activeContent, subscriber } = setup(
+          { isCircular: true, activeIndexes: 0 },
+          ['a']
+        );
 
         assertState(activeContent, {
           active: ['a'],
@@ -805,9 +632,10 @@ describe('ActiveContent limit 1', () => {
       });
 
       test('when straight and there is only one item, it is not the previous and next, but it is the last and first', () => {
-        const { activeContent, subscriber } = setup({ isCircular: false }, [
-          'a',
-        ]);
+        const { activeContent, subscriber } = setup(
+          { isCircular: false, activeIndexes: 0 },
+          ['a']
+        );
 
         assertState(activeContent, {
           active: ['a'],
@@ -847,7 +675,7 @@ describe('ActiveContent limit 1', () => {
     describe('activateByIndex', () => {
       describe('when it throws out of bounds', () => {
         test('throws out of bounds when index is to large', () => {
-          const { activeContent, subscriber } = setup();
+          const { activeContent, subscriber } = setup({});
 
           expect(() => {
             activeContent.activateByIndex(4);
@@ -857,11 +685,11 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(0);
 
-          expect(activeContent.active).toEqual(['a']);
+          expect(activeContent.active).toEqual([]);
         });
 
         test('throws out of bounds when index is less than zero', () => {
-          const { activeContent, subscriber } = setup();
+          const { activeContent, subscriber } = setup({ });
 
           expect(() => {
             activeContent.activateByIndex(-1);
@@ -871,7 +699,7 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(0);
 
-          expect(activeContent.active).toEqual(['a']);
+          expect(activeContent.active).toEqual([]);
         });
       });
 
@@ -3370,7 +3198,7 @@ describe('ActiveContent limit 1', () => {
       });
 
       test('activate on item after removal should work because the indexes should be fixed', () => {
-        const { activeContent } = setup();
+        const { activeContent } = setup({ activeIndexes: 0 });
 
         jest.spyOn(activeContent, 'activateByIndex');
 
@@ -3419,7 +3247,7 @@ describe('ActiveContent limit 1', () => {
     describe('activateByPredicate', () => {
       test('when multiple items match only last one is active when maxActivationLimit is 1', () => {
         // The two 'a's will match the predicate
-        const { activeContent, subscriber } = setup(undefined, [
+        const { activeContent, subscriber } = setup({ maxActivationLimit: 1, activeIndexes: 0}, [
           'b',
           'a',
           'a',
@@ -3706,7 +3534,7 @@ describe('ActiveContent limit 1', () => {
 
     describe('activateNext', () => {
       test('activates the next content.', () => {
-        const { activeContent } = setup();
+        const { activeContent } = setup({ activeIndexes: 0 });
 
         jest.spyOn(activeContent, 'activateByIndex');
 
@@ -3915,7 +3743,7 @@ describe('ActiveContent limit 1', () => {
     describe('deactivateByIndex', () => {
       describe('when it throws out of bounds', () => {
         test('throws out of bounds when index is to large', () => {
-          const { activeContent, subscriber } = setup();
+          const { activeContent, subscriber } = setup({});
 
           expect(() => {
             activeContent.deactivateByIndex(4);
@@ -3925,7 +3753,7 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(0);
 
-          expect(activeContent.active).toEqual(['a']);
+          expect(activeContent.active).toEqual([]);
         });
 
         test('throws out of bounds when index is less than zero', () => {
@@ -3939,7 +3767,7 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(0);
 
-          expect(activeContent.active).toEqual(['a']);
+          expect(activeContent.active).toEqual([]);
         });
       });
 
@@ -15388,7 +15216,11 @@ describe('ActiveContent limit 1', () => {
         jest.useFakeTimers();
 
         const autoplay = { interval: 200 };
-        const { activeContent } = setup({ autoplay, isCircular: true });
+        const { activeContent } = setup({
+          autoplay,
+          isCircular: true,
+          activeIndexes: 0,
+        });
 
         expect(activeContent.active).toEqual(['a']);
 
@@ -15406,7 +15238,11 @@ describe('ActiveContent limit 1', () => {
         jest.useFakeTimers();
 
         const autoplay = { interval: 200 };
-        const { activeContent } = setup({ autoplay, isCircular: false });
+        const { activeContent } = setup({
+          autoplay,
+          isCircular: false,
+          activeIndexes: 0,
+        });
 
         expect(activeContent.active).toEqual(['a']);
 
@@ -15425,17 +15261,17 @@ describe('ActiveContent limit 1', () => {
       test('that autoplay can be activated after the component has started', () => {
         jest.useFakeTimers();
 
-        const autoplay = { interval: 200 };
         const { activeContent } = setup({
           autoplay: undefined,
           isCircular: false,
+          activeIndexes: 0,
         });
 
         jest.advanceTimersByTime(200);
 
         expect(activeContent.active).toEqual(['a']);
 
-        activeContent.configureAutoplay(autoplay);
+        activeContent.configureAutoplay({ interval: 200 });
 
         jest.advanceTimersByTime(200);
 
@@ -15446,7 +15282,11 @@ describe('ActiveContent limit 1', () => {
         jest.useFakeTimers();
 
         const autoplay = { interval: 200 };
-        const { activeContent } = setup({ autoplay, isCircular: true });
+        const { activeContent } = setup({
+          autoplay,
+          isCircular: true,
+          activeIndexes: 0,
+        });
 
         expect(activeContent.active).toEqual(['a']);
 
@@ -15466,7 +15306,11 @@ describe('ActiveContent limit 1', () => {
       jest.useFakeTimers();
 
       const autoplay = { interval: 200, stopsOnUserInteraction: true };
-      const { activeContent } = setup({ autoplay, isCircular: true });
+      const { activeContent } = setup({
+        autoplay,
+        isCircular: true,
+        activeIndexes: 0,
+      });
 
       expect(activeContent.active).toEqual(['a']);
 
@@ -15484,7 +15328,11 @@ describe('ActiveContent limit 1', () => {
       jest.useFakeTimers();
 
       const autoplay = { interval: 200, stopsOnUserInteraction: true };
-      const { activeContent } = setup({ autoplay, isCircular: true });
+      const { activeContent } = setup({
+        autoplay,
+        isCircular: true,
+        activeIndexes: 0,
+      });
 
       expect(activeContent.active).toEqual(['a']);
 
@@ -15502,7 +15350,11 @@ describe('ActiveContent limit 1', () => {
       jest.useFakeTimers();
 
       const autoplay = { interval: 200 };
-      const { activeContent } = setup({ autoplay, isCircular: true });
+      const { activeContent } = setup({
+        autoplay,
+        isCircular: true,
+        activeIndexes: 0,
+      });
 
       // The active content should be 'a' at the start
       expect(activeContent.active).toEqual(['a']);
@@ -15547,7 +15399,11 @@ describe('ActiveContent limit 1', () => {
         interval: (_item: string, index: number) => (index + 1) * 100,
         stopsOnUserInteraction: false,
       };
-      const { activeContent } = setup({ autoplay, isCircular: true });
+      const { activeContent } = setup({
+        autoplay,
+        isCircular: true,
+        activeIndexes: 0,
+      });
 
       expect(activeContent.active).toEqual(['a']);
 
@@ -15568,7 +15424,11 @@ describe('ActiveContent limit 1', () => {
         interval: (_item: string, index: number) => (index + 1) * 100,
         stopsOnUserInteraction: false,
       };
-      const { activeContent } = setup({ autoplay, isCircular: true });
+      const { activeContent } = setup({
+        autoplay,
+        isCircular: true,
+        activeIndexes: 0,
+      });
 
       expect(activeContent.active).toEqual(['a']);
 
@@ -15590,7 +15450,11 @@ describe('ActiveContent limit 1', () => {
       jest.useFakeTimers();
 
       const autoplay = { interval: 200 };
-      const { activeContent } = setup({ autoplay, isCircular: false });
+      const { activeContent } = setup({
+        autoplay,
+        isCircular: false,
+        activeIndexes: 0,
+      });
 
       // It should start with 'a' and be playing
       expect(activeContent.active).toEqual(['a']);
@@ -15642,7 +15506,11 @@ describe('ActiveContent limit 1', () => {
       jest.useFakeTimers();
 
       const autoplay = { interval: 200 };
-      const { activeContent } = setup({ autoplay, isCircular: false });
+      const { activeContent } = setup({
+        autoplay,
+        isCircular: false,
+        activeIndexes: 0,
+      });
 
       // It should start with 'a' and be playing
       expect(activeContent.active).toEqual(['a']);
@@ -15698,13 +15566,13 @@ describe('ActiveContent limit 1', () => {
     describe('cooldown errors on initialize', () => {
       test('cannot be less than zero', () => {
         expect(() => {
-          setup({ cooldown: -1 });
+          setup({ cooldown: -1, activeIndexes: 0 });
         }).toThrowError('uiloos > cooldown cannot be negative or zero');
       });
 
       test('cannot be zero', () => {
         expect(() => {
-          setup({ cooldown: 0 });
+          setup({ cooldown: 0, activeIndexes: 0 });
         }).toThrowError('uiloos > cooldown cannot be negative or zero');
       });
     });
@@ -15712,7 +15580,7 @@ describe('ActiveContent limit 1', () => {
     describe('activation cooldown', () => {
       describe('cooldown errors on activate', () => {
         test('cannot be less than zero', () => {
-          const { activeContent } = setup({ cooldown: 600 });
+          const { activeContent } = setup({ cooldown: 600, activeIndexes: 0 });
 
           expect(() => {
             activeContent.activateByIndex(1, {
@@ -15723,7 +15591,7 @@ describe('ActiveContent limit 1', () => {
         });
 
         test('cannot be zero', () => {
-          const { activeContent } = setup({ cooldown: 600 });
+          const { activeContent } = setup({ cooldown: 600, activeIndexes: 0 });
 
           expect(() => {
             activeContent.activateByIndex(1, {
@@ -15738,7 +15606,7 @@ describe('ActiveContent limit 1', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup({ cooldown: 5000 });
+        const { activeContent } = setup({ cooldown: 5000, activeIndexes: 0 });
 
         expect(activeContent.active).toEqual(['a']);
 
@@ -15750,7 +15618,7 @@ describe('ActiveContent limit 1', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup({ cooldown: 5000 });
+        const { activeContent } = setup({ cooldown: 5000, activeIndexes: 0 });
 
         expect(activeContent.active).toEqual(['a']);
 
@@ -15778,7 +15646,7 @@ describe('ActiveContent limit 1', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup();
+        const { activeContent } = setup({ activeIndexes: 0 });
 
         expect(activeContent.active).toEqual(['a']);
 
@@ -15839,7 +15707,7 @@ describe('ActiveContent limit 1', () => {
         Date.now = jest.fn(() => epoch);
 
         // This cooldown of 5000 should be ignored.
-        const { activeContent } = setup({ cooldown: 5000 });
+        const { activeContent } = setup({ cooldown: 5000, activeIndexes: 0 });
 
         expect(activeContent.active).toEqual(['a']);
 
@@ -15879,7 +15747,10 @@ describe('ActiveContent limit 1', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup({ cooldown: () => 5000 });
+        const { activeContent } = setup({
+          cooldown: () => 5000,
+          activeIndexes: 0,
+        });
 
         expect(activeContent.active).toEqual(['a']);
 
@@ -15907,7 +15778,7 @@ describe('ActiveContent limit 1', () => {
     describe('deactivation cooldown', () => {
       describe('cooldown errors on deactivate', () => {
         test('cannot be less than zero', () => {
-          const { activeContent } = setup({ cooldown: 600 });
+          const { activeContent } = setup({ cooldown: 600, activeIndexes: 0 });
 
           expect(() => {
             activeContent.deactivateByIndex(0, {
@@ -15918,7 +15789,7 @@ describe('ActiveContent limit 1', () => {
         });
 
         test('cannot be zero', () => {
-          const { activeContent } = setup({ cooldown: 600 });
+          const { activeContent } = setup({ cooldown: 600, activeIndexes: 0 });
 
           expect(() => {
             activeContent.deactivateByIndex(0, {
@@ -15933,7 +15804,7 @@ describe('ActiveContent limit 1', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup({ cooldown: 5000 });
+        const { activeContent } = setup({ cooldown: 5000, activeIndexes: 0 });
 
         expect(activeContent.active).toEqual(['a']);
 
@@ -15945,7 +15816,7 @@ describe('ActiveContent limit 1', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup({ cooldown: 5000 });
+        const { activeContent } = setup({ cooldown: 5000, activeIndexes: 0 });
 
         expect(activeContent.active).toEqual(['a']);
 
@@ -15973,7 +15844,7 @@ describe('ActiveContent limit 1', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup();
+        const { activeContent } = setup({ activeIndexes: 0 });
 
         expect(activeContent.active).toEqual(['a']);
 
@@ -16037,7 +15908,7 @@ describe('ActiveContent limit 1', () => {
         Date.now = jest.fn(() => epoch);
 
         // This cooldown of 5000 should be ignored.
-        const { activeContent } = setup({ cooldown: 5000 });
+        const { activeContent } = setup({ cooldown: 5000, activeIndexes: 0 });
 
         expect(activeContent.active).toEqual(['a']);
 
@@ -16077,7 +15948,10 @@ describe('ActiveContent limit 1', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup({ cooldown: () => 5000 });
+        const { activeContent } = setup({
+          cooldown: () => 5000,
+          activeIndexes: 0,
+        });
 
         expect(activeContent.active).toEqual(['a']);
 
@@ -16105,7 +15979,10 @@ describe('ActiveContent limit 1', () => {
 
   describe('history', () => {
     test('that a correct history is kept for all actions', () => {
-      const { activeContent } = setup({ keepHistoryFor: 100 });
+      const { activeContent } = setup({
+        keepHistoryFor: 100,
+        activeIndexes: 0,
+      });
 
       expect(activeContent.history).toEqual([
         expect.objectContaining({ action: 'INSERTED', index: 0, value: 'a' }),
@@ -16196,7 +16073,6 @@ describe('ActiveContent limit 1', () => {
         expect.objectContaining({ action: 'ACTIVATED', index: 1, value: 'b' }),
         expect.objectContaining({
           action: 'REMOVED',
-
           index: 0,
           value: 'a',
         }),
@@ -16222,7 +16098,6 @@ describe('ActiveContent limit 1', () => {
         expect.objectContaining({ action: 'ACTIVATED', index: 1, value: 'b' }),
         expect.objectContaining({
           action: 'REMOVED',
-
           index: 0,
           value: 'a',
         }),
@@ -16256,7 +16131,6 @@ describe('ActiveContent limit 1', () => {
         expect.objectContaining({ action: 'ACTIVATED', index: 1, value: 'b' }),
         expect.objectContaining({
           action: 'REMOVED',
-
           index: 0,
           value: 'a',
         }),
@@ -16288,7 +16162,7 @@ describe('ActiveContent limit 1', () => {
     });
 
     test('that a history is kept for a maximum number of items', () => {
-      const { activeContent } = setup({ keepHistoryFor: 3 });
+      const { activeContent } = setup({ keepHistoryFor: 3, activeIndexes: 0 });
 
       expect(activeContent.history).toEqual([
         expect.objectContaining({ action: 'INSERTED', index: 1, value: 'b' }),
@@ -16312,7 +16186,7 @@ describe('ActiveContent limit 1', () => {
     });
 
     test('that initialize resets the history', () => {
-      const { activeContent } = setup({ keepHistoryFor: 4 });
+      const { activeContent } = setup({ keepHistoryFor: 4, activeIndexes: 0 });
 
       expect(activeContent.history).toEqual([
         expect.objectContaining({ action: 'INSERTED', index: 0, value: 'a' }),
@@ -16329,7 +16203,7 @@ describe('ActiveContent limit 1', () => {
 
   describe('subscribers', () => {
     test('multiple subscribers', () => {
-      const { activeContent, subscriber } = setup();
+      const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
       const secondSubscriber = jest.fn();
       const removeSecondSubscriber = activeContent.subscribe(secondSubscriber);

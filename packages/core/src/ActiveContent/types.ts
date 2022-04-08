@@ -50,11 +50,8 @@ export type ActiveContentConfig<T> = {
    * from left to right one at a time.
    * 
    * Note: "active" is chosen over the "activeIndexes" property.
-   *
-   * Defaults to the first item in the contents array when the 
-   * limit is 1.
    * 
-   * Defaults to `[]` when the limit is false or greater than 1.
+   * Defaults to `[]` meaning no content is active.
    */
   active?: T | T[];
 
@@ -65,10 +62,8 @@ export type ActiveContentConfig<T> = {
    * is activated from left to right one at a time.
    * 
    * Note: "active" is chosen over the "activeIndexes" property.
-   *
-   * Defaults to `[0]` when the `limit` is one.
    * 
-   * Defaults to `[]` when the `limit` is false or greater than 1..
+   * Defaults to `[]` meaning no content is active.
    */
   activeIndexes?: number | number[];
 
