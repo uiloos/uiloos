@@ -1,5 +1,5 @@
 import { ActiveContent } from './ActiveContent';
-import { ActivationOptions, ItemPredicate } from './types';
+import { ActivationOptions, ContentPredicate } from './types';
 
 /**
  * Represents a piece of content in the `contents` array of the `ActiveContent`.
@@ -193,9 +193,9 @@ export class Content<T> {
    *
    * If no item matches the predicate nothing is moved.
    *
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
+   * @param {ContentPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
    */
-  public moveToAtPredicate(predicate: ItemPredicate<T>) {
+  public moveToAtPredicate(predicate: ContentPredicate<T>) {
     this.activeContent.moveByIndexAtPredicate(this.index, predicate);
   }
 
@@ -205,9 +205,9 @@ export class Content<T> {
    *
    * If no item matches the predicate nothing is moved.
    *
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
+   * @param {ContentPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
    */
-  public moveToBeforePredicate(predicate: ItemPredicate<T>) {
+  public moveToBeforePredicate(predicate: ContentPredicate<T>) {
     this.activeContent.moveByIndexBeforePredicate(this.index, predicate);
   }
 
@@ -217,9 +217,9 @@ export class Content<T> {
    *
    * If no item matches the predicate nothing is moved.
    *
-   * @param {ItemPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
+   * @param {ContentPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
    */
-  public moveToAfterPredicate(predicate: ItemPredicate<T>) {
+  public moveToAfterPredicate(predicate: ContentPredicate<T>) {
     this.activeContent.moveByIndexAfterPredicate(this.index, predicate);
   }
 

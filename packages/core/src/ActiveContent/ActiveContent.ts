@@ -7,10 +7,11 @@ import {
   ActiveContentConfig,
   Direction,
   HistoryItem,
-  ItemPredicate,
+  ContentPredicate,
   ActiveContentSubscriber,
   UnsubscribeFunction,
   ActiveContentMaxActivationLimitBehavior,
+  ContentPredicateData,
 } from './types';
 
 /**
@@ -530,21 +531,16 @@ export class ActiveContent<T> {
    * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will activate that item.
+   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will activate that item.
    * @param {ActivationOptions<T>} ActivationOptions The activation options
    */
   public activateByPredicate(
-    predicate: ItemPredicate<T>,
+    predicate: ContentPredicate<T>,
     activationOptions?: ActivationOptions<T>
   ) {
-    const contents = this.contents;
-    const length = contents.length;
-
-    for (let index = 0; index < length; index++) {
-      if (predicate(contents[index].value, index)) {
-        this.activateByIndex(index, activationOptions);
-      }
-    }
+    this.executeActionWhenPredicate(predicate, (index) =>
+      this.activateByIndex(index, activationOptions)
+    );
   }
 
   /**
@@ -889,21 +885,16 @@ export class ActiveContent<T> {
    * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will deactivate that item.
+   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will deactivate that item.
    * @param {ActivationOptions<T>} ActivationOptions The activation options
    */
   public deactivateByPredicate(
-    predicate: ItemPredicate<T>,
+    predicate: ContentPredicate<T>,
     activationOptions?: ActivationOptions<T>
   ) {
-    const contents = this.contents;
-    const length = contents.length;
-
-    for (let index = 0; index < length; index++) {
-      if (predicate(contents[index].value, index)) {
-        this.deactivateByIndex(index, activationOptions);
-      }
-    }
+    this.executeActionWhenPredicate(predicate, (index) =>
+      this.deactivateByIndex(index, activationOptions)
+    );
   }
 
   /**
@@ -1053,21 +1044,14 @@ export class ActiveContent<T> {
 
   private insertPredicateWithMod(
     item: T,
-    predicate: ItemPredicate<T>,
+    predicate: ContentPredicate<T>,
     mod: number
   ): Content<T> | null {
-    const contents = this.contents;
-    const length = contents.length;
+    return this.executeActionWhenPredicate(predicate, (index) => {
+      const atIndex = Math.max(0, index + mod);
 
-    for (let index = 0; index < length; index++) {
-      if (predicate(contents[index].value, index)) {
-        const atIndex = Math.max(0, index + mod);
-
-        return this.insertAtIndex(item, atIndex);
-      }
-    }
-
-    return null;
+      return this.insertAtIndex(item, atIndex);
+    });
   }
 
   /**
@@ -1078,12 +1062,12 @@ export class ActiveContent<T> {
    * will be returned.
    *
    * @param {T} item The item to add.
-   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item in that position.
+   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item in that position.
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
   public insertAtPredicate(
     item: T,
-    predicate: ItemPredicate<T>
+    predicate: ContentPredicate<T>
   ): Content<T> | null {
     return this.insertPredicateWithMod(item, predicate, 0);
   }
@@ -1099,12 +1083,12 @@ export class ActiveContent<T> {
    * at the start of the `contents` array.
    *
    * @param {T} item The item to add.
-   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item before that position.
+   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item before that position.
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
   public insertBeforePredicate(
     item: T,
-    predicate: ItemPredicate<T>
+    predicate: ContentPredicate<T>
   ): Content<T> | null {
     return this.insertPredicateWithMod(item, predicate, -1);
   }
@@ -1120,12 +1104,12 @@ export class ActiveContent<T> {
    * at the end of the `contents` array.
    *
    * @param {T} item The item to add.
-   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item after that position.
+   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item after that position.
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
   public insertAfterPredicate(
     item: T,
-    predicate: ItemPredicate<T>
+    predicate: ContentPredicate<T>
   ): Content<T> | null {
     return this.insertPredicateWithMod(item, predicate, 1);
   }
@@ -1249,29 +1233,23 @@ export class ActiveContent<T> {
    * If after removal no active items remain the activeIndex will become -1.
    *
    * @param {T} item The item to add.
-   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will remove the item.
+   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will remove the item.
    * @returns {T[]} The removed items.
    */
-  public removeByPredicate(predicate: ItemPredicate<T>): T[] {
+  public removeByPredicate(predicate: ContentPredicate<T>): T[] {
     if (this.isEmpty()) {
       return [];
     }
 
     const removed: Content<T>[] = [];
 
-    const contents = this.contents;
-    const length = contents.length;
-
     // The tricky bit about this is that the index will shuffle when
     // removing an item mid air. So we put the matching items in the
     // array first for later processing.
-
-    for (let index = 0; index < length; index++) {
-      const content = contents[index];
-      if (predicate(contents[index].value, index)) {
-        removed.push(content);
-      }
-    }
+    this.executeActionWhenPredicate(predicate, (index) => {
+      const content = this.contents[index];
+      removed.push(content);
+    });
 
     const removedIndexes: number[] = [];
 
@@ -1812,20 +1790,17 @@ export class ActiveContent<T> {
 
   private moveByIndexPredicateWithMod(
     fromIndex: number,
-    predicate: ItemPredicate<T>,
+    predicate: ContentPredicate<T>,
     mod: number
   ): void {
-    const contents = this.contents;
-    const length = contents.length;
+    this.executeActionWhenPredicate(predicate, (index, length) => {
+      const atIndex = Math.min(Math.max(0, index + mod), length - 1);
 
-    for (let index = 0; index < length; index++) {
-      if (predicate(contents[index].value, index)) {
-        const atIndex = Math.min(Math.max(0, index + mod), length - 1);
+      this.moveByIndex(fromIndex, atIndex);
 
-        this.moveByIndex(fromIndex, atIndex);
-        return;
-      }
-    }
+      // By returning something `executeActionWhenPredicate` stops.
+      return true;
+    });
   }
 
   /**
@@ -1835,11 +1810,11 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is moved.
    *
    * @param {number} index The index to move.
-   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to that position.
+   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to that position.
    */
   public moveByIndexAtPredicate(
     index: number,
-    predicate: ItemPredicate<T>
+    predicate: ContentPredicate<T>
   ): void {
     this.moveByIndexPredicateWithMod(index, predicate, 0);
   }
@@ -1851,11 +1826,11 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is moved.
    *
    * @param {number} index The index to move.
-   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to before that position.
+   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to before that position.
    */
   public moveByIndexBeforePredicate(
     index: number,
-    predicate: ItemPredicate<T>
+    predicate: ContentPredicate<T>
   ): void {
     this.moveByIndexPredicateWithMod(index, predicate, -1);
   }
@@ -1867,11 +1842,11 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is moved.
    *
    * @param {number} index The index to move.
-   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
+   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
    */
   public moveByIndexAfterPredicate(
     index: number,
-    predicate: ItemPredicate<T>
+    predicate: ContentPredicate<T>
   ): void {
     this.moveByIndexPredicateWithMod(index, predicate, 1);
   }
@@ -1886,10 +1861,10 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is moved.
    *
    * @param {T} item The item to move.
-   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
+   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
    * @throws Item not found error
    */
-  public moveAtPredicate(item: T, predicate: ItemPredicate<T>): void {
+  public moveAtPredicate(item: T, predicate: ContentPredicate<T>): void {
     const index = this.getIndex(item);
     this.moveByIndexPredicateWithMod(index, predicate, 0);
   }
@@ -1904,9 +1879,9 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is moved.
    *
    * @param {number} index The index to move.
-   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
+   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
    */
-  public moveBeforePredicate(item: T, predicate: ItemPredicate<T>): void {
+  public moveBeforePredicate(item: T, predicate: ContentPredicate<T>): void {
     const index = this.getIndex(item);
     this.moveByIndexPredicateWithMod(index, predicate, -1);
   }
@@ -1921,9 +1896,9 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is moved.
    *
    * @param {number} index The index to move.
-   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
+   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
    */
-  public moveAfterPredicate(item: T, predicate: ItemPredicate<T>): void {
+  public moveAfterPredicate(item: T, predicate: ContentPredicate<T>): void {
     const index = this.getIndex(item);
     this.moveByIndexPredicateWithMod(index, predicate, 1);
   }
@@ -2217,6 +2192,38 @@ export class ActiveContent<T> {
     this.lastActivated = newLastActiveContent.value;
     this.lastActivatedContent = newLastActiveContent;
     this.lastActivatedIndex = newLastActiveIndex;
+  }
+
+  // exists only for code reduction, not to make things clearer
+  private executeActionWhenPredicate<R>(
+    predicate: ContentPredicate<T>,
+    action: (index: number, length: number) => R
+  ): R | null {
+    const contents = this.contents;
+    const length = contents.length;
+
+    for (let index = 0; index < length; index++) {
+      const content = this.contents[index];
+
+      const data: ContentPredicateData<T> = {
+        index,
+        content,
+        value: content.value,
+        activeContent: this,
+      };
+
+      if (predicate(data)) {
+        const result = action(index, length);
+
+        // If something is returned we stop.
+        if (result !== undefined) {
+          return result;
+        }
+      }
+    }
+
+    // If nothing was ever returned we return zero.
+    return null;
   }
 
   private pushHistory(item: () => HistoryItem<T>): void {

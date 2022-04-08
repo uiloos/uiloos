@@ -1,4 +1,4 @@
-import { ActionOptions, ActiveContent, AutoplayConfig } from '..';
+import { ActivationOptions, ActiveContent, AutoplayConfig } from '..';
 
 export class Autoplay<T> {
   /*
@@ -127,24 +127,24 @@ export class Autoplay<T> {
     }
   }
 
-  public onDeactivation(actionOptions: ActionOptions<T>) {
+  public onDeactivation(activationOptions: ActivationOptions<T>) {
     // If there is no autoplay config do not bother.
     if (!this.config) {
       return;
     }
 
-    if (this.shouldStopOnUserInteraction(actionOptions, this.config)) {
+    if (this.shouldStopOnUserInteraction(activationOptions, this.config)) {
       this.stop();
     }
   }
 
-  public onActiveIndexChanged(index: number, actionOptions: ActionOptions<T>) {
+  public onActiveIndexChanged(index: number, activationOptions: ActivationOptions<T>) {
     // If there is no autoplay config do not bother.
     if (!this.config) {
       return;
     }
 
-    if (this.shouldStopOnUserInteraction(actionOptions, this.config)) {
+    if (this.shouldStopOnUserInteraction(activationOptions, this.config)) {
       this.stop();
     } else if (
       this.activeContent.isCircular === false &&
@@ -162,14 +162,14 @@ export class Autoplay<T> {
   }
 
   private shouldStopOnUserInteraction(
-    actionOptions: ActionOptions<T>,
+    activationOptions: ActivationOptions<T>,
     config: AutoplayConfig<T>
   ): boolean {
     // Stop when autoPlay.stopsOnUserInteraction is true and this
     // is a user interaction.
     return !!(
-      actionOptions &&
-      actionOptions.isUserInteraction &&
+      activationOptions &&
+      activationOptions.isUserInteraction &&
       config.stopsOnUserInteraction
     );
   }

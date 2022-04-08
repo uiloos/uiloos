@@ -1,4 +1,5 @@
 import { ActiveContent } from './ActiveContent';
+import { Content } from './Content';
 
 /**
  * Configures the initial state of the `ActiveContent`
@@ -199,15 +200,41 @@ export type ActiveContentSubscriber<T> = (
 export type UnsubscribeFunction = () => void;
 
 /**
- * Represents a callback which is given an item, and an index for
- * that item, and expects either true or false to be returned. Based
- * on the response it will perform an action.
+ * Represents a bundle of data which is given as the first parameter
+ * to the ContentPredicate function. Based on this data the 
+ * ContentPredicate must either return `true` or `false`.
+ */
+ export type ContentPredicateData<T> = {
+  /**
+   * The value the Content wraps.
+   */
+  value: T,
+
+  /**
+   * The index the Content has within the ActiveContent
+   */
+  index: number,
+
+  /**
+   * A reference to the Content which wraps the value.
+   */
+  content: Content<T>,
+
+  /**
+   * A reference to the ActiveContent itself.
+   */
+  activeContent: ActiveContent<T>,
+}
+
+/**
+ * Represents a callback which is given all relevant data for the
+ * action, and expects either `true` or `false` to be returned. If
+ * `true` is returned will perform the action.
  *
- * @param {T} item The item for which this predicate will determine if the action needs to be performed.
- * @param {number} index The index of the item within the ActiveContent.
+ * @param {ContentPredicateData<T>} data The data for which this predicate will determine if the action needs to be performed.
  * @returns {boolean} Whether or not to perform the action associated with the predicate based on the given item and index.
  */
-export type ItemPredicate<T> = (item: T, index: number) => boolean;
+ export type ContentPredicate<T> = (data: ContentPredicateData<T>) => boolean;
 
 /**
  * Represents a callback which is given an item, and an index for

@@ -3254,7 +3254,7 @@ describe('ActiveContent limit 1', () => {
 
         jest.spyOn(activeContent, 'activateByIndex');
 
-        activeContent.activateByPredicate((item) => item === 'a', {
+        activeContent.activateByPredicate(({value}) => value === 'a', {
           isUserInteraction: true,
         });
 
@@ -3336,7 +3336,7 @@ describe('ActiveContent limit 1', () => {
 
         jest.spyOn(activeContent, 'activateByIndex');
 
-        activeContent.activateByPredicate((item) => item === 'a', {
+        activeContent.activateByPredicate(({value}) => value === 'a', {
           isUserInteraction: true,
         });
 
@@ -3423,7 +3423,7 @@ describe('ActiveContent limit 1', () => {
 
         jest.spyOn(activeContent, 'activateByIndex');
 
-        activeContent.activateByPredicate((item) => item === 'a', {
+        activeContent.activateByPredicate(({value}) => value === 'a', {
           isUserInteraction: true,
         });
 
@@ -3504,7 +3504,7 @@ describe('ActiveContent limit 1', () => {
 
         jest.spyOn(activeContent, 'activateByIndex');
 
-        activeContent.activateByPredicate((item) => item === 'c', {
+        activeContent.activateByPredicate(({value}) => value === 'c', {
           isUserInteraction: true,
         });
 
@@ -3519,7 +3519,37 @@ describe('ActiveContent limit 1', () => {
 
         jest.spyOn(activeContent, 'activateByIndex');
 
-        activeContent.activateByPredicate((item, index) => index === 2, {
+        activeContent.activateByPredicate(({index}) => index === 2, {
+          isUserInteraction: true,
+        });
+
+        expect(activeContent.activateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeContent.activateByIndex).toHaveBeenCalledWith(2, {
+          isUserInteraction: true,
+        });
+      });
+
+      test('predicate based on Content', () => {
+        const { activeContent } = setup();
+
+        jest.spyOn(activeContent, 'activateByIndex');
+
+        activeContent.activateByPredicate(({content}) => content.index === 2, {
+          isUserInteraction: true,
+        });
+
+        expect(activeContent.activateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeContent.activateByIndex).toHaveBeenCalledWith(2, {
+          isUserInteraction: true,
+        });
+      });
+
+      test('predicate based on ActiveContent', () => {
+        const { activeContent } = setup();
+
+        jest.spyOn(activeContent, 'activateByIndex');
+
+        activeContent.activateByPredicate(({activeContent, index}) => activeContent.contents[index].index === 2, {
           isUserInteraction: true,
         });
 
@@ -4728,7 +4758,7 @@ describe('ActiveContent limit 1', () => {
 
         jest.spyOn(activeContent, 'deactivateByIndex');
 
-        activeContent.deactivateByPredicate((item) => item === 'a', {
+        activeContent.deactivateByPredicate(({value}) => value === 'a', {
           isUserInteraction: true,
         });
 
@@ -4809,7 +4839,7 @@ describe('ActiveContent limit 1', () => {
 
         jest.spyOn(activeContent, 'deactivateByIndex');
 
-        activeContent.deactivateByPredicate((item) => item === 'c', {
+        activeContent.deactivateByPredicate(({value}) => value === 'c', {
           isUserInteraction: true,
         });
 
@@ -4824,7 +4854,7 @@ describe('ActiveContent limit 1', () => {
 
         jest.spyOn(activeContent, 'deactivateByIndex');
 
-        activeContent.deactivateByPredicate((item, index) => index === 2, {
+        activeContent.deactivateByPredicate(({index}) => index === 2, {
           isUserInteraction: true,
         });
 
@@ -5367,7 +5397,7 @@ describe('ActiveContent limit 1', () => {
       test('insertAtPredicate', () => {
         const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
-        activeContent.insertAtPredicate('d', (item) => item === 'b');
+        activeContent.insertAtPredicate('d', ({value}) => value === 'b');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
@@ -5441,7 +5471,7 @@ describe('ActiveContent limit 1', () => {
       test('when no predicate matches do nothing', () => {
         const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
-        activeContent.insertAtPredicate('z', (item) => item === 'y');
+        activeContent.insertAtPredicate('z', ({value}) => value === 'y');
 
         expect(subscriber).toHaveBeenCalledTimes(0);
       });
@@ -5450,7 +5480,7 @@ describe('ActiveContent limit 1', () => {
         test('when first item returns true add at start and not at -1', () => {
           const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
-          activeContent.insertBeforePredicate('d', (item) => item === 'a');
+          activeContent.insertBeforePredicate('d', ({value}) => value === 'a');
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
@@ -5524,7 +5554,7 @@ describe('ActiveContent limit 1', () => {
         test('when item returns true insert before predicate', () => {
           const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
-          activeContent.insertBeforePredicate('d', (item) => item === 'b');
+          activeContent.insertBeforePredicate('d', ({value}) => value === 'b');
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
@@ -5600,7 +5630,7 @@ describe('ActiveContent limit 1', () => {
         test('when last item returns true add at end and not after', () => {
           const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
-          activeContent.insertAfterPredicate('d', (item) => item === 'c');
+          activeContent.insertAfterPredicate('d', ({value}) => value === 'c');
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
@@ -5674,7 +5704,7 @@ describe('ActiveContent limit 1', () => {
         test('when item returns true insert after predicate', () => {
           const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
-          activeContent.insertAfterPredicate('d', (item) => item === 'b');
+          activeContent.insertAfterPredicate('d', ({value}) => value === 'b');
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
@@ -6400,7 +6430,7 @@ describe('ActiveContent limit 1', () => {
               const { activeContent, subscriber } = setup({ activeIndexes: 1 });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'a'
+                ({value}) => value === 'a'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -6453,7 +6483,7 @@ describe('ActiveContent limit 1', () => {
               const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b'
+                ({value}) => value === 'b'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -6506,7 +6536,7 @@ describe('ActiveContent limit 1', () => {
               const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'c'
+                ({value}) => value === 'c'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -6561,7 +6591,7 @@ describe('ActiveContent limit 1', () => {
               const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'a'
+                ({value}) => value === 'a'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -6614,7 +6644,7 @@ describe('ActiveContent limit 1', () => {
               const { activeContent, subscriber } = setup({ activeIndexes: 1 });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b'
+                ({value}) => value === 'b'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -6667,7 +6697,7 @@ describe('ActiveContent limit 1', () => {
               const { activeContent, subscriber } = setup({ activeIndexes: 2 });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'c'
+                ({value}) => value === 'c'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -6724,7 +6754,7 @@ describe('ActiveContent limit 1', () => {
               const { activeContent, subscriber } = setup({ activeIndexes: 2 });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'a' || item === 'b'
+                ({value}) => value === 'a' || value === 'b'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -6768,7 +6798,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'c'
+                ({value}) => value === 'b' || value === 'c'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -6824,7 +6854,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'c'
+                ({value}) => value === 'b' || value === 'c'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -6880,7 +6910,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'd'
+                ({value}) => value === 'b' || value === 'd'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -6948,7 +6978,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'd'
+                ({value}) => value === 'b' || value === 'd'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7016,7 +7046,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'd'
+                ({value}) => value === 'b' || value === 'd'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7081,7 +7111,7 @@ describe('ActiveContent limit 1', () => {
               const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
               const removed = activeContent.removeByPredicate(
-                (item, index) => index > 0
+                ({index}) => index > 0
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7124,7 +7154,7 @@ describe('ActiveContent limit 1', () => {
               const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'a' || item === 'b'
+                ({value}) => value === 'a' || value === 'b'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7165,7 +7195,7 @@ describe('ActiveContent limit 1', () => {
               const { activeContent, subscriber } = setup({ activeIndexes: 1 });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'a' || item === 'b'
+                ({value}) => value === 'a' || value === 'b'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7209,7 +7239,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'c'
+                ({value}) => value === 'b' || value === 'c'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7265,7 +7295,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'c'
+                ({value}) => value === 'b' || value === 'c'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7321,7 +7351,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'd'
+                ({value}) => value === 'b' || value === 'd'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7389,7 +7419,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'd'
+                ({value}) => value === 'b' || value === 'd'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7454,7 +7484,7 @@ describe('ActiveContent limit 1', () => {
               const { activeContent, subscriber } = setup({ activeIndexes: 2 });
 
               const removed = activeContent.removeByPredicate(
-                (item, index) => index > 0
+                ({index}) => index > 0
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7497,7 +7527,7 @@ describe('ActiveContent limit 1', () => {
           const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
           const removed = activeContent.removeByPredicate(
-            (item) => item === 'y'
+            ({value}) => value === 'y'
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -7509,7 +7539,7 @@ describe('ActiveContent limit 1', () => {
           const { activeContent, subscriber } = setup({}, []);
 
           const removed = activeContent.removeByPredicate(
-            (item) => item === 'y'
+            ({value}) => value === 'y'
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -7559,7 +7589,7 @@ describe('ActiveContent limit 1', () => {
               });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'a'
+                ({value}) => value === 'a'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7615,7 +7645,7 @@ describe('ActiveContent limit 1', () => {
               });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b'
+                ({value}) => value === 'b'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7671,7 +7701,7 @@ describe('ActiveContent limit 1', () => {
               });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'c'
+                ({value}) => value === 'c'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7729,7 +7759,7 @@ describe('ActiveContent limit 1', () => {
               });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'a'
+                ({value}) => value === 'a'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7788,7 +7818,7 @@ describe('ActiveContent limit 1', () => {
               });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b'
+                ({value}) => value === 'b'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7847,7 +7877,7 @@ describe('ActiveContent limit 1', () => {
               });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'c'
+                ({value}) => value === 'c'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7910,7 +7940,7 @@ describe('ActiveContent limit 1', () => {
               });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'a' || item === 'b'
+                ({value}) => value === 'a' || value === 'b'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -7954,7 +7984,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'c'
+                ({value}) => value === 'b' || value === 'c'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -8010,7 +8040,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'd'
+                ({value}) => value === 'b' || value === 'd'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -8078,7 +8108,7 @@ describe('ActiveContent limit 1', () => {
               });
 
               const removed = activeContent.removeByPredicate(
-                (item, index) => index > 0
+                ({index}) => index > 0
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -8124,7 +8154,7 @@ describe('ActiveContent limit 1', () => {
               });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'a' || item === 'b'
+                ({value}) => value === 'a' || value === 'b'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -8168,7 +8198,7 @@ describe('ActiveContent limit 1', () => {
               });
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'a' || item === 'b'
+                ({value}) => value === 'a' || value === 'b'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -8212,7 +8242,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'c'
+                ({value}) => value === 'b' || value === 'c'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -8268,7 +8298,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'c'
+                ({value}) => value === 'b' || value === 'c'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -8324,7 +8354,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'd'
+                ({value}) => value === 'b' || value === 'd'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -8395,7 +8425,7 @@ describe('ActiveContent limit 1', () => {
               );
 
               const removed = activeContent.removeByPredicate(
-                (item) => item === 'b' || item === 'd'
+                ({value}) => value === 'b' || value === 'd'
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -8466,7 +8496,7 @@ describe('ActiveContent limit 1', () => {
               });
 
               const removed = activeContent.removeByPredicate(
-                (item, index) => index > 0
+                ({index}) => index > 0
               );
 
               expect(subscriber).toHaveBeenCalledTimes(1);
@@ -8512,7 +8542,7 @@ describe('ActiveContent limit 1', () => {
           });
 
           const removed = activeContent.removeByPredicate(
-            (item) => item === 'y'
+            ({value}) => value === 'y'
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -8527,7 +8557,7 @@ describe('ActiveContent limit 1', () => {
           );
 
           const removed = activeContent.removeByPredicate(
-            (item) => item === 'y'
+            ({value}) => value === 'y'
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -12829,7 +12859,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAtPredicate(
             0,
-            (item, index) => item === 'a' && index === 0
+            ({value, index}) => value === 'a' && index === 0
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -12840,7 +12870,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAtPredicate(
             0,
-            (item, index) => item === 'b' && index === 1
+            ({value, index}) => value === 'b' && index === 1
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -12904,7 +12934,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAtPredicate(
             0,
-            (item, index) => item === 'c' && index === 2
+            ({value, index}) => value === 'c' && index === 2
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -12970,7 +13000,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAtPredicate(
             1,
-            (item, index) => item === 'a' && index === 0
+            ({value, index}) => value === 'a' && index === 0
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13034,7 +13064,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAtPredicate(
             1,
-            (item, index) => item === 'b' && index === 1
+            ({value, index}) => value === 'b' && index === 1
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -13045,7 +13075,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAtPredicate(
             1,
-            (item, index) => item === 'c' && index === 2
+            ({value, index}) => value === 'c' && index === 2
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13111,7 +13141,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAtPredicate(
             2,
-            (item, index) => item === 'a' && index === 0
+            ({value, index}) => value === 'a' && index === 0
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13175,7 +13205,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAtPredicate(
             2,
-            (item, index) => item === 'b' && index === 1
+            ({value, index}) => value === 'b' && index === 1
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13239,7 +13269,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAtPredicate(
             2,
-            (item, index) => item === 'c' && index === 2
+            ({value, index}) => value === 'c' && index === 2
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -13249,7 +13279,7 @@ describe('ActiveContent limit 1', () => {
       test('when no predicate matches do nothing', () => {
         const { activeContent, subscriber } = setup({ active: 'b' });
 
-        activeContent.moveByIndexAtPredicate(0, (item) => item === 'z');
+        activeContent.moveByIndexAtPredicate(0, ({value}) => value === 'z');
 
         expect(subscriber).toHaveBeenCalledTimes(0);
       });
@@ -13262,7 +13292,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexBeforePredicate(
             0,
-            (item, index) => item === 'a' && index === 0
+            ({value, index}) => value === 'a' && index === 0
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -13273,7 +13303,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexBeforePredicate(
             0,
-            (item, index) => item === 'b' && index === 1
+            ({value, index}) => value === 'b' && index === 1
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -13284,7 +13314,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexBeforePredicate(
             0,
-            (item, index) => item === 'c' && index === 2
+            ({value, index}) => value === 'c' && index === 2
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13350,7 +13380,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexBeforePredicate(
             1,
-            (item, index) => item === 'a' && index === 0
+            ({value, index}) => value === 'a' && index === 0
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13414,7 +13444,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexBeforePredicate(
             1,
-            (item, index) => item === 'b' && index === 1
+            ({value, index}) => value === 'b' && index === 1
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13478,7 +13508,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexBeforePredicate(
             1,
-            (item, index) => item === 'c' && index === 2
+            ({value, index}) => value === 'c' && index === 2
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -13491,7 +13521,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexBeforePredicate(
             2,
-            (item, index) => item === 'a' && index === 0
+            ({value, index}) => value === 'a' && index === 0
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13555,7 +13585,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexBeforePredicate(
             2,
-            (item, index) => item === 'b' && index === 1
+            ({value, index}) => value === 'b' && index === 1
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13619,7 +13649,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexBeforePredicate(
             2,
-            (item, index) => item === 'c' && index === 2
+            ({value, index}) => value === 'c' && index === 2
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13682,7 +13712,7 @@ describe('ActiveContent limit 1', () => {
       test('when no predicate matches do nothing', () => {
         const { activeContent, subscriber } = setup({ active: 'b' });
 
-        activeContent.moveByIndexBeforePredicate(0, (item) => item === 'z');
+        activeContent.moveByIndexBeforePredicate(0, ({value}) => value === 'z');
 
         expect(subscriber).toHaveBeenCalledTimes(0);
       });
@@ -13695,7 +13725,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAfterPredicate(
             0,
-            (item, index) => item === 'a' && index === 0
+            ({value, index}) => value === 'a' && index === 0
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13759,7 +13789,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAfterPredicate(
             0,
-            (item, index) => item === 'b' && index === 1
+            ({value, index}) => value === 'b' && index === 1
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13823,7 +13853,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAfterPredicate(
             0,
-            (item, index) => item === 'c' && index === 2
+            ({value, index}) => value === 'c' && index === 2
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13889,7 +13919,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAfterPredicate(
             1,
-            (item, index) => item === 'a' && index === 0
+            ({value, index}) => value === 'a' && index === 0
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -13900,7 +13930,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAfterPredicate(
             1,
-            (item, index) => item === 'b' && index === 1
+            ({value, index}) => value === 'b' && index === 1
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -13964,7 +13994,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAfterPredicate(
             1,
-            (item, index) => item === 'c' && index === 2
+            ({value, index}) => value === 'c' && index === 2
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -14030,7 +14060,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAfterPredicate(
             2,
-            (item, index) => item === 'a' && index === 0
+            ({value, index}) => value === 'a' && index === 0
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
@@ -14094,7 +14124,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAfterPredicate(
             2,
-            (item, index) => item === 'b' && index === 1
+            ({value, index}) => value === 'b' && index === 1
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -14105,7 +14135,7 @@ describe('ActiveContent limit 1', () => {
 
           activeContent.moveByIndexAfterPredicate(
             2,
-            (item, index) => item === 'c' && index === 2
+            ({value, index}) => value === 'c' && index === 2
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -14115,7 +14145,7 @@ describe('ActiveContent limit 1', () => {
       test('when no predicate matches do nothing', () => {
         const { activeContent, subscriber } = setup({ active: 'b' });
 
-        activeContent.moveByIndexAfterPredicate(0, (item) => item === 'z');
+        activeContent.moveByIndexAfterPredicate(0, ({value}) => value === 'z');
 
         expect(subscriber).toHaveBeenCalledTimes(0);
       });
@@ -14127,7 +14157,7 @@ describe('ActiveContent limit 1', () => {
 
         activeContent.moveAtPredicate(
           'a',
-          (item, index) => item === 'b' && index === 1
+          ({value, index}) => value === 'b' && index === 1
         );
 
         expect(subscriber).toHaveBeenCalledTimes(1);
@@ -14189,7 +14219,7 @@ describe('ActiveContent limit 1', () => {
       test('when no predicate matches do nothing', () => {
         const { activeContent, subscriber } = setup({ active: 'b' });
 
-        activeContent.moveAtPredicate('a', (item) => item === 'z');
+        activeContent.moveAtPredicate('a', ({value}) => value === 'z');
 
         expect(subscriber).toHaveBeenCalledTimes(0);
       });
@@ -14198,7 +14228,7 @@ describe('ActiveContent limit 1', () => {
         const { activeContent } = setup({ active: 'b' });
 
         expect(() =>
-          activeContent.moveAtPredicate('y', (item) => item === 'z')
+          activeContent.moveAtPredicate('y', ({value}) => value === 'z')
         ).toThrowError(
           'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
         );
@@ -14211,7 +14241,7 @@ describe('ActiveContent limit 1', () => {
 
         activeContent.moveBeforePredicate(
           'a',
-          (item, index) => item === 'c' && index === 2
+          ({value, index}) => value === 'c' && index === 2
         );
 
         expect(subscriber).toHaveBeenCalledTimes(1);
@@ -14273,7 +14303,7 @@ describe('ActiveContent limit 1', () => {
       test('when no predicate matches do nothing', () => {
         const { activeContent, subscriber } = setup({ active: 'b' });
 
-        activeContent.moveBeforePredicate('a', (item) => item === 'z');
+        activeContent.moveBeforePredicate('a', ({value}) => value === 'z');
 
         expect(subscriber).toHaveBeenCalledTimes(0);
       });
@@ -14282,7 +14312,7 @@ describe('ActiveContent limit 1', () => {
         const { activeContent } = setup({ active: 'b' });
 
         expect(() =>
-          activeContent.moveBeforePredicate('y', (item) => item === 'z')
+          activeContent.moveBeforePredicate('y', ({value}) => value === 'z')
         ).toThrowError(
           'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
         );
@@ -14295,7 +14325,7 @@ describe('ActiveContent limit 1', () => {
 
         activeContent.moveAfterPredicate(
           'a',
-          (item, index) => item === 'a' && index === 0
+          ({value, index}) => value === 'a' && index === 0
         );
 
         expect(subscriber).toHaveBeenCalledTimes(1);
@@ -14357,7 +14387,7 @@ describe('ActiveContent limit 1', () => {
       test('when no predicate matches do nothing', () => {
         const { activeContent, subscriber } = setup({ active: 'b' });
 
-        activeContent.moveAfterPredicate('a', (item) => item === 'z');
+        activeContent.moveAfterPredicate('a', ({value}) => value === 'z');
 
         expect(subscriber).toHaveBeenCalledTimes(0);
       });
@@ -14366,7 +14396,7 @@ describe('ActiveContent limit 1', () => {
         const { activeContent } = setup({ active: 'b' });
 
         expect(() =>
-          activeContent.moveAfterPredicate('y', (item) => item === 'z')
+          activeContent.moveAfterPredicate('y', ({value}) => value === 'z')
         ).toThrowError(
           'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
         );
@@ -14440,7 +14470,7 @@ describe('ActiveContent limit 1', () => {
         const { activeContent, subscriber } = setup({ active: 'b' });
 
         activeContent.contents[0].moveToAtPredicate(
-          (item, index) => item === 'b' && index === 1
+          ({value, index}) => value === 'b' && index === 1
         );
 
         expect(subscriber).toHaveBeenCalledTimes(1);
@@ -14503,7 +14533,7 @@ describe('ActiveContent limit 1', () => {
         const { activeContent, subscriber } = setup({ active: 'b' });
 
         activeContent.contents[0].moveToBeforePredicate(
-          (item, index) => item === 'c' && index === 2
+          ({value, index}) => value === 'c' && index === 2
         );
 
         expect(subscriber).toHaveBeenCalledTimes(1);
@@ -14567,7 +14597,7 @@ describe('ActiveContent limit 1', () => {
 
         // Move a beyond c
         activeContent.contents[0].moveToAfterPredicate(
-          (item, index) => item === 'c' && index === 2
+          ({value, index}) => value === 'c' && index === 2
         );
 
         expect(subscriber).toHaveBeenCalledTimes(1);
