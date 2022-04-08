@@ -981,21 +981,14 @@ export class ActiveContent<T> {
    * means that the index can only be between `0` and `contents.length`.
    * If you give it a larger or smaller index it will throw an error.
    *
-   * When calling this method results in the insertion of the first item.
-   * The first item will become the active item, it then uses the
-   * `options` parameter to determine the effects on `cooldown`
-   * and `autoplay` the inserted item has.
-   *
    * @param {T} item The item to add.
    * @param {number} index The index at which to insert the item.
-   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    * @throws Index out of bounds error.
    */
   public insertAtIndex(
     item: T,
-    index: number,
-    actionOptions?: ActionOptions<T>
+    index: number
   ): Content<T> {
     if (index < 0 || index > this.contents.length) {
       throw new Error(
@@ -1038,14 +1031,7 @@ export class ActiveContent<T> {
       time: new Date(),
     }));
 
-    // TODO: remove this special limit === 1 idea, as it makes everything needlessly complex. By not calling activate things will be much simpler
-    // When inserting the first element when the limit is 1 we activate
-    // it, the activateByIndex call will trigger the subscriber.
-    if (this.maxActivationLimit === 1 && index === 0 && this.contents.length === 1) {
-      this.activateByIndex(0, actionOptions);
-    } else {
-      this.informSubscribers();
-    }
+    this.informSubscribers();
 
     return content;
   }
@@ -1053,40 +1039,27 @@ export class ActiveContent<T> {
   /**
    * Will add an item to the end of the `contents` array.
    *
-   * When calling this method results in the insertion of the first item.
-   * The first item will become the active item, it then uses the
-   * `options` parameter to determine the effects on `cooldown`
-   * and `autoplay` the inserted item has.
-   *
    * @param {T} item The item to add.
-   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
-  public push(item: T, actionOptions?: ActionOptions<T>): Content<T> {
-    return this.insertAtIndex(item, this.contents.length, actionOptions);
+  public push(item: T): Content<T> {
+    return this.insertAtIndex(item, this.contents.length);
   }
 
   /**
    * Will add an item at the start of the `contents` array.
    *
-   * When calling this method results in the insertion of the first item.
-   * The first item will become the active item, it then uses the
-   * `options` parameter to determine the effects on `cooldown`
-   * and `autoplay` the inserted item has.
-   *
    * @param {T} item The item to add.
-   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
-  public unshift(item: T, actionOptions?: ActionOptions<T>): Content<T> {
-    return this.insertAtIndex(item, 0, actionOptions);
+  public unshift(item: T): Content<T> {
+    return this.insertAtIndex(item, 0);
   }
 
   private insertPredicateWithMod(
     item: T,
     predicate: ItemPredicate<T>,
-    mod: number,
-    actionOptions?: ActionOptions<T>
+    mod: number
   ): Content<T> | null {
     const contents = this.contents;
     const length = contents.length;
@@ -1095,7 +1068,7 @@ export class ActiveContent<T> {
       if (predicate(contents[index].value, index)) {
         const atIndex = Math.max(0, index + mod);
 
-        return this.insertAtIndex(item, atIndex, actionOptions);
+        return this.insertAtIndex(item, atIndex);
       }
     }
 
@@ -1108,23 +1081,16 @@ export class ActiveContent<T> {
    *
    * If no item matches the predicate nothing is inserted and `null`
    * will be returned.
-   *
-   * When calling this method results in the insertion of the first item.
-   * The first item will become the active item, it then uses the
-   * `actionOptions` parameter to determine the effects on `cooldown`
-   * and `autoplay` the inserted item has.
-   *
+   * 
    * @param {T} item The item to add.
    * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item in that position.
-   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
   public insertAtPredicate(
     item: T,
-    predicate: ItemPredicate<T>,
-    actionOptions?: ActionOptions<T>
+    predicate: ItemPredicate<T>
   ): Content<T> | null {
-    return this.insertPredicateWithMod(item, predicate, 0, actionOptions);
+    return this.insertPredicateWithMod(item, predicate, 0);
   }
 
   /**
@@ -1137,22 +1103,15 @@ export class ActiveContent<T> {
    * If the predicate matches at the first item, it will be inserted
    * at the start of the `contents` array.
    *
-   * When calling this method results in the insertion of the first item.
-   * The first item will become the active item, it then uses the
-   * `actionOptions` parameter to determine the effects on `cooldown`
-   * and `autoplay` the inserted item has.
-   *
    * @param {T} item The item to add.
    * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item before that position.
-   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
   public insertBeforePredicate(
     item: T,
-    predicate: ItemPredicate<T>,
-    actionOptions?: ActionOptions<T>
+    predicate: ItemPredicate<T>
   ): Content<T> | null {
-    return this.insertPredicateWithMod(item, predicate, -1, actionOptions);
+    return this.insertPredicateWithMod(item, predicate, -1);
   }
 
   /**
@@ -1165,22 +1124,15 @@ export class ActiveContent<T> {
    * If the predicate matches at the last item, it will be inserted
    * at the end of the `contents` array.
    *
-   * When calling this method results in the insertion of the first item.
-   * The first item will become the active item, it then uses the
-   * `actionOptions` parameter to determine the effects on `cooldown`
-   * and `autoplay` the inserted item has.
-   *
    * @param {T} item The item to add.
    * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item after that position.
-   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
   public insertAfterPredicate(
     item: T,
     predicate: ItemPredicate<T>,
-    actionOptions?: ActionOptions<T>
   ): Content<T> | null {
-    return this.insertPredicateWithMod(item, predicate, 1, actionOptions);
+    return this.insertPredicateWithMod(item, predicate, 1);
   }
 
   /**

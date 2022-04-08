@@ -689,7 +689,7 @@ describe('ActiveContent limit 1', () => {
         });
 
         test('throws out of bounds when index is less than zero', () => {
-          const { activeContent, subscriber } = setup({ });
+          const { activeContent, subscriber } = setup({});
 
           expect(() => {
             activeContent.activateByIndex(-1);
@@ -3247,12 +3247,10 @@ describe('ActiveContent limit 1', () => {
     describe('activateByPredicate', () => {
       test('when multiple items match only last one is active when maxActivationLimit is 1', () => {
         // The two 'a's will match the predicate
-        const { activeContent, subscriber } = setup({ maxActivationLimit: 1, activeIndexes: 0}, [
-          'b',
-          'a',
-          'a',
-          'z',
-        ]);
+        const { activeContent, subscriber } = setup(
+          { maxActivationLimit: 1, activeIndexes: 0 },
+          ['b', 'a', 'a', 'z']
+        );
 
         jest.spyOn(activeContent, 'activateByIndex');
 
@@ -4865,125 +4863,43 @@ describe('ActiveContent limit 1', () => {
       });
     });
 
-    describe('inserting the first element behavior', () => {
-      test('inserting the first element should also activate it when maxActivationLimit is 1', () => {
-        const { activeContent, subscriber } = setup(
-          { maxActivationLimit: 1 },
-          []
-        );
+    test('inserting the first element should not activate it', () => {
+      const { activeContent, subscriber } = setup(
+        {},
+        []
+      );
 
-        activeContent.unshift('z');
+      activeContent.unshift('z');
 
-        expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['z'],
-          activeContents: [activeContent.contents[0]],
-          activeIndexes: [0],
-          lastActivated: 'z',
-          lastActivatedContent: activeContent.contents[0],
-          lastActivatedIndex: 0,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: true,
-          contents: [
-            {
-              active: true,
-              index: 0,
-              value: 'z',
-              isFirst: true,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-          ],
-        });
-      });
-
-      test('inserting the first element should not activate it when maxActivationLimit is false', () => {
-        const { activeContent, subscriber } = setup(
-          { maxActivationLimit: false },
-          []
-        );
-
-        activeContent.unshift('z');
-
-        expect(subscriber).toHaveBeenCalledTimes(1);
-
-        assertLastSubscriber(subscriber, {
-          active: [],
-          activeContents: [],
-          activeIndexes: [],
-          lastActivated: null,
-          lastActivatedContent: null,
-          lastActivatedIndex: -1,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: false,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: false,
-              index: 0,
-              value: 'z',
-              isFirst: true,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        });
-      });
-
-      test('inserting the first element should not activate it when maxActivationLimit is N', () => {
-        const { activeContent, subscriber } = setup(
-          { maxActivationLimit: 2 },
-          []
-        );
-
-        activeContent.unshift('z');
-
-        expect(subscriber).toHaveBeenCalledTimes(1);
-
-        assertLastSubscriber(subscriber, {
-          active: [],
-          activeContents: [],
-          activeIndexes: [],
-          lastActivated: null,
-          lastActivatedContent: null,
-          lastActivatedIndex: -1,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 2,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: false,
-              index: 0,
-              value: 'z',
-              isFirst: true,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        });
+      assertLastSubscriber(subscriber, {
+        active: [],
+        activeContents: [],
+        activeIndexes: [],
+        lastActivated: null,
+        lastActivatedContent: null,
+        lastActivatedIndex: -1,
+        isCircular: false,
+        direction: 'right',
+        maxActivationLimit: 1,
+        maxActivationLimitBehavior: 'circular',
+        history: [],
+        hasActiveChangedAtLeastOnce: false,
+        contents: [
+          {
+            active: false,
+            index: 0,
+            value: 'z',
+            isFirst: true,
+            isLast: true,
+            hasNext: false,
+            hasPrevious: false,
+            isNext: false,
+            isPrevious: false,
+            hasBeenActiveBefore: false,
+          },
+        ],
       });
     });
 
@@ -5830,90 +5746,6 @@ describe('ActiveContent limit 1', () => {
               },
             ],
           });
-        });
-      });
-    });
-
-    describe('all methods pass along the ActionOptions', () => {
-      test('push', () => {
-        const { activeContent } = setup({ activeIndexes: 0 });
-
-        jest.spyOn(activeContent, 'insertAtIndex');
-
-        activeContent.push('d', { cooldown: 1337, isUserInteraction: false });
-
-        expect(activeContent.insertAtIndex).toBeCalledTimes(1);
-        expect(activeContent.insertAtIndex).toBeCalledWith('d', 3, {
-          cooldown: 1337,
-          isUserInteraction: false,
-        });
-      });
-
-      test('unshift', () => {
-        const { activeContent } = setup({ activeIndexes: 0 });
-
-        jest.spyOn(activeContent, 'insertAtIndex');
-
-        activeContent.unshift('d', {
-          cooldown: 1337,
-          isUserInteraction: false,
-        });
-
-        expect(activeContent.insertAtIndex).toBeCalledTimes(1);
-        expect(activeContent.insertAtIndex).toBeCalledWith('d', 0, {
-          cooldown: 1337,
-          isUserInteraction: false,
-        });
-      });
-
-      test('insertAtPredicate', () => {
-        const { activeContent } = setup({ activeIndexes: 0 });
-
-        jest.spyOn(activeContent, 'insertAtIndex');
-
-        activeContent.insertAtPredicate('d', () => true, {
-          cooldown: 1337,
-          isUserInteraction: false,
-        });
-
-        expect(activeContent.insertAtIndex).toBeCalledTimes(1);
-        expect(activeContent.insertAtIndex).toBeCalledWith('d', 0, {
-          cooldown: 1337,
-          isUserInteraction: false,
-        });
-      });
-
-      test('insertBeforePredicate', () => {
-        const { activeContent } = setup({ activeIndexes: 0 });
-
-        jest.spyOn(activeContent, 'insertAtIndex');
-
-        activeContent.insertBeforePredicate('d', () => true, {
-          cooldown: 1337,
-          isUserInteraction: false,
-        });
-
-        expect(activeContent.insertAtIndex).toBeCalledTimes(1);
-        expect(activeContent.insertAtIndex).toBeCalledWith('d', 0, {
-          cooldown: 1337,
-          isUserInteraction: false,
-        });
-      });
-
-      test('insertAfterPredicate', () => {
-        const { activeContent } = setup({ activeIndexes: 0 });
-
-        jest.spyOn(activeContent, 'insertAtIndex');
-
-        activeContent.insertAfterPredicate('d', () => true, {
-          cooldown: 1337,
-          isUserInteraction: false,
-        });
-
-        expect(activeContent.insertAtIndex).toBeCalledTimes(1);
-        expect(activeContent.insertAtIndex).toBeCalledWith('d', 1, {
-          cooldown: 1337,
-          isUserInteraction: false,
         });
       });
     });
@@ -16026,6 +15858,8 @@ describe('ActiveContent limit 1', () => {
       ]);
 
       activeContent.insertAtIndex('a', 0);
+      activeContent.activateByIndex(0);
+
       expect(activeContent.history).toEqual([
         expect.objectContaining({ action: 'INSERTED', index: 0, value: 'a' }),
         expect.objectContaining({ action: 'INSERTED', index: 1, value: 'b' }),
