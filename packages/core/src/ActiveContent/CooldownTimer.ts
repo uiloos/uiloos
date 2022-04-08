@@ -1,4 +1,4 @@
-import { ActionOptions, CooldownConfig } from './types';
+import { ActivationOptions, CooldownConfig } from './types';
 
 export class CooldownTimer<T> {
   // The time in unix epoch the last activation occurred. Is used
@@ -17,20 +17,20 @@ export class CooldownTimer<T> {
   }
 
   public isActive(
-    actionOptions: ActionOptions<T>,
+    activationOptions: ActivationOptions<T>,
     item: T,
     index: number
   ): boolean {
     // When the interaction was not caused by a user it should not
     // be affected by the cooldown.
-    if (!actionOptions.isUserInteraction) {
+    if (!activationOptions.isUserInteraction) {
       return false;
     }
 
     // Check against undefined because cooldown can also be zero,
     // which is a falsey value.
-    if (actionOptions.cooldown !== undefined) {
-      return this.isCooldownActive(actionOptions.cooldown, item, index);
+    if (activationOptions.cooldown !== undefined) {
+      return this.isCooldownActive(activationOptions.cooldown, item, index);
     } else if (this.cooldown !== undefined) {
       return this.isCooldownActive(this.cooldown, item, index);
     }

@@ -4,7 +4,7 @@ import { Content } from './ActiveContent/Content';
 
 import {
   ActiveContentConfig,
-  ActionOptions,
+  ActivationOptions,
   ActiveContentSubscriber,
   UnsubscribeFunction,
   ItemPredicate,
@@ -27,7 +27,7 @@ export {
   ActiveContent,
   Content,
   ActiveContentConfig,
-  ActionOptions,
+  ActivationOptions,
   ActiveContentSubscriber,
   UnsubscribeFunction,
   ItemPredicate,

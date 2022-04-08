@@ -119,13 +119,13 @@ export type ActiveContentConfig<T> = {
    *
    * This global `cooldown` is the same for all transitions you might trigger.
    * If you want a `cooldown` that differs per button use the `cooldown`
-   * in the `ActionOptions` instead.
+   * in the `ActivationOptions` instead.
    *
-   * Note that the `cooldown` options with the `ActionOptions` takes
+   * Note that the `cooldown` options with the `ActivationOptions` takes
    * precedence over this more global cooldown.
    *
    * IMPORTANT: `cooldown` is only ran when `isUserInteraction` within
-   * the `ActionOptions` is `true`. This means that `autoplay`, which
+   * the `ActivationOptions` is `true`. This means that `autoplay`, which
    * is not a user interaction, ignores the `cooldown`.
    */
   cooldown?: CooldownCallback<T> | number;
@@ -138,9 +138,9 @@ export type ActiveContentConfig<T> = {
  export type ActiveContentMaxActivationLimitBehavior = 'circular' | 'ignore' | 'error';
 
 /**
- * Represents options for activation / deactivation methods.
+ * Represents opt``Zions for activation / deactivation methods.
  */
-export type ActionOptions<T> = {
+export type ActivationOptions<T> = {
   /**
    * Whether or not the action was taken by a user / human.
    * This affects the `autoplay` when `stopsOnUserInteraction`
@@ -162,7 +162,7 @@ export type ActionOptions<T> = {
    * This can be useful when you have an animation which should be
    * finished before allowing user interaction again.
    *
-   * Note that the `cooldown` options within the `ActionOptions` takes
+   * Note that the `cooldown` options within the `ActivationOptions` takes
    * precedence over the `cooldown` in the `Config`.
    *
    * The benefit of this `cooldown` over the `cooldown` in the
@@ -171,13 +171,13 @@ export type ActionOptions<T> = {
    * different cooldown.
    *
    * IMPORTANT: the `cooldown` is only applied for the current action
-   * the `ActionOptions` is used for. Meaning that if you set
+   * the `ActivationOptions` is used for. Meaning that if you set
    * the cooldown to 5000 with one button, and to 1000 in another, and
    * 1001 seconds pass the transition will be triggered. It does not
    * REMEMBER the 5000 milliseconds cooldown from the other button.
    *
    * IMPORTANT: `cooldown` is only ran when `isUserInteraction` within
-   * the `ActionOptions` is `true`. This means that `autoplay`, which
+   * the `ActivationOptions` is `true`. This means that `autoplay`, which
    * is not a user interaction, ignores the `cooldown`.
    */
   cooldown?: CooldownConfig<T>;

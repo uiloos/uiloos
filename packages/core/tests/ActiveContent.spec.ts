@@ -3206,7 +3206,7 @@ describe('ActiveContent limit 1', () => {
 
         activeContent.contents[1].activate({ isUserInteraction: false });
 
-        expect(activeContent.activateByIndex).toHaveBeenCalledTimes(2);
+        expect(activeContent.activateByIndex).toHaveBeenCalledTimes(1);
         expect(activeContent.activateByIndex).toHaveBeenLastCalledWith(1, {
           isUserInteraction: false,
         });
@@ -4864,10 +4864,7 @@ describe('ActiveContent limit 1', () => {
     });
 
     test('inserting the first element should not activate it', () => {
-      const { activeContent, subscriber } = setup(
-        {},
-        []
-      );
+      const { activeContent, subscriber } = setup({}, []);
 
       activeContent.unshift('z');
 
@@ -5970,12 +5967,12 @@ describe('ActiveContent limit 1', () => {
             expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
-              active: ['b'],
-              activeContents: [activeContent.contents[0]],
-              activeIndexes: [0],
-              lastActivated: 'b',
-              lastActivatedContent: activeContent.contents[0],
-              lastActivatedIndex: 0,
+              active: [],
+              activeContents: [],
+              activeIndexes: [],
+              lastActivated: null,
+              lastActivatedContent: null,
+              lastActivatedIndex: -1,
               isCircular: false,
               direction: 'right',
               maxActivationLimit: 1,
@@ -5984,7 +5981,7 @@ describe('ActiveContent limit 1', () => {
               hasActiveChangedAtLeastOnce: true,
               contents: [
                 {
-                  active: true,
+                  active: false,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -5993,7 +5990,7 @@ describe('ActiveContent limit 1', () => {
                   hasPrevious: false,
                   isNext: false,
                   isPrevious: false,
-                  hasBeenActiveBefore: true,
+                  hasBeenActiveBefore: false,
                 },
                 {
                   active: false,
@@ -6003,7 +6000,7 @@ describe('ActiveContent limit 1', () => {
                   isLast: true,
                   hasNext: false,
                   hasPrevious: true,
-                  isNext: true,
+                  isNext: false,
                   isPrevious: false,
                   hasBeenActiveBefore: false,
                 },
@@ -6021,21 +6018,21 @@ describe('ActiveContent limit 1', () => {
             expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
-              active: ['a'],
-              activeContents: [activeContent.contents[0]],
-              activeIndexes: [0],
-              lastActivated: 'a',
-              lastActivatedContent: activeContent.contents[0],
-              lastActivatedIndex: 0,
+              active: [],
+              activeContents: [],
+              activeIndexes: [],
+              lastActivated: null,
+              lastActivatedContent: null,
+              lastActivatedIndex: -1,
               isCircular: false,
-              direction: 'left',
+              direction: 'right',
               maxActivationLimit: 1,
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: true,
               contents: [
                 {
-                  active: true,
+                  active: false,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -6044,7 +6041,7 @@ describe('ActiveContent limit 1', () => {
                   hasPrevious: false,
                   isNext: false,
                   isPrevious: false,
-                  hasBeenActiveBefore: true,
+                  hasBeenActiveBefore: false,
                 },
                 {
                   active: false,
@@ -6054,7 +6051,7 @@ describe('ActiveContent limit 1', () => {
                   isLast: true,
                   hasNext: false,
                   hasPrevious: true,
-                  isNext: true,
+                  isNext: false,
                   isPrevious: false,
                   hasBeenActiveBefore: false,
                 },
@@ -6072,14 +6069,14 @@ describe('ActiveContent limit 1', () => {
             expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(subscriber, {
-              active: ['b'],
-              activeContents: [activeContent.contents[1]],
-              activeIndexes: [1],
-              lastActivated: 'b',
-              lastActivatedContent: activeContent.contents[1],
-              lastActivatedIndex: 1,
+              active: [],
+              activeContents: [],
+              activeIndexes: [],
+              lastActivated: null,
+              lastActivatedContent: null,
+              lastActivatedIndex: -1,
               isCircular: false,
-              direction: 'left',
+              direction: 'right',
               maxActivationLimit: 1,
               maxActivationLimitBehavior: 'circular',
               history: [],
@@ -6094,11 +6091,11 @@ describe('ActiveContent limit 1', () => {
                   hasNext: true,
                   hasPrevious: false,
                   isNext: false,
-                  isPrevious: true,
+                  isPrevious: false,
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  active: false,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -6107,7 +6104,7 @@ describe('ActiveContent limit 1', () => {
                   hasPrevious: true,
                   isNext: false,
                   isPrevious: false,
-                  hasBeenActiveBefore: true,
+                  hasBeenActiveBefore: false,
                 },
               ],
             });
@@ -6347,12 +6344,10 @@ describe('ActiveContent limit 1', () => {
 
         jest.spyOn(activeContent, 'removeByIndex');
 
-        activeContent.contents[1].remove({ isUserInteraction: false });
+        activeContent.contents[1].remove();
 
         expect(activeContent.removeByIndex).toHaveBeenCalledTimes(1);
-        expect(activeContent.removeByIndex).toHaveBeenCalledWith(1, {
-          isUserInteraction: false,
-        });
+        expect(activeContent.removeByIndex).toHaveBeenCalledWith(1);
       });
 
       test('remove on item after another removal', () => {
@@ -6362,12 +6357,10 @@ describe('ActiveContent limit 1', () => {
 
         activeContent.shift();
 
-        activeContent.contents[0].remove({ isUserInteraction: false });
+        activeContent.contents[0].remove();
 
         expect(activeContent.removeByIndex).toHaveBeenCalledTimes(2);
-        expect(activeContent.removeByIndex).toHaveBeenLastCalledWith(0, {
-          isUserInteraction: false,
-        });
+        expect(activeContent.removeByIndex).toHaveBeenLastCalledWith(0);
 
         expect(activeContent.contents.map((c) => c.value)).toEqual(['c']);
       });
@@ -8542,70 +8535,6 @@ describe('ActiveContent limit 1', () => {
           expect(activeContent.hasActiveChangedAtLeastOnce).toBe(false);
 
           expect(removed).toEqual([]);
-        });
-      });
-    });
-
-    describe('all methods pass along activationOptions', () => {
-      test('removeByIndex', () => {
-        const { activeContent } = setup({ activeIndexes: 0 });
-
-        jest.spyOn(activeContent, 'activatePrevious');
-
-        activeContent.removeByIndex(0, {
-          cooldown: 1337,
-          isUserInteraction: false,
-        });
-
-        expect(activeContent.activatePrevious).toBeCalledTimes(1);
-        expect(activeContent.activatePrevious).toBeCalledWith({
-          cooldown: 1337,
-          isUserInteraction: false,
-        });
-      });
-
-      test('remove', () => {
-        const { activeContent } = setup({ activeIndexes: 0 });
-
-        jest.spyOn(activeContent, 'activatePrevious');
-
-        activeContent.remove('a', {
-          cooldown: 1337,
-          isUserInteraction: false,
-        });
-
-        expect(activeContent.activatePrevious).toBeCalledTimes(1);
-        expect(activeContent.activatePrevious).toBeCalledWith({
-          cooldown: 1337,
-          isUserInteraction: false,
-        });
-      });
-
-      test('pop', () => {
-        const { activeContent } = setup({ activeIndexes: 2 });
-
-        jest.spyOn(activeContent, 'activatePrevious');
-
-        activeContent.pop({ cooldown: 1337, isUserInteraction: false });
-
-        expect(activeContent.activatePrevious).toBeCalledTimes(1);
-        expect(activeContent.activatePrevious).toBeCalledWith({
-          cooldown: 1337,
-          isUserInteraction: false,
-        });
-      });
-
-      test('shift', () => {
-        const { activeContent } = setup({ activeIndexes: 0 });
-
-        jest.spyOn(activeContent, 'activatePrevious');
-
-        activeContent.shift({ cooldown: 1337, isUserInteraction: false });
-
-        expect(activeContent.activatePrevious).toBeCalledTimes(1);
-        expect(activeContent.activatePrevious).toBeCalledWith({
-          cooldown: 1337,
-          isUserInteraction: false,
         });
       });
     });
@@ -15534,7 +15463,7 @@ describe('ActiveContent limit 1', () => {
         expect(activeContent.active).toEqual(['c']);
       });
 
-      test('that the cooldown from the ActionOptions has precedence over the cooldown from the config', () => {
+      test('that the cooldown from the ActivationOptions has precedence over the cooldown from the config', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
@@ -15735,7 +15664,7 @@ describe('ActiveContent limit 1', () => {
         expect(activeContent.active).toEqual([]);
       });
 
-      test('that the cooldown from the ActionOptions has precedence over the cooldown from the config', () => {
+      test('that the cooldown from the ActivationOptions has precedence over the cooldown from the config', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 

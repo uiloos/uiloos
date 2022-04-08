@@ -2,7 +2,7 @@ import { Autoplay } from './Autoplay';
 import { Content } from './Content';
 import { CooldownTimer } from './CooldownTimer';
 import {
-  ActionOptions,
+  ActivationOptions,
   AutoplayConfig,
   ActiveContentConfig,
   Direction,
@@ -17,7 +17,7 @@ import {
  * ActiveContent is a class which represents visual elements which
  * have multiple pieces of content which can be active or inactive.
  *
- * The `ActiveContent` can be used to implement multiple types of 
+ * The `ActiveContent` can be used to implement multiple types of
  * components:
  *
  *  1. A tabs component for which one tab can be active at a time.
@@ -26,12 +26,12 @@ import {
  *     autoplay to the next slide automatically.
  *
  *  3. A dropdown menu with one active menu item.
- * 
+ *
  *  4. A accordion component from which the user can open multiple
  *     items at once.
- * 
+ *
  *  5. A list the user can sort and move around.
- * 
+ *
  *  6. Etc etc
  *
  * Another way of defining the ActiveContent is that it is an array
@@ -40,12 +40,6 @@ import {
  *
  * ActiveContent will make sure that when content is inserted, that
  * the active content is not affected.
- *
- * TODO: this will become inaccurate when limit === 1 stuff is let go
- * When removing the active content the previous content in the
- * sequence is activated. This way there is always an active content,
- * the only exception is when there is no content remaining, in that
- * case the activeContent is null, and the activeIndex is -1.
  */
 export class ActiveContent<T> {
   /**
@@ -77,7 +71,7 @@ export class ActiveContent<T> {
   public maxActivationLimit: number | false = 1;
 
   /**
-   * How the `maxActivationLimit` is enforced. In other words what the 
+   * How the `maxActivationLimit` is enforced. In other words what the
    * behavior should be when the limit is surpassed.
    *
    * The modes are strings which can be the following values:
@@ -94,7 +88,8 @@ export class ActiveContent<T> {
    *
    * Defaults to 'circular'.
    */
-  public maxActivationLimitBehavior: ActiveContentMaxActivationLimitBehavior = 'circular';
+  public maxActivationLimitBehavior: ActiveContentMaxActivationLimitBehavior =
+    'circular';
 
   /**
    * All `value`'s which are currently considered active.
@@ -114,7 +109,7 @@ export class ActiveContent<T> {
   /**
    * Which `value` from within a `Content` was the last value which
    * was activated.
-   * 
+   *
    * When nothing is activated in the `ActiveContent` the value of
    * `lastActivated` will be `null.
    */
@@ -122,7 +117,7 @@ export class ActiveContent<T> {
 
   /**
    * Which `Content` is the last Content which was activated.
-   * 
+   *
    * When nothing is activated in the `ActiveContent` the value of
    * `lastActivatedContent` will be `null.
    */
@@ -131,7 +126,7 @@ export class ActiveContent<T> {
   /**
    * Which index of the `contents` array was the last index which
    * was activated.
-   * 
+   *
    * When nothing is activated in the `ActiveContent` the value of
    * `lastActivatedIndex` will be `-1`.
    */
@@ -223,8 +218,8 @@ export class ActiveContent<T> {
 
   // The autoplay instance for all autoplay related code.
   // Note that it is undefined during initialization when
-  // activateByIndex / deactivateByIndex is called. 
-  // But we lie about the type because otherwise there would 
+  // activateByIndex / deactivateByIndex is called.
+  // But we lie about the type because otherwise there would
   // be to many checks.
   private autoplay!: Autoplay<T>;
 
@@ -277,7 +272,8 @@ export class ActiveContent<T> {
     // of the initialization process.
     this.shouldInformSubscribers = false;
 
-    this.maxActivationLimit = config.maxActivationLimit !== undefined ? config.maxActivationLimit : 1;
+    this.maxActivationLimit =
+      config.maxActivationLimit !== undefined ? config.maxActivationLimit : 1;
     this.maxActivationLimitBehavior = config.maxActivationLimitBehavior
       ? config.maxActivationLimitBehavior
       : 'circular';
@@ -380,16 +376,16 @@ export class ActiveContent<T> {
    *
    * If the index does not exist an error will be thrown.
    *
-   * With the `actionOptions` you can determine the effects
+   * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
    * @param {number} index The index to activate
-   * @param {ActionOptions<T>} actionOptions The action options
+   * @param {ActivationOptions<T>} ActivationOptions The activation options
    * @throws Index out of bounds error.
    */
   public activateByIndex(
     index: number,
-    actionOptions: ActionOptions<T> = {
+    activationOptions: ActivationOptions<T> = {
       isUserInteraction: true,
       cooldown: undefined,
     }
@@ -406,7 +402,9 @@ export class ActiveContent<T> {
     }
 
     const limitReached =
-      this.maxActivationLimit === false ? false : this.maxActivationLimit === this.activeIndexes.length;
+      this.maxActivationLimit === false
+        ? false
+        : this.maxActivationLimit === this.activeIndexes.length;
 
     if (limitReached) {
       if (this.maxActivationLimitBehavior === 'error') {
@@ -422,7 +420,7 @@ export class ActiveContent<T> {
     // Do nothing when a cooldown is active.
     if (
       this.activationCooldownTimer.isActive(
-        actionOptions,
+        activationOptions,
         // This works because activateByIndex checks if the index is in
         // bounds, and because something has no been activated, by the loop.
         this.lastActivated as T,
@@ -480,7 +478,7 @@ export class ActiveContent<T> {
     // During initialization the autoplay is still undefined. This
     // means that we lie about the type of this.autoplay.
     if (this.autoplay) {
-      this.autoplay.onActiveIndexChanged(index, actionOptions);
+      this.autoplay.onActiveIndexChanged(index, activationOptions);
     }
 
     this.pushHistory(() => ({
@@ -507,16 +505,16 @@ export class ActiveContent<T> {
    * If the item does not exist in the content array it will
    * throw an error.
    *
-   * With the `actionOptions` you can determine the effects
+   * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
    * @param {T} item The item to activate
-   * @param {ActionOptions<T>} actionOptions The action options
+   * @param {ActivationOptions<T>} ActivationOptions The activation options
    * @throws Item not found error
    */
-  public activate(item: T, actionOptions?: ActionOptions<T>): void {
+  public activate(item: T, activationOptions?: ActivationOptions<T>): void {
     const index = this.getIndex(item);
-    this.activateByIndex(index, actionOptions);
+    this.activateByIndex(index, activationOptions);
   }
 
   /**
@@ -529,22 +527,22 @@ export class ActiveContent<T> {
    * appearance in the contents array. Each activation leads to
    * a call to all subscribers.
    *
-   * With the `actionOptions` you can determine the effects
+   * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
    * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will activate that item.
-   * @param {ActionOptions<T>} actionOptions The action options
+   * @param {ActivationOptions<T>} ActivationOptions The activation options
    */
   public activateByPredicate(
     predicate: ItemPredicate<T>,
-    actionOptions?: ActionOptions<T>
+    activationOptions?: ActivationOptions<T>
   ) {
     const contents = this.contents;
     const length = contents.length;
 
     for (let index = 0; index < length; index++) {
       if (predicate(contents[index].value, index)) {
-        this.activateByIndex(index, actionOptions);
+        this.activateByIndex(index, activationOptions);
       }
     }
   }
@@ -563,12 +561,12 @@ export class ActiveContent<T> {
    * around and activate the first position. When `isCircular` is `false`
    * it will stay on the last position and do nothing.
    *
-   * With the `actionOptions` you can determine the effects
+   * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ActionOptions<T>} actionOptions The action options
+   * @param {ActivationOptions<T>} ActivationOptions The activation options
    */
-  public activateNext(actionOptions?: ActionOptions<T>): void {
+  public activateNext(activationOptions?: ActivationOptions<T>): void {
     if (this.isEmpty()) {
       return;
     }
@@ -581,7 +579,7 @@ export class ActiveContent<T> {
       index = this.isCircular ? 0 : this.getLastIndex();
     }
 
-    this.activateByIndex(index, actionOptions);
+    this.activateByIndex(index, activationOptions);
   }
 
   /**
@@ -598,12 +596,12 @@ export class ActiveContent<T> {
    * around and activate the last position. When `isCircular` is `false`
    * it will stay on the first position and do nothing.
    *
-   * With the `actionOptions` you can determine the effects
+   * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ActionOptions<T>} actionOptions The action options
+   * @param {ActivationOptions<T>} ActivationOptions The activation options
    */
-  public activatePrevious(actionOptions?: ActionOptions<T>): void {
+  public activatePrevious(activationOptions?: ActivationOptions<T>): void {
     if (this.isEmpty()) {
       return;
     }
@@ -616,7 +614,7 @@ export class ActiveContent<T> {
       index = this.isCircular ? this.getLastIndex() : 0;
     }
 
-    this.activateByIndex(index, actionOptions);
+    this.activateByIndex(index, activationOptions);
   }
 
   /**
@@ -625,17 +623,17 @@ export class ActiveContent<T> {
    * If the `contents` are empty when `activateFirst` is called
    * nothing will happen.
    *
-   * With the `actionOptions` you can determine the effects
+   * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ActionOptions<T>} actionOptions The action options
+   * @param {ActivationOptions<T>} ActivationOptions The activation options
    */
-  public activateFirst(actionOptions?: ActionOptions<T>): void {
+  public activateFirst(activationOptions?: ActivationOptions<T>): void {
     if (this.isEmpty()) {
       return;
     }
 
-    this.activateByIndex(0, actionOptions);
+    this.activateByIndex(0, activationOptions);
   }
 
   /**
@@ -644,17 +642,17 @@ export class ActiveContent<T> {
    * f the `contents` are empty when `activateLast` is called
    * nothing will happen.
    *
-   * With the `actionOptions` you can determine the effects
+   * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ActionOptions<T>} actionOptions The action options
+   * @param {ActivationOptions<T>} ActivationOptions The activation options
    */
-  public activateLast(actionOptions?: ActionOptions<T>): void {
+  public activateLast(activationOptions?: ActivationOptions<T>): void {
     if (this.isEmpty()) {
       return;
     }
 
-    this.activateByIndex(this.getLastIndex(), actionOptions);
+    this.activateByIndex(this.getLastIndex(), activationOptions);
   }
 
   /**
@@ -662,16 +660,16 @@ export class ActiveContent<T> {
    *
    * If the index does not exist an error will be thrown.
    *
-   * With the `actionOptions` you can determine the effects
+   * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
    * @param {number} index The index to deactivate
-   * @param {ActionOptions<T>} actionOptions The action options
+   * @param {ActivationOptions<T>} ActivationOptions The activation options
    * @throws Index out of bounds error.
    */
   public deactivateByIndex(
     index: number,
-    actionOptions: ActionOptions<T> = {
+    actionOptions: ActivationOptions<T> = {
       isUserInteraction: true,
       cooldown: undefined,
     }
@@ -779,7 +777,7 @@ export class ActiveContent<T> {
     if (indexOfIndex === -1) {
       return;
     }
-    
+
     // TODO: the lastActivated as T is not quite right
     // Do nothing when a cooldown is active.
     if (
@@ -866,16 +864,16 @@ export class ActiveContent<T> {
    * If the item does not exist in the content array it will
    * throw an error.
    *
-   * With the `actionOptions` you can determine the effects
+   * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
    * @param {T} item The item to deactivate
-   * @param {ActionOptions<T>} actionOptions The action options
+   * @param {ActivationOptions<T>} ActivationOptions The activation options
    * @throws Item not found error
    */
-  public deactivate(item: T, actionOptions?: ActionOptions<T>): void {
+  public deactivate(item: T, activationOptions?: ActivationOptions<T>): void {
     const index = this.getIndex(item);
-    this.deactivateByIndex(index, actionOptions);
+    this.deactivateByIndex(index, activationOptions);
   }
 
   /**
@@ -888,22 +886,22 @@ export class ActiveContent<T> {
    * appearance in the contents array. Each activation leads to
    * a call to all subscribers.
    *
-   * With the `actionOptions` you can determine the effects
+   * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
    * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will deactivate that item.
-   * @param {ActionOptions<T>} actionOptions The action options
+   * @param {ActivationOptions<T>} ActivationOptions The activation options
    */
-   public deactivateByPredicate(
+  public deactivateByPredicate(
     predicate: ItemPredicate<T>,
-    actionOptions?: ActionOptions<T>
+    activationOptions?: ActivationOptions<T>
   ) {
     const contents = this.contents;
     const length = contents.length;
 
     for (let index = 0; index < length; index++) {
       if (predicate(contents[index].value, index)) {
-        this.deactivateByIndex(index, actionOptions);
+        this.deactivateByIndex(index, activationOptions);
       }
     }
   }
@@ -986,10 +984,7 @@ export class ActiveContent<T> {
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    * @throws Index out of bounds error.
    */
-  public insertAtIndex(
-    item: T,
-    index: number
-  ): Content<T> {
+  public insertAtIndex(item: T, index: number): Content<T> {
     if (index < 0 || index > this.contents.length) {
       throw new Error(
         'uiloos > ActiveContent.insertAtIndex > could not insert: index out of bounds'
@@ -1081,7 +1076,7 @@ export class ActiveContent<T> {
    *
    * If no item matches the predicate nothing is inserted and `null`
    * will be returned.
-   * 
+   *
    * @param {T} item The item to add.
    * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item in that position.
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
@@ -1130,7 +1125,7 @@ export class ActiveContent<T> {
    */
   public insertAfterPredicate(
     item: T,
-    predicate: ItemPredicate<T>,
+    predicate: ItemPredicate<T>
   ): Content<T> | null {
     return this.insertPredicateWithMod(item, predicate, 1);
   }
@@ -1138,38 +1133,15 @@ export class ActiveContent<T> {
   /**
    * Will remove an item in the `contents` array, at the specified `index`.
    *
-   * When removing the current active item a new active item will be
-   * selected via the following rules:
-   *
-   *  1. If only one item remains after the removal that item
-   *     will become the new active item.
-   *
-   *  2. The previous item will be selected when a previous item exits.
-   *
-   *  3. If the first item was removed, and `isCircular` is `false`
-   *     the next item is selected.
-   *
-   *  4. If the first item was removed, and `isCircular` is `true`
-   *     it will circle around and activate the last item.
-   *
-   * In all of the above cases it then uses the `ActionOptions`
-   * to determine the effects on `cooldown` and `autoplay` for the
-   * new activation.
-   *
-   * If after removal no items remain the activeIndex will become -1.
-   *
    * Throws an error if the index does not exist within the `contents`
    * array.
    *
    * @param {number} index The index at which to remove the item.
-   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {T} The removed value
    * @throws Index out of bounds error.
    */
-  public removeByIndex(index: number, actionOptions?: ActionOptions<T>): T {
+  public removeByIndex(index: number): T {
     const value = this.doRemoveAtIndex(index);
-
-    const isContentEmpty = this.isEmpty();
 
     const indexOfIndex = this.activeIndexes.indexOf(index);
     if (indexOfIndex !== -1) {
@@ -1186,17 +1158,7 @@ export class ActiveContent<T> {
       i >= index ? i - 1 : i
     );
 
-    // TODO: remove this special limit === 1 idea, as it makes everything needlessly complex. By not calling previous things will be much simpler
-    // When removing at the active index we will activate
-    // the previous index.
-    if (this.maxActivationLimit === 1 && index === this.lastActivatedIndex && !isContentEmpty) {
-      this.repairContents();
-
-      // Will move to previous when circular, and stay on zero
-      // when the index is zero.
-      this.activatePrevious(actionOptions);
-      return value;
-    } else if (isContentEmpty) {
+    if (this.isEmpty()) {
       this.becameEmpty();
     } else {
       this.setLastActives();
@@ -1238,108 +1200,46 @@ export class ActiveContent<T> {
    * If the item does not exist in the content array it will
    * throw an error.
    *
-   * When removing the current active item a new active item will be
-   * selected via the following rules:
-   *
-   *  1. If only one item remains after the removal that item
-   *     will become the new active item.
-   *
-   *  2. The previous item will be selected when a previous item exits.
-   *
-   *  3. If the first item was removed, and `isCircular` is `false`
-   *     the next item is selected.
-   *
-   *  4. If the first item was removed, and `isCircular` is `true`
-   *     it will circle around and activate the last item.
-   *
-   * In all of the above cases it then uses the `ActionOptions`
-   * to determine the effects on `cooldown` and `autoplay` for the
-   * new activation.
-   *
-   * If after removal no items remain the activeIndex will become -1.
-   *
    * @param {T} item The item to remove
-   * @param {ActionOptions<T>} actionOptions The action options
    * @returns {T} The removed item
    * @throws Item not found error
    */
-  public remove(item: T, actionOptions?: ActionOptions<T>): T {
+  public remove(item: T): T {
     const index = this.getIndex(item);
-    return this.removeByIndex(index, actionOptions);
+    return this.removeByIndex(index);
   }
 
   /**
-   * Removes the last item to the of the `contents` array.
+   * Removes the last item of the of the `contents` array.
    *
    * If the `contents` array at the time of the `pop` is empty
    * `undefined` is returned.
    *
-   * When removing the current active item a new active item will be
-   * selected via the following rules:
-   *
-   *  1. If only one item remains after the removal that item
-   *     will become the new active item.
-   *
-   *  2. The previous item will be selected when a previous item exits.
-   *
-   *  3. If the first item was removed, and `isCircular` is `false`
-   *     the next item is selected.
-   *
-   *  4. If the first item was removed, and `isCircular` is `true`
-   *     it will circle around and activate the last item.
-   *
-   * In all of the above cases it then uses the `ActionOptions`
-   * to determine the effects on `cooldown` and `autoplay` for the
-   * new activation.
-   *
-   * If after removal no items remain the activeIndex will become -1.
-   *
-   * @param {ActionOptions<T>} actionOptions The action options
-   * @returns {T} The removed value
+   * @param {ActivationOptions<T>} ActivationOptions The activation options
+   * @returns {T | undefined} The removed value, or undefined if the `contents` array is empty.
    */
-  public pop(actionOptions?: ActionOptions<T>): T | undefined {
+  public pop(): T | undefined {
     if (this.isEmpty()) {
       return undefined;
     }
 
-    return this.removeByIndex(this.getLastIndex(), actionOptions);
+    return this.removeByIndex(this.getLastIndex());
   }
 
   /**
-   * Removes the first item to the of the `contents` array.
+   * Removes the first item of the `contents` array.
    *
    * If the `contents` array at the time of the `shift` is empty
    * `undefined` is returned.
    *
-   * When removing the current active item a new active item will be
-   * selected via the following rules:
-   *
-   *  1. If only one item remains after the removal that item
-   *     will become the new active item.
-   *
-   *  2. The previous item will be selected when a previous item exits.
-   *
-   *  3. If the first item was removed, and `isCircular` is `false`
-   *     the next item is selected.
-   *
-   *  4. If the first item was removed, and `isCircular` is `true`
-   *     it will circle around and activate the last item.
-   *
-   * In all of the above cases it then uses the `ActionOptions`
-   * to determine the effects on `cooldown` and `autoplay` for the
-   * new activation.
-   *
-   * If after removal no items remain the activeIndex will become -1.
-   *
-   * @param {ActionOptions<T>} actionOptions The action options
-   * @returns {T} The removed value
+   * @returns {T | undefined} The removed value, or undefined if the `contents` array is empty.
    */
-  public shift(actionOptions?: ActionOptions<T>): T | undefined {
+  public shift(): T | undefined {
     if (this.isEmpty()) {
       return undefined;
     }
 
-    return this.removeByIndex(0, actionOptions);
+    return this.removeByIndex(0);
   }
 
   /**
@@ -1352,9 +1252,7 @@ export class ActiveContent<T> {
    * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will remove the item.
    * @returns {T[]} The removed items.
    */
-  public removeByPredicate(
-    predicate: ItemPredicate<T>
-  ): T[] {
+  public removeByPredicate(predicate: ItemPredicate<T>): T[] {
     if (this.isEmpty()) {
       return [];
     }
@@ -1577,7 +1475,7 @@ export class ActiveContent<T> {
     }
 
     // This can happen when the developer gives a predicate which matches
-    // the item being moved. This is a developer mistake which is ok 
+    // the item being moved. This is a developer mistake which is ok
     // because nothing bad will happen, so we do not have to throw an error.
     if (from === to) {
       return;
@@ -2311,7 +2209,8 @@ export class ActiveContent<T> {
       return;
     }
 
-    const newLastActiveIndex = this.activeIndexes[this.activeIndexes.length - 1];
+    const newLastActiveIndex =
+      this.activeIndexes[this.activeIndexes.length - 1];
 
     const newLastActiveContent = this.contents[newLastActiveIndex];
 

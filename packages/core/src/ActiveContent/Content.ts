@@ -1,5 +1,5 @@
 import { ActiveContent } from './ActiveContent';
-import { ActionOptions, ItemPredicate } from './types';
+import { ActivationOptions, ItemPredicate } from './types';
 
 /**
  * Represents a piece of content in the `contents` array of the `ActiveContent`.
@@ -93,48 +93,31 @@ export class Content<T> {
   }
 
   /**
-   * When calling `activate` it will make this content active.
+   * When calling `activate` it will make this `Content` active.
    *
-   * @param {ActionOptions<T>} [options] The action options @see ActionOptions<T>
+   * @param {ActivationOptions<T>} [activationOptions] The activation options @see ActivationOptions<T>
    */
-  public activate(actionOptions?: ActionOptions<T>): void {
-    this.activeContent.activateByIndex(this.index, actionOptions);
+  public activate(activationOptions?: ActivationOptions<T>): void {
+    this.activeContent.activateByIndex(this.index, activationOptions);
   }
 
   /**
-   * When calling `deactivate` it will make this content inactive.
+   * When calling `deactivate` it will make this `Content` inactive.
    *
-   * @param {ActionOptions<T>} [options] The action options @see ActionOptions<T>
+   * @param {ActivationOptions<T>} [activationOptions] The activation options @see ActivationOptions<T>
    */
-   public deactivate(actionOptions?: ActionOptions<T>): void {
-    this.activeContent.deactivateByIndex(this.index, actionOptions);
+   public deactivate(activationOptions?: ActivationOptions<T>): void {
+    this.activeContent.deactivateByIndex(this.index, activationOptions);
   }
 
   /**
-   * When calling `remove` it will remove this content
-   *
-   *  1. If only one item remains after the removal that item
-   *     will become the new active item.
-   *
-   *  2. The previous item will be selected when a previous item exits.
-   *
-   *  3. If the first item was removed, and `isCircular` is `false`
-   *     the next item is selected.
-   *
-   *  4. If the first item was removed, and `isCircular` is `true`
-   *     it will circle around and activate the last item.
-   *
-   * In all of the above cases it then uses the `ActionOptions`
-   * to determine the effects on `cooldown` and `autoplay` for the
-   * new activation.
-   *
-   * If after removal no items remain the activeIndex will become -1.
-   *
-   * @param {ActionOptions<T>} [options] The action options @see ActionOptions<T>
+   * When calling `remove` it will remove this `Content`, and return
+   * the `value` the Content held.
+   * 
    * @returns {T} The removed value
    */
-  public remove(actionOptions?: ActionOptions<T>): T {
-    return this.activeContent.removeByIndex(this.index, actionOptions);
+  public remove(): T {
+    return this.activeContent.removeByIndex(this.index);
   }
 
   /**
@@ -143,7 +126,7 @@ export class Content<T> {
    * Note: if the active `Content` is swapped, it will stay active,
    * it will only get a new position.
    *
-   * @param {number} index] The index to swap the current `Content` with.
+   * @param {number} index The index to swap the current `Content` with.
    * @throws Item not found error
    */
   public swapWith(item: T): void {
