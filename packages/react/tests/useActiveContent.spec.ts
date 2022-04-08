@@ -15,12 +15,12 @@ test('useActiveContent hook', () => {
 
   expect(result.current instanceof ActiveContentCore).toBe(true);
 
-  expect(result.current.active).toBe('a');
+  expect(result.current.active).toEqual(['a']);
 
   act(() => {
     result.current.activate('b');
   });
 
-  expect(result.current.active).toBe('b');
+  expect(result.current.active).toEqual(['b']);
 });
 

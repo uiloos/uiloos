@@ -14,22 +14,63 @@ export type ActiveContentConfig<T> = {
   contents: T[];
 
   /**
-   * Which item in the content array currently is active.
+   * How many items can be active at the same time.
    *
-   * Note: "active" is chosen over the "activeIndex" property.
+   * When the value of `limit` is `false` there is no limit to the
+   * number of active items.
    *
-   * Defaults to the first item in the contents array.
+   * Defaults to 1.
    */
-  active?: T;
+  maxActivationLimit?: number | false;
 
   /**
-   * Which index of the content array is currently active.
+   * How the limit is enforced. In other words what the behavior 
+   * should be when the limit is surpassed.
+   * 
+   * The modes are strings which can be the following values:
+   * 
+   * 1. 'circular': the first item which was added will be removed so
+   *    the last item can be added without violating the limit. This
+   *    basically means that the first one in is the first one out.
+   * 
+   * 2. 'error': An error is thrown whenever the limit is surpassed.: TODO: ERROR HERE
+   * 
+   * 3. 'ignore': Nothing happens when an item is added and the limit 
+   *    is ignored. The item is simply not added, but no error is 
+   *    thrown.
    *
-   * Note: "active" is chosen over the "activeIndex" property.
-   *
-   * Defaults to `0`.
+   * Defaults to 'circular'.
    */
-  activeIndex?: number;
+  maxActivationLimitBehavior?: ActiveContentMaxActivationLimitBehavior;
+
+  /**
+   * Which item or items in the content array are currently active.
+   *
+   * When the `active` is an array each item in the array is activated 
+   * from left to right one at a time.
+   * 
+   * Note: "active" is chosen over the "activeIndexes" property.
+   *
+   * Defaults to the first item in the contents array when the 
+   * limit is 1.
+   * 
+   * Defaults to `[]` when the limit is false or greater than 1.
+   */
+  active?: T | T[];
+
+  /**
+   * Which index or indexes of the content array are currently active.
+   *
+   * When the `activeIndexes` is an array each index in the array
+   * is activated from left to right one at a time.
+   * 
+   * Note: "active" is chosen over the "activeIndexes" property.
+   *
+   * Defaults to `[0]` when the `limit` is one.
+   * 
+   * Defaults to `[]` when the `limit` is false or greater than 1..
+   */
+  activeIndexes?: number | number[];
 
   /**
    * Whether or not the content starts back at the beginning when
@@ -96,7 +137,13 @@ export type ActiveContentConfig<T> = {
 };
 
 /**
- * Represents options for activation methods.
+ * Describes all the behaviors for when the limit of the ActiveContent
+ * is surpassed.
+ */
+ export type ActiveContentMaxActivationLimitBehavior = 'circular' | 'ignore' | 'error';
+
+/**
+ * Represents options for activation / deactivation methods.
  */
 export type ActionOptions<T> = {
   /**
@@ -144,10 +191,12 @@ export type ActionOptions<T> = {
 /**
  * The subscriber which is informed of all state changes the
  * ActiveContent goes through.
- * 
+ *
  * @param {ActiveContent<T>} activeContent The active content which had changes.
  */
-export type ActiveContentSubscriber<T> = (activeContent: ActiveContent<T>) => void;
+export type ActiveContentSubscriber<T> = (
+  activeContent: ActiveContent<T>
+) => void;
 
 /**
  * A function which when called will unsubscribe from the ActiveContent.
@@ -172,19 +221,19 @@ export type ItemPredicate<T> = (item: T, index: number) => boolean;
  *
  * @param {T} item The item for which the callback function must determine the number of milliseconds it is active.
  * @param {number} index The index of the item within the ActiveContent.
- * @returns {number} The time in milliseconds the item is active for the given item and index.. 
+ * @returns {number} The time in milliseconds the item is active for the given item and index..
  */
 export type IntervalCallback<T> = (item: T, index: number) => number;
 
 /**
- * Represents the configuration of the cooldown. 
- * 
+ * Represents the configuration of the cooldown.
+ *
  * Can be two possible things:
- * 
- * 1. A callback function which receives the item and index, and which 
+ *
+ * 1. A callback function which receives the item and index, and which
  *    is required to return the duration in milliseconds. Useful for
  *    providing a different cooldown for different items.
- * 
+ *
  * 2. A number in milliseconds. When it is a number all items will
  *    have the same cooldown.
  */
@@ -236,7 +285,7 @@ export type Direction = {
   /**
    * The name of the direction when moving to the next item of the
    * `ActiveContent`.
-   * 
+   *
    * Could for example be "right" or "down".
    */
   next: string;
@@ -244,7 +293,7 @@ export type Direction = {
   /**
    * The name of the direction when moving to the previous item of the
    * `ActiveContent`.
-   * 
+   *
    * Could for example be "left" or "up".
    */
   previous: string;
@@ -259,7 +308,8 @@ export type HistoryAction =
   | 'REMOVED'
   | 'ACTIVATED'
   | 'SWAPPED'
-  | 'MOVED';
+  | 'MOVED'
+  | 'DEACTIVATED';
 
 /**
  * Represents an item in the `history` array of the state. Based
@@ -347,6 +397,29 @@ export type ActivatedHistoryItem<T> = BaseHistoryItem & {
 };
 
 /**
+ * Represents a deactivation of an ActiveContent.
+ */
+ export type DeactivatedHistoryItem<T> = BaseHistoryItem & {
+  /**
+   * Which action occurred
+   */
+  action: 'DEACTIVATED';
+
+  /**
+   * The value which was deactivated
+   */
+  value: T;
+
+  /**
+   * The index of the deactivated item.
+   *
+   * Note: this was the index at the time of the deactivation, it might
+   * nog longer be accurate.
+   */
+  index: number;
+};
+
+/**
  * Represents an activation of an ActiveContent.
  */
 export type SwappedHistoryItem<T> = BaseHistoryItem & {
@@ -414,7 +487,7 @@ export type MovedHistoryItem<T> = BaseHistoryItem & {
    * nog longer be accurate.
    */
   index: {
-     /**
+    /**
      * The index of the "from" item before it was moved.
      *
      * Note: this was the index at the time of the activation, it might
@@ -422,7 +495,7 @@ export type MovedHistoryItem<T> = BaseHistoryItem & {
      */
     from: number;
 
-     /**
+    /**
      * The index of the "to" item before it was moved.
      *
      * Note: this was the index at the time of the activation, it might
@@ -441,4 +514,5 @@ export type HistoryItem<T> =
   | RemovedHistoryItem<T>
   | ActivatedHistoryItem<T>
   | SwappedHistoryItem<T>
-  | MovedHistoryItem<T>;
+  | MovedHistoryItem<T>
+  | DeactivatedHistoryItem<T>;

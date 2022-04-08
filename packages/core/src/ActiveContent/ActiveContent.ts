@@ -10,85 +10,174 @@ import {
   ItemPredicate,
   ActiveContentSubscriber,
   UnsubscribeFunction,
+  ActiveContentMaxActivationLimitBehavior,
 } from './types';
 
 /**
  * ActiveContent is a class which represents visual elements which
- * have multiple pieces of content, but only one piece of content which
- * is active at a time.
- * 
- * This pattern is seen in many visual elements / components for
- * example:
+ * have multiple pieces of content which can be active or inactive.
  *
- *  1. A tabs element: the user can select a singular tab.
+ * The `ActiveContent` can be used to implement multiple types of 
+ * components:
  *
- *  2. A carrousel element: the user sees single slide, which my
+ *  1. A tabs component for which one tab can be active at a time.
+ *
+ *  2. A carrousel component: the user sees single slide, which will
  *     autoplay to the next slide automatically.
  *
  *  3. A dropdown menu with one active menu item.
  * 
- * Another way of defining the ActiveContent is that it is an array 
- * / list like data structure, because it supports things like 
- * insertion and removal. 
+ *  4. A accordion component from which the user can open multiple
+ *     items at once.
  * 
+ *  5. A list the user can sort and move around.
+ * 
+ *  6. Etc etc
+ *
+ * Another way of defining the ActiveContent is that it is an array
+ * / list like data structure, because it supports things like
+ * insertion and removal.
+ *
  * ActiveContent will make sure that when content is inserted, that
- * the active content is not affected. 
- * 
- * When removing the active content the previous content in the 
+ * the active content is not affected.
+ *
+ * TODO: this will become inaccurate when limit === 1 stuff is let go
+ * When removing the active content the previous content in the
  * sequence is activated. This way there is always an active content,
  * the only exception is when there is no content remaining, in that
- * case the activeContent is null, and the activeIndex is -1. 
+ * case the activeContent is null, and the activeIndex is -1.
  */
 export class ActiveContent<T> {
   /**
    * Whether or not to inform subscribers of changes. Used in the
    * `initialize` to temporarily stop subscriptions running the
    *  initial activation.
-   *
-   * @private
-   * @memberof ActiveContent
    */
   private shouldInformSubscribers = false;
 
   /**
    * Contains the subscribers of the ActiveContent subscribers
    * get informed of state changes within the ActiveContent.
-   *
-   * @private
-   * @type {ActiveContentSubscriber<T>}
    */
   private subscribers: ActiveContentSubscriber<T>[] = [];
 
   /**
-   * The `Content` which the `ActiveContent` holds.
+   * The `Content`'s which the `ActiveContent` holds.
    */
   public contents: Content<T>[] = [];
 
   /**
-   * Which `value` from within a `Content` which is currently active.
-   */
-  public active: T | null = null;
-
-  /**
-   * Which `Content` is currently active.
-   */
-  public activeContent: Content<T> | null = null;
-
-  /**
-   * Which index of the `contents` array is currently active.
+   * How many items can be active at the same time.
    *
+   * When the value of `limit` is `false` there is no limit to the
+   * number of active items.
+   *
+   * Defaults to 1.
    */
-  public activeIndex: number = -1;
+  public maxActivationLimit: number | false = 1;
+
+  /**
+   * How the `maxActivationLimit` is enforced. In other words what the 
+   * behavior should be when the limit is surpassed.
+   *
+   * The modes are strings which can be the following values:
+   *
+   * 1. 'circular': the first item which was added will be removed so
+   *    the last item can be added without violating the limit. This
+   *    basically means that the first one in is the first one out.
+   *
+   * 2. 'error': An error is thrown whenever the limit is surpassed.: TODO: ERROR HERE
+   *
+   * 3. 'ignore': Nothing happens when an item is added and the limit
+   *    is ignored. The item is simply not added, but no error is
+   *    thrown.
+   *
+   * Defaults to 'circular'.
+   */
+  public maxActivationLimitBehavior: ActiveContentMaxActivationLimitBehavior = 'circular';
+
+  /**
+   * All `value`'s which are currently considered active.
+   */
+  public active: T[] = [];
+
+  /**
+   * All `Content`'s which are currently considered active.
+   */
+  public activeContents: Content<T>[] = [];
+
+  /**
+   * All indexes of which are currently considered active.
+   */
+  public activeIndexes: number[] = [];
+
+  /**
+   * Which `value` from within a `Content` was the last value which
+   * was activated.
+   * 
+   * When nothing is activated in the `ActiveContent` the value of
+   * `lastActivated` will be `null.
+   */
+  public lastActivated: T | null = null;
+
+  /**
+   * Which `Content` is the last Content which was activated.
+   * 
+   * When nothing is activated in the `ActiveContent` the value of
+   * `lastActivatedContent` will be `null.
+   */
+  public lastActivatedContent: Content<T> | null = null;
+
+  /**
+   * Which index of the `contents` array was the last index which
+   * was activated.
+   * 
+   * When nothing is activated in the `ActiveContent` the value of
+   * `lastActivatedIndex` will be `-1`.
+   */
+  public lastActivatedIndex: number = -1;
 
   /**
    * Whether or not the content starts back at the beginning when
    * the end of the content is reached, and whether the content should
    * go to the end when moving left of the start.
    */
-  public isCircular: boolean = false;  
+  public isCircular: boolean = false;
 
   /**
-   * The direction the `ActiveContent` has previously moved to.
+   * The direction the `ActiveContent` has previously moved to on
+   * activation or deactivation.
+   *
+   * Useful for when animating the `ActiveContent` when wanting to
+   * animate differently based on the direction the content is
+   * activating towards.
+   *
+   * The direction is determined using the following rules for
+   * activation:
+   *
+   * 1. When `isCircular` is `false`:
+   *
+   *  a. If the `lastActivatedIndex` is -1 the direction is always `next`.
+   *     The `lastActivatedIndex` is -1 when no item is active.
+   *
+   *  b. If the `lastActivatedIndex` lies before the activated index the
+   *    direction is `next`.
+   *
+   *  c. If the `lastActivatedIndex` lies after the activated index the
+   *    direction is `previous`.
+   *
+   * 2. When `isCircular` is `true`,
+   *
+   *  a. If the `lastActivatedIndex` is -1 the direction is always `next`.
+   *     The `lastActivatedIndex` is -1 when no item is active.
+   *
+   *  b. The direction is determined by checking which direction
+   *     is the shortest path. If the shortest paths are tied, the
+   *     direction will become `next`.
+   *
+   * Note: the direction is only changed upon activation and
+   * deactivation. Removing / inserting, moving and swapping do not
+   * affect the direction.
    *
    * Defaults to the value of the `Config` property `direction.next`.
    */
@@ -97,11 +186,12 @@ export class ActiveContent<T> {
   /**
    * Contains the history of the changes in the contents array.
    *
-   * Tracks four types of changes:
+   * Tracks five types of changes:
    *
    *  1. INSERTED, fired when an item is added.
    *  2. REMOVED, fired when an item is removed.
    *  3. ACTIVATED, fired when an item is activated.
+   *  4. DEACTIVATED, fired when an item is deactivated.
    *  4. SWAPPED, fired when an item is swapped.
    *  5. MOVED, fired when an item is moved.
    *
@@ -133,8 +223,9 @@ export class ActiveContent<T> {
 
   // The autoplay instance for all autoplay related code.
   // Note that it is undefined during initialization when
-  // activateByIndex is called. But we lie about the 
-  // type because otherwise there would be to many checks.
+  // activateByIndex / deactivateByIndex is called. 
+  // But we lie about the type because otherwise there would 
+  // be to many checks.
   private autoplay!: Autoplay<T>;
 
   // The amount items that should be remembered in the history.
@@ -186,6 +277,11 @@ export class ActiveContent<T> {
     // of the initialization process.
     this.shouldInformSubscribers = false;
 
+    this.maxActivationLimit = config.maxActivationLimit !== undefined ? config.maxActivationLimit : 1;
+    this.maxActivationLimitBehavior = config.maxActivationLimitBehavior
+      ? config.maxActivationLimitBehavior
+      : 'circular';
+
     // It is important that isCircular is set before initializeABrokenContent
     // because initializeABrokenContent uses isCircular.
     this.isCircular = !!config.isCircular;
@@ -226,12 +322,32 @@ export class ActiveContent<T> {
     this.activationCooldownTimer = new CooldownTimer(config.cooldown);
 
     if (config.active !== undefined) {
-      this.activate(config.active, { isUserInteraction: false });
-    } else if (config.activeIndex !== undefined) {
-      this.activateByIndex(config.activeIndex, {
-        isUserInteraction: false,
-      });
-    } else if (config.contents.length > 0) {
+      if (Array.isArray(config.active)) {
+        config.active.forEach((active) =>
+          this.activate(active, { isUserInteraction: false })
+        );
+      } else {
+        this.activate(config.active, { isUserInteraction: false });
+      }
+    } else if (config.activeIndexes !== undefined) {
+      if (Array.isArray(config.activeIndexes)) {
+        config.activeIndexes.forEach((index) =>
+          this.activateByIndex(index, {
+            isUserInteraction: false,
+          })
+        );
+      } else {
+        this.activateByIndex(config.activeIndexes, {
+          isUserInteraction: false,
+        });
+      }
+    } else if (this.maxActivationLimit === 1 && config.contents.length > 0) {
+
+      // TODO: remove this special limit === 1 idea, as it makes everything needlessly complex the dev should just active something.
+
+      // Special behavior for when the limit is one, this is really
+      // nice for UI elements such as tabs were we really want one
+      // item to be active at a time.
       this.activateByIndex(0, { isUserInteraction: false });
     }
 
@@ -241,7 +357,11 @@ export class ActiveContent<T> {
     this.direction = this.directions.next;
 
     // Begin the autoplay if it is configured
-    this.autoplay = new Autoplay(this, config.autoplay ? config.autoplay : null);
+    this.autoplay = new Autoplay(
+      this,
+      config.autoplay ? config.autoplay : null
+    );
+
     this.play();
 
     // Now start sending out changes.
@@ -288,20 +408,33 @@ export class ActiveContent<T> {
       );
     }
 
-    // Do nothing when the index did not change.
-    if (index === this.activeIndex) {
+    // Do nothing when the index is already active.
+    if (this.activeIndexes.includes(index)) {
       return;
     }
 
+    const limitReached =
+      this.maxActivationLimit === false ? false : this.maxActivationLimit === this.activeIndexes.length;
+
+    if (limitReached) {
+      if (this.maxActivationLimitBehavior === 'error') {
+        throw new Error(
+          'uiloos > ActiveContent.activateByIndex > could not activate: limit is reached'
+        );
+      } else if (this.maxActivationLimitBehavior === 'ignore') {
+        return;
+      }
+    }
+
+    // TODO: the lastActivated as T why can it be cast like this, when lastActivated is empty surely this fails
     // Do nothing when a cooldown is active.
     if (
       this.activationCooldownTimer.isActive(
         actionOptions,
         // This works because activateByIndex checks if the index is in
-        // bounds. This means that the state.active has been set by
-        // the state contents loop.
-        this.active as T,
-        this.activeIndex
+        // bounds, and because something has no been activated, by the loop.
+        this.lastActivated as T,
+        this.lastActivatedIndex
       )
     ) {
       return;
@@ -311,29 +444,44 @@ export class ActiveContent<T> {
     const previousIndex = this.getPreviousIndex(index);
 
     this.contents.forEach((content, i) => {
-      // If the content.active is true we found the old active item,
-      // because it was already active when we encountered it.
-      content.wasActiveBeforeLast = content.active;
-
-      content.active = index === i;
+      content.active = content.active ? content.active : index === i;
       content.isNext = nextIndex === i;
       content.isPrevious = previousIndex === i;
 
-      // We found the new active item make it the new state.active
-      if (content.active) {
-        this.active = content.value;
-        this.activeContent = content;
+      // We found the item to be activated, now activate it.
+      if (index === i) {
+        // First add the content to the actives
+        this.activeIndexes.push(i);
+        this.activeContents.push(content);
+        this.active.push(content.value);
 
-        // Next calculate the direction of the motion, before
-        // setting the active index, because we need to know the
-        // old active index.
+        // If the limit is reached here it has to be 'circular' here
+        // due to the checks for 'error' and 'ignore' earlier.
+        if (limitReached) {
+          // By shifting we make sure that the limit is never exceeded.
+          this.activeIndexes.shift();
+          this.active.shift();
+
+          // The content needs to be made inactive, otherwise it will
+          // stay active even through it has been deactivated.
+          const content = this.activeContents.shift();
+          if (content) {
+            content.active = false;
+          }
+        }
+
+        // Next calculate the direction of the motion, before setting
+        // the lastActivatedIndex, because we need to know the old active
+        // index.
         this.direction = this.getDirectionWhenMovingToIndex(i);
 
-        // Next mark the content that is has been activated at least once
-        content.hasBeenActiveBefore = true;
+        // Secondly set this item to be the last active item
+        this.lastActivated = content.value;
+        this.lastActivatedContent = content;
+        this.lastActivatedIndex = i;
 
-        // Finally set the new active index.
-        this.activeIndex = i;
+        // Finally mark the content that is has been activated at least once
+        content.hasBeenActiveBefore = true;
       }
     });
 
@@ -345,11 +493,8 @@ export class ActiveContent<T> {
 
     this.pushHistory(() => ({
       action: 'ACTIVATED',
-      // This works because activateByIndex checks if the index is in
-      // bounds. This means that the state.active has been set by
-      // the state contents loop.
-      value: this.active as T,
-      index: this.activeIndex,
+      value: this.contents[index].value,
+      index,
       time: new Date(),
     }));
 
@@ -383,11 +528,14 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Activates one item based on whether the predicate provided
-   * returns `true` for the item. Only the first item matching the
-   * predicate will be activated.
+   * Activates all items based on whether the predicate provided
+   * returns `true` for the item.
    *
    * If no items match the predicate nothing happens.
+   *
+   * If multiple items match they will be activated in order of
+   * appearance in the contents array. Each activation leads to
+   * a call to all subscribers.
    *
    * With the `actionOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
@@ -405,13 +553,19 @@ export class ActiveContent<T> {
     for (let index = 0; index < length; index++) {
       if (predicate(contents[index].value, index)) {
         this.activateByIndex(index, actionOptions);
-        return;
       }
     }
   }
 
   /**
-   * Activates the next item in the sequence.
+   * Activates the next item in the sequence based on the `lastActivated`
+   * Content.
+   *
+   * If no `lastActivated` is present when `activateNext` is called
+   * the first element is activated.
+   *
+   * If the `contents` are empty when `activateNext` is called
+   * nothing will happen.
    *
    * When on the last position: if `isCircular` is `true` it will circle
    * around and activate the first position. When `isCircular` is `false`
@@ -422,11 +576,15 @@ export class ActiveContent<T> {
    *
    * @param {ActionOptions<T>} actionOptions The action options
    */
-  public next(actionOptions?: ActionOptions<T>): void {
+  public activateNext(actionOptions?: ActionOptions<T>): void {
+    if (this.isEmpty()) {
+      return;
+    }
+
     // Beware we cannot use `this.getNextIndex` because it does not limit
     // the index to the last possible index.
 
-    let index = this.activeIndex + 1;
+    let index = this.lastActivatedIndex + 1;
     if (index >= this.contents.length) {
       index = this.isCircular ? 0 : this.getLastIndex();
     }
@@ -435,7 +593,14 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Activates the previous item in the sequence.
+   * Activates the previous item in the sequence based on the
+   * `lastActivated` Content.
+   *
+   * If no `lastActivated` is present when `activatePrevious` is called
+   * the first element is activated.
+   *
+   * If the `contents` are empty when `activatePrevious` is called
+   * nothing will happen.
    *
    * When on the first position: if `isCircular` is `true` it will circle
    * around and activate the last position. When `isCircular` is `false`
@@ -446,11 +611,15 @@ export class ActiveContent<T> {
    *
    * @param {ActionOptions<T>} actionOptions The action options
    */
-  public previous(actionOptions?: ActionOptions<T>): void {
+  public activatePrevious(actionOptions?: ActionOptions<T>): void {
+    if (this.isEmpty()) {
+      return;
+    }
+
     // Beware we cannot use `this.getPreviousIndex` because it does not limit
     // the index to the last possible index.
 
-    let index = this.activeIndex - 1;
+    let index = this.lastActivatedIndex - 1;
     if (index < 0) {
       index = this.isCircular ? this.getLastIndex() : 0;
     }
@@ -461,15 +630,15 @@ export class ActiveContent<T> {
   /**
    * Activates the first item of the contents.
    *
-   * When the contents are empty nothing happens.
+   * If the `contents` are empty when `activateFirst` is called
+   * nothing will happen.
    *
    * With the `actionOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
    * @param {ActionOptions<T>} actionOptions The action options
    */
-  public first(actionOptions?: ActionOptions<T>): void {
-    // Do nothing when content is empty
+  public activateFirst(actionOptions?: ActionOptions<T>): void {
     if (this.isEmpty()) {
       return;
     }
@@ -480,20 +649,271 @@ export class ActiveContent<T> {
   /**
    * Activates the last item of the contents.
    *
-   * When the contents are empty nothing happens.
+   * f the `contents` are empty when `activateLast` is called
+   * nothing will happen.
    *
    * With the `actionOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
    * @param {ActionOptions<T>} actionOptions The action options
    */
-  public last(actionOptions?: ActionOptions<T>): void {
-    // Do nothing when content is empty
+  public activateLast(actionOptions?: ActionOptions<T>): void {
     if (this.isEmpty()) {
       return;
     }
 
     this.activateByIndex(this.getLastIndex(), actionOptions);
+  }
+
+  /**
+   * Deactivates an item based on the index in the content array.
+   *
+   * If the index does not exist an error will be thrown.
+   *
+   * With the `actionOptions` you can determine the effects
+   * on `cooldown` and `autoplay`.
+   *
+   * @param {number} index The index to deactivate
+   * @param {ActionOptions<T>} actionOptions The action options
+   * @throws Index out of bounds error.
+   */
+  public deactivateByIndex(
+    index: number,
+    actionOptions: ActionOptions<T> = {
+      isUserInteraction: true,
+      cooldown: undefined,
+    }
+  ): void {
+    /*
+      Thoughts on deactivation:
+
+      At first glance deactivation is not really that complex, if the
+      item is active you deactivate it. 
+      
+      But there are some very subtile interactions when deactivating
+      item, in multiple ways: (Q & A with myself.)
+
+      1. limit: what effect does the `limit` have on deactivation?
+         When the limit is one we always strive to keep one item
+         active at the time. But if that item is specifically 
+         deactivated, should we not deactivate it?
+
+         A: If the limit is 1 and the user deactivates it by force,
+            I think it is safe to allow the deactivation, it should
+            empty the lastActivated's.
+
+      2. lastActivated's: these set of variables keep track of which
+         content was activated last. When the current active item is
+         disabled, what do we set the lastActivated to?
+
+         A: When actives becomes empty set all lastActivateds to empty 
+            (null / -1). When not empty should make the lastActivated
+            the last index of the activeIndexes, this way it will
+            truly represent the lastActivated.
+
+      3. direction: when an item is activated we track to which
+         direction the ActiveContent moves. This is done so the user
+         can perform different animations. 
+         
+         The `direction` is normally calculated from the activated 
+         index in relation to the `lastActivatedIndex`. 
+         
+         What will the effect of deactivating the current active item 
+         be?
+
+         A: This one is tricky because there are two options that make
+            sense to me:
+
+            1. The direction is never changed upon deactivation. We 
+               then document direction as something that only changes
+               upon activation not deactivation.
+
+            2. The direction is based on the `lastActivatedIndex` which
+               is changed as well, see the answer to the second 
+               question about the lastActivated's, so why not change the
+               direction based on the new lastActivatedIndex.
+
+               This way the direction will mean: we deactivated an
+               item, and based from the deactivated item the 
+               `lastActivatedIndex` lies in this direction.
+
+               When the ActiveContent is `isCircular` it should 
+               pick the "closest" direction.
+
+            I think that leaving the direction as it is means lying
+            about what has happened. Think about it: the direction
+            is tied to the lastActivatedIndex, which has changed ergo
+            the direction also needs updating. 
+
+            This means that the direction should change based what
+            is the new lastActivatedIndex. If the lastActivatedIndex is -1
+            it should become direction.next.
+
+      4. next and previous: the next and previous are based on the 
+         lastActivatedIndex. Should it move when lastActivated is changed?
+
+         A: Yes they should, because they are linked, like the 
+            direction is linked as well.
+
+      5. autoplay: the idea of the autoplay is that you can 
+        automatically "move" through the content. The poster boy being 
+        a carrousel. But what happens when autoplay is on and 
+        something is deactivated?
+  
+        A: The autoplay should be cancelled when `isUserInteraction`
+           is `true`. The reason is the same as for the activation:
+           because the end-user is interacting with the component,
+           the autoplay should stop.
+
+      6. cooldown: for animation purposes we can set an activation 
+         cooldown. The idea is to allow an animation to finish before
+         allowing another state change. Is deactivation another state
+         change?
+
+         A: Yes it is another state change, the cooldown should work
+           as well. An animation deactivation is as important as
+           one for activation.
+    */
+
+    if (index < 0 || index >= this.contents.length) {
+      throw new Error(
+        'uiloos > ActiveContent.deactivateByIndex > could not deactivate: index out of bounds'
+      );
+    }
+
+    const indexOfIndex = this.activeIndexes.indexOf(index);
+
+    // Do nothing when the index is already inactive.
+    if (indexOfIndex === -1) {
+      return;
+    }
+    
+    // TODO: the lastActivated as T is not quite right
+    // Do nothing when a cooldown is active.
+    if (
+      this.activationCooldownTimer.isActive(
+        actionOptions,
+        // This works because deactivateByIndex checks if the index is in
+        // bounds. This means that the state.active has been set by
+        // the state contents loop.
+        this.lastActivated as T,
+        this.lastActivatedIndex
+      )
+    ) {
+      return;
+    }
+
+    const deactivatedContent = this.activeContents[indexOfIndex];
+
+    // First lets do what we came for deactivate the item.
+    deactivatedContent.active = false;
+
+    // Remove the now deactivated item from the trackers.
+    this.activeIndexes.splice(indexOfIndex, 1);
+    this.active.splice(indexOfIndex, 1);
+    this.activeContents.splice(indexOfIndex, 1);
+
+    // When empty we go into a special reset routine.
+    if (this.activeIndexes.length === 0) {
+      this.lastActivated = null;
+      this.lastActivatedContent = null;
+      this.lastActivatedIndex = -1;
+
+      this.direction = 'right';
+    } else {
+      // If not empty we must now fix the trackers by selecting the
+      // last of the `activeIndexes` as the new `lastActivated`. This
+      // basically selects the second to last item from before the
+      // splicing.
+      this.setLastActives();
+
+      // Get the direction based on the removed index.
+      this.direction = this.getDirectionWhenMovingToIndex(
+        deactivatedContent.index
+      );
+
+      // The direction should be inverted because we requested the
+      // direction based on deactivation, and `getDirectionWhenMovingToIndex`
+      // returns the direction based on activation.
+      this.direction =
+        this.direction === this.directions.next
+          ? this.directions.previous
+          : this.directions.next;
+    }
+
+    // Repair the next and previous
+    this.repairContents();
+
+    // During initialization the autoplay is still undefined. This
+    // means that we lie about the type of this.autoplay.
+    if (this.autoplay) {
+      this.autoplay.onDeactivation(actionOptions);
+    }
+
+    this.pushHistory(() => ({
+      action: 'DEACTIVATED',
+      value: this.contents[index].value,
+      index,
+      time: new Date(),
+    }));
+
+    // Mark that the ActiveContent has at least moved once.
+    this.hasActiveChangedAtLeastOnce = true;
+
+    // Mark the time in unix epoch when the last activation occurred.
+    this.activationCooldownTimer.setLastTime();
+
+    this.informSubscribers();
+  }
+
+  /**
+   * Deactivates the given item based on identity by comparing the item
+   * via a `===` check. When multiple items match on `===` only the
+   * first matching item is activated.
+   *
+   * If the item does not exist in the content array it will
+   * throw an error.
+   *
+   * With the `actionOptions` you can determine the effects
+   * on `cooldown` and `autoplay`.
+   *
+   * @param {T} item The item to deactivate
+   * @param {ActionOptions<T>} actionOptions The action options
+   * @throws Item not found error
+   */
+  public deactivate(item: T, actionOptions?: ActionOptions<T>): void {
+    const index = this.getIndex(item);
+    this.deactivateByIndex(index, actionOptions);
+  }
+
+  /**
+   * Deactivates all items based on whether the predicate provided
+   * returns `true` for the item.
+   *
+   * If no items match the predicate nothing happens.
+   *
+   * If multiple items match they will be activated in order of
+   * appearance in the contents array. Each activation leads to
+   * a call to all subscribers.
+   *
+   * With the `actionOptions` you can determine the effects
+   * on `cooldown` and `autoplay`.
+   *
+   * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will deactivate that item.
+   * @param {ActionOptions<T>} actionOptions The action options
+   */
+   public deactivateByPredicate(
+    predicate: ItemPredicate<T>,
+    actionOptions?: ActionOptions<T>
+  ) {
+    const contents = this.contents;
+    const length = contents.length;
+
+    for (let index = 0; index < length; index++) {
+      if (predicate(contents[index].value, index)) {
+        this.deactivateByIndex(index, actionOptions);
+      }
+    }
   }
 
   /**
@@ -537,11 +957,11 @@ export class ActiveContent<T> {
    *
    * By calling `play` again it is possible to restart the autoplay.
    * However the interval will behave in this scenario as it if was
-   * reset. 
-   * 
-   * For example: when the interval is 1 second and the `stop` is 
+   * reset.
+   *
+   * For example: when the interval is 1 second and the `stop` is
    * called after 0.8 seconds, it will after `play` is called, take
-   * 1 second to go to the next content. 
+   * 1 second to go to the next content.
    */
   public stop(): void {
     this.autoplay.stop();
@@ -559,7 +979,7 @@ export class ActiveContent<T> {
    */
   public configureAutoplay(autoplayConfig: AutoplayConfig<T> | null): void {
     this.autoplay.setConfig(autoplayConfig);
-    this.play()
+    this.play();
   }
 
   /**
@@ -598,16 +1018,26 @@ export class ActiveContent<T> {
       this.contents
     );
 
+    // We are about to insert the index, before we can do that we
+    // must first increase all indexes by one which are larger or
+    // equal to the the index we are inserting. Otherwise the indexes
+    // are no longer synced.
+    this.activeIndexes = this.activeIndexes.map((i) =>
+      i >= index ? i + 1 : i
+    );
+
     // Insert the new content at the correct position.
     this.contents.splice(index, 0, content);
 
-    // When inserted at the active index it does not replace
-    // the current active index, so we must fix the activeIndex.
-    if (index === this.activeIndex) {
-      this.activeIndex = index + 1;
+    // When inserted at the lastActivatedIndex it does not replace
+    // the current lastActivatedIndex, so we must fix the lastActivatedIndex.
+    // Of course when inserting before the active index, the lastActivatedIndex
+    // must be fixed as well.
+    if (index <= this.lastActivatedIndex) {
+      this.lastActivatedIndex += 1;
     }
 
-    this.repairContents(true);
+    this.repairContents();
 
     this.pushHistory(() => ({
       action: 'INSERTED',
@@ -616,9 +1046,10 @@ export class ActiveContent<T> {
       time: new Date(),
     }));
 
-    // When inserting the first element activate it,
-    // activateByIndex will trigger the subscriber.
-    if (index === 0 && this.contents.length === 1) {
+    // TODO: remove this special limit === 1 idea, as it makes everything needlessly complex. By not calling activate things will be much simpler
+    // When inserting the first element when the limit is 1 we activate
+    // it, the activateByIndex call will trigger the subscriber.
+    if (this.maxActivationLimit === 1 && index === 0 && this.contents.length === 1) {
       this.activateByIndex(0, actionOptions);
     } else {
       this.informSubscribers();
@@ -796,37 +1227,38 @@ export class ActiveContent<T> {
 
     const isContentEmpty = this.isEmpty();
 
+    const indexOfIndex = this.activeIndexes.indexOf(index);
+    if (indexOfIndex !== -1) {
+      this.activeIndexes.splice(indexOfIndex, 1);
+      this.active.splice(indexOfIndex, 1);
+      this.activeContents.splice(indexOfIndex, 1);
+
+      // Removing active items means that the active has changed.
+      this.hasActiveChangedAtLeastOnce = true;
+    }
+
+    // Sync all remaining active indexes
+    this.activeIndexes = this.activeIndexes.map((i) =>
+      i >= index ? i - 1 : i
+    );
+
+    // TODO: remove this special limit === 1 idea, as it makes everything needlessly complex. By not calling previous things will be much simpler
     // When removing at the active index we will activate
     // the previous index.
-    if (index === this.activeIndex && !isContentEmpty) {
-      // If the first item was removed set the activeIndex to -1
-      // so it passes this.activateByIndex's guard.
-      if (index === 0) {
-        this.activeIndex = -1;
-      }
-
-      this.repairContents(false);
+    if (this.maxActivationLimit === 1 && index === this.lastActivatedIndex && !isContentEmpty) {
+      this.repairContents();
 
       // Will move to previous when circular, and stay on zero
       // when the index is zero.
-      this.previous(actionOptions);
+      this.activatePrevious(actionOptions);
       return value;
     } else if (isContentEmpty) {
       this.becameEmpty();
     } else {
-      // When a not active index was removed we need to repair the
-      // active index, as it has now moved, because the array has
-      // changed.
-
-      const nextIndex = Math.max(0, this.activeIndex - 1);
-
-      this.activeIndex = nextIndex;
+      this.setLastActives();
     }
 
-    // Only when this.previous has not been called call inform,
-    // because it also informs.
-
-    this.repairContents(false);
+    this.repairContents();
     this.informSubscribers();
 
     return value;
@@ -884,7 +1316,7 @@ export class ActiveContent<T> {
    *
    * @param {T} item The item to remove
    * @param {ActionOptions<T>} actionOptions The action options
-   * @returns {T} The removed item wrapped in a `Content`
+   * @returns {T} The removed item
    * @throws Item not found error
    */
   public remove(item: T, actionOptions?: ActionOptions<T>): T {
@@ -970,34 +1402,14 @@ export class ActiveContent<T> {
    * Will remove all items from the `contents` array for which the
    * predicate based on the `item` and `index` returns `true`.
    *
-   * When removing the current active item a new active item will be
-   * selected via the following rules:
-   *
-   *  1. If only one item remains after the removal that item
-   *     will become the new active item.
-   *
-   *  2. The previous item will be selected when a previous item exits.
-   *
-   *  3. If the first item was removed, and `isCircular` is `false`
-   *     the next item is selected.
-   *
-   *  4. If the first item was removed, and `isCircular` is `true`
-   *     it will circle around and activate the last item.
-   *
-   * In all of the above cases it then uses the `ActionOptions`
-   * to determine the effects on `cooldown` and `autoplay` for the
-   * new activation.
-   *
-   * If after removal no items remain the activeIndex will become -1.
+   * If after removal no active items remain the activeIndex will become -1.
    *
    * @param {T} item The item to add.
    * @param {ItemPredicate<T>} predicate A predicate function, when the predicate returns `true` it will remove the item.
-   * @param {ActionOptions<T>} actionOptions The action options
-   * @returns {Content<T>[]} The removed items wrapped in a `Content`.
+   * @returns {T[]} The removed items.
    */
   public removeByPredicate(
-    predicate: ItemPredicate<T>,
-    actionOptions?: ActionOptions<T>
+    predicate: ItemPredicate<T>
   ): T[] {
     if (this.isEmpty()) {
       return [];
@@ -1008,10 +1420,9 @@ export class ActiveContent<T> {
     const contents = this.contents;
     const length = contents.length;
 
-    // The tricky bit about this is that the index will
-    // shuffle when removing an item mid air. So we
-    // put the matching items in the array first
-    // for later processing.
+    // The tricky bit about this is that the index will shuffle when
+    // removing an item mid air. So we put the matching items in the
+    // array first for later processing.
 
     for (let index = 0; index < length; index++) {
       const content = contents[index];
@@ -1029,8 +1440,8 @@ export class ActiveContent<T> {
           0    1    2    3    4    5    6
         ["a", "b", "c", "d", "e", "f", "g"]
 
-        And we remove "b", "d" and "f", the following index need to be 
-        removed: 
+        And we remove "b", "d" and "f", the following index need to be
+        removed:
 
         Iteration 1: remove "b" at index 1:
 
@@ -1049,10 +1460,10 @@ export class ActiveContent<T> {
 
         Finished state:
 
-          0    1    2    3   
+          0    1    2    3
         ["a", "c", "e", "g"]
 
-        This means that for each deletion the index should be 
+        This means that for each deletion the index should be
         decreased by the amount of iterations already performed.
       */
       const actualIndex = content.index - index;
@@ -1065,37 +1476,35 @@ export class ActiveContent<T> {
       removedIndexes.push(content.index);
     });
 
-    let previousCalled = false;
-
     // Check if the active index was removed
     if (this.isEmpty()) {
       this.becameEmpty();
     } else {
-      const removedAfterActiveIndex = removedIndexes.filter(
-        (r) => r < this.activeIndex
-      ).length;
+      removedIndexes.forEach((index) => {
+        const indexOfIndex = this.activeIndexes.indexOf(index);
 
-      const nextActiveIndex = this.activeIndex - removedAfterActiveIndex;
+        if (indexOfIndex !== -1) {
+          this.activeIndexes.splice(indexOfIndex, 1);
+          this.active.splice(indexOfIndex, 1);
+          this.activeContents.splice(indexOfIndex, 1);
 
-      // Must happen before the set in the statement below, otherwise
-      // it looks at the new active index instead of the old active index.
-      const removedActiveIndex = removedIndexes.indexOf(this.activeIndex) >= 0;
-
-      this.activeIndex = Math.max(0, nextActiveIndex);
-
-      if (removedActiveIndex) {
-        if (this.activeIndex === 0) {
-          this.activeIndex = -1;
+          // Removing active items means that the active has changed.
+          this.hasActiveChangedAtLeastOnce = true;
         }
+      });
 
-        this.repairContents(false);
-        this.previous(actionOptions);
-        previousCalled = true;
-      }
+      // Sync all remaining active indexes
+      removedIndexes.forEach((removed) => {
+        this.activeIndexes = this.activeIndexes.map((index) => {
+          return index >= removed ? index - 1 : index;
+        });
+      });
+
+      this.setLastActives();
     }
 
-    if (removedIndexes.length > 0 && !previousCalled) {
-      this.repairContents(false);
+    if (removedIndexes.length > 0) {
+      this.repairContents();
       this.informSubscribers();
     }
 
@@ -1135,10 +1544,22 @@ export class ActiveContent<T> {
     const itemB = this.contents[b];
 
     // When swapping the active index fix the activeIndex's state
-    if (this.activeIndex === itemA.index) {
-      this.activeIndex = itemB.index;
-    } else if (this.activeIndex === itemB.index) {
-      this.activeIndex = itemA.index;
+    if (this.lastActivatedIndex === itemA.index) {
+      this.lastActivatedIndex = itemB.index;
+    } else if (this.lastActivatedIndex === itemB.index) {
+      this.lastActivatedIndex = itemA.index;
+    }
+
+    // Fix the activeIndexes if they contained item A or B.
+    const indexOfA = this.activeIndexes.indexOf(itemA.index);
+    const indexOfB = this.activeIndexes.indexOf(itemB.index);
+
+    if (indexOfA !== -1) {
+      this.activeIndexes[indexOfA] = itemB.index;
+    }
+
+    if (indexOfB !== -1) {
+      this.activeIndexes[indexOfB] = itemA.index;
     }
 
     itemA.index = b;
@@ -1147,7 +1568,7 @@ export class ActiveContent<T> {
     this.contents[a] = itemB;
     this.contents[b] = itemA;
 
-    this.repairContents(false);
+    this.repairContents();
 
     this.pushHistory(() => ({
       action: 'SWAPPED',
@@ -1212,19 +1633,19 @@ export class ActiveContent<T> {
     }
 
     // This can happen when the developer gives a predicate which matches
-    // the item being moved. This is a developer mistake which is ok,
-    // so we do not have to throw an error.
+    // the item being moved. This is a developer mistake which is ok 
+    // because nothing bad will happen, so we do not have to throw an error.
     if (from === to) {
       return;
     }
 
     /*
-      Hopefully all possible movement scenarios and their effects on 
-      the active index and the value of the "to" when doing the insert.
-      
+      Hopefully all possible movement scenarios and their effects on
+      the lastActivatedIndex and the value of the "to" when doing the insert.
+
       Note: capital letter indicates the active `Content`.
 
-      Scenario 1: moving from before the activeIndex to beyond the activeIndex:
+      Scenario 1: moving from before the lastActivatedIndex to beyond the lastActivatedIndex:
         ACTION: 1 --> 4 === 'b' --> 'e'
 
         INIT:
@@ -1240,11 +1661,11 @@ export class ActiveContent<T> {
           0    1    2    3    4    5    6
         ['a', 'c', 'D', 'e', 'b', 'f', 'g']
 
-        Result: 
-          active index = 3 -> 2; DEC
-          to           = 4 -> 4; SAME
+        Result:
+          lastActivatedIndex = 3 -> 2; DEC
+          to              = 4 -> 4; SAME
 
-      Scenario 2: moving from before the active index to directly onto the activeIndex:
+      Scenario 2: moving from before the lastActivatedIndex to directly onto the lastActivatedIndex:
         ACTION: 2 --> 3 === 'c' --> 'D'
 
         INIT:
@@ -1255,14 +1676,14 @@ export class ActiveContent<T> {
                     0    1    2    3    4    5
         const a = ['a', 'b', 'D', 'e', 'f', 'g']
         a.splice(3, 0, 'c')
-      
+
         FINAL:
           0    1    2    3    4    5    6
         ['a', 'b', 'D', 'c', 'e', 'f', 'g']
 
-        Result: 
-          active index = 3 -> 2; DEC
-          to           = 2 -> 2; SAME
+        Result:
+          lastActivatedIndex = 3 -> 2; DEC
+          to              = 2 -> 2; SAME
 
       Scenario 3: moving from first to last:
         ACTION: 0 --> 6 === 'a' --> 'g'
@@ -1280,11 +1701,11 @@ export class ActiveContent<T> {
           0    1    2    3    4    5    6
         ['b', 'c', 'D', 'e', 'f', 'g', 'a']
 
-        Result: 
-          active index = 3 -> 2; DEC
-          to           = 6 -> 6; SAME
+        Result:
+          lastActivatedIndex = 3 -> 2; DEC
+          to              = 6 -> 6; SAME
 
-      Scenario 4: moving from beyond the activeIndex to before the active index:
+      Scenario 4: moving from beyond the lastActivatedIndex to before the lastActivatedIndex:
         ACTION: 4 --> 1 === 'e' --> 'b'
 
         INIT:
@@ -1295,16 +1716,16 @@ export class ActiveContent<T> {
                     0    1    2    3    4    5
         const a = ['a', 'b', 'c', 'D', 'f', 'g']
         a.splice(1, 0, 'e')
-      
+
         FINAL:
           0    1    2    3    4    5    6
         ['a', 'e', 'b', 'c', 'D', 'f', 'g']
 
-        Result: 
-          active index = 3 -> 4; INC
-          to           = 1 -> 1; SAME
+        Result:
+          lastActivatedIndex = 3 -> 4; INC
+          to              = 1 -> 1; SAME
 
-      Scenario 5: moving from beyond the activeIndex to directly onto the active index:
+      Scenario 5: moving from beyond the lastActivatedIndex to directly onto the lastActivatedIndex:
         ACTION: 4 --> 3 === 'e' --> 'D'
 
         INIT:
@@ -1315,15 +1736,15 @@ export class ActiveContent<T> {
                     0    1    2    3    4    5
         const a = ['a', 'b', 'c', 'D', 'f', 'g']
         a.splice(3, 0, 'e')
-      
+
         FINAL:
           0    1    2    3    4    5    6
         ['a', 'b', 'c', 'e', 'D', 'f', 'g']
 
-        Result: 
-          active index = 3 -> 4; INC
-          to           = 3 -> 3; SAME
-      
+        Result:
+          lastActivatedIndex = 3 -> 4; INC
+          to              = 3 -> 3; SAME
+
       Scenario 6: moving from last to first:
         ACTION: 6 --> 0 === 'g' --> 'a'
 
@@ -1335,16 +1756,16 @@ export class ActiveContent<T> {
                     0    1    2    3    4    5
         const a = ['a', 'b', 'c', 'D', 'e', 'f']
         a.splice(0, 0, 'g')
-      
+
         FINAL:
           0    1    2    3    4    5    6
         ['g', 'a', 'b', 'c', 'D', 'e', 'f']
 
-        Result: 
-          active index = 3 -> 4; INC
-          to           = 0 -> 0; SAME
+        Result:
+          lastActivatedIndex = 3 -> 4; INC
+          to              = 0 -> 0; SAME
 
-      Scenario 7: moving from beyond the activeIndex to beyond the active index:
+      Scenario 7: moving from beyond the activeIndex to beyond the lastActivatedIndex:
         ACTION: 4 --> 5 === 'e' --> 'f'
 
         INIT:
@@ -1355,16 +1776,16 @@ export class ActiveContent<T> {
                     0    1    2    3    4    5
         const a = ['a', 'b', 'c', 'D', 'f', 'g']
         a.splice(5, 0, 'e')
-      
+
         FINAL:
            0    1    2    3    4    5    6
          ['a', 'b', 'c', 'D', 'f', 'e', 'g']
 
-        Result: 
-          active index = 3 -> 3; SAME
-          to           = 5 -> 5; SAME
+        Result:
+          lastActivatedIndex = 3 -> 3; SAME
+          to              = 5 -> 5; SAME
 
-      Scenario 8: moving from before the activeIndex to before the active index:
+      Scenario 8: moving from before the lastActivatedIndex to before the lastActivatedIndex:
         ACTION: 2 --> 1 === 'c' --> 'b'
 
         INIT:
@@ -1375,16 +1796,16 @@ export class ActiveContent<T> {
                     0    1    2    3    4    5
         const a = ['a', 'b', 'D', 'e', 'f', 'g']
         a.splice(1, 0, 'c')
-      
+
         FINAL:
           0    1    2    3    4    5    6
         ['a', 'c', 'b', 'D', 'e', 'f', 'g']
 
-        Result: 
-          active index = 3 -> 3; SAME
-          to           = 1 -> 1; SAME
+        Result:
+          lastActivatedIndex = 3 -> 3; SAME
+          to              = 1 -> 1; SAME
 
-      Scenario 9: moving from active to beyond active:
+      Scenario 9: moving from lastActivatedIndex to beyond lastActivatedIndex:
         ACTION: 3 --> 4 === 'D' --> 'e'
 
         INIT:
@@ -1399,12 +1820,12 @@ export class ActiveContent<T> {
         FINAL:
           0    1    2    3    4    5    6
         ['a', 'b', 'c', 'e', 'D', 'f', 'g']
-        
-        Result: 
-          active index = 3 -> 4; REPLACES
+
+        Result:
+          lastActivatedIndex = 3 -> 4; REPLACES
           to           = 0 -> 0; SAME
 
-      Scenario 10: moving from active to before active:
+      Scenario 10: moving from lastActivatedIndex to before lastActivatedIndex:
         ACTION: 3 --> 2 === 'D' --> 'c'
 
         INIT:
@@ -1419,12 +1840,12 @@ export class ActiveContent<T> {
         FINAL:
           0    1    2    3    4    5    6
         ['a', 'b', 'D', 'c', 'e', 'f', 'g']
-        
-        Result: 
-          active index = 3 -> 2; REPLACES
-          to           = 2 -> 2; SAME
 
-      Scenario 11: moving from active to first:
+        Result:
+          lastActivatedIndex = 3 -> 2; REPLACES
+          to              = 2 -> 2; SAME
+
+      Scenario 11: moving from lastActivatedIndex to first:
         ACTION: 3 --> 0 === 'D' --> 'a'
 
         INIT:
@@ -1440,10 +1861,10 @@ export class ActiveContent<T> {
           0    1    2    3    4    5    6
         ['D', 'a', 'b', 'c', 'e', 'f', 'g']
 
-        Result: 
-          active index = 3 -> 0; REPLACES
-          to           = 0 -> 0; SAME
-      
+        Result:
+          lastActivatedIndex = 3 -> 0; REPLACES
+          to              = 0 -> 0; SAME
+
       Scenario 12: moving from active to last:
         ACTION: 3 --> 6 === 'D' --> 'g'
 
@@ -1460,25 +1881,49 @@ export class ActiveContent<T> {
           0    1    2    3    4    5    6
         ['a', 'b', 'c', 'e', 'f', 'g', 'D']
 
-        Result: 
-          active index = 3 -> 6; REPLACES
-          to           = 0 -> 0; SAME
+        Result:
+          lastActivatedIndex = 3 -> 6; REPLACES
+          to              = 0 -> 0; SAME
     */
 
-    const activeIndex = this.activeIndex;
+    const lastActivatedIndex = this.lastActivatedIndex;
 
-    if (activeIndex === from) {
+    if (lastActivatedIndex === from) {
       // Update the active index when it is moved
-      this.activeIndex = to;
-    } else if (to === activeIndex && from > activeIndex) {
-      this.activeIndex += 1;
-    } else if (to === activeIndex && from < activeIndex) {
-      this.activeIndex -= 1;
-    } else if (to > activeIndex && from < activeIndex) {
-      this.activeIndex -= 1;
-    } else if (to < activeIndex && from > activeIndex) {
-      this.activeIndex += 1;
+      this.lastActivatedIndex = to;
+    } else if (to === lastActivatedIndex && from > lastActivatedIndex) {
+      this.lastActivatedIndex += 1;
+    } else if (to === lastActivatedIndex && from < lastActivatedIndex) {
+      this.lastActivatedIndex -= 1;
+    } else if (to > lastActivatedIndex && from < lastActivatedIndex) {
+      this.lastActivatedIndex -= 1;
+    } else if (to < lastActivatedIndex && from > lastActivatedIndex) {
+      this.lastActivatedIndex += 1;
     }
+
+    // Lets fix the activeIndexes now.
+    this.activeIndexes = this.activeIndexes.map((index) => {
+      // If the index is the `from`, we know already where he goes `to`
+      if (index === from) {
+        return to;
+      }
+
+      // If the `index` is completely beyond the `from and` `to`, nothing
+      // needs to happen because it is not affected.
+      if (index > from && index > to) {
+        return index;
+      }
+
+      // If the `index` is completely before the `from` and `to`, nothing
+      // needs to happen because it is not affected.
+      if (index < from && index < to) {
+        return index;
+      }
+
+      // If the `from` is larger than the `to` a move to the left is
+      // made, if the "from" is smaller than the "to" the right is made.
+      return from > to ? index + 1 : index - 1;
+    });
 
     // First store the fromItem so we can add it back later.
     const fromItem = this.contents[from];
@@ -1489,7 +1934,7 @@ export class ActiveContent<T> {
     // Finally insert it the "from" into the correct spot.
     this.contents.splice(to, 0, fromItem);
 
-    this.repairContents(false);
+    this.repairContents();
 
     this.pushHistory(() => ({
       action: 'MOVED',
@@ -1676,7 +2121,7 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Get the next index of the sequence.
+   * Get the next index based on the given index.
    *
    * When on the last position: if `isCircular` is `true` it will
    * circle around and return 0. When `isCircular` is `false` it will
@@ -1696,7 +2141,7 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Get the previous index of the sequence.
+   * Get the previous index based on the given index.
    *
    * When on the first position: if `isCircular` is `true` it will
    * circle around and return the last index of the array. When
@@ -1726,35 +2171,149 @@ export class ActiveContent<T> {
   // Helpers
 
   private getDirectionWhenMovingToIndex(next: number): string {
-    const activeIndex = this.activeIndex;
+    const lastActivatedIndex = this.lastActivatedIndex;
 
     if (this.isCircular) {
-      const end = this.getLastIndex();
+      /*
 
-      if (activeIndex === 0 && next === end) {
-        return this.directions.previous;
-      } else if (activeIndex === end && next === 0) {
+        C = Current last active
+        N = Next active index
+
+        There are two formulas for calculating the left and right 
+        distance, one for when the C > N and one for when C < N.
+
+        In the end the winner is the smaller distance, when there
+        is a tie we must default to `distances.next`.
+
+        C < N
+        formulaRight = N - C
+        
+        C > N
+        formulaRight = 1 + N + ( lastIndex - C)
+        
+        C < N
+        formulaLeft = (lastIndex - N) + C + 1
+        
+        C > N
+        formulaLeft = C - N
+
+        Scenario: right is closer over edge, and current is on edge:
+                 N                 C
+           0  1  2  3  4  5  6  7  8
+          [a, b, c, d, e, f, g, h, i]
+
+          leftDistance  = 6;
+          rightDistance = 3;
+
+          direction = "right"
+
+          formulaRight = 1 + 2 + (8 - 8) = 3
+          formulaLeft  = 8 - 2 = 6
+      
+        Scenario: right is closer over edge, and current is before edge:
+                 N              C  
+           0  1  2  3  4  5  6  7  8
+          [a, b, c, d, e, f, g, h, i]
+
+          leftDistance  = 5;
+          rightDistance = 4;
+
+          direction = "right"
+
+          formulaRight = 1 + 2 + (8 - 7) = 4
+          formulaLeft  = 7 - 2 = 5
+
+        Scenario: left is closer over edge, and current is on edge
+           C                 N     
+           0  1  2  3  4  5  6  7  8
+          [a, b, c, d, e, f, g, h, i]
+
+          leftDistance  = 3;
+          rightDistance = 6;
+
+          direction = "left"
+
+          formulaRight = 6 - 0 = 6
+          formulaLeft  = (8 - 6) + 0 + 1 = 3
+
+        Scenario: left is closer over edge, and current after edge
+              C              N     
+           0  1  2  3  4  5  6  7  8
+          [a, b, c, d, e, f, g, h, i]
+
+          leftDistance  = 4;
+          rightDistance = 5;
+
+          direction = "left"
+
+          formulaRight = 6 - 1 = 5
+          formulaLeft  = (8 - 6) + 1 + 1 = 4
+
+        Scenario: equal distance left edge:
+          C  N 
+          0  1 
+          [a, b]
+          
+          leftDistance  = 1;
+          rightDistance = 1;
+
+          direction = "right"
+
+          formulaRight = 1 - 0 = 1
+          formulaLeft  = (1 - 1) + 0 + 1 = 1
+
+        Scenario: equal distance right edge:
+          N  C 
+          0  1 
+          [a, b]
+          
+          leftDistance  = 1;
+          rightDistance = 1;
+
+          direction = "right"
+
+          formulaRight = 1 + 0 + ( 1 - 1) = 1
+          formulaLeft  = 1 - 0 = 1
+      */
+
+      if (this.lastActivatedIndex === -1) {
         return this.directions.next;
       }
-    }
 
-    return next >= activeIndex
-      ? this.directions.next
-      : this.directions.previous;
+      const lastActivatedLargerThanNext = this.lastActivatedIndex > next;
+
+      const lastIndex = this.getLastIndex();
+
+      const leftDistance = lastActivatedLargerThanNext
+        ? this.lastActivatedIndex - next
+        : lastIndex - next + this.lastActivatedIndex + 1;
+
+      const rightDistance = lastActivatedLargerThanNext
+        ? 1 + next + (lastIndex - this.lastActivatedIndex)
+        : next - this.lastActivatedIndex;
+
+      return leftDistance >= rightDistance
+        ? this.directions.next
+        : this.directions.previous;
+    } else {
+      return next >= lastActivatedIndex
+        ? this.directions.next
+        : this.directions.previous;
+    }
   }
 
   // Restore the content after a mutation on the state has occurred.
-  private repairContents(alterActive: boolean): void {
-    const nextIndex = this.getNextIndex(this.activeIndex);
-    const previousIndex = this.getPreviousIndex(this.activeIndex);
+  private repairContents(): void {
+    let nextIndex: null | number = null;
+    let previousIndex: null | number = null;
+    if (this.lastActivatedIndex !== -1) {
+      nextIndex = this.getNextIndex(this.lastActivatedIndex);
+      previousIndex = this.getPreviousIndex(this.lastActivatedIndex);
+    }
 
     // Correctly set the state of the content
     this.contents.forEach((content, index) => {
       content.index = index;
-
-      if (alterActive) {
-        content.active = index === this.activeIndex;
-      }
 
       content.isNext = nextIndex === index;
       content.isPrevious = previousIndex === index;
@@ -1773,24 +2332,48 @@ export class ActiveContent<T> {
     content.isLast = index === contents.length - 1;
 
     if (this.isCircular) {
-      // When circular next and a previous when there is actual content
-      const hasLength = contents.length > 0;
-
-      content.hasNext = hasLength;
-      content.hasPrevious = hasLength;
+      // When circular there is always a next and previous, because
+      // a Content will then point to himself. The fact that we
+      // have a `content` here means that the `ActiveContent` is not
+      // empty
+      content.hasNext = true;
+      content.hasPrevious = true;
     } else {
       content.hasNext = index + 1 < contents.length;
       content.hasPrevious = index - 1 >= 0;
     }
   }
 
-  private becameEmpty(): void {
-    this.activeIndex = -1;
-    this.active = null;
-    this.activeContent = null;
+  private emptyLastActives() {
+    this.lastActivatedIndex = -1;
+    this.lastActivated = null;
+    this.lastActivatedContent = null;
+  }
 
-    // When becoming empty it has changed
+  private becameEmpty(): void {
+    this.emptyLastActives();
+
+    this.activeContents = [];
+    this.activeIndexes = [];
+    this.active = [];
+
+    // When becoming empty we will reset hasActiveChangedAtLeastOnce
     this.hasActiveChangedAtLeastOnce = true;
+  }
+
+  private setLastActives() {
+    if (this.activeIndexes.length === 0) {
+      this.emptyLastActives();
+      return;
+    }
+
+    const newLastActiveIndex = this.activeIndexes[this.activeIndexes.length - 1];
+
+    const newLastActiveContent = this.contents[newLastActiveIndex];
+
+    this.lastActivated = newLastActiveContent.value;
+    this.lastActivatedContent = newLastActiveContent;
+    this.lastActivatedIndex = newLastActiveIndex;
   }
 
   private pushHistory(item: () => HistoryItem<T>): void {

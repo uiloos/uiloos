@@ -15,7 +15,7 @@ test('ActiveContent component', async () => {
       default: `
         <template v-slot="{ activeContent }">
           <ul>
-            <li v-for="content in activeContent.contents"  @click="content.activate()">
+            <li v-for="content in activeContent.contents" @click="content.activate()">
               {{content.value}} {{content.active ? 'active' : 'inactive'}}
             </li>
           </ul>

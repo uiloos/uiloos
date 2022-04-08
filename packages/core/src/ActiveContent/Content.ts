@@ -41,17 +41,6 @@ export class Content<T> {
   public hasBeenActiveBefore = false;
 
   /**
-   * Whether or not the `Content` was the previous active item.
-   *
-   * For example take the following scenario: if the `contents`
-   * are `['a', 'b', 'c']` were 'a' is active. If we now activate
-   * 'c' this means that for 'a' the `wasActiveBeforeLast` is now
-   * `true`. Now when we activate 'b' next 'a' is no longer
-   * `wasActiveBeforeLast`, but 'c' is.
-   */
-  public wasActiveBeforeLast = false;
-
-  /**
    * Whether or not the `Content` is considered to be the first
    * item in the `contents`.
    */
@@ -77,13 +66,13 @@ export class Content<T> {
 
   /**
    * Whether this `Content` comes directly after the `Content`, in the
-   * `contents`, which is currently active.
+   * `contents` array, which is currently the `lastActiveContent`.
    */
   public isNext = false;
 
   /**
    * Whether this `Content` comes directly before the `Content`, in the
-   * `contents`, which is currently active.
+   * `contents` array, which is currently the `lastActiveContent`.
    */
   public isPrevious = false;
 
@@ -106,10 +95,19 @@ export class Content<T> {
   /**
    * When calling `activate` it will make this content active.
    *
-   * @param {ActionOptions<T>} [options] The activation options @see ActionOptions<T>
+   * @param {ActionOptions<T>} [options] The action options @see ActionOptions<T>
    */
   public activate(actionOptions?: ActionOptions<T>): void {
     this.activeContent.activateByIndex(this.index, actionOptions);
+  }
+
+  /**
+   * When calling `deactivate` it will make this content inactive.
+   *
+   * @param {ActionOptions<T>} [options] The action options @see ActionOptions<T>
+   */
+   public deactivate(actionOptions?: ActionOptions<T>): void {
+    this.activeContent.deactivateByIndex(this.index, actionOptions);
   }
 
   /**
@@ -132,7 +130,7 @@ export class Content<T> {
    *
    * If after removal no items remain the activeIndex will become -1.
    *
-   * @param {ActionOptions<T>} [options] The activation options @see ActionOptions<T>
+   * @param {ActionOptions<T>} [options] The action options @see ActionOptions<T>
    * @returns {T} The removed value
    */
   public remove(actionOptions?: ActionOptions<T>): T {

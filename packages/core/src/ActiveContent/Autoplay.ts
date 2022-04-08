@@ -70,8 +70,8 @@ export class Autoplay<T> {
       : this.config.interval(
           // This cast is valid because there is content at this point
           // and one content must always be active.
-          this.activeContent.active as T,
-          this.activeContent.activeIndex
+          this.activeContent.lastActivated as T,
+          this.activeContent.lastActivatedIndex
         );
 
     if (interval <= 0) {
@@ -94,15 +94,15 @@ export class Autoplay<T> {
       // Clear the timeout now that we have performed it. This way
       // the call to `cancelTimer` which is triggered by the following chain:
       // `next->activateByIndex->onActiveIndexChanged->play->cancelTimer`
-      // does not need to call window.clearTimeout. This is just a 
+      // does not need to call window.clearTimeout. This is just a
       // very minor performance boost. On other reason to do this
-      // is that when debugging this code, it is slightly easier to 
+      // is that when debugging this code, it is slightly easier to
       // follow due to the `autoplayTimeoutId` getting cleaned up,
       // otherwise it looks like the timeout is still in progress.
       this.autoplayTimeoutId = null;
 
       // Call next to actually trigger going to the next active content.
-      this.activeContent.next({ isUserInteraction: false });
+      this.activeContent.activateNext({ isUserInteraction: false });
     }, interval);
   }
 
@@ -127,18 +127,24 @@ export class Autoplay<T> {
     }
   }
 
-  public onActiveIndexChanged(index: number, actionOptions: ActionOptions<T>) {
+  public onDeactivation(actionOptions: ActionOptions<T>) {
+    // If there is no autoplay config do not bother.
     if (!this.config) {
       return;
     }
 
-    if (
-      actionOptions &&
-      actionOptions.isUserInteraction &&
-      this.config.stopsOnUserInteraction
-    ) {
-      // Stop when autoPlay.stopsOnUserInteraction is true and this
-      // is a user interaction.
+    if (this.shouldStopOnUserInteraction(actionOptions, this.config)) {
+      this.stop();
+    }
+  }
+
+  public onActiveIndexChanged(index: number, actionOptions: ActionOptions<T>) {
+    // If there is no autoplay config do not bother.
+    if (!this.config) {
+      return;
+    }
+
+    if (this.shouldStopOnUserInteraction(actionOptions, this.config)) {
       this.stop();
     } else if (
       this.activeContent.isCircular === false &&
@@ -153,5 +159,18 @@ export class Autoplay<T> {
 
       this.play();
     }
+  }
+
+  private shouldStopOnUserInteraction(
+    actionOptions: ActionOptions<T>,
+    config: AutoplayConfig<T>
+  ): boolean {
+    // Stop when autoPlay.stopsOnUserInteraction is true and this
+    // is a user interaction.
+    return !!(
+      actionOptions &&
+      actionOptions.isUserInteraction &&
+      config.stopsOnUserInteraction
+    );
   }
 }
