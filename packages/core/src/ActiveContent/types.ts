@@ -78,13 +78,19 @@ export type ActiveContentConfig<T> = {
   isCircular?: boolean;
 
   /**
-   * Whether or not autoplay is enabled. When autoplay is enabled
+   * Whether or not `autoplay` is enabled. When `autoplay` is enabled
    * it will automatically move to the next content, based on the
-   * interval.
+   * `duration`.
    *
    * When `isCircular` is `true` content will move to the right
    * indefinitely. When `isCircular` is `false` it will stop autoplay
    * at the end of the content.
+   * 
+   * Note: autoplay will only start when one or more contents are 
+   * currently active. The reason for this is that the `duration`, is 
+   * based on the `ActiveContent`'s `lastActivatedContent` property.  
+   * Whenever there are no more active contents the autoplay will 
+   * stop. 
    */
   autoplay?: AutoplayConfig<T>;
 
@@ -237,15 +243,41 @@ export type UnsubscribeFunction = () => void;
  export type ContentPredicate<T> = (data: ContentPredicateData<T>) => boolean;
 
 /**
- * Represents a callback which is given an item, and an index for
- * that item, and expects to be given back the number of milliseconds
- * the item should be active before Autoplay moves on.
- *
- * @param {T} item The item for which the callback function must determine the number of milliseconds it is active.
- * @param {number} index The index of the item within the ActiveContent.
- * @returns {number} The time in milliseconds the item is active for the given item and index..
+ * Represents a bundle of data which is given whenever the 
+ * AutoplayDurationCallbackData function must determine the number 
+ * of milliseconds the content should be active for.
  */
-export type IntervalCallback<T> = (item: T, index: number) => number;
+ export type AutoplayDurationCallbackData<T> = {
+  /**
+   * The value which is currently asking which autoplay duration it should have.
+   */
+  value: T,
+
+  /**
+   * The index the value has within the ActiveContent
+   */
+  index: number,
+
+  /**
+   * A reference to the Content which wraps the value.
+   */
+  content: Content<T>,
+
+  /**
+   * A reference to the ActiveContent itself.
+   */
+  activeContent: ActiveContent<T>,
+}
+
+/**
+ * Represents a callback function which is given all relevant autoplay 
+ * duration data, and expects to be given back the number of 
+ * milliseconds the content should be active before Autoplay moves on.
+ *
+ * @param {AutoplayDurationCallbackData} data An object containing all relevant duration data for which the callback function must determine the number of milliseconds the content is active for.
+ * @returns {number} The time in milliseconds the content is active for the given AutoplayDurationCallbackData.
+ */
+export type AutoplayDurationCallback<T> = (config: AutoplayDurationCallbackData<T>) => number;
 
 /**
  * Represents the configuration of the cooldown.
@@ -275,13 +307,14 @@ export type CooldownCallback<T> = (item: T, index: number) => number;
 /**
  * Represents the configuration for Autoplay. Autoplay means
  * that the ActiveContent will move to the next content by itself
- * after an interval.
+ * after a duration.
  */
 export type AutoplayConfig<T> = {
   /**
-   * The time in milliseconds before moving to the next content.
+   * The time in milliseconds the Content should remain active, before
+   * moving to the next Content.
    */
-  interval: IntervalCallback<T> | number;
+  duration: AutoplayDurationCallback<T> | number;
 
   /**
    * Whether or not the user interacting with the component should

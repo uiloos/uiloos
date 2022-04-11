@@ -154,7 +154,7 @@ export class Content<T> {
    * it will only get a new position.
    */
   public swapWithNext(): void {
-    const index = this.activeContent.getNextIndex(this.index);
+    const index = this.activeContent._getUnboundedNextIndex(this.index);
     this.swapWithByIndex(index);
   }
 
@@ -167,7 +167,7 @@ export class Content<T> {
    * @throws Index out of bounds error.
    */
   public swapWithPrevious(): void {
-    const index = this.activeContent.getPreviousIndex(this.index);
+    const index = this.activeContent._getUnboundedPreviousIndex(this.index);
     this.swapWithByIndex(index);
   }
 

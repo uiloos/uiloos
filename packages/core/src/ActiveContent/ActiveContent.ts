@@ -431,8 +431,8 @@ export class ActiveContent<T> {
       return;
     }
 
-    const nextIndex = this.getNextIndex(index);
-    const previousIndex = this.getPreviousIndex(index);
+    const nextIndex = this._getUnboundedNextIndex(index);
+    const previousIndex = this._getUnboundedPreviousIndex(index);
 
     this.contents.forEach((content, i) => {
       content.active = content.active ? content.active : index === i;
@@ -567,14 +567,7 @@ export class ActiveContent<T> {
       return;
     }
 
-    // Beware we cannot use `this.getNextIndex` because it does not limit
-    // the index to the last possible index.
-
-    let index = this.lastActivatedIndex + 1;
-    if (index >= this.contents.length) {
-      index = this.isCircular ? 0 : this.getLastIndex();
-    }
-
+    const index = this._getBoundedNextIndex();
     this.activateByIndex(index, activationOptions);
   }
 
@@ -602,14 +595,7 @@ export class ActiveContent<T> {
       return;
     }
 
-    // Beware we cannot use `this.getPreviousIndex` because it does not limit
-    // the index to the last possible index.
-
-    let index = this.lastActivatedIndex - 1;
-    if (index < 0) {
-      index = this.isCircular ? this.getLastIndex() : 0;
-    }
-
+    const index = this._getBoundedPreviousIndex();
     this.activateByIndex(index, activationOptions);
   }
 
@@ -912,6 +898,12 @@ export class ActiveContent<T> {
    * will happen when calling play.
    *
    * When there is no more content the playing will stop automatically.
+   * 
+   * Note: autoplay will only start when one or more contents are 
+   * currently active. The reason for this is that the `duration`, is 
+   * based on the `ActiveContent`'s `lastActivatedContent` property.  
+   * Whenever there are no more active contents the autoplay will 
+   * stop. 
    *
    * @throws Interval cannot be negative or zero error
    */
@@ -922,10 +914,10 @@ export class ActiveContent<T> {
   /**
    * When the ActiveContent is playing it will pause the autoplay.
    *
-   * When paused the current autoplay interval is remember and resumed
-   * from that position when `play` is called again.
+   * When paused, the current autoplay duration is remember and resumed
+   * from that position, when `play` is called again.
    *
-   * For example: when the interval is 1 second and the `pause` is
+   * For example: when the duration is 1 second and the `pause` is
    * called after 0.8 seconds, it will after `play` is called, take
    * 0.2 seconds to go to the next content.
    */
@@ -937,10 +929,10 @@ export class ActiveContent<T> {
    * When the ActiveContent is playing it will stop the autoplay.
    *
    * By calling `play` again it is possible to restart the autoplay.
-   * However the interval will behave in this scenario as it if was
+   * However the duration will behave in this scenario as it if was
    * reset.
    *
-   * For example: when the interval is 1 second and the `stop` is
+   * For example: when the duration is 1 second and the `stop` is
    * called after 0.8 seconds, it will after `play` is called, take
    * 1 second to go to the next content.
    */
@@ -1937,17 +1929,27 @@ export class ActiveContent<T> {
     return this.contents.length - 1;
   }
 
-  /**
-   * Get the next index based on the given index.
-   *
-   * When on the last position: if `isCircular` is `true` it will
-   * circle around and return 0. When `isCircular` is `false` it will
-   * stay on the last position and return the last index of the array.
-   *
-   * @param {number} index The index to get the next index for
-   * @returns {number} The next index of the sequence.
-   */
-  public getNextIndex(index: number): number {
+  public _getBoundedNextIndex(): number {
+    let nextIndex = this.lastActivatedIndex + 1;
+    
+    if (nextIndex >= this.contents.length) {
+      nextIndex = this.isCircular ? 0 : this.getLastIndex();
+    }
+    
+    return nextIndex;
+  }
+
+  public _getBoundedPreviousIndex(): number {
+    let previousIndex = this.lastActivatedIndex - 1;
+    
+    if (previousIndex < 0) {
+      previousIndex = this.isCircular ? this.getLastIndex() : 0;
+    }
+
+    return previousIndex;
+  }
+
+  public _getUnboundedNextIndex(index: number): number {
     const nextIndex = index + 1;
 
     if (this.isCircular && nextIndex === this.contents.length) {
@@ -1957,18 +1959,7 @@ export class ActiveContent<T> {
     return nextIndex;
   }
 
-  /**
-   * Get the previous index based on the given index.
-   *
-   * When on the first position: if `isCircular` is `true` it will
-   * circle around and return the last index of the array. When
-   * `isCircular` is `false` it will stay on the first position and
-   * return 0.
-   *
-   * @param {number} index The index to get the previous index for
-   * @returns {number} The previous index of the sequence.
-   */
-  public getPreviousIndex(index: number): number {
+  public _getUnboundedPreviousIndex(index: number): number {
     const previousIndex = index - 1;
 
     if (this.isCircular && previousIndex < 0) {
@@ -2124,8 +2115,8 @@ export class ActiveContent<T> {
     let nextIndex: null | number = null;
     let previousIndex: null | number = null;
     if (this.lastActivatedIndex !== -1) {
-      nextIndex = this.getNextIndex(this.lastActivatedIndex);
-      previousIndex = this.getPreviousIndex(this.lastActivatedIndex);
+      nextIndex = this._getUnboundedNextIndex(this.lastActivatedIndex);
+      previousIndex = this._getUnboundedPreviousIndex(this.lastActivatedIndex);
     }
 
     // Correctly set the state of the content
