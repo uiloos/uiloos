@@ -1,3 +1,5 @@
+import { ActiveContent } from './ActiveContent';
+import { Content } from './Content';
 import { ActivationOptions, CooldownConfig } from './types';
 
 export class CooldownTimer<T> {
@@ -5,61 +7,85 @@ export class CooldownTimer<T> {
   // to calculate the cooldown time.
   private lastTime: number = Date.now();
 
+  // The time in unix epoch the cooldown will end
+  private cooldownEnds: number = Date.now() - 1;
+
   // The current cooldown is stored here
   private cooldown: CooldownConfig<T> | undefined = undefined;
 
-  constructor(cooldown: CooldownConfig<T> | undefined) {
+  // Reference to the active content is it a part of.
+  private activeContent: ActiveContent<T>;
+
+  constructor(activeContent: ActiveContent<T>, cooldown: CooldownConfig<T> | undefined) {
     if (typeof cooldown === 'number') {
       this.assertCooldownNotNegativeOrZero(cooldown);
     }
 
+    this.activeContent = activeContent;
+
     this.cooldown = cooldown;
   }
 
-  public isActive(
-    activationOptions: ActivationOptions<T>,
-    item: T,
-    index: number
-  ): boolean {
+  public isActive(activationOptions: ActivationOptions<T>): boolean {
     // When the interaction was not caused by a user it should not
     // be affected by the cooldown.
     if (!activationOptions.isUserInteraction) {
       return false;
     }
 
+    const now = Date.now();
+
+    return now <= this.cooldownEnds;
+  }
+
+  public setCooldown(activationOptions: ActivationOptions<T>, content: Content<T>): void {
+    // When not a user interaction, do not set the `lastTime` and
+    // `cooldownEnds` so the current cooldown is remembered.
+    if (!activationOptions.isUserInteraction) {
+      return;
+    }
+    
+    const duration = this.getDuration(activationOptions, content);
+
+    this.lastTime = Date.now();
+
+    this.cooldownEnds = this.lastTime + duration;
+  }
+
+  private getDuration(activationOptions: ActivationOptions<T>, content: Content<T>): number {
+    let duration = -1;
+
     // Check against undefined because cooldown can also be zero,
     // which is a falsey value.
     if (activationOptions.cooldown !== undefined) {
-      return this.isCooldownActive(activationOptions.cooldown, item, index);
+      duration = this.getDurationFromConfig(activationOptions.cooldown, content);
     } else if (this.cooldown !== undefined) {
-      return this.isCooldownActive(this.cooldown, item, index);
+      duration = this.getDurationFromConfig(this.cooldown, content);
+    } else {
+      // Do not assert the cooldown on purpose here as it is just
+      // the default cooldown.
+      return -1;
     }
 
-    // If there are no cooldown options no cooldown is active.
-    return false;
+    this.assertCooldownNotNegativeOrZero(duration);
+
+    return duration;
   }
 
-  public setLastTime() {
-    this.lastTime = Date.now();
-  }
-
-  private isCooldownActive(
+  private getDurationFromConfig(
     cooldownConfig: CooldownConfig<T>,
-    item: T,
-    index: number
-  ): boolean {
-    // If it is a function call it for the cooldown
-    const cooldownValue =
-      typeof cooldownConfig === 'number'
-        ? cooldownConfig
-        : cooldownConfig(item, index);
-
-    this.assertCooldownNotNegativeOrZero(cooldownValue);
-
-    const now = Date.now();
-    const cooldownEnds = this.lastTime + cooldownValue;
-
-    return now <= cooldownEnds;
+    content: Content<T>
+  ): number {
+    if (typeof cooldownConfig === 'number') {
+      return cooldownConfig;
+    } else {
+      return cooldownConfig({
+        index: content.index,
+        content: content,
+        value: content.value,
+        activeContent: this.activeContent,
+      });
+    }
   }
 
   private assertCooldownNotNegativeOrZero(cooldownValue: number) {

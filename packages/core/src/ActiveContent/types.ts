@@ -116,10 +116,10 @@ export type ActiveContentConfig<T> = {
 
   /**
    * The `cooldown` is the number of milliseconds before another
-   * interaction is allowed. For example if the `cooldown` is `5000`
-   * the `ActiveContent` will not allow transitions until after
-   * 5 seconds have passed. Any user interaction in that period
-   * will simply be ignored.
+   * activation / deactivation is allowed. For example if the 
+   * `cooldown` is `5000` the `ActiveContent` will not allow 
+   * transitions until after 5 seconds have passed. Any activation /
+   * deactivation in that period will simply be ignored.
    *
    * This can be useful when you have an animation which should be
    * finished before allowing user interaction again.
@@ -135,7 +135,7 @@ export type ActiveContentConfig<T> = {
    * the `ActivationOptions` is `true`. This means that `autoplay`, which
    * is not a user interaction, ignores the `cooldown`.
    */
-  cooldown?: CooldownCallback<T> | number;
+  cooldown?: CooldownConfig<T>;
 };
 
 /**
@@ -145,7 +145,7 @@ export type ActiveContentConfig<T> = {
  export type ActiveContentMaxActivationLimitBehavior = 'circular' | 'ignore' | 'error';
 
 /**
- * Represents opt``Zions for activation / deactivation methods.
+ * Represents options for activation / deactivation methods.
  */
 export type ActivationOptions<T> = {
   /**
@@ -161,27 +161,21 @@ export type ActivationOptions<T> = {
 
   /**
    * The `cooldown` is the number of milliseconds before another
-   * interaction is allowed. For example if the `cooldown` is `5000`
-   * the `ActiveContent` will not allow transitions until after
-   * 5 seconds have passed. Any user interaction in that period
-   * will simply be ignored.
+   * activation / deactivation is allowed. For example if the 
+   * `cooldown` is `5000` the `ActiveContent` will not allow 
+   * transitions until after 5 seconds have passed. Any activation /
+   * deactivation in that period will simply be ignored.
    *
    * This can be useful when you have an animation which should be
    * finished before allowing user interaction again.
-   *
-   * Note that the `cooldown` options within the `ActivationOptions` takes
-   * precedence over the `cooldown` in the `Config`.
    *
    * The benefit of this `cooldown` over the `cooldown` in the
    * `Config`, is that this `cooldown` can be different for different
    * actions. For example: it allows you to create two buttons each with a
    * different cooldown.
-   *
-   * IMPORTANT: the `cooldown` is only applied for the current action
-   * the `ActivationOptions` is used for. Meaning that if you set
-   * the cooldown to 5000 with one button, and to 1000 in another, and
-   * 1001 seconds pass the transition will be triggered. It does not
-   * REMEMBER the 5000 milliseconds cooldown from the other button.
+   * 
+   * Note that the `cooldown` options within the `ActivationOptions` takes
+   * precedence over the `cooldown` in the `Config`.
    *
    * IMPORTANT: `cooldown` is only ran when `isUserInteraction` within
    * the `ActivationOptions` is `true`. This means that `autoplay`, which
@@ -274,35 +268,11 @@ export type UnsubscribeFunction = () => void;
  * duration data, and expects to be given back the number of 
  * milliseconds the content should be active before Autoplay moves on.
  *
- * @param {AutoplayDurationCallbackData} data An object containing all relevant duration data for which the callback function must determine the number of milliseconds the content is active for.
+ * @param {AutoplayDurationCallbackData<T>} data An object containing all relevant duration data for which the callback function must determine the number of milliseconds the content is active for.
  * @returns {number} The time in milliseconds the content is active for the given AutoplayDurationCallbackData.
  */
 export type AutoplayDurationCallback<T> = (config: AutoplayDurationCallbackData<T>) => number;
 
-/**
- * Represents the configuration of the cooldown.
- *
- * Can be two possible things:
- *
- * 1. A callback function which receives the item and index, and which
- *    is required to return the duration in milliseconds. Useful for
- *    providing a different cooldown for different items.
- *
- * 2. A number in milliseconds. When it is a number all items will
- *    have the same cooldown.
- */
-export type CooldownConfig<T> = CooldownCallback<T> | number;
-
-/**
- * Represents a callback which is given the active item, and the
- * active index for that item, and expects to be given the number of
- * milliseconds the item will not respond to interaction.
- *
- * @param {T} item The item for which the callback function must determine the cooldown duration.
- * @param {number} index The index of the item within the ActiveContent.
- * @returns {number} The time in milliseconds of the duration of the cooldown for the given item and index.
- */
-export type CooldownCallback<T> = (item: T, index: number) => number;
 
 /**
  * Represents the configuration for Autoplay. Autoplay means
@@ -324,6 +294,58 @@ export type AutoplayConfig<T> = {
    */
   stopsOnUserInteraction?: boolean;
 };
+
+/**
+ * Represents the configuration of the cooldown.
+ *
+ * Can be two possible things:
+ *
+ * 1. A callback function which receives the relevant cooldown data, 
+ *    and which is required to return the duration in milliseconds. 
+ *    Useful for providing a different cooldown for different items.
+ *
+ * 2. A number in milliseconds. When it is a number all items will
+ *    have the same cooldown.
+ */
+ export type CooldownConfig<T> = CooldownDurationCallback<T> | number;
+
+/**
+ * Represents a bundle of data which is given whenever the 
+ * CooldownDurationCallback function must determine what the number of 
+ * milliseconds the content should be in a cooldown state.
+ */
+ export type CooldownDurationCallbackData<T> = {
+  /**
+   * The value which is currently asking which cooldown it should have.
+   */
+   value: T,
+
+   /**
+    * The index the value has within the ActiveContent
+    */
+   index: number,
+ 
+   /**
+    * A reference to the Content which wraps the value.
+    */
+   content: Content<T>,
+ 
+   /**
+    * A reference to the ActiveContent itself.
+    */
+   activeContent: ActiveContent<T>,
+}
+
+/**
+ * Represents a callback function which is given all relevant cooldown 
+ * duration data, and expects to be given back the number of 
+ * milliseconds the content should be cooled down before it responds
+ * to user interaction again.
+ *
+ * @param {CooldownDurationCallbackData<T>} data An object containing all relevant cooldown data for which the callback function must determine the cooldown duration in number of milliseconds.
+ * @returns {number} The time in milliseconds of the duration of the cooldown for the given CooldownCallbackData.
+ */
+export type CooldownDurationCallback<T> = (data: CooldownDurationCallbackData<T>) => number;
 
 /**
  * Describes which strings should be associated with what

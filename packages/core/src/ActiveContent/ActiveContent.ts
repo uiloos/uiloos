@@ -315,8 +315,11 @@ export class ActiveContent<T> {
     // Reset the ActiveContent
     this.becameEmpty();
 
-    // Set activate the content if it exists.
-    this.activationCooldownTimer = new CooldownTimer(config.cooldown);
+    // Setup the activation cooldown timer instance, because we 
+    // are going to activate the items with `isUserInteraction`
+    // `false` below the cooldown will not have any effect during
+    // initialization.
+    this.activationCooldownTimer = new CooldownTimer(this, config.cooldown);
 
     if (config.active !== undefined) {
       if (Array.isArray(config.active)) {
@@ -402,6 +405,11 @@ export class ActiveContent<T> {
       return;
     }
 
+    // Do nothing if cooldown is active;
+    if (this.activationCooldownTimer.isActive(activationOptions)) {
+      return;
+    }
+
     const limitReached =
       this.maxActivationLimit === false
         ? false
@@ -415,20 +423,6 @@ export class ActiveContent<T> {
       } else if (this.maxActivationLimitBehavior === 'ignore') {
         return;
       }
-    }
-
-    // TODO: the lastActivated as T why can it be cast like this, when lastActivated is empty surely this fails
-    // Do nothing when a cooldown is active.
-    if (
-      this.activationCooldownTimer.isActive(
-        activationOptions,
-        // This works because activateByIndex checks if the index is in
-        // bounds, and because something has no been activated, by the loop.
-        this.lastActivated as T,
-        this.lastActivatedIndex
-      )
-    ) {
-      return;
     }
 
     const nextIndex = this._getUnboundedNextIndex(index);
@@ -492,8 +486,12 @@ export class ActiveContent<T> {
     // Mark that the ActiveContent has at least moved once.
     this.hasActiveChangedAtLeastOnce = true;
 
-    // Mark the time in unix epoch when the last activation occurred.
-    this.activationCooldownTimer.setLastTime();
+    // Set the cooldown, if it is needed.
+    this.activationCooldownTimer.setCooldown(
+      activationOptions,
+      // This works as we guard against indexes not being present
+      this.lastActivatedContent as Content<T>
+    );
 
     this.informSubscribers();
   }
@@ -651,7 +649,7 @@ export class ActiveContent<T> {
    */
   public deactivateByIndex(
     index: number,
-    actionOptions: ActivationOptions<T> = {
+    activationOptions: ActivationOptions<T> = {
       isUserInteraction: true,
       cooldown: undefined,
     }
@@ -760,18 +758,8 @@ export class ActiveContent<T> {
       return;
     }
 
-    // TODO: the lastActivated as T is not quite right
     // Do nothing when a cooldown is active.
-    if (
-      this.activationCooldownTimer.isActive(
-        actionOptions,
-        // This works because deactivateByIndex checks if the index is in
-        // bounds. This means that the state.active has been set by
-        // the state contents loop.
-        this.lastActivated as T,
-        this.lastActivatedIndex
-      )
-    ) {
+    if (this.activationCooldownTimer.isActive(activationOptions)) {
       return;
     }
 
@@ -819,7 +807,7 @@ export class ActiveContent<T> {
     // During initialization the autoplay is still undefined. This
     // means that we lie about the type of this.autoplay.
     if (this.autoplay) {
-      this.autoplay.onDeactivation(actionOptions);
+      this.autoplay.onDeactivation(activationOptions);
     }
 
     this.pushHistory(() => ({
@@ -832,8 +820,11 @@ export class ActiveContent<T> {
     // Mark that the ActiveContent has at least moved once.
     this.hasActiveChangedAtLeastOnce = true;
 
-    // Mark the time in unix epoch when the last activation occurred.
-    this.activationCooldownTimer.setLastTime();
+    // Set the cooldown, if it is needed.
+    this.activationCooldownTimer.setCooldown(
+      activationOptions,
+      deactivatedContent
+    );
 
     this.informSubscribers();
   }
@@ -898,12 +889,12 @@ export class ActiveContent<T> {
    * will happen when calling play.
    *
    * When there is no more content the playing will stop automatically.
-   * 
-   * Note: autoplay will only start when one or more contents are 
-   * currently active. The reason for this is that the `duration`, is 
-   * based on the `ActiveContent`'s `lastActivatedContent` property.  
-   * Whenever there are no more active contents the autoplay will 
-   * stop. 
+   *
+   * Note: autoplay will only start when one or more contents are
+   * currently active. The reason for this is that the `duration`, is
+   * based on the `ActiveContent`'s `lastActivatedContent` property.
+   * Whenever there are no more active contents the autoplay will
+   * stop.
    *
    * @throws Interval cannot be negative or zero error
    */
@@ -1931,17 +1922,17 @@ export class ActiveContent<T> {
 
   public _getBoundedNextIndex(): number {
     let nextIndex = this.lastActivatedIndex + 1;
-    
+
     if (nextIndex >= this.contents.length) {
       nextIndex = this.isCircular ? 0 : this.getLastIndex();
     }
-    
+
     return nextIndex;
   }
 
   public _getBoundedPreviousIndex(): number {
     let previousIndex = this.lastActivatedIndex - 1;
-    
+
     if (previousIndex < 0) {
       previousIndex = this.isCircular ? this.getLastIndex() : 0;
     }

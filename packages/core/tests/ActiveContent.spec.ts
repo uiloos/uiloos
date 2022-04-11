@@ -15248,14 +15248,13 @@ describe('ActiveContent limit 1', () => {
 
       const { activeContent } = setup({
         autoplay: {
-          duration: (data) => { 
-
+          duration: (data) => {
             expect(data.index).toBeDefined();
             expect(data.value).toBeDefined();
             expect(data.content).toBeDefined();
             expect(data.activeContent).toBeDefined();
 
-            return (data.index + 1) * 100
+            return (data.index + 1) * 100;
           },
           stopsOnUserInteraction: false,
         },
@@ -15461,20 +15460,39 @@ describe('ActiveContent limit 1', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup({ cooldown: 5000, activeIndexes: 0 });
+        const { activeContent } = setup({
+          cooldown: 5000,
+          maxActivationLimit: false,
+          activeIndexes: [],
+        });
+        expect(activeContent.active).toEqual([]);
 
+        // Set the cooldown by calling activateByIndex
+        activeContent.activateByIndex(0);
         expect(activeContent.active).toEqual(['a']);
 
+        // This call should ignore it the cooldown due to isUserInteraction being false.
         activeContent.activateByIndex(1, { isUserInteraction: false });
+        expect(activeContent.active).toEqual(['a', 'b']);
+
+        // This call should ignore it the cooldown due to isUserInteraction being false.
+        activeContent.deactivateByIndex(0, { isUserInteraction: false });
         expect(activeContent.active).toEqual(['b']);
+
+        // This call should ignore it the cooldown due to isUserInteraction being false.
+        activeContent.activateByIndex(2, { isUserInteraction: false });
+        expect(activeContent.active).toEqual(['b', 'c']);
       });
 
       test('a cooldown from the config', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup({ cooldown: 5000, activeIndexes: 0 });
+        const { activeContent } = setup({ cooldown: 5000, activeIndexes: [] });
+        expect(activeContent.active).toEqual([]);
 
+        // Set the cooldown by calling activateByIndex
+        activeContent.activateByIndex(0);
         expect(activeContent.active).toEqual(['a']);
 
         // Should still be 'a'
@@ -15484,6 +15502,10 @@ describe('ActiveContent limit 1', () => {
         // Should still be 'a'
         epoch = 4999;
         activeContent.activateByIndex(1);
+        expect(activeContent.active).toEqual(['a']);
+
+        // Should still be 'a'
+        activeContent.deactivateByIndex(0);
         expect(activeContent.active).toEqual(['a']);
 
         // Should still be 'a'
@@ -15501,96 +15523,94 @@ describe('ActiveContent limit 1', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup({ activeIndexes: 0 });
+        const { activeContent } = setup({ activeIndexes: [] });
+        expect(activeContent.active).toEqual([]);
 
-        expect(activeContent.active).toEqual(['a']);
-
-        // Should still be 'a'
-        activeContent.activateByIndex(1, {
+        // Activate 'a' and set a cooldown to 5000
+        activeContent.activateByIndex(0, {
           isUserInteraction: true,
           cooldown: 5000,
         });
         expect(activeContent.active).toEqual(['a']);
 
-        // Should still be 'a'
+        // Should still be ['a']
         epoch = 4999;
         activeContent.activateByIndex(1, {
           isUserInteraction: true,
-          cooldown: () => 5000,
+          // In essence this cooldown is ignored, because it is never set
+          cooldown: () => 100,
         });
         expect(activeContent.active).toEqual(['a']);
 
-        // Should still be 'a'
-        epoch = 5000;
-        activeContent.activateByIndex(1, {
+        // Should still be ['a']
+        activeContent.deactivateByIndex(0, {
           isUserInteraction: true,
-          cooldown: 5000,
+          // In essence this cooldown is ignored, because it is never set
+          cooldown: () => 100,
         });
         expect(activeContent.active).toEqual(['a']);
 
-        // Now it should be 'b' after 5000 milliseconds
+        // Should still be ['a']
+        epoch = 5000;
+        activeContent.activateByIndex(2, {
+          isUserInteraction: true,
+          // In essence this cooldown is ignored, because it is never set
+          cooldown: 100,
+        });
+        expect(activeContent.active).toEqual(['a']);
+
+        // Now it should become 'b' after 5001 milliseconds
         epoch = 5001;
         activeContent.activateByIndex(1, {
           isUserInteraction: true,
           cooldown: 5000,
         });
         expect(activeContent.active).toEqual(['b']);
-
-        // TODO: I question if this behavior is expected with multiple items.
-        // Now we trigger two cooldown's, one with 10000 and one with
-        // 5000, the one with 10000 should not pass. The one with 5000
-        // should. This is because cooldown's do not interfere with
-        // each other, a cooldown is not REMEMBERED.
-
-        // Now it should be 'b' after 10000 milliseconds
-        epoch = 15000;
-        activeContent.activateByIndex(2, {
-          isUserInteraction: true,
-          cooldown: 10000,
-        });
-        expect(activeContent.active).toEqual(['b']);
-
-        activeContent.activateByIndex(2, {
-          isUserInteraction: true,
-          cooldown: 5000,
-        });
-        expect(activeContent.active).toEqual(['c']);
       });
 
       test('that the cooldown from the ActivationOptions has precedence over the cooldown from the config', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        // This cooldown of 5000 should be ignored.
-        const { activeContent } = setup({ cooldown: 5000, activeIndexes: 0 });
+        // This cooldown of 5000 should be ignored, because it is
+        // from the initialize
+        const { activeContent } = setup({ cooldown: 5000, activeIndexes: [] });
+        expect(activeContent.active).toEqual([]);
 
-        expect(activeContent.active).toEqual(['a']);
+        epoch = 1;
 
-        // Should still be 'a'
-        activeContent.activateByIndex(1, {
+        // Now activate it
+        activeContent.activateByIndex(0, {
           isUserInteraction: true,
           cooldown: 10000,
         });
         expect(activeContent.active).toEqual(['a']);
 
-        // Should still be 'a'
-        epoch = 9999;
-        activeContent.activateByIndex(1, {
-          isUserInteraction: true,
-          cooldown: 10000,
-        });
-        expect(activeContent.active).toEqual(['a']);
-
-        // Should still be 'a'
+        // Should not allow the activation
         epoch = 10000;
         activeContent.activateByIndex(1, {
           isUserInteraction: true,
-          cooldown: 10000,
+          cooldown: 100, // In essence this cooldown is ignored, because it is never set
         });
         expect(activeContent.active).toEqual(['a']);
 
-        // Now it should be 'b' after 5000 milliseconds
+        // Should not allow the deactivation
+        activeContent.deactivateByIndex(0, {
+          isUserInteraction: true,
+          cooldown: 100, // In essence this cooldown is ignored, because it is never set
+        });
+        expect(activeContent.active).toEqual(['a']);
+
+        // Should not allow the activation
         epoch = 10001;
+        activeContent.activateByIndex(1, {
+          isUserInteraction: true,
+          cooldown: 100, // In essence this cooldown is ignored, because it is never set
+        });
+        expect(activeContent.active).toEqual(['a']);
+
+        // Now it should allow the activation after 10002 milliseconds
+        epoch = 10002;
         activeContent.activateByIndex(1, {
           isUserInteraction: true,
           cooldown: 10000,
@@ -15603,10 +15623,19 @@ describe('ActiveContent limit 1', () => {
         Date.now = jest.fn(() => epoch);
 
         const { activeContent } = setup({
-          cooldown: () => 5000,
-          activeIndexes: 0,
+          cooldown: (data) => {
+            expect(data.index).toBeDefined();
+            expect(data.content).toBeDefined();
+            expect(data.value).toBeDefined();
+            expect(data.activeContent).toBeDefined();
+            return 5000;
+          },
+          activeIndexes: [],
         });
+        expect(activeContent.active).toEqual([]);
 
+        // Set the cooldown by calling activateByIndex
+        activeContent.activateByIndex(0);
         expect(activeContent.active).toEqual(['a']);
 
         // Should still be 'a'
@@ -15616,6 +15645,10 @@ describe('ActiveContent limit 1', () => {
         // Should still be 'a'
         epoch = 4999;
         activeContent.activateByIndex(1);
+        expect(activeContent.active).toEqual(['a']);
+
+        // Should still be 'a'
+        activeContent.deactivateByIndex(0);
         expect(activeContent.active).toEqual(['a']);
 
         // Should still be 'a'
@@ -15659,144 +15692,164 @@ describe('ActiveContent limit 1', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup({ cooldown: 5000, activeIndexes: 0 });
+        const { activeContent } = setup({
+          cooldown: 5000,
+          maxActivationLimit: false,
+          activeIndexes: [0, 1, 2],
+        });
+        expect(activeContent.active).toEqual(['a', 'b', 'c']);
 
+        // Set the cooldown by calling deactivateByIndex
+        activeContent.deactivateByIndex(0);
+        expect(activeContent.active).toEqual(['b', 'c']);
+
+        // This call should ignore it the cooldown due to isUserInteraction being false.
+        activeContent.activateByIndex(0, { isUserInteraction: false });
+        expect(activeContent.active).toEqual(['b', 'c', 'a']);
+
+        // This call should ignore it the cooldown due to isUserInteraction being false.
+        activeContent.deactivateByIndex(1, { isUserInteraction: false });
+        expect(activeContent.active).toEqual(['c', 'a']);
+
+        // This call should ignore it the cooldown due to isUserInteraction being false.
+        activeContent.deactivateByIndex(2, { isUserInteraction: false });
         expect(activeContent.active).toEqual(['a']);
-
-        activeContent.deactivateByIndex(0, { isUserInteraction: false });
-        expect(activeContent.active).toEqual([]);
       });
 
       test('a cooldown from the config', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup({ cooldown: 5000, activeIndexes: 0 });
+        const { activeContent } = setup({
+          cooldown: 5000,
+          maxActivationLimit: false,
+          activeIndexes: [0, 1, 2],
+        });
+        expect(activeContent.active).toEqual(['a', 'b', 'c']);
 
-        expect(activeContent.active).toEqual(['a']);
-
-        // Should still be 'a'
+        // Should now remove 'a' and set a cooldown for 5000
         activeContent.deactivateByIndex(0);
-        expect(activeContent.active).toEqual(['a']);
+        expect(activeContent.active).toEqual(['b', 'c']);
 
-        // Should still be 'a'
+        // Should still be ['b', 'c']
         epoch = 4999;
-        activeContent.deactivateByIndex(0);
-        expect(activeContent.active).toEqual(['a']);
+        activeContent.deactivateByIndex(1);
+        expect(activeContent.active).toEqual(['b', 'c']);
 
-        // Should still be 'a'
+        // Should still be ['b', 'c']
         epoch = 5000;
-        activeContent.deactivateByIndex(0);
-        expect(activeContent.active).toEqual(['a']);
+        activeContent.deactivateByIndex(2);
+        expect(activeContent.active).toEqual(['b', 'c']);
 
-        // Now it should be empty after 5000 milliseconds
+        // Should still be ['b', 'c']
+        activeContent.activateByIndex(0);
+        expect(activeContent.active).toEqual(['b', 'c']);
+
+        // Now it should be ['b'] after 5000 milliseconds
         epoch = 5001;
-        activeContent.deactivateByIndex(0);
-        expect(activeContent.active).toEqual([]);
+        activeContent.deactivateByIndex(2);
+        expect(activeContent.active).toEqual(['b']);
       });
 
       test('a cooldown from options', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        const { activeContent } = setup({ activeIndexes: 0 });
+        const { activeContent } = setup({
+          maxActivationLimit: false,
+          activeIndexes: [0, 1, 2],
+        });
+        expect(activeContent.active).toEqual(['a', 'b', 'c']);
 
-        expect(activeContent.active).toEqual(['a']);
-
-        // Should still be 'a'
+        // Deactivate 'a' and set a cooldown to 5000
         activeContent.deactivateByIndex(0, {
           isUserInteraction: true,
           cooldown: 5000,
         });
-        expect(activeContent.active).toEqual(['a']);
+        expect(activeContent.active).toEqual(['b', 'c']);
 
-        // Should still be 'a'
+        // Should still be ['b', 'c']
         epoch = 4999;
-        activeContent.deactivateByIndex(0, {
+        activeContent.deactivateByIndex(1, {
           isUserInteraction: true,
-          cooldown: () => 5000,
+          // In essence this cooldown is ignored, because it is never set
+          cooldown: () => 100,
         });
-        expect(activeContent.active).toEqual(['a']);
+        expect(activeContent.active).toEqual(['b', 'c']);
 
-        // Should still be 'a'
+        // Should still be ['b', 'c']
         epoch = 5000;
-        activeContent.deactivateByIndex(0, {
+        activeContent.deactivateByIndex(1, {
           isUserInteraction: true,
-          cooldown: 5000,
+          // In essence this cooldown is ignored, because it is never set
+          cooldown: 100,
         });
-        expect(activeContent.active).toEqual(['a']);
+        expect(activeContent.active).toEqual(['b', 'c']);
 
-        // Now it should be empty after 5000 milliseconds
+        // Should still be ['b', 'c']
+        activeContent.activateByIndex(0, {
+          isUserInteraction: true,
+          // In essence this cooldown is ignored, because it is never set
+          cooldown: 100,
+        });
+        expect(activeContent.active).toEqual(['b', 'c']);
+
+        // Now it should become 'a' after 5001 milliseconds
         epoch = 5001;
-        activeContent.deactivateByIndex(0, {
+        activeContent.deactivateByIndex(1, {
           isUserInteraction: true,
           cooldown: 5000,
         });
-        expect(activeContent.active).toEqual([]);
-
-        // TODO: I question if this behavior is expected with multiple items.
-        // Now we trigger two cooldown's, one with 10000 and one with
-        // 5000, the one with 10000 should not pass. The one with 5000
-        // should. This is because cooldown's do not interfere with
-        // each other, a cooldown is not REMEMBERED.
-
-        activeContent.activateByIndex(0);
-        expect(activeContent.active).toEqual(['a']);
-
-        // Now it should be 'b' after 10000 milliseconds
-        epoch = 15000;
-        activeContent.deactivateByIndex(0, {
-          isUserInteraction: true,
-          cooldown: 10000,
-        });
-        expect(activeContent.active).toEqual(['a']);
-
-        activeContent.deactivateByIndex(0, {
-          isUserInteraction: true,
-          cooldown: 5000,
-        });
-        expect(activeContent.active).toEqual([]);
+        expect(activeContent.active).toEqual(['c']);
       });
 
       test('that the cooldown from the ActivationOptions has precedence over the cooldown from the config', () => {
         let epoch = 0;
         Date.now = jest.fn(() => epoch);
 
-        // This cooldown of 5000 should be ignored.
-        const { activeContent } = setup({ cooldown: 5000, activeIndexes: 0 });
+        // This cooldown of 5000 should be ignored, because it is
+        // from the initialize
+        const { activeContent } = setup({ cooldown: 5000, maxActivationLimit: false, activeIndexes: [0,1, 2] });
+        expect(activeContent.active).toEqual(['a', 'b', 'c']);
 
-        expect(activeContent.active).toEqual(['a']);
+        epoch = 1;
 
-        // Should still be 'a'
+        // Now deactivate it
         activeContent.deactivateByIndex(0, {
           isUserInteraction: true,
           cooldown: 10000,
         });
-        expect(activeContent.active).toEqual(['a']);
+        expect(activeContent.active).toEqual(['b', 'c']);
 
-        // Should still be 'a'
-        epoch = 9999;
-        activeContent.deactivateByIndex(0, {
-          isUserInteraction: true,
-          cooldown: 10000,
-        });
-        expect(activeContent.active).toEqual(['a']);
-
-        // Should still be 'a'
+        // Should not allow the deactivation
         epoch = 10000;
-        activeContent.deactivateByIndex(0, {
+        activeContent.deactivateByIndex(1, {
           isUserInteraction: true,
-          cooldown: 10000,
+          cooldown: 100, // In essence this cooldown is ignored, because it is never set
         });
-        expect(activeContent.active).toEqual(['a']);
+        expect(activeContent.active).toEqual(['b', 'c']);
 
-        // Now it should be empty after 5000 milliseconds
+        // Should not allow the deactivation
         epoch = 10001;
-        activeContent.deactivateByIndex(0, {
+        activeContent.deactivateByIndex(1, {
+          isUserInteraction: true,
+          cooldown: 100, // In essence this cooldown is ignored, because it is never set
+        });
+        expect(activeContent.active).toEqual(['b', 'c']);
+
+        activeContent.activateByIndex(0, {
+          isUserInteraction: true,
+          cooldown: 100, // In essence this cooldown is ignored, because it is never set
+        });
+        expect(activeContent.active).toEqual(['b', 'c']);
+
+        // Now it should allow the deactivation after 10002 milliseconds
+        epoch = 10002;
+        activeContent.deactivateByIndex(1, {
           isUserInteraction: true,
           cooldown: 10000,
         });
-        expect(activeContent.active).toEqual([]);
+        expect(activeContent.active).toEqual(['c']);
       });
 
       test('that the cooldown can be a function instead of just a number', () => {
@@ -15804,30 +15857,39 @@ describe('ActiveContent limit 1', () => {
         Date.now = jest.fn(() => epoch);
 
         const { activeContent } = setup({
-          cooldown: () => 5000,
-          activeIndexes: 0,
+          cooldown: (data) => {
+            expect(data.index).toBeDefined();
+            expect(data.content).toBeDefined();
+            expect(data.value).toBeDefined();
+            expect(data.activeContent).toBeDefined();
+            return 5000;
+          },
+          maxActivationLimit: false,
+          activeIndexes: [0, 1, 2],
         });
+        expect(activeContent.active).toEqual(['a', 'b', 'c']);
 
-        expect(activeContent.active).toEqual(['a']);
-
-        // Should still be 'a'
+        // Set the cooldown by calling deactivateByIndex
         activeContent.deactivateByIndex(0);
-        expect(activeContent.active).toEqual(['a']);
+        expect(activeContent.active).toEqual(['b', 'c']);
 
-        // Should still be 'a'
+        // Should still be ['b', 'c']
         epoch = 4999;
-        activeContent.deactivateByIndex(0);
-        expect(activeContent.active).toEqual(['a']);
+        activeContent.deactivateByIndex(1);
+        expect(activeContent.active).toEqual(['b', 'c']);
 
-        // Should still be 'a'
+        activeContent.activateByIndex(0);
+        expect(activeContent.active).toEqual(['b', 'c']);
+
+        // Should still be ['b', 'c']
         epoch = 5000;
-        activeContent.deactivateByIndex(0);
-        expect(activeContent.active).toEqual(['a']);
+        activeContent.deactivateByIndex(1);
+        expect(activeContent.active).toEqual(['b', 'c']);
 
-        // Now it should be empty after 5000 milliseconds
+        // Now it should be ['c'] after 5000 milliseconds
         epoch = 5001;
-        activeContent.deactivateByIndex(0);
-        expect(activeContent.active).toEqual([]);
+        activeContent.deactivateByIndex(1);
+        expect(activeContent.active).toEqual(['c']);
       });
     });
   });
