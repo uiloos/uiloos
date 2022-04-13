@@ -25,19 +25,19 @@ export type ActiveContentConfig<T> = {
   maxActivationLimit?: number | false;
 
   /**
-   * How the limit is enforced. In other words what the behavior 
+   * How the limit is enforced. In other words what the behavior
    * should be when the limit is surpassed.
-   * 
+   *
    * The modes are strings which can be the following values:
-   * 
+   *
    * 1. 'circular': the first item which was added will be removed so
    *    the last item can be added without violating the limit. This
    *    basically means that the first one in is the first one out.
-   * 
+   *
    * 2. 'error': An error is thrown whenever the limit is surpassed.: TODO: ERROR HERE
-   * 
-   * 3. 'ignore': Nothing happens when an item is added and the limit 
-   *    is ignored. The item is simply not added, but no error is 
+   *
+   * 3. 'ignore': Nothing happens when an item is added and the limit
+   *    is ignored. The item is simply not added, but no error is
    *    thrown.
    *
    * Defaults to 'circular'.
@@ -47,11 +47,11 @@ export type ActiveContentConfig<T> = {
   /**
    * Which item or items in the content array are currently active.
    *
-   * When the `active` is an array each item in the array is activated 
+   * When the `active` is an array each item in the array is activated
    * from left to right one at a time.
-   * 
+   *
    * Note: "active" is chosen over the "activeIndexes" property.
-   * 
+   *
    * Defaults to `[]` meaning no content is active.
    */
   active?: T | T[];
@@ -61,9 +61,9 @@ export type ActiveContentConfig<T> = {
    *
    * When the `activeIndexes` is an array each index in the array
    * is activated from left to right one at a time.
-   * 
+   *
    * Note: "active" is chosen over the "activeIndexes" property.
-   * 
+   *
    * Defaults to `[]` meaning no content is active.
    */
   activeIndexes?: number | number[];
@@ -85,12 +85,12 @@ export type ActiveContentConfig<T> = {
    * When `isCircular` is `true` content will move to the right
    * indefinitely. When `isCircular` is `false` it will stop autoplay
    * at the end of the content.
-   * 
-   * Note: autoplay will only start when one or more contents are 
-   * currently active. The reason for this is that the `duration`, is 
-   * based on the `ActiveContent`'s `lastActivatedContent` property.  
-   * Whenever there are no more active contents the autoplay will 
-   * stop. 
+   *
+   * Note: autoplay will only start when one or more contents are
+   * currently active. The reason for this is that the `duration`, is
+   * based on the `ActiveContent`'s `lastActivatedContent` property.
+   * Whenever there are no more active contents the autoplay will
+   * stop.
    */
   autoplay?: AutoplayConfig<T>;
 
@@ -116,8 +116,8 @@ export type ActiveContentConfig<T> = {
 
   /**
    * The `cooldown` is the number of milliseconds before another
-   * activation / deactivation is allowed. For example if the 
-   * `cooldown` is `5000` the `ActiveContent` will not allow 
+   * activation / deactivation is allowed. For example if the
+   * `cooldown` is `5000` the `ActiveContent` will not allow
    * transitions until after 5 seconds have passed. Any activation /
    * deactivation in that period will simply be ignored.
    *
@@ -142,7 +142,10 @@ export type ActiveContentConfig<T> = {
  * Describes all the behaviors for when the limit of the ActiveContent
  * is surpassed.
  */
- export type ActiveContentMaxActivationLimitBehavior = 'circular' | 'ignore' | 'error';
+export type ActiveContentMaxActivationLimitBehavior =
+  | 'circular'
+  | 'ignore'
+  | 'error';
 
 /**
  * Represents options for activation / deactivation methods.
@@ -161,8 +164,8 @@ export type ActivationOptions<T> = {
 
   /**
    * The `cooldown` is the number of milliseconds before another
-   * activation / deactivation is allowed. For example if the 
-   * `cooldown` is `5000` the `ActiveContent` will not allow 
+   * activation / deactivation is allowed. For example if the
+   * `cooldown` is `5000` the `ActiveContent` will not allow
    * transitions until after 5 seconds have passed. Any activation /
    * deactivation in that period will simply be ignored.
    *
@@ -173,7 +176,7 @@ export type ActivationOptions<T> = {
    * `Config`, is that this `cooldown` can be different for different
    * actions. For example: it allows you to create two buttons each with a
    * different cooldown.
-   * 
+   *
    * Note that the `cooldown` options within the `ActivationOptions` takes
    * precedence over the `cooldown` in the `Config`.
    *
@@ -189,9 +192,11 @@ export type ActivationOptions<T> = {
  * ActiveContent goes through.
  *
  * @param {ActiveContent<T>} activeContent The active content which had changes.
+ * @param {ActiveContentEvent<T>} event The event that occurred.
  */
 export type ActiveContentSubscriber<T> = (
-  activeContent: ActiveContent<T>
+  activeContent: ActiveContent<T>,
+  event: ActiveContentEvent<T>
 ) => void;
 
 /**
@@ -201,30 +206,30 @@ export type UnsubscribeFunction = () => void;
 
 /**
  * Represents a bundle of data which is given as the first parameter
- * to the ContentPredicate function. Based on this data the 
+ * to the ContentPredicate function. Based on this data the
  * ContentPredicate must either return `true` or `false`.
  */
- export type ContentPredicateData<T> = {
+export type ContentPredicateData<T> = {
   /**
    * The value the Content wraps.
    */
-  value: T,
+  value: T;
 
   /**
    * The index the Content has within the ActiveContent
    */
-  index: number,
+  index: number;
 
   /**
    * A reference to the Content which wraps the value.
    */
-  content: Content<T>,
+  content: Content<T>;
 
   /**
    * A reference to the ActiveContent itself.
    */
-  activeContent: ActiveContent<T>,
-}
+  activeContent: ActiveContent<T>;
+};
 
 /**
  * Represents a callback which is given all relevant data for the
@@ -234,45 +239,46 @@ export type UnsubscribeFunction = () => void;
  * @param {ContentPredicateData<T>} data The data for which this predicate will determine if the action needs to be performed.
  * @returns {boolean} Whether or not to perform the action associated with the predicate based on the given item and index.
  */
- export type ContentPredicate<T> = (data: ContentPredicateData<T>) => boolean;
+export type ContentPredicate<T> = (data: ContentPredicateData<T>) => boolean;
 
 /**
- * Represents a bundle of data which is given whenever the 
- * AutoplayDurationCallbackData function must determine the number 
+ * Represents a bundle of data which is given whenever the
+ * AutoplayDurationCallbackData function must determine the number
  * of milliseconds the content should be active for.
  */
- export type AutoplayDurationCallbackData<T> = {
+export type AutoplayDurationCallbackData<T> = {
   /**
    * The value which is currently asking which autoplay duration it should have.
    */
-  value: T,
+  value: T;
 
   /**
    * The index the value has within the ActiveContent
    */
-  index: number,
+  index: number;
 
   /**
    * A reference to the Content which wraps the value.
    */
-  content: Content<T>,
+  content: Content<T>;
 
   /**
    * A reference to the ActiveContent itself.
    */
-  activeContent: ActiveContent<T>,
-}
+  activeContent: ActiveContent<T>;
+};
 
 /**
- * Represents a callback function which is given all relevant autoplay 
- * duration data, and expects to be given back the number of 
+ * Represents a callback function which is given all relevant autoplay
+ * duration data, and expects to be given back the number of
  * milliseconds the content should be active before Autoplay moves on.
  *
  * @param {AutoplayDurationCallbackData<T>} data An object containing all relevant duration data for which the callback function must determine the number of milliseconds the content is active for.
  * @returns {number} The time in milliseconds the content is active for the given AutoplayDurationCallbackData.
  */
-export type AutoplayDurationCallback<T> = (config: AutoplayDurationCallbackData<T>) => number;
-
+export type AutoplayDurationCallback<T> = (
+  config: AutoplayDurationCallbackData<T>
+) => number;
 
 /**
  * Represents the configuration for Autoplay. Autoplay means
@@ -300,52 +306,54 @@ export type AutoplayConfig<T> = {
  *
  * Can be two possible things:
  *
- * 1. A callback function which receives the relevant cooldown data, 
- *    and which is required to return the duration in milliseconds. 
+ * 1. A callback function which receives the relevant cooldown data,
+ *    and which is required to return the duration in milliseconds.
  *    Useful for providing a different cooldown for different items.
  *
  * 2. A number in milliseconds. When it is a number all items will
  *    have the same cooldown.
  */
- export type CooldownConfig<T> = CooldownDurationCallback<T> | number;
+export type CooldownConfig<T> = CooldownDurationCallback<T> | number;
 
 /**
- * Represents a bundle of data which is given whenever the 
- * CooldownDurationCallback function must determine what the number of 
+ * Represents a bundle of data which is given whenever the
+ * CooldownDurationCallback function must determine what the number of
  * milliseconds the content should be in a cooldown state.
  */
- export type CooldownDurationCallbackData<T> = {
+export type CooldownDurationCallbackData<T> = {
   /**
    * The value which is currently asking which cooldown it should have.
    */
-   value: T,
+  value: T;
 
-   /**
-    * The index the value has within the ActiveContent
-    */
-   index: number,
- 
-   /**
-    * A reference to the Content which wraps the value.
-    */
-   content: Content<T>,
- 
-   /**
-    * A reference to the ActiveContent itself.
-    */
-   activeContent: ActiveContent<T>,
-}
+  /**
+   * The index the value has within the ActiveContent
+   */
+  index: number;
+
+  /**
+   * A reference to the Content which wraps the value.
+   */
+  content: Content<T>;
+
+  /**
+   * A reference to the ActiveContent itself.
+   */
+  activeContent: ActiveContent<T>;
+};
 
 /**
- * Represents a callback function which is given all relevant cooldown 
- * duration data, and expects to be given back the number of 
+ * Represents a callback function which is given all relevant cooldown
+ * duration data, and expects to be given back the number of
  * milliseconds the content should be cooled down before it responds
  * to user interaction again.
  *
  * @param {CooldownDurationCallbackData<T>} data An object containing all relevant cooldown data for which the callback function must determine the cooldown duration in number of milliseconds.
  * @returns {number} The time in milliseconds of the duration of the cooldown for the given CooldownCallbackData.
  */
-export type CooldownDurationCallback<T> = (data: CooldownDurationCallbackData<T>) => number;
+export type CooldownDurationCallback<T> = (
+  data: CooldownDurationCallbackData<T>
+) => number;
 
 /**
  * Describes which strings should be associated with what
@@ -377,26 +385,30 @@ export type Direction = {
 };
 
 /**
- * Represents whether the `HistoryItem` was added, removed, activated
- * or swapped.
+ * Represents whether the `ActiveContentEvent` was added, removed, activated
+ * swapped, etc etc.
  */
-export type HistoryAction =
+export type ActiveContentEventType =
+  | 'INITIALIZED'
   | 'INSERTED'
   | 'REMOVED'
+  | 'REMOVED_MULTIPLE'
   | 'ACTIVATED'
+  | 'ACTIVATED_MULTIPLE'
   | 'SWAPPED'
   | 'MOVED'
-  | 'DEACTIVATED';
+  | 'DEACTIVATED'
+  | 'DEACTIVATED_MULTIPLE'
 
 /**
- * Represents an item in the `history` array of the state. Based
- * on the `type` you can determine which action occurred.
+ * Represents an event which happened in the ActiveContent. Based
+ * on the `type` you can determine which event occurred.
  */
-export type BaseHistoryItem = {
+export type BaseEvent = {
   /**
-   * Which action occurred
+   * Which event occurred
    */
-  action: HistoryAction;
+  type: ActiveContentEventType;
 
   /**
    * The time the event occurred on as a Date object.
@@ -405,16 +417,49 @@ export type BaseHistoryItem = {
 };
 
 /**
- * Represents an insertion into the ActiveContent.
+ * Represents the initialization of the ActiveContent
  */
-export type InsertedHistoryItem<T> = BaseHistoryItem & {
+export type InitializedEvent<T> = BaseEvent & {
   /**
-   * Which action occurred
+   * Which type occurred
    */
-  action: 'INSERTED';
+  type: 'INITIALIZED';
 
   /**
-   * The value which was inserted
+   * The values which were active upon initialization.
+   * 
+   * Note: there are the values at the time of the initialization, they might
+   * no longer be accurate. Keep in mind that when the `value` is
+   * an object or an array, they can still be mutated, because no
+   * copy is made.
+   */
+  values: T[];
+
+  /**
+   * The indexes of the value's which were active upon initialization.
+   *
+   * Note: there are the indexes at the time of the initialization, it might
+   * no longer be accurate.
+   */
+  indexes: number[];
+};
+
+/**
+ * Represents an insertion into the ActiveContent.
+ */
+export type InsertedEvent<T> = BaseEvent & {
+  /**
+   * Which type occurred
+   */
+  type: 'INSERTED';
+
+  /**
+   * The value which was inserted.
+   * 
+   * Note: this was the value at the time of insertion, it might
+   * no longer be accurate. Keep in mind that when the `value` is
+   * an object or an array, they can still be mutated, because no
+   * copy is made.
    */
   value: T;
 
@@ -422,7 +467,7 @@ export type InsertedHistoryItem<T> = BaseHistoryItem & {
    * The index of the insertion.
    *
    * Note: this was the index at the time of the insertion, it might
-   * nog longer be accurate.
+   * no longer be accurate.
    */
   index: number;
 };
@@ -430,14 +475,19 @@ export type InsertedHistoryItem<T> = BaseHistoryItem & {
 /**
  * Represents an removal of an item of the ActiveContent.
  */
-export type RemovedHistoryItem<T> = BaseHistoryItem & {
+export type RemovedEvent<T> = BaseEvent & {
   /**
-   * Which action occurred
+   * Which type occurred
    */
-  action: 'REMOVED';
+  type: 'REMOVED';
 
   /**
-   * The value which was removed
+   * The value which was removed.
+   * 
+   * Note: this was the value at the time of removal, it might
+   * no longer be accurate. Keep in mind that when the `value` is
+   * an object or an array, they can still be mutated, because no
+   * copy is made.
    */
   value: T;
 
@@ -445,22 +495,55 @@ export type RemovedHistoryItem<T> = BaseHistoryItem & {
    * The index of removed item.
    *
    * Note: this was the index at the time of the removal, it might
-   * nog longer be accurate.
+   * no longer be accurate.
    */
   index: number;
 };
 
 /**
- * Represents an activation of an ActiveContent.
+ * Represents multiple removals of items in the ActiveContent.
  */
-export type ActivatedHistoryItem<T> = BaseHistoryItem & {
+export type RemovedMultipleEvent<T> = BaseEvent & {
   /**
-   * Which action occurred
+   * Which type occurred
    */
-  action: 'ACTIVATED';
+  type: 'REMOVED_MULTIPLE';
 
   /**
-   * The value which was activated
+   * The value's which were removed
+   * 
+   * Note: there are the values at the time of removal, they might
+   * no longer be accurate. Keep in mind that when the `value` is
+   * an object or an array, they can still be mutated, because no
+   * copy is made.
+   */
+  values: T[];
+
+  /**
+   * The indexes of the removed items.
+   *
+   * Note: there are the indexes at the time of the removal, it might
+   * no longer be accurate.
+   */
+  indexes: number[];
+};
+
+/**
+ * Represents an activation of an ActiveContent.
+ */
+export type ActivatedEvent<T> = BaseEvent & {
+  /**
+   * Which type occurred
+   */
+  type: 'ACTIVATED';
+
+  /**
+   * The value which was activated.
+   * 
+   * Note: this was the value at the time of activation, it might
+   * no longer be accurate. Keep in mind that when the `value` is
+   * an object or an array, they can still be mutated, because no
+   * copy is made.
    */
   value: T;
 
@@ -468,22 +551,56 @@ export type ActivatedHistoryItem<T> = BaseHistoryItem & {
    * The index of the activated item.
    *
    * Note: this was the index at the time of the activation, it might
-   * nog longer be accurate.
+   * no longer be accurate.
    */
   index: number;
 };
 
 /**
- * Represents a deactivation of an ActiveContent.
+ * Represents multiple activations happening at the same time in an 
+ * ActiveContent.
  */
- export type DeactivatedHistoryItem<T> = BaseHistoryItem & {
+ export type ActivatedMultipleEvent<T> = BaseEvent & {
   /**
-   * Which action occurred
+   * Which type occurred
    */
-  action: 'DEACTIVATED';
+  type: 'ACTIVATED_MULTIPLE';
 
   /**
-   * The value which was deactivated
+   * The values which were activated.
+   * 
+   * Note: there are the values at the time of deactivation, they might
+   * no longer be accurate. Keep in mind that when the `value` is
+   * an object or an array, they can still be mutated, because no
+   * copy is made.
+   */
+  values: T[];
+
+  /**
+   * The indexes of the activated items.
+   *
+   * Note: these are the indexes at the time of the deactivation, it might
+   * no longer be accurate.
+   */
+  indexes: number[];
+};
+
+/**
+ * Represents a deactivation of an ActiveContent.
+ */
+export type DeactivatedEvent<T> = BaseEvent & {
+  /**
+   * Which type occurred
+   */
+  type: 'DEACTIVATED';
+
+  /**
+   * The value which was deactivated.
+   * 
+   * Note: this was the value at the time of deactivation, it might
+   * no longer be accurate. Keep in mind that when the `value` is
+   * an object or an array, they can still be mutated, because no
+   * copy is made.
    */
   value: T;
 
@@ -491,31 +608,70 @@ export type ActivatedHistoryItem<T> = BaseHistoryItem & {
    * The index of the deactivated item.
    *
    * Note: this was the index at the time of the deactivation, it might
-   * nog longer be accurate.
+   * no longer be accurate.
    */
   index: number;
 };
 
 /**
+ * Represents multiple deactivations happening at the same time in an 
+ * ActiveContent.
+ */
+ export type DeactivatedMultipleEvent<T> = BaseEvent & {
+  /**
+   * Which type occurred
+   */
+  type: 'DEACTIVATED_MULTIPLE';
+
+  /**
+   * The values which were deactivated.
+   * 
+   * Note: there are the values at the time of deactivation, they might
+   * no longer be accurate. Keep in mind that when the `value` is
+   * an object or an array, they can still be mutated, because no
+   * copy is made.
+   */
+  values: T[];
+
+  /**
+   * The indexes of the deactivated items.
+   *
+   * Note: these are the indexes at the time of the deactivation, it might
+   * no longer be accurate.
+   */
+  indexes: number[];
+};
+
+/**
  * Represents an activation of an ActiveContent.
  */
-export type SwappedHistoryItem<T> = BaseHistoryItem & {
+export type SwappedEvent<T> = BaseEvent & {
   /**
-   * Which action occurred
+   * Which type occurred
    */
-  action: 'SWAPPED';
+  type: 'SWAPPED';
 
   /**
    * An object containing the value of the items which were swapped.
    */
   value: {
     /**
-     * The value of the first item which was swapped
+     * The value of the first item which was swapped.
+     * 
+     * Note: this was the value at the time of the swap, it might
+     * no longer be accurate. Keep in mind that when the `value` is
+     * an object or an array, they can still be mutated, because no
+     * copy is made.
      */
     a: T;
 
     /**
-     * The value of the second item which was swapped
+     * The value of the second item which was swapped.
+     * 
+     *  Note: this was the value at the time of the swap, it might
+     * no longer be accurate. Keep in mind that when the `value` is
+     * an object or an array, they can still be mutated, because no
+     * copy is made.
      */
     b: T;
   };
@@ -528,7 +684,7 @@ export type SwappedHistoryItem<T> = BaseHistoryItem & {
      * The index of the first item before it was swapped.
      *
      * Note: this was the index at the time of the activation, it might
-     * nog longer be accurate.
+     * no longer be accurate.
      */
     a: number;
 
@@ -536,7 +692,7 @@ export type SwappedHistoryItem<T> = BaseHistoryItem & {
      * The index of the second item before it was swapped.
      *
      * Note: this was the index at the time of the activation, it might
-     * nog longer be accurate.
+     * no longer be accurate.
      */
     b: number;
   };
@@ -545,14 +701,19 @@ export type SwappedHistoryItem<T> = BaseHistoryItem & {
 /**
  * Represents an activation of an ActiveContent.
  */
-export type MovedHistoryItem<T> = BaseHistoryItem & {
+export type MovedEvent<T> = BaseEvent & {
   /**
-   * Which action occurred
+   * Which type occurred
    */
-  action: 'MOVED';
+  type: 'MOVED';
 
   /**
-   * The value which was moved
+   * The value which was moved.
+   * 
+   * Note: this was the value at the time of the move, it might
+   * no longer be accurate. Keep in mind that when the `value` is
+   * an object or an array, they can still be mutated, because no
+    * copy is made.
    */
   value: T;
 
@@ -561,14 +722,14 @@ export type MovedHistoryItem<T> = BaseHistoryItem & {
    * were moved.
    *
    * Note: this was the index at the time of the activation, it might
-   * nog longer be accurate.
+   * no longer be accurate.
    */
   index: {
     /**
      * The index of the "from" item before it was moved.
      *
      * Note: this was the index at the time of the activation, it might
-     * nog longer be accurate.
+     * no longer be accurate.
      */
     from: number;
 
@@ -576,20 +737,24 @@ export type MovedHistoryItem<T> = BaseHistoryItem & {
      * The index of the "to" item before it was moved.
      *
      * Note: this was the index at the time of the activation, it might
-     * nog longer be accurate.
+     * no longer be accurate.
      */
     to: number;
   };
 };
 
 /**
- * A HistoryItem represents an event happened in the ActiveContent.
+ * A ActiveContentEvent represents an event happened in the ActiveContent.
  * For example the insertion, removal, or activation of a Content<T>.
  */
-export type HistoryItem<T> =
-  | InsertedHistoryItem<T>
-  | RemovedHistoryItem<T>
-  | ActivatedHistoryItem<T>
-  | SwappedHistoryItem<T>
-  | MovedHistoryItem<T>
-  | DeactivatedHistoryItem<T>;
+export type ActiveContentEvent<T> =
+  | InitializedEvent<T>
+  | InsertedEvent<T>
+  | RemovedEvent<T>
+  | RemovedMultipleEvent<T>
+  | ActivatedEvent<T>
+  | ActivatedMultipleEvent<T>
+  | SwappedEvent<T>
+  | MovedEvent<T>
+  | DeactivatedEvent<T>
+  | DeactivatedMultipleEvent<T>;

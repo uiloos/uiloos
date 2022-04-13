@@ -6,12 +6,22 @@ import {
   AutoplayConfig,
   ActiveContentConfig,
   Direction,
-  HistoryItem,
+  ActiveContentEvent,
   ContentPredicate,
   ActiveContentSubscriber,
   UnsubscribeFunction,
   ActiveContentMaxActivationLimitBehavior,
   ContentPredicateData,
+  InitializedEvent,
+  ActivatedEvent,
+  DeactivatedEvent,
+  InsertedEvent,
+  RemovedEvent,
+  SwappedEvent,
+  MovedEvent,
+  RemovedMultipleEvent,
+  DeactivatedMultipleEvent,
+  ActivatedMultipleEvent,
 } from './types';
 
 /**
@@ -44,11 +54,11 @@ import {
  */
 export class ActiveContent<T> {
   /**
-   * Whether or not to inform subscribers of changes. Used in the
-   * `initialize` to temporarily stop subscriptions running the
-   *  initial activation.
+   * Whether or not to inform subscribers of changes / record history.
+   * Used in the `initialize` to temporarily stop subscriptions running
+   * the initial activation, and altering the history.
    */
-  private shouldInformSubscribers = false;
+  private isInitializing = false;
 
   /**
    * Contains the subscribers of the ActiveContent subscribers
@@ -182,14 +192,18 @@ export class ActiveContent<T> {
   /**
    * Contains the history of the changes in the contents array.
    *
-   * Tracks five types of changes:
+   * Tracks ten types of changes:
    *
-   *  1. INSERTED, fired when an item is added.
-   *  2. REMOVED, fired when an item is removed.
-   *  3. ACTIVATED, fired when an item is activated.
-   *  4. DEACTIVATED, fired when an item is deactivated.
-   *  4. SWAPPED, fired when an item is swapped.
-   *  5. MOVED, fired when an item is moved.
+   *  1. INITIALIZED, fired when ActiveContent is initialized
+   *  2. INSERTED, fired when an item is added.
+   *  3. REMOVED, fired when an item is removed.
+   *  4. REMOVED_MULTIPLE, fired when multiple items are removed with a predicate.
+   *  5. ACTIVATED, fired when an item is activated.
+   *  6  ACTIVATED_MULTIPLE, fired when multiple items are activated with a predicate.
+   *  7. DEACTIVATED, fired when an item is deactivated.
+   *  8. DEACTIVATED_MULTIPLE, fired when multiple items are deactivated with a predicate.
+   *  9. SWAPPED, fired when an item is swapped.
+   *  10. MOVED, fired when an item is moved.
    *
    * Goes only as far back as configured in the `Config` property
    * `keepHistoryFor`, to prevent an infinitely growing history.
@@ -201,8 +215,14 @@ export class ActiveContent<T> {
    *
    * This means that a history at index 0 is further in the past than
    * an item at index 1.
+   *
+   * WARNING: all events store indexes, values and combinations thereof. 
+   * The `index` of an item in the history may no longer be accurate, it
+   * is the index at the time of the event. Same goes for the `value`
+   * when it is an array of object, as it might have been mutated, the
+   * history items do not store copies of the values.
    */
-  public history: HistoryItem<T>[] = [];
+  public history: ActiveContentEvent<T>[] = [];
 
   /**
    * Whether or not the `active` item has changed at least once.
@@ -233,15 +253,27 @@ export class ActiveContent<T> {
   /**
    * Creates an ActiveContent based on the ActiveContentConfig config.
    *
+   * You can also optionally provide an subscriber so you can get
+   * informed of the changes happening to the ActiveContent.
+   *
    * @param {ActiveContentConfig<T>} config The initial configuration of the ActiveContent.
+   * @param {ActiveContentSubscriber<T> | undefined} subscriber An optional subscriber which responds to changes in the ActiveContent.
    */
-  constructor(config: ActiveContentConfig<T>) {
+  constructor(
+    config: ActiveContentConfig<T>,
+    subscriber?: ActiveContentSubscriber<T>
+  ) {
+    if (subscriber) {
+      this.subscribe(subscriber);
+    }
+
     this.initialize(config);
   }
 
   /**
-   * Subscribe to changes to ActiveContent which will get notified
-   * of all changes in the ActiveContent.
+   * Subscribe to changes of the ActiveContent. The function you
+   * provide will get called whenever changes occur in the
+   * ActiveContent.
    *
    * Returns an unsubscribe function which when called will unsubscribe
    * from the ActiveContent.
@@ -255,8 +287,18 @@ export class ActiveContent<T> {
     this.subscribers.push(subscriber);
 
     return () => {
-      this.subscribers = this.subscribers.filter((s) => subscriber !== s);
+      this.unsubscribe(subscriber);
     };
+  }
+
+  /**
+   * Unsubscribe the subscriber so it no longer receives changes / updates
+   * of the state changes of the ActiveContent.
+   *
+   * @param {ActiveContentSubscriber<T>} subscriber The subscriber which you want to unsubscribe.
+   */
+  public unsubscribe(subscriber: ActiveContentSubscriber<T>): void {
+    this.subscribers = this.subscribers.filter((s) => subscriber !== s);
   }
 
   /**
@@ -271,7 +313,7 @@ export class ActiveContent<T> {
   public initialize(config: ActiveContentConfig<T>): void {
     // Ignore changes for now, we will restore subscriber at the end
     // of the initialization process.
-    this.shouldInformSubscribers = false;
+    this.isInitializing = true;
 
     this.maxActivationLimit =
       config.maxActivationLimit !== undefined ? config.maxActivationLimit : 1;
@@ -300,22 +342,11 @@ export class ActiveContent<T> {
     this.history = [];
     this.keepHistoryFor =
       config.keepHistoryFor !== undefined ? config.keepHistoryFor : 0;
-    if (this.keepHistoryFor > 0) {
-      const length = this.contents.length;
-      for (let i = 0; i < length; i++) {
-        this.pushHistory(() => ({
-          action: 'INSERTED',
-          value: this.contents[i].value,
-          index: i,
-          time: new Date(),
-        }));
-      }
-    }
 
     // Reset the ActiveContent
     this.becameEmpty();
 
-    // Setup the activation cooldown timer instance, because we 
+    // Setup the activation cooldown timer instance, because we
     // are going to activate the items with `isUserInteraction`
     // `false` below the cooldown will not have any effect during
     // initialization.
@@ -357,8 +388,17 @@ export class ActiveContent<T> {
     this.play();
 
     // Now start sending out changes.
-    this.shouldInformSubscribers = true;
-    this.informSubscribers();
+    this.isInitializing = false;
+
+    const event: InitializedEvent<T> = {
+      type: 'INITIALIZED',
+      values: [...this.active],
+      indexes: [...this.activeIndexes],
+      time: new Date(),
+    };
+    this.pushHistory(event);
+
+    this.informSubscribers(event);
   }
 
   // Creates a broken content which contains lies and deceptions...
@@ -394,6 +434,38 @@ export class ActiveContent<T> {
       cooldown: undefined,
     }
   ): void {
+    const activatedContent = this.doActivateByIndex(
+      index,
+      activationOptions
+    );
+
+    if (!activatedContent) {
+      return;
+    }
+
+    // Set the cooldown, if it is needed.
+    this.activationCooldownTimer.setCooldown(
+      activationOptions,
+      // This works as we guard against indexes not being present
+      this.lastActivatedContent as Content<T>
+    );
+
+    const event: ActivatedEvent<T> = {
+      type: 'ACTIVATED',
+      value: activatedContent.value,
+      index,
+      time: new Date(),
+    };
+
+    this.pushHistory(event);
+
+    this.informSubscribers(event);
+  }
+
+  private doActivateByIndex(
+    index: number,
+    activationOptions: ActivationOptions<T>
+  ): Content<T> | null {
     if (index < 0 || index >= this.contents.length) {
       throw new Error(
         'uiloos > ActiveContent.activateByIndex > could not activate: index out of bounds'
@@ -402,12 +474,12 @@ export class ActiveContent<T> {
 
     // Do nothing when the index is already active.
     if (this.activeIndexes.includes(index)) {
-      return;
+      return null;
     }
 
     // Do nothing if cooldown is active;
     if (this.activationCooldownTimer.isActive(activationOptions)) {
-      return;
+      return null;
     }
 
     const limitReached =
@@ -421,7 +493,7 @@ export class ActiveContent<T> {
           'uiloos > ActiveContent.activateByIndex > could not activate: limit is reached'
         );
       } else if (this.maxActivationLimitBehavior === 'ignore') {
-        return;
+        return null;
       }
     }
 
@@ -476,24 +548,10 @@ export class ActiveContent<T> {
       this.autoplay.onActiveIndexChanged(index, activationOptions);
     }
 
-    this.pushHistory(() => ({
-      action: 'ACTIVATED',
-      value: this.contents[index].value,
-      index,
-      time: new Date(),
-    }));
-
     // Mark that the ActiveContent has at least moved once.
     this.hasActiveChangedAtLeastOnce = true;
 
-    // Set the cooldown, if it is needed.
-    this.activationCooldownTimer.setCooldown(
-      activationOptions,
-      // This works as we guard against indexes not being present
-      this.lastActivatedContent as Content<T>
-    );
-
-    this.informSubscribers();
+    return this.lastActivatedContent;
   }
 
   /**
@@ -523,22 +581,58 @@ export class ActiveContent<T> {
    * If no items match the predicate nothing happens.
    *
    * If multiple items match they will be activated in order of
-   * appearance in the contents array. Each activation leads to
-   * a call to all subscribers.
+   * appearance in the contents array. Only one call is made to the
+   * subscribers, even if multiple items are activated.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`.
+   * on `cooldown` and `autoplay`. When the cooldown is configured
+   * as a function, the last activated content will be the parameter
+   * to the cooldown function.
    *
    * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will activate that item.
    * @param {ActivationOptions<T>} ActivationOptions The activation options
    */
   public activateByPredicate(
     predicate: ContentPredicate<T>,
-    activationOptions?: ActivationOptions<T>
+    activationOptions: ActivationOptions<T> = {
+      isUserInteraction: true,
+      cooldown: undefined,
+    }
   ) {
-    this.executeActionWhenPredicate(predicate, (index) =>
-      this.activateByIndex(index, activationOptions)
-    );
+    const activatedIndexes: number[] = [];
+    const activatedValues: T[] = [];
+
+    let lastActivated = null;
+
+    this.executeActionWhenPredicate(predicate, (index) => {
+      const content = this.doActivateByIndex(index, activationOptions);
+
+      if (content) {
+        activatedIndexes.push(content.index);
+        activatedValues.push(content.value);
+
+        lastActivated = content;
+      }
+    });
+
+    if (lastActivated) {
+      // Set the cooldown, if it is needed.
+      this.activationCooldownTimer.setCooldown(
+        activationOptions,
+        lastActivated
+      );
+    }
+
+    const event: ActivatedMultipleEvent<T> = {
+      type: 'ACTIVATED_MULTIPLE',
+      values: activatedValues,
+      indexes: activatedIndexes,
+      time: new Date(),
+    };
+
+    this.pushHistory(event);
+
+    this.informSubscribers(event);
   }
 
   /**
@@ -654,6 +748,37 @@ export class ActiveContent<T> {
       cooldown: undefined,
     }
   ): void {
+    const deactivatedContent = this.doDeactivateByIndex(
+      index,
+      activationOptions
+    );
+
+    if (!deactivatedContent) {
+      return;
+    }
+
+    // Set the cooldown, if it is needed.
+    this.activationCooldownTimer.setCooldown(
+      activationOptions,
+      deactivatedContent
+    );
+
+    const event: DeactivatedEvent<T> = {
+      type: 'DEACTIVATED',
+      value: this.contents[index].value,
+      index,
+      time: new Date(),
+    };
+
+    this.pushHistory(event);
+
+    this.informSubscribers(event);
+  }
+
+  private doDeactivateByIndex(
+    index: number,
+    activationOptions: ActivationOptions<T>
+  ): Content<T> | null {
     /*
       Thoughts on deactivation:
 
@@ -755,12 +880,12 @@ export class ActiveContent<T> {
 
     // Do nothing when the index is already inactive.
     if (indexOfIndex === -1) {
-      return;
+      return null;
     }
 
     // Do nothing when a cooldown is active.
     if (this.activationCooldownTimer.isActive(activationOptions)) {
-      return;
+      return null;
     }
 
     const deactivatedContent = this.activeContents[indexOfIndex];
@@ -810,23 +935,10 @@ export class ActiveContent<T> {
       this.autoplay.onDeactivation(activationOptions);
     }
 
-    this.pushHistory(() => ({
-      action: 'DEACTIVATED',
-      value: this.contents[index].value,
-      index,
-      time: new Date(),
-    }));
-
     // Mark that the ActiveContent has at least moved once.
     this.hasActiveChangedAtLeastOnce = true;
 
-    // Set the cooldown, if it is needed.
-    this.activationCooldownTimer.setCooldown(
-      activationOptions,
-      deactivatedContent
-    );
-
-    this.informSubscribers();
+    return deactivatedContent;
   }
 
   /**
@@ -855,23 +967,56 @@ export class ActiveContent<T> {
    *
    * If no items match the predicate nothing happens.
    *
-   * If multiple items match they will be activated in order of
-   * appearance in the contents array. Each activation leads to
-   * a call to all subscribers.
+   * If multiple items match they will be deactivated in order of
+   * appearance in the contents array. Only one call is made to the
+   * subscribers, even if multiple items are deactivated.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`.
+   * on `cooldown` and `autoplay`. When the cooldown is configured
+   * as a function, the last deactivated content will be the parameter
+   * to the cooldown function.
    *
    * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will deactivate that item.
    * @param {ActivationOptions<T>} ActivationOptions The activation options
    */
   public deactivateByPredicate(
     predicate: ContentPredicate<T>,
-    activationOptions?: ActivationOptions<T>
+    activationOptions: ActivationOptions<T> = {
+      isUserInteraction: true,
+      cooldown: undefined,
+    }
   ) {
-    this.executeActionWhenPredicate(predicate, (index) =>
-      this.deactivateByIndex(index, activationOptions)
-    );
+    const deactivatedIndexes: number[] = [];
+    const deactivatedValues: T[] = [];
+
+    let lastRemoved = null;
+
+    this.executeActionWhenPredicate(predicate, (index) => {
+      const content = this.doDeactivateByIndex(index, activationOptions);
+
+      if (content) {
+        deactivatedIndexes.push(content.index);
+        deactivatedValues.push(content.value);
+
+        lastRemoved = content;
+      }
+    });
+
+    if (lastRemoved) {
+      // Set the cooldown, if it is needed.
+      this.activationCooldownTimer.setCooldown(activationOptions, lastRemoved);
+    }
+
+    const event: DeactivatedMultipleEvent<T> = {
+      type: 'DEACTIVATED_MULTIPLE',
+      values: deactivatedValues,
+      indexes: deactivatedIndexes,
+      time: new Date(),
+    };
+
+    this.pushHistory(event);
+
+    this.informSubscribers(event);
   }
 
   /**
@@ -993,14 +1138,16 @@ export class ActiveContent<T> {
 
     this.repairContents();
 
-    this.pushHistory(() => ({
-      action: 'INSERTED',
+    const event: InsertedEvent<T> = {
+      type: 'INSERTED',
       value: item,
       index,
       time: new Date(),
-    }));
+    };
 
-    this.informSubscribers();
+    this.pushHistory(event);
+
+    this.informSubscribers(event);
 
     return content;
   }
@@ -1132,7 +1279,17 @@ export class ActiveContent<T> {
     }
 
     this.repairContents();
-    this.informSubscribers();
+
+    const event: RemovedEvent<T> = {
+      type: 'REMOVED',
+      value,
+      index,
+      time: new Date(),
+    };
+
+    this.pushHistory(event);
+
+    this.informSubscribers(event);
 
     return value;
   }
@@ -1148,13 +1305,6 @@ export class ActiveContent<T> {
 
     // Remove the content from the array
     this.contents.splice(index, 1);
-
-    this.pushHistory(() => ({
-      action: 'REMOVED',
-      value,
-      index,
-      time: new Date(),
-    }));
 
     return value;
   }
@@ -1212,8 +1362,6 @@ export class ActiveContent<T> {
   /**
    * Will remove all items from the `contents` array for which the
    * predicate based on the `item` and `index` returns `true`.
-   *
-   * If after removal no active items remain the activeIndex will become -1.
    *
    * @param {T} item The item to add.
    * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will remove the item.
@@ -1306,12 +1454,24 @@ export class ActiveContent<T> {
       this.setLastActives();
     }
 
+    const removedValues = removed.map((r) => r.value);
+
     if (removedIndexes.length > 0) {
       this.repairContents();
-      this.informSubscribers();
+
+      const event: RemovedMultipleEvent<T> = {
+        type: 'REMOVED_MULTIPLE',
+        indexes: [...removedIndexes],
+        values: [...removedValues],
+        time: new Date(),
+      };
+
+      this.pushHistory(event);
+
+      this.informSubscribers(event);
     }
 
-    return removed.map((r) => r.value);
+    return removedValues;
   }
 
   /**
@@ -1346,7 +1506,7 @@ export class ActiveContent<T> {
     const itemA = this.contents[a];
     const itemB = this.contents[b];
 
-    // When swapping the active index fix the activeIndex's state
+    // When swapping the active index fix the lastActivatedIndex's state
     if (this.lastActivatedIndex === itemA.index) {
       this.lastActivatedIndex = itemB.index;
     } else if (this.lastActivatedIndex === itemB.index) {
@@ -1373,8 +1533,8 @@ export class ActiveContent<T> {
 
     this.repairContents();
 
-    this.pushHistory(() => ({
-      action: 'SWAPPED',
+    const event: SwappedEvent<T> = {
+      type: 'SWAPPED',
       value: {
         a: itemA.value,
         b: itemB.value,
@@ -1384,9 +1544,11 @@ export class ActiveContent<T> {
         b,
       },
       time: new Date(),
-    }));
+    };
 
-    this.informSubscribers();
+    this.pushHistory(event);
+
+    this.informSubscribers(event);
   }
 
   /**
@@ -1416,7 +1578,7 @@ export class ActiveContent<T> {
    * the "to" index the length of the `contents` array.
    *
    * Note: if the active `Content` is moved it will stay active,
-   * meaning that the activeIndex will get updated.
+   * meaning that the lastActivatedIndex will get updated.
    *
    * @param {number} from The "from" index which needs to be moved
    * @param {number} to The location the `from` needs to move "to".
@@ -1568,7 +1730,7 @@ export class ActiveContent<T> {
           lastActivatedIndex = 3 -> 4; INC
           to              = 0 -> 0; SAME
 
-      Scenario 7: moving from beyond the activeIndex to beyond the lastActivatedIndex:
+      Scenario 7: moving from beyond the lastActivatedIndex to beyond the lastActivatedIndex:
         ACTION: 4 --> 5 === 'e' --> 'f'
 
         INIT:
@@ -1739,17 +1901,19 @@ export class ActiveContent<T> {
 
     this.repairContents();
 
-    this.pushHistory(() => ({
-      action: 'MOVED',
+    const event: MovedEvent<T> = {
+      type: 'MOVED',
       value: fromItem.value,
       index: {
         from,
         to,
       },
       time: new Date(),
-    }));
+    };
 
-    this.informSubscribers();
+    this.pushHistory(event);
+
+    this.informSubscribers(event);
   }
 
   /**
@@ -1759,7 +1923,7 @@ export class ActiveContent<T> {
    * the "to" index the length of the `contents` array.
    *
    * Note: if the active `Content` is moved it will stay active,
-   * meaning that the activeIndex will get updated.
+   * meaning that the lastActivatedIndex will get updated.
    *
    * @param {T} item The item to move
    * @param {number} to The location the `item` needs to move "to".
@@ -2208,10 +2372,14 @@ export class ActiveContent<T> {
     return null;
   }
 
-  private pushHistory(item: () => HistoryItem<T>): void {
+  private pushHistory(event: ActiveContentEvent<T>): void {
+    if (this.isInitializing) {
+      return;
+    }
+
     // Track history if the developer wants it.
     if (this.keepHistoryFor > 0) {
-      this.history.push(item());
+      this.history.push(event);
 
       // Prevent from growing infinitely
       if (this.history.length - 1 === this.keepHistoryFor) {
@@ -2220,11 +2388,11 @@ export class ActiveContent<T> {
     }
   }
 
-  private informSubscribers(): void {
-    if (!this.shouldInformSubscribers) {
+  private informSubscribers(event: ActiveContentEvent<T>): void {
+    if (this.isInitializing) {
       return;
     }
 
-    this.subscribers.forEach((subscriber) => subscriber(this));
+    this.subscribers.forEach((subscriber) => subscriber(this, event));
   }
 }
