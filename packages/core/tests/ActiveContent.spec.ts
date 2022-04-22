@@ -775,7 +775,13 @@ describe('ActiveContent limit 1', () => {
           expect(() => {
             activeContent.activateByIndex(4);
           }).toThrowError(
-            'uiloos > ActiveContent.activateByIndex > could not activate: index out of bounds'
+            `uiloos > ActiveContent > activateByIndex > IndexOutOfBoundsError > "index" is out of bounds`
+          );
+
+          expect(() => {
+            activeContent.activateByIndex(3);
+          }).toThrowError(
+            `uiloos > ActiveContent > activateByIndex > IndexOutOfBoundsError > "index" is out of bounds`
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -789,7 +795,7 @@ describe('ActiveContent limit 1', () => {
           expect(() => {
             activeContent.activateByIndex(-1);
           }).toThrowError(
-            'uiloos > ActiveContent.activateByIndex > could not activate: index out of bounds'
+            `uiloos > ActiveContent > activateByIndex > IndexOutOfBoundsError > "index" is out of bounds`
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -3579,7 +3585,7 @@ describe('ActiveContent limit 1', () => {
           expect(() => {
             activeContent.activateByIndex(2);
           }).toThrowError(
-            'uiloos > ActiveContent.activateByIndex > could not activate: limit is reached'
+            'uiloos > ActiveContent > activateByIndex > activation limit reached'
           );
 
           // Now deactivate an active index
@@ -3647,7 +3653,7 @@ describe('ActiveContent limit 1', () => {
         expect(() => {
           activeContent.activate('d');
         }).toThrowError(
-          'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
+          'uiloos > ActiveContent > getIndex > index cannot be found, item is not in contents array'
         );
 
         expect(activeContent.activateByIndex).toHaveBeenCalledTimes(0);
@@ -4166,7 +4172,13 @@ describe('ActiveContent limit 1', () => {
           expect(() => {
             activeContent.deactivateByIndex(4);
           }).toThrowError(
-            'uiloos > ActiveContent.deactivateByIndex > could not deactivate: index out of bounds'
+            `uiloos > ActiveContent > deactivateByIndex > IndexOutOfBoundsError > "index" is out of bounds`
+          );
+
+          expect(() => {
+            activeContent.deactivateByIndex(3);
+          }).toThrowError(
+            `uiloos > ActiveContent > deactivateByIndex > IndexOutOfBoundsError > "index" is out of bounds`
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -4180,7 +4192,7 @@ describe('ActiveContent limit 1', () => {
           expect(() => {
             activeContent.deactivateByIndex(-1);
           }).toThrowError(
-            'uiloos > ActiveContent.deactivateByIndex > could not deactivate: index out of bounds'
+            `uiloos > ActiveContent > deactivateByIndex > IndexOutOfBoundsError > "index" is out of bounds`
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -5245,7 +5257,7 @@ describe('ActiveContent limit 1', () => {
         expect(() => {
           activeContent.deactivate('d');
         }).toThrowError(
-          'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
+          'uiloos > ActiveContent > getIndex > index cannot be found, item is not in contents array'
         );
 
         expect(activeContent.deactivateByIndex).toHaveBeenCalledTimes(0);
@@ -5467,7 +5479,7 @@ describe('ActiveContent limit 1', () => {
         expect(() => {
           activeContent.insertAtIndex('d', 4);
         }).toThrowError(
-          'uiloos > ActiveContent.insertAtIndex > could not insert: index out of bounds'
+          `uiloos > ActiveContent > insertAtIndex > IndexOutOfBoundsError > "index" is out of bounds`
         );
 
         expect(subscriber).toHaveBeenCalledTimes(0);
@@ -5479,7 +5491,7 @@ describe('ActiveContent limit 1', () => {
         expect(() => {
           activeContent.insertAtIndex('d', -1);
         }).toThrowError(
-          'uiloos > ActiveContent.insertAtIndex > could not insert: index out of bounds'
+          `uiloos > ActiveContent > insertAtIndex > IndexOutOfBoundsError > "index" is out of bounds`
         );
 
         expect(subscriber).toHaveBeenCalledTimes(0);
@@ -6445,7 +6457,13 @@ describe('ActiveContent limit 1', () => {
           expect(() => {
             activeContent.removeByIndex(4);
           }).toThrowError(
-            'uiloos > ActiveContent.removeByIndex > could not remove: index out of bounds'
+            `uiloos > ActiveContent > removeByIndex > IndexOutOfBoundsError > "index" is out of bounds`
+          );
+
+          expect(() => {
+            activeContent.removeByIndex(3);
+          }).toThrowError(
+            `uiloos > ActiveContent > removeByIndex > IndexOutOfBoundsError > "index" is out of bounds`
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -6457,7 +6475,7 @@ describe('ActiveContent limit 1', () => {
           expect(() => {
             activeContent.removeByIndex(-1);
           }).toThrowError(
-            'uiloos > ActiveContent.removeByIndex > could not remove: index out of bounds'
+            `uiloos > ActiveContent > removeByIndex > IndexOutOfBoundsError > "index" is out of bounds`
           );
 
           expect(subscriber).toHaveBeenCalledTimes(0);
@@ -9514,7 +9532,13 @@ describe('ActiveContent limit 1', () => {
             expect(() => {
               activeContent.swapByIndex(4, 0);
             }).toThrowError(
-              'uiloos > ActiveContent.swapByIndex > could not swap: index a out of bounds'
+              `uiloos > ActiveContent > swapByIndex > IndexOutOfBoundsError > "a" is out of bounds`
+            );
+
+            expect(() => {
+              activeContent.swapByIndex(3, 0);
+            }).toThrowError(
+              `uiloos > ActiveContent > swapByIndex > IndexOutOfBoundsError > "a" is out of bounds`
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -9526,7 +9550,7 @@ describe('ActiveContent limit 1', () => {
             expect(() => {
               activeContent.swapByIndex(-1, 0);
             }).toThrowError(
-              'uiloos > ActiveContent.swapByIndex > could not swap: index a out of bounds'
+              `uiloos > ActiveContent > swapByIndex > IndexOutOfBoundsError > "a" is out of bounds`
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -9540,7 +9564,13 @@ describe('ActiveContent limit 1', () => {
             expect(() => {
               activeContent.swapByIndex(0, 4);
             }).toThrowError(
-              'uiloos > ActiveContent.swapByIndex > could not swap: index b out of bounds'
+              `uiloos > ActiveContent > swapByIndex > IndexOutOfBoundsError > "b" is out of bounds`
+            );
+
+             expect(() => {
+              activeContent.swapByIndex(0, 3);
+            }).toThrowError(
+              `uiloos > ActiveContent > swapByIndex > IndexOutOfBoundsError > "b" is out of bounds`
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -9552,7 +9582,7 @@ describe('ActiveContent limit 1', () => {
             expect(() => {
               activeContent.swapByIndex(0, -1);
             }).toThrowError(
-              'uiloos > ActiveContent.swapByIndex > could not swap: index b out of bounds'
+              `uiloos > ActiveContent > swapByIndex > IndexOutOfBoundsError > "b" is out of bounds`
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -10591,7 +10621,13 @@ describe('ActiveContent limit 1', () => {
             expect(() => {
               activeContent.moveByIndex(4, 0);
             }).toThrowError(
-              'uiloos > ActiveContent.moveByIndex > could not swap: index "from" out of bounds'
+              `uiloos > ActiveContent > moveByIndex > IndexOutOfBoundsError > "from" is out of bounds`
+            );
+
+            expect(() => {
+              activeContent.moveByIndex(3, 0);
+            }).toThrowError(
+              `uiloos > ActiveContent > moveByIndex > IndexOutOfBoundsError > "from" is out of bounds`
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -10603,7 +10639,7 @@ describe('ActiveContent limit 1', () => {
             expect(() => {
               activeContent.moveByIndex(-1, 0);
             }).toThrowError(
-              'uiloos > ActiveContent.moveByIndex > could not swap: index "from" out of bounds'
+              `uiloos > ActiveContent > moveByIndex > IndexOutOfBoundsError > "from" is out of bounds`
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -10617,7 +10653,13 @@ describe('ActiveContent limit 1', () => {
             expect(() => {
               activeContent.moveByIndex(0, 4);
             }).toThrowError(
-              'uiloos > ActiveContent.moveByIndex > could not swap: index "to" out of bounds'
+              `uiloos > ActiveContent > moveByIndex > IndexOutOfBoundsError > "to" is out of bounds`
+            );
+
+            expect(() => {
+              activeContent.moveByIndex(0, 3);
+            }).toThrowError(
+              `uiloos > ActiveContent > moveByIndex > IndexOutOfBoundsError > "to" is out of bounds`
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -10629,7 +10671,7 @@ describe('ActiveContent limit 1', () => {
             expect(() => {
               activeContent.moveByIndex(0, -1);
             }).toThrowError(
-              'uiloos > ActiveContent.moveByIndex > could not swap: index "to" out of bounds'
+              `uiloos > ActiveContent > moveByIndex > IndexOutOfBoundsError > "to" is out of bounds`
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
@@ -15689,7 +15731,7 @@ describe('ActiveContent limit 1', () => {
         expect(() =>
           activeContent.moveAtPredicate('y', ({ value }) => value === 'z')
         ).toThrowError(
-          'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
+          'uiloos > ActiveContent > getIndex > index cannot be found, item is not in contents array'
         );
       });
     });
@@ -15781,7 +15823,7 @@ describe('ActiveContent limit 1', () => {
         expect(() =>
           activeContent.moveBeforePredicate('y', ({ value }) => value === 'z')
         ).toThrowError(
-          'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
+          'uiloos > ActiveContent > getIndex > index cannot be found, item is not in contents array'
         );
       });
     });
@@ -15873,7 +15915,7 @@ describe('ActiveContent limit 1', () => {
         expect(() =>
           activeContent.moveAfterPredicate('y', ({ value }) => value === 'z')
         ).toThrowError(
-          'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
+          'uiloos > ActiveContent > getIndex > index cannot be found, item is not in contents array'
         );
       });
     });
@@ -16455,7 +16497,7 @@ describe('ActiveContent limit 1', () => {
         expect(() => {
           setup({ autoplay: { duration: -1 }, activeIndexes: 0 });
         }).toThrowError(
-          'uiloos > ActiveContent.autoplay duration cannot be negative or zero'
+          'uiloos > ActiveContent > autoplay > duration cannot be negative or zero'
         );
       });
 
@@ -16463,7 +16505,7 @@ describe('ActiveContent limit 1', () => {
         expect(() => {
           setup({ autoplay: { duration: 0 }, activeIndexes: 0 });
         }).toThrowError(
-          'uiloos > ActiveContent.autoplay duration cannot be negative or zero'
+          'uiloos > ActiveContent > autoplay > duration cannot be negative or zero'
         );
       });
     });
@@ -16941,13 +16983,13 @@ describe('ActiveContent limit 1', () => {
       test('cannot be less than zero', () => {
         expect(() => {
           setup({ cooldown: -1, activeIndexes: 0 });
-        }).toThrowError('uiloos > cooldown cannot be negative or zero');
+        }).toThrowError('uiloos > ActiveContent > cooldown > duration cannot be negative or zero');
       });
 
       test('cannot be zero', () => {
         expect(() => {
           setup({ cooldown: 0, activeIndexes: 0 });
-        }).toThrowError('uiloos > cooldown cannot be negative or zero');
+        }).toThrowError('uiloos > ActiveContent > cooldown > duration cannot be negative or zero');
       });
     });
 
@@ -16961,7 +17003,7 @@ describe('ActiveContent limit 1', () => {
               isUserInteraction: true,
               cooldown: -1,
             });
-          }).toThrowError('uiloos > cooldown cannot be negative or zero');
+          }).toThrowError('uiloos > ActiveContent > cooldown > duration cannot be negative or zero');
         });
 
         test('cannot be zero', () => {
@@ -16972,7 +17014,7 @@ describe('ActiveContent limit 1', () => {
               isUserInteraction: true,
               cooldown: 0,
             });
-          }).toThrowError('uiloos > cooldown cannot be negative or zero');
+          }).toThrowError('uiloos > ActiveContent > cooldown > duration cannot be negative or zero');
         });
       });
 
@@ -17193,7 +17235,7 @@ describe('ActiveContent limit 1', () => {
               isUserInteraction: true,
               cooldown: -1,
             });
-          }).toThrowError('uiloos > cooldown cannot be negative or zero');
+          }).toThrowError('uiloos > ActiveContent > cooldown > duration cannot be negative or zero');
         });
 
         test('cannot be zero', () => {
@@ -17204,7 +17246,7 @@ describe('ActiveContent limit 1', () => {
               isUserInteraction: true,
               cooldown: 0,
             });
-          }).toThrowError('uiloos > cooldown cannot be negative or zero');
+          }).toThrowError('uiloos > ActiveContent > cooldown > duration cannot be negative or zero');
         });
       });
 

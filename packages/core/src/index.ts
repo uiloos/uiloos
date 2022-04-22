@@ -1,5 +1,9 @@
 import { ActiveContent } from './ActiveContent/ActiveContent';
 import { Content } from './ActiveContent/Content';
+import { ActivationLimitReachedError } from './ActiveContent/errors/ActivationLimitReachedError';
+import { AutoplayDurationError } from './ActiveContent/errors/AutoplayDurationError';
+import { CooldownDurationError } from './ActiveContent/errors/CooldownDurationError';
+import { IndexOutOfBoundsError } from './ActiveContent/errors/IndexOutOfBoundsError';
 
 
 import {
@@ -48,4 +52,8 @@ export {
   SwappedEvent,
   MovedEvent,
   ActiveContentEventType,
+  IndexOutOfBoundsError,
+  AutoplayDurationError,
+  ActivationLimitReachedError,
+  CooldownDurationError
 };

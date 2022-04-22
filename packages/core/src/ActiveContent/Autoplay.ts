@@ -1,4 +1,5 @@
 import { ActivationOptions, ActiveContent, AutoplayConfig, Content } from '..';
+import { AutoplayDurationError } from './errors/AutoplayDurationError';
 
 export class Autoplay<T> {
   /*
@@ -72,9 +73,7 @@ export class Autoplay<T> {
     );
 
     if (duration <= 0) {
-      throw new Error(
-        'uiloos > ActiveContent.autoplay duration cannot be negative or zero'
-      );
+      throw new AutoplayDurationError();
     }
 
     this.autoplayCurrentDuration = duration;

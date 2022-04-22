@@ -14,8 +14,6 @@ check all documentation.
 6. isCircular representation of the content for carousel
 ### Now
 
-18. Custom Errors
-
 19. Split ActiveContent
 
 20. Prefix every type with ActiveContent

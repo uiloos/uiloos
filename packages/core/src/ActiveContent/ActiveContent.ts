@@ -1,6 +1,9 @@
 import { Autoplay } from './Autoplay';
 import { Content } from './Content';
 import { CooldownTimer } from './CooldownTimer';
+import { ActivationLimitReachedError } from './errors/ActivationLimitReachedError';
+import { throwIndexOutOfBoundsError } from './errors/IndexOutOfBoundsError';
+import { ItemNotFoundError } from './errors/ItemNotFoundError';
 import {
   ActivationOptions,
   AutoplayConfig,
@@ -91,7 +94,8 @@ export class ActiveContent<T> {
    *    the last item can be added without violating the limit. This
    *    basically means that the first one in is the first one out.
    *
-   * 2. 'error': An error is thrown whenever the limit is surpassed.: TODO: ERROR HERE
+   * 2. 'error': An error is thrown whenever the limit is surpassed,
+   *    the error is called the `ActivationLimitReachedError`.
    *
    * 3. 'ignore': Nothing happens when an item is added and the limit
    *    is ignored. The item is simply not added, but no error is
@@ -467,9 +471,7 @@ export class ActiveContent<T> {
     activationOptions: ActivationOptions<T>
   ): Content<T> | null {
     if (index < 0 || index >= this.contents.length) {
-      throw new Error(
-        'uiloos > ActiveContent.activateByIndex > could not activate: index out of bounds'
-      );
+      throwIndexOutOfBoundsError("activateByIndex", "index");
     }
 
     // Do nothing when the index is already active.
@@ -489,9 +491,7 @@ export class ActiveContent<T> {
 
     if (limitReached) {
       if (this.maxActivationLimitBehavior === 'error') {
-        throw new Error(
-          'uiloos > ActiveContent.activateByIndex > could not activate: limit is reached'
-        );
+        throw new ActivationLimitReachedError();
       } else if (this.maxActivationLimitBehavior === 'ignore') {
         return null;
       }
@@ -871,9 +871,7 @@ export class ActiveContent<T> {
     */
 
     if (index < 0 || index >= this.contents.length) {
-      throw new Error(
-        'uiloos > ActiveContent.deactivateByIndex > could not deactivate: index out of bounds'
-      );
+      throwIndexOutOfBoundsError("deactivateByIndex", "index");
     }
 
     const indexOfIndex = this.activeIndexes.indexOf(index);
@@ -1105,9 +1103,7 @@ export class ActiveContent<T> {
    */
   public insertAtIndex(item: T, index: number): Content<T> {
     if (index < 0 || index > this.contents.length) {
-      throw new Error(
-        'uiloos > ActiveContent.insertAtIndex > could not insert: index out of bounds'
-      );
+      throwIndexOutOfBoundsError("insertAtIndex", "index");
     }
 
     // Create the new content
@@ -1295,10 +1291,8 @@ export class ActiveContent<T> {
   }
 
   private doRemoveAtIndex(index: number): T {
-    if (index < 0 || index > this.contents.length) {
-      throw new Error(
-        'uiloos > ActiveContent.removeByIndex > could not remove: index out of bounds'
-      );
+    if (index < 0 || index >= this.contents.length) {
+      throwIndexOutOfBoundsError("removeByIndex", "index");
     }
 
     const value: T = this.contents[index].value;
@@ -1486,15 +1480,11 @@ export class ActiveContent<T> {
    */
   public swapByIndex(a: number, b: number): void {
     if (a < 0 || a >= this.contents.length) {
-      throw new Error(
-        'uiloos > ActiveContent.swapByIndex > could not swap: index a out of bounds'
-      );
+      throwIndexOutOfBoundsError("swapByIndex", "a");
     }
 
     if (b < 0 || b >= this.contents.length) {
-      throw new Error(
-        'uiloos > ActiveContent.swapByIndex > could not swap: index b out of bounds'
-      );
+      throwIndexOutOfBoundsError("swapByIndex", "b");
     }
 
     // This is a developer mistake which is ok because nothing bad happens
@@ -1586,15 +1576,11 @@ export class ActiveContent<T> {
    */
   public moveByIndex(from: number, to: number): void {
     if (from < 0 || from >= this.contents.length) {
-      throw new Error(
-        'uiloos > ActiveContent.moveByIndex > could not swap: index "from" out of bounds'
-      );
+      throwIndexOutOfBoundsError("moveByIndex", "from");
     }
 
     if (to < 0 || to >= this.contents.length) {
-      throw new Error(
-        'uiloos > ActiveContent.moveByIndex > could not swap: index "to" out of bounds'
-      );
+      throwIndexOutOfBoundsError("moveByIndex", "to");
     }
 
     // This can happen when the developer gives a predicate which matches
@@ -2070,9 +2056,7 @@ export class ActiveContent<T> {
       }
     }
 
-    throw new Error(
-      'uiloos > ActiveContent.getIndex could not get index for item. Item not in contents array'
-    );
+    throw new ItemNotFoundError();
   }
 
   /**

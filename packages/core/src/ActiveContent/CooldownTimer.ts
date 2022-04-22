@@ -1,5 +1,6 @@
 import { ActiveContent } from './ActiveContent';
 import { Content } from './Content';
+import { CooldownDurationError } from './errors/CooldownDurationError';
 import { ActivationOptions, CooldownConfig } from './types';
 
 export class CooldownTimer<T> {
@@ -90,7 +91,7 @@ export class CooldownTimer<T> {
 
   private assertCooldownNotNegativeOrZero(cooldownValue: number) {
     if (cooldownValue <= 0) {
-      throw new Error('uiloos > cooldown cannot be negative or zero');
+      throw new CooldownDurationError();
     }
   }
 }
