@@ -24,7 +24,7 @@ import {
   MovedEvent,
   RemovedMultipleEvent,
   DeactivatedMultipleEvent,
-  ActivatedMultipleEvent,
+  ActivatedMultipleEvent
 } from './types';
 
 /**
@@ -220,7 +220,7 @@ export class ActiveContent<T> {
    * This means that a history at index 0 is further in the past than
    * an item at index 1.
    *
-   * WARNING: all events store indexes, values and combinations thereof. 
+   * WARNING: all events store indexes, values and combinations thereof.
    * The `index` of an item in the history may no longer be accurate, it
    * is the index at the time of the event. Same goes for the `value`
    * when it is an array of object, as it might have been mutated, the
@@ -400,9 +400,8 @@ export class ActiveContent<T> {
       indexes: [...this.activeIndexes],
       time: new Date(),
     };
-    this.pushHistory(event);
 
-    this.informSubscribers(event);
+    this.inform(event);
   }
 
   // Creates a broken content which contains lies and deceptions...
@@ -438,10 +437,7 @@ export class ActiveContent<T> {
       cooldown: undefined,
     }
   ): void {
-    const activatedContent = this.doActivateByIndex(
-      index,
-      activationOptions
-    );
+    const activatedContent = this.doActivateByIndex(index, activationOptions);
 
     if (!activatedContent) {
       return;
@@ -461,17 +457,15 @@ export class ActiveContent<T> {
       time: new Date(),
     };
 
-    this.pushHistory(event);
-
-    this.informSubscribers(event);
+    this.inform(event);
   }
 
   private doActivateByIndex(
     index: number,
     activationOptions: ActivationOptions<T>
   ): Content<T> | null {
-    if (index < 0 || index >= this.contents.length) {
-      throwIndexOutOfBoundsError("activateByIndex", "index");
+    if (this.checkIndex(index)) {
+      throwIndexOutOfBoundsError('activateByIndex', 'index');
     }
 
     // Do nothing when the index is already active.
@@ -604,7 +598,7 @@ export class ActiveContent<T> {
 
     let lastActivated = null;
 
-    this.executeActionWhenPredicate(predicate, (index) => {
+    this.execPred(predicate, (index) => {
       const content = this.doActivateByIndex(index, activationOptions);
 
       if (content) {
@@ -630,9 +624,7 @@ export class ActiveContent<T> {
       time: new Date(),
     };
 
-    this.pushHistory(event);
-
-    this.informSubscribers(event);
+    this.inform(event);
   }
 
   /**
@@ -770,9 +762,7 @@ export class ActiveContent<T> {
       time: new Date(),
     };
 
-    this.pushHistory(event);
-
-    this.informSubscribers(event);
+    this.inform(event);
   }
 
   private doDeactivateByIndex(
@@ -870,8 +860,8 @@ export class ActiveContent<T> {
            one for activation.
     */
 
-    if (index < 0 || index >= this.contents.length) {
-      throwIndexOutOfBoundsError("deactivateByIndex", "index");
+    if (this.checkIndex(index)) {
+      throwIndexOutOfBoundsError('deactivateByIndex', 'index');
     }
 
     const indexOfIndex = this.activeIndexes.indexOf(index);
@@ -898,9 +888,7 @@ export class ActiveContent<T> {
 
     // When empty we go into a special reset routine.
     if (this.activeIndexes.length === 0) {
-      this.lastActivated = null;
-      this.lastActivatedContent = null;
-      this.lastActivatedIndex = -1;
+      this.emptyLastActives();
 
       this.direction = 'right';
     } else {
@@ -989,7 +977,7 @@ export class ActiveContent<T> {
 
     let lastRemoved = null;
 
-    this.executeActionWhenPredicate(predicate, (index) => {
+    this.execPred(predicate, (index) => {
       const content = this.doDeactivateByIndex(index, activationOptions);
 
       if (content) {
@@ -1012,9 +1000,7 @@ export class ActiveContent<T> {
       time: new Date(),
     };
 
-    this.pushHistory(event);
-
-    this.informSubscribers(event);
+    this.inform(event);
   }
 
   /**
@@ -1103,7 +1089,7 @@ export class ActiveContent<T> {
    */
   public insertAtIndex(item: T, index: number): Content<T> {
     if (index < 0 || index > this.contents.length) {
-      throwIndexOutOfBoundsError("insertAtIndex", "index");
+      throwIndexOutOfBoundsError('insertAtIndex', 'index');
     }
 
     // Create the new content
@@ -1141,9 +1127,7 @@ export class ActiveContent<T> {
       time: new Date(),
     };
 
-    this.pushHistory(event);
-
-    this.informSubscribers(event);
+    this.inform(event);
 
     return content;
   }
@@ -1173,7 +1157,7 @@ export class ActiveContent<T> {
     predicate: ContentPredicate<T>,
     mod: number
   ): Content<T> | null {
-    return this.executeActionWhenPredicate(predicate, (index) => {
+    return this.execPred(predicate, (index) => {
       const atIndex = Math.max(0, index + mod);
 
       return this.insertAtIndex(item, atIndex);
@@ -1283,16 +1267,14 @@ export class ActiveContent<T> {
       time: new Date(),
     };
 
-    this.pushHistory(event);
-
-    this.informSubscribers(event);
+    this.inform(event);
 
     return value;
   }
 
   private doRemoveAtIndex(index: number): T {
-    if (index < 0 || index >= this.contents.length) {
-      throwIndexOutOfBoundsError("removeByIndex", "index");
+    if (this.checkIndex(index)) {
+      throwIndexOutOfBoundsError('removeByIndex', 'index');
     }
 
     const value: T = this.contents[index].value;
@@ -1371,7 +1353,7 @@ export class ActiveContent<T> {
     // The tricky bit about this is that the index will shuffle when
     // removing an item mid air. So we put the matching items in the
     // array first for later processing.
-    this.executeActionWhenPredicate(predicate, (index) => {
+    this.execPred(predicate, (index) => {
       const content = this.contents[index];
       removed.push(content);
     });
@@ -1460,9 +1442,7 @@ export class ActiveContent<T> {
         time: new Date(),
       };
 
-      this.pushHistory(event);
-
-      this.informSubscribers(event);
+      this.inform(event);
     }
 
     return removedValues;
@@ -1479,12 +1459,12 @@ export class ActiveContent<T> {
    * @throws Index out of bounds error.
    */
   public swapByIndex(a: number, b: number): void {
-    if (a < 0 || a >= this.contents.length) {
-      throwIndexOutOfBoundsError("swapByIndex", "a");
+    if (this.checkIndex(a)) {
+      throwIndexOutOfBoundsError('swapByIndex', 'a');
     }
 
-    if (b < 0 || b >= this.contents.length) {
-      throwIndexOutOfBoundsError("swapByIndex", "b");
+    if (this.checkIndex(b)) {
+      throwIndexOutOfBoundsError('swapByIndex', 'b');
     }
 
     // This is a developer mistake which is ok because nothing bad happens
@@ -1536,9 +1516,7 @@ export class ActiveContent<T> {
       time: new Date(),
     };
 
-    this.pushHistory(event);
-
-    this.informSubscribers(event);
+    this.inform(event);
   }
 
   /**
@@ -1575,12 +1553,12 @@ export class ActiveContent<T> {
    * @throws Index out of bounds error.
    */
   public moveByIndex(from: number, to: number): void {
-    if (from < 0 || from >= this.contents.length) {
-      throwIndexOutOfBoundsError("moveByIndex", "from");
+    if (this.checkIndex(from)) {
+      throwIndexOutOfBoundsError('moveByIndex', 'from');
     }
 
-    if (to < 0 || to >= this.contents.length) {
-      throwIndexOutOfBoundsError("moveByIndex", "to");
+    if (this.checkIndex(to)) {
+      throwIndexOutOfBoundsError('moveByIndex', 'to');
     }
 
     // This can happen when the developer gives a predicate which matches
@@ -1897,9 +1875,7 @@ export class ActiveContent<T> {
       time: new Date(),
     };
 
-    this.pushHistory(event);
-
-    this.informSubscribers(event);
+    this.inform(event);
   }
 
   /**
@@ -1926,12 +1902,12 @@ export class ActiveContent<T> {
     predicate: ContentPredicate<T>,
     mod: number
   ): void {
-    this.executeActionWhenPredicate(predicate, (index, length) => {
+    this.execPred(predicate, (index, length) => {
       const atIndex = Math.min(Math.max(0, index + mod), length - 1);
 
       this.moveByIndex(fromIndex, atIndex);
 
-      // By returning something `executeActionWhenPredicate` stops.
+      // By returning something `execPred` stops.
       return true;
     });
   }
@@ -2325,7 +2301,7 @@ export class ActiveContent<T> {
   }
 
   // exists only for code reduction, not to make things clearer
-  private executeActionWhenPredicate<R>(
+  private execPred<R>(
     predicate: ContentPredicate<T>,
     action: (index: number, length: number) => R
   ): R | null {
@@ -2356,7 +2332,7 @@ export class ActiveContent<T> {
     return null;
   }
 
-  private pushHistory(event: ActiveContentEvent<T>): void {
+  private inform(event: ActiveContentEvent<T>): void {
     if (this.isInitializing) {
       return;
     }
@@ -2370,13 +2346,11 @@ export class ActiveContent<T> {
         this.history.shift();
       }
     }
-  }
-
-  private informSubscribers(event: ActiveContentEvent<T>): void {
-    if (this.isInitializing) {
-      return;
-    }
 
     this.subscribers.forEach((subscriber) => subscriber(this, event));
+  }
+
+  private checkIndex(index: number): boolean {
+    return index < 0 || index >= this.contents.length;
   }
 }
