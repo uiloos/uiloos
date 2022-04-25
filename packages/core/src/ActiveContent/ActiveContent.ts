@@ -24,7 +24,9 @@ import {
   MovedEvent,
   RemovedMultipleEvent,
   DeactivatedMultipleEvent,
-  ActivatedMultipleEvent
+  ActivatedMultipleEvent,
+  ActiveContentPredicateMode,
+  PredicateOptions,
 } from './types';
 
 /**
@@ -1082,7 +1084,7 @@ export class ActiveContent<T> {
    * means that the index can only be between `0` and `contents.length`.
    * If you give it a larger or smaller index it will throw an error.
    *
-   * @param {T} item The item to add.
+   * @param {T} item The item to insert.
    * @param {number} index The index at which to insert the item.
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    * @throws Index out of bounds error.
@@ -1135,7 +1137,7 @@ export class ActiveContent<T> {
   /**
    * Will add an item to the end of the `contents` array.
    *
-   * @param {T} item The item to add.
+   * @param {T} item The item to insert.
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
   public push(item: T): Content<T> {
@@ -1145,23 +1147,11 @@ export class ActiveContent<T> {
   /**
    * Will add an item at the start of the `contents` array.
    *
-   * @param {T} item The item to add.
+   * @param {T} item The item to insert.
    * @returns {Content<T>} The newly inserted item wrapped in a `Content`
    */
   public unshift(item: T): Content<T> {
     return this.insertAtIndex(item, 0);
-  }
-
-  private insertPredicateWithMod(
-    item: T,
-    predicate: ContentPredicate<T>,
-    mod: number
-  ): Content<T> | null {
-    return this.execPred(predicate, (index) => {
-      const atIndex = Math.max(0, index + mod);
-
-      return this.insertAtIndex(item, atIndex);
-    });
   }
 
   /**
@@ -1171,57 +1161,35 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is inserted and `null`
    * will be returned.
    *
-   * @param {T} item The item to add.
-   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item in that position.
-   * @returns {Content<T>} The newly inserted item wrapped in a `Content`
+   * The position to where the `Content` is inserted can be altered by
+   * providing a mode:
+   *
+   *  1. When the mode is 'at', the `Content` is inserted to the
+   *     position where the predicate matches. This is the `default`
+   *     mode.
+   *
+   *  2. When the mode is 'after', the `Content` is inserted to after
+   *     the position where the predicate matches.
+   *
+   *  3. When the mode is 'before', the `Content` is inserted to
+   *     before the position where the predicate matches.
+   *
+   * @param {T} item The item to insert.
+   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to that position.
+   * @param {PredicateOptions} options The options for the predicate, when no options are provided the mode will default to "at".
    */
-  public insertAtPredicate(
+  public insertByPredicate(
     item: T,
-    predicate: ContentPredicate<T>
+    predicate: ContentPredicate<T>,
+    options: PredicateOptions = { mode: 'at' }
   ): Content<T> | null {
-    return this.insertPredicateWithMod(item, predicate, 0);
-  }
+    const mod = this.modeToMod(options.mode);
 
-  /**
-   * Will add an item before the position in the `contents` array when when
-   * the predicate returns `true` for the `item` and `index`.
-   *
-   * If no item matches the predicate nothing is inserted and `null`
-   * will be returned.
-   *
-   * If the predicate matches at the first item, it will be inserted
-   * at the start of the `contents` array.
-   *
-   * @param {T} item The item to add.
-   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item before that position.
-   * @returns {Content<T>} The newly inserted item wrapped in a `Content`
-   */
-  public insertBeforePredicate(
-    item: T,
-    predicate: ContentPredicate<T>
-  ): Content<T> | null {
-    return this.insertPredicateWithMod(item, predicate, -1);
-  }
+    return this.execPred(predicate, (index) => {
+      const atIndex = Math.max(0, index + mod);
 
-  /**
-   * Will add an item after the position in the `contents` array when when
-   * the predicate returns true for the `item` and `index`.
-   *
-   * If no item matches the predicate nothing is inserted and `null`
-   * will be returned.
-   *
-   * If the predicate matches at the last item, it will be inserted
-   * at the end of the `contents` array.
-   *
-   * @param {T} item The item to add.
-   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will insert the item after that position.
-   * @returns {Content<T>} The newly inserted item wrapped in a `Content`
-   */
-  public insertAfterPredicate(
-    item: T,
-    predicate: ContentPredicate<T>
-  ): Content<T> | null {
-    return this.insertPredicateWithMod(item, predicate, 1);
+      return this.insertAtIndex(item, atIndex);
+    });
   }
 
   /**
@@ -1339,7 +1307,7 @@ export class ActiveContent<T> {
    * Will remove all items from the `contents` array for which the
    * predicate based on the `item` and `index` returns `true`.
    *
-   * @param {T} item The item to add.
+   * @param {T} item The item to insert.
    * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will remove the item.
    * @returns {T[]} The removed items.
    */
@@ -1897,67 +1865,43 @@ export class ActiveContent<T> {
     this.moveByIndex(from, to);
   }
 
-  private moveByIndexPredicateWithMod(
-    fromIndex: number,
-    predicate: ContentPredicate<T>,
-    mod: number
-  ): void {
-    this.execPred(predicate, (index, length) => {
-      const atIndex = Math.min(Math.max(0, index + mod), length - 1);
-
-      this.moveByIndex(fromIndex, atIndex);
-
-      // By returning something `execPred` stops.
-      return true;
-    });
-  }
-
   /**
    * Moves the `Content`, at the index, to the position of the
    * item for which the predicate returns `true`.
    *
    * If no item matches the predicate nothing is moved.
    *
+   * The position to where the `Content` moves can be altered by
+   * providing a mode:
+   *
+   *  1. When the mode is 'at', the `Content` is moved to the position
+   *     where the predicate matches. This is the `default` mode.
+   *
+   *  2. When the mode is 'after', the `Content` is moved to after the
+   *     position where the predicate matches.
+   *
+   *  3. When the mode is 'before', the `Content` is moved to before
+   *     the position where the predicate matches.
+   *
    * @param {number} index The index to move.
    * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to that position.
+   * @param {PredicateOptions} options The options for the predicate, when no options are provided the mode will default to "at".
    */
-  public moveByIndexAtPredicate(
+  public moveByIndexByPredicate(
     index: number,
-    predicate: ContentPredicate<T>
+    predicate: ContentPredicate<T>,
+    options: PredicateOptions = { mode: 'at' }
   ): void {
-    this.moveByIndexPredicateWithMod(index, predicate, 0);
-  }
+    const mod = this.modeToMod(options.mode);
 
-  /**
-   * Moves the `Content`, at the index, to the position before the
-   * item for which the predicate returns `true`.
-   *
-   * If no item matches the predicate nothing is moved.
-   *
-   * @param {number} index The index to move.
-   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to before that position.
-   */
-  public moveByIndexBeforePredicate(
-    index: number,
-    predicate: ContentPredicate<T>
-  ): void {
-    this.moveByIndexPredicateWithMod(index, predicate, -1);
-  }
+    this.execPred(predicate, (i, length) => {
+      const atIndex = Math.min(Math.max(0, i + mod), length - 1);
 
-  /**
-   * Moves the `Content`, at the index, to the position after the
-   * item for which the predicate returns `true`.
-   *
-   * If no item matches the predicate nothing is moved.
-   *
-   * @param {number} index The index to move.
-   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
-   */
-  public moveByIndexAfterPredicate(
-    index: number,
-    predicate: ContentPredicate<T>
-  ): void {
-    this.moveByIndexPredicateWithMod(index, predicate, 1);
+      this.moveByIndex(index, atIndex);
+
+      // By returning something `execPred` stops.
+      return true;
+    });
   }
 
   /**
@@ -1969,47 +1913,30 @@ export class ActiveContent<T> {
    *
    * If no item matches the predicate nothing is moved.
    *
+   * The position to where the `Content` moves can be altered by
+   * providing a mode:
+   *
+   *  1. When the mode is 'at', the `Content` is moved to the position
+   *     where the predicate matches. This is the `default` mode.
+   *
+   *  2. When the mode is 'after', the `Content` is moved to after the
+   *     position where the predicate matches.
+   *
+   *  3. When the mode is 'before', the `Content` is moved to before
+   *     the position where the predicate matches.
+   *
    * @param {T} item The item to move.
    * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
+   * @param {PredicateOptions} options The options for the predicate, when no options are provided the mode will default to "at".
    * @throws Item not found error
    */
-  public moveAtPredicate(item: T, predicate: ContentPredicate<T>): void {
+  public moveByPredicate(
+    item: T,
+    predicate: ContentPredicate<T>,
+    options?: PredicateOptions
+  ): void {
     const index = this.getIndex(item);
-    this.moveByIndexPredicateWithMod(index, predicate, 0);
-  }
-
-  /**
-   * Moves the `Content` which matches the value of the item based
-   * on `===` equality. To the position before the item for which
-   * the predicate returns `true`.
-   *
-   * When multiple items match on `===` only the first matching item is moved.
-   *
-   * If no item matches the predicate nothing is moved.
-   *
-   * @param {number} index The index to move.
-   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
-   */
-  public moveBeforePredicate(item: T, predicate: ContentPredicate<T>): void {
-    const index = this.getIndex(item);
-    this.moveByIndexPredicateWithMod(index, predicate, -1);
-  }
-
-  /**
-   * Moves the `Content` which matches the value of the item based
-   * on `===` equality. To the position after the item for which
-   * the predicate returns `true`.
-   *
-   * When multiple items match on `===` only the first matching item is moved.
-   *
-   * If no item matches the predicate nothing is moved.
-   *
-   * @param {number} index The index to move.
-   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
-   */
-  public moveAfterPredicate(item: T, predicate: ContentPredicate<T>): void {
-    const index = this.getIndex(item);
-    this.moveByIndexPredicateWithMod(index, predicate, 1);
+    this.moveByIndexByPredicate(index, predicate, options);
   }
 
   /**
@@ -2085,7 +2012,7 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Wether or not the contents is an empty array or not.
+   * Whether or not the contents is an empty array.
    */
   public isEmpty(): boolean {
     return this.contents.length === 0;
@@ -2352,5 +2279,9 @@ export class ActiveContent<T> {
 
   private checkIndex(index: number): boolean {
     return index < 0 || index >= this.contents.length;
+  }
+
+  private modeToMod(mode: ActiveContentPredicateMode): number {
+    return mode === 'at' ? 0 : mode === 'after' ? 1 : -1;
   }
 }

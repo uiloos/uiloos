@@ -5,7 +5,6 @@ import { AutoplayDurationError } from './ActiveContent/errors/AutoplayDurationEr
 import { CooldownDurationError } from './ActiveContent/errors/CooldownDurationError';
 import { IndexOutOfBoundsError } from './ActiveContent/errors/IndexOutOfBoundsError';
 
-
 import {
   ActiveContentConfig,
   ActivationOptions,
@@ -27,6 +26,8 @@ import {
   SwappedEvent,
   MovedEvent,
   ActiveContentEventType,
+  PredicateOptions,
+  ActiveContentPredicateMode
 } from './ActiveContent/types';
 
 export {
@@ -55,5 +56,7 @@ export {
   IndexOutOfBoundsError,
   AutoplayDurationError,
   ActivationLimitReachedError,
-  CooldownDurationError
+  CooldownDurationError,
+  PredicateOptions,
+  ActiveContentPredicateMode
 };

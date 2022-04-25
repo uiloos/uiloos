@@ -758,3 +758,17 @@ export type ActiveContentEvent<T> =
   | MovedEvent<T>
   | DeactivatedEvent<T>
   | DeactivatedMultipleEvent<T>;
+
+/**
+ * Represents where the action needs to take place for when a 
+ * predicate is provided. 
+ */
+export type ActiveContentPredicateMode = 'at' | 'before' | 'after';
+
+/**
+ * Represents options for methods which require predicates.
+ */
+export type PredicateOptions = {
+  mode: ActiveContentPredicateMode
+}
+

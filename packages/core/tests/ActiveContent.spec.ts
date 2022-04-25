@@ -3865,16 +3865,14 @@ describe('ActiveContent limit 1', () => {
           'z',
         ]);
 
-        activeContent.activateByPredicate(
-          (data) => {
-            expect(data.index).toBeDefined();
-            expect(data.value).toBeDefined();
-            expect(data.content).toBeDefined();
-            expect(data.activeContent).toBeDefined();
+        activeContent.activateByPredicate((data) => {
+          expect(data.index).toBeDefined();
+          expect(data.value).toBeDefined();
+          expect(data.content).toBeDefined();
+          expect(data.activeContent).toBeDefined();
 
-            return data.value === 'a';
-          }
-        );
+          return data.value === 'a';
+        });
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -5378,16 +5376,14 @@ describe('ActiveContent limit 1', () => {
           ['b', 'a', 'a', 'z']
         );
 
-        activeContent.deactivateByPredicate(
-          (data) => {
-            expect(data.index).toBeDefined();
-            expect(data.value).toBeDefined();
-            expect(data.content).toBeDefined();
-            expect(data.activeContent).toBeDefined();
+        activeContent.deactivateByPredicate((data) => {
+          expect(data.index).toBeDefined();
+          expect(data.value).toBeDefined();
+          expect(data.content).toBeDefined();
+          expect(data.activeContent).toBeDefined();
 
-            return data.value === 'c';
-          }
-        );
+          return data.value === 'c';
+        });
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -5505,39 +5501,43 @@ describe('ActiveContent limit 1', () => {
 
       expect(subscriber).toHaveBeenCalledTimes(1);
 
-      assertLastSubscriber(subscriber, {
-        active: [],
-        activeContents: [],
-        activeIndexes: [],
-        lastActivated: null,
-        lastActivatedContent: null,
-        lastActivatedIndex: -1,
-        isCircular: false,
-        direction: 'right',
-        maxActivationLimit: 1,
-        maxActivationLimitBehavior: 'circular',
-        history: [],
-        hasActiveChangedAtLeastOnce: false,
-        contents: [
-          {
-            active: false,
-            index: 0,
-            value: 'z',
-            isFirst: true,
-            isLast: true,
-            hasNext: false,
-            hasPrevious: false,
-            isNext: false,
-            isPrevious: false,
-            hasBeenActiveBefore: false,
-          },
-        ],
-      }, {
-        type: 'INSERTED',
-        value: 'z',
-        index: 0,
-        time: new Date()
-      });
+      assertLastSubscriber(
+        subscriber,
+        {
+          active: [],
+          activeContents: [],
+          activeIndexes: [],
+          lastActivated: null,
+          lastActivatedContent: null,
+          lastActivatedIndex: -1,
+          isCircular: false,
+          direction: 'right',
+          maxActivationLimit: 1,
+          maxActivationLimitBehavior: 'circular',
+          history: [],
+          hasActiveChangedAtLeastOnce: false,
+          contents: [
+            {
+              active: false,
+              index: 0,
+              value: 'z',
+              isFirst: true,
+              isLast: true,
+              hasNext: false,
+              hasPrevious: false,
+              isNext: false,
+              isPrevious: false,
+              hasBeenActiveBefore: false,
+            },
+          ],
+        },
+        {
+          type: 'INSERTED',
+          value: 'z',
+          index: 0,
+          time: new Date(),
+        }
+      );
     });
 
     describe('inserting when maxActivationLimit is 1', () => {
@@ -5548,75 +5548,79 @@ describe('ActiveContent limit 1', () => {
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['a'],
-          activeContents: [activeContent.contents[1]],
-          activeIndexes: [1],
-          lastActivated: 'a',
-          lastActivatedContent: activeContent.contents[1],
-          lastActivatedIndex: 1,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: false,
-              index: 0,
-              value: 'd',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: true,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: true,
-              index: 1,
-              value: 'a',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: false,
-              index: 2,
-              value: 'b',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: true,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 3,
-              value: 'c',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        }, {
-          type: 'INSERTED',
-          value: 'd',
-          index: 0,
-          time: new Date()
-        });
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: ['a'],
+            activeContents: [activeContent.contents[1]],
+            activeIndexes: [1],
+            lastActivated: 'a',
+            lastActivatedContent: activeContent.contents[1],
+            lastActivatedIndex: 1,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            contents: [
+              {
+                active: false,
+                index: 0,
+                value: 'd',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: true,
+                index: 1,
+                value: 'a',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                active: false,
+                index: 2,
+                value: 'b',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: true,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: false,
+                index: 3,
+                value: 'c',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+            ],
+          },
+          {
+            type: 'INSERTED',
+            value: 'd',
+            index: 0,
+            time: new Date(),
+          }
+        );
       });
 
       test('inserting in the middle', () => {
@@ -5626,75 +5630,79 @@ describe('ActiveContent limit 1', () => {
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['a'],
-          activeContents: [activeContent.contents[0]],
-          activeIndexes: [0],
-          lastActivated: 'a',
-          lastActivatedContent: activeContent.contents[0],
-          lastActivatedIndex: 0,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: true,
-              index: 0,
-              value: 'a',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: false,
-              index: 1,
-              value: 'd',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: true,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 2,
-              value: 'b',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 3,
-              value: 'c',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        }, {
-          type: 'INSERTED',
-          value: 'd',
-          index: 1,
-          time: new Date()
-        });
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: ['a'],
+            activeContents: [activeContent.contents[0]],
+            activeIndexes: [0],
+            lastActivated: 'a',
+            lastActivatedContent: activeContent.contents[0],
+            lastActivatedIndex: 0,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            contents: [
+              {
+                active: true,
+                index: 0,
+                value: 'a',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                active: false,
+                index: 1,
+                value: 'd',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: true,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: false,
+                index: 2,
+                value: 'b',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: false,
+                index: 3,
+                value: 'c',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+            ],
+          },
+          {
+            type: 'INSERTED',
+            value: 'd',
+            index: 1,
+            time: new Date(),
+          }
+        );
       });
 
       test('inserting at the end', () => {
@@ -5704,75 +5712,79 @@ describe('ActiveContent limit 1', () => {
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['a'],
-          activeContents: [activeContent.contents[0]],
-          activeIndexes: [0],
-          lastActivated: 'a',
-          lastActivatedContent: activeContent.contents[0],
-          lastActivatedIndex: 0,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: true,
-              index: 0,
-              value: 'a',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: false,
-              index: 1,
-              value: 'b',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: true,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 2,
-              value: 'c',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 3,
-              value: 'd',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        }, {
-          type: 'INSERTED',
-          value: 'd',
-          index: 3,
-          time: new Date()
-        });
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: ['a'],
+            activeContents: [activeContent.contents[0]],
+            activeIndexes: [0],
+            lastActivated: 'a',
+            lastActivatedContent: activeContent.contents[0],
+            lastActivatedIndex: 0,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            contents: [
+              {
+                active: true,
+                index: 0,
+                value: 'a',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                active: false,
+                index: 1,
+                value: 'b',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: true,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: false,
+                index: 2,
+                value: 'c',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: false,
+                index: 3,
+                value: 'd',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+            ],
+          },
+          {
+            type: 'INSERTED',
+            value: 'd',
+            index: 3,
+            time: new Date(),
+          }
+        );
       });
     });
 
@@ -5787,79 +5799,83 @@ describe('ActiveContent limit 1', () => {
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['a', 'b', 'c'],
-          activeContents: [
-            activeContent.contents[1],
-            activeContent.contents[2],
-            activeContent.contents[3],
-          ],
-          activeIndexes: [1, 2, 3],
-          lastActivated: 'c',
-          lastActivatedContent: activeContent.contents[3],
-          lastActivatedIndex: 3,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: false,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: false,
-              index: 0,
-              value: 'd',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: true,
-              index: 1,
-              value: 'a',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: true,
-              index: 2,
-              value: 'b',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: true,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: true,
-              index: 3,
-              value: 'c',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-          ],
-        }, {
-          type: 'INSERTED',
-          value: 'd',
-          index: 0,
-          time: new Date()
-        });
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: ['a', 'b', 'c'],
+            activeContents: [
+              activeContent.contents[1],
+              activeContent.contents[2],
+              activeContent.contents[3],
+            ],
+            activeIndexes: [1, 2, 3],
+            lastActivated: 'c',
+            lastActivatedContent: activeContent.contents[3],
+            lastActivatedIndex: 3,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: false,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            contents: [
+              {
+                active: false,
+                index: 0,
+                value: 'd',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: true,
+                index: 1,
+                value: 'a',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                active: true,
+                index: 2,
+                value: 'b',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: true,
+              },
+              {
+                active: true,
+                index: 3,
+                value: 'c',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+            ],
+          },
+          {
+            type: 'INSERTED',
+            value: 'd',
+            index: 0,
+            time: new Date(),
+          }
+        );
       });
 
       test('inserting in the middle', () => {
@@ -5872,79 +5888,83 @@ describe('ActiveContent limit 1', () => {
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['a', 'b', 'c'],
-          activeContents: [
-            activeContent.contents[0],
-            activeContent.contents[2],
-            activeContent.contents[3],
-          ],
-          activeIndexes: [0, 2, 3],
-          lastActivated: 'c',
-          lastActivatedContent: activeContent.contents[3],
-          lastActivatedIndex: 3,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: false,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: true,
-              index: 0,
-              value: 'a',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: false,
-              index: 1,
-              value: 'd',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: true,
-              index: 2,
-              value: 'b',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: true,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: true,
-              index: 3,
-              value: 'c',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-          ],
-        }, {
-          type: 'INSERTED',
-          value: 'd',
-          index: 1,
-          time: new Date()
-        });
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: ['a', 'b', 'c'],
+            activeContents: [
+              activeContent.contents[0],
+              activeContent.contents[2],
+              activeContent.contents[3],
+            ],
+            activeIndexes: [0, 2, 3],
+            lastActivated: 'c',
+            lastActivatedContent: activeContent.contents[3],
+            lastActivatedIndex: 3,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: false,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            contents: [
+              {
+                active: true,
+                index: 0,
+                value: 'a',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                active: false,
+                index: 1,
+                value: 'd',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: true,
+                index: 2,
+                value: 'b',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: true,
+              },
+              {
+                active: true,
+                index: 3,
+                value: 'c',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+            ],
+          },
+          {
+            type: 'INSERTED',
+            value: 'd',
+            index: 1,
+            time: new Date(),
+          }
+        );
       });
 
       test('inserting at the end', () => {
@@ -5957,212 +5977,54 @@ describe('ActiveContent limit 1', () => {
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['a', 'b', 'c'],
-          activeContents: [
-            activeContent.contents[0],
-            activeContent.contents[1],
-            activeContent.contents[2],
-          ],
-          activeIndexes: [0, 1, 2],
-          lastActivated: 'c',
-          lastActivatedContent: activeContent.contents[2],
-          lastActivatedIndex: 2,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: false,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: true,
-              index: 0,
-              value: 'a',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: true,
-              index: 1,
-              value: 'b',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: true,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: true,
-              index: 2,
-              value: 'c',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: false,
-              index: 3,
-              value: 'd',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: true,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        }, {
-          type: 'INSERTED',
-          value: 'd',
-          index: 3,
-          time: new Date()
-        });
-      });
-    });
-
-    describe('inserting with predicate', () => {
-      test('insertAtPredicate', () => {
-        const { activeContent, subscriber } = setup({ activeIndexes: 0 });
-
-        activeContent.insertAtPredicate('d', ({ value }) => value === 'b');
-
-        expect(subscriber).toHaveBeenCalledTimes(1);
-
-        assertLastSubscriber(subscriber, {
-          active: ['a'],
-          activeContents: [activeContent.contents[0]],
-          activeIndexes: [0],
-          lastActivated: 'a',
-          lastActivatedContent: activeContent.contents[0],
-          lastActivatedIndex: 0,
-          isCircular: false,
-          direction: 'right',
-
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: true,
-              index: 0,
-              value: 'a',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: false,
-              index: 1,
-              value: 'd',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: true,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 2,
-              value: 'b',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 3,
-              value: 'c',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        }, {
-          type: 'INSERTED',
-          value: 'd',
-          index: 1,
-          time: new Date()
-        });
-      });
-
-      test('when no predicate matches do nothing', () => {
-        const { activeContent, subscriber } = setup({ activeIndexes: 0 });
-
-        activeContent.insertAtPredicate('z', ({ value }) => value === 'y');
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
-      });
-
-      describe('insertBeforePredicate', () => {
-        test('when first item returns true add at start and not at -1', () => {
-          const { activeContent, subscriber } = setup({ activeIndexes: 0 });
-
-          activeContent.insertBeforePredicate(
-            'd',
-            ({ value }) => value === 'a'
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['a'],
-            activeContents: [activeContent.contents[1]],
-            activeIndexes: [1],
-            lastActivated: 'a',
-            lastActivatedContent: activeContent.contents[1],
-            lastActivatedIndex: 1,
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: ['a', 'b', 'c'],
+            activeContents: [
+              activeContent.contents[0],
+              activeContent.contents[1],
+              activeContent.contents[2],
+            ],
+            activeIndexes: [0, 1, 2],
+            lastActivated: 'c',
+            lastActivatedContent: activeContent.contents[2],
+            lastActivatedIndex: 2,
             isCircular: false,
             direction: 'right',
-
-            maxActivationLimit: 1,
+            maxActivationLimit: false,
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: false,
+                active: true,
                 index: 0,
-                value: 'd',
+                value: 'a',
                 isFirst: true,
                 isLast: false,
                 hasNext: true,
                 hasPrevious: false,
                 isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
               },
               {
                 active: true,
                 index: 1,
-                value: 'a',
+                value: 'b',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: true,
+              },
+              {
+                active: true,
+                index: 2,
+                value: 'c',
                 isFirst: false,
                 isLast: false,
                 hasNext: true,
@@ -6173,13 +6035,96 @@ describe('ActiveContent limit 1', () => {
               },
               {
                 active: false,
+                index: 3,
+                value: 'd',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: true,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+            ],
+          },
+          {
+            type: 'INSERTED',
+            value: 'd',
+            index: 3,
+            time: new Date(),
+          }
+        );
+      });
+    });
+
+    describe('insertByPredicate', () => {
+      test('when no predicate matches do nothing', () => {
+        const { activeContent, subscriber } = setup({ activeIndexes: 0 });
+
+        activeContent.insertByPredicate('z', ({ value }) => value === 'y', {
+          mode: 'at',
+        });
+
+        expect(subscriber).toHaveBeenCalledTimes(0);
+      });
+
+      test('when no mode is provided assume at', () => {
+        const { activeContent, subscriber } = setup({ activeIndexes: 0 });
+
+        activeContent.insertByPredicate('d', ({ value }) => value === 'b');
+
+        expect(subscriber).toHaveBeenCalledTimes(1);
+
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: ['a'],
+            activeContents: [activeContent.contents[0]],
+            activeIndexes: [0],
+            lastActivated: 'a',
+            lastActivatedContent: activeContent.contents[0],
+            lastActivatedIndex: 0,
+            isCircular: false,
+            direction: 'right',
+
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            contents: [
+              {
+                active: true,
+                index: 0,
+                value: 'a',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                active: false,
+                index: 1,
+                value: 'd',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: true,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: false,
                 index: 2,
                 value: 'b',
                 isFirst: false,
                 isLast: false,
                 hasNext: true,
                 hasPrevious: true,
-                isNext: true,
+                isNext: false,
                 isPrevious: false,
                 hasBeenActiveBefore: false,
               },
@@ -6196,253 +6141,442 @@ describe('ActiveContent limit 1', () => {
                 hasBeenActiveBefore: false,
               },
             ],
-          }, {
+          },
+          {
             type: 'INSERTED',
             value: 'd',
-            index: 0,
-            time: new Date()
+            index: 1,
+            time: new Date(),
+          }
+        );
+      });
+
+      test('mode is at', () => {
+        const { activeContent, subscriber } = setup({ activeIndexes: 0 });
+
+        activeContent.insertByPredicate('d', ({ value }) => value === 'b', {
+          mode: 'at',
+        });
+
+        expect(subscriber).toHaveBeenCalledTimes(1);
+
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: ['a'],
+            activeContents: [activeContent.contents[0]],
+            activeIndexes: [0],
+            lastActivated: 'a',
+            lastActivatedContent: activeContent.contents[0],
+            lastActivatedIndex: 0,
+            isCircular: false,
+            direction: 'right',
+
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            contents: [
+              {
+                active: true,
+                index: 0,
+                value: 'a',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                active: false,
+                index: 1,
+                value: 'd',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: true,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: false,
+                index: 2,
+                value: 'b',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: false,
+                index: 3,
+                value: 'c',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+            ],
+          },
+          {
+            type: 'INSERTED',
+            value: 'd',
+            index: 1,
+            time: new Date(),
+          }
+        );
+      });
+      
+
+      describe('mode is before', () => {
+        test('when first item returns true add at start and not at -1', () => {
+          const { activeContent, subscriber } = setup({ activeIndexes: 0 });
+
+          activeContent.insertByPredicate('d', ({ value }) => value === 'a', {
+            mode: 'before',
           });
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a'],
+              activeContents: [activeContent.contents[1]],
+              activeIndexes: [1],
+              lastActivated: 'a',
+              lastActivatedContent: activeContent.contents[1],
+              lastActivatedIndex: 1,
+              isCircular: false,
+              direction: 'right',
+
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'd',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
+            },
+            {
+              type: 'INSERTED',
+              value: 'd',
+              index: 0,
+              time: new Date(),
+            }
+          );
         });
 
         test('when item returns true insert before predicate', () => {
           const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
-          activeContent.insertBeforePredicate(
-            'd',
-            ({ value }) => value === 'b'
-          );
+          activeContent.insertByPredicate('d', ({ value }) => value === 'b', {
+            mode: 'before',
+          });
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a'],
-            activeContents: [activeContent.contents[1]],
-            activeIndexes: [1],
-            lastActivated: 'a',
-            lastActivatedContent: activeContent.contents[1],
-            lastActivatedIndex: 1,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'd',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'c',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'INSERTED',
-            value: 'd',
-            index: 0,
-            time: new Date()
-          });
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a'],
+              activeContents: [activeContent.contents[1]],
+              activeIndexes: [1],
+              lastActivated: 'a',
+              lastActivatedContent: activeContent.contents[1],
+              lastActivatedIndex: 1,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'd',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
+            },
+            {
+              type: 'INSERTED',
+              value: 'd',
+              index: 0,
+              time: new Date(),
+            }
+          );
         });
       });
 
-      describe('insertAfterPredicate', () => {
+      describe('mode is after', () => {
         test('when last item returns true add at end and not after', () => {
           const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
-          activeContent.insertAfterPredicate('d', ({ value }) => value === 'c');
+          activeContent.insertByPredicate('d', ({ value }) => value === 'c', {
+            mode: 'after',
+          });
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a'],
-            activeContents: [activeContent.contents[0]],
-            activeIndexes: [0],
-            lastActivated: 'a',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a'],
+              activeContents: [activeContent.contents[0]],
+              activeIndexes: [0],
+              lastActivated: 'a',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: false,
+              direction: 'right',
 
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'd',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'INSERTED',
-            value: 'd',
-            index: 3,
-            time: new Date()
-          });
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'd',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
+            },
+            {
+              type: 'INSERTED',
+              value: 'd',
+              index: 3,
+              time: new Date(),
+            }
+          );
         });
 
         test('when item returns true insert after predicate', () => {
           const { activeContent, subscriber } = setup({ activeIndexes: 0 });
 
-          activeContent.insertAfterPredicate('d', ({ value }) => value === 'b');
+          activeContent.insertByPredicate('d', ({ value }) => value === 'b', {
+            mode: 'after',
+          });
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a'],
-            activeContents: [activeContent.contents[0]],
-            activeIndexes: [0],
-            lastActivated: 'a',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a'],
+              activeContents: [activeContent.contents[0]],
+              activeIndexes: [0],
+              lastActivated: 'a',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: false,
+              direction: 'right',
 
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'd',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'c',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'INSERTED',
-            value: 'd',
-            index: 2,
-            time: new Date()
-          });
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'd',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
+            },
+            {
+              type: 'INSERTED',
+              value: 'd',
+              index: 2,
+              time: new Date(),
+            }
+          );
         });
       });
     });
@@ -6491,26 +6625,30 @@ describe('ActiveContent limit 1', () => {
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: [],
-          activeContents: [],
-          activeIndexes: [],
-          lastActivated: null,
-          lastActivatedContent: null,
-          lastActivatedIndex: -1,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: true,
-          contents: [],
-        }, {
-          type: 'REMOVED',
-          value: 'a',
-          index: 0,
-          time: new Date()
-        });
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: [],
+            activeContents: [],
+            activeIndexes: [],
+            lastActivated: null,
+            lastActivatedContent: null,
+            lastActivatedIndex: -1,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: true,
+            contents: [],
+          },
+          {
+            type: 'REMOVED',
+            value: 'a',
+            index: 0,
+            time: new Date(),
+          }
+        );
       });
 
       test('removing last item', () => {
@@ -6522,26 +6660,30 @@ describe('ActiveContent limit 1', () => {
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: [],
-          activeContents: [],
-          activeIndexes: [],
-          lastActivated: null,
-          lastActivatedContent: null,
-          lastActivatedIndex: -1,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: true,
-          contents: [],
-        }, {
-          type: 'REMOVED',
-          value: 'a',
-          index: 0,
-          time: new Date()
-        });
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: [],
+            activeContents: [],
+            activeIndexes: [],
+            lastActivated: null,
+            lastActivatedContent: null,
+            lastActivatedIndex: -1,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: true,
+            contents: [],
+          },
+          {
+            type: 'REMOVED',
+            value: 'a',
+            index: 0,
+            time: new Date(),
+          }
+        );
       });
 
       describe('removal when maxActivationLimit is 1', () => {
@@ -6553,51 +6695,55 @@ describe('ActiveContent limit 1', () => {
 
             expect(subscriber).toHaveBeenCalledTimes(1);
 
-            assertLastSubscriber(subscriber, {
-              active: ['b'],
-              activeContents: [activeContent.contents[0]],
-              activeIndexes: [0],
-              lastActivated: 'b',
-              lastActivatedContent: activeContent.contents[0],
-              lastActivatedIndex: 0,
-              isCircular: false,
-              direction: 'right',
-              maxActivationLimit: 1,
-              maxActivationLimitBehavior: 'circular',
-              history: [],
-              hasActiveChangedAtLeastOnce: false,
-              contents: [
-                {
-                  active: true,
-                  index: 0,
-                  value: 'b',
-                  isFirst: true,
-                  isLast: false,
-                  hasNext: true,
-                  hasPrevious: false,
-                  isNext: false,
-                  isPrevious: false,
-                  hasBeenActiveBefore: true,
-                },
-                {
-                  active: false,
-                  index: 1,
-                  value: 'c',
-                  isFirst: false,
-                  isLast: true,
-                  hasNext: false,
-                  hasPrevious: true,
-                  isNext: true,
-                  isPrevious: false,
-                  hasBeenActiveBefore: false,
-                },
-              ],
-            }, {
-              type: 'REMOVED',
-              value: 'a',
-              index: 0,
-              time: new Date()
-            });
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'REMOVED',
+                value: 'a',
+                index: 0,
+                time: new Date(),
+              }
+            );
 
             expect(removedValue).toBe('a');
           });
@@ -6609,51 +6755,55 @@ describe('ActiveContent limit 1', () => {
 
             expect(subscriber).toHaveBeenCalledTimes(1);
 
-            assertLastSubscriber(subscriber, {
-              active: ['a'],
-              activeContents: [activeContent.contents[0]],
-              activeIndexes: [0],
-              lastActivated: 'a',
-              lastActivatedContent: activeContent.contents[0],
-              lastActivatedIndex: 0,
-              isCircular: false,
-              direction: 'right',
-              maxActivationLimit: 1,
-              maxActivationLimitBehavior: 'circular',
-              history: [],
-              hasActiveChangedAtLeastOnce: false,
-              contents: [
-                {
-                  active: true,
-                  index: 0,
-                  value: 'a',
-                  isFirst: true,
-                  isLast: false,
-                  hasNext: true,
-                  hasPrevious: false,
-                  isNext: false,
-                  isPrevious: false,
-                  hasBeenActiveBefore: true,
-                },
-                {
-                  active: false,
-                  index: 1,
-                  value: 'c',
-                  isFirst: false,
-                  isLast: true,
-                  hasNext: false,
-                  hasPrevious: true,
-                  isNext: true,
-                  isPrevious: false,
-                  hasBeenActiveBefore: false,
-                },
-              ],
-            }, {
-              type: 'REMOVED',
-              value: 'b',
-              index: 1,
-              time: new Date()
-            });
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['a'],
+                activeContents: [activeContent.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'a',
+                lastActivatedContent: activeContent.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: true,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'REMOVED',
+                value: 'b',
+                index: 1,
+                time: new Date(),
+              }
+            );
 
             expect(removedValue).toBe('b');
           });
@@ -6665,51 +6815,55 @@ describe('ActiveContent limit 1', () => {
 
             expect(subscriber).toHaveBeenCalledTimes(1);
 
-            assertLastSubscriber(subscriber, {
-              active: ['a'],
-              activeContents: [activeContent.contents[0]],
-              activeIndexes: [0],
-              lastActivated: 'a',
-              lastActivatedContent: activeContent.contents[0],
-              lastActivatedIndex: 0,
-              isCircular: false,
-              direction: 'right',
-              maxActivationLimit: 1,
-              maxActivationLimitBehavior: 'circular',
-              history: [],
-              hasActiveChangedAtLeastOnce: false,
-              contents: [
-                {
-                  active: true,
-                  index: 0,
-                  value: 'a',
-                  isFirst: true,
-                  isLast: false,
-                  hasNext: true,
-                  hasPrevious: false,
-                  isNext: false,
-                  isPrevious: false,
-                  hasBeenActiveBefore: true,
-                },
-                {
-                  active: false,
-                  index: 1,
-                  value: 'b',
-                  isFirst: false,
-                  isLast: true,
-                  hasNext: false,
-                  hasPrevious: true,
-                  isNext: true,
-                  isPrevious: false,
-                  hasBeenActiveBefore: false,
-                },
-              ],
-            }, {
-              type: 'REMOVED',
-              value: 'c',
-              index: 2,
-              time: new Date()
-            });
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['a'],
+                activeContents: [activeContent.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'a',
+                lastActivatedContent: activeContent.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: true,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'REMOVED',
+                value: 'c',
+                index: 2,
+                time: new Date(),
+              }
+            );
 
             expect(removedValue).toBe('c');
           });
@@ -6723,51 +6877,55 @@ describe('ActiveContent limit 1', () => {
 
             expect(subscriber).toHaveBeenCalledTimes(1);
 
-            assertLastSubscriber(subscriber, {
-              active: [],
-              activeContents: [],
-              activeIndexes: [],
-              lastActivated: null,
-              lastActivatedContent: null,
-              lastActivatedIndex: -1,
-              isCircular: false,
-              direction: 'right',
-              maxActivationLimit: 1,
-              maxActivationLimitBehavior: 'circular',
-              history: [],
-              hasActiveChangedAtLeastOnce: true,
-              contents: [
-                {
-                  active: false,
-                  index: 0,
-                  value: 'b',
-                  isFirst: true,
-                  isLast: false,
-                  hasNext: true,
-                  hasPrevious: false,
-                  isNext: false,
-                  isPrevious: false,
-                  hasBeenActiveBefore: false,
-                },
-                {
-                  active: false,
-                  index: 1,
-                  value: 'c',
-                  isFirst: false,
-                  isLast: true,
-                  hasNext: false,
-                  hasPrevious: true,
-                  isNext: false,
-                  isPrevious: false,
-                  hasBeenActiveBefore: false,
-                },
-              ],
-            }, {
-              type: 'REMOVED',
-              value: 'a',
-              index: 0,
-              time: new Date()
-            });
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: [],
+                activeContents: [],
+                activeIndexes: [],
+                lastActivated: null,
+                lastActivatedContent: null,
+                lastActivatedIndex: -1,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: true,
+                contents: [
+                  {
+                    active: false,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'REMOVED',
+                value: 'a',
+                index: 0,
+                time: new Date(),
+              }
+            );
 
             expect(removedValue).toBe('a');
           });
@@ -6779,51 +6937,55 @@ describe('ActiveContent limit 1', () => {
 
             expect(subscriber).toHaveBeenCalledTimes(1);
 
-            assertLastSubscriber(subscriber, {
-              active: [],
-              activeContents: [],
-              activeIndexes: [],
-              lastActivated: null,
-              lastActivatedContent: null,
-              lastActivatedIndex: -1,
-              isCircular: false,
-              direction: 'right',
-              maxActivationLimit: 1,
-              maxActivationLimitBehavior: 'circular',
-              history: [],
-              hasActiveChangedAtLeastOnce: true,
-              contents: [
-                {
-                  active: false,
-                  index: 0,
-                  value: 'a',
-                  isFirst: true,
-                  isLast: false,
-                  hasNext: true,
-                  hasPrevious: false,
-                  isNext: false,
-                  isPrevious: false,
-                  hasBeenActiveBefore: false,
-                },
-                {
-                  active: false,
-                  index: 1,
-                  value: 'c',
-                  isFirst: false,
-                  isLast: true,
-                  hasNext: false,
-                  hasPrevious: true,
-                  isNext: false,
-                  isPrevious: false,
-                  hasBeenActiveBefore: false,
-                },
-              ],
-            }, {
-              type: 'REMOVED',
-              value: 'b',
-              index: 1,
-              time: new Date()
-            });
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: [],
+                activeContents: [],
+                activeIndexes: [],
+                lastActivated: null,
+                lastActivatedContent: null,
+                lastActivatedIndex: -1,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: true,
+                contents: [
+                  {
+                    active: false,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'REMOVED',
+                value: 'b',
+                index: 1,
+                time: new Date(),
+              }
+            );
 
             expect(removedValue).toBe('b');
           });
@@ -6835,51 +6997,55 @@ describe('ActiveContent limit 1', () => {
 
             expect(subscriber).toHaveBeenCalledTimes(1);
 
-            assertLastSubscriber(subscriber, {
-              active: [],
-              activeContents: [],
-              activeIndexes: [],
-              lastActivated: null,
-              lastActivatedContent: null,
-              lastActivatedIndex: -1,
-              isCircular: false,
-              direction: 'right',
-              maxActivationLimit: 1,
-              maxActivationLimitBehavior: 'circular',
-              history: [],
-              hasActiveChangedAtLeastOnce: true,
-              contents: [
-                {
-                  active: false,
-                  index: 0,
-                  value: 'a',
-                  isFirst: true,
-                  isLast: false,
-                  hasNext: true,
-                  hasPrevious: false,
-                  isNext: false,
-                  isPrevious: false,
-                  hasBeenActiveBefore: false,
-                },
-                {
-                  active: false,
-                  index: 1,
-                  value: 'b',
-                  isFirst: false,
-                  isLast: true,
-                  hasNext: false,
-                  hasPrevious: true,
-                  isNext: false,
-                  isPrevious: false,
-                  hasBeenActiveBefore: false,
-                },
-              ],
-            }, {
-              type: 'REMOVED',
-              value: 'c',
-              index: 2,
-              time: new Date()
-            });
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: [],
+                activeContents: [],
+                activeIndexes: [],
+                lastActivated: null,
+                lastActivatedContent: null,
+                lastActivatedIndex: -1,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: true,
+                contents: [
+                  {
+                    active: false,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'REMOVED',
+                value: 'c',
+                index: 2,
+                time: new Date(),
+              }
+            );
 
             expect(removedValue).toBe('c');
           });
@@ -6897,54 +7063,58 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b', 'c'],
-            activeContents: [
-              activeContent.contents[0],
-              activeContent.contents[1],
-            ],
-            activeIndexes: [0, 1],
-            lastActivated: 'c',
-            lastActivatedContent: activeContent.contents[1],
-            lastActivatedIndex: 1,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: true,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'REMOVED',
-            value: 'a',
-            index: 0,
-            time: new Date()
-          });
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b', 'c'],
+              activeContents: [
+                activeContent.contents[0],
+                activeContent.contents[1],
+              ],
+              activeIndexes: [0, 1],
+              lastActivated: 'c',
+              lastActivatedContent: activeContent.contents[1],
+              lastActivatedIndex: 1,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: true,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
+            },
+            {
+              type: 'REMOVED',
+              value: 'a',
+              index: 0,
+              time: new Date(),
+            }
+          );
 
           expect(removedValue).toBe('a');
         });
@@ -6959,54 +7129,58 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a', 'c'],
-            activeContents: [
-              activeContent.contents[0],
-              activeContent.contents[1],
-            ],
-            activeIndexes: [0, 1],
-            lastActivated: 'c',
-            lastActivatedContent: activeContent.contents[1],
-            lastActivatedIndex: 1,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: true,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'REMOVED',
-            value: 'b',
-            index: 1,
-            time: new Date()
-          });
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a', 'c'],
+              activeContents: [
+                activeContent.contents[0],
+                activeContent.contents[1],
+              ],
+              activeIndexes: [0, 1],
+              lastActivated: 'c',
+              lastActivatedContent: activeContent.contents[1],
+              lastActivatedIndex: 1,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: true,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
+            },
+            {
+              type: 'REMOVED',
+              value: 'b',
+              index: 1,
+              time: new Date(),
+            }
+          );
 
           expect(removedValue).toBe('b');
         });
@@ -7021,54 +7195,58 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a', 'b'],
-            activeContents: [
-              activeContent.contents[0],
-              activeContent.contents[1],
-            ],
-            activeIndexes: [0, 1],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[1],
-            lastActivatedIndex: 1,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: true,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'REMOVED',
-            value: 'c',
-            index: 2,
-            time: new Date()
-          });
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a', 'b'],
+              activeContents: [
+                activeContent.contents[0],
+                activeContent.contents[1],
+              ],
+              activeIndexes: [0, 1],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[1],
+              lastActivatedIndex: 1,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: true,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
+            },
+            {
+              type: 'REMOVED',
+              value: 'c',
+              index: 2,
+              time: new Date(),
+            }
+          );
 
           expect(removedValue).toBe('c');
         });
@@ -7162,26 +7340,30 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: [],
-            activeContents: [],
-            activeIndexes: [],
-            lastActivated: null,
-            lastActivatedContent: null,
-            lastActivatedIndex: -1,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: true,
-            contents: [],
-          }, {
-            type: 'REMOVED_MULTIPLE',
-            values: ['a','b', 'c'],
-            indexes: [0, 1, 2],
-            time: new Date()
-          });
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: [],
+              activeContents: [],
+              activeIndexes: [],
+              lastActivated: null,
+              lastActivatedContent: null,
+              lastActivatedIndex: -1,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: true,
+              contents: [],
+            },
+            {
+              type: 'REMOVED_MULTIPLE',
+              values: ['a', 'b', 'c'],
+              indexes: [0, 1, 2],
+              time: new Date(),
+            }
+          );
 
           expect(removed).toEqual(['a', 'b', 'c']);
         });
@@ -7197,51 +7379,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['b'],
-                activeContents: [activeContent.contents[0]],
-                activeIndexes: [0],
-                lastActivated: 'b',
-                lastActivatedContent: activeContent.contents[0],
-                lastActivatedIndex: 0,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'b',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: true,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['a'],
-                indexes: [0],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['b'],
+                  activeContents: [activeContent.contents[0]],
+                  activeIndexes: [0],
+                  lastActivated: 'b',
+                  lastActivatedContent: activeContent.contents[0],
+                  lastActivatedIndex: 0,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'b',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: true,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['a'],
+                  indexes: [0],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['a']);
             });
@@ -7255,51 +7441,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['a'],
-                activeContents: [activeContent.contents[0]],
-                activeIndexes: [0],
-                lastActivated: 'a',
-                lastActivatedContent: activeContent.contents[0],
-                lastActivatedIndex: 0,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: true,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b'],
-                indexes: [1],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['a'],
+                  activeContents: [activeContent.contents[0]],
+                  activeIndexes: [0],
+                  lastActivated: 'a',
+                  lastActivatedContent: activeContent.contents[0],
+                  lastActivatedIndex: 0,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: true,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b'],
+                  indexes: [1],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b']);
             });
@@ -7313,51 +7503,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['a'],
-                activeContents: [activeContent.contents[0]],
-                activeIndexes: [0],
-                lastActivated: 'a',
-                lastActivatedContent: activeContent.contents[0],
-                lastActivatedIndex: 0,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'b',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: true,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['c'],
-                indexes: [2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['a'],
+                  activeContents: [activeContent.contents[0]],
+                  activeIndexes: [0],
+                  lastActivated: 'a',
+                  lastActivatedContent: activeContent.contents[0],
+                  lastActivatedIndex: 0,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'b',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: true,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['c'],
+                  indexes: [2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['c']);
             });
@@ -7373,51 +7567,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'b',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['a'],
-                indexes: [0],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'b',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['a'],
+                  indexes: [0],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['a']);
             });
@@ -7431,51 +7629,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b'],
-                indexes: [1],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b'],
+                  indexes: [1],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b']);
             });
@@ -7489,51 +7691,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'b',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['c'],
-                indexes: [2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'b',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['c'],
+                  indexes: [2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['c']);
             });
@@ -7551,39 +7757,43 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['c'],
-                activeContents: [activeContent.contents[0]],
-                activeIndexes: [0],
-                lastActivated: 'c',
-                lastActivatedContent: activeContent.contents[0],
-                lastActivatedIndex: 0,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'c',
-                    isFirst: true,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['a','b'],
-                indexes: [0, 1],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['c'],
+                  activeContents: [activeContent.contents[0]],
+                  activeIndexes: [0],
+                  lastActivated: 'c',
+                  lastActivatedContent: activeContent.contents[0],
+                  lastActivatedIndex: 0,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'c',
+                      isFirst: true,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['a', 'b'],
+                  indexes: [0, 1],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['a', 'b']);
             });
@@ -7600,51 +7810,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['a'],
-                activeContents: [activeContent.contents[0]],
-                activeIndexes: [0],
-                lastActivated: 'a',
-                lastActivatedContent: activeContent.contents[0],
-                lastActivatedIndex: 0,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'd',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: true,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b','c'],
-                indexes: [1, 2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['a'],
+                  activeContents: [activeContent.contents[0]],
+                  activeIndexes: [0],
+                  lastActivated: 'a',
+                  lastActivatedContent: activeContent.contents[0],
+                  lastActivatedIndex: 0,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'd',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: true,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'c'],
+                  indexes: [1, 2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'c']);
             });
@@ -7661,51 +7875,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['d'],
-                activeContents: [activeContent.contents[1]],
-                activeIndexes: [1],
-                lastActivated: 'd',
-                lastActivatedContent: activeContent.contents[1],
-                lastActivatedIndex: 1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: true,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: true,
-                    index: 1,
-                    value: 'd',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b','c'],
-                indexes: [1, 2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['d'],
+                  activeContents: [activeContent.contents[1]],
+                  activeIndexes: [1],
+                  lastActivated: 'd',
+                  lastActivatedContent: activeContent.contents[1],
+                  lastActivatedIndex: 1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: true,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: true,
+                      index: 1,
+                      value: 'd',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'c'],
+                  indexes: [1, 2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'c']);
             });
@@ -7722,63 +7940,67 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['a'],
-                activeContents: [activeContent.contents[0]],
-                activeIndexes: [0],
-                lastActivated: 'a',
-                lastActivatedContent: activeContent.contents[0],
-                lastActivatedIndex: 0,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: true,
-                    isNext: true,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 2,
-                    value: 'e',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b','d'],
-                indexes: [1, 3],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['a'],
+                  activeContents: [activeContent.contents[0]],
+                  activeIndexes: [0],
+                  lastActivated: 'a',
+                  lastActivatedContent: activeContent.contents[0],
+                  lastActivatedIndex: 0,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: true,
+                      isNext: true,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 2,
+                      value: 'e',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'd'],
+                  indexes: [1, 3],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'd']);
             });
@@ -7795,63 +8017,67 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['c'],
-                activeContents: [activeContent.contents[1]],
-                activeIndexes: [1],
-                lastActivated: 'c',
-                lastActivatedContent: activeContent.contents[1],
-                lastActivatedIndex: 1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: true,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: true,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                  {
-                    active: false,
-                    index: 2,
-                    value: 'e',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: true,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b','d'],
-                indexes: [1, 3],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['c'],
+                  activeContents: [activeContent.contents[1]],
+                  activeIndexes: [1],
+                  lastActivated: 'c',
+                  lastActivatedContent: activeContent.contents[1],
+                  lastActivatedIndex: 1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: true,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: true,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                    {
+                      active: false,
+                      index: 2,
+                      value: 'e',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: true,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'd'],
+                  indexes: [1, 3],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'd']);
             });
@@ -7868,63 +8094,67 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['e'],
-                activeContents: [activeContent.contents[2]],
-                activeIndexes: [2],
-                lastActivated: 'e',
-                lastActivatedContent: activeContent.contents[2],
-                lastActivatedIndex: 2,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: true,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: true,
-                    index: 2,
-                    value: 'e',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b','d'],
-                indexes: [1, 3],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['e'],
+                  activeContents: [activeContent.contents[2]],
+                  activeIndexes: [2],
+                  lastActivated: 'e',
+                  lastActivatedContent: activeContent.contents[2],
+                  lastActivatedIndex: 2,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: true,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: true,
+                      index: 2,
+                      value: 'e',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'd'],
+                  indexes: [1, 3],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'd']);
             });
@@ -7938,39 +8168,43 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['a'],
-                activeContents: [activeContent.contents[0]],
-                activeIndexes: [0],
-                lastActivated: 'a',
-                lastActivatedContent: activeContent.contents[0],
-                lastActivatedIndex: 0,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b','c'],
-                indexes: [1, 2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['a'],
+                  activeContents: [activeContent.contents[0]],
+                  activeIndexes: [0],
+                  lastActivated: 'a',
+                  lastActivatedContent: activeContent.contents[0],
+                  lastActivatedIndex: 0,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'c'],
+                  indexes: [1, 2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'c']);
             });
@@ -7986,39 +8220,43 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'c',
-                    isFirst: true,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['a','b'],
-                indexes: [0, 1],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'c',
+                      isFirst: true,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['a', 'b'],
+                  indexes: [0, 1],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['a', 'b']);
             });
@@ -8032,39 +8270,43 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'c',
-                    isFirst: true,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['a','b'],
-                indexes: [0, 1],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'c',
+                      isFirst: true,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['a', 'b'],
+                  indexes: [0, 1],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['a', 'b']);
             });
@@ -8081,51 +8323,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'd',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b','c'],
-                indexes: [1, 2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'd',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'c'],
+                  indexes: [1, 2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'c']);
             });
@@ -8142,51 +8388,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'd',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b','c'],
-                indexes: [1, 2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'd',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'c'],
+                  indexes: [1, 2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'c']);
             });
@@ -8203,63 +8453,67 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 2,
-                    value: 'e',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b','d'],
-                indexes: [1, 3],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 2,
+                      value: 'e',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'd'],
+                  indexes: [1, 3],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'd']);
             });
@@ -8276,63 +8530,67 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 2,
-                    value: 'e',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b','d'],
-                indexes: [1, 3],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 2,
+                      value: 'e',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'd'],
+                  indexes: [1, 3],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'd']);
             });
@@ -8346,39 +8604,43 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: 1,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b','c'],
-                indexes: [1, 2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: 1,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'c'],
+                  indexes: [1, 2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'c']);
             });
@@ -8423,26 +8685,30 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: [],
-            activeContents: [],
-            activeIndexes: [],
-            lastActivated: null,
-            lastActivatedContent: null,
-            lastActivatedIndex: -1,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: true,
-            contents: [],
-          }, {
-            type: 'REMOVED_MULTIPLE',
-            values: ['a','b','c'],
-            indexes: [0, 1, 2],
-            time: new Date()
-          });
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: [],
+              activeContents: [],
+              activeIndexes: [],
+              lastActivated: null,
+              lastActivatedContent: null,
+              lastActivatedIndex: -1,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: true,
+              contents: [],
+            },
+            {
+              type: 'REMOVED_MULTIPLE',
+              values: ['a', 'b', 'c'],
+              indexes: [0, 1, 2],
+              time: new Date(),
+            }
+          );
 
           expect(removed).toEqual(['a', 'b', 'c']);
         });
@@ -8461,51 +8727,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'b',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['a'],
-                indexes: [0],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'b',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['a'],
+                  indexes: [0],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['a']);
             });
@@ -8522,51 +8792,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b'],
-                indexes: [1],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b'],
+                  indexes: [1],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b']);
             });
@@ -8583,51 +8857,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'b',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['c'],
-                indexes: [2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'b',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['c'],
+                  indexes: [2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['c']);
             });
@@ -8646,54 +8924,58 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['b', 'c'],
-                activeContents: [
-                  activeContent.contents[0],
-                  activeContent.contents[1],
-                ],
-                activeIndexes: [0, 1],
-                lastActivated: 'c',
-                lastActivatedContent: activeContent.contents[1],
-                lastActivatedIndex: 1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'b',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: true,
-                    hasBeenActiveBefore: true,
-                  },
-                  {
-                    active: true,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['a'],
-                indexes: [0],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['b', 'c'],
+                  activeContents: [
+                    activeContent.contents[0],
+                    activeContent.contents[1],
+                  ],
+                  activeIndexes: [0, 1],
+                  lastActivated: 'c',
+                  lastActivatedContent: activeContent.contents[1],
+                  lastActivatedIndex: 1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'b',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: true,
+                      hasBeenActiveBefore: true,
+                    },
+                    {
+                      active: true,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['a'],
+                  indexes: [0],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['a']);
             });
@@ -8710,54 +8992,58 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['a', 'c'],
-                activeContents: [
-                  activeContent.contents[0],
-                  activeContent.contents[1],
-                ],
-                activeIndexes: [0, 1],
-                lastActivated: 'c',
-                lastActivatedContent: activeContent.contents[1],
-                lastActivatedIndex: 1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: true,
-                    hasBeenActiveBefore: true,
-                  },
-                  {
-                    active: true,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b'],
-                indexes: [1],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['a', 'c'],
+                  activeContents: [
+                    activeContent.contents[0],
+                    activeContent.contents[1],
+                  ],
+                  activeIndexes: [0, 1],
+                  lastActivated: 'c',
+                  lastActivatedContent: activeContent.contents[1],
+                  lastActivatedIndex: 1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: true,
+                      hasBeenActiveBefore: true,
+                    },
+                    {
+                      active: true,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b'],
+                  indexes: [1],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b']);
             });
@@ -8774,54 +9060,58 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['a', 'b'],
-                activeContents: [
-                  activeContent.contents[0],
-                  activeContent.contents[1],
-                ],
-                activeIndexes: [0, 1],
-                lastActivated: 'b',
-                lastActivatedContent: activeContent.contents[1],
-                lastActivatedIndex: 1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: true,
-                    hasBeenActiveBefore: true,
-                  },
-                  {
-                    active: true,
-                    index: 1,
-                    value: 'b',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['c'],
-                indexes: [2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['a', 'b'],
+                  activeContents: [
+                    activeContent.contents[0],
+                    activeContent.contents[1],
+                  ],
+                  activeIndexes: [0, 1],
+                  lastActivated: 'b',
+                  lastActivatedContent: activeContent.contents[1],
+                  lastActivatedIndex: 1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: true,
+                      hasBeenActiveBefore: true,
+                    },
+                    {
+                      active: true,
+                      index: 1,
+                      value: 'b',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['c'],
+                  indexes: [2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['c']);
             });
@@ -8842,39 +9132,43 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'c',
-                    isFirst: true,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['a', 'b'],
-                indexes: [0, 1],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'c',
+                      isFirst: true,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['a', 'b'],
+                  indexes: [0, 1],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['a', 'b']);
             });
@@ -8891,51 +9185,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'd',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b', 'c'],
-                indexes: [1, 2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'd',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'c'],
+                  indexes: [1, 2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'c']);
             });
@@ -8952,63 +9250,67 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: false,
-                    index: 2,
-                    value: 'e',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b', 'd'],
-                indexes: [1, 3],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: false,
+                      index: 2,
+                      value: 'e',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'd'],
+                  indexes: [1, 3],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'd']);
             });
@@ -9025,39 +9327,43 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: false,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b', 'c'],
-                indexes: [1, 2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: false,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'c'],
+                  indexes: [1, 2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'c']);
             });
@@ -9076,39 +9382,43 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['c'],
-                activeContents: [activeContent.contents[0]],
-                activeIndexes: [0],
-                lastActivated: 'c',
-                lastActivatedContent: activeContent.contents[0],
-                lastActivatedIndex: 0,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'c',
-                    isFirst: true,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['a', 'b'],
-                indexes: [0, 1],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['c'],
+                  activeContents: [activeContent.contents[0]],
+                  activeIndexes: [0],
+                  lastActivated: 'c',
+                  lastActivatedContent: activeContent.contents[0],
+                  lastActivatedIndex: 0,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'c',
+                      isFirst: true,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['a', 'b'],
+                  indexes: [0, 1],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['a', 'b']);
             });
@@ -9125,39 +9435,43 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: [],
-                activeContents: [],
-                activeIndexes: [],
-                lastActivated: null,
-                lastActivatedContent: null,
-                lastActivatedIndex: -1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'c',
-                    isFirst: true,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['a', 'b'],
-                indexes: [0, 1],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: [],
+                  activeContents: [],
+                  activeIndexes: [],
+                  lastActivated: null,
+                  lastActivatedContent: null,
+                  lastActivatedIndex: -1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'c',
+                      isFirst: true,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['a', 'b'],
+                  indexes: [0, 1],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['a', 'b']);
             });
@@ -9174,51 +9488,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['a'],
-                activeContents: [activeContent.contents[0]],
-                activeIndexes: [0],
-                lastActivated: 'a',
-                lastActivatedContent: activeContent.contents[0],
-                lastActivatedIndex: 0,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                  {
-                    active: false,
-                    index: 1,
-                    value: 'd',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: true,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b', 'c'],
-                indexes: [1, 2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['a'],
+                  activeContents: [activeContent.contents[0]],
+                  activeIndexes: [0],
+                  lastActivated: 'a',
+                  lastActivatedContent: activeContent.contents[0],
+                  lastActivatedIndex: 0,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                    {
+                      active: false,
+                      index: 1,
+                      value: 'd',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: true,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'c'],
+                  indexes: [1, 2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'c']);
             });
@@ -9235,51 +9553,55 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['d'],
-                activeContents: [activeContent.contents[1]],
-                activeIndexes: [1],
-                lastActivated: 'd',
-                lastActivatedContent: activeContent.contents[1],
-                lastActivatedIndex: 1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: true,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: true,
-                    index: 1,
-                    value: 'd',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b', 'c'],
-                indexes: [1, 2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['d'],
+                  activeContents: [activeContent.contents[1]],
+                  activeIndexes: [1],
+                  lastActivated: 'd',
+                  lastActivatedContent: activeContent.contents[1],
+                  lastActivatedIndex: 1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: true,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: true,
+                      index: 1,
+                      value: 'd',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'c'],
+                  indexes: [1, 2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'c']);
             });
@@ -9296,66 +9618,70 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['a', 'c'],
-                activeContents: [
-                  activeContent.contents[0],
-                  activeContent.contents[1],
-                ],
-                activeIndexes: [0, 1],
-                lastActivated: 'c',
-                lastActivatedContent: activeContent.contents[1],
-                lastActivatedIndex: 1,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: true,
-                    hasBeenActiveBefore: true,
-                  },
-                  {
-                    active: true,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                  {
-                    active: false,
-                    index: 2,
-                    value: 'e',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: true,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b', 'd'],
-                indexes: [1, 3],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['a', 'c'],
+                  activeContents: [
+                    activeContent.contents[0],
+                    activeContent.contents[1],
+                  ],
+                  activeIndexes: [0, 1],
+                  lastActivated: 'c',
+                  lastActivatedContent: activeContent.contents[1],
+                  lastActivatedIndex: 1,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: true,
+                      hasBeenActiveBefore: true,
+                    },
+                    {
+                      active: true,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                    {
+                      active: false,
+                      index: 2,
+                      value: 'e',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: true,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'd'],
+                  indexes: [1, 3],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'd']);
             });
@@ -9372,66 +9698,70 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['c', 'e'],
-                activeContents: [
-                  activeContent.contents[1],
-                  activeContent.contents[2],
-                ],
-                activeIndexes: [1, 2],
-                lastActivated: 'e',
-                lastActivatedContent: activeContent.contents[2],
-                lastActivatedIndex: 2,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: false,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: false,
-                  },
-                  {
-                    active: true,
-                    index: 1,
-                    value: 'c',
-                    isFirst: false,
-                    isLast: false,
-                    hasNext: true,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: true,
-                    hasBeenActiveBefore: true,
-                  },
-                  {
-                    active: true,
-                    index: 2,
-                    value: 'e',
-                    isFirst: false,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: true,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b', 'd'],
-                indexes: [1, 3],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['c', 'e'],
+                  activeContents: [
+                    activeContent.contents[1],
+                    activeContent.contents[2],
+                  ],
+                  activeIndexes: [1, 2],
+                  lastActivated: 'e',
+                  lastActivatedContent: activeContent.contents[2],
+                  lastActivatedIndex: 2,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: false,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: false,
+                    },
+                    {
+                      active: true,
+                      index: 1,
+                      value: 'c',
+                      isFirst: false,
+                      isLast: false,
+                      hasNext: true,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: true,
+                      hasBeenActiveBefore: true,
+                    },
+                    {
+                      active: true,
+                      index: 2,
+                      value: 'e',
+                      isFirst: false,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: true,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'd'],
+                  indexes: [1, 3],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'd']);
             });
@@ -9448,39 +9778,43 @@ describe('ActiveContent limit 1', () => {
 
               expect(subscriber).toHaveBeenCalledTimes(1);
 
-              assertLastSubscriber(subscriber, {
-                active: ['a'],
-                activeContents: [activeContent.contents[0]],
-                activeIndexes: [0],
-                lastActivated: 'a',
-                lastActivatedContent: activeContent.contents[0],
-                lastActivatedIndex: 0,
-                isCircular: false,
-                direction: 'right',
-                maxActivationLimit: false,
-                maxActivationLimitBehavior: 'circular',
-                history: [],
-                hasActiveChangedAtLeastOnce: true,
-                contents: [
-                  {
-                    active: true,
-                    index: 0,
-                    value: 'a',
-                    isFirst: true,
-                    isLast: true,
-                    hasNext: false,
-                    hasPrevious: false,
-                    isNext: false,
-                    isPrevious: false,
-                    hasBeenActiveBefore: true,
-                  },
-                ],
-              }, {
-                type: 'REMOVED_MULTIPLE',
-                values: ['b', 'c'],
-                indexes: [1, 2],
-                time: new Date()
-              });
+              assertLastSubscriber(
+                subscriber,
+                {
+                  active: ['a'],
+                  activeContents: [activeContent.contents[0]],
+                  activeIndexes: [0],
+                  lastActivated: 'a',
+                  lastActivatedContent: activeContent.contents[0],
+                  lastActivatedIndex: 0,
+                  isCircular: false,
+                  direction: 'right',
+                  maxActivationLimit: false,
+                  maxActivationLimitBehavior: 'circular',
+                  history: [],
+                  hasActiveChangedAtLeastOnce: true,
+                  contents: [
+                    {
+                      active: true,
+                      index: 0,
+                      value: 'a',
+                      isFirst: true,
+                      isLast: true,
+                      hasNext: false,
+                      hasPrevious: false,
+                      isNext: false,
+                      isPrevious: false,
+                      hasBeenActiveBefore: true,
+                    },
+                  ],
+                },
+                {
+                  type: 'REMOVED_MULTIPLE',
+                  values: ['b', 'c'],
+                  indexes: [1, 2],
+                  time: new Date(),
+                }
+              );
 
               expect(removed).toEqual(['b', 'c']);
             });
@@ -9567,7 +9901,7 @@ describe('ActiveContent limit 1', () => {
               `uiloos > ActiveContent > swapByIndex > IndexOutOfBoundsError > "b" is out of bounds`
             );
 
-             expect(() => {
+            expect(() => {
               activeContent.swapByIndex(0, 3);
             }).toThrowError(
               `uiloos > ActiveContent > swapByIndex > IndexOutOfBoundsError > "b" is out of bounds`
@@ -9599,69 +9933,73 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'SWAPPED',
-            value: {
-              a: 'b',
-              b: 'c'
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b'],
+              activeContents: [activeContent.contents[2]],
+              activeIndexes: [2],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            index: {
-              a: 1,
-              b: 2
-            },
-            time: new Date()
-          });
+            {
+              type: 'SWAPPED',
+              value: {
+                a: 'b',
+                b: 'c',
+              },
+              index: {
+                a: 1,
+                b: 2,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('swapping to the active index should not affect it', () => {
@@ -9672,69 +10010,73 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'SWAPPED',
-            value: {
-              a: 'c',
-              b: 'b'
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b'],
+              activeContents: [activeContent.contents[2]],
+              activeIndexes: [2],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            index: {
-              a: 2,
-              b: 1
-            },
-            time: new Date()
-          });
+            {
+              type: 'SWAPPED',
+              value: {
+                a: 'c',
+                b: 'b',
+              },
+              index: {
+                a: 2,
+                b: 1,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('swapping non active index should not affect the active index', () => {
@@ -9745,69 +10087,73 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[1]],
-            activeIndexes: [1],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[1],
-            lastActivatedIndex: 1,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'c',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'a',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'SWAPPED',
-            value: {
-              a: 'a',
-              b: 'c'
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b'],
+              activeContents: [activeContent.contents[1]],
+              activeIndexes: [1],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[1],
+              lastActivatedIndex: 1,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'c',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            index: {
-              a: 0,
-              b: 2
-            },
-            time: new Date()
-          });
+            {
+              type: 'SWAPPED',
+              value: {
+                a: 'a',
+                b: 'c',
+              },
+              index: {
+                a: 0,
+                b: 2,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('swapping when circular should fix previous and next', () => {
@@ -9821,69 +10167,73 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[1]],
-            activeIndexes: [1],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[1],
-            lastActivatedIndex: 1,
-            isCircular: true,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'c',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'a',
-                isFirst: false,
-                isLast: true,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'SWAPPED',
-            value: {
-              a: 'a',
-              b: 'c'
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b'],
+              activeContents: [activeContent.contents[1]],
+              activeIndexes: [1],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[1],
+              lastActivatedIndex: 1,
+              isCircular: true,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'c',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            index: {
-              a: 0,
-              b: 2
-            },
-            time: new Date()
-          });
+            {
+              type: 'SWAPPED',
+              value: {
+                a: 'a',
+                b: 'c',
+              },
+              index: {
+                a: 0,
+                b: 2,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('swapping two indexes which are the same should do nothing', () => {
@@ -9910,72 +10260,76 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a', 'b'],
-            activeContents: [
-              activeContent.contents[0],
-              activeContent.contents[2],
-            ],
-            activeIndexes: [0, 2],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'SWAPPED',
-            value: {
-              a: 'b',
-              b: 'c'
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a', 'b'],
+              activeContents: [
+                activeContent.contents[0],
+                activeContent.contents[2],
+              ],
+              activeIndexes: [0, 2],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            index: {
-              a: 1,
-              b: 2
-            },
-            time: new Date()
-          });
+            {
+              type: 'SWAPPED',
+              value: {
+                a: 'b',
+                b: 'c',
+              },
+              index: {
+                a: 1,
+                b: 2,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('swapping to the active index should not affect it', () => {
@@ -9989,72 +10343,76 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b', 'a'],
-            activeContents: [
-              activeContent.contents[2],
-              activeContent.contents[0],
-            ],
-            activeIndexes: [2, 0],
-            lastActivated: 'a',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'SWAPPED',
-            value: {
-              a: 'c',
-              b: 'b'
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b', 'a'],
+              activeContents: [
+                activeContent.contents[2],
+                activeContent.contents[0],
+              ],
+              activeIndexes: [2, 0],
+              lastActivated: 'a',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            index: {
-              a: 2,
-              b: 1
-            },
-            time: new Date()
-          });
+            {
+              type: 'SWAPPED',
+              value: {
+                a: 'c',
+                b: 'b',
+              },
+              index: {
+                a: 2,
+                b: 1,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('swapping non active index should not affect the active index', () => {
@@ -10068,84 +10426,88 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b', 'c'],
-            activeContents: [
-              activeContent.contents[1],
-              activeContent.contents[2],
-            ],
-            activeIndexes: [1, 2],
-            lastActivated: 'c',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'd',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'a',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'SWAPPED',
-            value: {
-              a: 'a',
-              b: 'd'
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b', 'c'],
+              activeContents: [
+                activeContent.contents[1],
+                activeContent.contents[2],
+              ],
+              activeIndexes: [1, 2],
+              lastActivated: 'c',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'd',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            index: {
-              a: 0,
-              b: 3
-            },
-            time: new Date()
-          });
+            {
+              type: 'SWAPPED',
+              value: {
+                a: 'a',
+                b: 'd',
+              },
+              index: {
+                a: 0,
+                b: 3,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('swapping when all are active should preserve activation order', () => {
@@ -10160,73 +10522,77 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a', 'b', 'c'],
-            activeContents: [
-              activeContent.contents[2],
-              activeContent.contents[1],
-              activeContent.contents[0],
-            ],
-            activeIndexes: [2, 1, 0],
-            lastActivated: 'c',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: true,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'c',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'a',
-                isFirst: false,
-                isLast: true,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'SWAPPED',
-            value: {
-              a: 'a',
-              b: 'c'
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a', 'b', 'c'],
+              activeContents: [
+                activeContent.contents[2],
+                activeContent.contents[1],
+                activeContent.contents[0],
+              ],
+              activeIndexes: [2, 1, 0],
+              lastActivated: 'c',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: true,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'c',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            index: {
-              a: 0,
-              b: 2
-            },
-            time: new Date()
-          });
+            {
+              type: 'SWAPPED',
+              value: {
+                a: 'a',
+                b: 'c',
+              },
+              index: {
+                a: 0,
+                b: 2,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('swapping two indexes which are the same should do nothing', () => {
@@ -10251,69 +10617,73 @@ describe('ActiveContent limit 1', () => {
 
       expect(subscriber).toHaveBeenCalledTimes(1);
 
-      assertLastSubscriber(subscriber, {
-        active: ['b'],
-        activeContents: [activeContent.contents[2]],
-        activeIndexes: [2],
-        lastActivated: 'b',
-        lastActivatedContent: activeContent.contents[2],
-        lastActivatedIndex: 2,
-        isCircular: false,
-        direction: 'right',
-        maxActivationLimit: 1,
-        maxActivationLimitBehavior: 'circular',
-        history: [],
-        hasActiveChangedAtLeastOnce: false,
-        contents: [
-          {
-            active: false,
-            index: 0,
-            value: 'a',
-            isFirst: true,
-            isLast: false,
-            hasNext: true,
-            hasPrevious: false,
-            isNext: false,
-            isPrevious: false,
-            hasBeenActiveBefore: false,
-          },
-          {
-            active: false,
-            index: 1,
-            value: 'c',
-            isFirst: false,
-            isLast: false,
-            hasNext: true,
-            hasPrevious: true,
-            isNext: false,
-            isPrevious: true,
-            hasBeenActiveBefore: false,
-          },
-          {
-            active: true,
-            index: 2,
-            value: 'b',
-            isFirst: false,
-            isLast: true,
-            hasNext: false,
-            hasPrevious: true,
-            isNext: false,
-            isPrevious: false,
-            hasBeenActiveBefore: true,
-          },
-        ],
-      }, {
-        type: 'SWAPPED',
-        value: {
-          a: 'b',
-          b: 'c'
+      assertLastSubscriber(
+        subscriber,
+        {
+          active: ['b'],
+          activeContents: [activeContent.contents[2]],
+          activeIndexes: [2],
+          lastActivated: 'b',
+          lastActivatedContent: activeContent.contents[2],
+          lastActivatedIndex: 2,
+          isCircular: false,
+          direction: 'right',
+          maxActivationLimit: 1,
+          maxActivationLimitBehavior: 'circular',
+          history: [],
+          hasActiveChangedAtLeastOnce: false,
+          contents: [
+            {
+              active: false,
+              index: 0,
+              value: 'a',
+              isFirst: true,
+              isLast: false,
+              hasNext: true,
+              hasPrevious: false,
+              isNext: false,
+              isPrevious: false,
+              hasBeenActiveBefore: false,
+            },
+            {
+              active: false,
+              index: 1,
+              value: 'c',
+              isFirst: false,
+              isLast: false,
+              hasNext: true,
+              hasPrevious: true,
+              isNext: false,
+              isPrevious: true,
+              hasBeenActiveBefore: false,
+            },
+            {
+              active: true,
+              index: 2,
+              value: 'b',
+              isFirst: false,
+              isLast: true,
+              hasNext: false,
+              hasPrevious: true,
+              isNext: false,
+              isPrevious: false,
+              hasBeenActiveBefore: true,
+            },
+          ],
         },
-        index: {
-          a: 1,
-          b: 2
-        },
-        time: new Date()
-      });
+        {
+          type: 'SWAPPED',
+          value: {
+            a: 'b',
+            b: 'c',
+          },
+          index: {
+            a: 1,
+            b: 2,
+          },
+          time: new Date(),
+        }
+      );
     });
 
     describe('Content methods', () => {
@@ -10325,69 +10695,73 @@ describe('ActiveContent limit 1', () => {
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['b'],
-          activeContents: [activeContent.contents[2]],
-          activeIndexes: [2],
-          lastActivated: 'b',
-          lastActivatedContent: activeContent.contents[2],
-          lastActivatedIndex: 2,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: false,
-              index: 0,
-              value: 'a',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 1,
-              value: 'c',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: true,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: true,
-              index: 2,
-              value: 'b',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-          ],
-        }, {
-          type: 'SWAPPED',
-          value: {
-            a: 'b',
-            b: 'c'
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: ['b'],
+            activeContents: [activeContent.contents[2]],
+            activeIndexes: [2],
+            lastActivated: 'b',
+            lastActivatedContent: activeContent.contents[2],
+            lastActivatedIndex: 2,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            contents: [
+              {
+                active: false,
+                index: 0,
+                value: 'a',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: false,
+                index: 1,
+                value: 'c',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: true,
+                index: 2,
+                value: 'b',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+            ],
           },
-          index: {
-            a: 1,
-            b: 2
-          },
-          time: new Date()
-        });
+          {
+            type: 'SWAPPED',
+            value: {
+              a: 'b',
+              b: 'c',
+            },
+            index: {
+              a: 1,
+              b: 2,
+            },
+            time: new Date(),
+          }
+        );
       });
 
       test('swapWithByIndex', () => {
@@ -10398,69 +10772,73 @@ describe('ActiveContent limit 1', () => {
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['b'],
-          activeContents: [activeContent.contents[2]],
-          activeIndexes: [2],
-          lastActivated: 'b',
-          lastActivatedContent: activeContent.contents[2],
-          lastActivatedIndex: 2,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: false,
-              index: 0,
-              value: 'a',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 1,
-              value: 'c',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: true,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: true,
-              index: 2,
-              value: 'b',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-          ],
-        }, {
-          type: 'SWAPPED',
-          value: {
-            a: 'b',
-            b: 'c'
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: ['b'],
+            activeContents: [activeContent.contents[2]],
+            activeIndexes: [2],
+            lastActivated: 'b',
+            lastActivatedContent: activeContent.contents[2],
+            lastActivatedIndex: 2,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            contents: [
+              {
+                active: false,
+                index: 0,
+                value: 'a',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: false,
+                index: 1,
+                value: 'c',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: true,
+                index: 2,
+                value: 'b',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+            ],
           },
-          index: {
-            a: 1,
-            b: 2
-          },
-          time: new Date()
-        });
+          {
+            type: 'SWAPPED',
+            value: {
+              a: 'b',
+              b: 'c',
+            },
+            index: {
+              a: 1,
+              b: 2,
+            },
+            time: new Date(),
+          }
+        );
       });
 
       test('swapWithNext', () => {
@@ -10471,69 +10849,73 @@ describe('ActiveContent limit 1', () => {
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['b'],
-          activeContents: [activeContent.contents[2]],
-          activeIndexes: [2],
-          lastActivated: 'b',
-          lastActivatedContent: activeContent.contents[2],
-          lastActivatedIndex: 2,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: false,
-              index: 0,
-              value: 'a',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 1,
-              value: 'c',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: true,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: true,
-              index: 2,
-              value: 'b',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-          ],
-        }, {
-          type: 'SWAPPED',
-          value: {
-            a: 'b',
-            b: 'c'
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: ['b'],
+            activeContents: [activeContent.contents[2]],
+            activeIndexes: [2],
+            lastActivated: 'b',
+            lastActivatedContent: activeContent.contents[2],
+            lastActivatedIndex: 2,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            contents: [
+              {
+                active: false,
+                index: 0,
+                value: 'a',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: false,
+                index: 1,
+                value: 'c',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: true,
+                index: 2,
+                value: 'b',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+            ],
           },
-          index: {
-            a: 1,
-            b: 2
-          },
-          time: new Date()
-        });
+          {
+            type: 'SWAPPED',
+            value: {
+              a: 'b',
+              b: 'c',
+            },
+            index: {
+              a: 1,
+              b: 2,
+            },
+            time: new Date(),
+          }
+        );
       });
 
       test('swapWithPrevious', () => {
@@ -10544,69 +10926,73 @@ describe('ActiveContent limit 1', () => {
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['b'],
-          activeContents: [activeContent.contents[0]],
-          activeIndexes: [0],
-          lastActivated: 'b',
-          lastActivatedContent: activeContent.contents[0],
-          lastActivatedIndex: 0,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: true,
-              index: 0,
-              value: 'b',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: false,
-              index: 1,
-              value: 'a',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: true,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 2,
-              value: 'c',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        }, {
-          type: 'SWAPPED',
-          value: {
-            a: 'b',
-            b: 'a'
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: ['b'],
+            activeContents: [activeContent.contents[0]],
+            activeIndexes: [0],
+            lastActivated: 'b',
+            lastActivatedContent: activeContent.contents[0],
+            lastActivatedIndex: 0,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            contents: [
+              {
+                active: true,
+                index: 0,
+                value: 'b',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                active: false,
+                index: 1,
+                value: 'a',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: true,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: false,
+                index: 2,
+                value: 'c',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+            ],
           },
-          index: {
-            a: 1,
-            b: 0
-          },
-          time: new Date()
-        });
+          {
+            type: 'SWAPPED',
+            value: {
+              a: 'b',
+              b: 'a',
+            },
+            index: {
+              a: 1,
+              b: 0,
+            },
+            time: new Date(),
+          }
+        );
       });
     });
   });
@@ -10696,114 +11082,118 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['D'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 4,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'b',
-            index: {
-              from: 1,
-              to: 4
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['D'],
+              activeContents: [activeContent.contents[2]],
+              activeIndexes: [2],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 4,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'b',
+              index: {
+                from: 1,
+                to: 4,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from before the lastActivatedIndex to directly onto the lastActivatedIndex', () => {
@@ -10822,114 +11212,118 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['D'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 4,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'c',
-            index: {
-              from: 2,
-              to: 3
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['D'],
+              activeContents: [activeContent.contents[2]],
+              activeIndexes: [2],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 4,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'c',
+              index: {
+                from: 2,
+                to: 3,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from first to last', () => {
@@ -10948,114 +11342,118 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['D'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 4,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 5,
-                value: 'g',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 6,
-                value: 'a',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'a',
-            index: {
-              from: 0,
-              to: 6
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['D'],
+              activeContents: [activeContent.contents[2]],
+              activeIndexes: [2],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 4,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 5,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 6,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'a',
+              index: {
+                from: 0,
+                to: 6,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from beyond the lastActivatedIndex to before the lastActivatedIndex', () => {
@@ -11074,114 +11472,118 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['D'],
-            activeContents: [activeContent.contents[4]],
-            activeIndexes: [4],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[4],
-            lastActivatedIndex: 4,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'e',
-            index: {
-              from: 4,
-              to: 1
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['D'],
+              activeContents: [activeContent.contents[4]],
+              activeIndexes: [4],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[4],
+              lastActivatedIndex: 4,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'e',
+              index: {
+                from: 4,
+                to: 1,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from beyond the lastActivatedIndex to directly onto lastActivatedIndex', () => {
@@ -11200,114 +11602,118 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['D'],
-            activeContents: [activeContent.contents[4]],
-            activeIndexes: [4],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[4],
-            lastActivatedIndex: 4,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'e',
-            index: {
-              from: 4,
-              to: 3
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['D'],
+              activeContents: [activeContent.contents[4]],
+              activeIndexes: [4],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[4],
+              lastActivatedIndex: 4,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'e',
+              index: {
+                from: 4,
+                to: 3,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from last to first', () => {
@@ -11326,114 +11732,118 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['D'],
-            activeContents: [activeContent.contents[4]],
-            activeIndexes: [4],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[4],
-            lastActivatedIndex: 4,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'g',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 5,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 6,
-                value: 'f',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'g',
-            index: {
-              from: 6,
-              to: 0
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['D'],
+              activeContents: [activeContent.contents[4]],
+              activeIndexes: [4],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[4],
+              lastActivatedIndex: 4,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'g',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 5,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 6,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'g',
+              index: {
+                from: 6,
+                to: 0,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from beyond the lastActivatedIndex to beyond lastActivatedIndex', () => {
@@ -11452,114 +11862,118 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['D'],
-            activeContents: [activeContent.contents[3]],
-            activeIndexes: [3],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[3],
-            lastActivatedIndex: 3,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 4,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 5,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'e',
-            index: {
-              from: 4,
-              to: 5
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['D'],
+              activeContents: [activeContent.contents[3]],
+              activeIndexes: [3],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[3],
+              lastActivatedIndex: 3,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 4,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 5,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'e',
+              index: {
+                from: 4,
+                to: 5,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from before the lastActivatedIndex to before lastActivatedIndex', () => {
@@ -11578,114 +11992,118 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['D'],
-            activeContents: [activeContent.contents[3]],
-            activeIndexes: [3],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[3],
-            lastActivatedIndex: 3,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 4,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'c',
-            index: {
-              from: 2,
-              to: 1
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['D'],
+              activeContents: [activeContent.contents[3]],
+              activeIndexes: [3],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[3],
+              lastActivatedIndex: 3,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 4,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'c',
+              index: {
+                from: 2,
+                to: 1,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from lastActivatedIndex to beyond lastActivatedIndex', () => {
@@ -11704,114 +12122,118 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['D'],
-            activeContents: [activeContent.contents[4]],
-            activeIndexes: [4],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[4],
-            lastActivatedIndex: 4,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'D',
-            index: {
-              from: 3,
-              to:4
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['D'],
+              activeContents: [activeContent.contents[4]],
+              activeIndexes: [4],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[4],
+              lastActivatedIndex: 4,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'D',
+              index: {
+                from: 3,
+                to: 4,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from lastActivatedIndex to before lastActivatedIndex', () => {
@@ -11830,114 +12252,118 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['D'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 4,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'D',
-            index: {
-              from: 3,
-              to: 2
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['D'],
+              activeContents: [activeContent.contents[2]],
+              activeIndexes: [2],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 4,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'D',
+              index: {
+                from: 3,
+                to: 2,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from active to first', () => {
@@ -11956,114 +12382,118 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['D'],
-            activeContents: [activeContent.contents[0]],
-            activeIndexes: [0],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'D',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 4,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'D',
-            index: {
-              from: 3,
-              to: 0
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['D'],
+              activeContents: [activeContent.contents[0]],
+              activeIndexes: [0],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'D',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 4,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'D',
+              index: {
+                from: 3,
+                to: 0,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from active to last', () => {
@@ -12082,114 +12512,118 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['D'],
-            activeContents: [activeContent.contents[6]],
-            activeIndexes: [6],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[6],
-            lastActivatedIndex: 6,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 3,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 4,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 5,
-                value: 'g',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'D',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'D',
-            index: {
-              from: 3,
-              to: 6
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['D'],
+              activeContents: [activeContent.contents[6]],
+              activeIndexes: [6],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[6],
+              lastActivatedIndex: 6,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 3,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 4,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 5,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'D',
+              index: {
+                from: 3,
+                to: 6,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving when circular should fix previous and next', () => {
@@ -12203,66 +12637,70 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[0]],
-            activeIndexes: [0],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: true,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'a',
-                isFirst: false,
-                isLast: true,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'a',
-            index: {
-              from: 0,
-              to: 2
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b'],
+              activeContents: [activeContent.contents[0]],
+              activeIndexes: [0],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: true,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'a',
+              index: {
+                from: 0,
+                to: 2,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('when from and to are the same do nothing ', () => {
@@ -12295,122 +12733,126 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
-            activeContents: [
-              activeContent.contents[0],
-              activeContent.contents[4],
-              activeContent.contents[1],
-              activeContent.contents[2],
-              activeContent.contents[3],
-              activeContent.contents[5],
-              activeContent.contents[6],
-            ],
-            activeIndexes: [0, 4, 1, 2, 3, 5, 6],
-            lastActivated: 'g',
-            lastActivatedContent: activeContent.contents[6],
-            lastActivatedIndex: 6,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'd',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'b',
-            index: {
-              from: 1,
-              to: 4
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
+              activeContents: [
+                activeContent.contents[0],
+                activeContent.contents[4],
+                activeContent.contents[1],
+                activeContent.contents[2],
+                activeContent.contents[3],
+                activeContent.contents[5],
+                activeContent.contents[6],
+              ],
+              activeIndexes: [0, 4, 1, 2, 3, 5, 6],
+              lastActivated: 'g',
+              lastActivatedContent: activeContent.contents[6],
+              lastActivatedIndex: 6,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'd',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'b',
+              index: {
+                from: 1,
+                to: 4,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from before the lastActivatedIndex to beyond the lastActivatedIndex', () => {
@@ -12430,122 +12872,126 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a', 'b', 'c', 'e', 'f', 'g', 'D'],
-            activeContents: [
-              activeContent.contents[0],
-              activeContent.contents[4],
-              activeContent.contents[1],
-              activeContent.contents[3],
-              activeContent.contents[5],
-              activeContent.contents[6],
-              activeContent.contents[2],
-            ],
-            activeIndexes: [0, 4, 1, 3, 5, 6, 2],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'b',
-            index: {
-              from: 1,
-              to: 4
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a', 'b', 'c', 'e', 'f', 'g', 'D'],
+              activeContents: [
+                activeContent.contents[0],
+                activeContent.contents[4],
+                activeContent.contents[1],
+                activeContent.contents[3],
+                activeContent.contents[5],
+                activeContent.contents[6],
+                activeContent.contents[2],
+              ],
+              activeIndexes: [0, 4, 1, 3, 5, 6, 2],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'b',
+              index: {
+                from: 1,
+                to: 4,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from before the lastActivatedIndex to directly onto the lastActivatedIndex', () => {
@@ -12565,122 +13011,126 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b', 'e', 'f', 'a', 'c', 'g', 'D'],
-            activeContents: [
-              activeContent.contents[1],
-              activeContent.contents[4],
-              activeContent.contents[5],
-              activeContent.contents[0],
-              activeContent.contents[3],
-              activeContent.contents[6],
-              activeContent.contents[2],
-            ],
-            activeIndexes: [1, 4, 5, 0, 3, 6, 2],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'c',
-            index: {
-              from: 2,
-              to: 3
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b', 'e', 'f', 'a', 'c', 'g', 'D'],
+              activeContents: [
+                activeContent.contents[1],
+                activeContent.contents[4],
+                activeContent.contents[5],
+                activeContent.contents[0],
+                activeContent.contents[3],
+                activeContent.contents[6],
+                activeContent.contents[2],
+              ],
+              activeIndexes: [1, 4, 5, 0, 3, 6, 2],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'c',
+              index: {
+                from: 2,
+                to: 3,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from first to last', () => {
@@ -12700,122 +13150,126 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['g', 'f', 'e', 'c', 'b', 'a', 'D'],
-            activeContents: [
-              activeContent.contents[5],
-              activeContent.contents[4],
-              activeContent.contents[3],
-              activeContent.contents[1],
-              activeContent.contents[0],
-              activeContent.contents[6],
-              activeContent.contents[2],
-            ],
-            activeIndexes: [5, 4, 3, 1, 0, 6, 2],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 5,
-                value: 'g',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'a',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'a',
-            index: {
-              from: 0,
-              to: 6
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['g', 'f', 'e', 'c', 'b', 'a', 'D'],
+              activeContents: [
+                activeContent.contents[5],
+                activeContent.contents[4],
+                activeContent.contents[3],
+                activeContent.contents[1],
+                activeContent.contents[0],
+                activeContent.contents[6],
+                activeContent.contents[2],
+              ],
+              activeIndexes: [5, 4, 3, 1, 0, 6, 2],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 5,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'a',
+              index: {
+                from: 0,
+                to: 6,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from beyond the lastActivatedIndex to before the lastActivatedIndex', () => {
@@ -12835,122 +13289,126 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b', 'a', 'c', 'e', 'f', 'g', 'D'],
-            activeContents: [
-              activeContent.contents[2],
-              activeContent.contents[0],
-              activeContent.contents[3],
-              activeContent.contents[1],
-              activeContent.contents[5],
-              activeContent.contents[6],
-              activeContent.contents[4],
-            ],
-            activeIndexes: [2, 0, 3, 1, 5, 6, 4],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[4],
-            lastActivatedIndex: 4,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'e',
-            index: {
-              from: 4,
-              to: 1
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b', 'a', 'c', 'e', 'f', 'g', 'D'],
+              activeContents: [
+                activeContent.contents[2],
+                activeContent.contents[0],
+                activeContent.contents[3],
+                activeContent.contents[1],
+                activeContent.contents[5],
+                activeContent.contents[6],
+                activeContent.contents[4],
+              ],
+              activeIndexes: [2, 0, 3, 1, 5, 6, 4],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[4],
+              lastActivatedIndex: 4,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'e',
+              index: {
+                from: 4,
+                to: 1,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from beyond the lastActivatedIndex to directly onto the lastActivatedIndex', () => {
@@ -12970,122 +13428,126 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['e', 'f', 'g', 'a', 'b', 'c', 'D'],
-            activeContents: [
-              activeContent.contents[3],
-              activeContent.contents[5],
-              activeContent.contents[6],
-              activeContent.contents[0],
-              activeContent.contents[1],
-              activeContent.contents[2],
-              activeContent.contents[4],
-            ],
-            activeIndexes: [3, 5, 6, 0, 1, 2, 4],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[4],
-            lastActivatedIndex: 4,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'e',
-            index: {
-              from: 4,
-              to: 3
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['e', 'f', 'g', 'a', 'b', 'c', 'D'],
+              activeContents: [
+                activeContent.contents[3],
+                activeContent.contents[5],
+                activeContent.contents[6],
+                activeContent.contents[0],
+                activeContent.contents[1],
+                activeContent.contents[2],
+                activeContent.contents[4],
+              ],
+              activeIndexes: [3, 5, 6, 0, 1, 2, 4],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[4],
+              lastActivatedIndex: 4,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'e',
+              index: {
+                from: 4,
+                to: 3,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from last to first', () => {
@@ -13105,122 +13567,126 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['c', 'f', 'b', 'a', 'g', 'e', 'D'],
-            activeContents: [
-              activeContent.contents[3],
-              activeContent.contents[6],
-              activeContent.contents[2],
-              activeContent.contents[1],
-              activeContent.contents[0],
-              activeContent.contents[5],
-              activeContent.contents[4],
-            ],
-            activeIndexes: [3, 6, 2, 1, 0, 5, 4],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[4],
-            lastActivatedIndex: 4,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'g',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 5,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'f',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'g',
-            index: {
-              from: 6,
-              to: 0
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['c', 'f', 'b', 'a', 'g', 'e', 'D'],
+              activeContents: [
+                activeContent.contents[3],
+                activeContent.contents[6],
+                activeContent.contents[2],
+                activeContent.contents[1],
+                activeContent.contents[0],
+                activeContent.contents[5],
+                activeContent.contents[4],
+              ],
+              activeIndexes: [3, 6, 2, 1, 0, 5, 4],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[4],
+              lastActivatedIndex: 4,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'g',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 5,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'g',
+              index: {
+                from: 6,
+                to: 0,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from beyond the lastActivatedIndex to beyond the lastActivatedIndex', () => {
@@ -13240,122 +13706,126 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a', 'f', 'e', 'b', 'c', 'g', 'D'],
-            activeContents: [
-              activeContent.contents[0],
-              activeContent.contents[4],
-              activeContent.contents[5],
-              activeContent.contents[1],
-              activeContent.contents[2],
-              activeContent.contents[6],
-              activeContent.contents[3],
-            ],
-            activeIndexes: [0, 4, 5, 1, 2, 6, 3],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[3],
-            lastActivatedIndex: 3,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 5,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'e',
-            index: {
-              from: 4,
-              to: 5
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a', 'f', 'e', 'b', 'c', 'g', 'D'],
+              activeContents: [
+                activeContent.contents[0],
+                activeContent.contents[4],
+                activeContent.contents[5],
+                activeContent.contents[1],
+                activeContent.contents[2],
+                activeContent.contents[6],
+                activeContent.contents[3],
+              ],
+              activeIndexes: [0, 4, 5, 1, 2, 6, 3],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[3],
+              lastActivatedIndex: 3,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 5,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'e',
+              index: {
+                from: 4,
+                to: 5,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from before the lastActivatedIndex to before the lastActivatedIndex', () => {
@@ -13375,122 +13845,126 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['g', 'a', 'b', 'e', 'f', 'c', 'D'],
-            activeContents: [
-              activeContent.contents[6],
-              activeContent.contents[0],
-              activeContent.contents[2],
-              activeContent.contents[4],
-              activeContent.contents[5],
-              activeContent.contents[1],
-              activeContent.contents[3],
-            ],
-            activeIndexes: [6, 0, 2, 4, 5, 1, 3],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[3],
-            lastActivatedIndex: 3,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'c',
-            index: {
-              from: 2,
-              to: 1
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['g', 'a', 'b', 'e', 'f', 'c', 'D'],
+              activeContents: [
+                activeContent.contents[6],
+                activeContent.contents[0],
+                activeContent.contents[2],
+                activeContent.contents[4],
+                activeContent.contents[5],
+                activeContent.contents[1],
+                activeContent.contents[3],
+              ],
+              activeIndexes: [6, 0, 2, 4, 5, 1, 3],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[3],
+              lastActivatedIndex: 3,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'c',
+              index: {
+                from: 2,
+                to: 1,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from lastActivatedIndex to beyond lastActivatedIndex', () => {
@@ -13510,122 +13984,126 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['f', 'b', 'a', 'c', 'e', 'g', 'D'],
-            activeContents: [
-              activeContent.contents[5],
-              activeContent.contents[1],
-              activeContent.contents[0],
-              activeContent.contents[2],
-              activeContent.contents[3],
-              activeContent.contents[6],
-              activeContent.contents[4],
-            ],
-            activeIndexes: [5, 1, 0, 2, 3, 6, 4],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[4],
-            lastActivatedIndex: 4,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'D',
-            index: {
-              from: 3,
-              to: 4
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['f', 'b', 'a', 'c', 'e', 'g', 'D'],
+              activeContents: [
+                activeContent.contents[5],
+                activeContent.contents[1],
+                activeContent.contents[0],
+                activeContent.contents[2],
+                activeContent.contents[3],
+                activeContent.contents[6],
+                activeContent.contents[4],
+              ],
+              activeIndexes: [5, 1, 0, 2, 3, 6, 4],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[4],
+              lastActivatedIndex: 4,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'D',
+              index: {
+                from: 3,
+                to: 4,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from lastActivatedIndex to before lastActivatedIndex', () => {
@@ -13645,122 +14123,126 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['e', 'a', 'g', 'f', 'b', 'c', 'D'],
-            activeContents: [
-              activeContent.contents[4],
-              activeContent.contents[0],
-              activeContent.contents[6],
-              activeContent.contents[5],
-              activeContent.contents[1],
-              activeContent.contents[3],
-              activeContent.contents[2],
-            ],
-            activeIndexes: [4, 0, 6, 5, 1, 3, 2],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'D',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'D',
-            index: {
-              from: 3,
-              to: 2
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['e', 'a', 'g', 'f', 'b', 'c', 'D'],
+              activeContents: [
+                activeContent.contents[4],
+                activeContent.contents[0],
+                activeContent.contents[6],
+                activeContent.contents[5],
+                activeContent.contents[1],
+                activeContent.contents[3],
+                activeContent.contents[2],
+              ],
+              activeIndexes: [4, 0, 6, 5, 1, 3, 2],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'D',
+              index: {
+                from: 3,
+                to: 2,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from lastActivatedIndex to first', () => {
@@ -13780,122 +14262,126 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a', 'b', 'c', 'e', 'f', 'g', 'D'],
-            activeContents: [
-              activeContent.contents[1],
-              activeContent.contents[2],
-              activeContent.contents[3],
-              activeContent.contents[4],
-              activeContent.contents[5],
-              activeContent.contents[6],
-              activeContent.contents[0],
-            ],
-            activeIndexes: [1, 2, 3, 4, 5, 6, 0],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'D',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 5,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'g',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'D',
-            index: {
-              from: 3,
-              to: 0
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a', 'b', 'c', 'e', 'f', 'g', 'D'],
+              activeContents: [
+                activeContent.contents[1],
+                activeContent.contents[2],
+                activeContent.contents[3],
+                activeContent.contents[4],
+                activeContent.contents[5],
+                activeContent.contents[6],
+                activeContent.contents[0],
+              ],
+              activeIndexes: [1, 2, 3, 4, 5, 6, 0],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'D',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 5,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'D',
+              index: {
+                from: 3,
+                to: 0,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving from lastActivatedIndex to last', () => {
@@ -13915,122 +14401,126 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a', 'g', 'e', 'c', 'f', 'b', 'D'],
-            activeContents: [
-              activeContent.contents[0],
-              activeContent.contents[5],
-              activeContent.contents[3],
-              activeContent.contents[2],
-              activeContent.contents[4],
-              activeContent.contents[1],
-              activeContent.contents[6],
-            ],
-            activeIndexes: [0, 5, 3, 2, 4, 1, 6],
-            lastActivated: 'D',
-            lastActivatedContent: activeContent.contents[6],
-            lastActivatedIndex: 6,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'b',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 3,
-                value: 'e',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 4,
-                value: 'f',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 5,
-                value: 'g',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 6,
-                value: 'D',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'D',
-            index: {
-              from: 3,
-              to: 6
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a', 'g', 'e', 'c', 'f', 'b', 'D'],
+              activeContents: [
+                activeContent.contents[0],
+                activeContent.contents[5],
+                activeContent.contents[3],
+                activeContent.contents[2],
+                activeContent.contents[4],
+                activeContent.contents[1],
+                activeContent.contents[6],
+              ],
+              activeIndexes: [0, 5, 3, 2, 4, 1, 6],
+              lastActivated: 'D',
+              lastActivatedContent: activeContent.contents[6],
+              lastActivatedIndex: 6,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 3,
+                  value: 'e',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 4,
+                  value: 'f',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 5,
+                  value: 'g',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 6,
+                  value: 'D',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'D',
+              index: {
+                from: 3,
+                to: 6,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving when circular should fix previous and next', () => {
@@ -14045,70 +14535,74 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a', 'c', 'b'],
-            activeContents: [
-              activeContent.contents[2],
-              activeContent.contents[1],
-              activeContent.contents[0],
-            ],
-            activeIndexes: [2, 1, 0],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: true,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'a',
-                isFirst: false,
-                isLast: true,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'a',
-            index: {
-              from: 0,
-              to: 2
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a', 'c', 'b'],
+              activeContents: [
+                activeContent.contents[2],
+                activeContent.contents[1],
+                activeContent.contents[0],
+              ],
+              activeIndexes: [2, 1, 0],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: true,
+              direction: 'right',
+              maxActivationLimit: false,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'a',
+              index: {
+                from: 0,
+                to: 2,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('when from and to are the same do nothing ', () => {
@@ -14133,1046 +14627,86 @@ describe('ActiveContent limit 1', () => {
 
       expect(subscriber).toHaveBeenCalledTimes(1);
 
-      assertLastSubscriber(subscriber, {
-        active: ['a'],
-        activeContents: [activeContent.contents[2]],
-        activeIndexes: [2],
-        lastActivated: 'a',
-        lastActivatedContent: activeContent.contents[2],
-        lastActivatedIndex: 2,
-        isCircular: false,
-        direction: 'right',
-        maxActivationLimit: 1,
-        maxActivationLimitBehavior: 'circular',
-        history: [],
-        hasActiveChangedAtLeastOnce: false,
-        contents: [
-          {
-            active: false,
-            index: 0,
-            value: 'b',
-            isFirst: true,
-            isLast: false,
-            hasNext: true,
-            hasPrevious: false,
-            isNext: false,
-            isPrevious: false,
-            hasBeenActiveBefore: false,
-          },
-          {
-            active: false,
-            index: 1,
-            value: 'c',
-            isFirst: false,
-            isLast: false,
-            hasNext: true,
-            hasPrevious: true,
-            isNext: false,
-            isPrevious: true,
-            hasBeenActiveBefore: false,
-          },
-          {
-            active: true,
-            index: 2,
-            value: 'a',
-            isFirst: false,
-            isLast: true,
-            hasNext: false,
-            hasPrevious: true,
-            isNext: false,
-            isPrevious: false,
-            hasBeenActiveBefore: true,
-          },
-        ],
-      }, {
-        type: 'MOVED',
-        value: 'a',
-        index: {
-          from: 0,
-          to: 2
+      assertLastSubscriber(
+        subscriber,
+        {
+          active: ['a'],
+          activeContents: [activeContent.contents[2]],
+          activeIndexes: [2],
+          lastActivated: 'a',
+          lastActivatedContent: activeContent.contents[2],
+          lastActivatedIndex: 2,
+          isCircular: false,
+          direction: 'right',
+          maxActivationLimit: 1,
+          maxActivationLimitBehavior: 'circular',
+          history: [],
+          hasActiveChangedAtLeastOnce: false,
+          contents: [
+            {
+              active: false,
+              index: 0,
+              value: 'b',
+              isFirst: true,
+              isLast: false,
+              hasNext: true,
+              hasPrevious: false,
+              isNext: false,
+              isPrevious: false,
+              hasBeenActiveBefore: false,
+            },
+            {
+              active: false,
+              index: 1,
+              value: 'c',
+              isFirst: false,
+              isLast: false,
+              hasNext: true,
+              hasPrevious: true,
+              isNext: false,
+              isPrevious: true,
+              hasBeenActiveBefore: false,
+            },
+            {
+              active: true,
+              index: 2,
+              value: 'a',
+              isFirst: false,
+              isLast: true,
+              hasNext: false,
+              hasPrevious: true,
+              isNext: false,
+              isPrevious: false,
+              hasBeenActiveBefore: true,
+            },
+          ],
         },
-        time: new Date()
-      });
+        {
+          type: 'MOVED',
+          value: 'a',
+          index: {
+            from: 0,
+            to: 2,
+          },
+          time: new Date(),
+        }
+      );
     });
 
-    describe('moveByIndexAtPredicate', () => {
-      describe('moving first item', () => {
-        test('move to first should do nothing', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexAtPredicate(
-            0,
-            ({ value, index }) => value === 'a' && index === 0
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(0);
-        });
-
-        test('move to middle', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexAtPredicate(
-            0,
-            ({ value, index }) => value === 'b' && index === 1
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[0]],
-            activeIndexes: [0],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'a',
-            index: {
-              from: 0,
-              to: 1
-            },
-            time: new Date()
-          });
-        });
-
-        test('move to last', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexAtPredicate(
-            0,
-            ({ value, index }) => value === 'c' && index === 2
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[0]],
-            activeIndexes: [0],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'a',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'a',
-            index: {
-              from: 0,
-              to: 2
-            },
-            time: new Date()
-          });
-        });
-      });
-
-      describe('moving middle item', () => {
-        test('move to first', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexAtPredicate(
-            1,
-            ({ value, index }) => value === 'a' && index === 0
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[0]],
-            activeIndexes: [0],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'b',
-            index: {
-              from: 1,
-              to: 0
-            },
-            time: new Date()
-          });
-        });
-
-        test('move to middle, should do nothing', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexAtPredicate(
-            1,
-            ({ value, index }) => value === 'b' && index === 1
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(0);
-        });
-
-        test('move to last', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexAtPredicate(
-            1,
-            ({ value, index }) => value === 'c' && index === 2
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'b',
-            index: {
-              from: 1,
-              to: 2
-            },
-            time: new Date()
-          });
-        });
-      });
-
-      describe('moving last item', () => {
-        test('move to first', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexAtPredicate(
-            2,
-            ({ value, index }) => value === 'a' && index === 0
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'c',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'c',
-            index: {
-              from: 2,
-              to: 0
-            },
-            time: new Date()
-          });
-        });
-
-        test('move to middle', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexAtPredicate(
-            2,
-            ({ value, index }) => value === 'b' && index === 1
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'c',
-            index: {
-              from: 2,
-              to: 1
-            },
-            time: new Date()
-          });
-        });
-
-        test('move to last, should do nothing', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexAtPredicate(
-            2,
-            ({ value, index }) => value === 'c' && index === 2
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(0);
-        });
-      });
-
-      test('when no predicate matches do nothing', () => {
+    describe('moveByIndexByPredicate', () => {
+      test('when no mode is prodided assume at', () => {
         const { activeContent, subscriber } = setup({ active: 'b' });
 
-        activeContent.moveByIndexAtPredicate(0, ({ value }) => value === 'z');
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
-      });
-    });
-
-    describe('moveByIndexBeforePredicate', () => {
-      describe('moving first item', () => {
-        test('move to before first should do nothing', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexBeforePredicate(
-            0,
-            ({ value, index }) => value === 'a' && index === 0
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(0);
-        });
-
-        test('move to before middle should do nothing', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexBeforePredicate(
-            0,
-            ({ value, index }) => value === 'b' && index === 1
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(0);
-        });
-
-        test('move to before last', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexBeforePredicate(
-            0,
-            ({ value, index }) => value === 'c' && index === 2
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[0]],
-            activeIndexes: [0],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'a',
-            index: {
-              from: 0,
-              to: 1
-            },
-            time: new Date()
-          });
-        });
-      });
-
-      describe('moving middle item', () => {
-        test('move to before first', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexBeforePredicate(
-            1,
-            ({ value, index }) => value === 'a' && index === 0
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[0]],
-            activeIndexes: [0],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'b',
-            index: {
-              from: 1,
-              to: 0
-            },
-            time: new Date()
-          });
-        });
-
-        test('move to before middle', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexBeforePredicate(
-            1,
-            ({ value, index }) => value === 'b' && index === 1
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[0]],
-            activeIndexes: [0],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'b',
-            index: {
-              from: 1,
-              to: 0
-            },
-            time: new Date()
-          });
-        });
-
-        test('move to before last, should do nothing', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexBeforePredicate(
-            1,
-            ({ value, index }) => value === 'c' && index === 2
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(0);
-        });
-      });
-
-      describe('moving last item', () => {
-        test('move to before first', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexBeforePredicate(
-            2,
-            ({ value, index }) => value === 'a' && index === 0
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'c',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'c',
-            index: {
-              from: 2,
-              to: 0
-            },
-            time: new Date()
-          });
-        });
-
-        test('move to before middle', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexBeforePredicate(
-            2,
-            ({ value, index }) => value === 'b' && index === 1
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'c',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'c',
-            index: {
-              from: 2,
-              to: 0
-            },
-            time: new Date()
-          });
-        });
-
-        test('move to before last', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexBeforePredicate(
-            2,
-            ({ value, index }) => value === 'c' && index === 2
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'c',
-            index: {
-              from: 2,
-              to: 1
-            },
-            time: new Date()
-          });
-        });
-      });
-
-      test('when no predicate matches do nothing', () => {
-        const { activeContent, subscriber } = setup({ active: 'b' });
-
-        activeContent.moveByIndexBeforePredicate(
+        activeContent.moveByIndexByPredicate(
           0,
-          ({ value }) => value === 'z'
+          ({ value, index }) => value === 'b' && index === 1,
         );
 
-        expect(subscriber).toHaveBeenCalledTimes(0);
-      });
-    });
+        expect(subscriber).toHaveBeenCalledTimes(1);
 
-    describe('moveByIndexAfterPredicate', () => {
-      describe('moving first item', () => {
-        test('move to after first', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexAfterPredicate(
-            0,
-            ({ value, index }) => value === 'a' && index === 0
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
+        assertLastSubscriber(
+          subscriber,
+          {
             active: ['b'],
             activeContents: [activeContent.contents[0]],
             activeIndexes: [0],
@@ -15223,28 +14757,1588 @@ describe('ActiveContent limit 1', () => {
                 hasBeenActiveBefore: false,
               },
             ],
-          }, {
+          },
+          {
             type: 'MOVED',
             value: 'a',
             index: {
               from: 0,
-              to: 1
+              to: 1,
             },
-            time: new Date()
+            time: new Date(),
+          }
+        );
+      });
+
+      describe('mode at', () => {
+        describe('moving first item', () => {
+          test('move to first should do nothing', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              0,
+              ({ value, index }) => value === 'a' && index === 0,
+              { mode: 'at' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
+          });
+
+          test('move to middle', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              0,
+              ({ value, index }) => value === 'b' && index === 1,
+              { mode: 'at' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 2,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'a',
+                index: {
+                  from: 0,
+                  to: 1,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('move to last', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              0,
+              ({ value, index }) => value === 'c' && index === 2,
+              { mode: 'at' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 2,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'a',
+                index: {
+                  from: 0,
+                  to: 2,
+                },
+                time: new Date(),
+              }
+            );
           });
         });
 
-        test('move to after middle', () => {
+        describe('moving middle item', () => {
+          test('move to first', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              1,
+              ({ value, index }) => value === 'a' && index === 0,
+              { mode: 'at' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 2,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'b',
+                index: {
+                  from: 1,
+                  to: 0,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('move to middle, should do nothing', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              1,
+              ({ value, index }) => value === 'b' && index === 1,
+              { mode: 'at' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
+          });
+
+          test('move to last', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              1,
+              ({ value, index }) => value === 'c' && index === 2,
+              { mode: 'at' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[2]],
+                activeIndexes: [2],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[2],
+                lastActivatedIndex: 2,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: false,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: true,
+                    index: 2,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'b',
+                index: {
+                  from: 1,
+                  to: 2,
+                },
+                time: new Date(),
+              }
+            );
+          });
+        });
+
+        describe('moving last item', () => {
+          test('move to first', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              2,
+              ({ value, index }) => value === 'a' && index === 0,
+              { mode: 'at' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[2]],
+                activeIndexes: [2],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[2],
+                lastActivatedIndex: 2,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: false,
+                    index: 0,
+                    value: 'c',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: true,
+                    index: 2,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'c',
+                index: {
+                  from: 2,
+                  to: 0,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('move to middle', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              2,
+              ({ value, index }) => value === 'b' && index === 1,
+              { mode: 'at' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[2]],
+                activeIndexes: [2],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[2],
+                lastActivatedIndex: 2,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: false,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: true,
+                    index: 2,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'c',
+                index: {
+                  from: 2,
+                  to: 1,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('move to last, should do nothing', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              2,
+              ({ value, index }) => value === 'c' && index === 2,
+              { mode: 'at' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
+          });
+        });
+
+        test('when no predicate matches do nothing', () => {
           const { activeContent, subscriber } = setup({ active: 'b' });
 
-          activeContent.moveByIndexAfterPredicate(
+          activeContent.moveByIndexByPredicate(
             0,
-            ({ value, index }) => value === 'b' && index === 1
+            ({ value }) => value === 'z',
+            { mode: 'at' }
           );
 
-          expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(0);
+        });
+      });
 
-          assertLastSubscriber(subscriber, {
+      describe('mode before', () => {
+        describe('moving first item', () => {
+          test('move to before first should do nothing', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              0,
+              ({ value, index }) => value === 'a' && index === 0,
+              { mode: 'before' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
+          });
+
+          test('move to before middle should do nothing', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              0,
+              ({ value, index }) => value === 'b' && index === 1,
+              { mode: 'before' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
+          });
+
+          test('move to before last', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              0,
+              ({ value, index }) => value === 'c' && index === 2,
+              { mode: 'before' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 2,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'a',
+                index: {
+                  from: 0,
+                  to: 1,
+                },
+                time: new Date(),
+              }
+            );
+          });
+        });
+
+        describe('moving middle item', () => {
+          test('move to before first', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              1,
+              ({ value, index }) => value === 'a' && index === 0,
+              { mode: 'before' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 2,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'b',
+                index: {
+                  from: 1,
+                  to: 0,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('move to before middle', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              1,
+              ({ value, index }) => value === 'b' && index === 1,
+              { mode: 'before' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 2,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'b',
+                index: {
+                  from: 1,
+                  to: 0,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('move to before last, should do nothing', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              1,
+              ({ value, index }) => value === 'c' && index === 2,
+              { mode: 'before' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
+          });
+        });
+
+        describe('moving last item', () => {
+          test('move to before first', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              2,
+              ({ value, index }) => value === 'a' && index === 0,
+              { mode: 'before' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[2]],
+                activeIndexes: [2],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[2],
+                lastActivatedIndex: 2,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: false,
+                    index: 0,
+                    value: 'c',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: true,
+                    index: 2,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'c',
+                index: {
+                  from: 2,
+                  to: 0,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('move to before middle', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              2,
+              ({ value, index }) => value === 'b' && index === 1,
+              { mode: 'before' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[2]],
+                activeIndexes: [2],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[2],
+                lastActivatedIndex: 2,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: false,
+                    index: 0,
+                    value: 'c',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: true,
+                    index: 2,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'c',
+                index: {
+                  from: 2,
+                  to: 0,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('move to before last', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              2,
+              ({ value, index }) => value === 'c' && index === 2,
+              { mode: 'before' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[2]],
+                activeIndexes: [2],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[2],
+                lastActivatedIndex: 2,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: false,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: true,
+                    index: 2,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'c',
+                index: {
+                  from: 2,
+                  to: 1,
+                },
+                time: new Date(),
+              }
+            );
+          });
+        });
+
+        test('when no predicate matches do nothing', () => {
+          const { activeContent, subscriber } = setup({ active: 'b' });
+
+          activeContent.moveByIndexByPredicate(
+            0,
+            ({ value }) => value === 'z',
+            { mode: 'before' }
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(0);
+        });
+      });
+
+      describe('mode after', () => {
+        describe('moving first item', () => {
+          test('move to after first', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              0,
+              ({ value, index }) => value === 'a' && index === 0,
+              { mode: 'after' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 2,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'a',
+                index: {
+                  from: 0,
+                  to: 1,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('move to after middle', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              0,
+              ({ value, index }) => value === 'b' && index === 1,
+              { mode: 'after' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 2,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'a',
+                index: {
+                  from: 0,
+                  to: 2,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('move to after last', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              0,
+              ({ value, index }) => value === 'c' && index === 2,
+              { mode: 'after' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 2,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'a',
+                index: {
+                  from: 0,
+                  to: 2,
+                },
+                time: new Date(),
+              }
+            );
+          });
+        });
+
+        describe('moving middle item', () => {
+          test('move to after first should do nothing', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              1,
+              ({ value, index }) => value === 'a' && index === 0,
+              { mode: 'after' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
+          });
+
+          test('move to after middle', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              1,
+              ({ value, index }) => value === 'b' && index === 1,
+              { mode: 'after' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[2]],
+                activeIndexes: [2],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[2],
+                lastActivatedIndex: 2,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: false,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: true,
+                    index: 2,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'b',
+                index: {
+                  from: 1,
+                  to: 2,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('move to after last', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              1,
+              ({ value, index }) => value === 'c' && index === 2,
+              { mode: 'after' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[2]],
+                activeIndexes: [2],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[2],
+                lastActivatedIndex: 2,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: false,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: true,
+                    index: 2,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'b',
+                index: {
+                  from: 1,
+                  to: 2,
+                },
+                time: new Date(),
+              }
+            );
+          });
+        });
+
+        describe('moving last item', () => {
+          test('move to after first', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              2,
+              ({ value, index }) => value === 'a' && index === 0,
+              { mode: 'after' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeContent.contents[2]],
+                activeIndexes: [2],
+                lastActivated: 'b',
+                lastActivatedContent: activeContent.contents[2],
+                lastActivatedIndex: 2,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    active: false,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    active: true,
+                    index: 2,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                ],
+              },
+              {
+                type: 'MOVED',
+                value: 'c',
+                index: {
+                  from: 2,
+                  to: 1,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('move to after middle should do nothing', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              2,
+              ({ value, index }) => value === 'b' && index === 1,
+              { mode: 'after' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
+          });
+
+          test('move to after last should do nothing', () => {
+            const { activeContent, subscriber } = setup({ active: 'b' });
+
+            activeContent.moveByIndexByPredicate(
+              2,
+              ({ value, index }) => value === 'c' && index === 2,
+              { mode: 'after' }
+            );
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
+          });
+        });
+
+        test('when no predicate matches do nothing', () => {
+          const { activeContent, subscriber } = setup({ active: 'b' });
+
+          activeContent.moveByIndexByPredicate(
+            0,
+            ({ value }) => value === 'z',
+            { mode: 'after' }
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(0);
+        });
+      });
+    });
+
+    describe('moveByPredicate', () => {
+      test('when no mode is provided assume at', () => {
+        const { activeContent, subscriber } = setup({ active: 'b' });
+
+        activeContent.moveByPredicate(
+          'a',
+          ({ value, index }) => value === 'b' && index === 1,
+        );
+
+        expect(subscriber).toHaveBeenCalledTimes(1);
+
+        assertLastSubscriber(
+          subscriber,
+          {
             active: ['b'],
             activeContents: [activeContent.contents[0]],
             activeIndexes: [0],
@@ -15273,7 +16367,7 @@ describe('ActiveContent limit 1', () => {
               {
                 active: false,
                 index: 1,
-                value: 'c',
+                value: 'a',
                 isFirst: false,
                 isLast: false,
                 hasNext: true,
@@ -15285,7 +16379,7 @@ describe('ActiveContent limit 1', () => {
               {
                 active: false,
                 index: 2,
-                value: 'a',
+                value: 'c',
                 isFirst: false,
                 isLast: true,
                 hasNext: false,
@@ -15295,628 +16389,320 @@ describe('ActiveContent limit 1', () => {
                 hasBeenActiveBefore: false,
               },
             ],
-          }, {
+          },
+          {
             type: 'MOVED',
             value: 'a',
             index: {
               from: 0,
-              to: 2
+              to: 1,
             },
-            time: new Date()
-          });
-        });
+            time: new Date(),
+          }
+        );
+      });
 
-        test('move to after last', () => {
+      describe('mode at', () => {
+        test('when predicate matches perform move', () => {
           const { activeContent, subscriber } = setup({ active: 'b' });
 
-          activeContent.moveByIndexAfterPredicate(
-            0,
-            ({ value, index }) => value === 'c' && index === 2
+          activeContent.moveByPredicate(
+            'a',
+            ({ value, index }) => value === 'b' && index === 1,
+            { mode: 'at' }
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[0]],
-            activeIndexes: [0],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'a',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'a',
-            index: {
-              from: 0,
-              to: 2
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b'],
+              activeContents: [activeContent.contents[0]],
+              activeIndexes: [0],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'a',
+              index: {
+                from: 0,
+                to: 1,
+              },
+              time: new Date(),
+            }
+          );
         });
-      });
 
-      describe('moving middle item', () => {
-        test('move to after first should do nothing', () => {
+        test('when no predicate matches do nothing', () => {
           const { activeContent, subscriber } = setup({ active: 'b' });
 
-          activeContent.moveByIndexAfterPredicate(
-            1,
-            ({ value, index }) => value === 'a' && index === 0
-          );
+          activeContent.moveByPredicate('a', ({ value }) => value === 'z', {
+            mode: 'at',
+          });
 
           expect(subscriber).toHaveBeenCalledTimes(0);
         });
 
-        test('move to after middle', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
+        test('when item is not found throw error', () => {
+          const { activeContent } = setup({ active: 'b' });
 
-          activeContent.moveByIndexAfterPredicate(
-            1,
-            ({ value, index }) => value === 'b' && index === 1
+          expect(() =>
+            activeContent.moveByPredicate('y', ({ value }) => value === 'z', {
+              mode: 'at',
+            })
+          ).toThrowError(
+            'uiloos > ActiveContent > getIndex > index cannot be found, item is not in contents array'
           );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'b',
-            index: {
-              from: 1,
-              to: 2
-            },
-            time: new Date()
-          });
-        });
-
-        test('move to after last', () => {
-          const { activeContent, subscriber } = setup({ active: 'b' });
-
-          activeContent.moveByIndexAfterPredicate(
-            1,
-            ({ value, index }) => value === 'c' && index === 2
-          );
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'b',
-            index: {
-              from: 1,
-              to: 2
-            },
-            time: new Date()
-          });
         });
       });
 
-      describe('moving last item', () => {
-        test('move to after first', () => {
+      describe('mode before', () => {
+        test('when predicate matches perform move', () => {
           const { activeContent, subscriber } = setup({ active: 'b' });
 
-          activeContent.moveByIndexAfterPredicate(
-            2,
-            ({ value, index }) => value === 'a' && index === 0
+          activeContent.moveByPredicate(
+            'a',
+            ({ value, index }) => value === 'c' && index === 2,
+            { mode: 'before' }
           );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'c',
-            index: {
-              from: 2,
-              to: 1
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b'],
+              activeContents: [activeContent.contents[0]],
+              activeIndexes: [0],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'a',
+              index: {
+                from: 0,
+                to: 1,
+              },
+              time: new Date(),
+            }
+          );
         });
 
-        test('move to after middle should do nothing', () => {
+        test('when no predicate matches do nothing', () => {
           const { activeContent, subscriber } = setup({ active: 'b' });
 
-          activeContent.moveByIndexAfterPredicate(
-            2,
-            ({ value, index }) => value === 'b' && index === 1
-          );
+          activeContent.moveByPredicate('a', ({ value }) => value === 'z', {
+            mode: 'before',
+          });
 
           expect(subscriber).toHaveBeenCalledTimes(0);
         });
 
-        test('move to after last should do nothing', () => {
+        test('when item is not found throw error', () => {
+          const { activeContent } = setup({ active: 'b' });
+
+          expect(() =>
+            activeContent.moveByPredicate('y', ({ value }) => value === 'z', {
+              mode: 'before',
+            })
+          ).toThrowError(
+            'uiloos > ActiveContent > getIndex > index cannot be found, item is not in contents array'
+          );
+        });
+      });
+
+      describe('mode after', () => {
+        test('when predicate matches perform move', () => {
           const { activeContent, subscriber } = setup({ active: 'b' });
 
-          activeContent.moveByIndexAfterPredicate(
-            2,
-            ({ value, index }) => value === 'c' && index === 2
+          activeContent.moveByPredicate(
+            'a',
+            ({ value, index }) => value === 'a' && index === 0,
+            { mode: 'after' }
           );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b'],
+              activeContents: [activeContent.contents[0]],
+              activeIndexes: [0],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
+            },
+            {
+              type: 'MOVED',
+              value: 'a',
+              index: {
+                from: 0,
+                to: 1,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        test('when no predicate matches do nothing', () => {
+          const { activeContent, subscriber } = setup({ active: 'b' });
+
+          activeContent.moveByPredicate('a', ({ value }) => value === 'z', {
+            mode: 'after',
+          });
 
           expect(subscriber).toHaveBeenCalledTimes(0);
         });
-      });
 
-      test('when no predicate matches do nothing', () => {
-        const { activeContent, subscriber } = setup({ active: 'b' });
+        test('when item is not found throw error', () => {
+          const { activeContent } = setup({ active: 'b' });
 
-        activeContent.moveByIndexAfterPredicate(
-          0,
-          ({ value }) => value === 'z'
-        );
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
-      });
-    });
-
-    describe('moveAtPredicate', () => {
-      test('when predicate matches perform move', () => {
-        const { activeContent, subscriber } = setup({ active: 'b' });
-
-        activeContent.moveAtPredicate(
-          'a',
-          ({ value, index }) => value === 'b' && index === 1
-        );
-
-        expect(subscriber).toHaveBeenCalledTimes(1);
-
-        assertLastSubscriber(subscriber, {
-          active: ['b'],
-          activeContents: [activeContent.contents[0]],
-          activeIndexes: [0],
-          lastActivated: 'b',
-          lastActivatedContent: activeContent.contents[0],
-          lastActivatedIndex: 0,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: true,
-              index: 0,
-              value: 'b',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: false,
-              index: 1,
-              value: 'a',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: true,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 2,
-              value: 'c',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        }, {
-          type: 'MOVED',
-          value: 'a',
-          index: {
-            from: 0,
-            to: 1
-          },
-          time: new Date()
+          expect(() =>
+            activeContent.moveByPredicate('y', ({ value }) => value === 'z', {
+              mode: 'after',
+            })
+          ).toThrowError(
+            'uiloos > ActiveContent > getIndex > index cannot be found, item is not in contents array'
+          );
         });
-      });
-
-      test('when no predicate matches do nothing', () => {
-        const { activeContent, subscriber } = setup({ active: 'b' });
-
-        activeContent.moveAtPredicate('a', ({ value }) => value === 'z');
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
-      });
-
-      test('when item is not found throw error', () => {
-        const { activeContent } = setup({ active: 'b' });
-
-        expect(() =>
-          activeContent.moveAtPredicate('y', ({ value }) => value === 'z')
-        ).toThrowError(
-          'uiloos > ActiveContent > getIndex > index cannot be found, item is not in contents array'
-        );
-      });
-    });
-
-    describe('moveBeforePredicate', () => {
-      test('when predicate matches perform move', () => {
-        const { activeContent, subscriber } = setup({ active: 'b' });
-
-        activeContent.moveBeforePredicate(
-          'a',
-          ({ value, index }) => value === 'c' && index === 2
-        );
-
-        expect(subscriber).toHaveBeenCalledTimes(1);
-
-        assertLastSubscriber(subscriber, {
-          active: ['b'],
-          activeContents: [activeContent.contents[0]],
-          activeIndexes: [0],
-          lastActivated: 'b',
-          lastActivatedContent: activeContent.contents[0],
-          lastActivatedIndex: 0,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: true,
-              index: 0,
-              value: 'b',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: false,
-              index: 1,
-              value: 'a',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: true,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 2,
-              value: 'c',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        }, {
-          type: 'MOVED',
-          value: 'a',
-          index: {
-            from: 0,
-            to: 1
-          },
-          time: new Date()
-        });
-      });
-
-      test('when no predicate matches do nothing', () => {
-        const { activeContent, subscriber } = setup({ active: 'b' });
-
-        activeContent.moveBeforePredicate('a', ({ value }) => value === 'z');
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
-      });
-
-      test('when item is not found throw error', () => {
-        const { activeContent } = setup({ active: 'b' });
-
-        expect(() =>
-          activeContent.moveBeforePredicate('y', ({ value }) => value === 'z')
-        ).toThrowError(
-          'uiloos > ActiveContent > getIndex > index cannot be found, item is not in contents array'
-        );
-      });
-    });
-
-    describe('moveAfterPredicate', () => {
-      test('when predicate matches perform move', () => {
-        const { activeContent, subscriber } = setup({ active: 'b' });
-
-        activeContent.moveAfterPredicate(
-          'a',
-          ({ value, index }) => value === 'a' && index === 0
-        );
-
-        expect(subscriber).toHaveBeenCalledTimes(1);
-
-        assertLastSubscriber(subscriber, {
-          active: ['b'],
-          activeContents: [activeContent.contents[0]],
-          activeIndexes: [0],
-          lastActivated: 'b',
-          lastActivatedContent: activeContent.contents[0],
-          lastActivatedIndex: 0,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: true,
-              index: 0,
-              value: 'b',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-            {
-              active: false,
-              index: 1,
-              value: 'a',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: true,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 2,
-              value: 'c',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        }, {
-          type: 'MOVED',
-          value: 'a',
-          index: {
-            from: 0,
-            to: 1
-          },
-          time: new Date()
-        });
-      });
-
-      test('when no predicate matches do nothing', () => {
-        const { activeContent, subscriber } = setup({ active: 'b' });
-
-        activeContent.moveAfterPredicate('a', ({ value }) => value === 'z');
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
-      });
-
-      test('when item is not found throw error', () => {
-        const { activeContent } = setup({ active: 'b' });
-
-        expect(() =>
-          activeContent.moveAfterPredicate('y', ({ value }) => value === 'z')
-        ).toThrowError(
-          'uiloos > ActiveContent > getIndex > index cannot be found, item is not in contents array'
-        );
       });
     });
 
@@ -15929,279 +16715,375 @@ describe('ActiveContent limit 1', () => {
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['a'],
-          activeContents: [activeContent.contents[2]],
-          activeIndexes: [2],
-          lastActivated: 'a',
-          lastActivatedContent: activeContent.contents[2],
-          lastActivatedIndex: 2,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
-            {
-              active: false,
-              index: 0,
-              value: 'b',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 1,
-              value: 'c',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: true,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: true,
-              index: 2,
-              value: 'a',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
-            },
-          ],
-        }, {
-          type: 'MOVED',
-          value: 'a',
-          index: {
-            from: 0,
-            to: 2
+        assertLastSubscriber(
+          subscriber,
+          {
+            active: ['a'],
+            activeContents: [activeContent.contents[2]],
+            activeIndexes: [2],
+            lastActivated: 'a',
+            lastActivatedContent: activeContent.contents[2],
+            lastActivatedIndex: 2,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            contents: [
+              {
+                active: false,
+                index: 0,
+                value: 'b',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: false,
+                index: 1,
+                value: 'c',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: false,
+              },
+              {
+                active: true,
+                index: 2,
+                value: 'a',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+            ],
           },
-          time: new Date()
-        });
+          {
+            type: 'MOVED',
+            value: 'a',
+            index: {
+              from: 0,
+              to: 2,
+            },
+            time: new Date(),
+          }
+        );
       });
 
-      test('moveToAtPredicate', () => {
-        const { activeContent, subscriber } = setup({ active: 'b' });
+      describe('moveToPredicate', () => {
+        test('when no mode is given assume at', () => {
+          const { activeContent, subscriber } = setup({ active: 'b' });
 
-        activeContent.contents[0].moveToAtPredicate(
-          ({ value, index }) => value === 'b' && index === 1
-        );
+          activeContent.contents[0].moveToPredicate(
+            ({ value, index }) => value === 'b' && index === 1,
+          );
 
-        expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['b'],
-          activeContents: [activeContent.contents[0]],
-          activeIndexes: [0],
-          lastActivated: 'b',
-          lastActivatedContent: activeContent.contents[0],
-          lastActivatedIndex: 0,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
+          assertLastSubscriber(
+            subscriber,
             {
-              active: true,
-              index: 0,
-              value: 'b',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
+              active: ['b'],
+              activeContents: [activeContent.contents[0]],
+              activeIndexes: [0],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
             {
-              active: false,
-              index: 1,
+              type: 'MOVED',
               value: 'a',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: true,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 2,
-              value: 'c',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        }, {
-          type: 'MOVED',
-          value: 'a',
-          index: {
-            from: 0,
-            to: 1
-          },
-          time: new Date()
+              index: {
+                from: 0,
+                to: 1,
+              },
+              time: new Date(),
+            }
+          );
         });
-      });
 
-      test('moveToBeforePredicate', () => {
-        const { activeContent, subscriber } = setup({ active: 'b' });
+        test('mode at', () => {
+          const { activeContent, subscriber } = setup({ active: 'b' });
 
-        activeContent.contents[0].moveToBeforePredicate(
-          ({ value, index }) => value === 'c' && index === 2
-        );
+          activeContent.contents[0].moveToPredicate(
+            ({ value, index }) => value === 'b' && index === 1,
+            { mode: 'at' }
+          );
 
-        expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['b'],
-          activeContents: [activeContent.contents[0]],
-          activeIndexes: [0],
-          lastActivated: 'b',
-          lastActivatedContent: activeContent.contents[0],
-          lastActivatedIndex: 0,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
+          assertLastSubscriber(
+            subscriber,
             {
-              active: true,
-              index: 0,
-              value: 'b',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
+              active: ['b'],
+              activeContents: [activeContent.contents[0]],
+              activeIndexes: [0],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
             {
-              active: false,
-              index: 1,
+              type: 'MOVED',
               value: 'a',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: true,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: false,
-              index: 2,
-              value: 'c',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
-            },
-          ],
-        }, {
-          type: 'MOVED',
-          value: 'a',
-          index: {
-            from: 0,
-            to: 1
-          },
-          time: new Date()
+              index: {
+                from: 0,
+                to: 1,
+              },
+              time: new Date(),
+            }
+          );
         });
-      });
 
-      test('moveToAfterPredicate', () => {
-        const { activeContent, subscriber } = setup({ active: 'a' });
+        test('mode before', () => {
+          const { activeContent, subscriber } = setup({ active: 'b' });
 
-        // Move a beyond c
-        activeContent.contents[0].moveToAfterPredicate(
-          ({ value, index }) => value === 'c' && index === 2
-        );
+          activeContent.contents[0].moveToPredicate(
+            ({ value, index }) => value === 'c' && index === 2,
+            { mode: 'before' }
+          );
 
-        expect(subscriber).toHaveBeenCalledTimes(1);
+          expect(subscriber).toHaveBeenCalledTimes(1);
 
-        assertLastSubscriber(subscriber, {
-          active: ['a'],
-          activeContents: [activeContent.contents[2]],
-          activeIndexes: [2],
-          lastActivated: 'a',
-          lastActivatedContent: activeContent.contents[2],
-          lastActivatedIndex: 2,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          contents: [
+          assertLastSubscriber(
+            subscriber,
             {
-              active: false,
-              index: 0,
-              value: 'b',
-              isFirst: true,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: false,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: false,
+              active: ['b'],
+              activeContents: [activeContent.contents[0]],
+              activeIndexes: [0],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
             {
-              active: false,
-              index: 1,
-              value: 'c',
-              isFirst: false,
-              isLast: false,
-              hasNext: true,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: true,
-              hasBeenActiveBefore: false,
-            },
-            {
-              active: true,
-              index: 2,
+              type: 'MOVED',
               value: 'a',
-              isFirst: false,
-              isLast: true,
-              hasNext: false,
-              hasPrevious: true,
-              isNext: false,
-              isPrevious: false,
-              hasBeenActiveBefore: true,
+              index: {
+                from: 0,
+                to: 1,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        test('mode after', () => {
+          const { activeContent, subscriber } = setup({ active: 'a' });
+
+          // Move a beyond c
+          activeContent.contents[0].moveToPredicate(
+            ({ value, index }) => value === 'c' && index === 2,
+            { mode: 'after' }
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a'],
+              activeContents: [activeContent.contents[2]],
+              activeIndexes: [2],
+              lastActivated: 'a',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-          ],
-        }, {
-          type: 'MOVED',
-          value: 'a',
-          index: {
-            from: 0,
-            to: 2
-          },
-          time: new Date()
+            {
+              type: 'MOVED',
+              value: 'a',
+              index: {
+                from: 0,
+                to: 2,
+              },
+              time: new Date(),
+            }
+          );
         });
       });
 
@@ -16214,66 +17096,70 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a'],
-            activeContents: [activeContent.contents[1]],
-            activeIndexes: [1],
-            lastActivated: 'a',
-            lastActivatedContent: activeContent.contents[1],
-            lastActivatedIndex: 1,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'c',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'c',
-            index: {
-              from: 2,
-              to: 0
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a'],
+              activeContents: [activeContent.contents[1]],
+              activeIndexes: [1],
+              lastActivated: 'a',
+              lastActivatedContent: activeContent.contents[1],
+              lastActivatedIndex: 1,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'c',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'c',
+              index: {
+                from: 2,
+                to: 0,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving to the active index should not affect it', () => {
@@ -16284,66 +17170,70 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[0]],
-            activeIndexes: [0],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: true,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'b',
-            index: {
-              from: 1,
-              to: 0
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b'],
+              activeContents: [activeContent.contents[0]],
+              activeIndexes: [0],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[0],
+              lastActivatedIndex: 0,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: true,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'b',
+              index: {
+                from: 1,
+                to: 0,
+              },
+              time: new Date(),
+            }
+          );
         });
       });
 
@@ -16356,66 +17246,70 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['a'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'a',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'a',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'a',
-            index: {
-              from: 0,
-              to: 2
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['a'],
+              activeContents: [activeContent.contents[2]],
+              activeIndexes: [2],
+              lastActivated: 'a',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'b',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'a',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'a',
+              index: {
+                from: 0,
+                to: 2,
+              },
+              time: new Date(),
+            }
+          );
         });
 
         test('moving to the active index should not affect it', () => {
@@ -16426,66 +17320,70 @@ describe('ActiveContent limit 1', () => {
 
           expect(subscriber).toHaveBeenCalledTimes(1);
 
-          assertLastSubscriber(subscriber, {
-            active: ['b'],
-            activeContents: [activeContent.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'b',
-            lastActivatedContent: activeContent.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
-              {
-                active: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                active: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
-          }, {
-            type: 'MOVED',
-            value: 'b',
-            index: {
-              from: 1,
-              to: 2
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: ['b'],
+              activeContents: [activeContent.contents[2]],
+              activeIndexes: [2],
+              lastActivated: 'b',
+              lastActivatedContent: activeContent.contents[2],
+              lastActivatedIndex: 2,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              contents: [
+                {
+                  active: false,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: false,
+                  index: 1,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  active: true,
+                  index: 2,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
             },
-            time: new Date()
-          });
+            {
+              type: 'MOVED',
+              value: 'b',
+              index: {
+                from: 1,
+                to: 2,
+              },
+              time: new Date(),
+            }
+          );
         });
       });
     });
@@ -16983,13 +17881,17 @@ describe('ActiveContent limit 1', () => {
       test('cannot be less than zero', () => {
         expect(() => {
           setup({ cooldown: -1, activeIndexes: 0 });
-        }).toThrowError('uiloos > ActiveContent > cooldown > duration cannot be negative or zero');
+        }).toThrowError(
+          'uiloos > ActiveContent > cooldown > duration cannot be negative or zero'
+        );
       });
 
       test('cannot be zero', () => {
         expect(() => {
           setup({ cooldown: 0, activeIndexes: 0 });
-        }).toThrowError('uiloos > ActiveContent > cooldown > duration cannot be negative or zero');
+        }).toThrowError(
+          'uiloos > ActiveContent > cooldown > duration cannot be negative or zero'
+        );
       });
     });
 
@@ -17003,7 +17905,9 @@ describe('ActiveContent limit 1', () => {
               isUserInteraction: true,
               cooldown: -1,
             });
-          }).toThrowError('uiloos > ActiveContent > cooldown > duration cannot be negative or zero');
+          }).toThrowError(
+            'uiloos > ActiveContent > cooldown > duration cannot be negative or zero'
+          );
         });
 
         test('cannot be zero', () => {
@@ -17014,7 +17918,9 @@ describe('ActiveContent limit 1', () => {
               isUserInteraction: true,
               cooldown: 0,
             });
-          }).toThrowError('uiloos > ActiveContent > cooldown > duration cannot be negative or zero');
+          }).toThrowError(
+            'uiloos > ActiveContent > cooldown > duration cannot be negative or zero'
+          );
         });
       });
 
@@ -17235,7 +18141,9 @@ describe('ActiveContent limit 1', () => {
               isUserInteraction: true,
               cooldown: -1,
             });
-          }).toThrowError('uiloos > ActiveContent > cooldown > duration cannot be negative or zero');
+          }).toThrowError(
+            'uiloos > ActiveContent > cooldown > duration cannot be negative or zero'
+          );
         });
 
         test('cannot be zero', () => {
@@ -17246,7 +18154,9 @@ describe('ActiveContent limit 1', () => {
               isUserInteraction: true,
               cooldown: 0,
             });
-          }).toThrowError('uiloos > ActiveContent > cooldown > duration cannot be negative or zero');
+          }).toThrowError(
+            'uiloos > ActiveContent > cooldown > duration cannot be negative or zero'
+          );
         });
       });
 

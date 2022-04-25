@@ -1,5 +1,5 @@
 import { ActiveContent } from './ActiveContent';
-import { ActivationOptions, ContentPredicate } from './types';
+import { ActivationOptions, ActiveContentPredicateMode, ContentPredicate, PredicateOptions } from './types';
 
 /**
  * Represents a piece of content in the `contents` array of the `ActiveContent`.
@@ -192,35 +192,25 @@ export class Content<T> {
    * the predicate returns `true`.
    *
    * If no item matches the predicate nothing is moved.
+   * 
+   * The position to where the `Content` is inserted can be altered by 
+   * providing a mode:
+   * 
+   *  1. When the mode is 'at', the `Content` is inserted to the 
+   *     position where the predicate matches. This is the `default` 
+   *     mode.
+   * 
+   *  2. When the mode is 'after', the `Content` is inserted to after 
+   *     the position where the predicate matches.
+   * 
+   *  3. When the mode is 'before', the `Content` is inserted to 
+   *     before the position where the predicate matches.
    *
    * @param {ContentPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
+   * @param {PredicateOptions} options The options for the predicate, when no options are provided the mode will default to "at".
    */
-  public moveToAtPredicate(predicate: ContentPredicate<T>) {
-    this.activeContent.moveByIndexAtPredicate(this.index, predicate);
-  }
-
-  /**
-   * Moves the `Content` to the position before the item for which
-   * the predicate returns `true`.
-   *
-   * If no item matches the predicate nothing is moved.
-   *
-   * @param {ContentPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
-   */
-  public moveToBeforePredicate(predicate: ContentPredicate<T>) {
-    this.activeContent.moveByIndexBeforePredicate(this.index, predicate);
-  }
-
-  /**
-   * Moves the `Content` too the position after the item for which
-   * the predicate returns `true`.
-   *
-   * If no item matches the predicate nothing is moved.
-   *
-   * @param {ContentPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
-   */
-  public moveToAfterPredicate(predicate: ContentPredicate<T>) {
-    this.activeContent.moveByIndexAfterPredicate(this.index, predicate);
+   public moveToPredicate(predicate: ContentPredicate<T>, options?: PredicateOptions) {
+    this.activeContent.moveByIndexByPredicate(this.index, predicate, options);
   }
 
   /**
