@@ -10,13 +10,15 @@
       {% if def.kindString === 'Function' and def.signatures[0].type.name === 'JSX.Element' %}
         <span class="border bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
       {% elif def.kindString === 'Function' and def.name.startsWith('use') %}
-        <span class="border bg-yellow-400 font-medium text-white inline-block px-1 my-2 text-sm">{% if subapi === 'react' %}H${% else %}C{% endif %}</span>
+        <span class="border bg-yellow-400 font-medium text-white inline-block px-1 my-2 text-sm">{% if subapi === 'react' %}H{% else %}C{% endif %}</span>
       {% elif def.kindString === 'Class' and def.decorators[0].type.name === 'Component' %}
         <span class="border bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
       {% elif def.type.qualifiedName === 'DefineComponent' %}
         <span class="border bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
       {% elif def.kindString === 'Class' and def.decorators[0].type.name === 'NgModule' %}
         <span class="border bg-purple-400 font-medium text-white inline-block px-1 my-2 text-sm">M</span>
+      {% elif def.kindString === 'Class' and def.name.endsWith('Error') %}
+        <span class="border bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">E</span>
       {% elif def.name === 'uiloosPlugin' %}
         <span class="border bg-purple-400 font-medium text-white inline-block px-1 my-2 text-sm">P</span>
       {% elif def.kindString === 'Class' %}
@@ -163,8 +165,10 @@
     {% if signature.comment.tags %}
       <h4 class="h4 mt-4 mb-2">Throws</h3>
       {% for tag in signature.comment.tags %}
-        <p class="mb-2">
-          {{tag.text}}
+        <p class="mb-4">
+          <a class="underline text-blue-500 font-mono font-bold block" href="/api/core/{{ tag.text.split('}')[0] | replace('{', '') | slug}}/">{{ tag.text.split('}')[0] | replace('{', '') }}</a>
+          
+          {{tag.text.split('} ')[1]}}
         </p>
       {% endfor %}
     {% endif %}

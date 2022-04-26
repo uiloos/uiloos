@@ -1,7 +1,7 @@
-import { ActiveContent } from './ActiveContent';
-import { Content } from './Content';
-import { CooldownDurationError } from './errors/CooldownDurationError';
-import { ActivationOptions, CooldownConfig } from './types';
+import { ActiveList } from './ActiveList';
+import { ActiveListContent } from './ActiveListContent';
+import { ActiveListCooldownDurationError } from './errors/ActiveListCooldownDurationError';
+import { ActiveListActivationOptions, ActiveListCooldownConfig } from './types';
 
 export class CooldownTimer<T> {
   // The time in unix epoch the last activation occurred. Is used
@@ -12,22 +12,22 @@ export class CooldownTimer<T> {
   private cooldownEnds: number = Date.now() - 1;
 
   // The current cooldown is stored here
-  private cooldown: CooldownConfig<T> | undefined = undefined;
+  private cooldown: ActiveListCooldownConfig<T> | undefined = undefined;
 
   // Reference to the active content is it a part of.
-  private activeContent: ActiveContent<T>;
+  private activeList: ActiveList<T>;
 
-  constructor(activeContent: ActiveContent<T>, cooldown: CooldownConfig<T> | undefined) {
+  constructor(activeList: ActiveList<T>, cooldown: ActiveListCooldownConfig<T> | undefined) {
     if (typeof cooldown === 'number') {
-      this.assertCooldownNotNegativeOrZero(cooldown);
+      this.assertDuration(cooldown);
     }
 
-    this.activeContent = activeContent;
+    this.activeList = activeList;
 
     this.cooldown = cooldown;
   }
 
-  public isActive(activationOptions: ActivationOptions<T>): boolean {
+  public isActive(activationOptions: ActiveListActivationOptions<T>): boolean {
     // When the interaction was not caused by a user it should not
     // be affected by the cooldown.
     if (!activationOptions.isUserInteraction) {
@@ -39,7 +39,7 @@ export class CooldownTimer<T> {
     return now <= this.cooldownEnds;
   }
 
-  public setCooldown(activationOptions: ActivationOptions<T>, content: Content<T>): void {
+  public setCooldown(activationOptions: ActiveListActivationOptions<T>, content: ActiveListContent<T>): void {
     // When not a user interaction, do not set the `lastTime` and
     // `cooldownEnds` so the current cooldown is remembered.
     if (!activationOptions.isUserInteraction) {
@@ -53,7 +53,7 @@ export class CooldownTimer<T> {
     this.cooldownEnds = this.lastTime + duration;
   }
 
-  private getDuration(activationOptions: ActivationOptions<T>, content: Content<T>): number {
+  private getDuration(activationOptions: ActiveListActivationOptions<T>, content: ActiveListContent<T>): number {
     let duration = -1;
 
     // Check against undefined because cooldown can also be zero,
@@ -67,15 +67,15 @@ export class CooldownTimer<T> {
       // the default cooldown.
       return -1;
     }
-
-    this.assertCooldownNotNegativeOrZero(duration);
+    
+    this.assertDuration(duration);
 
     return duration;
   }
 
   private getDurationFromConfig(
-    cooldownConfig: CooldownConfig<T>,
-    content: Content<T>
+    cooldownConfig: ActiveListCooldownConfig<T>,
+    content: ActiveListContent<T>
   ): number {
     if (typeof cooldownConfig === 'number') {
       return cooldownConfig;
@@ -84,14 +84,14 @@ export class CooldownTimer<T> {
         index: content.index,
         content: content,
         value: content.value,
-        activeContent: this.activeContent,
+        activeList: this.activeList,
       });
     }
   }
 
-  private assertCooldownNotNegativeOrZero(cooldownValue: number) {
+  private assertDuration(cooldownValue: number) {
     if (cooldownValue <= 0) {
-      throw new CooldownDurationError();
+      throw new ActiveListCooldownDurationError();
     }
   }
 }

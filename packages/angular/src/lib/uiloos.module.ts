@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { ActiveContentComponent } from './ActiveContent.component';
+import { ActiveListComponent } from './ActiveList.component';
 
 /**
  * An Angular module that includes all uiloos Angular bindings.
  */
 @NgModule({
   declarations: [
-    ActiveContentComponent,
+    ActiveListComponent,
   ],
   imports: [
   ],
   exports: [
-    ActiveContentComponent,
+    ActiveListComponent,
   ]
 })
 export class UiloosModule { }

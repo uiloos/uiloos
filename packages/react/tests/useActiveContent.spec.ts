@@ -1,19 +1,19 @@
-import { ActiveContent as ActiveContentCore } from '@uiloos/core';
+import { ActiveList as ActiveListCore } from '@uiloos/core';
 import { renderHook, act } from '@testing-library/react-hooks';
 
 import {
-  useActiveContent,
-} from '../src/ActiveContent/useActiveContent';
+  useActiveList,
+} from '../src/ActiveList/useActiveList';
 
-test('useActiveContent hook', () => {
+test('useActiveList hook', () => {
   const { result } = renderHook(() =>
-    useActiveContent({
+    useActiveList({
       active: 'a',
       contents: ['a', 'b', 'c'],
     })
   );
 
-  expect(result.current instanceof ActiveContentCore).toBe(true);
+  expect(result.current instanceof ActiveListCore).toBe(true);
 
   expect(result.current.active).toEqual(['a']);
 

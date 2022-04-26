@@ -3,9 +3,9 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[uiloosActiveContent]',
+  selector: '[uiloosActiveList]',
 })
-export class ActiveContentDirective {
+export class ActiveListDirective {
   constructor() {}
 }
 

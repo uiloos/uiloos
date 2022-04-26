@@ -10,7 +10,9 @@ renderData:
     stickyNavigation: false
 ---
 
-{% if def.kindString === 'Class' %}
+{% if def.kindString === 'Class' and def.name.endsWith('Error') %}
+  {% include "../_includes/error.njk" %}
+{% elif def.kindString === 'Class' %}
   {% include "../_includes/class.njk" %}
 {% elif def.kindString === 'Type alias' %}
   {% include "../_includes/typealias.njk" %}

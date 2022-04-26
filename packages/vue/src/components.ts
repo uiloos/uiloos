@@ -1,3 +1,3 @@
-import ActiveContent from './ActiveContent/ActiveContent';
+import ActiveList from './ActiveList/ActiveList';
 
-export default { ActiveContent };
+export default { ActiveList };

@@ -3,12 +3,12 @@ import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 
 import {
-  ActiveContent,
-} from '../src/ActiveContent/ActiveContent';
+  ActiveList,
+} from '../src/ActiveList/ActiveList';
 
-test('ActiveContent component', () => {
+test('ActiveList component', () => {
   render(
-    <ActiveContent active="a" contents={['a', 'b', 'c']}>
+    <ActiveList active="a" contents={['a', 'b', 'c']}>
       {(activeContent) => (
         <ul>
           {activeContent.contents.map((content) => (
@@ -18,7 +18,7 @@ test('ActiveContent component', () => {
           ))}
         </ul>
       )}
-    </ActiveContent>
+    </ActiveList>
   );
 
   screen.getByText('a active');

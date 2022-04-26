@@ -1,16 +1,16 @@
-import { ActiveContent } from './ActiveContent';
-import { Content } from './Content';
+import { ActiveList } from './ActiveList';
+import { ActiveListContent } from './ActiveListContent';
 
 /**
- * Configures the initial state of the `ActiveContent`
+ * Configures the initial state of the `ActiveList`
  */
-export type ActiveContentConfig<T> = {
+export type ActiveListConfig<T> = {
   /**
    * The contents which you want to display, can be an array of anything
    * you want.
    *
-   * Note: the `ActiveContent` will wrap each item in the `contents` array
-   * inside of a `Content` item.
+   * Note: the `ActiveList` will wrap each item in the `contents` array
+   * inside of a `ActiveListContent` item.
    */
   contents: T[];
 
@@ -42,7 +42,7 @@ export type ActiveContentConfig<T> = {
    *
    * Defaults to 'circular'.
    */
-  maxActivationLimitBehavior?: ActiveContentMaxActivationLimitBehavior;
+  maxActivationLimitBehavior?: ActiveListMaxActivationLimitBehavior;
 
   /**
    * Which item or items in the content array are currently active.
@@ -88,27 +88,27 @@ export type ActiveContentConfig<T> = {
    *
    * Note: autoplay will only start when one or more contents are
    * currently active. The reason for this is that the `duration`, is
-   * based on the `ActiveContent`'s `lastActivatedContent` property.
-   * Whenever there are no more active contents the autoplay will
+   * based on the `ActiveList`'s `lastActivatedContent` property.
+   * Whenever there are no more items to activate the autoplay will
    * stop.
    */
-  autoplay?: AutoplayConfig<T>;
+  autoplay?: ActiveListAutoplayConfig<T>;
 
   /**
    * Describes which strings should be associated with what
-   * direction, will be the value of the `ActiveContent` property
+   * direction, will be the value of the `ActiveList` property
    * `direction`.
    *
    * So when setting the direction `next` to "up"` and the content
-   * moves up, the `ActiveContent.direction` will be "up". Useful when
+   * moves up, the `ActiveList.direction` will be "up". Useful when
    * wanting to apply CSS classes based on the direction.
    *
    * Defaults to `{ next: 'right', previous: 'left' }`.
    */
-  directions?: Direction;
+  directions?: ActiveListDirection;
 
   /**
-   * For how many items the `history` may contain in the `ActiveContent`.
+   * For how many items the `history` may contain in the `ActiveList`.
    *
    * Defaults to `0` meaning that it will not track history.
    */
@@ -117,7 +117,7 @@ export type ActiveContentConfig<T> = {
   /**
    * The `cooldown` is the number of milliseconds before another
    * activation / deactivation is allowed. For example if the
-   * `cooldown` is `5000` the `ActiveContent` will not allow
+   * `cooldown` is `5000` the `ActiveList` will not allow
    * transitions until after 5 seconds have passed. Any activation /
    * deactivation in that period will simply be ignored.
    *
@@ -126,23 +126,23 @@ export type ActiveContentConfig<T> = {
    *
    * This global `cooldown` is the same for all transitions you might trigger.
    * If you want a `cooldown` that differs per button use the `cooldown`
-   * in the `ActivationOptions` instead.
+   * in the `ActiveListActivationOptions` instead.
    *
-   * Note that the `cooldown` options with the `ActivationOptions` takes
+   * Note that the `cooldown` options with the `ActiveListActivationOptions` takes
    * precedence over this more global cooldown.
    *
    * IMPORTANT: `cooldown` is only ran when `isUserInteraction` within
-   * the `ActivationOptions` is `true`. This means that `autoplay`, which
+   * the `ActiveListActivationOptions` is `true`. This means that `autoplay`, which
    * is not a user interaction, ignores the `cooldown`.
    */
-  cooldown?: CooldownConfig<T>;
+  cooldown?: ActiveListCooldownConfig<T>;
 };
 
 /**
- * Describes all the behaviors for when the limit of the ActiveContent
+ * Describes all the behaviors for when the limit of the ActiveList
  * is surpassed.
  */
-export type ActiveContentMaxActivationLimitBehavior =
+export type ActiveListMaxActivationLimitBehavior =
   | 'circular'
   | 'ignore'
   | 'error';
@@ -150,7 +150,7 @@ export type ActiveContentMaxActivationLimitBehavior =
 /**
  * Represents options for activation / deactivation methods.
  */
-export type ActivationOptions<T> = {
+export type ActiveListActivationOptions<T> = {
   /**
    * Whether or not the action was taken by a user / human.
    * This affects the `autoplay` when `stopsOnUserInteraction`
@@ -165,7 +165,7 @@ export type ActivationOptions<T> = {
   /**
    * The `cooldown` is the number of milliseconds before another
    * activation / deactivation is allowed. For example if the
-   * `cooldown` is `5000` the `ActiveContent` will not allow
+   * `cooldown` is `5000` the `ActiveList` will not allow
    * transitions until after 5 seconds have passed. Any activation /
    * deactivation in that period will simply be ignored.
    *
@@ -177,58 +177,53 @@ export type ActivationOptions<T> = {
    * actions. For example: it allows you to create two buttons each with a
    * different cooldown.
    *
-   * Note that the `cooldown` options within the `ActivationOptions` takes
+   * Note that the `cooldown` options within the `ActiveListActivationOptions` takes
    * precedence over the `cooldown` in the `Config`.
    *
    * IMPORTANT: `cooldown` is only ran when `isUserInteraction` within
-   * the `ActivationOptions` is `true`. This means that `autoplay`, which
+   * the `ActiveListActivationOptions` is `true`. This means that `autoplay`, which
    * is not a user interaction, ignores the `cooldown`.
    */
-  cooldown?: CooldownConfig<T>;
+  cooldown?: ActiveListCooldownConfig<T>;
 };
 
 /**
  * The subscriber which is informed of all state changes the
- * ActiveContent goes through.
+ * ActiveList goes through.
  *
- * @param {ActiveContent<T>} activeContent The active content which had changes.
- * @param {ActiveContentEvent<T>} event The event that occurred.
+ * @param {ActiveList<T>} activeList The ActiveList which had changes.
+ * @param {ActiveListEvent<T>} event The event that occurred.
  */
-export type ActiveContentSubscriber<T> = (
-  activeContent: ActiveContent<T>,
-  event: ActiveContentEvent<T>
+export type ActiveListSubscriber<T> = (
+  activeList: ActiveList<T>,
+  event: ActiveListEvent<T>
 ) => void;
-
-/**
- * A function which when called will unsubscribe from the ActiveContent.
- */
-export type UnsubscribeFunction = () => void;
 
 /**
  * Represents a bundle of data which is given as the first parameter
  * to the ContentPredicate function. Based on this data the
  * ContentPredicate must either return `true` or `false`.
  */
-export type ContentPredicateData<T> = {
+export type ActiveListContentPredicateData<T> = {
   /**
-   * The value the Content wraps.
+   * The value the ActiveListContent wraps.
    */
   value: T;
 
   /**
-   * The index the Content has within the ActiveContent
+   * The index the ActiveListContent has within the ActiveList
    */
   index: number;
 
   /**
-   * A reference to the Content which wraps the value.
+   * A reference to the ActiveListContent which wraps the value.
    */
-  content: Content<T>;
+  content: ActiveListContent<T>;
 
   /**
-   * A reference to the ActiveContent itself.
+   * A reference to the ActiveList itself.
    */
-  activeContent: ActiveContent<T>;
+  activeList: ActiveList<T>;
 };
 
 /**
@@ -236,36 +231,36 @@ export type ContentPredicateData<T> = {
  * action, and expects either `true` or `false` to be returned. If
  * `true` is returned will perform the action.
  *
- * @param {ContentPredicateData<T>} data The data for which this predicate will determine if the action needs to be performed.
+ * @param {ActiveListContentPredicateData<T>} data The data for which this predicate will determine if the action needs to be performed.
  * @returns {boolean} Whether or not to perform the action associated with the predicate based on the given item and index.
  */
-export type ContentPredicate<T> = (data: ContentPredicateData<T>) => boolean;
+export type ActiveListContentPredicate<T> = (data: ActiveListContentPredicateData<T>) => boolean;
 
 /**
  * Represents a bundle of data which is given whenever the
  * AutoplayDurationCallbackData function must determine the number
  * of milliseconds the content should be active for.
  */
-export type AutoplayDurationCallbackData<T> = {
+export type ActiveListAutoplayDurationCallbackData<T> = {
   /**
    * The value which is currently asking which autoplay duration it should have.
    */
   value: T;
 
   /**
-   * The index the value has within the ActiveContent
+   * The index the value has within the ActiveList
    */
   index: number;
 
   /**
-   * A reference to the Content which wraps the value.
+   * A reference to the ActiveListContent which wraps the value.
    */
-  content: Content<T>;
+  content: ActiveListContent<T>;
 
   /**
-   * A reference to the ActiveContent itself.
+   * A reference to the ActiveList itself.
    */
-  activeContent: ActiveContent<T>;
+  activeList: ActiveList<T>;
 };
 
 /**
@@ -273,24 +268,24 @@ export type AutoplayDurationCallbackData<T> = {
  * duration data, and expects to be given back the number of
  * milliseconds the content should be active before Autoplay moves on.
  *
- * @param {AutoplayDurationCallbackData<T>} data An object containing all relevant duration data for which the callback function must determine the number of milliseconds the content is active for.
+ * @param {ActiveListAutoplayDurationCallbackData<T>} data An object containing all relevant duration data for which the callback function must determine the number of milliseconds the content is active for.
  * @returns {number} The time in milliseconds the content is active for the given AutoplayDurationCallbackData.
  */
-export type AutoplayDurationCallback<T> = (
-  config: AutoplayDurationCallbackData<T>
+export type ActiveListAutoplayDurationCallback<T> = (
+  config: ActiveListAutoplayDurationCallbackData<T>
 ) => number;
 
 /**
  * Represents the configuration for Autoplay. Autoplay means
- * that the ActiveContent will move to the next content by itself
+ * that the ActiveList will move to the next content by itself
  * after a duration.
  */
-export type AutoplayConfig<T> = {
+export type ActiveListAutoplayConfig<T> = {
   /**
-   * The time in milliseconds the Content should remain active, before
-   * moving to the next Content.
+   * The time in milliseconds the ActiveListContent should remain active, before
+   * moving to the next ActiveListContent.
    */
-  duration: AutoplayDurationCallback<T> | number;
+  duration: ActiveListAutoplayDurationCallback<T> | number;
 
   /**
    * Whether or not the user interacting with the component should
@@ -313,33 +308,33 @@ export type AutoplayConfig<T> = {
  * 2. A number in milliseconds. When it is a number all items will
  *    have the same cooldown.
  */
-export type CooldownConfig<T> = CooldownDurationCallback<T> | number;
+export type ActiveListCooldownConfig<T> = ActiveListCooldownDurationCallback<T> | number;
 
 /**
  * Represents a bundle of data which is given whenever the
  * CooldownDurationCallback function must determine what the number of
  * milliseconds the content should be in a cooldown state.
  */
-export type CooldownDurationCallbackData<T> = {
+export type ActiveListCooldownDurationCallbackData<T> = {
   /**
    * The value which is currently asking which cooldown it should have.
    */
   value: T;
 
   /**
-   * The index the value has within the ActiveContent
+   * The index the value has within the ActiveList
    */
   index: number;
 
   /**
-   * A reference to the Content which wraps the value.
+   * A reference to the ActiveListContent which wraps the value.
    */
-  content: Content<T>;
+  content: ActiveListContent<T>;
 
   /**
-   * A reference to the ActiveContent itself.
+   * A reference to the ActiveList itself.
    */
-  activeContent: ActiveContent<T>;
+  activeList: ActiveList<T>;
 };
 
 /**
@@ -347,12 +342,17 @@ export type CooldownDurationCallbackData<T> = {
  * duration data, and expects to be given back the number of
  * milliseconds the content should be cooled down before it responds
  * to user interaction again.
+ * 
+ * WARNING: do not return a negative number or zero in this callback
+ * as this results in a `ActiveListCooldownDurationError`. The action
+ * will still occur however, this means that the ActiveList is invalid
+ * when this happens. 
  *
- * @param {CooldownDurationCallbackData<T>} data An object containing all relevant cooldown data for which the callback function must determine the cooldown duration in number of milliseconds.
+ * @param {ActiveListCooldownDurationCallbackData<T>} data An object containing all relevant cooldown data for which the callback function must determine the cooldown duration in number of milliseconds.
  * @returns {number} The time in milliseconds of the duration of the cooldown for the given CooldownCallbackData.
  */
-export type CooldownDurationCallback<T> = (
-  data: CooldownDurationCallbackData<T>
+export type ActiveListCooldownDurationCallback<T> = (
+  data: ActiveListCooldownDurationCallbackData<T>
 ) => number;
 
 /**
@@ -360,16 +360,16 @@ export type CooldownDurationCallback<T> = (
  * direction. For example it could be "right" and "left",
  * or "down" and "up".
  *
- * Will be the value of the `ActiveContent` property `direction`.
+ * Will be the value of the `ActiveList` property `direction`.
  *
  * Useful for when animations have a certain direction and you
  * name your animation CSS classes `left-animation` and
  * `right-animation`.
  */
-export type Direction = {
+export type ActiveListDirection = {
   /**
    * The name of the direction when moving to the next item of the
-   * `ActiveContent`.
+   * `ActiveList`.
    *
    * Could for example be "right" or "down".
    */
@@ -377,7 +377,7 @@ export type Direction = {
 
   /**
    * The name of the direction when moving to the previous item of the
-   * `ActiveContent`.
+   * `ActiveList`.
    *
    * Could for example be "left" or "up".
    */
@@ -385,10 +385,10 @@ export type Direction = {
 };
 
 /**
- * Represents whether the `ActiveContentEvent` was added, removed, activated
+ * Represents whether the `ActiveListEvent` was added, removed, activated
  * swapped, etc etc.
  */
-export type ActiveContentEventType =
+export type ActiveListEventType =
   | 'INITIALIZED'
   | 'INSERTED'
   | 'REMOVED'
@@ -401,14 +401,14 @@ export type ActiveContentEventType =
   | 'DEACTIVATED_MULTIPLE'
 
 /**
- * Represents an event which happened in the ActiveContent. Based
+ * Represents an event which happened in the ActiveList. Based
  * on the `type` you can determine which event occurred.
  */
-export type BaseEvent = {
+export type ActiveListBaseEvent = {
   /**
    * Which event occurred
    */
-  type: ActiveContentEventType;
+  type: ActiveListEventType;
 
   /**
    * The time the event occurred on as a Date object.
@@ -417,9 +417,9 @@ export type BaseEvent = {
 };
 
 /**
- * Represents the initialization of the ActiveContent
+ * Represents the initialization of the ActiveList
  */
-export type InitializedEvent<T> = BaseEvent & {
+export type ActiveListInitializedEvent<T> = ActiveListBaseEvent & {
   /**
    * Which type occurred
    */
@@ -445,9 +445,9 @@ export type InitializedEvent<T> = BaseEvent & {
 };
 
 /**
- * Represents an insertion into the ActiveContent.
+ * Represents an insertion into the ActiveList.
  */
-export type InsertedEvent<T> = BaseEvent & {
+export type ActiveListInsertedEvent<T> = ActiveListBaseEvent & {
   /**
    * Which type occurred
    */
@@ -473,9 +473,9 @@ export type InsertedEvent<T> = BaseEvent & {
 };
 
 /**
- * Represents an removal of an item of the ActiveContent.
+ * Represents an removal of an item of the ActiveList.
  */
-export type RemovedEvent<T> = BaseEvent & {
+export type ActiveListRemovedEvent<T> = ActiveListBaseEvent & {
   /**
    * Which type occurred
    */
@@ -501,9 +501,9 @@ export type RemovedEvent<T> = BaseEvent & {
 };
 
 /**
- * Represents multiple removals of items in the ActiveContent.
+ * Represents multiple removals of items in the ActiveList.
  */
-export type RemovedMultipleEvent<T> = BaseEvent & {
+export type ActiveListRemovedMultipleEvent<T> = ActiveListBaseEvent & {
   /**
    * Which type occurred
    */
@@ -529,9 +529,9 @@ export type RemovedMultipleEvent<T> = BaseEvent & {
 };
 
 /**
- * Represents an activation of an ActiveContent.
+ * Represents an activation of an ActiveList.
  */
-export type ActivatedEvent<T> = BaseEvent & {
+export type ActiveListActivatedEvent<T> = ActiveListBaseEvent & {
   /**
    * Which type occurred
    */
@@ -558,9 +558,9 @@ export type ActivatedEvent<T> = BaseEvent & {
 
 /**
  * Represents multiple activations happening at the same time in an 
- * ActiveContent.
+ * ActiveList.
  */
- export type ActivatedMultipleEvent<T> = BaseEvent & {
+ export type ActiveListActivatedMultipleEvent<T> = ActiveListBaseEvent & {
   /**
    * Which type occurred
    */
@@ -586,9 +586,9 @@ export type ActivatedEvent<T> = BaseEvent & {
 };
 
 /**
- * Represents a deactivation of an ActiveContent.
+ * Represents a deactivation of an ActiveList.
  */
-export type DeactivatedEvent<T> = BaseEvent & {
+export type ActiveListDeactivatedEvent<T> = ActiveListBaseEvent & {
   /**
    * Which type occurred
    */
@@ -615,9 +615,9 @@ export type DeactivatedEvent<T> = BaseEvent & {
 
 /**
  * Represents multiple deactivations happening at the same time in an 
- * ActiveContent.
+ * ActiveList.
  */
- export type DeactivatedMultipleEvent<T> = BaseEvent & {
+ export type ActiveListDeactivatedMultipleEvent<T> = ActiveListBaseEvent & {
   /**
    * Which type occurred
    */
@@ -643,9 +643,9 @@ export type DeactivatedEvent<T> = BaseEvent & {
 };
 
 /**
- * Represents an activation of an ActiveContent.
+ * Represents an activation of an ActiveList.
  */
-export type SwappedEvent<T> = BaseEvent & {
+export type ActiveListSwappedEvent<T> = ActiveListBaseEvent & {
   /**
    * Which type occurred
    */
@@ -699,9 +699,9 @@ export type SwappedEvent<T> = BaseEvent & {
 };
 
 /**
- * Represents an activation of an ActiveContent.
+ * Represents an activation of an ActiveList.
  */
-export type MovedEvent<T> = BaseEvent & {
+export type ActiveListMovedEvent<T> = ActiveListBaseEvent & {
   /**
    * Which type occurred
    */
@@ -744,31 +744,32 @@ export type MovedEvent<T> = BaseEvent & {
 };
 
 /**
- * A ActiveContentEvent represents an event happened in the ActiveContent.
- * For example the insertion, removal, or activation of a Content<T>.
+ * A ActiveListEvent represents an event happened in the ActiveList.
+ * For example the insertion, removal, or activation of a 
+ * ActiveListContent<T>.
  */
-export type ActiveContentEvent<T> =
-  | InitializedEvent<T>
-  | InsertedEvent<T>
-  | RemovedEvent<T>
-  | RemovedMultipleEvent<T>
-  | ActivatedEvent<T>
-  | ActivatedMultipleEvent<T>
-  | SwappedEvent<T>
-  | MovedEvent<T>
-  | DeactivatedEvent<T>
-  | DeactivatedMultipleEvent<T>;
+export type ActiveListEvent<T> =
+  | ActiveListInitializedEvent<T>
+  | ActiveListInsertedEvent<T>
+  | ActiveListRemovedEvent<T>
+  | ActiveListRemovedMultipleEvent<T>
+  | ActiveListActivatedEvent<T>
+  | ActiveListActivatedMultipleEvent<T>
+  | ActiveListSwappedEvent<T>
+  | ActiveListMovedEvent<T>
+  | ActiveListDeactivatedEvent<T>
+  | ActiveListDeactivatedMultipleEvent<T>;
 
 /**
  * Represents where the action needs to take place for when a 
  * predicate is provided. 
  */
-export type ActiveContentPredicateMode = 'at' | 'before' | 'after';
+export type ActiveListPredicateMode = 'at' | 'before' | 'after';
 
 /**
  * Represents options for methods which require predicates.
  */
-export type PredicateOptions = {
-  mode: ActiveContentPredicateMode
+export type ActiveListPredicateOptions = {
+  mode: ActiveListPredicateMode
 }
 

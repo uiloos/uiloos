@@ -1,4 +1,4 @@
-import { ActiveContent, ActiveContentProps } from './ActiveContent/ActiveContent';
-import { useActiveContent } from './ActiveContent/useActiveContent';
+import { ActiveList, ActiveListProps } from './ActiveList/ActiveList';
+import { useActiveList } from './ActiveList/useActiveList';
 
-export { ActiveContent, useActiveContent, ActiveContentProps };
+export { ActiveList, useActiveList, ActiveListProps };

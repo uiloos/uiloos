@@ -1,5 +1,8 @@
-import { ActivationOptions, ActiveContent, AutoplayConfig, Content } from '..';
-import { AutoplayDurationError } from './errors/AutoplayDurationError';
+
+import { ActiveList } from './ActiveList';
+import { ActiveListContent } from './ActiveListContent';
+import { ActiveListAutoplayDurationError } from './errors/ActiveListAutoplayDurationError';
+import { ActiveListAutoplayConfig, ActiveListActivationOptions } from './types';
 
 export class Autoplay<T> {
   /*
@@ -30,22 +33,22 @@ export class Autoplay<T> {
   /**
    * Contains the configuration of the autoplay.
    */
-  private config?: AutoplayConfig<T> | null = null;
+  private config?: ActiveListAutoplayConfig<T> | null = null;
 
   /**
    * Reference to the active content is it a part of.
    */
-  private activeContent: ActiveContent<T>;
+  private activeList: ActiveList<T>;
 
   constructor(
-    activeContent: ActiveContent<T>,
-    config: AutoplayConfig<T> | null
+    activeList: ActiveList<T>,
+    config: ActiveListAutoplayConfig<T> | null
   ) {
-    this.activeContent = activeContent;
+    this.activeList = activeList;
     this.config = config;
   }
 
-  public setConfig(config: AutoplayConfig<T> | null): void {
+  public setConfig(config: ActiveListAutoplayConfig<T> | null): void {
     this.config = config;
   }
 
@@ -61,19 +64,19 @@ export class Autoplay<T> {
     // become empty, or when there is no more lastActivatedContent.
     if (
       !this.config ||
-      this.activeContent.isEmpty() ||
-      this.activeContent.lastActivatedContent === null
+      this.activeList.isEmpty() ||
+      this.activeList.lastActivatedContent === null
     ) {
       return;
     }
 
     const duration = this.getDuration(
       this.config,
-      this.activeContent.lastActivatedContent
+      this.activeList.lastActivatedContent
     );
 
     if (duration <= 0) {
-      throw new AutoplayDurationError();
+      throw new ActiveListAutoplayDurationError();
     }
 
     this.autoplayCurrentDuration = duration;
@@ -84,8 +87,8 @@ export class Autoplay<T> {
       // active is  now empty due to a removal / deactivation, in this
       // case we simply want to do nothing.
       if (
-        this.activeContent.isEmpty() ||
-        this.activeContent.lastActivatedContent === null
+        this.activeList.isEmpty() ||
+        this.activeList.lastActivatedContent === null
       ) {
         return;
       }
@@ -101,7 +104,7 @@ export class Autoplay<T> {
       this.autoplayTimeoutId = null;
 
       // Call next to actually trigger going to the next active content.
-      this.activeContent.activateNext({ isUserInteraction: false });
+      this.activeList.activateNext({ isUserInteraction: false });
     }, duration);
   }
 
@@ -126,7 +129,7 @@ export class Autoplay<T> {
     }
   }
 
-  public onDeactivation(activationOptions: ActivationOptions<T>) {
+  public onDeactivation(activationOptions: ActiveListActivationOptions<T>) {
     // If there is no autoplay config do not bother.
     if (!this.config) {
       return;
@@ -139,7 +142,7 @@ export class Autoplay<T> {
 
   public onActiveIndexChanged(
     index: number,
-    activationOptions: ActivationOptions<T>
+    activationOptions: ActiveListActivationOptions<T>
   ) {
     // If there is no autoplay config do not bother.
     if (!this.config) {
@@ -149,10 +152,10 @@ export class Autoplay<T> {
     if (this.shouldStopOnUserInteraction(activationOptions, this.config)) {
       this.stop();
     } else if (
-      this.activeContent.isCircular === false &&
-      index === this.activeContent.getLastIndex()
+      this.activeList.isCircular === false &&
+      index === this.activeList.getLastIndex()
     ) {
-      // When the ActiveContent is linear stop autoplay at the end.
+      // When the ActiveList is linear stop autoplay at the end.
       this.stop();
     } else {
       // Move the autoplay to the next "timer", needed because
@@ -164,8 +167,8 @@ export class Autoplay<T> {
   }
 
   private shouldStopOnUserInteraction(
-    activationOptions: ActivationOptions<T>,
-    config: AutoplayConfig<T>
+    activationOptions: ActiveListActivationOptions<T>,
+    config: ActiveListAutoplayConfig<T>
   ): boolean {
     // Stop when autoPlay.stopsOnUserInteraction is true and this
     // is a user interaction.
@@ -177,8 +180,8 @@ export class Autoplay<T> {
   }
 
   private getDuration(
-    config: AutoplayConfig<T>,
-    lastActivatedContent: Content<T>
+    config: ActiveListAutoplayConfig<T>,
+    lastActivatedContent: ActiveListContent<T>
   ): number {
     if (this.pauseStarted) {
       return (
@@ -236,7 +239,7 @@ export class Autoplay<T> {
         index: lastActivatedContent.index,
         content: lastActivatedContent,
         value: lastActivatedContent.value,
-        activeContent: this.activeContent,
+        activeList: this.activeList,
       });
     }
   }

@@ -1,9 +1,3 @@
-# General
-
-item vs value
-
-check all documentation.
-
 # Future
 
 1. Multi insert
@@ -12,8 +6,3 @@ check all documentation.
 4. sort operations
 5. update operation?
 6. isCircular representation of the content for carousel
-### Now
-
-19. Split ActiveContent
-
-20. Prefix every type with ActiveContent

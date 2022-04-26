@@ -1,10 +1,10 @@
 import { render, fireEvent } from '@testing-library/vue';
-import { test, expect } from 'vitest';
+import { test } from 'vitest';
 
-import ActiveContent from '../src/ActiveContent/ActiveContent';
+import ActiveList from '../src/ActiveList/ActiveList';
 
-test('ActiveContent component', async () => {
-  const { getByText } = render(ActiveContent, {
+test('ActiveList component', async () => {
+  const { getByText } = render(ActiveList, {
     props: {
       config: {
         active: 'a',
@@ -13,9 +13,9 @@ test('ActiveContent component', async () => {
     },
     slots: {
       default: `
-        <template v-slot="{ activeContent }">
+        <template v-slot="{ activeList }">
           <ul>
-            <li v-for="content in activeContent.contents" @click="content.activate()">
+            <li v-for="content in activeList.contents" @click="content.activate()">
               {{content.value}} {{content.active ? 'active' : 'inactive'}}
             </li>
           </ul>

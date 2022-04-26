@@ -1,39 +1,39 @@
+import { UnsubscribeFunction } from '../Generic/types';
 import { Autoplay } from './Autoplay';
-import { Content } from './Content';
+import { ActiveListContent } from './ActiveListContent';
 import { CooldownTimer } from './CooldownTimer';
-import { ActivationLimitReachedError } from './errors/ActivationLimitReachedError';
-import { throwIndexOutOfBoundsError } from './errors/IndexOutOfBoundsError';
-import { ItemNotFoundError } from './errors/ItemNotFoundError';
+import { ActiveListActivationLimitReachedError } from './errors/ActiveListActivationLimitReachedError';
+import { throwIndexOutOfBoundsError } from './errors/ActiveListIndexOutOfBoundsError';
+import { ActiveListItemNotFoundError } from './errors/ActiveListItemNotFoundError';
 import {
-  ActivationOptions,
-  AutoplayConfig,
-  ActiveContentConfig,
-  Direction,
-  ActiveContentEvent,
-  ContentPredicate,
-  ActiveContentSubscriber,
-  UnsubscribeFunction,
-  ActiveContentMaxActivationLimitBehavior,
-  ContentPredicateData,
-  InitializedEvent,
-  ActivatedEvent,
-  DeactivatedEvent,
-  InsertedEvent,
-  RemovedEvent,
-  SwappedEvent,
-  MovedEvent,
-  RemovedMultipleEvent,
-  DeactivatedMultipleEvent,
-  ActivatedMultipleEvent,
-  ActiveContentPredicateMode,
-  PredicateOptions,
+  ActiveListActivationOptions,
+  ActiveListAutoplayConfig,
+  ActiveListConfig,
+  ActiveListDirection,
+  ActiveListEvent,
+  ActiveListContentPredicate,
+  ActiveListSubscriber,
+  ActiveListMaxActivationLimitBehavior,
+  ActiveListContentPredicateData,
+  ActiveListInitializedEvent,
+  ActiveListActivatedEvent,
+  ActiveListDeactivatedEvent,
+  ActiveListInsertedEvent,
+  ActiveListRemovedEvent,
+  ActiveListSwappedEvent,
+  ActiveListMovedEvent,
+  ActiveListRemovedMultipleEvent,
+  ActiveListDeactivatedMultipleEvent,
+  ActiveListActivatedMultipleEvent,
+  ActiveListPredicateMode,
+  ActiveListPredicateOptions,
 } from './types';
 
 /**
- * ActiveContent is a class which represents visual elements which
+ * ActiveList is a class which represents visual elements which
  * have multiple pieces of content which can be active or inactive.
  *
- * The `ActiveContent` can be used to implement multiple types of
+ * The `ActiveList` can be used to implement multiple types of
  * components:
  *
  *  1. A tabs component for which one tab can be active at a time.
@@ -50,14 +50,14 @@ import {
  *
  *  6. Etc etc
  *
- * Another way of defining the ActiveContent is that it is an array
+ * Another way of defining the ActiveList is that it is an array
  * / list like data structure, because it supports things like
  * insertion and removal.
  *
- * ActiveContent will make sure that when content is inserted, that
+ * ActiveList will make sure that when content is inserted, that
  * the active content is not affected.
  */
-export class ActiveContent<T> {
+export class ActiveList<T> {
   /**
    * Whether or not to inform subscribers of changes / record history.
    * Used in the `initialize` to temporarily stop subscriptions running
@@ -66,15 +66,15 @@ export class ActiveContent<T> {
   private isInitializing = false;
 
   /**
-   * Contains the subscribers of the ActiveContent subscribers
-   * get informed of state changes within the ActiveContent.
+   * Contains the subscribers of the ActiveList subscribers
+   * get informed of state changes within the ActiveList.
    */
-  private subscribers: ActiveContentSubscriber<T>[] = [];
+  private subscribers: ActiveListSubscriber<T>[] = [];
 
   /**
-   * The `Content`'s which the `ActiveContent` holds.
+   * The `ActiveListContent`'s which the `ActiveList` holds.
    */
-  public contents: Content<T>[] = [];
+  public contents: ActiveListContent<T>[] = [];
 
   /**
    * How many items can be active at the same time.
@@ -97,7 +97,7 @@ export class ActiveContent<T> {
    *    basically means that the first one in is the first one out.
    *
    * 2. 'error': An error is thrown whenever the limit is surpassed,
-   *    the error is called the `ActivationLimitReachedError`.
+   *    the error is called the `ActiveListActivationLimitReachedError`.
    *
    * 3. 'ignore': Nothing happens when an item is added and the limit
    *    is ignored. The item is simply not added, but no error is
@@ -105,7 +105,7 @@ export class ActiveContent<T> {
    *
    * Defaults to 'circular'.
    */
-  public maxActivationLimitBehavior: ActiveContentMaxActivationLimitBehavior =
+  public maxActivationLimitBehavior: ActiveListMaxActivationLimitBehavior =
     'circular';
 
   /**
@@ -114,9 +114,9 @@ export class ActiveContent<T> {
   public active: T[] = [];
 
   /**
-   * All `Content`'s which are currently considered active.
+   * All `ActiveListContent`'s which are currently considered active.
    */
-  public activeContents: Content<T>[] = [];
+  public activeContents: ActiveListContent<T>[] = [];
 
   /**
    * All indexes of which are currently considered active.
@@ -124,27 +124,27 @@ export class ActiveContent<T> {
   public activeIndexes: number[] = [];
 
   /**
-   * Which `value` from within a `Content` was the last value which
+   * Which `value` from within a `ActiveListContent` was the last value which
    * was activated.
    *
-   * When nothing is activated in the `ActiveContent` the value of
+   * When nothing is activated in the `ActiveList` the value of
    * `lastActivated` will be `null.
    */
   public lastActivated: T | null = null;
 
   /**
-   * Which `Content` is the last Content which was activated.
+   * Which `ActiveListContent` is the last ActiveListContent which was activated.
    *
-   * When nothing is activated in the `ActiveContent` the value of
+   * When nothing is activated in the `ActiveList` the value of
    * `lastActivatedContent` will be `null.
    */
-  public lastActivatedContent: Content<T> | null = null;
+  public lastActivatedContent: ActiveListContent<T> | null = null;
 
   /**
    * Which index of the `contents` array was the last index which
    * was activated.
    *
-   * When nothing is activated in the `ActiveContent` the value of
+   * When nothing is activated in the `ActiveList` the value of
    * `lastActivatedIndex` will be `-1`.
    */
   public lastActivatedIndex: number = -1;
@@ -157,10 +157,10 @@ export class ActiveContent<T> {
   public isCircular: boolean = false;
 
   /**
-   * The direction the `ActiveContent` has previously moved to on
+   * The direction the `ActiveList` has previously moved to on
    * activation or deactivation.
    *
-   * Useful for when animating the `ActiveContent` when wanting to
+   * Useful for when animating the `ActiveList` when wanting to
    * animate differently based on the direction the content is
    * activating towards.
    *
@@ -200,7 +200,7 @@ export class ActiveContent<T> {
    *
    * Tracks ten types of changes:
    *
-   *  1. INITIALIZED, fired when ActiveContent is initialized
+   *  1. INITIALIZED, fired when ActiveList is initialized
    *  2. INSERTED, fired when an item is added.
    *  3. REMOVED, fired when an item is removed.
    *  4. REMOVED_MULTIPLE, fired when multiple items are removed with a predicate.
@@ -228,11 +228,11 @@ export class ActiveContent<T> {
    * when it is an array of object, as it might have been mutated, the
    * history items do not store copies of the values.
    */
-  public history: ActiveContentEvent<T>[] = [];
+  public history: ActiveListEvent<T>[] = [];
 
   /**
    * Whether or not the `active` item has changed at least once.
-   * Useful when you want to know if the `ActiveContent` is still
+   * Useful when you want to know if the `ActiveList` is still
    * in its initial state.
    *
    * Note: when the `initialize` method of the `Actions` is called this
@@ -254,20 +254,20 @@ export class ActiveContent<T> {
   private keepHistoryFor!: number;
 
   // Stores the current direction configuration
-  private directions!: Direction;
+  private directions!: ActiveListDirection;
 
   /**
-   * Creates an ActiveContent based on the ActiveContentConfig config.
+   * Creates an ActiveList based on the ActiveListConfig config.
    *
    * You can also optionally provide an subscriber so you can get
-   * informed of the changes happening to the ActiveContent.
+   * informed of the changes happening to the ActiveList.
    *
-   * @param {ActiveContentConfig<T>} config The initial configuration of the ActiveContent.
-   * @param {ActiveContentSubscriber<T> | undefined} subscriber An optional subscriber which responds to changes in the ActiveContent.
+   * @param {ActiveListConfig<T>} config The initial configuration of the ActiveList.
+   * @param {ActiveListSubscriber<T> | undefined} subscriber An optional subscriber which responds to changes in the ActiveList.
    */
   constructor(
-    config: ActiveContentConfig<T>,
-    subscriber?: ActiveContentSubscriber<T>
+    config: ActiveListConfig<T>,
+    subscriber?: ActiveListSubscriber<T>
   ) {
     if (subscriber) {
       this.subscribe(subscriber);
@@ -277,18 +277,18 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Subscribe to changes of the ActiveContent. The function you
+   * Subscribe to changes of the ActiveList. The function you
    * provide will get called whenever changes occur in the
-   * ActiveContent.
+   * ActiveList.
    *
    * Returns an unsubscribe function which when called will unsubscribe
-   * from the ActiveContent.
+   * from the ActiveList.
    *
-   * @param {ActiveContentSubscriber<T>} subscriber The subscriber which responds to changes in the ActiveContent.
-   * @returns {UnsubscribeFunction} A function which when called will unsubscribe from the ActiveContent.
+   * @param {ActiveListSubscriber<T>} subscriber The subscriber which responds to changes in the ActiveList.
+   * @returns {UnsubscribeFunction} A function which when called will unsubscribe from the ActiveList.
    */
   public subscribe(
-    subscriber: ActiveContentSubscriber<T>
+    subscriber: ActiveListSubscriber<T>
   ): UnsubscribeFunction {
     this.subscribers.push(subscriber);
 
@@ -299,24 +299,24 @@ export class ActiveContent<T> {
 
   /**
    * Unsubscribe the subscriber so it no longer receives changes / updates
-   * of the state changes of the ActiveContent.
+   * of the state changes of the ActiveList.
    *
-   * @param {ActiveContentSubscriber<T>} subscriber The subscriber which you want to unsubscribe.
+   * @param {ActiveListSubscriber<T>} subscriber The subscriber which you want to unsubscribe.
    */
-  public unsubscribe(subscriber: ActiveContentSubscriber<T>): void {
+  public unsubscribe(subscriber: ActiveListSubscriber<T>): void {
     this.subscribers = this.subscribers.filter((s) => subscriber !== s);
   }
 
   /**
-   * Initializes the ActiveContent based on the config provided.
-   * This can effectively resets the ActiveContent when called,
+   * Initializes the ActiveList based on the config provided.
+   * This can effectively resets the ActiveList when called,
    * including the history.
    *
-   * @param {ActiveContentConfig<T>} config The new configuration which will override the old one
+   * @param {ActiveListConfig<T>} config The new configuration which will override the old one
    *
-   * @throws Interval cannot be negative or zero error
+   * @throws {ActiveListAutoplayDurationError} autoplay duration must be a positive number when defined
    */
-  public initialize(config: ActiveContentConfig<T>): void {
+  public initialize(config: ActiveListConfig<T>): void {
     // Ignore changes for now, we will restore subscriber at the end
     // of the initialization process.
     this.isInitializing = true;
@@ -334,7 +334,7 @@ export class ActiveContent<T> {
     // Contents is not actually correct yet at this point because the
     // `isPrevious` and `isNext` are still incorrectly set.
     // Only when the "Startup" is done by calling 'activate' will it become
-    // a valid Content.
+    // a valid ActiveListContent.
     this.contents = config.contents.map((c, index) =>
       this.initializeABrokenContent(c, index, config.contents)
     );
@@ -349,7 +349,7 @@ export class ActiveContent<T> {
     this.keepHistoryFor =
       config.keepHistoryFor !== undefined ? config.keepHistoryFor : 0;
 
-    // Reset the ActiveContent
+    // Reset the ActiveList
     this.becameEmpty();
 
     // Setup the activation cooldown timer instance, because we
@@ -396,7 +396,7 @@ export class ActiveContent<T> {
     // Now start sending out changes.
     this.isInitializing = false;
 
-    const event: InitializedEvent<T> = {
+    const event: ActiveListInitializedEvent<T> = {
       type: 'INITIALIZED',
       values: [...this.active],
       indexes: [...this.activeIndexes],
@@ -410,9 +410,9 @@ export class ActiveContent<T> {
   private initializeABrokenContent(
     value: T,
     index: number,
-    contents: T[] | Content<T>[]
-  ): Content<T> {
-    const content = new Content(this, index, value);
+    contents: T[] | ActiveListContent<T>[]
+  ): ActiveListContent<T> {
+    const content = new ActiveListContent(this, index, value);
 
     // Repair part of the broken content.
     this.repairContent(content, index, contents);
@@ -429,12 +429,14 @@ export class ActiveContent<T> {
    * on `cooldown` and `autoplay`.
    *
    * @param {number} index The index to activate
-   * @param {ActivationOptions<T>} ActivationOptions The activation options
-   * @throws Index out of bounds error.
+   * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
+   * @throws {ActiveListIndexOutOfBoundsError} index cannot be out of bounds
+   * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
+   * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
   public activateByIndex(
     index: number,
-    activationOptions: ActivationOptions<T> = {
+    activationOptions: ActiveListActivationOptions<T> = {
       isUserInteraction: true,
       cooldown: undefined,
     }
@@ -447,12 +449,14 @@ export class ActiveContent<T> {
 
     // Set the cooldown, if it is needed.
     this.activationCooldownTimer.setCooldown(
+      // Note that at this point a `ActiveListCooldownDurationError`
+      // can be thrown, this means that the item is activated!
       activationOptions,
       // This works as we guard against indexes not being present
-      this.lastActivatedContent as Content<T>
+      this.lastActivatedContent as ActiveListContent<T>
     );
 
-    const event: ActivatedEvent<T> = {
+    const event: ActiveListActivatedEvent<T> = {
       type: 'ACTIVATED',
       value: activatedContent.value,
       index,
@@ -464,8 +468,8 @@ export class ActiveContent<T> {
 
   private doActivateByIndex(
     index: number,
-    activationOptions: ActivationOptions<T>
-  ): Content<T> | null {
+    activationOptions: ActiveListActivationOptions<T>
+  ): ActiveListContent<T> | null {
     if (this.checkIndex(index)) {
       throwIndexOutOfBoundsError('activateByIndex', 'index');
     }
@@ -487,7 +491,7 @@ export class ActiveContent<T> {
 
     if (limitReached) {
       if (this.maxActivationLimitBehavior === 'error') {
-        throw new ActivationLimitReachedError();
+        throw new ActiveListActivationLimitReachedError();
       } else if (this.maxActivationLimitBehavior === 'ignore') {
         return null;
       }
@@ -544,7 +548,7 @@ export class ActiveContent<T> {
       this.autoplay.onActiveIndexChanged(index, activationOptions);
     }
 
-    // Mark that the ActiveContent has at least moved once.
+    // Mark that the ActiveList has at least moved once.
     this.hasActiveChangedAtLeastOnce = true;
 
     return this.lastActivatedContent;
@@ -562,10 +566,12 @@ export class ActiveContent<T> {
    * on `cooldown` and `autoplay`.
    *
    * @param {T} item The item to activate
-   * @param {ActivationOptions<T>} ActivationOptions The activation options
-   * @throws Item not found error
+   * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
+   * @throws {ActiveListItemNotFoundError} item must be in the contents array based on === equality
+   * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
+   * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
-  public activate(item: T, activationOptions?: ActivationOptions<T>): void {
+  public activate(item: T, activationOptions?: ActiveListActivationOptions<T>): void {
     const index = this.getIndex(item);
     this.activateByIndex(index, activationOptions);
   }
@@ -585,12 +591,14 @@ export class ActiveContent<T> {
    * as a function, the last activated content will be the parameter
    * to the cooldown function.
    *
-   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will activate that item.
-   * @param {ActivationOptions<T>} ActivationOptions The activation options
+   * @param {ActiveListContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will activate that item.
+   * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
+   * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
+   * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
   public activateByPredicate(
-    predicate: ContentPredicate<T>,
-    activationOptions: ActivationOptions<T> = {
+    predicate: ActiveListContentPredicate<T>,
+    activationOptions: ActiveListActivationOptions<T> = {
       isUserInteraction: true,
       cooldown: undefined,
     }
@@ -614,12 +622,14 @@ export class ActiveContent<T> {
     if (lastActivated) {
       // Set the cooldown, if it is needed.
       this.activationCooldownTimer.setCooldown(
+        // Note that at this point a `ActiveListCooldownDurationError`
+        // can be thrown, this means that the items are activated!
         activationOptions,
         lastActivated
       );
     }
 
-    const event: ActivatedMultipleEvent<T> = {
+    const event: ActiveListActivatedMultipleEvent<T> = {
       type: 'ACTIVATED_MULTIPLE',
       values: activatedValues,
       indexes: activatedIndexes,
@@ -631,7 +641,7 @@ export class ActiveContent<T> {
 
   /**
    * Activates the next item in the sequence based on the `lastActivated`
-   * Content.
+   * ActiveListContent.
    *
    * If no `lastActivated` is present when `activateNext` is called
    * the first element is activated.
@@ -646,9 +656,11 @@ export class ActiveContent<T> {
    * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ActivationOptions<T>} ActivationOptions The activation options
+   * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
+   * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
+   * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
-  public activateNext(activationOptions?: ActivationOptions<T>): void {
+  public activateNext(activationOptions?: ActiveListActivationOptions<T>): void {
     if (this.isEmpty()) {
       return;
     }
@@ -659,7 +671,7 @@ export class ActiveContent<T> {
 
   /**
    * Activates the previous item in the sequence based on the
-   * `lastActivated` Content.
+   * `lastActivated` ActiveListContent.
    *
    * If no `lastActivated` is present when `activatePrevious` is called
    * the first element is activated.
@@ -674,9 +686,11 @@ export class ActiveContent<T> {
    * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ActivationOptions<T>} ActivationOptions The activation options
+   * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
+   * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
+   * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
-  public activatePrevious(activationOptions?: ActivationOptions<T>): void {
+  public activatePrevious(activationOptions?: ActiveListActivationOptions<T>): void {
     if (this.isEmpty()) {
       return;
     }
@@ -694,9 +708,11 @@ export class ActiveContent<T> {
    * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ActivationOptions<T>} ActivationOptions The activation options
+   * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
+   * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
+   * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
-  public activateFirst(activationOptions?: ActivationOptions<T>): void {
+  public activateFirst(activationOptions?: ActiveListActivationOptions<T>): void {
     if (this.isEmpty()) {
       return;
     }
@@ -713,9 +729,11 @@ export class ActiveContent<T> {
    * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoplay`.
    *
-   * @param {ActivationOptions<T>} ActivationOptions The activation options
+   * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
+   * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
+   * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
-  public activateLast(activationOptions?: ActivationOptions<T>): void {
+  public activateLast(activationOptions?: ActiveListActivationOptions<T>): void {
     if (this.isEmpty()) {
       return;
     }
@@ -732,12 +750,13 @@ export class ActiveContent<T> {
    * on `cooldown` and `autoplay`.
    *
    * @param {number} index The index to deactivate
-   * @param {ActivationOptions<T>} ActivationOptions The activation options
-   * @throws Index out of bounds error.
+   * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
+   * @throws {ActiveListIndexOutOfBoundsError} index cannot be out of bounds
+   * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
   public deactivateByIndex(
     index: number,
-    activationOptions: ActivationOptions<T> = {
+    activationOptions: ActiveListActivationOptions<T> = {
       isUserInteraction: true,
       cooldown: undefined,
     }
@@ -753,11 +772,13 @@ export class ActiveContent<T> {
 
     // Set the cooldown, if it is needed.
     this.activationCooldownTimer.setCooldown(
+      // Note that at this point a `ActiveListCooldownDurationError`
+      // can be thrown, this means that the item is deactivated!
       activationOptions,
       deactivatedContent
     );
 
-    const event: DeactivatedEvent<T> = {
+    const event: ActiveListDeactivatedEvent<T> = {
       type: 'DEACTIVATED',
       value: this.contents[index].value,
       index,
@@ -769,8 +790,8 @@ export class ActiveContent<T> {
 
   private doDeactivateByIndex(
     index: number,
-    activationOptions: ActivationOptions<T>
-  ): Content<T> | null {
+    activationOptions: ActiveListActivationOptions<T>
+  ): ActiveListContent<T> | null {
     /*
       Thoughts on deactivation:
 
@@ -793,13 +814,13 @@ export class ActiveContent<T> {
          content was activated last. When the current active item is
          disabled, what do we set the lastActivated to?
 
-         A: When actives becomes empty set all lastActivateds to empty 
+         A: When actives becomes empty set all lastActivated to empty 
             (null / -1). When not empty should make the lastActivated
             the last index of the activeIndexes, this way it will
             truly represent the lastActivated.
 
       3. direction: when an item is activated we track to which
-         direction the ActiveContent moves. This is done so the user
+         direction the ActiveList moves. This is done so the user
          can perform different animations. 
          
          The `direction` is normally calculated from the activated 
@@ -824,7 +845,7 @@ export class ActiveContent<T> {
                item, and based from the deactivated item the 
                `lastActivatedIndex` lies in this direction.
 
-               When the ActiveContent is `isCircular` it should 
+               When the ActiveList is `isCircular` it should 
                pick the "closest" direction.
 
             I think that leaving the direction as it is means lying
@@ -923,7 +944,7 @@ export class ActiveContent<T> {
       this.autoplay.onDeactivation(activationOptions);
     }
 
-    // Mark that the ActiveContent has at least moved once.
+    // Mark that the ActiveList has at least moved once.
     this.hasActiveChangedAtLeastOnce = true;
 
     return deactivatedContent;
@@ -941,10 +962,11 @@ export class ActiveContent<T> {
    * on `cooldown` and `autoplay`.
    *
    * @param {T} item The item to deactivate
-   * @param {ActivationOptions<T>} ActivationOptions The activation options
-   * @throws Item not found error
+   * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
+   * @throws {ActiveListItemNotFoundError} item must be in the contents array based on === equality
+   * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
-  public deactivate(item: T, activationOptions?: ActivationOptions<T>): void {
+  public deactivate(item: T, activationOptions?: ActiveListActivationOptions<T>): void {
     const index = this.getIndex(item);
     this.deactivateByIndex(index, activationOptions);
   }
@@ -964,12 +986,13 @@ export class ActiveContent<T> {
    * as a function, the last deactivated content will be the parameter
    * to the cooldown function.
    *
-   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will deactivate that item.
-   * @param {ActivationOptions<T>} ActivationOptions The activation options
+   * @param {ActiveListContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will deactivate that item.
+   * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
+   * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
   public deactivateByPredicate(
-    predicate: ContentPredicate<T>,
-    activationOptions: ActivationOptions<T> = {
+    predicate: ActiveListContentPredicate<T>,
+    activationOptions: ActiveListActivationOptions<T> = {
       isUserInteraction: true,
       cooldown: undefined,
     }
@@ -992,10 +1015,15 @@ export class ActiveContent<T> {
 
     if (lastRemoved) {
       // Set the cooldown, if it is needed.
-      this.activationCooldownTimer.setCooldown(activationOptions, lastRemoved);
+      this.activationCooldownTimer.setCooldown(
+        // Note that at this point a `ActiveListCooldownDurationError`
+        // can be thrown, this means that the items are deactivated!
+        activationOptions, 
+        lastRemoved
+      );
     }
 
-    const event: DeactivatedMultipleEvent<T> = {
+    const event: ActiveListDeactivatedMultipleEvent<T> = {
       type: 'DEACTIVATED_MULTIPLE',
       values: deactivatedValues,
       indexes: deactivatedIndexes,
@@ -1006,16 +1034,16 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Whether or not the ActiveContent is playing.
+   * Whether or not the ActiveList is playing.
    *
-   * @returns {boolean} Whether or not the ActiveContent is playing.
+   * @returns {boolean} Whether or not the ActiveList is playing.
    */
   public isPlaying(): boolean {
     return this.autoplay.isPlaying();
   }
 
   /**
-   * Will start playing the ActiveContent based on the active
+   * Will start playing the ActiveList based on the active
    * autoplayConfig. When `autoplayConfig` is not defined nothing
    * will happen when calling play.
    *
@@ -1023,18 +1051,18 @@ export class ActiveContent<T> {
    *
    * Note: autoplay will only start when one or more contents are
    * currently active. The reason for this is that the `duration`, is
-   * based on the `ActiveContent`'s `lastActivatedContent` property.
-   * Whenever there are no more active contents the autoplay will
+   * based on the `ActiveList`'s `lastActivatedContent` property.
+   * Whenever there are no more items to activate the autoplay will
    * stop.
    *
-   * @throws Interval cannot be negative or zero error
+   * @throws {ActiveListAutoplayDurationError} autoplay duration must be a positive number when defined
    */
   public play(): void {
     this.autoplay.play();
   }
 
   /**
-   * When the ActiveContent is playing it will pause the autoplay.
+   * When the ActiveList is playing it will pause the autoplay.
    *
    * When paused, the current autoplay duration is remember and resumed
    * from that position, when `play` is called again.
@@ -1048,7 +1076,7 @@ export class ActiveContent<T> {
   }
 
   /**
-   * When the ActiveContent is playing it will stop the autoplay.
+   * When the ActiveList is playing it will stop the autoplay.
    *
    * By calling `play` again it is possible to restart the autoplay.
    * However the duration will behave in this scenario as it if was
@@ -1067,12 +1095,12 @@ export class ActiveContent<T> {
    * is stopped.
    *
    * Can be used to reconfigure the speed of the autoplay after the
-   * ActiveContent has been created.
+   * ActiveList has been created.
    *
-   * @param {AutoplayConfig<T> | null} autoplayConfig The new autoplay configuration
-   * @throws Interval cannot be negative or zero error
+   * @param {ActiveListAutoplayConfig<T> | null} autoplayConfig The new autoplay configuration
+   * @throws {ActiveListAutoplayDurationError} autoplay duration must be a positive number when defined
    */
-  public configureAutoplay(autoplayConfig: AutoplayConfig<T> | null): void {
+  public configureAutoplay(autoplayConfig: ActiveListAutoplayConfig<T> | null): void {
     this.autoplay.setConfig(autoplayConfig);
     this.play();
   }
@@ -1086,16 +1114,16 @@ export class ActiveContent<T> {
    *
    * @param {T} item The item to insert.
    * @param {number} index The index at which to insert the item.
-   * @returns {Content<T>} The newly inserted item wrapped in a `Content`
-   * @throws Index out of bounds error.
+   * @returns {ActiveListContent<T>} The newly inserted item wrapped in a `ActiveListContent`
+   * @throws {ActiveListIndexOutOfBoundsError} index cannot be out of bounds
    */
-  public insertAtIndex(item: T, index: number): Content<T> {
+  public insertAtIndex(item: T, index: number): ActiveListContent<T> {
     if (index < 0 || index > this.contents.length) {
       throwIndexOutOfBoundsError('insertAtIndex', 'index');
     }
 
     // Create the new content
-    const content: Content<T> = this.initializeABrokenContent(
+    const content: ActiveListContent<T> = this.initializeABrokenContent(
       item,
       index,
       this.contents
@@ -1122,7 +1150,7 @@ export class ActiveContent<T> {
 
     this.repairContents();
 
-    const event: InsertedEvent<T> = {
+    const event: ActiveListInsertedEvent<T> = {
       type: 'INSERTED',
       value: item,
       index,
@@ -1138,9 +1166,9 @@ export class ActiveContent<T> {
    * Will add an item to the end of the `contents` array.
    *
    * @param {T} item The item to insert.
-   * @returns {Content<T>} The newly inserted item wrapped in a `Content`
+   * @returns {ActiveListContent<T>} The newly inserted item wrapped in a `ActiveListContent`
    */
-  public push(item: T): Content<T> {
+  public push(item: T): ActiveListContent<T> {
     return this.insertAtIndex(item, this.contents.length);
   }
 
@@ -1148,9 +1176,9 @@ export class ActiveContent<T> {
    * Will add an item at the start of the `contents` array.
    *
    * @param {T} item The item to insert.
-   * @returns {Content<T>} The newly inserted item wrapped in a `Content`
+   * @returns {ActiveListContent<T>} The newly inserted item wrapped in a `ActiveListContent`
    */
-  public unshift(item: T): Content<T> {
+  public unshift(item: T): ActiveListContent<T> {
     return this.insertAtIndex(item, 0);
   }
 
@@ -1161,28 +1189,28 @@ export class ActiveContent<T> {
    * If no item matches the predicate nothing is inserted and `null`
    * will be returned.
    *
-   * The position to where the `Content` is inserted can be altered by
+   * The position to where the `ActiveListContent` is inserted can be altered by
    * providing a mode:
    *
-   *  1. When the mode is 'at', the `Content` is inserted to the
+   *  1. When the mode is 'at', the `ActiveListContent` is inserted to the
    *     position where the predicate matches. This is the `default`
    *     mode.
    *
-   *  2. When the mode is 'after', the `Content` is inserted to after
+   *  2. When the mode is 'after', the `ActiveListContent` is inserted to after
    *     the position where the predicate matches.
    *
-   *  3. When the mode is 'before', the `Content` is inserted to
+   *  3. When the mode is 'before', the `ActiveListContent` is inserted to
    *     before the position where the predicate matches.
    *
    * @param {T} item The item to insert.
-   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to that position.
-   * @param {PredicateOptions} options The options for the predicate, when no options are provided the mode will default to "at".
+   * @param {ActiveListContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to that position.
+   * @param {ActiveListPredicateOptions} options The options for the predicate, when no options are provided the mode will default to "at".
    */
   public insertByPredicate(
     item: T,
-    predicate: ContentPredicate<T>,
-    options: PredicateOptions = { mode: 'at' }
-  ): Content<T> | null {
+    predicate: ActiveListContentPredicate<T>,
+    options: ActiveListPredicateOptions = { mode: 'at' }
+  ): ActiveListContent<T> | null {
     const mod = this.modeToMod(options.mode);
 
     return this.execPred(predicate, (index) => {
@@ -1200,7 +1228,7 @@ export class ActiveContent<T> {
    *
    * @param {number} index The index at which to remove the item.
    * @returns {T} The removed value
-   * @throws Index out of bounds error.
+   * @throws {ActiveListIndexOutOfBoundsError} index cannot be out of bounds
    */
   public removeByIndex(index: number): T {
     const value = this.doRemoveAtIndex(index);
@@ -1228,7 +1256,7 @@ export class ActiveContent<T> {
 
     this.repairContents();
 
-    const event: RemovedEvent<T> = {
+    const event: ActiveListRemovedEvent<T> = {
       type: 'REMOVED',
       value,
       index,
@@ -1263,7 +1291,7 @@ export class ActiveContent<T> {
    *
    * @param {T} item The item to remove
    * @returns {T} The removed item
-   * @throws Item not found error
+   * @throws {ActiveListItemNotFoundError} item must be in the contents array based on === equality
    */
   public remove(item: T): T {
     const index = this.getIndex(item);
@@ -1276,7 +1304,7 @@ export class ActiveContent<T> {
    * If the `contents` array at the time of the `pop` is empty
    * `undefined` is returned.
    *
-   * @param {ActivationOptions<T>} ActivationOptions The activation options
+   * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
    * @returns {T | undefined} The removed value, or undefined if the `contents` array is empty.
    */
   public pop(): T | undefined {
@@ -1308,15 +1336,15 @@ export class ActiveContent<T> {
    * predicate based on the `item` and `index` returns `true`.
    *
    * @param {T} item The item to insert.
-   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will remove the item.
+   * @param {ActiveListContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will remove the item.
    * @returns {T[]} The removed items.
    */
-  public removeByPredicate(predicate: ContentPredicate<T>): T[] {
+  public removeByPredicate(predicate: ActiveListContentPredicate<T>): T[] {
     if (this.isEmpty()) {
       return [];
     }
 
-    const removed: Content<T>[] = [];
+    const removed: ActiveListContent<T>[] = [];
 
     // The tricky bit about this is that the index will shuffle when
     // removing an item mid air. So we put the matching items in the
@@ -1403,7 +1431,7 @@ export class ActiveContent<T> {
     if (removedIndexes.length > 0) {
       this.repairContents();
 
-      const event: RemovedMultipleEvent<T> = {
+      const event: ActiveListRemovedMultipleEvent<T> = {
         type: 'REMOVED_MULTIPLE',
         indexes: [...removedIndexes],
         values: [...removedValues],
@@ -1417,14 +1445,14 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Swaps the `Content` at index a, with the `Content` at index b.
+   * Swaps the `ActiveListContent` at index a, with the `ActiveListContent` at index b.
    *
-   * Note: if the active `Content` is swapped, it will stay active,
+   * Note: if the active `ActiveListContent` is swapped, it will stay active,
    * it will only get a new position.
    *
    * @param {number} a The first index to swap.
    * @param {number} b The second index to swap.
-   * @throws Index out of bounds error.
+   * @throws {ActiveListIndexOutOfBoundsError} index cannot be out of bounds
    */
   public swapByIndex(a: number, b: number): void {
     if (this.checkIndex(a)) {
@@ -1471,7 +1499,7 @@ export class ActiveContent<T> {
 
     this.repairContents();
 
-    const event: SwappedEvent<T> = {
+    const event: ActiveListSwappedEvent<T> = {
       type: 'SWAPPED',
       value: {
         a: itemA.value,
@@ -1488,17 +1516,17 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Swaps the `Content` with item a, with the `Content` with
+   * Swaps the `ActiveListContent` with item a, with the `ActiveListContent` with
    * item b. Swaps the items based on identity by comparing the items
    * via a `===` check. When multiple items match on `===` only the
    * first matching item is swapped.
    *
-   * Note: if the active `Content` is swapped, it will stay active,
+   * Note: if the active `ActiveListContent` is swapped, it will stay active,
    * it will only get a new position.
    *
    * @param {T} a The first item to swap.
    * @param {T} b The second item to swap.
-   * @throws Item not found error
+   * @throws {ActiveListItemNotFoundError} item must be in the contents array based on === equality
    */
   public swap(a: T, b: T): void {
     const indexA = this.getIndex(a);
@@ -1508,17 +1536,17 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Moves the `Content` at index "from", to the position at index "to".
+   * Moves the `ActiveListContent` at index "from", to the position at index "to".
    *
-   * It is possible to move the `Content` to the last place by making
+   * It is possible to move the `ActiveListContent` to the last place by making
    * the "to" index the length of the `contents` array.
    *
-   * Note: if the active `Content` is moved it will stay active,
+   * Note: if the active `ActiveListContent` is moved it will stay active,
    * meaning that the lastActivatedIndex will get updated.
    *
    * @param {number} from The "from" index which needs to be moved
    * @param {number} to The location the `from` needs to move "to".
-   * @throws Index out of bounds error.
+   * @throws {ActiveListIndexOutOfBoundsError} index cannot be out of bounds
    */
   public moveByIndex(from: number, to: number): void {
     if (this.checkIndex(from)) {
@@ -1540,7 +1568,7 @@ export class ActiveContent<T> {
       Hopefully all possible movement scenarios and their effects on
       the lastActivatedIndex and the value of the "to" when doing the insert.
 
-      Note: capital letter indicates the active `Content`.
+      Note: capital letter indicates the active `ActiveListContent`.
 
       Scenario 1: moving from before the lastActivatedIndex to beyond the lastActivatedIndex:
         ACTION: 1 --> 4 === 'b' --> 'e'
@@ -1833,7 +1861,7 @@ export class ActiveContent<T> {
 
     this.repairContents();
 
-    const event: MovedEvent<T> = {
+    const event: ActiveListMovedEvent<T> = {
       type: 'MOVED',
       value: fromItem.value,
       index: {
@@ -1849,16 +1877,16 @@ export class ActiveContent<T> {
   /**
    * Moves the item, to the position at index "to".
    *
-   * It is possible to move the `Content` to the last place by making
+   * It is possible to move the `ActiveListContent` to the last place by making
    * the "to" index the length of the `contents` array.
    *
-   * Note: if the active `Content` is moved it will stay active,
+   * Note: if the active `ActiveListContent` is moved it will stay active,
    * meaning that the lastActivatedIndex will get updated.
    *
    * @param {T} item The item to move
    * @param {number} to The location the `item` needs to move "to".
-   * @throws Item not found error
-   * @throws Index out of bounds error.
+   * @throws {ActiveListItemNotFoundError} item must be in the contents array based on === equality
+   * @throws {ActiveListIndexOutOfBoundsError} index cannot be out of bounds
    */
   public move(item: T, to: number): void {
     const from = this.getIndex(item);
@@ -1866,31 +1894,31 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Moves the `Content`, at the index, to the position of the
+   * Moves the `ActiveListContent`, at the index, to the position of the
    * item for which the predicate returns `true`.
    *
    * If no item matches the predicate nothing is moved.
    *
-   * The position to where the `Content` moves can be altered by
+   * The position to where the `ActiveListContent` moves can be altered by
    * providing a mode:
    *
-   *  1. When the mode is 'at', the `Content` is moved to the position
+   *  1. When the mode is 'at', the `ActiveListContent` is moved to the position
    *     where the predicate matches. This is the `default` mode.
    *
-   *  2. When the mode is 'after', the `Content` is moved to after the
+   *  2. When the mode is 'after', the `ActiveListContent` is moved to after the
    *     position where the predicate matches.
    *
-   *  3. When the mode is 'before', the `Content` is moved to before
+   *  3. When the mode is 'before', the `ActiveListContent` is moved to before
    *     the position where the predicate matches.
    *
    * @param {number} index The index to move.
-   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to that position.
-   * @param {PredicateOptions} options The options for the predicate, when no options are provided the mode will default to "at".
+   * @param {ActiveListContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to that position.
+   * @param {ActiveListPredicateOptions} options The options for the predicate, when no options are provided the mode will default to "at".
    */
   public moveByIndexByPredicate(
     index: number,
-    predicate: ContentPredicate<T>,
-    options: PredicateOptions = { mode: 'at' }
+    predicate: ActiveListContentPredicate<T>,
+    options: ActiveListPredicateOptions = { mode: 'at' }
   ): void {
     const mod = this.modeToMod(options.mode);
 
@@ -1905,7 +1933,7 @@ export class ActiveContent<T> {
   }
 
   /**
-   * Moves the `Content` which matches the value of the item based
+   * Moves the `ActiveListContent` which matches the value of the item based
    * on `===` equality. To the position of the item for which
    * the predicate returns `true`.
    *
@@ -1913,27 +1941,27 @@ export class ActiveContent<T> {
    *
    * If no item matches the predicate nothing is moved.
    *
-   * The position to where the `Content` moves can be altered by
+   * The position to where the `ActiveListContent` moves can be altered by
    * providing a mode:
    *
-   *  1. When the mode is 'at', the `Content` is moved to the position
+   *  1. When the mode is 'at', the `ActiveListContent` is moved to the position
    *     where the predicate matches. This is the `default` mode.
    *
-   *  2. When the mode is 'after', the `Content` is moved to after the
+   *  2. When the mode is 'after', the `ActiveListContent` is moved to after the
    *     position where the predicate matches.
    *
-   *  3. When the mode is 'before', the `Content` is moved to before
+   *  3. When the mode is 'before', the `ActiveListContent` is moved to before
    *     the position where the predicate matches.
    *
    * @param {T} item The item to move.
-   * @param {ContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
-   * @param {PredicateOptions} options The options for the predicate, when no options are provided the mode will default to "at".
-   * @throws Item not found error
+   * @param {ActiveListContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will move the item to after that position.
+   * @param {ActiveListPredicateOptions} options The options for the predicate, when no options are provided the mode will default to "at".
+   * @throws {ActiveListItemNotFoundError} item must be in the contents array based on === equality
    */
   public moveByPredicate(
     item: T,
-    predicate: ContentPredicate<T>,
-    options?: PredicateOptions
+    predicate: ActiveListContentPredicate<T>,
+    options?: ActiveListPredicateOptions
   ): void {
     const index = this.getIndex(item);
     this.moveByIndexByPredicate(index, predicate, options);
@@ -1947,7 +1975,7 @@ export class ActiveContent<T> {
    *
    * @param {T} item The item to get the index for.
    * @returns {number} The index of the given item.
-   * @throws Item not found error
+   * @throws {ActiveListItemNotFoundError} item must be in the contents array based on === equality
    */
   public getIndex(item: T): number {
     const contents = this.contents;
@@ -1959,7 +1987,7 @@ export class ActiveContent<T> {
       }
     }
 
-    throw new ItemNotFoundError();
+    throw new ActiveListItemNotFoundError();
   }
 
   /**
@@ -2172,19 +2200,19 @@ export class ActiveContent<T> {
     });
   }
 
-  // The shared logic for fixing a broken Content.
+  // The shared logic for fixing a broken ActiveListContent.
   private repairContent(
-    content: Content<T>,
+    content: ActiveListContent<T>,
     index: number,
-    contents: T[] | Content<T>[]
+    contents: T[] | ActiveListContent<T>[]
   ): void {
     content.isFirst = index === 0;
     content.isLast = index === contents.length - 1;
 
     if (this.isCircular) {
       // When circular there is always a next and previous, because
-      // a Content will then point to himself. The fact that we
-      // have a `content` here means that the `ActiveContent` is not
+      // a ActiveListContent will then point to himself. The fact that we
+      // have a `content` here means that the `ActiveList` is not
       // empty
       content.hasNext = true;
       content.hasPrevious = true;
@@ -2220,16 +2248,16 @@ export class ActiveContent<T> {
     const newLastActiveIndex =
       this.activeIndexes[this.activeIndexes.length - 1];
 
-    const newLastActiveContent = this.contents[newLastActiveIndex];
+    const newLastActiveList = this.contents[newLastActiveIndex];
 
-    this.lastActivated = newLastActiveContent.value;
-    this.lastActivatedContent = newLastActiveContent;
+    this.lastActivated = newLastActiveList.value;
+    this.lastActivatedContent = newLastActiveList;
     this.lastActivatedIndex = newLastActiveIndex;
   }
 
   // exists only for code reduction, not to make things clearer
   private execPred<R>(
-    predicate: ContentPredicate<T>,
+    predicate: ActiveListContentPredicate<T>,
     action: (index: number, length: number) => R
   ): R | null {
     const contents = this.contents;
@@ -2238,11 +2266,11 @@ export class ActiveContent<T> {
     for (let index = 0; index < length; index++) {
       const content = this.contents[index];
 
-      const data: ContentPredicateData<T> = {
+      const data: ActiveListContentPredicateData<T> = {
         index,
         content,
         value: content.value,
-        activeContent: this,
+        activeList: this,
       };
 
       if (predicate(data)) {
@@ -2259,7 +2287,7 @@ export class ActiveContent<T> {
     return null;
   }
 
-  private inform(event: ActiveContentEvent<T>): void {
+  private inform(event: ActiveListEvent<T>): void {
     if (this.isInitializing) {
       return;
     }
@@ -2281,7 +2309,7 @@ export class ActiveContent<T> {
     return index < 0 || index >= this.contents.length;
   }
 
-  private modeToMod(mode: ActiveContentPredicateMode): number {
+  private modeToMod(mode: ActiveListPredicateMode): number {
     return mode === 'at' ? 0 : mode === 'after' ? 1 : -1;
   }
 }

@@ -1,7 +1,7 @@
 import components from './components';
 
-import ActiveContent from './ActiveContent/ActiveContent';
-import { useActiveContent } from './ActiveContent/useActiveContent';
+import ActiveList from './ActiveList/ActiveList';
+import { useActiveList } from './ActiveList/useActiveList';
 
 /**
  * The uiloos Vue plugin, add it to vue via `app.use()`;
@@ -18,4 +18,4 @@ const uiloosPlugin = {
   },
 };
 
-export { uiloosPlugin, useActiveContent, ActiveContent };
+export { uiloosPlugin, useActiveList, ActiveList };
