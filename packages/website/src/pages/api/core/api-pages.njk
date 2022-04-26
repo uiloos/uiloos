@@ -14,6 +14,8 @@ renderData:
   {% include "../_includes/error.njk" %}
 {% elif def.kindString === 'Class' %}
   {% include "../_includes/class.njk" %}
+{% elif def.kindString === 'Function' %}
+  {% include "../_includes/function.njk" %}
 {% elif def.kindString === 'Type alias' %}
   {% include "../_includes/typealias.njk" %}
 {% endif %}

@@ -11,6 +11,7 @@
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "files": [
     "dist"
   ],
@@ -33,6 +34,7 @@
     "@types/jest": "27.4.0",
     "babel-jest": "27.5.1",
     "jest": "27.5.1",
+    "jest-watch-typeahead": "1.1.0",
     "rollup": "2.67.1",
     "rollup-plugin-dts": "4.1.0",
     "rollup-plugin-peer-deps-external": "2.2.4",

@@ -1,4 +1,5 @@
-import { UnsubscribeFunction } from '../Generic/types';
+import { UnsubscribeFunction } from '../generic/types';
+import { _checkLicense } from '../license/license';
 import { Autoplay } from './Autoplay';
 import { ActiveListContent } from './ActiveListContent';
 import { CooldownTimer } from './CooldownTimer';
@@ -269,6 +270,8 @@ export class ActiveList<T> {
     config: ActiveListConfig<T>,
     subscriber?: ActiveListSubscriber<T>
   ) {
+    _checkLicense();
+
     if (subscriber) {
       this.subscribe(subscriber);
     }

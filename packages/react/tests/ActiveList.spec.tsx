@@ -1,12 +1,15 @@
 import React from 'react';
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
+import { activateLicense } from '@uiloos/core';
 
 import {
   ActiveList,
 } from '../src/ActiveList/ActiveList';
 
 test('ActiveList component', () => {
+  activateLicense("fake-100", { logLicenseActivated: false });
+
   render(
     <ActiveList active="a" contents={['a', 'b', 'c']}>
       {(activeContent) => (

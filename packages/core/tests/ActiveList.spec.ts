@@ -10,14 +10,18 @@ import {
   ActiveListItemNotFoundError
 } from '../src/ActiveList';
 
-import { UnsubscribeFunction } from '../src/Generic/types';
+import { activateLicense } from '../src/license';
+
+import { UnsubscribeFunction } from '../src/generic/types';
 
 type TestConfig = Omit<ActiveListConfig<string>, 'subscriber' | 'contents'>;
 
-describe('ActiveList limit 1', () => {
+describe('ActiveList', () => {
   let unsubscribe: UnsubscribeFunction | null = null;
 
   beforeEach(() => {
+    activateLicense("fake-100", { logLicenseActivated: false });
+
     if (unsubscribe) {
       unsubscribe();
     }
