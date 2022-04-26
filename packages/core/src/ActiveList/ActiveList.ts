@@ -267,7 +267,7 @@ export class ActiveList<T> {
    * @param {ActiveListSubscriber<T> | undefined} subscriber An optional subscriber which responds to changes in the ActiveList.
    */
   constructor(
-    config: ActiveListConfig<T>,
+    config: ActiveListConfig<T> = {},
     subscriber?: ActiveListSubscriber<T>
   ) {
     _checkLicense();
@@ -290,9 +290,7 @@ export class ActiveList<T> {
    * @param {ActiveListSubscriber<T>} subscriber The subscriber which responds to changes in the ActiveList.
    * @returns {UnsubscribeFunction} A function which when called will unsubscribe from the ActiveList.
    */
-  public subscribe(
-    subscriber: ActiveListSubscriber<T>
-  ): UnsubscribeFunction {
+  public subscribe(subscriber: ActiveListSubscriber<T>): UnsubscribeFunction {
     this.subscribers.push(subscriber);
 
     return () => {
@@ -334,12 +332,14 @@ export class ActiveList<T> {
     // because initializeABrokenContent uses isCircular.
     this.isCircular = !!config.isCircular;
 
+    const contents = config.contents ? config.contents : [];
+
     // Contents is not actually correct yet at this point because the
     // `isPrevious` and `isNext` are still incorrectly set.
     // Only when the "Startup" is done by calling 'activate' will it become
     // a valid ActiveListContent.
-    this.contents = config.contents.map((c, index) =>
-      this.initializeABrokenContent(c, index, config.contents)
+    this.contents = contents.map((c, index) =>
+      this.initializeABrokenContent(c, index, contents)
     );
 
     // Configure directions
@@ -574,7 +574,10 @@ export class ActiveList<T> {
    * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
    * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
-  public activate(item: T, activationOptions?: ActiveListActivationOptions<T>): void {
+  public activate(
+    item: T,
+    activationOptions?: ActiveListActivationOptions<T>
+  ): void {
     const index = this.getIndex(item);
     this.activateByIndex(index, activationOptions);
   }
@@ -663,7 +666,9 @@ export class ActiveList<T> {
    * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
    * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
-  public activateNext(activationOptions?: ActiveListActivationOptions<T>): void {
+  public activateNext(
+    activationOptions?: ActiveListActivationOptions<T>
+  ): void {
     if (this.isEmpty()) {
       return;
     }
@@ -693,7 +698,9 @@ export class ActiveList<T> {
    * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
    * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
-  public activatePrevious(activationOptions?: ActiveListActivationOptions<T>): void {
+  public activatePrevious(
+    activationOptions?: ActiveListActivationOptions<T>
+  ): void {
     if (this.isEmpty()) {
       return;
     }
@@ -715,7 +722,9 @@ export class ActiveList<T> {
    * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
    * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
-  public activateFirst(activationOptions?: ActiveListActivationOptions<T>): void {
+  public activateFirst(
+    activationOptions?: ActiveListActivationOptions<T>
+  ): void {
     if (this.isEmpty()) {
       return;
     }
@@ -736,7 +745,9 @@ export class ActiveList<T> {
    * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
    * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
-  public activateLast(activationOptions?: ActiveListActivationOptions<T>): void {
+  public activateLast(
+    activationOptions?: ActiveListActivationOptions<T>
+  ): void {
     if (this.isEmpty()) {
       return;
     }
@@ -969,7 +980,10 @@ export class ActiveList<T> {
    * @throws {ActiveListItemNotFoundError} item must be in the contents array based on === equality
    * @throws {ActiveListCooldownDurationError} cooldown duration must be a positive number when defined
    */
-  public deactivate(item: T, activationOptions?: ActiveListActivationOptions<T>): void {
+  public deactivate(
+    item: T,
+    activationOptions?: ActiveListActivationOptions<T>
+  ): void {
     const index = this.getIndex(item);
     this.deactivateByIndex(index, activationOptions);
   }
@@ -1021,7 +1035,7 @@ export class ActiveList<T> {
       this.activationCooldownTimer.setCooldown(
         // Note that at this point a `ActiveListCooldownDurationError`
         // can be thrown, this means that the items are deactivated!
-        activationOptions, 
+        activationOptions,
         lastRemoved
       );
     }
@@ -1103,7 +1117,9 @@ export class ActiveList<T> {
    * @param {ActiveListAutoplayConfig<T> | null} autoplayConfig The new autoplay configuration
    * @throws {ActiveListAutoplayDurationError} autoplay duration must be a positive number when defined
    */
-  public configureAutoplay(autoplayConfig: ActiveListAutoplayConfig<T> | null): void {
+  public configureAutoplay(
+    autoplayConfig: ActiveListAutoplayConfig<T> | null
+  ): void {
     this.autoplay.setConfig(autoplayConfig);
     this.play();
   }

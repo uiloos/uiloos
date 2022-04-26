@@ -11,8 +11,10 @@ export type ActiveListConfig<T> = {
    *
    * Note: the `ActiveList` will wrap each item in the `contents` array
    * inside of a `ActiveListContent` item.
+   * 
+   * Defaults to `[]` meaning there is no content.
    */
-  contents: T[];
+  contents?: T[];
 
   /**
    * How many items can be active at the same time.
@@ -20,7 +22,7 @@ export type ActiveListConfig<T> = {
    * When the value of `limit` is `false` there is no limit to the
    * number of active items.
    *
-   * Defaults to 1.
+   * Defaults to `1`.
    */
   maxActivationLimit?: number | false;
 
@@ -91,6 +93,8 @@ export type ActiveListConfig<T> = {
    * based on the `ActiveList`'s `lastActivatedContent` property.
    * Whenever there are no more items to activate the autoplay will
    * stop.
+   * 
+   * Defaults to no autoplay.
    */
   autoplay?: ActiveListAutoplayConfig<T>;
 
