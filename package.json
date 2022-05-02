@@ -16,6 +16,6 @@
     "tsc": "lerna run tsc",
     "apigen": "nx run-many --target=apigen --all",
     "build-docs": "nx build-docs website",
-    "publish": "lerna publish"
+    "publish": "npm run test && lerna run before-publish && lerna publish"
   }
 }

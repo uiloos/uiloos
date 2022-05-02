@@ -24,6 +24,7 @@
     "dist"
   ],
   "scripts": {
+    "before-publish": "cp ../../README.MD dist && cp ../../LICENSE.MD dist",
     "start": "vitest watch --coverage",
     "clean": "rm -rf node_modules && rm -rf coverage && rm -f .package.lock-json && rm -rf dist",
     "test": "vitest run --coverage",
