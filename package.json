@@ -2,16 +2,20 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "4.0.0"
+    "lerna": "4.0.0",
+    "nx": "14.0.5"
   },
   "scripts": {
     "clean": "lerna run clean",
     "bootstrap": "lerna bootstrap",
     "clean-bootstrap": "npm run clean && npm run bootstrap",
-    "test": "npm run link && lerna run tsc && lerna run test && lerna run apigen && lerna run build-docs",
-    "build": "lerna run build",
+    "test": "npm run link && npm run tsc && npm run test:unit && npm run apigen && npm run build-docs",
+    "test:unit": "nx run-many --target=test --all",
+    "build": "nx run-many --target=build --all",
     "link": "npm run bootstrap && npm run build",
     "tsc": "lerna run tsc",
-    "apigen": "lerna run apigen"
+    "apigen": "nx run-many --target=apigen --all",
+    "build-docs": "nx build-docs website",
+    "publish": "lerna publish"
   }
 }
