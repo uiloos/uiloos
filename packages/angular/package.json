@@ -1,6 +1,6 @@
 {
   "name": "@uiloos/angular",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The Angular bindings of the uiloos headless UI",
   "keywords": [
     "uiloos"
@@ -19,13 +19,13 @@
   "typings": "dist/uiloos-angular.d.ts",
   "files": [
     "dist"
-  ], 
+  ],
   "peerDependencies": {
     "@angular/common": "^13.2.0",
     "@angular/core": "^13.2.0"
   },
   "dependencies": {
-    "@uiloos/core": "^0.0.1"
+    "@uiloos/core": "^0.0.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "13.2.3",
