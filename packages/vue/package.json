@@ -1,6 +1,6 @@
 {
   "name": "@uiloos/vue",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "The Vue bindings of the uiloos headless UI",
   "keywords": [
     "uiloos"
@@ -32,21 +32,21 @@
     "apigen": "rm -rf apigen && typedoc src/index.ts --json ../website/src/_data/api/vue.json"
   },
   "dependencies": {
-    "@uiloos/core": "0.0.0"
+    "@uiloos/core": "^0.0.1"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
   },
   "devDependencies": {
-    "vite": "2.8.2",
-    "vue": "3.2.31",
-    "typescript": "4.5.5",
+    "@testing-library/vue": "next",
+    "@vitejs/plugin-vue": "2.2.0",
+    "c8": "7.11.0",
     "jest": "27.5.1",
     "jest-environment-jsdom": "27.5.1",
-    "@vitejs/plugin-vue": "2.2.0",
+    "typedoc": "0.22.12",
+    "typescript": "4.5.5",
+    "vite": "2.8.2",
     "vitest": "0.3.5",
-    "c8": "7.11.0",
-    "@testing-library/vue": "next",
-    "typedoc": "0.22.12"
+    "vue": "3.2.31"
   }
 }
