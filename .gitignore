@@ -10,6 +10,8 @@ packages/*/coverage/
 packages/website/_site/
 packages/website/src/_data/api/
 
+.cache
+
 # Optional npm cache directory
 .npm
 

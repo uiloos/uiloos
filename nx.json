@@ -13,7 +13,8 @@
           "prepare",
           "apigen",
           "build-docs"
-        ]
+        ],
+        "cacheDirectory": ".cache"
       }
     }
   },

@@ -15,7 +15,7 @@
     "link": "npm run bootstrap && npm run build",
     "tsc": "lerna run tsc",
     "apigen": "nx run-many --target=apigen --all",
-    "build-docs": "nx build-docs website",
+    "build-docs": "npm run link && npm run apigen && nx build-docs website",
     "publish": "npm run test && lerna run before-publish && lerna publish"
   }
 }
