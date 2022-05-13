@@ -1087,6 +1087,10 @@ export class ActiveList<T> {
    * For example: when the duration is 1 second and the `pause` is
    * called after 0.8 seconds, it will after `play` is called, take
    * 0.2 seconds to go to the next content.
+   * 
+   * Note: if the autoplay is already paused calling `pause` again 
+   * will do nothing, the time used for the remaining duration is
+   * based on the first pause.
    */
   public pause(): void {
     this.autoplay.pause();

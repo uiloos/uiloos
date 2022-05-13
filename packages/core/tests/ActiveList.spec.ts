@@ -18044,6 +18044,57 @@ describe('ActiveList', () => {
       expect(activeList.isPlaying()).toBe(false);
     });
 
+    test('that it is not possible to pause when already paused', () => {
+      jest.useFakeTimers();
+
+      const { activeList } = setup({
+        autoplay: { duration: 200 },
+        isCircular: false,
+        activeIndexes: 0,
+      });
+
+      // It should start with 'a' and be playing
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.isPlaying()).toBe(true);
+
+      // After 200 seconds it should be on 'b'
+      jest.advanceTimersByTime(200);
+      expect(activeList.active).toEqual(['b']);
+
+      // Now we advance the time to the half way point
+      // between 'b' and 'c'.
+      expect(activeList.isPlaying()).toBe(true);
+      jest.advanceTimersByTime(100);
+      expect(activeList.isPlaying()).toBe(true);
+
+      // Now pause it at the half way.
+      activeList.pause();
+      expect(activeList.isPlaying()).toBe(false);
+
+      // Now advance the timer by a huge margin, and pause again, this
+      // second pause should be ignored
+      jest.advanceTimersByTime(10000);
+      activeList.pause(); // <--- this pause should be ignored
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.isPlaying()).toBe(false);
+
+      // Now press play, after 200 milliseconds it should have
+      // continued.
+      activeList.play();
+
+      // After 99 milliseconds b should still be active though
+      jest.advanceTimersByTime(99);
+      expect(activeList.active).toEqual(['b']);
+
+      // Finally after 1 milliseconds it should be 'c'
+      jest.advanceTimersByTime(1);
+      expect(activeList.active).toEqual(['c']);
+
+      // It has reached the end and is no longer playing.
+      expect(activeList.isPlaying()).toBe(false);
+    });
+
     test('that the autoplay can be stopped and continued', () => {
       jest.useFakeTimers();
 

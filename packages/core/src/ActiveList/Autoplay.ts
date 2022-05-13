@@ -109,6 +109,23 @@ export class Autoplay<T> {
   }
 
   public pause(): void {
+    /* 
+      A user can call pause multiple times, by accident, these 
+      subsequent calls should be ignored to prevent bugs:
+    
+      I (Maarten Hus) wrote a carousel example which paused when the 
+      users mouse entered the carousel. When moving the mouse over the
+      carousel whilst the duration had not passed, caused the 
+      "pauseStarted" to move into the future. 
+
+      This could then in turn result in a negative duration, because
+      the pauseStarted Date could become higher than the 
+      autoplayStarted Date.
+    */
+    if (this.pauseStarted) {
+      return;
+    }
+
     // Store the time when the pause was pressed, so we can calculate
     // the resuming duration later.
     this.pauseStarted = new Date();
