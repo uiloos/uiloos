@@ -29,10 +29,9 @@ export class ActiveListContent<T> {
   public value: T;
 
   /**
-   * Whether or not the `ActiveListContent` is currently active, only one `ActiveListContent`
-   * can be active at a time.
+   * Whether or not the `ActiveListContent` is currently active.
    */
-  public active = false;
+  public isActive = false;
 
   /**
    * Whether or not the `ActiveListContent` has been active at least once

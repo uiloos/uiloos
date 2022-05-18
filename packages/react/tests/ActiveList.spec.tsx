@@ -16,7 +16,7 @@ test('ActiveList component', () => {
         <ul>
           {activeContent.contents.map((content) => (
             <li key={content.value} onClick={() => content.activate()}>
-              {content.value} {content.active ? 'active' : 'inactive'}
+              {content.value} {content.isActive ? 'active' : 'inactive'}
             </li>
           ))}
         </ul>

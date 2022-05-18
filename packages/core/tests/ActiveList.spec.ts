@@ -106,7 +106,7 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         contents: [
           {
-            active: false,
+            isActive: false,
             index: 0,
             value: 'a',
             isFirst: true,
@@ -118,7 +118,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: false,
           },
           {
-            active: true,
+            isActive: true,
             index: 1,
             value: 'b',
             isFirst: false,
@@ -130,7 +130,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: true,
           },
           {
-            active: false,
+            isActive: false,
             index: 2,
             value: 'c',
             isFirst: false,
@@ -210,7 +210,7 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         contents: [
           {
-            active: false,
+            isActive: false,
             index: 0,
             value: 'a',
             isFirst: true,
@@ -222,7 +222,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: false,
           },
           {
-            active: true,
+            isActive: true,
             index: 1,
             value: 'b',
             isFirst: false,
@@ -234,7 +234,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: true,
           },
           {
-            active: false,
+            isActive: false,
             index: 2,
             value: 'c',
             isFirst: false,
@@ -272,7 +272,7 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         contents: [
           {
-            active: true,
+            isActive: true,
             index: 0,
             value: 'a',
             isFirst: true,
@@ -284,7 +284,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: true,
           },
           {
-            active: true,
+            isActive: true,
             index: 1,
             value: 'b',
             isFirst: false,
@@ -296,7 +296,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: true,
           },
           {
-            active: false,
+            isActive: false,
             index: 2,
             value: 'c',
             isFirst: false,
@@ -334,7 +334,7 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         contents: [
           {
-            active: true,
+            isActive: true,
             value: 'a',
             index: 0,
             isFirst: true,
@@ -346,7 +346,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: true,
           },
           {
-            active: true,
+            isActive: true,
             value: 'b',
             index: 1,
             isFirst: false,
@@ -358,7 +358,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: true,
           },
           {
-            active: false,
+            isActive: false,
             value: 'c',
             index: 2,
             isFirst: false,
@@ -393,7 +393,7 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         contents: [
           {
-            active: false,
+            isActive: false,
             value: 'a',
             index: 0,
             isFirst: true,
@@ -405,7 +405,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: false,
           },
           {
-            active: false,
+            isActive: false,
             value: 'b',
             index: 1,
             isFirst: false,
@@ -417,7 +417,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: false,
           },
           {
-            active: true,
+            isActive: true,
             value: 'c',
             index: 2,
             isFirst: false,
@@ -455,7 +455,7 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         contents: [
           {
-            active: true,
+            isActive: true,
             value: 'a',
             index: 0,
             isFirst: true,
@@ -467,7 +467,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: true,
           },
           {
-            active: false,
+            isActive: false,
             value: 'b',
             index: 1,
             isFirst: false,
@@ -479,7 +479,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: false,
           },
           {
-            active: true,
+            isActive: true,
             value: 'c',
             index: 2,
             isFirst: false,
@@ -517,7 +517,7 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         contents: [
           {
-            active: true,
+            isActive: true,
             value: 'a',
             index: 0,
             isFirst: true,
@@ -529,7 +529,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: true,
           },
           {
-            active: false,
+            isActive: false,
             value: 'b',
             index: 1,
             isFirst: false,
@@ -541,7 +541,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: false,
           },
           {
-            active: true,
+            isActive: true,
             value: 'c',
             index: 2,
             isFirst: false,
@@ -576,7 +576,7 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         contents: [
           {
-            active: false,
+            isActive: false,
             value: 'a',
             index: 0,
             isFirst: true,
@@ -588,7 +588,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: false,
           },
           {
-            active: false,
+            isActive: false,
             value: 'b',
             index: 1,
             isFirst: false,
@@ -600,7 +600,7 @@ describe('ActiveList', () => {
             hasBeenActiveBefore: false,
           },
           {
-            active: false,
+            isActive: false,
             value: 'c',
             index: 2,
             isFirst: false,
@@ -670,7 +670,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: true,
+                isActive: true,
                 index: 0,
                 value: 'd',
                 isFirst: true,
@@ -682,7 +682,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 index: 1,
                 value: 'e',
                 isFirst: false,
@@ -694,7 +694,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 2,
                 value: 'f',
                 isFirst: false,
@@ -706,7 +706,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 3,
                 value: 'g',
                 isFirst: false,
@@ -781,7 +781,7 @@ describe('ActiveList', () => {
           hasActiveChangedAtLeastOnce: false,
           contents: [
             {
-              active: true,
+              isActive: true,
               value: 'a',
               index: 0,
               isFirst: true,
@@ -819,7 +819,7 @@ describe('ActiveList', () => {
           hasActiveChangedAtLeastOnce: false,
           contents: [
             {
-              active: true,
+              isActive: true,
               value: 'a',
               index: 0,
               isFirst: true,
@@ -924,7 +924,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -936,7 +936,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -948,7 +948,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -989,7 +989,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -1001,7 +1001,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -1013,7 +1013,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -1054,7 +1054,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -1066,7 +1066,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -1078,7 +1078,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -1126,7 +1126,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -1138,7 +1138,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -1150,7 +1150,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -1191,7 +1191,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -1203,7 +1203,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -1215,7 +1215,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -1256,7 +1256,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -1268,7 +1268,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -1280,7 +1280,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -1332,7 +1332,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -1344,7 +1344,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -1356,7 +1356,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -1368,7 +1368,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'd',
                     index: 3,
                     isFirst: false,
@@ -1380,7 +1380,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'e',
                     index: 4,
                     isFirst: false,
@@ -1432,7 +1432,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -1444,7 +1444,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -1456,7 +1456,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -1468,7 +1468,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'd',
                     index: 3,
                     isFirst: false,
@@ -1480,7 +1480,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'e',
                     index: 4,
                     isFirst: false,
@@ -1532,7 +1532,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -1544,7 +1544,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -1556,7 +1556,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -1568,7 +1568,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'd',
                     index: 3,
                     isFirst: false,
@@ -1580,7 +1580,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'e',
                     index: 4,
                     isFirst: false,
@@ -1632,7 +1632,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -1644,7 +1644,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -1656,7 +1656,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -1668,7 +1668,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'd',
                     index: 3,
                     isFirst: false,
@@ -1680,7 +1680,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'e',
                     index: 4,
                     isFirst: false,
@@ -1732,7 +1732,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -1744,7 +1744,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -1796,7 +1796,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -1808,7 +1808,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -1855,7 +1855,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -1867,7 +1867,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -1879,7 +1879,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -1920,7 +1920,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -1932,7 +1932,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -1944,7 +1944,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -1989,7 +1989,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -2001,7 +2001,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -2013,7 +2013,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -2054,7 +2054,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -2066,7 +2066,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -2078,7 +2078,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -2134,7 +2134,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -2146,7 +2146,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -2158,7 +2158,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -2203,7 +2203,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -2215,7 +2215,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -2227,7 +2227,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -2279,7 +2279,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -2291,7 +2291,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -2303,7 +2303,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -2348,7 +2348,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -2360,7 +2360,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -2372,7 +2372,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -2429,7 +2429,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -2441,7 +2441,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -2453,7 +2453,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -2465,7 +2465,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'd',
                     index: 3,
                     isFirst: false,
@@ -2477,7 +2477,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'e',
                     index: 4,
                     isFirst: false,
@@ -2534,7 +2534,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -2546,7 +2546,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -2558,7 +2558,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -2570,7 +2570,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'd',
                     index: 3,
                     isFirst: false,
@@ -2582,7 +2582,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'e',
                     index: 4,
                     isFirst: false,
@@ -2639,7 +2639,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -2651,7 +2651,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -2663,7 +2663,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -2675,7 +2675,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'd',
                     index: 3,
                     isFirst: false,
@@ -2687,7 +2687,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'e',
                     index: 4,
                     isFirst: false,
@@ -2744,7 +2744,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -2756,7 +2756,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -2768,7 +2768,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -2780,7 +2780,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'd',
                     index: 3,
                     isFirst: false,
@@ -2792,7 +2792,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'e',
                     index: 4,
                     isFirst: false,
@@ -2848,7 +2848,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -2860,7 +2860,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -2916,7 +2916,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -2928,7 +2928,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -2981,7 +2981,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -2993,7 +2993,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -3005,7 +3005,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -3050,7 +3050,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -3062,7 +3062,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -3074,7 +3074,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -3125,7 +3125,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -3137,7 +3137,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -3149,7 +3149,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -3194,7 +3194,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -3206,7 +3206,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -3218,7 +3218,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -3317,7 +3317,7 @@ describe('ActiveList', () => {
               isCircular: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   value: 'a',
                   index: 0,
                   isFirst: true,
@@ -3329,7 +3329,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   value: 'b',
                   index: 1,
                   isFirst: false,
@@ -3341,7 +3341,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   value: 'c',
                   index: 2,
                   isFirst: false,
@@ -3385,7 +3385,7 @@ describe('ActiveList', () => {
               isCircular: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   value: 'a',
                   index: 0,
                   isFirst: true,
@@ -3397,7 +3397,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   value: 'b',
                   index: 1,
                   isFirst: false,
@@ -3409,7 +3409,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   value: 'c',
                   index: 2,
                   isFirst: false,
@@ -3453,7 +3453,7 @@ describe('ActiveList', () => {
               isCircular: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   value: 'a',
                   index: 0,
                   isFirst: true,
@@ -3465,7 +3465,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   value: 'b',
                   index: 1,
                   isFirst: false,
@@ -3477,7 +3477,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   value: 'c',
                   index: 2,
                   isFirst: false,
@@ -3529,7 +3529,7 @@ describe('ActiveList', () => {
               isCircular: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   value: 'a',
                   index: 0,
                   isFirst: true,
@@ -3541,7 +3541,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   value: 'b',
                   index: 1,
                   isFirst: false,
@@ -3553,7 +3553,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   value: 'c',
                   index: 2,
                   isFirst: false,
@@ -3621,7 +3621,7 @@ describe('ActiveList', () => {
               isCircular: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   value: 'a',
                   index: 0,
                   isFirst: true,
@@ -3633,7 +3633,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   value: 'b',
                   index: 1,
                   isFirst: false,
@@ -3645,7 +3645,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   value: 'c',
                   index: 2,
                   isFirst: false,
@@ -3796,7 +3796,7 @@ describe('ActiveList', () => {
             isCircular: false,
             contents: [
               {
-                active: false,
+                isActive: false,
                 value: 'b',
                 index: 0,
                 isFirst: true,
@@ -3808,7 +3808,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 value: 'a',
                 index: 1,
                 isFirst: false,
@@ -3820,7 +3820,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: true,
+                isActive: true,
                 value: 'a',
                 index: 2,
                 isFirst: false,
@@ -3832,7 +3832,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 value: 'z',
                 index: 3,
                 isFirst: false,
@@ -3900,7 +3900,7 @@ describe('ActiveList', () => {
             isCircular: false,
             contents: [
               {
-                active: false,
+                isActive: false,
                 value: 'b',
                 index: 0,
                 isFirst: true,
@@ -3912,7 +3912,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: true,
+                isActive: true,
                 value: 'a',
                 index: 1,
                 isFirst: false,
@@ -3924,7 +3924,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: true,
+                isActive: true,
                 value: 'a',
                 index: 2,
                 isFirst: false,
@@ -3936,7 +3936,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 value: 'z',
                 index: 3,
                 isFirst: false,
@@ -4001,7 +4001,7 @@ describe('ActiveList', () => {
             isCircular: false,
             contents: [
               {
-                active: false,
+                isActive: false,
                 value: 'b',
                 index: 0,
                 isFirst: true,
@@ -4013,7 +4013,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: true,
+                isActive: true,
                 value: 'a',
                 index: 1,
                 isFirst: false,
@@ -4025,7 +4025,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: true,
+                isActive: true,
                 value: 'a',
                 index: 2,
                 isFirst: false,
@@ -4037,7 +4037,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 value: 'z',
                 index: 3,
                 isFirst: false,
@@ -4352,7 +4352,7 @@ describe('ActiveList', () => {
             isCircular: true,
             contents: [
               {
-                active: false,
+                isActive: false,
                 value: 'a',
                 index: 0,
                 isFirst: true,
@@ -4364,7 +4364,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 value: 'b',
                 index: 1,
                 isFirst: false,
@@ -4376,7 +4376,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 value: 'c',
                 index: 2,
                 isFirst: false,
@@ -4430,7 +4430,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -4442,7 +4442,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -4454,7 +4454,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -4506,7 +4506,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -4518,7 +4518,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -4530,7 +4530,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -4582,7 +4582,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -4594,7 +4594,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -4606,7 +4606,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -4658,7 +4658,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -4670,7 +4670,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -4682,7 +4682,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -4734,7 +4734,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -4746,7 +4746,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -4758,7 +4758,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -4810,7 +4810,7 @@ describe('ActiveList', () => {
                 isCircular: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -4822,7 +4822,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -4834,7 +4834,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -4888,7 +4888,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -4900,7 +4900,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -4912,7 +4912,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -4964,7 +4964,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -4976,7 +4976,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -4988,7 +4988,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -5040,7 +5040,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -5052,7 +5052,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -5064,7 +5064,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -5116,7 +5116,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -5128,7 +5128,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -5140,7 +5140,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -5192,7 +5192,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -5204,7 +5204,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -5216,7 +5216,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -5268,7 +5268,7 @@ describe('ActiveList', () => {
                 isCircular: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     value: 'a',
                     index: 0,
                     isFirst: true,
@@ -5280,7 +5280,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'b',
                     index: 1,
                     isFirst: false,
@@ -5292,7 +5292,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     value: 'c',
                     index: 2,
                     isFirst: false,
@@ -5434,7 +5434,7 @@ describe('ActiveList', () => {
             isCircular: false,
             contents: [
               {
-                active: true,
+                isActive: true,
                 value: 'b',
                 index: 0,
                 isFirst: true,
@@ -5446,7 +5446,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 value: 'a',
                 index: 1,
                 isFirst: false,
@@ -5458,7 +5458,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 value: 'a',
                 index: 2,
                 isFirst: false,
@@ -5470,7 +5470,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: true,
+                isActive: true,
                 value: 'z',
                 index: 3,
                 isFirst: false,
@@ -5537,7 +5537,7 @@ describe('ActiveList', () => {
             isCircular: false,
             contents: [
               {
-                active: true,
+                isActive: true,
                 value: 'b',
                 index: 0,
                 isFirst: true,
@@ -5549,7 +5549,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: true,
+                isActive: true,
                 value: 'a',
                 index: 1,
                 isFirst: false,
@@ -5561,7 +5561,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 value: 'a',
                 index: 2,
                 isFirst: false,
@@ -5573,7 +5573,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: true,
+                isActive: true,
                 value: 'z',
                 index: 3,
                 isFirst: false,
@@ -5656,7 +5656,7 @@ describe('ActiveList', () => {
           hasActiveChangedAtLeastOnce: false,
           contents: [
             {
-              active: false,
+              isActive: false,
               index: 0,
               value: 'z',
               isFirst: true,
@@ -5703,7 +5703,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: false,
+                isActive: false,
                 index: 0,
                 value: 'd',
                 isFirst: true,
@@ -5715,7 +5715,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: true,
+                isActive: true,
                 index: 1,
                 value: 'a',
                 isFirst: false,
@@ -5727,7 +5727,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 index: 2,
                 value: 'b',
                 isFirst: false,
@@ -5739,7 +5739,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 3,
                 value: 'c',
                 isFirst: false,
@@ -5785,7 +5785,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: true,
+                isActive: true,
                 index: 0,
                 value: 'a',
                 isFirst: true,
@@ -5797,7 +5797,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 index: 1,
                 value: 'd',
                 isFirst: false,
@@ -5809,7 +5809,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 2,
                 value: 'b',
                 isFirst: false,
@@ -5821,7 +5821,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 3,
                 value: 'c',
                 isFirst: false,
@@ -5867,7 +5867,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: true,
+                isActive: true,
                 index: 0,
                 value: 'a',
                 isFirst: true,
@@ -5879,7 +5879,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 index: 1,
                 value: 'b',
                 isFirst: false,
@@ -5891,7 +5891,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 2,
                 value: 'c',
                 isFirst: false,
@@ -5903,7 +5903,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 3,
                 value: 'd',
                 isFirst: false,
@@ -5958,7 +5958,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: false,
+                isActive: false,
                 index: 0,
                 value: 'd',
                 isFirst: true,
@@ -5970,7 +5970,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: true,
+                isActive: true,
                 index: 1,
                 value: 'a',
                 isFirst: false,
@@ -5982,7 +5982,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: true,
+                isActive: true,
                 index: 2,
                 value: 'b',
                 isFirst: false,
@@ -5994,7 +5994,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: true,
+                isActive: true,
                 index: 3,
                 value: 'c',
                 isFirst: false,
@@ -6047,7 +6047,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: true,
+                isActive: true,
                 index: 0,
                 value: 'a',
                 isFirst: true,
@@ -6059,7 +6059,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 index: 1,
                 value: 'd',
                 isFirst: false,
@@ -6071,7 +6071,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: true,
+                isActive: true,
                 index: 2,
                 value: 'b',
                 isFirst: false,
@@ -6083,7 +6083,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: true,
+                isActive: true,
                 index: 3,
                 value: 'c',
                 isFirst: false,
@@ -6136,7 +6136,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: true,
+                isActive: true,
                 index: 0,
                 value: 'a',
                 isFirst: true,
@@ -6148,7 +6148,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: true,
+                isActive: true,
                 index: 1,
                 value: 'b',
                 isFirst: false,
@@ -6160,7 +6160,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: true,
+                isActive: true,
                 index: 2,
                 value: 'c',
                 isFirst: false,
@@ -6172,7 +6172,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 index: 3,
                 value: 'd',
                 isFirst: false,
@@ -6231,7 +6231,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: true,
+                isActive: true,
                 index: 0,
                 value: 'a',
                 isFirst: true,
@@ -6243,7 +6243,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 index: 1,
                 value: 'd',
                 isFirst: false,
@@ -6255,7 +6255,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 2,
                 value: 'b',
                 isFirst: false,
@@ -6267,7 +6267,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 3,
                 value: 'c',
                 isFirst: false,
@@ -6316,7 +6316,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: true,
+                isActive: true,
                 index: 0,
                 value: 'a',
                 isFirst: true,
@@ -6328,7 +6328,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 index: 1,
                 value: 'd',
                 isFirst: false,
@@ -6340,7 +6340,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 2,
                 value: 'b',
                 isFirst: false,
@@ -6352,7 +6352,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 3,
                 value: 'c',
                 isFirst: false,
@@ -6402,7 +6402,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'd',
                   isFirst: true,
@@ -6414,7 +6414,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -6426,7 +6426,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -6438,7 +6438,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'c',
                   isFirst: false,
@@ -6486,7 +6486,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'd',
                   isFirst: true,
@@ -6498,7 +6498,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -6510,7 +6510,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -6522,7 +6522,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'c',
                   isFirst: false,
@@ -6573,7 +6573,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -6585,7 +6585,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -6597,7 +6597,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -6609,7 +6609,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'd',
                   isFirst: false,
@@ -6658,7 +6658,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -6670,7 +6670,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -6682,7 +6682,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'd',
                   isFirst: false,
@@ -6694,7 +6694,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'c',
                   isFirst: false,
@@ -6861,7 +6861,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     index: 0,
                     value: 'b',
                     isFirst: true,
@@ -6873,7 +6873,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'c',
                     isFirst: false,
@@ -6921,7 +6921,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     index: 0,
                     value: 'a',
                     isFirst: true,
@@ -6933,7 +6933,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'c',
                     isFirst: false,
@@ -6981,7 +6981,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     index: 0,
                     value: 'a',
                     isFirst: true,
@@ -6993,7 +6993,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'b',
                     isFirst: false,
@@ -7043,7 +7043,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     index: 0,
                     value: 'b',
                     isFirst: true,
@@ -7055,7 +7055,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'c',
                     isFirst: false,
@@ -7103,7 +7103,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     index: 0,
                     value: 'a',
                     isFirst: true,
@@ -7115,7 +7115,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'c',
                     isFirst: false,
@@ -7163,7 +7163,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     index: 0,
                     value: 'a',
                     isFirst: true,
@@ -7175,7 +7175,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'b',
                     isFirst: false,
@@ -7232,7 +7232,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: true,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -7244,7 +7244,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -7298,7 +7298,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: true,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -7310,7 +7310,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -7364,7 +7364,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: true,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -7376,7 +7376,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -7545,7 +7545,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'b',
                       isFirst: true,
@@ -7557,7 +7557,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: true,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -7607,7 +7607,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -7619,7 +7619,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: true,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -7669,7 +7669,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -7681,7 +7681,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: true,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'b',
                       isFirst: false,
@@ -7733,7 +7733,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'b',
                       isFirst: true,
@@ -7745,7 +7745,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -7795,7 +7795,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -7807,7 +7807,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -7857,7 +7857,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -7869,7 +7869,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'b',
                       isFirst: false,
@@ -7923,7 +7923,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'c',
                       isFirst: true,
@@ -7976,7 +7976,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -7988,7 +7988,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: true,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'd',
                       isFirst: false,
@@ -8041,7 +8041,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -8053,7 +8053,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: true,
+                      isActive: true,
                       index: 1,
                       value: 'd',
                       isFirst: false,
@@ -8106,7 +8106,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -8118,7 +8118,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: true,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -8130,7 +8130,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 2,
                       value: 'e',
                       isFirst: false,
@@ -8183,7 +8183,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -8195,7 +8195,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: true,
+                      isActive: true,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -8207,7 +8207,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: true,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 2,
                       value: 'e',
                       isFirst: false,
@@ -8260,7 +8260,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -8272,7 +8272,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -8284,7 +8284,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: true,
+                      isActive: true,
                       index: 2,
                       value: 'e',
                       isFirst: false,
@@ -8334,7 +8334,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -8386,7 +8386,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'c',
                       isFirst: true,
@@ -8436,7 +8436,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'c',
                       isFirst: true,
@@ -8489,7 +8489,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -8501,7 +8501,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'd',
                       isFirst: false,
@@ -8554,7 +8554,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -8566,7 +8566,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'd',
                       isFirst: false,
@@ -8619,7 +8619,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -8631,7 +8631,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -8643,7 +8643,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 2,
                       value: 'e',
                       isFirst: false,
@@ -8696,7 +8696,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -8708,7 +8708,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -8720,7 +8720,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 2,
                       value: 'e',
                       isFirst: false,
@@ -8770,7 +8770,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -8893,7 +8893,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'b',
                       isFirst: true,
@@ -8905,7 +8905,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -8958,7 +8958,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -8970,7 +8970,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -9023,7 +9023,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -9035,7 +9035,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'b',
                       isFirst: false,
@@ -9093,7 +9093,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'b',
                       isFirst: true,
@@ -9105,7 +9105,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: true,
                     },
                     {
-                      active: true,
+                      isActive: true,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -9161,7 +9161,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -9173,7 +9173,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: true,
                     },
                     {
-                      active: true,
+                      isActive: true,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -9229,7 +9229,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -9241,7 +9241,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: true,
                     },
                     {
-                      active: true,
+                      isActive: true,
                       index: 1,
                       value: 'b',
                       isFirst: false,
@@ -9298,7 +9298,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'c',
                       isFirst: true,
@@ -9351,7 +9351,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -9363,7 +9363,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'd',
                       isFirst: false,
@@ -9416,7 +9416,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -9428,7 +9428,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -9440,7 +9440,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 2,
                       value: 'e',
                       isFirst: false,
@@ -9493,7 +9493,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -9548,7 +9548,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'c',
                       isFirst: true,
@@ -9601,7 +9601,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'c',
                       isFirst: true,
@@ -9654,7 +9654,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -9666,7 +9666,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: true,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 1,
                       value: 'd',
                       isFirst: false,
@@ -9719,7 +9719,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -9731,7 +9731,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: true,
+                      isActive: true,
                       index: 1,
                       value: 'd',
                       isFirst: false,
@@ -9787,7 +9787,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -9799,7 +9799,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: true,
                     },
                     {
-                      active: true,
+                      isActive: true,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -9811,7 +9811,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: true,
                     },
                     {
-                      active: false,
+                      isActive: false,
                       index: 2,
                       value: 'e',
                       isFirst: false,
@@ -9867,7 +9867,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: false,
+                      isActive: false,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -9879,7 +9879,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: false,
                     },
                     {
-                      active: true,
+                      isActive: true,
                       index: 1,
                       value: 'c',
                       isFirst: false,
@@ -9891,7 +9891,7 @@ describe('ActiveList', () => {
                       hasBeenActiveBefore: true,
                     },
                     {
-                      active: true,
+                      isActive: true,
                       index: 2,
                       value: 'e',
                       isFirst: false,
@@ -9944,7 +9944,7 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   contents: [
                     {
-                      active: true,
+                      isActive: true,
                       index: 0,
                       value: 'a',
                       isFirst: true,
@@ -10123,7 +10123,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -10135,7 +10135,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -10147,7 +10147,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -10200,7 +10200,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -10212,7 +10212,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -10224,7 +10224,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -10277,7 +10277,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'c',
                   isFirst: true,
@@ -10289,7 +10289,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -10301,7 +10301,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'a',
                   isFirst: false,
@@ -10357,7 +10357,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'c',
                   isFirst: true,
@@ -10369,7 +10369,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -10381,7 +10381,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'a',
                   isFirst: false,
@@ -10453,7 +10453,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -10465,7 +10465,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -10477,7 +10477,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -10536,7 +10536,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -10548,7 +10548,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -10560,7 +10560,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -10619,7 +10619,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'd',
                   isFirst: true,
@@ -10631,7 +10631,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -10643,7 +10643,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -10655,7 +10655,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'a',
                   isFirst: false,
@@ -10716,7 +10716,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'c',
                   isFirst: true,
@@ -10728,7 +10728,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -10740,7 +10740,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'a',
                   isFirst: false,
@@ -10807,7 +10807,7 @@ describe('ActiveList', () => {
           hasActiveChangedAtLeastOnce: false,
           contents: [
             {
-              active: false,
+              isActive: false,
               index: 0,
               value: 'a',
               isFirst: true,
@@ -10819,7 +10819,7 @@ describe('ActiveList', () => {
               hasBeenActiveBefore: false,
             },
             {
-              active: false,
+              isActive: false,
               index: 1,
               value: 'c',
               isFirst: false,
@@ -10831,7 +10831,7 @@ describe('ActiveList', () => {
               hasBeenActiveBefore: false,
             },
             {
-              active: true,
+              isActive: true,
               index: 2,
               value: 'b',
               isFirst: false,
@@ -10885,7 +10885,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: false,
+                isActive: false,
                 index: 0,
                 value: 'a',
                 isFirst: true,
@@ -10897,7 +10897,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 1,
                 value: 'c',
                 isFirst: false,
@@ -10909,7 +10909,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: true,
+                isActive: true,
                 index: 2,
                 value: 'b',
                 isFirst: false,
@@ -10962,7 +10962,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: false,
+                isActive: false,
                 index: 0,
                 value: 'a',
                 isFirst: true,
@@ -10974,7 +10974,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 1,
                 value: 'c',
                 isFirst: false,
@@ -10986,7 +10986,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: true,
+                isActive: true,
                 index: 2,
                 value: 'b',
                 isFirst: false,
@@ -11039,7 +11039,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: false,
+                isActive: false,
                 index: 0,
                 value: 'a',
                 isFirst: true,
@@ -11051,7 +11051,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 1,
                 value: 'c',
                 isFirst: false,
@@ -11063,7 +11063,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: true,
+                isActive: true,
                 index: 2,
                 value: 'b',
                 isFirst: false,
@@ -11116,7 +11116,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: true,
+                isActive: true,
                 index: 0,
                 value: 'b',
                 isFirst: true,
@@ -11128,7 +11128,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 index: 1,
                 value: 'a',
                 isFirst: false,
@@ -11140,7 +11140,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 2,
                 value: 'c',
                 isFirst: false,
@@ -11296,7 +11296,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -11308,7 +11308,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -11320,7 +11320,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'D',
                   isFirst: false,
@@ -11332,7 +11332,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'e',
                   isFirst: false,
@@ -11344,7 +11344,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 4,
                   value: 'b',
                   isFirst: false,
@@ -11356,7 +11356,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -11368,7 +11368,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -11426,7 +11426,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -11438,7 +11438,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -11450,7 +11450,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'D',
                   isFirst: false,
@@ -11462,7 +11462,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'c',
                   isFirst: false,
@@ -11474,7 +11474,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 4,
                   value: 'e',
                   isFirst: false,
@@ -11486,7 +11486,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -11498,7 +11498,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -11556,7 +11556,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -11568,7 +11568,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -11580,7 +11580,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'D',
                   isFirst: false,
@@ -11592,7 +11592,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'e',
                   isFirst: false,
@@ -11604,7 +11604,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 4,
                   value: 'f',
                   isFirst: false,
@@ -11616,7 +11616,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 5,
                   value: 'g',
                   isFirst: false,
@@ -11628,7 +11628,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 6,
                   value: 'a',
                   isFirst: false,
@@ -11686,7 +11686,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -11698,7 +11698,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'e',
                   isFirst: false,
@@ -11710,7 +11710,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -11722,7 +11722,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'c',
                   isFirst: false,
@@ -11734,7 +11734,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'D',
                   isFirst: false,
@@ -11746,7 +11746,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -11758,7 +11758,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -11816,7 +11816,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -11828,7 +11828,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -11840,7 +11840,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -11852,7 +11852,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'e',
                   isFirst: false,
@@ -11864,7 +11864,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'D',
                   isFirst: false,
@@ -11876,7 +11876,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -11888,7 +11888,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -11946,7 +11946,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'g',
                   isFirst: true,
@@ -11958,7 +11958,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -11970,7 +11970,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -11982,7 +11982,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'c',
                   isFirst: false,
@@ -11994,7 +11994,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'D',
                   isFirst: false,
@@ -12006,7 +12006,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 5,
                   value: 'e',
                   isFirst: false,
@@ -12018,7 +12018,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 6,
                   value: 'f',
                   isFirst: false,
@@ -12076,7 +12076,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -12088,7 +12088,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -12100,7 +12100,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -12112,7 +12112,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'D',
                   isFirst: false,
@@ -12124,7 +12124,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 4,
                   value: 'f',
                   isFirst: false,
@@ -12136,7 +12136,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 5,
                   value: 'e',
                   isFirst: false,
@@ -12148,7 +12148,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -12206,7 +12206,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -12218,7 +12218,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -12230,7 +12230,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -12242,7 +12242,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'D',
                   isFirst: false,
@@ -12254,7 +12254,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 4,
                   value: 'e',
                   isFirst: false,
@@ -12266,7 +12266,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -12278,7 +12278,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -12336,7 +12336,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -12348,7 +12348,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -12360,7 +12360,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -12372,7 +12372,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'e',
                   isFirst: false,
@@ -12384,7 +12384,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'D',
                   isFirst: false,
@@ -12396,7 +12396,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -12408,7 +12408,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -12466,7 +12466,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -12478,7 +12478,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -12490,7 +12490,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'D',
                   isFirst: false,
@@ -12502,7 +12502,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'c',
                   isFirst: false,
@@ -12514,7 +12514,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 4,
                   value: 'e',
                   isFirst: false,
@@ -12526,7 +12526,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -12538,7 +12538,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -12596,7 +12596,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'D',
                   isFirst: true,
@@ -12608,7 +12608,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -12620,7 +12620,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -12632,7 +12632,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'c',
                   isFirst: false,
@@ -12644,7 +12644,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 4,
                   value: 'e',
                   isFirst: false,
@@ -12656,7 +12656,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -12668,7 +12668,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -12726,7 +12726,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -12738,7 +12738,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -12750,7 +12750,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -12762,7 +12762,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 3,
                   value: 'e',
                   isFirst: false,
@@ -12774,7 +12774,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 4,
                   value: 'f',
                   isFirst: false,
@@ -12786,7 +12786,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 5,
                   value: 'g',
                   isFirst: false,
@@ -12798,7 +12798,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'D',
                   isFirst: false,
@@ -12851,7 +12851,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -12863,7 +12863,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -12875,7 +12875,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'a',
                   isFirst: false,
@@ -12955,7 +12955,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -12967,7 +12967,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -12979,7 +12979,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'd',
                   isFirst: false,
@@ -12991,7 +12991,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'e',
                   isFirst: false,
@@ -13003,7 +13003,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'b',
                   isFirst: false,
@@ -13015,7 +13015,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -13027,7 +13027,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -13094,7 +13094,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -13106,7 +13106,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -13118,7 +13118,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'D',
                   isFirst: false,
@@ -13130,7 +13130,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'e',
                   isFirst: false,
@@ -13142,7 +13142,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'b',
                   isFirst: false,
@@ -13154,7 +13154,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -13166,7 +13166,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -13233,7 +13233,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -13245,7 +13245,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -13257,7 +13257,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'D',
                   isFirst: false,
@@ -13269,7 +13269,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'c',
                   isFirst: false,
@@ -13281,7 +13281,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'e',
                   isFirst: false,
@@ -13293,7 +13293,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -13305,7 +13305,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -13372,7 +13372,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -13384,7 +13384,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -13396,7 +13396,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'D',
                   isFirst: false,
@@ -13408,7 +13408,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'e',
                   isFirst: false,
@@ -13420,7 +13420,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'f',
                   isFirst: false,
@@ -13432,7 +13432,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 5,
                   value: 'g',
                   isFirst: false,
@@ -13444,7 +13444,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'a',
                   isFirst: false,
@@ -13511,7 +13511,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -13523,7 +13523,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'e',
                   isFirst: false,
@@ -13535,7 +13535,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -13547,7 +13547,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'c',
                   isFirst: false,
@@ -13559,7 +13559,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'D',
                   isFirst: false,
@@ -13571,7 +13571,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -13583,7 +13583,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -13650,7 +13650,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -13662,7 +13662,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -13674,7 +13674,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -13686,7 +13686,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'e',
                   isFirst: false,
@@ -13698,7 +13698,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'D',
                   isFirst: false,
@@ -13710,7 +13710,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -13722,7 +13722,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -13789,7 +13789,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'g',
                   isFirst: true,
@@ -13801,7 +13801,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -13813,7 +13813,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -13825,7 +13825,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'c',
                   isFirst: false,
@@ -13837,7 +13837,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'D',
                   isFirst: false,
@@ -13849,7 +13849,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 5,
                   value: 'e',
                   isFirst: false,
@@ -13861,7 +13861,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'f',
                   isFirst: false,
@@ -13928,7 +13928,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -13940,7 +13940,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -13952,7 +13952,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -13964,7 +13964,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'D',
                   isFirst: false,
@@ -13976,7 +13976,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'f',
                   isFirst: false,
@@ -13988,7 +13988,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 5,
                   value: 'e',
                   isFirst: false,
@@ -14000,7 +14000,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -14067,7 +14067,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -14079,7 +14079,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -14091,7 +14091,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -14103,7 +14103,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'D',
                   isFirst: false,
@@ -14115,7 +14115,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'e',
                   isFirst: false,
@@ -14127,7 +14127,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -14139,7 +14139,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -14206,7 +14206,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -14218,7 +14218,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -14230,7 +14230,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -14242,7 +14242,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'e',
                   isFirst: false,
@@ -14254,7 +14254,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'D',
                   isFirst: false,
@@ -14266,7 +14266,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -14278,7 +14278,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -14345,7 +14345,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -14357,7 +14357,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -14369,7 +14369,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'D',
                   isFirst: false,
@@ -14381,7 +14381,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'c',
                   isFirst: false,
@@ -14393,7 +14393,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'e',
                   isFirst: false,
@@ -14405,7 +14405,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -14417,7 +14417,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -14484,7 +14484,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'D',
                   isFirst: true,
@@ -14496,7 +14496,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -14508,7 +14508,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -14520,7 +14520,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'c',
                   isFirst: false,
@@ -14532,7 +14532,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'e',
                   isFirst: false,
@@ -14544,7 +14544,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 5,
                   value: 'f',
                   isFirst: false,
@@ -14556,7 +14556,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'g',
                   isFirst: false,
@@ -14623,7 +14623,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -14635,7 +14635,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'b',
                   isFirst: false,
@@ -14647,7 +14647,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -14659,7 +14659,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 3,
                   value: 'e',
                   isFirst: false,
@@ -14671,7 +14671,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 4,
                   value: 'f',
                   isFirst: false,
@@ -14683,7 +14683,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 5,
                   value: 'g',
                   isFirst: false,
@@ -14695,7 +14695,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 6,
                   value: 'D',
                   isFirst: false,
@@ -14753,7 +14753,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -14765,7 +14765,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -14777,7 +14777,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'a',
                   isFirst: false,
@@ -14841,7 +14841,7 @@ describe('ActiveList', () => {
           hasActiveChangedAtLeastOnce: false,
           contents: [
             {
-              active: false,
+              isActive: false,
               index: 0,
               value: 'b',
               isFirst: true,
@@ -14853,7 +14853,7 @@ describe('ActiveList', () => {
               hasBeenActiveBefore: false,
             },
             {
-              active: false,
+              isActive: false,
               index: 1,
               value: 'c',
               isFirst: false,
@@ -14865,7 +14865,7 @@ describe('ActiveList', () => {
               hasBeenActiveBefore: false,
             },
             {
-              active: true,
+              isActive: true,
               index: 2,
               value: 'a',
               isFirst: false,
@@ -14918,7 +14918,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: true,
+                isActive: true,
                 index: 0,
                 value: 'b',
                 isFirst: true,
@@ -14930,7 +14930,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 index: 1,
                 value: 'a',
                 isFirst: false,
@@ -14942,7 +14942,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 2,
                 value: 'c',
                 isFirst: false,
@@ -15009,7 +15009,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     index: 0,
                     value: 'b',
                     isFirst: true,
@@ -15021,7 +15021,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'a',
                     isFirst: false,
@@ -15033,7 +15033,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 2,
                     value: 'c',
                     isFirst: false,
@@ -15086,7 +15086,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     index: 0,
                     value: 'b',
                     isFirst: true,
@@ -15098,7 +15098,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'c',
                     isFirst: false,
@@ -15110,7 +15110,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 2,
                     value: 'a',
                     isFirst: false,
@@ -15165,7 +15165,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     index: 0,
                     value: 'b',
                     isFirst: true,
@@ -15177,7 +15177,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'a',
                     isFirst: false,
@@ -15189,7 +15189,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 2,
                     value: 'c',
                     isFirst: false,
@@ -15254,7 +15254,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     index: 0,
                     value: 'a',
                     isFirst: true,
@@ -15266,7 +15266,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'c',
                     isFirst: false,
@@ -15278,7 +15278,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     index: 2,
                     value: 'b',
                     isFirst: false,
@@ -15333,7 +15333,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     index: 0,
                     value: 'c',
                     isFirst: true,
@@ -15345,7 +15345,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'a',
                     isFirst: false,
@@ -15357,7 +15357,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     index: 2,
                     value: 'b',
                     isFirst: false,
@@ -15410,7 +15410,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     index: 0,
                     value: 'a',
                     isFirst: true,
@@ -15422,7 +15422,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'c',
                     isFirst: false,
@@ -15434,7 +15434,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     index: 2,
                     value: 'b',
                     isFirst: false,
@@ -15539,7 +15539,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     index: 0,
                     value: 'b',
                     isFirst: true,
@@ -15551,7 +15551,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'a',
                     isFirst: false,
@@ -15563,7 +15563,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 2,
                     value: 'c',
                     isFirst: false,
@@ -15618,7 +15618,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     index: 0,
                     value: 'b',
                     isFirst: true,
@@ -15630,7 +15630,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'a',
                     isFirst: false,
@@ -15642,7 +15642,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 2,
                     value: 'c',
                     isFirst: false,
@@ -15695,7 +15695,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     index: 0,
                     value: 'b',
                     isFirst: true,
@@ -15707,7 +15707,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'a',
                     isFirst: false,
@@ -15719,7 +15719,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 2,
                     value: 'c',
                     isFirst: false,
@@ -15786,7 +15786,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     index: 0,
                     value: 'c',
                     isFirst: true,
@@ -15798,7 +15798,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'a',
                     isFirst: false,
@@ -15810,7 +15810,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     index: 2,
                     value: 'b',
                     isFirst: false,
@@ -15863,7 +15863,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     index: 0,
                     value: 'c',
                     isFirst: true,
@@ -15875,7 +15875,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'a',
                     isFirst: false,
@@ -15887,7 +15887,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     index: 2,
                     value: 'b',
                     isFirst: false,
@@ -15940,7 +15940,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     index: 0,
                     value: 'a',
                     isFirst: true,
@@ -15952,7 +15952,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'c',
                     isFirst: false,
@@ -15964,7 +15964,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     index: 2,
                     value: 'b',
                     isFirst: false,
@@ -16033,7 +16033,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     index: 0,
                     value: 'b',
                     isFirst: true,
@@ -16045,7 +16045,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'a',
                     isFirst: false,
@@ -16057,7 +16057,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 2,
                     value: 'c',
                     isFirst: false,
@@ -16110,7 +16110,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     index: 0,
                     value: 'b',
                     isFirst: true,
@@ -16122,7 +16122,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'c',
                     isFirst: false,
@@ -16134,7 +16134,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 2,
                     value: 'a',
                     isFirst: false,
@@ -16187,7 +16187,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: true,
+                    isActive: true,
                     index: 0,
                     value: 'b',
                     isFirst: true,
@@ -16199,7 +16199,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: true,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'c',
                     isFirst: false,
@@ -16211,7 +16211,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 2,
                     value: 'a',
                     isFirst: false,
@@ -16278,7 +16278,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     index: 0,
                     value: 'a',
                     isFirst: true,
@@ -16290,7 +16290,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'c',
                     isFirst: false,
@@ -16302,7 +16302,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     index: 2,
                     value: 'b',
                     isFirst: false,
@@ -16355,7 +16355,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     index: 0,
                     value: 'a',
                     isFirst: true,
@@ -16367,7 +16367,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'c',
                     isFirst: false,
@@ -16379,7 +16379,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     index: 2,
                     value: 'b',
                     isFirst: false,
@@ -16434,7 +16434,7 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
                   {
-                    active: false,
+                    isActive: false,
                     index: 0,
                     value: 'a',
                     isFirst: true,
@@ -16446,7 +16446,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: false,
+                    isActive: false,
                     index: 1,
                     value: 'c',
                     isFirst: false,
@@ -16458,7 +16458,7 @@ describe('ActiveList', () => {
                     hasBeenActiveBefore: false,
                   },
                   {
-                    active: true,
+                    isActive: true,
                     index: 2,
                     value: 'b',
                     isFirst: false,
@@ -16550,7 +16550,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: true,
+                isActive: true,
                 index: 0,
                 value: 'b',
                 isFirst: true,
@@ -16562,7 +16562,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: true,
               },
               {
-                active: false,
+                isActive: false,
                 index: 1,
                 value: 'a',
                 isFirst: false,
@@ -16574,7 +16574,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 2,
                 value: 'c',
                 isFirst: false,
@@ -16628,7 +16628,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -16640,7 +16640,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -16652,7 +16652,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -16735,7 +16735,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -16747,7 +16747,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -16759,7 +16759,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -16842,7 +16842,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -16854,7 +16854,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -16866,7 +16866,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -16947,7 +16947,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             contents: [
               {
-                active: false,
+                isActive: false,
                 index: 0,
                 value: 'b',
                 isFirst: true,
@@ -16959,7 +16959,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: false,
+                isActive: false,
                 index: 1,
                 value: 'c',
                 isFirst: false,
@@ -16971,7 +16971,7 @@ describe('ActiveList', () => {
                 hasBeenActiveBefore: false,
               },
               {
-                active: true,
+                isActive: true,
                 index: 2,
                 value: 'a',
                 isFirst: false,
@@ -17023,7 +17023,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -17035,7 +17035,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -17047,7 +17047,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -17099,7 +17099,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -17111,7 +17111,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -17123,7 +17123,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -17175,7 +17175,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -17187,7 +17187,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -17199,7 +17199,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -17252,7 +17252,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -17264,7 +17264,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -17276,7 +17276,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'a',
                   isFirst: false,
@@ -17328,7 +17328,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'c',
                   isFirst: true,
@@ -17340,7 +17340,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -17352,7 +17352,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -17402,7 +17402,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: true,
+                  isActive: true,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -17414,7 +17414,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: true,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'a',
                   isFirst: false,
@@ -17426,7 +17426,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 2,
                   value: 'c',
                   isFirst: false,
@@ -17478,7 +17478,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'b',
                   isFirst: true,
@@ -17490,7 +17490,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -17502,7 +17502,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'a',
                   isFirst: false,
@@ -17552,7 +17552,7 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               contents: [
                 {
-                  active: false,
+                  isActive: false,
                   index: 0,
                   value: 'a',
                   isFirst: true,
@@ -17564,7 +17564,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: false,
+                  isActive: false,
                   index: 1,
                   value: 'c',
                   isFirst: false,
@@ -17576,7 +17576,7 @@ describe('ActiveList', () => {
                   hasBeenActiveBefore: false,
                 },
                 {
-                  active: true,
+                  isActive: true,
                   index: 2,
                   value: 'b',
                   isFirst: false,
@@ -19081,7 +19081,7 @@ type TestState<T> = ActiveListSansContents<T> & {
 
 type TestContent<T> = Pick<
   ActiveListContent<T>,
-  | 'active'
+  | 'isActive'
   | 'index'
   | 'value'
   | 'isFirst'
@@ -19109,7 +19109,7 @@ function assertState(state: ActiveList<string>, expected: TestState<string>) {
     history: state.history,
     contents: state.contents.map((content) => {
       const contentAsTestContent: TestContent<string> = {
-        active: content.active,
+        isActive: content.isActive,
         index: content.index,
         value: content.value,
         isFirst: content.isFirst,

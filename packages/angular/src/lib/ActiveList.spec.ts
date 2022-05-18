@@ -14,7 +14,7 @@ it('ActiveList component', async () => {
     `<uiloos-active-list [config]="{ active: 'a', contents: ['a', 'b', 'c']}">
       <ul *uiloosActiveList="let activeList">
         <li *ngFor="let content of activeList.contents" (click)="content.activate()">
-          {{content.value}} {{content.active ? 'active' : 'inactive'}}
+          {{content.value}} {{content.isActive ? 'active' : 'inactive'}}
         </li>
       </ul>
     </uiloos-active-list>

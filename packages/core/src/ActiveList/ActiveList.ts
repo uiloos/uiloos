@@ -504,7 +504,7 @@ export class ActiveList<T> {
     const previousIndex = this._getUnboundedPreviousIndex(index);
 
     this.contents.forEach((content, i) => {
-      content.active = content.active ? content.active : index === i;
+      content.isActive = content.isActive ? content.isActive : index === i;
       content.isNext = nextIndex === i;
       content.isPrevious = previousIndex === i;
 
@@ -526,7 +526,7 @@ export class ActiveList<T> {
           // stay active even through it has been deactivated.
           const content = this.activeContents.shift();
           if (content) {
-            content.active = false;
+            content.isActive = false;
           }
         }
 
@@ -916,7 +916,7 @@ export class ActiveList<T> {
     const deactivatedContent = this.activeContents[indexOfIndex];
 
     // First lets do what we came for deactivate the item.
-    deactivatedContent.active = false;
+    deactivatedContent.isActive = false;
 
     // Remove the now deactivated item from the trackers.
     this.activeIndexes.splice(indexOfIndex, 1);
