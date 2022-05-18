@@ -157,7 +157,10 @@ describe('ActiveList', () => {
 
     test('without config but with initial subscriber', () => {
       const subscriber = jest.fn();
-      const activeList: ActiveList<string> = new ActiveList(undefined, subscriber);
+      const activeList: ActiveList<string> = new ActiveList(
+        undefined,
+        subscriber
+      );
 
       unsubscribe = () => {
         activeList.unsubscribe(subscriber);
@@ -3301,10 +3304,7 @@ describe('ActiveList', () => {
             subscriber,
             {
               active: ['a', 'b'],
-              activeContents: [
-                activeList.contents[0],
-                activeList.contents[1],
-              ],
+              activeContents: [activeList.contents[0], activeList.contents[1]],
               activeIndexes: [0, 1],
               lastActivated: 'b',
               lastActivatedContent: activeList.contents[1],
@@ -3369,10 +3369,7 @@ describe('ActiveList', () => {
             subscriber,
             {
               active: ['b', 'c'],
-              activeContents: [
-                activeList.contents[1],
-                activeList.contents[2],
-              ],
+              activeContents: [activeList.contents[1], activeList.contents[2]],
               activeIndexes: [1, 2],
               lastActivated: 'c',
               lastActivatedContent: activeList.contents[2],
@@ -3437,10 +3434,7 @@ describe('ActiveList', () => {
             subscriber,
             {
               active: ['c', 'a'],
-              activeContents: [
-                activeList.contents[2],
-                activeList.contents[0],
-              ],
+              activeContents: [activeList.contents[2], activeList.contents[0]],
               activeIndexes: [2, 0],
               lastActivated: 'a',
               lastActivatedContent: activeList.contents[0],
@@ -3513,10 +3507,7 @@ describe('ActiveList', () => {
             subscriber,
             {
               active: ['a', 'b'],
-              activeContents: [
-                activeList.contents[0],
-                activeList.contents[1],
-              ],
+              activeContents: [activeList.contents[0], activeList.contents[1]],
               activeIndexes: [0, 1],
               lastActivated: 'b',
               lastActivatedContent: activeList.contents[1],
@@ -3605,10 +3596,7 @@ describe('ActiveList', () => {
             subscriber,
             {
               active: ['a', 'b'],
-              activeContents: [
-                activeList.contents[0],
-                activeList.contents[1],
-              ],
+              activeContents: [activeList.contents[0], activeList.contents[1]],
               activeIndexes: [0, 1],
               lastActivated: 'b',
               lastActivatedContent: activeList.contents[1],
@@ -3688,36 +3676,6 @@ describe('ActiveList', () => {
     });
 
     describe('activate', () => {
-      test('activate on item', () => {
-        const { activeList } = setup();
-
-        jest.spyOn(activeList, 'activateByIndex');
-
-        activeList.contents[1].activate({ isUserInteraction: false });
-
-        expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
-        expect(activeList.activateByIndex).toHaveBeenCalledWith(1, {
-          isUserInteraction: false,
-        });
-      });
-
-      test('activate on item after removal should work because the indexes should be fixed', () => {
-        const { activeList } = setup({ activeIndexes: 0 });
-
-        jest.spyOn(activeList, 'activateByIndex');
-
-        activeList.shift();
-
-        activeList.contents[1].activate({ isUserInteraction: false });
-
-        expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
-        expect(activeList.activateByIndex).toHaveBeenLastCalledWith(1, {
-          isUserInteraction: false,
-        });
-
-        expect(activeList.active).toEqual(['c']);
-      });
-
       test('activate content by identity', () => {
         const { activeList, contents } = setup();
 
@@ -3884,10 +3842,7 @@ describe('ActiveList', () => {
           subscriber,
           {
             active: ['a', 'a'],
-            activeContents: [
-              activeList.contents[1],
-              activeList.contents[2],
-            ],
+            activeContents: [activeList.contents[1], activeList.contents[2]],
             activeIndexes: [1, 2],
             lastActivated: 'a',
             lastActivatedContent: activeList.contents[2],
@@ -3985,10 +3940,7 @@ describe('ActiveList', () => {
           subscriber,
           {
             active: ['a', 'a'],
-            activeContents: [
-              activeList.contents[1],
-              activeList.contents[2],
-            ],
+            activeContents: [activeList.contents[1], activeList.contents[2]],
             activeIndexes: [1, 2],
             lastActivated: 'a',
             lastActivatedContent: activeList.contents[2],
@@ -4109,10 +4061,7 @@ describe('ActiveList', () => {
           activeList.activateNext();
 
           expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
-          expect(activeList.activateByIndex).toHaveBeenCalledWith(
-            0,
-            undefined
-          );
+          expect(activeList.activateByIndex).toHaveBeenCalledWith(0, undefined);
         });
 
         test('when isCircular is false it should do nothing', () => {
@@ -4126,10 +4075,7 @@ describe('ActiveList', () => {
           activeList.activateNext();
 
           expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
-          expect(activeList.activateByIndex).toHaveBeenCalledWith(
-            2,
-            undefined
-          );
+          expect(activeList.activateByIndex).toHaveBeenCalledWith(2, undefined);
         });
       });
     });
@@ -4183,10 +4129,7 @@ describe('ActiveList', () => {
           activeList.activatePrevious();
 
           expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
-          expect(activeList.activateByIndex).toHaveBeenCalledWith(
-            2,
-            undefined
-          );
+          expect(activeList.activateByIndex).toHaveBeenCalledWith(2, undefined);
         });
 
         test('when false it should do nothing', () => {
@@ -4200,10 +4143,7 @@ describe('ActiveList', () => {
           activeList.activatePrevious();
 
           expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
-          expect(activeList.activateByIndex).toHaveBeenCalledWith(
-            0,
-            undefined
-          );
+          expect(activeList.activateByIndex).toHaveBeenCalledWith(0, undefined);
         });
       });
     });
@@ -4263,6 +4203,112 @@ describe('ActiveList', () => {
         });
 
         expect(activeList.activateByIndex).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    describe('ActiveListContent methods', () => {
+      describe('activate', () => {
+        test('activate on item', () => {
+          const { activeList } = setup();
+
+          jest.spyOn(activeList, 'activateByIndex');
+
+          activeList.contents[1].activate({ isUserInteraction: false });
+
+          expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
+          expect(activeList.activateByIndex).toHaveBeenCalledWith(1, {
+            isUserInteraction: false,
+          });
+        });
+
+        test('activate on item after removal should work because the indexes should be fixed', () => {
+          const { activeList } = setup({ activeIndexes: 0 });
+
+          jest.spyOn(activeList, 'activateByIndex');
+
+          activeList.shift();
+
+          activeList.contents[1].activate({ isUserInteraction: false });
+
+          expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
+          expect(activeList.activateByIndex).toHaveBeenLastCalledWith(1, {
+            isUserInteraction: false,
+          });
+
+          expect(activeList.active).toEqual(['c']);
+        });
+      });
+
+      describe('toggle', () => {
+        test('toggle on content which starts as active', () => {
+          const { activeList } = setup({ activeIndexes: 0 });
+
+          jest.spyOn(activeList, 'activateByIndex');
+          jest.spyOn(activeList, 'deactivateByIndex');
+
+          activeList.contents[0].toggle({ isUserInteraction: false });
+
+          expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(1);
+          expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
+            isUserInteraction: false,
+          });
+
+          activeList.contents[0].toggle({ isUserInteraction: false });
+
+          expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
+          expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
+            isUserInteraction: false,
+          });
+
+          activeList.contents[0].toggle({ isUserInteraction: true });
+
+          expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(2);
+          expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
+            isUserInteraction: true,
+          });
+
+          activeList.contents[0].toggle({ isUserInteraction: true });
+
+          expect(activeList.activateByIndex).toHaveBeenCalledTimes(2);
+          expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
+            isUserInteraction: true,
+          });
+        });
+
+        test('toggle on content which starts as inactive', () => {
+          const { activeList } = setup({ activeIndexes: [] });
+
+          jest.spyOn(activeList, 'activateByIndex');
+          jest.spyOn(activeList, 'deactivateByIndex');
+
+          activeList.contents[0].toggle({ isUserInteraction: false });
+
+          expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
+          expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
+            isUserInteraction: false,
+          });
+
+          activeList.contents[0].toggle({ isUserInteraction: false });
+
+          expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(1);
+          expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
+            isUserInteraction: false,
+          });
+
+          activeList.contents[0].toggle({ isUserInteraction: true });
+
+          expect(activeList.activateByIndex).toHaveBeenCalledTimes(2);
+          expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
+            isUserInteraction: true,
+          });
+
+          activeList.contents[0].toggle({ isUserInteraction: true });
+
+          expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(2);
+          expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
+            isUserInteraction: true,
+          });
+        });
       });
     });
   });
@@ -5318,39 +5364,7 @@ describe('ActiveList', () => {
     });
 
     describe('deactivate', () => {
-      test('deactivate on item', () => {
-        const { activeList } = setup();
-
-        jest.spyOn(activeList, 'deactivateByIndex');
-
-        activeList.contents[1].deactivate({ isUserInteraction: false });
-
-        expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(1);
-        expect(activeList.deactivateByIndex).toHaveBeenCalledWith(1, {
-          isUserInteraction: false,
-        });
-      });
-
-      test('deactivate on item after removal should work because the indexes should be fixed', () => {
-        const { activeList } = setup();
-
-        jest.spyOn(activeList, 'deactivateByIndex');
-
-        // 'a' is active, by unshifting 'b' becomes active.
-        activeList.shift();
-
-        // 'b' is now on the 0th index, deactivating it should make nothing active.
-        activeList.contents[0].deactivate({ isUserInteraction: false });
-
-        expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(1);
-        expect(activeList.deactivateByIndex).toHaveBeenLastCalledWith(0, {
-          isUserInteraction: false,
-        });
-
-        expect(activeList.active).toEqual([]);
-      });
-
-      test('activate content by identity', () => {
+      test('deactivate content by identity', () => {
         const { activeList, contents } = setup();
 
         jest.spyOn(activeList, 'deactivateByIndex');
@@ -5418,10 +5432,7 @@ describe('ActiveList', () => {
           subscriber,
           {
             active: ['b', 'z'],
-            activeContents: [
-              activeList.contents[0],
-              activeList.contents[3],
-            ],
+            activeContents: [activeList.contents[0], activeList.contents[3]],
             activeIndexes: [0, 3],
             lastActivated: 'z',
             lastActivatedContent: activeList.contents[3],
@@ -5593,6 +5604,40 @@ describe('ActiveList', () => {
             time: new Date(),
           }
         );
+      });
+    });
+
+    describe('ActiveListContent methods', () => {
+      test('deactivate on item', () => {
+        const { activeList } = setup();
+
+        jest.spyOn(activeList, 'deactivateByIndex');
+
+        activeList.contents[1].deactivate({ isUserInteraction: false });
+
+        expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeList.deactivateByIndex).toHaveBeenCalledWith(1, {
+          isUserInteraction: false,
+        });
+      });
+
+      test('deactivate on item after removal should work because the indexes should be fixed', () => {
+        const { activeList } = setup();
+
+        jest.spyOn(activeList, 'deactivateByIndex');
+
+        // 'a' is active, by unshifting 'b' becomes active.
+        activeList.shift();
+
+        // 'b' is now on the 0th index, deactivating it should make nothing active.
+        activeList.contents[0].deactivate({ isUserInteraction: false });
+
+        expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeList.deactivateByIndex).toHaveBeenLastCalledWith(0, {
+          isUserInteraction: false,
+        });
+
+        expect(activeList.active).toEqual([]);
       });
     });
   });
@@ -6766,9 +6811,7 @@ describe('ActiveList', () => {
       });
 
       test('removing first item', () => {
-        const { activeList, subscriber } = setup({ activeIndexes: 0 }, [
-          'a',
-        ]);
+        const { activeList, subscriber } = setup({ activeIndexes: 0 }, ['a']);
 
         activeList.shift();
 
@@ -6801,9 +6844,7 @@ describe('ActiveList', () => {
       });
 
       test('removing last item', () => {
-        const { activeList, subscriber } = setup({ activeIndexes: 0 }, [
-          'a',
-        ]);
+        const { activeList, subscriber } = setup({ activeIndexes: 0 }, ['a']);
 
         activeList.pop();
 
@@ -7216,10 +7257,7 @@ describe('ActiveList', () => {
             subscriber,
             {
               active: ['b', 'c'],
-              activeContents: [
-                activeList.contents[0],
-                activeList.contents[1],
-              ],
+              activeContents: [activeList.contents[0], activeList.contents[1]],
               activeIndexes: [0, 1],
               lastActivated: 'c',
               lastActivatedContent: activeList.contents[1],
@@ -7282,10 +7320,7 @@ describe('ActiveList', () => {
             subscriber,
             {
               active: ['a', 'c'],
-              activeContents: [
-                activeList.contents[0],
-                activeList.contents[1],
-              ],
+              activeContents: [activeList.contents[0], activeList.contents[1]],
               activeIndexes: [0, 1],
               lastActivated: 'c',
               lastActivatedContent: activeList.contents[1],
@@ -7348,10 +7383,7 @@ describe('ActiveList', () => {
             subscriber,
             {
               active: ['a', 'b'],
-              activeContents: [
-                activeList.contents[0],
-                activeList.contents[1],
-              ],
+              activeContents: [activeList.contents[0], activeList.contents[1]],
               activeIndexes: [0, 1],
               lastActivated: 'b',
               lastActivatedContent: activeList.contents[1],
@@ -7948,10 +7980,12 @@ describe('ActiveList', () => {
             });
 
             test('middle removal #0', () => {
-              const { activeList, subscriber } = setup(
-                { activeIndexes: 0 },
-                ['a', 'b', 'c', 'd']
-              );
+              const { activeList, subscriber } = setup({ activeIndexes: 0 }, [
+                'a',
+                'b',
+                'c',
+                'd',
+              ]);
 
               const removed = activeList.removeByPredicate(
                 ({ value }) => value === 'b' || value === 'c'
@@ -8013,10 +8047,12 @@ describe('ActiveList', () => {
             });
 
             test('middle removal #3', () => {
-              const { activeList, subscriber } = setup(
-                { activeIndexes: 3 },
-                ['a', 'b', 'c', 'd']
-              );
+              const { activeList, subscriber } = setup({ activeIndexes: 3 }, [
+                'a',
+                'b',
+                'c',
+                'd',
+              ]);
 
               const removed = activeList.removeByPredicate(
                 ({ value }) => value === 'b' || value === 'c'
@@ -8078,10 +8114,13 @@ describe('ActiveList', () => {
             });
 
             test('middle with holes removal #0', () => {
-              const { activeList, subscriber } = setup(
-                { activeIndexes: 0 },
-                ['a', 'b', 'c', 'd', 'e']
-              );
+              const { activeList, subscriber } = setup({ activeIndexes: 0 }, [
+                'a',
+                'b',
+                'c',
+                'd',
+                'e',
+              ]);
 
               const removed = activeList.removeByPredicate(
                 ({ value }) => value === 'b' || value === 'd'
@@ -8155,10 +8194,13 @@ describe('ActiveList', () => {
             });
 
             test('middle with holes removal #2', () => {
-              const { activeList, subscriber } = setup(
-                { activeIndexes: 2 },
-                ['a', 'b', 'c', 'd', 'e']
-              );
+              const { activeList, subscriber } = setup({ activeIndexes: 2 }, [
+                'a',
+                'b',
+                'c',
+                'd',
+                'e',
+              ]);
 
               const removed = activeList.removeByPredicate(
                 ({ value }) => value === 'b' || value === 'd'
@@ -8232,10 +8274,13 @@ describe('ActiveList', () => {
             });
 
             test('middle with holes removal #4', () => {
-              const { activeList, subscriber } = setup(
-                { activeIndexes: 4 },
-                ['a', 'b', 'c', 'd', 'e']
-              );
+              const { activeList, subscriber } = setup({ activeIndexes: 4 }, [
+                'a',
+                'b',
+                'c',
+                'd',
+                'e',
+              ]);
 
               const removed = activeList.removeByPredicate(
                 ({ value }) => value === 'b' || value === 'd'
@@ -8461,10 +8506,12 @@ describe('ActiveList', () => {
             });
 
             test('middle removal #1', () => {
-              const { activeList, subscriber } = setup(
-                { activeIndexes: 1 },
-                ['a', 'b', 'c', 'd']
-              );
+              const { activeList, subscriber } = setup({ activeIndexes: 1 }, [
+                'a',
+                'b',
+                'c',
+                'd',
+              ]);
 
               const removed = activeList.removeByPredicate(
                 ({ value }) => value === 'b' || value === 'c'
@@ -8526,10 +8573,12 @@ describe('ActiveList', () => {
             });
 
             test('middle removal #2', () => {
-              const { activeList, subscriber } = setup(
-                { activeIndexes: 2 },
-                ['a', 'b', 'c', 'd']
-              );
+              const { activeList, subscriber } = setup({ activeIndexes: 2 }, [
+                'a',
+                'b',
+                'c',
+                'd',
+              ]);
 
               const removed = activeList.removeByPredicate(
                 ({ value }) => value === 'b' || value === 'c'
@@ -8591,10 +8640,13 @@ describe('ActiveList', () => {
             });
 
             test('middle with holes removal #1', () => {
-              const { activeList, subscriber } = setup(
-                { activeIndexes: 1 },
-                ['a', 'b', 'c', 'd', 'e']
-              );
+              const { activeList, subscriber } = setup({ activeIndexes: 1 }, [
+                'a',
+                'b',
+                'c',
+                'd',
+                'e',
+              ]);
 
               const removed = activeList.removeByPredicate(
                 ({ value }) => value === 'b' || value === 'd'
@@ -8668,10 +8720,13 @@ describe('ActiveList', () => {
             });
 
             test('middle with holes removal #3', () => {
-              const { activeList, subscriber } = setup(
-                { activeIndexes: 3 },
-                ['a', 'b', 'c', 'd', 'e']
-              );
+              const { activeList, subscriber } = setup({ activeIndexes: 3 }, [
+                'a',
+                'b',
+                'c',
+                'd',
+                'e',
+              ]);
 
               const removed = activeList.removeByPredicate(
                 ({ value }) => value === 'b' || value === 'd'
@@ -10437,10 +10492,7 @@ describe('ActiveList', () => {
             subscriber,
             {
               active: ['a', 'b'],
-              activeContents: [
-                activeList.contents[0],
-                activeList.contents[2],
-              ],
+              activeContents: [activeList.contents[0], activeList.contents[2]],
               activeIndexes: [0, 2],
               lastActivated: 'b',
               lastActivatedContent: activeList.contents[2],
@@ -10520,10 +10572,7 @@ describe('ActiveList', () => {
             subscriber,
             {
               active: ['b', 'a'],
-              activeContents: [
-                activeList.contents[2],
-                activeList.contents[0],
-              ],
+              activeContents: [activeList.contents[2], activeList.contents[0]],
               activeIndexes: [2, 0],
               lastActivated: 'a',
               lastActivatedContent: activeList.contents[0],
@@ -10603,10 +10652,7 @@ describe('ActiveList', () => {
             subscriber,
             {
               active: ['b', 'c'],
-              activeContents: [
-                activeList.contents[1],
-                activeList.contents[2],
-              ],
+              activeContents: [activeList.contents[1], activeList.contents[2]],
               activeIndexes: [1, 2],
               lastActivated: 'c',
               lastActivatedContent: activeList.contents[2],
@@ -15475,11 +15521,9 @@ describe('ActiveList', () => {
         test('when no predicate matches do nothing', () => {
           const { activeList, subscriber } = setup({ active: 'b' });
 
-          activeList.moveByIndexByPredicate(
-            0,
-            ({ value }) => value === 'z',
-            { mode: 'at' }
-          );
+          activeList.moveByIndexByPredicate(0, ({ value }) => value === 'z', {
+            mode: 'at',
+          });
 
           expect(subscriber).toHaveBeenCalledTimes(0);
         });
@@ -15993,11 +16037,9 @@ describe('ActiveList', () => {
         test('when no predicate matches do nothing', () => {
           const { activeList, subscriber } = setup({ active: 'b' });
 
-          activeList.moveByIndexByPredicate(
-            0,
-            ({ value }) => value === 'z',
-            { mode: 'before' }
-          );
+          activeList.moveByIndexByPredicate(0, ({ value }) => value === 'z', {
+            mode: 'before',
+          });
 
           expect(subscriber).toHaveBeenCalledTimes(0);
         });
@@ -16511,11 +16553,9 @@ describe('ActiveList', () => {
         test('when no predicate matches do nothing', () => {
           const { activeList, subscriber } = setup({ active: 'b' });
 
-          activeList.moveByIndexByPredicate(
-            0,
-            ({ value }) => value === 'z',
-            { mode: 'after' }
-          );
+          activeList.moveByIndexByPredicate(0, ({ value }) => value === 'z', {
+            mode: 'after',
+          });
 
           expect(subscriber).toHaveBeenCalledTimes(0);
         });
@@ -18824,11 +18864,7 @@ describe('ActiveList', () => {
       ]);
 
       // Sanity check
-      expect(activeList.contents.map((c) => c.value)).toEqual([
-        'a',
-        'b',
-        'c',
-      ]);
+      expect(activeList.contents.map((c) => c.value)).toEqual(['a', 'b', 'c']);
 
       activeList.swapByIndex(0, 2);
       expect(activeList.history).toEqual([

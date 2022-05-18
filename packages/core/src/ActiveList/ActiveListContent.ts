@@ -1,5 +1,9 @@
 import { ActiveList } from './ActiveList';
-import { ActiveListActivationOptions, ActiveListContentPredicate, ActiveListPredicateOptions } from './types';
+import {
+  ActiveListActivationOptions,
+  ActiveListContentPredicate,
+  ActiveListPredicateOptions,
+} from './types';
 
 /**
  * Represents a piece of content in the `contents` array of the `ActiveList`.
@@ -105,14 +109,32 @@ export class ActiveListContent<T> {
    *
    * @param {ActiveListActivationOptions<T>} [activationOptions] The activation options @see ActiveListActivationOptions<T>
    */
-   public deactivate(activationOptions?: ActiveListActivationOptions<T>): void {
+  public deactivate(activationOptions?: ActiveListActivationOptions<T>): void {
     this.activeContent.deactivateByIndex(this.index, activationOptions);
+  }
+
+  /**
+   * When calling `toggle` it will flip the this `ActiveListContent` 
+   * `isActive` state. 
+   * 
+   * So when `isActive` is `true` and `toggle` is called, `isActive`
+   * will become `false`. When `isActive` is `false` and `toggle` is 
+   * called, `isActive` will become `true`.
+   *
+   * @param {ActiveListActivationOptions<T>} [activationOptions] The activation options @see ActiveListActivationOptions<T>
+   */
+   public toggle(activationOptions?: ActiveListActivationOptions<T>): void {
+     if (this.isActive) {
+       this.activeContent.deactivateByIndex(this.index, activationOptions);
+     } else {
+      this.activeContent.activateByIndex(this.index, activationOptions);
+     }
   }
 
   /**
    * When calling `remove` it will remove this `ActiveListContent`, and return
    * the `value` the ActiveListContent held.
-   * 
+   *
    * @returns {T} The removed value
    */
   public remove(): T {
@@ -191,24 +213,27 @@ export class ActiveListContent<T> {
    * the predicate returns `true`.
    *
    * If no item matches the predicate nothing is moved.
-   * 
-   * The position to where the `ActiveListContent` is inserted can be altered by 
+   *
+   * The position to where the `ActiveListContent` is inserted can be altered by
    * providing a mode:
-   * 
-   *  1. When the mode is 'at', the `ActiveListContent` is inserted to the 
-   *     position where the predicate matches. This is the `default` 
+   *
+   *  1. When the mode is 'at', the `ActiveListContent` is inserted to the
+   *     position where the predicate matches. This is the `default`
    *     mode.
-   * 
-   *  2. When the mode is 'after', the `ActiveListContent` is inserted to after 
+   *
+   *  2. When the mode is 'after', the `ActiveListContent` is inserted to after
    *     the position where the predicate matches.
-   * 
-   *  3. When the mode is 'before', the `ActiveListContent` is inserted to 
+   *
+   *  3. When the mode is 'before', the `ActiveListContent` is inserted to
    *     before the position where the predicate matches.
    *
    * @param {ActiveListContentPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
    * @param {ActiveListPredicateOptions} options The options for the predicate, when no options are provided the mode will default to "at".
    */
-   public moveToPredicate(predicate: ActiveListContentPredicate<T>, options?: ActiveListPredicateOptions) {
+  public moveToPredicate(
+    predicate: ActiveListContentPredicate<T>,
+    options?: ActiveListPredicateOptions
+  ) {
     this.activeContent.moveByIndexByPredicate(this.index, predicate, options);
   }
 
