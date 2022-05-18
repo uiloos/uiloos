@@ -16,8 +16,7 @@
     "skipLibCheck": true,
 
     "sourceMap": true,
-    "declaration": true,
-    "declarationDir": "types",
+    "declaration": false,
 
     "outDir": "./dist"
   },

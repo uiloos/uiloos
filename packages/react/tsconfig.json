@@ -7,7 +7,7 @@
 
     "strict": true,
     "noImplicitAny": true,
-    "removeComments": true,
+    "removeComments": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
