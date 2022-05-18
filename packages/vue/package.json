@@ -1,6 +1,6 @@
 {
   "name": "@uiloos/vue",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The Vue bindings of the uiloos headless UI",
   "keywords": [
     "uiloos"
@@ -33,7 +33,7 @@
     "apigen": "rm -rf apigen && typedoc src/index.ts --json ../website/src/_data/api/vue.json"
   },
   "dependencies": {
-    "@uiloos/core": "^0.0.2"
+    "@uiloos/core": "^0.0.3"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
