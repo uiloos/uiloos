@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.2.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1"
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
+	<style type="text/css">
+	.st0{fill:url(#SVGID_1_);}
+	.st1{fill:url(#SVGID_2_);}
+	.st2{fill:url(#SVGID_3_);}
+	.st3{fill:url(#SVGID_4_);}
+	.st4{fill:url(#SVGID_5_);}
+	.st5{fill:url(#SVGID_6_);}
+	.st6{fill:url(#SVGID_7_);}
+	.st7{filter:url(#Adobe_OpacityMaskFilter);}
+	.st8{fill:#FFFFFF;}
+	.st9{mask:url(#SVGID_8_);fill:url(#SVGID_9_);}
+	.st10{filter:url(#Adobe_OpacityMaskFilter_1_);}
+	.st11{mask:url(#SVGID_10_);fill:#FFFFFF;}
+	.st12{filter:url(#Adobe_OpacityMaskFilter_2_);}
+	.st13{mask:url(#SVGID_11_);}
+	.st14{filter:url(#Adobe_OpacityMaskFilter_3_);}
+	.st15{mask:url(#SVGID_12_);fill:url(#SVGID_13_);}
+	.st16{filter:url(#Adobe_OpacityMaskFilter_4_);}
+	.st17{mask:url(#SVGID_14_);fill:url(#SVGID_15_);}
+	.st18{filter:url(#Adobe_OpacityMaskFilter_5_);}
+	.st19{mask:url(#SVGID_16_);fill:url(#SVGID_17_);}
+	.st20{filter:url(#Adobe_OpacityMaskFilter_6_);}
+	.st21{mask:url(#SVGID_18_);fill:url(#SVGID_19_);}
+	.st22{filter:url(#Adobe_OpacityMaskFilter_7_);}
+	.st23{mask:url(#SVGID_20_);fill:url(#SVGID_21_);}
+	</style>
+	<defs>
+		<filter id="Adobe_OpacityMaskFilter" filterUnits="userSpaceOnUse" x="0.87" y="0.87" width="30.25" height="30.25">
+			<feColorMatrix type="matrix" values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0" color-interpolation-filters="sRGB" result="source"/>
+			<feFlood style="flood-color:white;flood-opacity:1" result="back"/>
+			<feBlend in="source" in2="back" mode="normal"/>
+		</filter>
+	</defs>
+	<mask maskUnits="userSpaceOnUse" x="0.87" y="0.87" width="30.25" height="30.25" id="SVGID_1_">
+		<g class="st7">
+			<path class="st8" d="
+			M23.19,
+			23.16c1.84-3.49,
+			0.3-5.25,
+			0.3-5.25c0.35-2.19-0.51-3.33-0.51-3.33l1.02-1.25l-1.06,
+			0.24
+			c1.72-1.72,
+			1.84-4.66,
+			1.84-4.66c-2.35,
+			2.43-6.07,
+			2.52-6.07,
+			2.52l0.16-0.56C17.68,
+			11.56,
+			16,
+			11.4,
+			16,
+			11.4s-1.68,
+			0.16-2.86-0.55
+			l0.16,
+			0.56c0,
+			0-3.72-0.09-6.07-2.52c0,
+			0,
+			0.12,
+			2.94,
+			1.84,
+			4.66l-1.06-0.24l1.02,
+			1.25c0,
+			0-0.86,
+			1.14-0.51,
+			3.33
+			c0,
+			0-1.55,
+			1.76,
+			0.3,
+			5.25c0,
+			0-5.19,
+			7.72,
+			7.19,
+			16.18C28.38,
+			30.87,
+			23.19,
+			23.16,
+			23.19,
+			23.16z M13.61,
+			17.93
+			"/>
+		</g>
+	</mask>
+
+	<circle style="mask:url(#SVGID_1_);" cx="16" cy="16" r="15.13"/>
+</svg>
