@@ -1,0 +1,482 @@
+---
+title: uiloos
+layout: layouts/base.njk
+permalink: /
+---
+
+{# Hero #}
+<section class="relative">
+  <!-- Illustration behind hero content -->
+  <div class="absolute left-1/2 transform -translate-x-1/2 bottom-0 pointer-events-none -z-1" aria-hidden="true">
+    <svg width="1360" height="578" viewBox="0 0 1360 578" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="illustration-01">
+          <stop stop-color="#FFF" offset="0%"/>
+          <stop stop-color="#EAEAEA" offset="77.402%"/>
+          <stop stop-color="#DFDFDF" offset="100%"/>
+        </linearGradient>
+      </defs>
+      <g fill="url(#illustration-01)" fill-rule="evenodd">
+        <circle cx="1232" cy="128" r="128"/>
+        <circle cx="155" cy="443" r="64"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-32 mb-8 text-center">  
+    <h1 class="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4" data-aos="zoom-y-out">Accelerate your <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-orange-600">development</span></h1>
+    <div class="max-w-3xl mx-auto">
+      <p class="text-xl text-gray-600 mb-8" data-aos="zoom-y-out" data-aos-delay="150">
+        uiloos is a headless UI library which provides common components without any styling. You create the design, "uiloos" provides the behavior.
+      </p>
+      <div class="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center" data-aos="zoom-y-out" data-aos-delay="300">
+        <div>
+          <a class="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" href="/docs/getting-started/">Getting started</a>
+        </div>
+        <div>
+          <a class="btn text-white bg-gray-900 hover:bg-gray-800 w-full sm:w-auto sm:ml-4" href="/pricing/">Pricing</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero image -->
+  <div x-data="{ modalExpanded: false }">
+    <div class="relative flex justify-center mb-16" data-aos="zoom-y-out" data-aos-delay="450">
+      <div class="flex flex-col justify-center">
+        <iframe id='video' width="768" height="432" src="https://www.youtube-nocookie.com/embed/bl5TUw7sUBs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="absolute top-full flex items-center transform -translate-y-1/2 bg-white rounded-full font-medium group p-4 shadow-lg">
+        <svg class="w-6 h-6 fill-current text-gray-400 shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm0 2C5.373 24 0 18.627 0 12S5.373 0 12 0s12 5.373 12 12-5.373 12-12 12z"/>
+          <path d="M10 17l6-5-6-5z"/>
+        </svg>
+        <span class="ml-3">Watch the video (2 min)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# Use case #}
+<section>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-16">
+
+    <!-- Section header -->
+    <div class="max-w-3xl mx-auto text-center mb-8">
+      <h2 class="h2 mb-4">Behavior vs look and feel</h2>
+      <p class="text-xl text-gray-600 mb-4">
+        You handle the look and feel of your application / website and
+        let uiloos handle the behavior. Spend more time configuring
+        behavior instead of coding it, try it out yourself:
+      </p>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-2">
+      <!-- Code panel -->
+      <div class="shadow-xl text-left font-mono bg-gray-700 text-white p-4">
+        <div class="flex">
+          <span class="text-purple-400 mr-2">const</span> 
+          <span class="text-red-400 mr-2">carousel</span> 
+          <span class="mr-2">=</span> 
+          <span class="text-blue-300 mr-2">new</span> 
+          <span class="text-blue-500">ActiveList</span> 
+          <span class="text-blue-500">(</span> 
+        </div>
+
+        <span class="ml-4">{</span> 
+
+        <div class="ml-8 flex">
+          <span class="text-white">contents:</span>
+          <div class="ml-2"> 
+            <span class="text-blue-500">[</span>
+            <span class="text-orange-400">1,</span>
+            <span class="text-orange-400">2,</span>
+            <span class="text-orange-400">3,</span>
+            <span class="text-orange-400">4,</span>
+            <span class="text-orange-400">5</span>
+            <span class="text-blue-500">]</span>
+          </div>
+
+          <span>,</span>
+        </div>
+
+        <div class="ml-8 flex">
+          <span class="text-white">activeIndexes:</span>
+          <div class="ml-2"> 
+            <span class="text-blue-500">[</span>
+            <span class="text-orange-400">0</span>
+            <span class="text-blue-500">]</span>
+          </div>
+
+          <span>,</span>
+        </div>
+
+        <div class="ml-8 flex flex-col">
+          <span>autoplay: <span class="text-blue-500">{</span></span>
+
+          <div>
+            <div class="ml-8 flex">
+              <span class="text-white">duration</span>
+              <span class="text-white">:</span>
+              <div class="ml-2 flex">
+                <select id="carousel-duration" class="text-orange-400 bg-white-700 bg-[center_left_3.5rem] pl-1 pr-9 h-6 p-0 border-none">
+                  <option value="1000">1000</option>
+                  <option value="2000">2000</option>
+                  <option value="3000">3000</option>
+                  <option value="4000">4000</option>
+                  <option value="5000" selected>5000</option>
+                </select>
+                <span>,</span>
+              </div>
+            </div>
+
+              <div class="ml-8 flex">
+              <span class="text-white">stopsOnUserInteraction:</span>
+              <div class="ml-2 flex">
+                <select id="carousel-stops-on-user-interaction" class="text-orange-400 bg-white-700 bg-[center_left_3.5rem] pl-1 pr-6 h-6 p-0 border-none">
+                  <option value="true" selected>true</option>
+                  <option value="false">false</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex">
+            <span class="text-blue-500">}</span>
+            <span>,</span>
+          </div>
+        </div>
+
+        <div class="ml-8 flex">
+          <span class="text-white">isCircular:</span>
+          <div class="ml-2 flex">
+            <select id="carousel-is-circular" class="text-orange-400 bg-white-700 bg-[center_left_3.5rem] pl-1 pr-6 h-6 p-0 border-none">
+              <option value="true" selected>true</option>
+              <option value="false">false</option>
+            </select>
+            ,
+          </div>
+        </div>
+
+        <div class="ml-8 flex">
+          <span class="text-white">cooldown:</span>
+          <span class="ml-2 text-orange-400">500</span>
+        </div>
+        
+        <div class="flex ml-4">
+          }
+          <span class="hidden lg:inline">,</span>
+        </div>
+
+        <div class="flex">
+          <span class="inline lg:hidden text-blue-500">)</span>
+          <span class="inline lg:hidden">;</span>
+        </div>
+
+        <div class="ml-4 hidden lg:block">
+          <div class="flex">
+            (
+            <span class="text-orange-400">carousel</span>
+            <span class="mr-1">,</span> 
+            <span class="text-orange-400">event</span>
+            <span class="mr-1">)</span> 
+            <span class="text-purple-400 mr-1">=></span> 
+            {
+          </div>
+          <div class="ml-4 text-green-400">
+            <div>/*</div>
+            <div class="ml-4 mb-4">
+              This is a callback function which informs you of changes
+              inside of the ActiveList. In vanilla JavaScript you 
+              manipulate the DOM here or re-render the DOM.
+            </div>
+            <div class="ml-4">
+              When using a framework such as Vue, React or Angular,
+              you will not need this callback because the framework 
+              will handle the DOM manipulation for you.
+            </div>
+            <div>*/</div>
+          </div>
+          }
+        </div>
+        <div class="flex">
+          <span class="hidden lg:inline text-blue-500">)</span>
+          <span class="hidden lg:inline">;</span>
+        </div>
+      </div>
+
+      <!-- Carousel -->
+      <div id="carousel" class="relative shadow-xl overflow-hidden text-white bg-purple-800 h-[35rem] sm:h-[40rem] md:h-[42rem] lg:h-[42rem]">
+        <!-- Slides -->
+        <ul>
+          <li
+            id="carousel-slide-0"
+            class="visible absolute"
+          >
+            <img width="1920" height="1280" src="/images/owls/snow.jpg" alt="image of a snow owl" />
+            <article class="p-4">
+              <h4 class="text-xl font-bold">Snow owl</h4>
+              <p class="mb-4">
+                The snowy owl (Bubo scandiacus), also known as the polar owl, 
+                the white owl and the Arctic owl, is a large, white owl of the true owl family. 
+                Snowy owls are native to the Arctic regions.
+              </p>
+
+              <p>Photo by <a href="https://unsplash.com/@dkphotos" target="_blank" rel="noopener noreferrer" class="underline">Doug Kelley</a></p>
+            </article>
+          </li>
+          <li
+            id="carousel-slide-1"
+            class="invisible absolute"
+            aria-hidden="true"
+          >
+            <img width="1920" height="1280" src="/images/owls/tawny.jpg" alt="image of a tawny owl" />
+            <article class="p-4">
+              <h4 class="text-xl font-bold">Tawny owl</h4>
+              <p class="mb-4">
+                The tawny owl (also called the brown owl; Strix aluco) is commonly found in woodlands 
+                across much of Eurasia and North Africa, and has 11 recognized subspecies. 
+              </p>
+              <p>Photo by <a href="https://unsplash.com/@kai_wenzel" target="_blank" rel="noopener noreferrer" class="underline">Kai Wenzel</a></p>
+            </article>
+          </li>
+          <li
+            id="carousel-slide-2"
+            class="invisible absolute"
+            aria-hidden="true"
+          >
+            <img width="1920" height="1280" src="/images/owls/barn.jpg" alt="image of a barn owl" />
+            <article class="p-4">
+              <h4 class="text-xl font-bold">Barn owl</h4>
+              <p class="mb-4">
+                The barn owl (Tyto alba) is the most widely distributed species of owl in the world and 
+                one of the most widespread of all species of birds, being found almost everywhere in the
+                world. 
+              </p>
+              <p>Photo by <a href="https://unsplash.com/@picsbyjameslee" target="_blank" rel="noopener noreferrer" class="underline">James Lee</a></p>
+            </article>
+          </li>
+          <li
+            id="carousel-slide-3"
+            class="invisible absolute"
+            aria-hidden="true"
+          >
+            <img width="1920" height="1280" src="/images/owls/burrowing.jpg" alt="image of a burrowing owl" />
+            <article class="p-4">
+              <h4 class="text-xl font-bold">Burrowing owl</h4>
+              <p class="mb-4">
+                The burrowing owl (Athene cunicularia) is a small, long-legged owl. 
+                Burrowing owls nest and roost in burrows, such as 
+                those excavated by prairie dogs.  
+              </p>
+              <p>Photo by <a href="https://unsplash.com/@rayhennessy" target="_blank" rel="noopener noreferrer" class="underline">Ray Hennessy</a></p>
+            </article>
+          </li>
+          <li
+            id="carousel-slide-4"
+            class="invisible absolute"
+            aria-hidden="true"
+          >
+            <img src="/images/owls/hawk.jpg" alt="image of a northern hawk-owl" />
+            <article class="p-4 bg-purple-800">
+              <h4 class="text-xl font-bold ">Northern hawk-owl</h4>
+              <p class="mb-4">
+                The northern hawk-owl or northern hawk owl (Surnia ulula) is a medium-sized true owl of 
+                the northern latitudes. It is one of the few owls that is neither nocturnal 
+                nor crepuscular.
+                
+              </p>
+              <p>Photo by <a href="https://unsplash.com/@erik_karits" target="_blank" rel="noopener noreferrer" class="underline">Erik Karits</a></p>
+            </article>
+          </li>
+        </ul>
+
+        <!-- Progress -->
+        <div class="absolute top-2 w-full">
+          <ul class="flex justify-center gap-2">
+            <li>
+              <button id="carousel-stop" class="visually-hidden">
+                Stop Animation
+              </button>
+            </li>
+            <li>
+              <button id="carousel-button-0" class="w-10 h-1 bg-purple-800">
+                <span class="visually-hidden">Snow owl</span>
+                <span class="visually-hidden">(Current Item)</span>
+              </button>
+            </li>
+            <li>
+              <button id="carousel-button-1" class="w-10 h-1 bg-gray-600">
+                <span class="visually-hidden">Tawny owl</span>
+                <span class="visually-hidden">(Current Item)</span>
+              </button>
+            </li>
+            <li>
+              <button id="carousel-button-2" class="w-10 h-1 bg-gray-600">
+                <span class="visually-hidden">Barn owl</span>
+                <span class="visually-hidden">(Current Item)</span>
+              </button>
+            </li>
+            <li>
+              <button id="carousel-button-3" class="w-10 h-1 bg-gray-600">
+                <span class="visually-hidden">Burrowing owl</span>
+                <span class="visually-hidden">(Current Item)</span>
+              </button>
+            </li>
+            <li>
+              <button id="carousel-button-4" class="w-10 h-1 bg-gray-600">
+                <span class="visually-hidden">Northern hawk-owl</span>
+                <span class="visually-hidden">(Current Item)</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Controls -->
+        <div class="absolute top-64 w-full">
+          <div class="flex justify-between">
+            <button 
+              id="carousel-prev"
+              type="button" 
+              class="text-purple-800 hover:text-purple-600 transition duration-500 text-8xl"
+            >
+              ‹
+            </button>
+          
+            <button 
+              id="carousel-next" 
+              type="button" 
+              class="text-purple-800 hover:text-purple-600 transition duration-500 text-8xl"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+
+        <div aria-live="polite" aria-atomic="true" class="invisible h-1">
+          Owl <span id="carousel-current-active">1</span> of 5
+        </div>
+      </div>
+    </div>
+      
+  </div>
+
+  <script src="/assets/home.js" defer="true"></script>
+</section>
+
+{# Adapters #}
+<section>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 mb-16">
+    <!-- Section header -->
+    <div class="max-w-3xl mx-auto text-center mb-8">
+      <h2 class="h2 mb-4">Works with your stack</h2>
+      <p class="text-xl text-gray-600">Use your favorite framework / library, or simply go vanilla. uiloos will work with your current stack and enhance it.</p>
+    </div>
+
+    <!-- Items -->
+    <div class="max-w-sm mx-auto grid gap-6 md:grid-cols-3 lg:grid-cols-3 items-start md:max-w-2xl lg:max-w-none">
+
+      <!-- 1st item -->
+      <div class="relative flex flex-col items-center p-6 bg-white rounded shadow-xl h-full">
+        <img src="/images/adapters/react.svg" class="w-16 h-16 p-1 -mt-1 mb-2" loading="lazy" alt="React logo" />
+        <h4 class="text-xl font-bold leading-snug tracking-tight mb-1">React</h4>
+        <p class="text-gray-600 text-center">Use ready made React components and hooks.</p>
+      </div>
+
+      <!-- 2nd item -->
+      <div class="relative flex flex-col items-center p-6 bg-white rounded shadow-xl h-full">
+        <img src="/images/adapters/vue.svg" class="w-16 h-16 p-1 -mt-1 mb-2" loading="lazy" alt="Vue logo"/>
+        <h4 class="text-xl font-bold leading-snug tracking-tight mb-1">Vue</h4>
+        <p class="text-gray-600 text-center">Use pre-baked Vue components and composables.</p>
+      </div>
+
+      <!-- 3rd item -->
+      <div class="relative flex flex-col items-center p-6 bg-white rounded shadow-xl h-full">
+        <img src="/images/adapters/vanilla.svg" class="w-16 h-16 p-1 -mt-1 mb-2" loading="lazy" alt="JavaScript unofficial logo" />
+        <h4 class="text-xl font-bold leading-snug tracking-tight mb-1">Vanilla</h4>
+        <p class="text-gray-600 text-center">Or use no framework at all and listen to changes yourself</p>
+      </div>
+    </div>
+  </div>
+  
+</section>
+
+{# Persona's #}
+<section>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 mb-16">
+    <!-- Section header -->
+    <div class="max-w-3xl mx-auto text-center mb-8">
+      <h2 class="h2 mb-4">What uiloos provides</h2>
+      <p class="text-xl text-gray-600">See what uiloos means for your role via a letter written just for you</p>
+    </div>
+
+    <!-- Persona list -->
+    <div class="max-w-sm mx-auto md:max-w-none">
+      <div class="grid gap-12 md:grid-cols-3 md:gap-x-6 md:gap-y-8 items-start">
+
+          <!-- developers -->
+        <div class="flex flex-col h-full" data-aos="zoom-y-out" data-aos-delay="150">
+          <a class="block mb-6" href="/letters/to-developers/">
+            <figure class="relative h-0 pb-9/16 overflow-hidden translate-z-0 rounded">
+              <img class="absolute inset-0 w-full h-full transform scale-105 translate-z-0 hover:-translate-y-1 transition duration-500 ease-out" src="/images/avatars/developer.svg" alt="A developer" loading="lazy"/>
+            </figure>
+          </a>
+
+          <h3 class="text-xl font-bold text-center">
+            <a class="hover:underline" href="/letters/to-developers/">For Developers</a>
+          </h3>
+        </div>
+
+        <!-- designers -->
+        <div class="flex flex-col h-full" data-aos="zoom-y-out">
+          <a class="block mb-6" href="/letters/to-designers/">
+            <figure class="relative h-0 pb-9/16 overflow-hidden translate-z-0 rounded">
+              <img class="absolute inset-0 w-full h-full transform scale-105 hover:-translate-y-1 transition duration-500 ease-out" src="/images/avatars/designer.svg" alt="a graphical designer" loading="lazy"/>
+            </figure>
+          </a>
+
+          <h3 class="text-xl font-bold text-center">
+            <a class="hover:underline" href="/letters/to-designers/">For Designers</a>
+          </h3>
+        </div> 
+
+        <!-- managers -->
+        <div class="flex flex-col h-full" data-aos="zoom-y-out" data-aos-delay="300">
+          <a class="block mb-6" href="/letters/to-managers/">
+            <figure class="relative h-0 pb-9/16 overflow-hidden translate-z-0 rounded">
+              <img class="absolute inset-0 w-full h-full transform scale-105 translate-z-0 hover:-translate-y-1 transition duration-500 ease-out" src="/images/avatars/manager.svg" alt="a manager" loading="lazy"/>
+            </figure>
+          </a>
+
+          <h3 class="text-xl font-bold text-center">
+            <a class="hover:underline" href="/letters/to-managers/">For Managers</a>
+          </h3>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{# CTA #}
+<section>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 mb-16">
+    <!-- CTA box -->
+    <div class="bg-purple-600 rounded py-10 px-8 md:py-16 md:px-12 shadow-2xl" data-aos="zoom-y-out">
+
+      <div class="flex flex-col lg:flex-row justify-between items-center">
+
+        <!-- CTA content -->
+        <div class="mb-6 lg:mr-16 lg:mb-0 text-center lg:text-left">
+          <h3 class="h3 text-white mb-2">Ready to get started?</h3>
+          <p class="text-white text-lg opacity-75">"uiloos" is just an `npm install` away</p>
+        </div>
+
+        <!-- CTA button -->
+        <div>
+          <a class="btn text-purple-900 bg-gradient-to-r from-purple-100 to-white" href="/docs/getting-started">Get started</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

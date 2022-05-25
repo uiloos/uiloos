@@ -16,17 +16,10 @@
       <!-- Site branding -->
       <div class="shrink-0 mr-4">
         <!-- Logo -->
-        <a class="block" href="/" aria-label="Cruip">
-          <svg class="w-8 h-8" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient cx="21.152%" cy="86.063%" fx="21.152%" fy="86.063%" r="79.941%" id="header-logo">
-                <stop stop-color="#4FD1C5" offset="0%"/>
-                <stop stop-color="#81E6D9" offset="25.871%"/>
-                <stop stop-color="#338CF5" offset="100%"/>
-              </radialGradient>
-            </defs>
-            <rect width="32" height="32" rx="16" fill="url(#header-logo)" fill-rule="nonzero"/>
-          </svg>
+        <a class="flex flex-row items-center" href="/" aria-label="uiloos">
+          <img alt="Outline of an owl" src="/images/uiloos.svg" width="64" height="64">
+          
+          <span class="ml-4 maven text-4xl">uiloos</span>
         </a>
       </div>
 
@@ -37,7 +30,7 @@
         <ul class="flex grow justify-end flex-wrap items-center">
           {% for entry in navPages %}
             <li>
-              <a class="text-gray-600 hover:text-gray-900 px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out" href="{{entry.url}}">{{entry.title}}</a>
+              <a class="text-gray-700 hover:text-gray-900 px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out" href="{{entry.url}}">{{entry.title}}</a>
             </li>
           {% endfor %}
         </ul>
@@ -80,7 +73,7 @@
           <ul class="px-5 py-2">
             {% for entry in navPages %}
               <li>
-                <a class="flex text-gray-600 hover:text-gray-900 py-2" href="{{entry.url}}">{{entry.title}}</a>
+                <a class="flex text-xl text-gray-700 hover:text-gray-900 py-2" href="{{entry.url}}">{{entry.title}}</a>
               </li>
             {% endfor %}
           </ul>
