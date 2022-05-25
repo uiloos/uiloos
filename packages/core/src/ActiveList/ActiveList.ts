@@ -673,7 +673,7 @@ export class ActiveList<T> {
       return;
     }
 
-    const index = this._getBoundedNextIndex();
+    const index = this._getBoundedNextIndex(this.lastActivatedIndex);
     this.activateByIndex(index, activationOptions);
   }
 
@@ -705,7 +705,7 @@ export class ActiveList<T> {
       return;
     }
 
-    const index = this._getBoundedPreviousIndex();
+    const index = this._getBoundedPreviousIndex(this.lastActivatedIndex);
     this.activateByIndex(index, activationOptions);
   }
 
@@ -2022,9 +2022,13 @@ export class ActiveList<T> {
     return this.contents.length - 1;
   }
 
-  public _getBoundedNextIndex(): number {
-    let nextIndex = this.lastActivatedIndex + 1;
+  // Get the next index based on the lastActivatedIndex, but make sure it
+  // never goes out of "bounds". Used to activate "next", or "swap"
+  // with the next. Takes `isCircular` into account.
+  public _getBoundedNextIndex(index: number): number {
+    let nextIndex = index + 1;
 
+    // Prevent the index from going out of bounds.
     if (nextIndex >= this.contents.length) {
       nextIndex = this.isCircular ? 0 : this.getLastIndex();
     }
@@ -2032,9 +2036,13 @@ export class ActiveList<T> {
     return nextIndex;
   }
 
-  public _getBoundedPreviousIndex(): number {
-    let previousIndex = this.lastActivatedIndex - 1;
+  // Get the previous index based on the lastActivatedIndex, but make sure it
+  // never goes out of "bounds". Used to activate "previous", or "swap"
+  // with the previous. Takes `isCircular` into account
+  public _getBoundedPreviousIndex(index: number): number {
+    let previousIndex = index - 1;
 
+    // Prevent the index from going out of bounds.
     if (previousIndex < 0) {
       previousIndex = this.isCircular ? this.getLastIndex() : 0;
     }
@@ -2042,6 +2050,9 @@ export class ActiveList<T> {
     return previousIndex;
   }
 
+  // Given the index what is the next index. Used to set the isNext
+  // property of the ActiveListContent. When not isCircular it allows
+  // the nextIndex to fall out of bounds.
   public _getUnboundedNextIndex(index: number): number {
     const nextIndex = index + 1;
 
@@ -2052,6 +2063,9 @@ export class ActiveList<T> {
     return nextIndex;
   }
 
+  // Given the index what is the next index. Used to set the isPrevious 
+  // property of the ActiveListContent. When not isCircular it allows
+  // the previousIndex to fall out of bounds.
   public _getUnboundedPreviousIndex(index: number): number {
     const previousIndex = index - 1;
 

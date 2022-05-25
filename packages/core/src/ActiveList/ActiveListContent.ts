@@ -171,25 +171,33 @@ export class ActiveListContent<T> {
   /**
    * Swaps the `ActiveListContent` with the next `ActiveListContent` in the sequence.
    *
+   * If `isCircular` of the `ActiveList` is `true` swapping whilst on 
+   * the last index will make this `ActiveListContent` swap with the
+   * first index. If `isCircular` is `false` it will do nothing,
+   *  and keep the `ActiveListContent` on the last index.
+   * 
    * Note: if the active `ActiveListContent` is swapped, it will stay active,
    * it will only get a new position.
    */
   public swapWithNext(): void {
-    const index = this.activeContent._getUnboundedNextIndex(this.index);
-    this.swapWithByIndex(index);
+    const nextIndex = this.activeContent._getBoundedNextIndex(this.index);
+    this.swapWithByIndex(nextIndex);
   }
 
   /**
    * Swaps the `ActiveListContent` with the previous `ActiveListContent` in the sequence.
    *
+   * If `isCircular` of the `ActiveList` is `true` swapping whilst on 
+   * the first index will make this `ActiveListContent` swap with the
+   * last index. If `isCircular` is `false` it will do nothing,
+   *  and keep the `ActiveListContent` on the first index.
+   * 
    * Note: if the active `ActiveListContent` is swapped, it will stay active,
    * it will only get a new position.
-   *
-   * @throws Index out of bounds error.
    */
   public swapWithPrevious(): void {
-    const index = this.activeContent._getUnboundedPreviousIndex(this.index);
-    this.swapWithByIndex(index);
+    const previousIndex = this.activeContent._getBoundedPreviousIndex(this.index);
+    this.swapWithByIndex(previousIndex);
   }
 
   /**

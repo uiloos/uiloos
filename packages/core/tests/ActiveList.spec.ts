@@ -11060,158 +11060,808 @@ describe('ActiveList', () => {
         );
       });
 
-      test('swapWithNext', () => {
-        const { activeList, subscriber } = setup({ active: 'b' });
-
-        // Swap b with c
-        activeList.contents[1].swapWithNext();
-
-        expect(subscriber).toHaveBeenCalledTimes(1);
-
-        assertLastSubscriber(
-          subscriber,
-          {
-            active: ['b'],
-            activeContents: [activeList.contents[2]],
-            activeIndexes: [2],
-            lastActivated: 'b',
-            lastActivatedContent: activeList.contents[2],
-            lastActivatedIndex: 2,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
+     describe('swapWithNext', () => {
+        describe('when isCircular is false', () => {
+          test('swapping from the start', () => {
+            const { activeList, subscriber } = setup({ active: 'b', isCircular: false });
+  
+            // Swap a with b
+            activeList.contents[0].swapWithNext();
+  
+            expect(subscriber).toHaveBeenCalledTimes(1);
+  
+            assertLastSubscriber(
+              subscriber,
               {
-                isActive: false,
-                index: 0,
-                value: 'a',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
+                active: ['b'],
+                activeContents: [activeList.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeList.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    isActive: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    index: 1,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    index: 2,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
               },
               {
-                isActive: false,
-                index: 1,
-                value: 'c',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
+                type: 'SWAPPED',
+                value: {
+                  a: 'a',
+                  b: 'b',
+                },
+                index: {
+                  a: 0,
+                  b: 1,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('swapping in the middle', () => {
+            const { activeList, subscriber } = setup({ active: 'b', isCircular: false });
+  
+            // Swap b with c
+            activeList.contents[1].swapWithNext();
+  
+            expect(subscriber).toHaveBeenCalledTimes(1);
+  
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeList.contents[2]],
+                activeIndexes: [2],
+                lastActivated: 'b',
+                lastActivatedContent: activeList.contents[2],
+                lastActivatedIndex: 2,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    isActive: false,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: true,
+                    index: 2,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                ],
               },
               {
-                isActive: true,
-                index: 2,
-                value: 'b',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
+                type: 'SWAPPED',
+                value: {
+                  a: 'b',
+                  b: 'c',
+                },
+                index: {
+                  a: 1,
+                  b: 2,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('swapping at the end', () => {
+            const { activeList, subscriber } = setup({ active: 'b', isCircular: false });
+  
+            // Swap c with out of bounds
+            activeList.contents[2].swapWithNext();
+  
+            expect(subscriber).toHaveBeenCalledTimes(0);
+          });
+        });
+
+        describe('when isCircular is true', () => {
+          test('swapping from the start', () => {
+            const { activeList, subscriber } = setup({ active: 'b', isCircular: true });
+  
+            // Swap a with b
+            activeList.contents[0].swapWithNext();
+  
+            expect(subscriber).toHaveBeenCalledTimes(1);
+  
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeList.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeList.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: true,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    isActive: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    index: 1,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    index: 2,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
               },
-            ],
-          },
-          {
-            type: 'SWAPPED',
-            value: {
-              a: 'b',
-              b: 'c',
-            },
-            index: {
-              a: 1,
-              b: 2,
-            },
-            time: new Date(),
-          }
-        );
+              {
+                type: 'SWAPPED',
+                value: {
+                  a: 'a',
+                  b: 'b',
+                },
+                index: {
+                  a: 0,
+                  b: 1,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('swapping in the middle', () => {
+            const { activeList, subscriber } = setup({ active: 'b', isCircular: true });
+  
+            // Swap b with c
+            activeList.contents[1].swapWithNext();
+  
+            expect(subscriber).toHaveBeenCalledTimes(1);
+  
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeList.contents[2]],
+                activeIndexes: [2],
+                lastActivated: 'b',
+                lastActivatedContent: activeList.contents[2],
+                lastActivatedIndex: 2,
+                isCircular: true,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    isActive: false,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: true,
+                    index: 2,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                ],
+              },
+              {
+                type: 'SWAPPED',
+                value: {
+                  a: 'b',
+                  b: 'c',
+                },
+                index: {
+                  a: 1,
+                  b: 2,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('swapping at the end', () => {
+            const { activeList, subscriber } = setup({ active: 'b', isCircular: true });
+  
+            // Swap c with a
+            activeList.contents[2].swapWithNext();
+  
+            expect(subscriber).toHaveBeenCalledTimes(1);
+  
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeList.contents[1]],
+                activeIndexes: [1],
+                lastActivated: 'b',
+                lastActivatedContent: activeList.contents[1],
+                lastActivatedIndex: 1,
+                isCircular: true,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  
+                  {
+                    isActive: false,
+                    index: 0,
+                    value: 'c',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: true,
+                    index: 1,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    index: 2,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'SWAPPED',
+                value: {
+                  a: 'c',
+                  b: 'a',
+                },
+                index: {
+                  a: 2,
+                  b: 0,
+                },
+                time: new Date(),
+              }
+            );
+          });
+        });
       });
 
-      test('swapWithPrevious', () => {
-        const { activeList, subscriber } = setup({ active: 'b' });
+      describe('swapWithPrevious', () => {
+        describe('when isCircular is false', () => {
+          test('swapping from the start', () => {
+            const { activeList, subscriber } = setup({ active: 'b', isCircular: false });
+  
+            // Swap a with out of bounds
+            activeList.contents[0].swapWithPrevious();
+  
+            expect(subscriber).toHaveBeenCalledTimes(0);
+          });
 
-        // Swap b with a
-        activeList.contents[1].swapWithPrevious();
-
-        expect(subscriber).toHaveBeenCalledTimes(1);
-
-        assertLastSubscriber(
-          subscriber,
-          {
-            active: ['b'],
-            activeContents: [activeList.contents[0]],
-            activeIndexes: [0],
-            lastActivated: 'b',
-            lastActivatedContent: activeList.contents[0],
-            lastActivatedIndex: 0,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            contents: [
+          test('swapping in the middle', () => {
+            const { activeList, subscriber } = setup({ active: 'b', isCircular: false });
+  
+            // Swap b with a
+            activeList.contents[1].swapWithPrevious();
+  
+            expect(subscriber).toHaveBeenCalledTimes(1);
+  
+            assertLastSubscriber(
+              subscriber,
               {
-                isActive: true,
-                index: 0,
-                value: 'b',
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
+                active: ['b'],
+                activeContents: [activeList.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeList.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    isActive: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    index: 1,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    index: 2,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
               },
               {
-                isActive: false,
-                index: 1,
-                value: 'a',
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
+                type: 'SWAPPED',
+                value: {
+                  a: 'b',
+                  b: 'a',
+                },
+                index: {
+                  a: 1,
+                  b: 0,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('swapping at the end', () => {
+            const { activeList, subscriber } = setup({ active: 'b', isCircular: false });
+  
+            // Swap c with b
+            activeList.contents[2].swapWithPrevious();
+  
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeList.contents[2]],
+                activeIndexes: [2],
+                lastActivated: 'b',
+                lastActivatedContent: activeList.contents[2],
+                lastActivatedIndex: 2,
+                isCircular: false,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    isActive: false,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: true,
+                    index: 2,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                ],
               },
               {
-                isActive: false,
-                index: 2,
-                value: 'c',
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
+                type: 'SWAPPED',
+                value: {
+                  a: 'c',
+                  b: 'b',
+                },
+                index: {
+                  a: 2,
+                  b: 1,
+                },
+                time: new Date(),
+              }
+            );
+          });
+        });
+
+        describe('when isCircular is true', () => {
+          test('swapping from the start', () => {
+            const { activeList, subscriber } = setup({ active: 'b', isCircular: true });
+  
+            // Swap a with c
+            activeList.contents[0].swapWithPrevious();
+  
+            expect(subscriber).toHaveBeenCalledTimes(1);
+  
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeList.contents[1]],
+                activeIndexes: [1],
+                lastActivated: 'b',
+                lastActivatedContent: activeList.contents[1],
+                lastActivatedIndex: 1,
+                isCircular: true,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    isActive: false,
+                    index: 0,
+                    value: 'c',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: true,
+                    index: 1,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    index: 2,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                 
+                ],
               },
-            ],
-          },
-          {
-            type: 'SWAPPED',
-            value: {
-              a: 'b',
-              b: 'a',
-            },
-            index: {
-              a: 1,
-              b: 0,
-            },
-            time: new Date(),
-          }
-        );
+              {
+                type: 'SWAPPED',
+                value: {
+                  a: 'a',
+                  b: 'c',
+                },
+                index: {
+                  a: 0,
+                  b: 2,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('swapping in the middle', () => {
+            const { activeList, subscriber } = setup({ active: 'b', isCircular: true });
+  
+            // Swap b with a
+            activeList.contents[1].swapWithPrevious();
+  
+            expect(subscriber).toHaveBeenCalledTimes(1);
+  
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeList.contents[0]],
+                activeIndexes: [0],
+                lastActivated: 'b',
+                lastActivatedContent: activeList.contents[0],
+                lastActivatedIndex: 0,
+                isCircular: true,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    isActive: true,
+                    index: 0,
+                    value: 'b',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    index: 1,
+                    value: 'a',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    index: 2,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  
+                ],
+              },
+              {
+                type: 'SWAPPED',
+                value: {
+                  a: 'b',
+                  b: 'a',
+                },
+                index: {
+                  a: 1,
+                  b: 0,
+                },
+                time: new Date(),
+              }
+            );
+          });
+
+          test('swapping at the end', () => {
+            const { activeList, subscriber } = setup({ active: 'b', isCircular: true });
+  
+            // Swap c with b
+            activeList.contents[2].swapWithPrevious();
+  
+            expect(subscriber).toHaveBeenCalledTimes(1);
+  
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b'],
+                activeContents: [activeList.contents[2]],
+                activeIndexes: [2],
+                lastActivated: 'b',
+                lastActivatedContent: activeList.contents[2],
+                lastActivatedIndex: 2,
+                isCircular: true,
+                direction: 'right',
+                maxActivationLimit: 1,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: false,
+                contents: [
+                  {
+                    isActive: false,
+                    index: 0,
+                    value: 'a',
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    index: 1,
+                    value: 'c',
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: true,
+                    index: 2,
+                    value: 'b',
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  
+                ],
+              },
+              {
+                type: 'SWAPPED',
+                value: {
+                  a: 'c',
+                  b: 'b',
+                },
+                index: {
+                  a: 2,
+                  b: 1,
+                },
+                time: new Date(),
+              }
+            );
+          });
+        });
       });
     });
   });
