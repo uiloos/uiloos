@@ -11,7 +11,6 @@
           "lint",
           "package",
           "prepare",
-          "apigen",
           "build-docs"
         ],
         "cacheDirectory": ".cache"
