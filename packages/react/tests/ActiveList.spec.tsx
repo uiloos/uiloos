@@ -7,7 +7,7 @@ import {
   ActiveList,
 } from '../src/ActiveList/ActiveList';
 
-test('ActiveList component', () => {
+test('ActiveList component', async () => {
   activateLicense("fake-100", { logLicenseActivated: false });
 
   render(
@@ -28,7 +28,7 @@ test('ActiveList component', () => {
   screen.getByText('b inactive');
   screen.getByText('c inactive');
 
-  userEvent.click(screen.getByText('c inactive'));
+  await userEvent.click(screen.getByText('c inactive'));
 
   screen.getByText('a inactive');
   screen.getByText('b inactive');
