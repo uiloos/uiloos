@@ -20,12 +20,13 @@
     "dist"
   ],
   "scripts": {
+    "prepublishOnly": "UILOOSVERSION=$(jq -r .version ./package.json) && find dist -name \"*.js\" | grep min.js | sed \"p;s/VERSION/${UILOOSVERSION}/g\" | xargs -n2 mv",
     "before-publish": "cp ../../README.MD dist && cp ../../LICENSE.MD dist",
     "clean": "rm -rf node_modules && rm -rf coverage && rm -f package-lock.json && rm -rf dist",
-    "test": "jest --coverage",
+    "test": "jest --coverage && node ./tests/minification-check.js",
     "start": "jest --watch --coverage",
     "tsc": "tsc --version && tsc --noEmit",
-    "build": "rm -rf dist && BUILD_MODE=typings rollup -c && BUILD_MODE=code rollup -c && rm -rf dist/cjs/types && rm -rf dist/esm/types && rm -rf dist/types",
+    "build": "rm -rf dist && rollup -c rollup.typings.config.js && rollup -c rollup.esm-cjs.config.js && rollup -c rollup.minification.config.js && rm -rf dist/cjs/types && rm -rf dist/esm/types && rm -rf dist/types",
     "apigen": "rm -rf apigen && typedoc src  --json ../website/src/_data/api/core.json"
   },
   "devDependencies": {

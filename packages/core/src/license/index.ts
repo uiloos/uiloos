@@ -1,3 +1,3 @@
-import { activateLicense, ActivateLicenseOptions } from './license';
+import { licenseChecker, ActivateLicenseOptions } from './license';
 
-export { activateLicense, ActivateLicenseOptions}
+export { licenseChecker, ActivateLicenseOptions}

@@ -10,7 +10,7 @@ import {
   ActiveListItemNotFoundError,
 } from '../src/ActiveList';
 
-import { activateLicense } from '../src/license';
+import { licenseChecker } from '../src/license';
 
 import { UnsubscribeFunction } from '../src/generic/types';
 
@@ -20,7 +20,7 @@ describe('ActiveList', () => {
   let unsubscribe: UnsubscribeFunction | null = null;
 
   beforeEach(() => {
-    activateLicense('fake-100', { logLicenseActivated: false });
+    licenseChecker.activateLicense('fake-100', { logLicenseActivated: false });
 
     if (unsubscribe) {
       unsubscribe();

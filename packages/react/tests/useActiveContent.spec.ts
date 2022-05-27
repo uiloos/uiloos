@@ -1,4 +1,4 @@
-import { activateLicense, ActiveList as ActiveListCore } from '@uiloos/core';
+import { licenseChecker, ActiveList as ActiveListCore } from '@uiloos/core';
 import { renderHook, act } from '@testing-library/react';
 
 import {
@@ -6,7 +6,7 @@ import {
 } from '../src/ActiveList/useActiveList';
 
 test('useActiveList hook', () => {
-  activateLicense("fake-100", { logLicenseActivated: false });
+  licenseChecker.activateLicense("fake-100", { logLicenseActivated: false });
 
   const { result } = renderHook(() =>
     useActiveList({

@@ -1,5 +1,16 @@
+/*
+  This import will be removed during the minification build so terser
+  leaves it alone. Make sure that it is not commited into git as an 
+  uncommented line!
+
+  If you run build and the line below is commented you will get
+  this error: `Cannot find name 'uiloosLicenseChecker'`.
+
+  See rollup.minification.config.js for more information
+*/
+import * as uiloosLicenseChecker from '../license/license';
+
 import { UnsubscribeFunction } from '../generic/types';
-import { _checkLicense } from '../license/license';
 import { Autoplay } from './Autoplay';
 import { ActiveListContent } from './ActiveListContent';
 import { CooldownTimer } from './CooldownTimer';
@@ -64,13 +75,13 @@ export class ActiveList<T> {
    * Used in the `initialize` to temporarily stop subscriptions running
    * the initial activation, and altering the history.
    */
-  private isInitializing = false;
+  private _isInitializing = false;
 
   /**
    * Contains the subscribers of the ActiveList subscribers
    * get informed of state changes within the ActiveList.
    */
-  private subscribers: ActiveListSubscriber<T>[] = [];
+  private _subscribers: ActiveListSubscriber<T>[] = [];
 
   /**
    * The `ActiveListContent`'s which the `ActiveList` holds.
@@ -242,20 +253,20 @@ export class ActiveList<T> {
   public hasActiveChangedAtLeastOnce: boolean = false;
 
   // The cooldown timer for activation
-  private activationCooldownTimer!: CooldownTimer<T>;
+  private _activationCooldownTimer!: CooldownTimer<T>;
 
   // The autoplay instance for all autoplay related code.
   // Note that it is undefined during initialization when
   // activateByIndex / deactivateByIndex is called.
   // But we lie about the type because otherwise there would
   // be to many checks.
-  private autoplay!: Autoplay<T>;
+  private _autoplay!: Autoplay<T>;
 
   // The amount items that should be remembered in the history.
-  private keepHistoryFor!: number;
+  private _keepHistoryFor!: number;
 
   // Stores the current direction configuration
-  private directions!: ActiveListDirection;
+  private _directions!: ActiveListDirection;
 
   /**
    * Creates an ActiveList based on the ActiveListConfig config.
@@ -270,7 +281,7 @@ export class ActiveList<T> {
     config: ActiveListConfig<T> = {},
     subscriber?: ActiveListSubscriber<T>
   ) {
-    _checkLicense();
+    uiloosLicenseChecker.licenseChecker._checkLicense();
 
     if (subscriber) {
       this.subscribe(subscriber);
@@ -291,7 +302,7 @@ export class ActiveList<T> {
    * @returns {UnsubscribeFunction} A function which when called will unsubscribe from the ActiveList.
    */
   public subscribe(subscriber: ActiveListSubscriber<T>): UnsubscribeFunction {
-    this.subscribers.push(subscriber);
+    this._subscribers.push(subscriber);
 
     return () => {
       this.unsubscribe(subscriber);
@@ -305,7 +316,7 @@ export class ActiveList<T> {
    * @param {ActiveListSubscriber<T>} subscriber The subscriber which you want to unsubscribe.
    */
   public unsubscribe(subscriber: ActiveListSubscriber<T>): void {
-    this.subscribers = this.subscribers.filter((s) => subscriber !== s);
+    this._subscribers = this._subscribers.filter((s) => subscriber !== s);
   }
 
   /**
@@ -320,7 +331,7 @@ export class ActiveList<T> {
   public initialize(config: ActiveListConfig<T>): void {
     // Ignore changes for now, we will restore subscriber at the end
     // of the initialization process.
-    this.isInitializing = true;
+    this._isInitializing = true;
 
     this.maxActivationLimit =
       config.maxActivationLimit !== undefined ? config.maxActivationLimit : 1;
@@ -339,27 +350,27 @@ export class ActiveList<T> {
     // Only when the "Startup" is done by calling 'activate' will it become
     // a valid ActiveListContent.
     this.contents = contents.map((c, index) =>
-      this.initializeABrokenContent(c, index, contents)
+      this._initializeABrokenContent(c, index, contents)
     );
 
     // Configure directions
-    this.directions = config.directions
+    this._directions = config.directions
       ? config.directions
       : { next: 'right', previous: 'left' };
 
     // Configure history
     this.history = [];
-    this.keepHistoryFor =
+    this._keepHistoryFor =
       config.keepHistoryFor !== undefined ? config.keepHistoryFor : 0;
 
     // Reset the ActiveList
-    this.becameEmpty();
+    this._becameEmpty();
 
     // Setup the activation cooldown timer instance, because we
     // are going to activate the items with `isUserInteraction`
     // `false` below the cooldown will not have any effect during
     // initialization.
-    this.activationCooldownTimer = new CooldownTimer(this, config.cooldown);
+    this._activationCooldownTimer = new CooldownTimer(this, config.cooldown);
 
     if (config.active !== undefined) {
       if (Array.isArray(config.active)) {
@@ -386,10 +397,10 @@ export class ActiveList<T> {
     // Set hasChanged to false again after activateByIndex has set it
     // to true. For the same reason set the direction to 'next';
     this.hasActiveChangedAtLeastOnce = false;
-    this.direction = this.directions.next;
+    this.direction = this._directions.next;
 
     // Begin the autoplay if it is configured
-    this.autoplay = new Autoplay(
+    this._autoplay = new Autoplay(
       this,
       config.autoplay ? config.autoplay : null
     );
@@ -397,7 +408,7 @@ export class ActiveList<T> {
     this.play();
 
     // Now start sending out changes.
-    this.isInitializing = false;
+    this._isInitializing = false;
 
     const event: ActiveListInitializedEvent<T> = {
       type: 'INITIALIZED',
@@ -406,11 +417,11 @@ export class ActiveList<T> {
       time: new Date(),
     };
 
-    this.inform(event);
+    this._inform(event);
   }
 
   // Creates a broken content which contains lies and deceptions...
-  private initializeABrokenContent(
+  private _initializeABrokenContent(
     value: T,
     index: number,
     contents: T[] | ActiveListContent<T>[]
@@ -418,7 +429,7 @@ export class ActiveList<T> {
     const content = new ActiveListContent(this, index, value);
 
     // Repair part of the broken content.
-    this.repairContent(content, index, contents);
+    this._repairContent(content, index, contents);
 
     return content;
   }
@@ -444,14 +455,14 @@ export class ActiveList<T> {
       cooldown: undefined,
     }
   ): void {
-    const activatedContent = this.doActivateByIndex(index, activationOptions);
+    const activatedContent = this._doActivateByIndex(index, activationOptions);
 
     if (!activatedContent) {
       return;
     }
 
     // Set the cooldown, if it is needed.
-    this.activationCooldownTimer.setCooldown(
+    this._activationCooldownTimer._setCooldown(
       // Note that at this point a `ActiveListCooldownDurationError`
       // can be thrown, this means that the item is activated!
       activationOptions,
@@ -466,14 +477,14 @@ export class ActiveList<T> {
       time: new Date(),
     };
 
-    this.inform(event);
+    this._inform(event);
   }
 
-  private doActivateByIndex(
+  private _doActivateByIndex(
     index: number,
     activationOptions: ActiveListActivationOptions<T>
   ): ActiveListContent<T> | null {
-    if (this.checkIndex(index)) {
+    if (this._checkIndex(index)) {
       throwIndexOutOfBoundsError('activateByIndex', 'index');
     }
 
@@ -483,7 +494,7 @@ export class ActiveList<T> {
     }
 
     // Do nothing if cooldown is active;
-    if (this.activationCooldownTimer.isActive(activationOptions)) {
+    if (this._activationCooldownTimer._isActive(activationOptions)) {
       return null;
     }
 
@@ -533,7 +544,7 @@ export class ActiveList<T> {
         // Next calculate the direction of the motion, before setting
         // the lastActivatedIndex, because we need to know the old active
         // index.
-        this.direction = this.getDirectionWhenMovingToIndex(i);
+        this.direction = this._getDirectionWhenMovingToIndex(i);
 
         // Secondly set this item to be the last active item
         this.lastActivated = content.value;
@@ -546,9 +557,9 @@ export class ActiveList<T> {
     });
 
     // During initialization the autoplay is still undefined. This
-    // means that we lie about the type of this.autoplay.
-    if (this.autoplay) {
-      this.autoplay.onActiveIndexChanged(index, activationOptions);
+    // means that we lie about the type of this._autoplay.
+    if (this._autoplay) {
+      this._autoplay.onActiveIndexChanged(index, activationOptions);
     }
 
     // Mark that the ActiveList has at least moved once.
@@ -614,8 +625,8 @@ export class ActiveList<T> {
 
     let lastActivated = null;
 
-    this.execPred(predicate, (index) => {
-      const content = this.doActivateByIndex(index, activationOptions);
+    this._execPred(predicate, (index) => {
+      const content = this._doActivateByIndex(index, activationOptions);
 
       if (content) {
         activatedIndexes.push(content.index);
@@ -627,7 +638,7 @@ export class ActiveList<T> {
 
     if (lastActivated) {
       // Set the cooldown, if it is needed.
-      this.activationCooldownTimer.setCooldown(
+      this._activationCooldownTimer._setCooldown(
         // Note that at this point a `ActiveListCooldownDurationError`
         // can be thrown, this means that the items are activated!
         activationOptions,
@@ -642,7 +653,7 @@ export class ActiveList<T> {
       time: new Date(),
     };
 
-    this.inform(event);
+    this._inform(event);
   }
 
   /**
@@ -775,7 +786,7 @@ export class ActiveList<T> {
       cooldown: undefined,
     }
   ): void {
-    const deactivatedContent = this.doDeactivateByIndex(
+    const deactivatedContent = this._doDeactivateByIndex(
       index,
       activationOptions
     );
@@ -785,7 +796,7 @@ export class ActiveList<T> {
     }
 
     // Set the cooldown, if it is needed.
-    this.activationCooldownTimer.setCooldown(
+    this._activationCooldownTimer._setCooldown(
       // Note that at this point a `ActiveListCooldownDurationError`
       // can be thrown, this means that the item is deactivated!
       activationOptions,
@@ -799,10 +810,10 @@ export class ActiveList<T> {
       time: new Date(),
     };
 
-    this.inform(event);
+    this._inform(event);
   }
 
-  private doDeactivateByIndex(
+  private _doDeactivateByIndex(
     index: number,
     activationOptions: ActiveListActivationOptions<T>
   ): ActiveListContent<T> | null {
@@ -897,7 +908,7 @@ export class ActiveList<T> {
            one for activation.
     */
 
-    if (this.checkIndex(index)) {
+    if (this._checkIndex(index)) {
       throwIndexOutOfBoundsError('deactivateByIndex', 'index');
     }
 
@@ -909,7 +920,7 @@ export class ActiveList<T> {
     }
 
     // Do nothing when a cooldown is active.
-    if (this.activationCooldownTimer.isActive(activationOptions)) {
+    if (this._activationCooldownTimer._isActive(activationOptions)) {
       return null;
     }
 
@@ -925,7 +936,7 @@ export class ActiveList<T> {
 
     // When empty we go into a special reset routine.
     if (this.activeIndexes.length === 0) {
-      this.emptyLastActives();
+      this._emptyLastActives();
 
       this.direction = 'right';
     } else {
@@ -933,10 +944,10 @@ export class ActiveList<T> {
       // last of the `activeIndexes` as the new `lastActivated`. This
       // basically selects the second to last item from before the
       // splicing.
-      this.setLastActives();
+      this._setLastActives();
 
       // Get the direction based on the removed index.
-      this.direction = this.getDirectionWhenMovingToIndex(
+      this.direction = this._getDirectionWhenMovingToIndex(
         deactivatedContent.index
       );
 
@@ -944,18 +955,18 @@ export class ActiveList<T> {
       // direction based on deactivation, and `getDirectionWhenMovingToIndex`
       // returns the direction based on activation.
       this.direction =
-        this.direction === this.directions.next
-          ? this.directions.previous
-          : this.directions.next;
+        this.direction === this._directions.next
+          ? this._directions.previous
+          : this._directions.next;
     }
 
     // Repair the next and previous
-    this.repairContents();
+    this._repairContents();
 
     // During initialization the autoplay is still undefined. This
-    // means that we lie about the type of this.autoplay.
-    if (this.autoplay) {
-      this.autoplay.onDeactivation(activationOptions);
+    // means that we lie about the type of this._autoplay.
+    if (this._autoplay) {
+      this._autoplay._onDeactivation(activationOptions);
     }
 
     // Mark that the ActiveList has at least moved once.
@@ -1019,8 +1030,8 @@ export class ActiveList<T> {
 
     let lastRemoved = null;
 
-    this.execPred(predicate, (index) => {
-      const content = this.doDeactivateByIndex(index, activationOptions);
+    this._execPred(predicate, (index) => {
+      const content = this._doDeactivateByIndex(index, activationOptions);
 
       if (content) {
         deactivatedIndexes.push(content.index);
@@ -1032,7 +1043,7 @@ export class ActiveList<T> {
 
     if (lastRemoved) {
       // Set the cooldown, if it is needed.
-      this.activationCooldownTimer.setCooldown(
+      this._activationCooldownTimer._setCooldown(
         // Note that at this point a `ActiveListCooldownDurationError`
         // can be thrown, this means that the items are deactivated!
         activationOptions,
@@ -1047,7 +1058,7 @@ export class ActiveList<T> {
       time: new Date(),
     };
 
-    this.inform(event);
+    this._inform(event);
   }
 
   /**
@@ -1056,7 +1067,7 @@ export class ActiveList<T> {
    * @returns {boolean} Whether or not the ActiveList is playing.
    */
   public isPlaying(): boolean {
-    return this.autoplay.isPlaying();
+    return this._autoplay._isPlaying();
   }
 
   /**
@@ -1075,7 +1086,7 @@ export class ActiveList<T> {
    * @throws {ActiveListAutoplayDurationError} autoplay duration must be a positive number when defined
    */
   public play(): void {
-    this.autoplay.play();
+    this._autoplay._play();
   }
 
   /**
@@ -1087,13 +1098,13 @@ export class ActiveList<T> {
    * For example: when the duration is 1 second and the `pause` is
    * called after 0.8 seconds, it will after `play` is called, take
    * 0.2 seconds to go to the next content.
-   * 
-   * Note: if the autoplay is already paused calling `pause` again 
+   *
+   * Note: if the autoplay is already paused calling `pause` again
    * will do nothing, the time used for the remaining duration is
    * based on the first pause.
    */
   public pause(): void {
-    this.autoplay.pause();
+    this._autoplay._pause();
   }
 
   /**
@@ -1108,7 +1119,7 @@ export class ActiveList<T> {
    * 1 second to go to the next content.
    */
   public stop(): void {
-    this.autoplay.stop();
+    this._autoplay._stop();
   }
 
   /**
@@ -1124,7 +1135,7 @@ export class ActiveList<T> {
   public configureAutoplay(
     autoplayConfig: ActiveListAutoplayConfig<T> | null
   ): void {
-    this.autoplay.setConfig(autoplayConfig);
+    this._autoplay._setConfig(autoplayConfig);
     this.play();
   }
 
@@ -1146,7 +1157,7 @@ export class ActiveList<T> {
     }
 
     // Create the new content
-    const content: ActiveListContent<T> = this.initializeABrokenContent(
+    const content: ActiveListContent<T> = this._initializeABrokenContent(
       item,
       index,
       this.contents
@@ -1171,7 +1182,7 @@ export class ActiveList<T> {
       this.lastActivatedIndex += 1;
     }
 
-    this.repairContents();
+    this._repairContents();
 
     const event: ActiveListInsertedEvent<T> = {
       type: 'INSERTED',
@@ -1180,7 +1191,7 @@ export class ActiveList<T> {
       time: new Date(),
     };
 
-    this.inform(event);
+    this._inform(event);
 
     return content;
   }
@@ -1234,9 +1245,9 @@ export class ActiveList<T> {
     predicate: ActiveListContentPredicate<T>,
     options: ActiveListPredicateOptions = { mode: 'at' }
   ): ActiveListContent<T> | null {
-    const mod = this.modeToMod(options.mode);
+    const mod = this._modeToMod(options.mode);
 
-    return this.execPred(predicate, (index) => {
+    return this._execPred(predicate, (index) => {
       const atIndex = Math.max(0, index + mod);
 
       return this.insertAtIndex(item, atIndex);
@@ -1254,7 +1265,7 @@ export class ActiveList<T> {
    * @throws {ActiveListIndexOutOfBoundsError} index cannot be out of bounds
    */
   public removeByIndex(index: number): T {
-    const value = this.doRemoveAtIndex(index);
+    const value = this._doRemoveAtIndex(index);
 
     const indexOfIndex = this.activeIndexes.indexOf(index);
     if (indexOfIndex !== -1) {
@@ -1272,12 +1283,12 @@ export class ActiveList<T> {
     );
 
     if (this.isEmpty()) {
-      this.becameEmpty();
+      this._becameEmpty();
     } else {
-      this.setLastActives();
+      this._setLastActives();
     }
 
-    this.repairContents();
+    this._repairContents();
 
     const event: ActiveListRemovedEvent<T> = {
       type: 'REMOVED',
@@ -1286,13 +1297,13 @@ export class ActiveList<T> {
       time: new Date(),
     };
 
-    this.inform(event);
+    this._inform(event);
 
     return value;
   }
 
-  private doRemoveAtIndex(index: number): T {
-    if (this.checkIndex(index)) {
+  private _doRemoveAtIndex(index: number): T {
+    if (this._checkIndex(index)) {
       throwIndexOutOfBoundsError('removeByIndex', 'index');
     }
 
@@ -1372,7 +1383,7 @@ export class ActiveList<T> {
     // The tricky bit about this is that the index will shuffle when
     // removing an item mid air. So we put the matching items in the
     // array first for later processing.
-    this.execPred(predicate, (index) => {
+    this._execPred(predicate, (index) => {
       const content = this.contents[index];
       removed.push(content);
     });
@@ -1417,14 +1428,14 @@ export class ActiveList<T> {
       // We have to remove by index instead of by item, because
       // with primitives we might remove items by mistake when the
       // predicate uses the second index parameter.
-      this.doRemoveAtIndex(actualIndex);
+      this._doRemoveAtIndex(actualIndex);
 
       removedIndexes.push(content.index);
     });
 
     // Check if the active index was removed
     if (this.isEmpty()) {
-      this.becameEmpty();
+      this._becameEmpty();
     } else {
       removedIndexes.forEach((index) => {
         const indexOfIndex = this.activeIndexes.indexOf(index);
@@ -1446,13 +1457,13 @@ export class ActiveList<T> {
         });
       });
 
-      this.setLastActives();
+      this._setLastActives();
     }
 
     const removedValues = removed.map((r) => r.value);
 
     if (removedIndexes.length > 0) {
-      this.repairContents();
+      this._repairContents();
 
       const event: ActiveListRemovedMultipleEvent<T> = {
         type: 'REMOVED_MULTIPLE',
@@ -1461,7 +1472,7 @@ export class ActiveList<T> {
         time: new Date(),
       };
 
-      this.inform(event);
+      this._inform(event);
     }
 
     return removedValues;
@@ -1478,11 +1489,11 @@ export class ActiveList<T> {
    * @throws {ActiveListIndexOutOfBoundsError} index cannot be out of bounds
    */
   public swapByIndex(a: number, b: number): void {
-    if (this.checkIndex(a)) {
+    if (this._checkIndex(a)) {
       throwIndexOutOfBoundsError('swapByIndex', 'a');
     }
 
-    if (this.checkIndex(b)) {
+    if (this._checkIndex(b)) {
       throwIndexOutOfBoundsError('swapByIndex', 'b');
     }
 
@@ -1520,7 +1531,7 @@ export class ActiveList<T> {
     this.contents[a] = itemB;
     this.contents[b] = itemA;
 
-    this.repairContents();
+    this._repairContents();
 
     const event: ActiveListSwappedEvent<T> = {
       type: 'SWAPPED',
@@ -1535,7 +1546,7 @@ export class ActiveList<T> {
       time: new Date(),
     };
 
-    this.inform(event);
+    this._inform(event);
   }
 
   /**
@@ -1572,11 +1583,11 @@ export class ActiveList<T> {
    * @throws {ActiveListIndexOutOfBoundsError} index cannot be out of bounds
    */
   public moveByIndex(from: number, to: number): void {
-    if (this.checkIndex(from)) {
+    if (this._checkIndex(from)) {
       throwIndexOutOfBoundsError('moveByIndex', 'from');
     }
 
-    if (this.checkIndex(to)) {
+    if (this._checkIndex(to)) {
       throwIndexOutOfBoundsError('moveByIndex', 'to');
     }
 
@@ -1882,7 +1893,7 @@ export class ActiveList<T> {
     // Finally insert it the "from" into the correct spot.
     this.contents.splice(to, 0, fromItem);
 
-    this.repairContents();
+    this._repairContents();
 
     const event: ActiveListMovedEvent<T> = {
       type: 'MOVED',
@@ -1894,7 +1905,7 @@ export class ActiveList<T> {
       time: new Date(),
     };
 
-    this.inform(event);
+    this._inform(event);
   }
 
   /**
@@ -1943,9 +1954,9 @@ export class ActiveList<T> {
     predicate: ActiveListContentPredicate<T>,
     options: ActiveListPredicateOptions = { mode: 'at' }
   ): void {
-    const mod = this.modeToMod(options.mode);
+    const mod = this._modeToMod(options.mode);
 
-    this.execPred(predicate, (i, length) => {
+    this._execPred(predicate, (i, length) => {
       const atIndex = Math.min(Math.max(0, i + mod), length - 1);
 
       this.moveByIndex(index, atIndex);
@@ -2063,7 +2074,7 @@ export class ActiveList<T> {
     return nextIndex;
   }
 
-  // Given the index what is the next index. Used to set the isPrevious 
+  // Given the index what is the next index. Used to set the isPrevious
   // property of the ActiveListContent. When not isCircular it allows
   // the previousIndex to fall out of bounds.
   public _getUnboundedPreviousIndex(index: number): number {
@@ -2085,7 +2096,7 @@ export class ActiveList<T> {
 
   // Helpers
 
-  private getDirectionWhenMovingToIndex(next: number): string {
+  private _getDirectionWhenMovingToIndex(next: number): string {
     const lastActivatedIndex = this.lastActivatedIndex;
 
     if (this.isCircular) {
@@ -2192,7 +2203,7 @@ export class ActiveList<T> {
       */
 
       if (this.lastActivatedIndex === -1) {
-        return this.directions.next;
+        return this._directions.next;
       }
 
       const lastActivatedLargerThanNext = this.lastActivatedIndex > next;
@@ -2208,17 +2219,17 @@ export class ActiveList<T> {
         : next - this.lastActivatedIndex;
 
       return leftDistance >= rightDistance
-        ? this.directions.next
-        : this.directions.previous;
+        ? this._directions.next
+        : this._directions.previous;
     } else {
       return next >= lastActivatedIndex
-        ? this.directions.next
-        : this.directions.previous;
+        ? this._directions.next
+        : this._directions.previous;
     }
   }
 
   // Restore the content after a mutation on the state has occurred.
-  private repairContents(): void {
+  private _repairContents(): void {
     let nextIndex: null | number = null;
     let previousIndex: null | number = null;
     if (this.lastActivatedIndex !== -1) {
@@ -2233,12 +2244,12 @@ export class ActiveList<T> {
       content.isNext = nextIndex === index;
       content.isPrevious = previousIndex === index;
 
-      this.repairContent(content, index, this.contents);
+      this._repairContent(content, index, this.contents);
     });
   }
 
   // The shared logic for fixing a broken ActiveListContent.
-  private repairContent(
+  private _repairContent(
     content: ActiveListContent<T>,
     index: number,
     contents: T[] | ActiveListContent<T>[]
@@ -2259,14 +2270,14 @@ export class ActiveList<T> {
     }
   }
 
-  private emptyLastActives() {
+  private _emptyLastActives() {
     this.lastActivatedIndex = -1;
     this.lastActivated = null;
     this.lastActivatedContent = null;
   }
 
-  private becameEmpty(): void {
-    this.emptyLastActives();
+  private _becameEmpty(): void {
+    this._emptyLastActives();
 
     this.activeContents = [];
     this.activeIndexes = [];
@@ -2276,9 +2287,9 @@ export class ActiveList<T> {
     this.hasActiveChangedAtLeastOnce = true;
   }
 
-  private setLastActives() {
+  private _setLastActives() {
     if (this.activeIndexes.length === 0) {
-      this.emptyLastActives();
+      this._emptyLastActives();
       return;
     }
 
@@ -2293,7 +2304,7 @@ export class ActiveList<T> {
   }
 
   // exists only for code reduction, not to make things clearer
-  private execPred<R>(
+  private _execPred<R>(
     predicate: ActiveListContentPredicate<T>,
     action: (index: number, length: number) => R
   ): R | null {
@@ -2324,29 +2335,29 @@ export class ActiveList<T> {
     return null;
   }
 
-  private inform(event: ActiveListEvent<T>): void {
-    if (this.isInitializing) {
+  private _inform(event: ActiveListEvent<T>): void {
+    if (this._isInitializing) {
       return;
     }
 
     // Track history if the developer wants it.
-    if (this.keepHistoryFor > 0) {
+    if (this._keepHistoryFor > 0) {
       this.history.push(event);
 
       // Prevent from growing infinitely
-      if (this.history.length - 1 === this.keepHistoryFor) {
+      if (this.history.length - 1 === this._keepHistoryFor) {
         this.history.shift();
       }
     }
 
-    this.subscribers.forEach((subscriber) => subscriber(this, event));
+    this._subscribers.forEach((subscriber) => subscriber(this, event));
   }
 
-  private checkIndex(index: number): boolean {
+  private _checkIndex(index: number): boolean {
     return index < 0 || index >= this.contents.length;
   }
 
-  private modeToMod(mode: ActiveListPredicateMode): number {
+  private _modeToMod(mode: ActiveListPredicateMode): number {
     return mode === 'at' ? 0 : mode === 'after' ? 1 : -1;
   }
 }

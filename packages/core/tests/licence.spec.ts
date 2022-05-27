@@ -1,4 +1,4 @@
-import { activateLicense, _checkLicense, _reset } from '../src/license/license';
+import { licenseChecker, _reset } from '../src/license/license';
 
 describe("checkLicense", () => {
 
@@ -9,9 +9,9 @@ describe("checkLicense", () => {
   it('should on success log when the license checks out for a limited amount of developers', () => {
     jest.spyOn(console, 'log').mockImplementation(() => undefined);
     
-    activateLicense("fake-10");
+    licenseChecker.activateLicense("fake-10");
     
-    _checkLicense();
+    licenseChecker._checkLicense();
 
     expect(console.log).toHaveBeenCalledTimes(1);
     expect(console.log).toHaveBeenCalledWith("uiloos > license > license activated, this license is for use with 10 developers. We thank you for your support, you can disable this message if you want to. If you are not the owner of this website please ignore this message.");
@@ -20,9 +20,9 @@ describe("checkLicense", () => {
   it('should on success log when the license checks out for a unlimited developers', () => {
     jest.spyOn(console, 'log').mockImplementation(() => undefined);
     
-    activateLicense("fake-unlimited");
+    licenseChecker.activateLicense("fake-unlimited");
     
-    _checkLicense();
+    licenseChecker._checkLicense();
 
     expect(console.log).toHaveBeenCalledTimes(1);
     expect(console.log).toHaveBeenCalledWith("uiloos > license > license activated, this license is for use with unlimited developers. We thank you for your support, you can disable this message if you want to. If you are not the owner of this website please ignore this message.");
@@ -31,13 +31,13 @@ describe("checkLicense", () => {
   it('should not check the license once it has already been checked', () => {
     jest.spyOn(console, 'log').mockImplementation(() => undefined);
     
-    activateLicense("fake-unlimited");
+    licenseChecker.activateLicense("fake-unlimited");
     
     // First time will set _success to true
-    _checkLicense();
+    licenseChecker._checkLicense();
 
     // This one will now skip the routine, and exit early.
-    _checkLicense();
+    licenseChecker._checkLicense();
 
     expect(console.log).toHaveBeenCalledTimes(1);
     expect(console.log).toHaveBeenCalledWith("uiloos > license > license activated, this license is for use with unlimited developers. We thank you for your support, you can disable this message if you want to. If you are not the owner of this website please ignore this message.");
@@ -46,9 +46,9 @@ describe("checkLicense", () => {
   it('should be able to suppress the license activated message', () => {
     jest.spyOn(console, 'log').mockImplementation(() => undefined);
     
-    activateLicense("fake-10", { logLicenseActivated: false });
+    licenseChecker.activateLicense("fake-10", { logLicenseActivated: false });
     
-    _checkLicense();
+    licenseChecker._checkLicense();
 
     expect(console.log).toHaveBeenCalledTimes(0);
   });
@@ -56,9 +56,9 @@ describe("checkLicense", () => {
   it('should when the license is invalid warn the developer', () => {
     jest.spyOn(console, 'warn').mockImplementation(() => undefined);
     
-    activateLicense("invalid",);
+    licenseChecker.activateLicense("invalid",);
     
-    _checkLicense();
+    licenseChecker._checkLicense();
 
     expect(console.warn).toHaveBeenCalledTimes(1);
     expect(console.warn).toHaveBeenCalledWith("uiloos > license > invalid license key detected: invalid, please purchase a license at https://www.uiloos.dev. If you are not the owner of this website please ignore this message.");
@@ -67,9 +67,9 @@ describe("checkLicense", () => {
   it('should when there is no license warn the developer that he must purchase a license', () => {
     jest.spyOn(console, 'warn').mockImplementation(() => undefined);
     
-    activateLicense("");
+    licenseChecker.activateLicense("");
     
-    _checkLicense();
+    licenseChecker._checkLicense();
 
     expect(console.warn).toHaveBeenCalledTimes(1);
     expect(console.warn).toHaveBeenCalledWith("uiloos > license > you are using commercial software, please purchase a license at https://www.uiloos.dev. If you are not the owner of this website please ignore this message.");

@@ -1,11 +1,11 @@
 import { render, fireEvent } from '@testing-library/vue';
-import { activateLicense } from '@uiloos/core';
+import { licenseChecker } from '@uiloos/core';
 import { test } from 'vitest';
 
 import ActiveList from '../src/ActiveList/ActiveList';
 
 test('ActiveList component', async () => {
-  activateLicense("fake-100", { logLicenseActivated: false });
+  licenseChecker.activateLicense("fake-100", { logLicenseActivated: false });
 
   const { getByText } = render(ActiveList, {
     props: {

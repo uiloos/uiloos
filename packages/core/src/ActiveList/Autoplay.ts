@@ -4,91 +4,92 @@ import { ActiveListContent } from './ActiveListContent';
 import { ActiveListAutoplayDurationError } from './errors/ActiveListAutoplayDurationError';
 import { ActiveListAutoplayConfig, ActiveListActivationOptions } from './types';
 
+// Autoplay is a PRIVATE class, it should not be exposed directly.
 export class Autoplay<T> {
   /*
     The timeoutId given back by calling window.setTimeout for when 
     autoplay is enabled. Is kept here so it can be cleared via
     window.clearTimeout.
   */
-  private autoplayTimeoutId: number | null = null;
+  private _autoplayTimeoutId: number | null = null;
 
   /*
     The date on which the autoplay started, used to calculate
     what the duration should be after a pause is resumed.
   */
-  private autoplayStarted: Date = new Date();
+  private _autoplayStarted: Date = new Date();
 
   /*
     The date on which the pause started, used to calculate
     what the duration should be after a pause is resumed.
   */
-  private pauseStarted: Date | null = null;
+  private _pauseStarted: Date | null = null;
 
   /*
     The current duration time of the current active content, used to calculate
     what the duration should be after a pause is resumed.
   */
-  private autoplayCurrentDuration: number = 0;
+  private _autoplayCurrentDuration: number = 0;
 
   /**
    * Contains the configuration of the autoplay.
    */
-  private config?: ActiveListAutoplayConfig<T> | null = null;
+  private _config?: ActiveListAutoplayConfig<T> | null = null;
 
   /**
    * Reference to the active content is it a part of.
    */
-  private activeList: ActiveList<T>;
+  private _activeList: ActiveList<T>;
 
   constructor(
     activeList: ActiveList<T>,
     config: ActiveListAutoplayConfig<T> | null
   ) {
-    this.activeList = activeList;
-    this.config = config;
+    this._activeList = activeList;
+    this._config = config;
   }
 
-  public setConfig(config: ActiveListAutoplayConfig<T> | null): void {
-    this.config = config;
+  public _setConfig(config: ActiveListAutoplayConfig<T> | null): void {
+    this._config = config;
   }
 
-  public isPlaying(): boolean {
-    return this.autoplayTimeoutId !== null;
+  public _isPlaying(): boolean {
+    return this._autoplayTimeoutId !== null;
   }
 
-  public play(): void {
+  public _play(): void {
     // Cancel timer to prevent multiple timeouts from being active.
-    this.cancelTimer();
+    this._cancelTimer();
 
     // Stop playing when autoplay is false, when the content has
     // become empty, or when there is no more lastActivatedContent.
     if (
-      !this.config ||
-      this.activeList.isEmpty() ||
-      this.activeList.lastActivatedContent === null
+      !this._config ||
+      this._activeList.isEmpty() ||
+      this._activeList.lastActivatedContent === null
     ) {
       return;
     }
 
-    const duration = this.getDuration(
-      this.config,
-      this.activeList.lastActivatedContent
+    const duration = this._getDuration(
+      this._config,
+      this._activeList.lastActivatedContent
     );
 
     if (duration <= 0) {
       throw new ActiveListAutoplayDurationError();
     }
 
-    this.autoplayCurrentDuration = duration;
-    this.autoplayStarted = new Date();
+    this._autoplayCurrentDuration = duration;
+    this._autoplayStarted = new Date();
 
-    this.autoplayTimeoutId = window.setTimeout(() => {
+    this._autoplayTimeoutId = window.setTimeout(() => {
       // It could happen that during the "duration" the contents, or
       // active is  now empty due to a removal / deactivation, in this
       // case we simply want to do nothing.
       if (
-        this.activeList.isEmpty() ||
-        this.activeList.lastActivatedContent === null
+        this._activeList.isEmpty() ||
+        this._activeList.lastActivatedContent === null
       ) {
         return;
       }
@@ -99,16 +100,16 @@ export class Autoplay<T> {
       // does not need to call window.clearTimeout. This is just a
       // very minor performance boost. On other reason to do this
       // is that when debugging this code, it is slightly easier to
-      // follow due to the `autoplayTimeoutId` getting cleaned up,
+      // follow due to the `_autoplayTimeoutId` getting cleaned up,
       // otherwise it looks like the timeout is still in progress.
-      this.autoplayTimeoutId = null;
+      this._autoplayTimeoutId = null;
 
       // Call next to actually trigger going to the next active content.
-      this.activeList.activateNext({ isUserInteraction: false });
+      this._activeList.activateNext({ isUserInteraction: false });
     }, duration);
   }
 
-  public pause(): void {
+  public _pause(): void {
     /* 
       A user can call pause multiple times, by accident, these 
       subsequent calls should be ignored to prevent bugs:
@@ -116,44 +117,44 @@ export class Autoplay<T> {
       I (Maarten Hus) wrote a carousel example which paused when the 
       users mouse entered the carousel. When moving the mouse over the
       carousel whilst the duration had not passed, caused the 
-      "pauseStarted" to move into the future. 
+      "_pauseStarted" to move into the future. 
 
       This could then in turn result in a negative duration, because
-      the pauseStarted Date could become higher than the 
-      autoplayStarted Date.
+      the _pauseStarted Date could become higher than the 
+      _autoplayStarted Date.
     */
-    if (this.pauseStarted) {
+    if (this._pauseStarted) {
       return;
     }
 
     // Store the time when the pause was pressed, so we can calculate
     // the resuming duration later.
-    this.pauseStarted = new Date();
+    this._pauseStarted = new Date();
 
-    this.cancelTimer();
+    this._cancelTimer();
   }
 
-  public stop(): void {
-    this.cancelTimer();
+  public _stop(): void {
+    this._cancelTimer();
 
-    this.pauseStarted = null;
+    this._pauseStarted = null;
   }
 
-  private cancelTimer() {
-    if (this.autoplayTimeoutId !== null) {
-      window.clearTimeout(this.autoplayTimeoutId);
-      this.autoplayTimeoutId = null;
+  private _cancelTimer() {
+    if (this._autoplayTimeoutId !== null) {
+      window.clearTimeout(this._autoplayTimeoutId);
+      this._autoplayTimeoutId = null;
     }
   }
 
-  public onDeactivation(activationOptions: ActiveListActivationOptions<T>) {
+  public _onDeactivation(activationOptions: ActiveListActivationOptions<T>) {
     // If there is no autoplay config do not bother.
-    if (!this.config) {
+    if (!this._config) {
       return;
     }
 
-    if (this.shouldStopOnUserInteraction(activationOptions, this.config)) {
-      this.stop();
+    if (this._shouldStopOnUserInteraction(activationOptions, this._config)) {
+      this._stop();
     }
   }
 
@@ -162,28 +163,28 @@ export class Autoplay<T> {
     activationOptions: ActiveListActivationOptions<T>
   ) {
     // If there is no autoplay config do not bother.
-    if (!this.config) {
+    if (!this._config) {
       return;
     }
 
-    if (this.shouldStopOnUserInteraction(activationOptions, this.config)) {
-      this.stop();
+    if (this._shouldStopOnUserInteraction(activationOptions, this._config)) {
+      this._stop();
     } else if (
-      this.activeList.isCircular === false &&
-      index === this.activeList.getLastIndex()
+      this._activeList.isCircular === false &&
+      index === this._activeList.getLastIndex()
     ) {
       // When the ActiveList is linear stop autoplay at the end.
-      this.stop();
+      this._stop();
     } else {
       // Move the autoplay to the next "timer", needed because
       // each "item" can have a unique "duration" in which it
       // is active.
 
-      this.play();
+      this._play();
     }
   }
 
-  private shouldStopOnUserInteraction(
+  private _shouldStopOnUserInteraction(
     activationOptions: ActiveListActivationOptions<T>,
     config: ActiveListAutoplayConfig<T>
   ): boolean {
@@ -196,14 +197,14 @@ export class Autoplay<T> {
     );
   }
 
-  private getDuration(
+  private _getDuration(
     config: ActiveListAutoplayConfig<T>,
     lastActivatedContent: ActiveListContent<T>
   ): number {
-    if (this.pauseStarted) {
+    if (this._pauseStarted) {
       return (
-        this.autoplayCurrentDuration -
-        (this.pauseStarted.getTime() - this.autoplayStarted.getTime())
+        this._autoplayCurrentDuration -
+        (this._pauseStarted.getTime() - this._autoplayStarted.getTime())
       );
     }
 
@@ -256,7 +257,7 @@ export class Autoplay<T> {
         index: lastActivatedContent.index,
         content: lastActivatedContent,
         value: lastActivatedContent.value,
-        activeList: this.activeList,
+        activeList: this._activeList,
       });
     }
   }
