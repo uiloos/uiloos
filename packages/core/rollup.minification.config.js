@@ -3,12 +3,10 @@ import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import external from 'rollup-plugin-peer-deps-external';
 import { terser } from 'rollup-plugin-terser';
+import { glob } from 'glob';
+import { readFileSync, writeFileSync } from 'fs';
 
-import { execSync } from 'child_process';
-
-const shell = (cmd) => execSync(cmd, { encoding: 'utf8' });
-
-console.log('Building minified components');
+console.log('\nBuilding minified components for core package');
 
 const config = [
   {
@@ -18,7 +16,7 @@ const config = [
       format: 'iife',
       name: 'uiloosLicenseChecker',
       plugins: [
-        // Note: do not allow mangling of `_` here because otherwise 
+        // Note: do not allow mangling of `_` here because otherwise
         // _checkLicense will be mangled.
         terser(),
       ],
@@ -90,18 +88,26 @@ export default config;
 // access the input file.
 let modifiedDir = '';
 
-const from = 'import \\* as uiloosLicenseChecker';
-const to = '//import \\* as uiloosLicenseChecker';
+const from = 'import * as uiloosLicenseChecker';
+const to = '//import * as uiloosLicenseChecker';
 
 function uiloosMinificationStart() {
   return {
     name: 'uiloos-minification-start',
     buildStart(options) {
-      modifiedDir = options.input[0].split('/index.ts')[0] + "/*";
+      modifiedDir = options.input[0].split('/index.ts')[0] + '/**/*.ts';
 
-      console.log(`Commenting: '${from}'; from: ${modifiedDir}`);
+      console.log(`Applying terser minification hack: commenting all "${from}" for pattern: "${modifiedDir}"`);
 
-      shell(`grep -rli 'as uiloosLicenseChecker' ${modifiedDir} | xargs -I@ sed -I '' 's#${from}#${to}#g' @`);
+      glob.sync('./' + modifiedDir).forEach((file) => {
+        const fileAsString = readFileSync(file, 'utf8');
+
+        if (fileAsString.includes(from)) {
+          console.log(`  > file: "${file}" contains the import, commenting it out...`)
+          const replacedContent = fileAsString.replace(from, to);
+          writeFileSync(file, replacedContent, 'utf8');
+        }
+      });
     },
   };
 }
@@ -110,11 +116,19 @@ function uiloosMinificationEnd() {
   return {
     name: 'uiloos-minification-end',
     buildEnd() {
-      console.log(`Uncommenting: '${to}'; from: ${modifiedDir}`);
+      console.log(`\nUndoing terser minification hack: uncommenting all "${to}" for pattern: "${modifiedDir}"`);
 
-      shell(`grep -rli 'as uiloosLicenseChecker' ${modifiedDir} | xargs -I@ sed -I '' 's#${to}#${from}#g' @`);
+      glob.sync('./' + modifiedDir).forEach((file) => {
+        const fileAsString = readFileSync(file, 'utf8');
 
-      console.log("Ignore any `Cannot find name 'uiloosLicenseChecker'` messages, this is expected.");
+        if (fileAsString.includes(to)) {
+          console.log(`  >  file: "${file}" contains the import, uncommenting it...`);
+          const replacedContent = fileAsString.replace(to, from);
+          writeFileSync(file, replacedContent, 'utf8');
+        }
+      });
+
+      console.log("\n\nIgnore any `Cannot find name 'uiloosLicenseChecker'` messages, this is expected!\n");
     },
   };
 }

@@ -5,7 +5,7 @@ import external from 'rollup-plugin-peer-deps-external';
 
 const packageJson = require('./package.json');
 
-console.log('Building esm and clj files');
+console.log('\nBuilding esm and clj files for core package');
 
 const config = {
   input: 'src/index.ts',

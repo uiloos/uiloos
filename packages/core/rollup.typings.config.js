@@ -6,7 +6,7 @@ import dts from 'rollup-plugin-dts';
 
 const packageJson = require('./package.json');
 
-console.log('Building TypeScript definition files');
+console.log('\nBuilding TypeScript definition files for core package');
 
 /*
   This config is needed so typings are generated with comments intact or
