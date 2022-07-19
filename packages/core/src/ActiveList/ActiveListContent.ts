@@ -114,21 +114,20 @@ export class ActiveListContent<T> {
   }
 
   /**
-   * When calling `toggle` it will flip the this `ActiveListContent` 
-   * `isActive` state. 
-   * 
+   * When calling `toggle` it will flip the this `ActiveListContent`
+   * `isActive` state.
+   *
    * So when `isActive` is `true` and `toggle` is called, `isActive`
-   * will become `false`. When `isActive` is `false` and `toggle` is 
+   * will become `false`. When `isActive` is `false` and `toggle` is
    * called, `isActive` will become `true`.
+   *
+   * With the `activationOptions` you can determine the effects
+   * on `cooldown` and `autoplay`.
    *
    * @param {ActiveListActivationOptions<T>} [activationOptions] The activation options @see ActiveListActivationOptions<T>
    */
-   public toggle(activationOptions?: ActiveListActivationOptions<T>): void {
-     if (this.isActive) {
-       this.activeContent.deactivateByIndex(this.index, activationOptions);
-     } else {
-      this.activeContent.activateByIndex(this.index, activationOptions);
-     }
+  public toggle(activationOptions?: ActiveListActivationOptions<T>): void {
+    this.activeContent.toggleByIndex(this.index, activationOptions);
   }
 
   /**
@@ -171,11 +170,11 @@ export class ActiveListContent<T> {
   /**
    * Swaps the `ActiveListContent` with the next `ActiveListContent` in the sequence.
    *
-   * If `isCircular` of the `ActiveList` is `true` swapping whilst on 
+   * If `isCircular` of the `ActiveList` is `true` swapping whilst on
    * the last index will make this `ActiveListContent` swap with the
    * first index. If `isCircular` is `false` it will do nothing,
    *  and keep the `ActiveListContent` on the last index.
-   * 
+   *
    * Note: if the active `ActiveListContent` is swapped, it will stay active,
    * it will only get a new position.
    */
@@ -187,16 +186,18 @@ export class ActiveListContent<T> {
   /**
    * Swaps the `ActiveListContent` with the previous `ActiveListContent` in the sequence.
    *
-   * If `isCircular` of the `ActiveList` is `true` swapping whilst on 
+   * If `isCircular` of the `ActiveList` is `true` swapping whilst on
    * the first index will make this `ActiveListContent` swap with the
    * last index. If `isCircular` is `false` it will do nothing,
    *  and keep the `ActiveListContent` on the first index.
-   * 
+   *
    * Note: if the active `ActiveListContent` is swapped, it will stay active,
    * it will only get a new position.
    */
   public swapWithPrevious(): void {
-    const previousIndex = this.activeContent._getBoundedPreviousIndex(this.index);
+    const previousIndex = this.activeContent._getBoundedPreviousIndex(
+      this.index
+    );
     this.swapWithByIndex(previousIndex);
   }
 

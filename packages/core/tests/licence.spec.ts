@@ -1,10 +1,16 @@
-import { licenseChecker, _reset } from '../src/license/license';
+
+import { licenseChecker, _LicenseChecker } from '../src/license';
+import { _reset } from '../src/license/license';
 
 describe("checkLicense", () => {
 
   beforeEach(() => {
     _reset();
-  })
+  });
+
+  it('should export the _LicenseChecker class', () => {
+    expect(typeof _LicenseChecker).toBe('function');
+  });
 
   it('should on success log when the license checks out for a limited amount of developers', () => {
     jest.spyOn(console, 'log').mockImplementation(() => undefined);

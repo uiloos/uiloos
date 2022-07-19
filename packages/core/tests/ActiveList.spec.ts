@@ -5642,6 +5642,148 @@ describe('ActiveList', () => {
     });
   });
 
+  describe('toggling of elements', () => {
+    describe('toggleByIndex', () => {
+      describe('when it throws out of bounds', () => {
+        test('throws out of bounds when index is to large', () => {
+          const { activeList, subscriber } = setup({});
+
+          expect(() => {
+            activeList.toggleByIndex(4);
+          }).toThrowError(
+            `uiloos > ActiveList > toggleByIndex > "index" is out of bounds`
+          );
+
+          expect(() => {
+            activeList.toggleByIndex(4);
+          }).toThrowError(ActiveListIndexOutOfBoundsError);
+
+          expect(() => {
+            activeList.toggleByIndex(3);
+          }).toThrowError(
+            `uiloos > ActiveList > toggleByIndex > "index" is out of bounds`
+          );
+
+          expect(() => {
+            activeList.toggleByIndex(3);
+          }).toThrowError(ActiveListIndexOutOfBoundsError);
+
+          expect(subscriber).toHaveBeenCalledTimes(0);
+
+          expect(activeList.active).toEqual([]);
+        });
+
+        test('throws out of bounds when index is less than zero', () => {
+          const { activeList, subscriber } = setup({});
+
+          expect(() => {
+            activeList.toggleByIndex(-1);
+          }).toThrowError(
+            `uiloos > ActiveList > toggleByIndex > "index" is out of bounds`
+          );
+
+          expect(() => {
+            activeList.toggleByIndex(-1);
+          }).toThrowError(ActiveListIndexOutOfBoundsError);
+
+          expect(subscriber).toHaveBeenCalledTimes(0);
+
+          expect(activeList.active).toEqual([]);
+        });
+      });
+
+      test('toggling by index scenario', () => {
+        const { activeList } = setup({ activeIndexes: 0 });
+
+        jest.spyOn(activeList, 'activateByIndex');
+        jest.spyOn(activeList, 'deactivateByIndex');
+
+        activeList.toggleByIndex(0, { isUserInteraction: false });
+
+        expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: false,
+        });
+
+        activeList.toggleByIndex(0, { isUserInteraction: false });
+
+        expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: false,
+        });
+
+        activeList.toggleByIndex(0, { isUserInteraction: true });
+
+        expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(2);
+        expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: true,
+        });
+
+        activeList.toggleByIndex(0, { isUserInteraction: true });
+
+        expect(activeList.activateByIndex).toHaveBeenCalledTimes(2);
+        expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: true,
+        });
+      });
+    });
+
+    describe('toggle', () => {
+      test('toggle by identity scenario', () => {
+        const { activeList } = setup({ activeIndexes: 0 });
+
+        jest.spyOn(activeList, 'activateByIndex');
+        jest.spyOn(activeList, 'deactivateByIndex');
+
+        activeList.toggle('a', { isUserInteraction: false });
+
+        expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: false,
+        });
+
+        activeList.toggle('a', { isUserInteraction: false });
+
+        expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: false,
+        });
+
+        activeList.toggle('a', { isUserInteraction: true });
+
+        expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(2);
+        expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: true,
+        });
+
+        activeList.toggle('a', { isUserInteraction: true });
+
+        expect(activeList.activateByIndex).toHaveBeenCalledTimes(2);
+        expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: true,
+        });
+      });
+
+      test('throws item not found', () => {
+        const { activeList } = setup();
+
+        jest.spyOn(activeList, 'activateByIndex');
+
+        expect(() => {
+          activeList.toggle('d');
+        }).toThrowError(
+          'uiloos > ActiveList > getIndex > index cannot be found, item is not in contents array'
+        );
+
+        expect(() => {
+          activeList.toggle('d');
+        }).toThrowError(ActiveListItemNotFoundError);
+
+        expect(activeList.activateByIndex).toHaveBeenCalledTimes(0);
+      });
+    });
+  });
+
   describe('insertion of elements', () => {
     describe('when it throws out of bounds', () => {
       test('throws out of bounds when index is to large', () => {
@@ -11060,16 +11202,19 @@ describe('ActiveList', () => {
         );
       });
 
-     describe('swapWithNext', () => {
+      describe('swapWithNext', () => {
         describe('when isCircular is false', () => {
           test('swapping from the start', () => {
-            const { activeList, subscriber } = setup({ active: 'b', isCircular: false });
-  
+            const { activeList, subscriber } = setup({
+              active: 'b',
+              isCircular: false,
+            });
+
             // Swap a with b
             activeList.contents[0].swapWithNext();
-  
+
             expect(subscriber).toHaveBeenCalledTimes(1);
-  
+
             assertLastSubscriber(
               subscriber,
               {
@@ -11140,13 +11285,16 @@ describe('ActiveList', () => {
           });
 
           test('swapping in the middle', () => {
-            const { activeList, subscriber } = setup({ active: 'b', isCircular: false });
-  
+            const { activeList, subscriber } = setup({
+              active: 'b',
+              isCircular: false,
+            });
+
             // Swap b with c
             activeList.contents[1].swapWithNext();
-  
+
             expect(subscriber).toHaveBeenCalledTimes(1);
-  
+
             assertLastSubscriber(
               subscriber,
               {
@@ -11217,24 +11365,30 @@ describe('ActiveList', () => {
           });
 
           test('swapping at the end', () => {
-            const { activeList, subscriber } = setup({ active: 'b', isCircular: false });
-  
+            const { activeList, subscriber } = setup({
+              active: 'b',
+              isCircular: false,
+            });
+
             // Swap c with out of bounds
             activeList.contents[2].swapWithNext();
-  
+
             expect(subscriber).toHaveBeenCalledTimes(0);
           });
         });
 
         describe('when isCircular is true', () => {
           test('swapping from the start', () => {
-            const { activeList, subscriber } = setup({ active: 'b', isCircular: true });
-  
+            const { activeList, subscriber } = setup({
+              active: 'b',
+              isCircular: true,
+            });
+
             // Swap a with b
             activeList.contents[0].swapWithNext();
-  
+
             expect(subscriber).toHaveBeenCalledTimes(1);
-  
+
             assertLastSubscriber(
               subscriber,
               {
@@ -11305,13 +11459,16 @@ describe('ActiveList', () => {
           });
 
           test('swapping in the middle', () => {
-            const { activeList, subscriber } = setup({ active: 'b', isCircular: true });
-  
+            const { activeList, subscriber } = setup({
+              active: 'b',
+              isCircular: true,
+            });
+
             // Swap b with c
             activeList.contents[1].swapWithNext();
-  
+
             expect(subscriber).toHaveBeenCalledTimes(1);
-  
+
             assertLastSubscriber(
               subscriber,
               {
@@ -11382,13 +11539,16 @@ describe('ActiveList', () => {
           });
 
           test('swapping at the end', () => {
-            const { activeList, subscriber } = setup({ active: 'b', isCircular: true });
-  
+            const { activeList, subscriber } = setup({
+              active: 'b',
+              isCircular: true,
+            });
+
             // Swap c with a
             activeList.contents[2].swapWithNext();
-  
+
             expect(subscriber).toHaveBeenCalledTimes(1);
-  
+
             assertLastSubscriber(
               subscriber,
               {
@@ -11405,7 +11565,6 @@ describe('ActiveList', () => {
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
                 contents: [
-                  
                   {
                     isActive: false,
                     index: 0,
@@ -11464,22 +11623,28 @@ describe('ActiveList', () => {
       describe('swapWithPrevious', () => {
         describe('when isCircular is false', () => {
           test('swapping from the start', () => {
-            const { activeList, subscriber } = setup({ active: 'b', isCircular: false });
-  
+            const { activeList, subscriber } = setup({
+              active: 'b',
+              isCircular: false,
+            });
+
             // Swap a with out of bounds
             activeList.contents[0].swapWithPrevious();
-  
+
             expect(subscriber).toHaveBeenCalledTimes(0);
           });
 
           test('swapping in the middle', () => {
-            const { activeList, subscriber } = setup({ active: 'b', isCircular: false });
-  
+            const { activeList, subscriber } = setup({
+              active: 'b',
+              isCircular: false,
+            });
+
             // Swap b with a
             activeList.contents[1].swapWithPrevious();
-  
+
             expect(subscriber).toHaveBeenCalledTimes(1);
-  
+
             assertLastSubscriber(
               subscriber,
               {
@@ -11550,11 +11715,14 @@ describe('ActiveList', () => {
           });
 
           test('swapping at the end', () => {
-            const { activeList, subscriber } = setup({ active: 'b', isCircular: false });
-  
+            const { activeList, subscriber } = setup({
+              active: 'b',
+              isCircular: false,
+            });
+
             // Swap c with b
             activeList.contents[2].swapWithPrevious();
-  
+
             expect(subscriber).toHaveBeenCalledTimes(1);
 
             assertLastSubscriber(
@@ -11629,13 +11797,16 @@ describe('ActiveList', () => {
 
         describe('when isCircular is true', () => {
           test('swapping from the start', () => {
-            const { activeList, subscriber } = setup({ active: 'b', isCircular: true });
-  
+            const { activeList, subscriber } = setup({
+              active: 'b',
+              isCircular: true,
+            });
+
             // Swap a with c
             activeList.contents[0].swapWithPrevious();
-  
+
             expect(subscriber).toHaveBeenCalledTimes(1);
-  
+
             assertLastSubscriber(
               subscriber,
               {
@@ -11688,7 +11859,6 @@ describe('ActiveList', () => {
                     isPrevious: false,
                     hasBeenActiveBefore: false,
                   },
-                 
                 ],
               },
               {
@@ -11707,13 +11877,16 @@ describe('ActiveList', () => {
           });
 
           test('swapping in the middle', () => {
-            const { activeList, subscriber } = setup({ active: 'b', isCircular: true });
-  
+            const { activeList, subscriber } = setup({
+              active: 'b',
+              isCircular: true,
+            });
+
             // Swap b with a
             activeList.contents[1].swapWithPrevious();
-  
+
             expect(subscriber).toHaveBeenCalledTimes(1);
-  
+
             assertLastSubscriber(
               subscriber,
               {
@@ -11766,7 +11939,6 @@ describe('ActiveList', () => {
                     isPrevious: true,
                     hasBeenActiveBefore: false,
                   },
-                  
                 ],
               },
               {
@@ -11785,13 +11957,16 @@ describe('ActiveList', () => {
           });
 
           test('swapping at the end', () => {
-            const { activeList, subscriber } = setup({ active: 'b', isCircular: true });
-  
+            const { activeList, subscriber } = setup({
+              active: 'b',
+              isCircular: true,
+            });
+
             // Swap c with b
             activeList.contents[2].swapWithPrevious();
-  
+
             expect(subscriber).toHaveBeenCalledTimes(1);
-  
+
             assertLastSubscriber(
               subscriber,
               {
@@ -11844,7 +12019,6 @@ describe('ActiveList', () => {
                     isPrevious: false,
                     hasBeenActiveBefore: true,
                   },
-                  
                 ],
               },
               {

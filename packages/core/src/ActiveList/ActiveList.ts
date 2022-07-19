@@ -1062,6 +1062,66 @@ export class ActiveList<T> {
   }
 
   /**
+   * When calling `toggleByIndex` it will flip the `ActiveListContent`
+   * which resides on the index `isActive` state .
+   *
+   * So when `isActive` is `true` and `toggle` is called, `isActive`
+   * will become `false`. When `isActive` is `false` and `toggle` is
+   * called, `isActive` will become `true`.
+   * 
+   * If the index does not exist an error will be thrown.
+   *
+   * With the `activationOptions` you can determine the effects
+   * on `cooldown` and `autoplay`.
+   *
+   * @param {number} index The index to activate
+   * @param {ActiveListActivationOptions<T>} [activationOptions] The activation options
+   * @throws {ActiveListIndexOutOfBoundsError} index cannot be out of bounds
+   */
+  public toggleByIndex(
+    index: number,
+    activationOptions?: ActiveListActivationOptions<T>
+  ): void {
+    if (this._checkIndex(index)) {
+      throwIndexOutOfBoundsError('toggleByIndex', 'index');
+    }
+
+    if (this.contents[index].isActive) {
+      this.deactivateByIndex(index, activationOptions);
+    } else {
+      this.activateByIndex(index, activationOptions);
+    }
+  }
+
+   /**
+   * Toggles the given item based on identity by comparing the item
+   * via a `===` check. When multiple items match on `===` only the
+   * first matching item is activated.
+   * 
+   * So when `isActive` is `true` and `toggle` is called, `isActive`
+   * will become `false`. When `isActive` is `false` and `toggle` is
+   * called, `isActive` will become `true`.
+   *
+   * If the item does not exist in the content array it will
+   * throw an error.
+   *
+   * With the `activationOptions` you can determine the effects
+   * on `cooldown` and `autoplay`.
+   *
+   * @param {T} item The item to toggle
+   * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
+   * @throws {ActiveListItemNotFoundError} item must be in the contents array based on === equality
+   */
+   public toggle(
+    item: T,
+    activationOptions?: ActiveListActivationOptions<T>
+  ): void {
+    const index = this.getIndex(item);
+
+    this.toggleByIndex(index, activationOptions);
+  }
+
+  /**
    * Whether or not the ActiveList is playing.
    *
    * @returns {boolean} Whether or not the ActiveList is playing.
