@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "prepublishOnly": "UILOOSVERSION=$(jq -r .version ./package.json) && find dist -name \"*.js\" | grep min.js | sed \"p;s/VERSION/${UILOOSVERSION}/g\" | xargs -n2 mv",
-    "before-publish": "cp ../../README.MD dist && cp ../../LICENSE.MD dist",
+    "before-publish": "cp ../../README.MD ./ && cp ../../LICENSE.MD dist",
     "clean": "rm -rf node_modules && rm -rf coverage && rm -f package-lock.json && rm -rf dist",
     "test": "jest --coverage && node ./tests/minification-check.js",
     "start": "jest --watch --coverage",

@@ -5,6 +5,7 @@ npm-debug.log
 packages/*/node_modules/
 packages/*/dist/
 packages/*/coverage/
+packages/*/README.md
 
 # Generated website
 packages/website/_site/
