@@ -15,6 +15,14 @@
   @apply text-2xl font-bold leading-snug tracking-tight;
 }
 
+a.high, span.high {
+  @apply font-mono font-bold text-purple-800 bg-purple-100 py-0.5;
+}
+
+a.high {
+  @apply underline hover:bg-purple-300;
+}
+
 @screen md {
   .h1 {
     @apply text-5xl;
@@ -76,4 +84,22 @@
 .form-checkbox,
 .form-radio {
   @apply text-gray-800 rounded-sm;
+}
+
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+}
+
+details {
+  cursor: pointer;
 }

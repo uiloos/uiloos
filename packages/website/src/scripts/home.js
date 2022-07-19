@@ -52,8 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       slide.className = "absolute";
 
-      if (content.isActive) {
-        console.log('active');
+      if (content.isActive) {;
         slide.classList.add('visible');
         slide.ariaHidden = 'false';
 

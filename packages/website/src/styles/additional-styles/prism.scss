@@ -1,0 +1,135 @@
+/* 
+  #2d2d2d Background
+  #393939 Current Line
+  #515151 Selection
+  #cccccc Foreground
+  #999999 Comment
+  #f2777a Red
+  #f99157 Orange
+  #ffcc66 Yellow
+  #99cc99 Green
+  #66cccc Aqua
+  #6699cc Blue
+  #cc99cc Purple
+*/
+
+code[class*='language-'],
+pre[class*='language-'] {
+  margin-top: 0px !important;
+  margin-bottom: 16px !important;
+  color: #f2777a;
+  background: none;
+  font-family: Monaco, Consolas, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 1em;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*='language-'] {
+  padding: 1em;
+  margin: 0.5em 0;
+  overflow: auto;
+}
+
+:not(pre) > code[class*='language-'],
+pre[class*='language-'] {
+  background: #2d2d2d;
+}
+
+/* Inline code */
+:not(pre) > code[class*='language-'] {
+  padding: 0.1em;
+  border-radius: 0.3em;
+  white-space: normal;
+}
+
+.token.comment,
+.token.block-comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #999;
+}
+
+.token.punctuation {
+  color: #ccc;
+}
+
+.token.tag,
+.token.attr-name,
+.token.namespace,
+.token.deleted {
+  color: #f2777a;
+}
+
+.token.function,
+.token.function-name {
+  color: #6699cc;
+}
+
+.token.boolean,
+.token.number {
+  color: #f99157;
+}
+
+.token.property,
+.token.class-name,
+.token.constant,
+.token.symbol {
+  color: #ffcc66;
+}
+
+.token.selector,
+.token.important,
+.token.atrule,
+.token.keyword,
+.token.builtin {
+  color: #cc99cc;
+}
+
+.token.string,
+.token.char,
+.token.attr-value,
+.token.regex,
+.token.variable {
+  color: #99cc99;
+}
+
+.token.operator,
+.token.entity,
+.token.url {
+  color: #6699cc;
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.inserted {
+  color: green;
+}
+
+.line-highlight {
+  background: rgba(247, 229, 229, 0.2);
+}

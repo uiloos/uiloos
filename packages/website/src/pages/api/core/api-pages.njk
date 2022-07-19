@@ -7,7 +7,6 @@ pagination:
     alias: def
 renderData:
     title: "{{ def.name }} | core | API | uiloos"
-    stickyNavigation: false
 ---
 
 {% if def.kindString === 'Class' and def.name.endsWith('Error') %}
@@ -18,4 +17,6 @@ renderData:
   {% include "../_includes/function.njk" %}
 {% elif def.kindString === 'Type alias' %}
   {% include "../_includes/typealias.njk" %}
+{% elif def.kindString === 'Variable' %}
+  {% include "../_includes/instance.njk" %}
 {% endif %}

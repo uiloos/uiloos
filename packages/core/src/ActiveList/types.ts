@@ -158,7 +158,8 @@ export type ActiveListActivationOptions<T> = {
   /**
    * Whether or not the action was taken by a user / human.
    * This affects the `autoplay` when `stopsOnUserInteraction`
-   * is `true`, the `autoplay` stops.
+   * is `true`, the `autoplay` stops, when `false` the autoplay
+   * is debounced.
    *
    * Also affects the `cooldown` when `isUserInteraction`
    * is `true`, the `cooldown` is checked, otherwise when `false`
@@ -294,8 +295,12 @@ export type ActiveListAutoplayConfig<T> = {
   /**
    * Whether or not the user interacting with the component should
    * stop the autoplay.
+   * 
+   * When `true` any activation / deactivation method called on 
+   * the `ActiveList` will stop the autoplay. When `false` it will
+   * debounce the autoplay instead by the duration.
    *
-   * Defaults to `true`.
+   * Defaults to `false`.
    */
   stopsOnUserInteraction?: boolean;
 };

@@ -1,0 +1,42 @@
+<strong>
+  C. Accordion
+</strong>
+
+<p class="mb-4">
+ An accordion component from which the user can open multiple
+ items at once.
+</p>
+
+<style>
+  {% include "./accordion-example.css" %}
+</style>
+
+{% include "./accordion-example.html" %}
+
+<details>
+  <summary class="mb-4">View code</summary>
+
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 px-2 pt-2 pb-4 gap-4">
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">JavaScript</button>
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">HTML</button>
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">CSS</button>
+    </div>
+
+    <div class="example">
+      {% highlight "js" %}
+      {% include "./accordion-example.js" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "html" %}
+      {% include "./accordion-example.html" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "css" %}
+      {% include "./accordion-example.css" %}
+      {% endhighlight %}
+    </div>
+  </div>
+</details>

@@ -1,0 +1,26 @@
+{% from "./macros.njk" import displaySignatures %}
+
+<div class="text-xl">
+  <h1 class="h1 mb-4">
+    {{def.name}}
+  </h1>
+
+  <p class="text-2xl font-mono mb-4 text-green-800">INSTANCE</p>
+
+  <p class="mb-4">{{def.comment.shortText | escape | nl2br}}</p>
+  {% if def.comment.text %}
+    <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
+  {% endif %}
+
+  {% for tag in def.comment.tags %}
+    <p class="mb-4">
+       See: <a 
+        class="underline text-purple-600 font-mono font-bold block" 
+        href="/api/core/{{ tag.text | replace('{', '') | slug}}/"
+      >
+        {{ tag.text | replace('{', '') }}
+      </a>
+    </p>
+  {% endfor %}
+
+</div>

@@ -1,0 +1,52 @@
+---
+title: Examples | ActiveList | Docs | uiloos
+layout: layouts/docs.njk
+permalink: /docs/active-list/examples/
+renderData:
+  parent: 'active-list'
+  current: 'active-list-examples'
+---
+
+<div class="text-xl">
+  <h1 class="h1 mb-4">ActiveList Examples</h1>
+
+  <p class="mb-4">
+    Fleshed out examples showing how to use the ActiveList. They 
+    serve as starting points for your own components.
+  </p>
+
+  <div class="grid lg:grid-cols-2 gap-4">
+    {% for example in examples %}
+      <a 
+        class="p-4 rounded border border-gray-200 transition duration-300 ease-in-out bg-white shadow-md hover:shadow-lg mb-4" 
+        href="{{ example.url }}"
+      >
+        <div class="flex flex-col h-full">
+          <div class="text-normal font-medium mb-4">{{ example.text }}</div>
+          <div class="grow mb-4">{{ example.description | safe }}</div>
+          <div class="justify-self-end flex items-center gap-4 text-sm">
+            {% for tag in example.tags %}
+                {% if tag === 'ActiveList' %}
+
+                {% elif tag === 'JavaScript' %}
+                  <img src="/images/frameworks/vanilla.svg" class="w-12 h-12 p-1" loading="lazy" alt="JavaScript logo" /> 
+                {% elif tag === 'React' %}
+                  <img src="/images/frameworks/react.svg" class="w-12 h-12 p-1" loading="lazy" alt="React logo" />
+                {% elif tag === 'Vue' %}
+                  <img src="/images/frameworks/vue.svg" class="w-12 h-12 p-1" loading="lazy" alt="Vue logo" />
+                {% elif tag === 'Angular' %}
+                  <img src="/images/frameworks/angular.svg" class="w-12 h-12 p-1" loading="lazy" alt="Angular logo" />
+                {% elif tag === 'Svelte' %}
+                  <img src="/images/frameworks/svelte.svg" class="w-12 h-12 p-1" loading="lazy" alt="Svelte logo" />
+                {% else %}
+                  <span class="text-center text-white font-bold py-1 px-3 rounded-full bg-purple-500">
+                    {{ tag }}
+                  </span>
+                {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>

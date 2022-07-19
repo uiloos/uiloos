@@ -1,0 +1,621 @@
+---
+title: Tutorial | ActiveList | Docs | uiloos
+layout: layouts/docs.njk
+permalink: /docs/active-list/tutorial/
+renderData:
+  parent: 'active-list'
+  current: 'active-list-tutorial'
+---
+
+<div class="text-xl">
+  <h1 class="h1 mb-4">ActiveList Tutorial</h1>
+
+  <em>Table of contents</em>
+  <ol class="list-decimal m-2 mb-4">
+    <li class="ml-8">
+      <a href="#introduction" class="text-purple-600 underline">Introduction</a>
+    </li>
+    <li class="ml-8">
+      <a href="#files-overview" class="text-purple-600 underline">Files overview</a>
+    </li>
+    <li class="ml-8">
+      <a href="#what-we-want-to-achieve" class="text-purple-600 underline">What we want to achieve</a>
+    </li>
+    <li class="ml-8">
+      <a href="#creating-the-carousel" class="text-purple-600 underline">Creating the carousel</a>
+    </li>
+    <li class="ml-8">
+      <a href="#animation" class="text-purple-600 underline">Animation</a>
+    </li>
+    <li class="ml-8">
+      <a href="#polishing-the-behavior" class="text-purple-600 underline">Polishing the behavior</a>
+    </li>
+    <li class="ml-8">
+      <a href="#what-you-have-learned" class="text-purple-600 underline">What you have learned</a>
+    </li>
+    <li class="ml-8">
+      <a href="#further-reading" class="text-purple-600 underline">Further reading</a>
+    </li>
+  </ol>
+
+  <h2 id="introduction" class="h2 mb-4"><a href="#introduction">1. Introduction</a></h2>
+
+  <p class="mb-4">
+    In this tutorial we are going to build a Carousel using vanilla
+    JavaScript without using any framework. A carousel is a nice
+    component to build as it encompasses almost everything the 
+    <a href="/api/core/activelist/" class="underline high">ActiveList</a>
+    has to offer.
+  </p>
+
+   <p class="mb-4">
+    NOTE: that we are using vanilla JavaScript which requires us to
+    write our own DOM manipulation inside of a subscriber. When using
+    a reactive framework such as Svelte or Vue, this is not necessary,
+    as these frameworks handle synchronizing with the DOM for us.
+    See <a class="underline" href="/docs/active-list/usage-with-frameworks/">Usage with Frameworks</a>
+    for more information.
+  </p>
+
+  <p class="mb-4">
+    To get started with the tutorial open and fork this 
+    <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/s/carousel-starter-vanilla-wtojsg" class="underline text-purple-600">sandbox</a>.
+    By using the sandbox you do not have to worry to much about setting
+    up an entire development environment.
+  </p>
+
+  <h2 id="files-overview" class="h2 mb-4"><a href="#files-overview">2. Files overview</a></h2>
+
+  <p class="mb-4">
+    In the sandbox you will see a couple of files:
+  </p>
+
+  <ol class="list-disc m-2 mb-4">
+    <li class="ml-8 mb-4">
+      <span class="high">carousel.css</span> it contains all styling, and the animations
+      for the carousel.
+    </li>
+    <li class="ml-8 mb-4">
+      <span class="high">index.html</span> contains the HTML for the carousel, which 
+      is currently static, but we will bring it to life. It also
+      includes "uiloos" from the UNPKG cdn.
+    </li>
+    <li class="ml-8">
+      <span class="high">carousel.js</span> in this empty file we are going to bring
+      the carousel to life.
+    </li>
+  </ol>
+
+  <h2 id="what-we-want-to-achieve" class="h2 mb-4"><a href="#what-we-want-to-achieve">3. What we want to achieve</a></h2>
+
+  <p class="mb-4">
+    We want our carousel to do the following things:
+  </p>
+
+  <ol class="list-decimal m-2 mb-4">
+    <li class="ml-8 mb-4">
+      It should automatically move to the next slide after a certain
+      delay. With animations based on the direction so it looks nice.
+    </li>
+    <li class="ml-8 mb-4">
+      Have previous and next slide buttons so the users can control
+      the carousel manually.
+    </li>
+    <li class="ml-8 mb-4">
+      A progress indicator so the user has a sense of the position within the carousel.
+    </li>
+    <li class="ml-8">
+      A way to directly activate a slide, without having to click
+      the next and previous buttons multiple times.
+    </li>
+  </ol>
+
+  <h2 id="creating-the-carousel" class="h2 mb-4"><a href="#creating-the-carousel">4. Creating the carousel</a></h2>
+
+  <p class="mb-4">
+    The slides are contained in a <span class="high">ul</span> HTML element, 
+    where each <span class="high">li</span> is a slide. A  
+    <span class="high">slide</span> has the following HTML structure:
+  </p>
+
+  {% highlight "html" %}
+<li id="carousel-slide-0" class="slide active">
+  <img
+  width="1920"
+  height="1280"
+  src="/images/snow.jpg"
+  alt="image of a snow owl"
+/>
+  <article>
+    <h4>Snow owl</h4>
+    <p>
+      The snowy owl (Bubo scandiacus), also known as the polar owl, the
+      white owl and the Arctic owl, is a large, white owl of the true
+      owl family. Snowy owls are native to the Arctic regions.
+    </p>
+
+    <p>
+      Photo by
+      <a
+        href="https://unsplash.com/@dkphotos"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Doug Kelley
+      </a>
+    </p>
+  </article>
+</li>
+  {% endhighlight %}
+
+  <p class="mb-4">
+    The most important part for us is the <span class="high">class</span> attribute 
+    of the <span class="high">li</span>:
+  </p>
+
+  {% highlight "html" %}
+  <li id="carousel-slide-0" class="slide active">
+    {% endhighlight %}
+
+    <p class="mb-4">
+    The CSS class triggers the animations, and determines which slide is
+    visible at the moment. When the slide is given the class <span class="high">active</span>
+    it is the current visible active slide.
+  </p>
+
+    <p class="mb-4">
+    To get the carousel to work we must first initialize an <span class="high">ActiveList</span>.
+  </p>
+
+    {% highlight "javascript" %}
+// carousel.js
+
+const config = {
+  contents: [0, 1, 2, 3, 4],
+  activeIndexes: 0,
+};
+
+function subscriber(carousel) {
+  // Our subscriber is empty for now.
+}
+
+// Because we use the UNPKG variant the ActiveList module is available
+// under the "uiloosActiveList" variable.
+const carousel = new window.uiloosActiveList.ActiveList(
+  config, subscriber
+);
+  {% endhighlight %}
+
+    <p class="mb-4">
+    The <span class="high">contents</span> of the ActiveListConfig determines how many items 
+    there are in the ActiveList. What you put into the contents is 
+    your own choice, it can be a complex object, a DOM element reference,
+    or as in our case a simple number.
+
+    We choose a number here because each <span class="high">li</span> has a unique id of which is 
+    formatted like: <span class="high">carousel-slide-${number}</span>.
+
+    This allow us to identify the slide.
+  </p>
+
+    <p class="mb-4">
+    Next lets add an autoplay so the carousel automatically moves 
+    to the next active slide, and also lets flesh out the subscriber
+    to make it work:
+  </p>
+
+    {% highlight "javascript" %}
+// carousel.js
+
+const config = {
+  contents: [0, 1, 2, 3, 4],
+  activeIndexes: 0,
+
+  // After 5 seconds go to the next slide
+  autoplay: { duration: 5000 },
+};
+
+function subscriber(carousel) {
+
+  // For each slide
+  carousel.contents.forEach((content) => {
+    // Get a reference to the slide li.
+    const slide = document.getElementById(`carousel-slide-${content.value}`);
+
+    // reset the className and set it to slide
+    slide.className = 'slide';
+
+    if (content.isActive) {
+      // make the correct slide active.
+      slide.classList.add('active');
+    }
+  });
+}
+
+const carousel = new window.uiloosActiveList.ActiveList(config, subscriber);
+  {% endhighlight %}
+
+    <p class="mb-4">
+    The job of the subscriber is to listen to changes in the ActiveList,
+    and synchronize these changes with the DOM. When using vanilla JavaScript
+    you are required to write these DOM manipulations manually, when 
+    using a framework such as React, Vue, Svelte etc etc you do not
+    need to do this yourself.
+  </p>
+
+    <p class="mb-4">
+    The first argument to the subscriber is the current 
+    <a href="/api/core/activelist/" class="underline high">ActiveList</a>
+    instance. We use it to query the contents of the ActiveList so we
+    can loop over the slides and add the correct CSS class to it.
+  </p>
+
+    <p class="mb-4">
+    You might notice that the autoplay will stop at the last slide, this
+    is because autoplay will stop when the end of the list is reached.
+    To make things a little nicer we are going to tell the ActiveList
+    that it never ends, by setting <span class="high">isCircular</span>
+    to <span class="high">true</span>.
+  </p>
+
+    {% highlight "javascript" %}
+// carousel.js
+
+const config = {
+  contents: [0, 1, 2, 3, 4],
+  activeIndexes: 0,
+
+  // After 5 seconds go to the next slide
+  autoplay: { duration: 5000 },
+
+  /* 
+    This ActiveList is a circle, this means that the autoplay
+    will wrap around back to the beginning when moving past the 
+    final slide
+  */
+  isCircular: true
+};
+
+  {% endhighlight %}
+
+    <p class="mb-4">
+    Now that the carousel is spinning in circles, lets fix the 
+    progress indicators next, as currently the first slide stays
+    active (purple):
+  </p>
+
+    {% highlight "javascript" %}
+function subscriber(carousel) {
+  // For each slide
+  carousel.contents.forEach((content) => {
+    // Get a reference to the slide li.
+    const slide = document.getElementById(`carousel-slide-${content.value}`);
+
+    // Get a reference to the progress button
+    const button = document.getElementById(`carousel-button-${content.value}`);
+
+    // reset the className and set it to slide
+    slide.className = 'slide';
+
+    // reset the progress button
+    button.className = '';
+
+    if (content.isActive) {
+      // make the correct slide active.
+      slide.classList.add('active');
+
+      // make the progress button active.
+      button.classList.add('active');
+    }
+  });
+}
+  {% endhighlight %}
+
+    <p class="mb-4">
+    Now that the progress button is working, we can now focus on the
+    next and previous buttons. We need to use the
+    <a href="/api/core/activelist/#activateNext" class="underline high">activateNext</a> and
+    <a href="/api/core/activelist/#activatePrevious" class="underline high">activatePrevious</a>
+    methods on the ActiveList. These allow us to activate items based on the item which 
+    is currently active:
+  </p>
+
+    {% highlight "javascript" %}
+const carousel = new window.uiloosActiveList.ActiveList(config, subscriber);
+
+document.getElementById('carousel-next').onclick = () => {
+  carousel.activateNext();
+};
+
+document.getElementById('carousel-prev').onclick = () => {
+  carousel.activatePrevious();
+};
+  {% endhighlight %}
+
+    <p class="mb-4">
+    We grab the buttons through <span class="high">document.getElementById</span> and call the 
+    appropriate method. Note that we do not need to worry about the 
+    <span class="high">isCircular</span> here, or which content is
+    currently active etc etc. This is really powerful instead of writing this logic 
+    yourself, you let the ActiveList do the heavy lifting.
+  </p>
+
+    <p class="mb-4">
+    Next is responding to the progress indicator button clicks:
+  </p>
+
+    {% highlight "javascript" %}
+// Continued below the snippet above and NOT in the subscriber!
+
+carousel.contents.forEach((content) => {
+  const button = document.getElementById(`carousel-button-${content.value}`);
+
+  button.onclick = () => {
+    content.activate();
+  };
+});
+  {% endhighlight %}
+
+    <p class="mb-4">
+    In the snippet above the <span class="high">content</span> variable
+    is an <a href="/api/core/activelistcontent/" class="underline high">ActiveListContent</a>.
+    An ActiveListContent represents an item in the ActiveList, it knows
+    how to activate itself, which is why calling <span class="high">content.activate();</span>
+    works.
+  </p>
+
+    <p class="mb-4">
+    By now we have a pretty nice working carousel, the only thing missing
+    are animations.
+  </p>
+
+<h2 id="animation" class="h2 mb-4"><a href="#animation">5. Animation</a></h2>
+
+  <p class="mb-4">
+    For the animation we want the old
+    slide to animate away, and the new slide to animate in. We want
+    the direction of the animation to be based on the position of
+    the old and new slide. If the new slide is on the old slides right 
+    we want the old slide to slide out via the left and vice versa.
+  </p>
+
+  <p class="mb-4">
+    The trick is setting the correct CSS classes on our slide <span class="high">li</span>:
+  </p>
+
+  {% highlight "javascript" %}
+// Stores the previously active slide, we need this so we can
+// identify the old slide for the leave animation.
+let previouslyActive = 0;
+
+function subscriber(carousel) {
+  // For each slide
+  carousel.contents.forEach((content) => {
+    // Get a reference to the slide li.
+    const slide = document.getElementById(`carousel-slide-${content.value}`);
+
+    // Get a reference to the progress button
+    const button = document.getElementById(`carousel-button-${content.value}`);
+
+    // reset the className and set it to slide
+    slide.className = 'slide';
+
+    // reset the progress button
+    button.className = '';
+
+    if (content.isActive) {
+      // Set the carousel direction on the next render
+      requestAnimationFrame(() => {
+        // The direction comes from the carousel
+        // is either 'right' or 'left'. By setting
+        // the direction we move the current slide
+        // into the correct position, so it is
+        // visible and can be animated.
+        slide.classList.add(carousel.direction);
+
+        // Animate on the next tick after the slide has
+        // been positioned.
+        requestAnimationFrame(() => {
+          slide.classList.add('animate', 'active');
+        });
+      });
+
+      // make the progress button active.
+      button.classList.add('active');
+    } else if (content.value === previouslyActive) {
+      // Make the old slide active so it can be
+      // animated so it can slide away.
+      requestAnimationFrame(() => {
+        slide.classList.add('active');
+
+        // After a slight delay trigger the animation,
+        // the delay prevents the "background" from
+        // being visible, which looks odd.
+        setTimeout(() => {
+          slide.classList.remove('active');
+
+          const direction = carousel.direction === 'right' ? 'left' : 'right';
+
+          slide.classList.add('animate', direction);
+        }, 10);
+      });
+    }
+  });
+
+  // Update which slide was previously active so we
+  // can animate it when it needs to go.
+  previouslyActive = carousel.lastActivated;
+}
+  {% endhighlight %}
+
+  <p class="mb-4">
+    As you can see the ActiveList has a property called the 
+    <a href="/api/core/activelist/#direction" class="underline high">direction</a> which 
+    keeps track of the way the direction the next active item moves to.
+    This property can be used in animations such as this one to trigger
+    the animations.
+  </p>
+
+  <h2 id="polishing-the-behavior" class="h2 mb-4"><a href="#polishing-the-behavior">6. Polishing the behavior</a></h2>
+
+  <p class="mb-4">
+    One thing that is annoying is that this animation is also triggered
+    for when the ActiveList is first initialized. We can prevent this
+    by ignoring the <span class="high">"INITIALIZED"</span> event:
+  </p>
+
+  {% highlight "javascript" %}
+function subscriber(carousel, event) {
+  if (event.type === 'INITIALIZED') {
+    return;
+  }
+
+  // rest of the subscriber
+}
+  {% endhighlight %}
+
+  <p class="mb-4">
+    The second parameter to a subscriber is the event that took place.
+    In our case we want to ignore the 
+    <a href="/api/core/activelistinitializedevent/" class="underline high">ActiveListInitializedEvent</a>
+    event.
+  </p>
+
+  <p class="mb-4">
+    When the user clicks on the next or previous buttons really quickly
+    multiple animations are triggered at once. This looks very jarring
+    so we need to do something about it. Lets add a 
+    <a href="/api/core/activelistconfig/#cooldown" class="underline high">cooldown</a>:
+  </p>
+
+  {% highlight "javascript" %}
+const config = {
+  contents: [0, 1, 2, 3, 4],
+  activeIndexes: 0,
+
+  // After 5 seconds go to the next slide
+  autoplay: { duration: 5000 },
+
+  /* 
+    This ActiveList is a circle, this means that the autoplay
+    will wrap around to the beginning when moving past the 
+    final slide
+  */
+  isCircular: true,
+
+  // Wait 500 milliseconds before allowing another item
+  // to be activated.
+  cooldown: 500
+};
+  {% endhighlight %}
+
+  <p class="mb-4">
+    Another behavior is that when the user starts using the
+    buttons to navigate the autoplay does not stop, instead it debounces / 
+    resets the duration for the next slide. 
+    By setting the autoplay's 
+    <a href="/api/core/activelistautoplayconfig/#stopsOnUserInteraction" class="underline high">stopsOnUserInteraction</a>
+    to <span class="high">true</span> we can make the autoplay stop instead.
+    
+  </p>
+
+   <p class="mb-4">
+    (Lets assume that we do not want the debounce / reset behavior, which
+    is also a valid design choice.)
+  </p>
+
+  {% highlight "javascript" %}
+const config = {
+  contents: [0, 1, 2, 3, 4],
+  activeIndexes: 0,
+
+  autoplay: {
+    // After 5 seconds go to the next slide
+    duration: 5000,
+
+    // If the user clicks a button stop the autoplay
+    stopsOnUserInteraction: true
+  },
+
+  /* 
+    This ActiveList is a circle, this means that the autoplay
+    will wrap around to the beginning when moving past the 
+    final slide
+  */
+  isCircular: true,
+
+  // Wait 500 milliseconds before allowing another item
+  // to be activated.
+  cooldown: 500
+};
+  {% endhighlight %}
+
+  <p class="mb-4">
+    This works because each method on the ActiveList and ActiveListContent
+    is by default assumed to be a user interaction. So when we call
+    <span class="high">content.activate();</span> for example it is 
+    considered executed by a human.
+  </p>
+
+  <h2 id="what-you-have-learned" class="h2 mb-4"><a href="#what-you-have-learned">6. What you have learned</a></h2>
+
+  <ol class="list-decimal m-2 mb-4">
+    <li class="ml-8 mb-4">
+      That the <span class="high">subscriber</span> receives all events 
+      that take place on the ActiveList, and that in the subscriber you
+      must sync the DOM with what occurred.
+    </li>
+    <li class="ml-8 mb-4">
+      That via <span class="high">autoplay</span> we can move through
+      the slides programmatically at an interval.
+    </li>
+    <li class="ml-8 mb-4">
+      We can make an ActiveList not have an end and a beginning 
+      by setting the <span class="high">isCircular</span> to 
+      <span class="high">true</span>.
+    </li>
+    <li class="ml-8 mb-4">
+      That the <span class="high">cooldown</span> property can prevent
+      changes to the active item within a time span, so animations
+      get a chance to play out.
+    </li>
+    <li class="ml-8 mb-4">
+      That the <span class="high">ActiveList</span> and
+      <span class="high">ActiveListContent</span> contain methods
+      which can change which content is active.
+    </li>
+  </ol>
+
+  <h2 id="further-reading" class="h2 mb-4"><a href="#further-reading">7. Further reading</a></h2>
+
+  <ol class="list-decimal m-2 mb-4">
+    <li class="ml-8 mb-4">
+      Browse through the API for the <a href="/api/core/activelist/" class="underline high">ActiveList</a>,
+      see everything at your disposal.
+    </li>
+    <li class="ml-8 mb-4">
+      Read the API for the <a href="/api/core/activelistcontent/" class="underline high">ActiveListContent</a>.
+      As it often provides the most convenient API for mutating the ActiveList.
+    </li>
+     <li class="ml-8 mb-4">
+      Take a look and contrast the approach here with the 
+      <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/s/carousel-react-55h9ib?file=/src/Carousel/Carousel.tsx" class="underline text-purple-600">React version</a> 
+      of the carousel. Which does not have a subscriber callback, 
+      because React handles the DOM manipulation.
+    </li>
+  </ol>
+
+   <a 
+    class="flex justify-between items-center p-4 rounded border border-gray-200 transition duration-300 ease-in-out bg-white shadow-md hover:shadow-lg mb-4" 
+    href="/docs/active-list/usage-with-frameworks/"
+  >
+    <div>
+      <div class="text-normal font-medium mb-1">Usage with Frameworks</div>
+      <div class="text-sm">Learn how to use the ActiveList in combination with framework such as React and Vue.</div>
+    </div>
+    <svg class="w-4 h-4 fill-current text-blue-600 shrink-0 ml-6" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z"></path>
+    </svg>
+  </a>
+
+</div>

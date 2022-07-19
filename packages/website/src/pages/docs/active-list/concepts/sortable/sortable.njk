@@ -1,0 +1,41 @@
+<strong>
+  E. Sortable
+</strong>
+
+<p class="mb-4">
+  A list which can be sorted by the user.
+</p>
+
+<style>
+  {% include "./sortable-example.css" %}
+</style>
+
+{% include "./sortable-example.html" %}
+
+<details>
+  <summary class="mb-4">View code</summary>
+
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 px-2 pt-2 pb-4 gap-4">
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">JavaScript</button>
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">HTML</button>
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">CSS</button>
+    </div>
+
+    <div class="example">
+      {% highlight "js" %}
+      {% include "./sortable-example.js" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "html" %}
+      {% include "./sortable-example.html" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "css" %}
+      {% include "./sortable-example.css" %}
+      {% endhighlight %}
+    </div>
+  </div>
+</details>

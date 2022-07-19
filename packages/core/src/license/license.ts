@@ -1,4 +1,10 @@
-class LicenseChecker {
+/**
+ * Checks / validates the license for "uiloos".
+ * 
+ * Note: you are not supposed to use this class directly. Use the
+ * variable `licenseChecker` instead.
+ */
+export class _LicenseChecker {
   private _licenseKey: string = '';
 
   private _logOnSuccess: boolean = false;
@@ -61,7 +67,15 @@ class LicenseChecker {
   }
 }
 
-export let licenseChecker = new LicenseChecker();
+/**
+ * The sole instance (a singleton) of the `_LicenseChecker` class.
+ * 
+ * Use this instance of `_LicenseChecker` to call `activateLicense` to
+ * activate your license.
+ * 
+ * @see _LicenseChecker
+ */
+export let licenseChecker = new _LicenseChecker();
 
 /**
  * The options for the `activateLicense` functions. Can be used
@@ -80,7 +94,7 @@ const owner =
 
 const buy = `please purchase a license at https://www.uiloos.dev. ${owner}`;
 
-// unit testing purposes onloy
+// unit testing purposes only
 export function _reset() {
-  licenseChecker = new LicenseChecker();
+  licenseChecker = new _LicenseChecker();
 }

@@ -1,0 +1,31 @@
+<div class="segment-example">
+  <div class="segment-container">
+    <button onclick="left()" class="active">Left</button>
+    <button onclick="center()">Center</button>
+    <button onclick="right()">Right</button>
+  </div>
+
+  <p id="segment-example-text">
+    Lorem ipsum dolor sit amet consectetur adipisicing 
+    elit. Fuga commodi tenetur dignissimos maxime 
+    reprehenderit quam hic, molestiae nisi dolorem nihil 
+    dolor illum asperiores incidunt distinctio 
+    quod modi, corporis quae neque!
+  </p>
+</div>
+
+<script defer="true">
+  const pEl = document.getElementById('segment-example-text');
+
+  function left() {
+    pEl.style.textAlign = 'left';
+  }
+
+  function center() {
+    pEl.style.textAlign = 'center';
+  }
+
+  function right() {
+    pEl.style.textAlign = 'right';
+  }
+</script>

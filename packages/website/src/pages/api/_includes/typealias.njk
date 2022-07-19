@@ -5,7 +5,8 @@
 
   {% for type in properties %}
     <div class="border px-2 pt-4 mb-4">
-      <h3 class="h3 mb-2 font-mono">{{type.name}}
+      <h3 class="h3 mb-2 font-mono" id="{{type.name}}">
+        <a href="#{{type.name}}">{{type.name}}</a>
         {% if type.flags.isOptional %}
           <span class="text-sm italic">Optional</span>
         {% else %}
@@ -32,8 +33,8 @@
   {% endfor %}
 {% endmacro %}
 
-<div class="text-lg">
-  <h1 class="h1 text-gray-900 mb-4">{{def.name}}
+<div class="text-xl">
+  <h1 class="h1 mb-4">{{def.name}}
 
     {% if def.typeParameter.length > 0 %}
       &lt;{{def.typeParameter[0].name}}&gt;
@@ -64,7 +65,7 @@
     {% for inter in def.type.types %}
       {% if inter.type === 'reference' %}
         <h2 class="h2 mb-2 font-mono">Extends
-          <a class="underline text-blue-500" href="/api/core/{{ inter.name | slug}}/">{{inter.name}}</a>
+          <a class="underline text-purple-600" href="/api/core/{{ inter.name | slug}}/">{{inter.name}}</a>
         </h2>
       {% else %}
         {{ displayProperties(inter.declaration.children) }}

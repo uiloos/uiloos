@@ -1,0 +1,42 @@
+<strong>
+  B. Segmented button
+</strong>
+
+<p class="mb-4">
+  A segmented button component which is a horizontal group of 
+  buttons, from which only one can be selected at a time.
+</p>
+
+<style>
+  {% include "./segment-example.css" %}
+</style>
+
+{% include "./segment-example.html" %}
+
+<details>
+  <summary class="mb-4">View code</summary>
+
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 px-2 pt-2 pb-4 gap-4">
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">JavaScript</button>
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">HTML</button>
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">CSS</button>
+    </div>
+
+    <div class="example">
+      {% highlight "js" %}
+      {% include "./segment-example.js" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "html" %}
+      {% include "./segment-example.html" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "css" %}
+      {% include "./segment-example.css" %}
+      {% endhighlight %}
+    </div>
+  </div>
+</details>

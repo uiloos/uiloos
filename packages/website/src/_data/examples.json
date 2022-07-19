@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "text": "A Carousel created with JavaScript",
+    "description": "A basic carousel using vanilla JavaScript and uiloos",
+    "url": "https://codesandbox.io/s/carousel-vanilla-qh7ffo?file=/carousel.js",
+    "tags": ["ActiveList", "JavaScript", "Carousel"]
+  },
+  {
+    "id": 2,
+    "text": "A Carousel created in React",
+    "description": "An example of how to use React and uiloos to create a carousel",
+    "url": "https://codesandbox.io/s/carousel-react-55h9ib?file=/src/Carousel/Carousel.tsx",
+    "tags": ["ActiveList", "React", "Carousel"]
+  },
+  {
+    "id": 3,
+    "text": "A Todo-list created in Svelte",
+    "description": "A sortable todo list in Svelte using the ActiveList",
+    "url": "https://codesandbox.io/s/todo-svelte-1mswsf?file=/App.svelte",
+    "tags": ["ActiveList", "Svelte", "Todo-list"]
+  }, 
+  {
+    "id": 4,
+    "text": "A Timeline created in Angular using uiloos's ActiveList",
+    "description": "A vertical timeline which shows information based on a date",
+    "url": "https://codesandbox.io/s/timeline-angular-gtouh5?file=/src/app/timeline/timeline.component.ts",
+    "tags": ["ActiveList", "Angular", "Timeline"]
+  },
+  {
+    "id": 5,
+    "text": "An Accordion created in Vue using the ActiveList",
+    "description": "Shows how to create a Vue component which looks just like regular HTML powered by the ActiveList",
+    "url": "https://codesandbox.io/s/vue-accordion-lsbw53?file=/src/components/Accordion/Accordion.vue",
+    "tags": ["ActiveList", "Vue", "Accordion"]
+  },{
+    "id": 6,
+    "text": "A MultipleSelect form component using React",
+    "description": "Shows to limit the number of active items in an ActiveList using <span class='high'>maxActivationLimit</span>.",
+    "url": "https://codesandbox.io/s/hamburger-condiment-picker-react-5tg9b4?file=/src/CondimentPicker/CondimentPicker.tsx",
+    "tags": ["ActiveList", "React", "MultipleSelect"]
+  },
+  {
+    "id": 7,
+    "text": "A SegmentedButton / ButtonGroup using vanilla JavaScript",
+    "description": "Demonstrates how to create a button group from which only one button can be active at a time. Shows a jQuery like way of creating components.",
+    "url": "https://codesandbox.io/s/segmentedbutton-vanilla-kqw4cd?file=/segmented-button.js",
+    "tags": ["ActiveList", "JavaScript", "SegmentedButton"]
+  },
+  {
+    "id": 8,
+    "text": "A Tab component using Vue",
+    "description": "Shows how to create a simple tab component, which displays content based on the active tab.",
+    "url": "https://codesandbox.io/s/vue-tabs-7mo9ru?file=/src/components/Tabs/Tabs.vue",
+    "tags": ["ActiveList", "Vue", "Tabs"]
+  }
+]

@@ -1,0 +1,29 @@
+.tabs-example {
+  border-color: black;
+  border-width: 1px;
+  margin-bottom: 16px;
+}
+
+.tabs-example .tabs-container {
+  display: flex;
+  margin-bottom: 16px;
+  border-width: 1px;
+  margin-bottom: 16px;
+}
+
+.tabs-example .tab {
+  color: black;
+  padding: 1rem;
+  background-color: white;
+  flex-grow: 1;
+}
+
+.tabs-example .tab.active,
+.tabs-example .tab:hover {
+  background-color: rgb(192 132 252);
+  color: rgb(255 255 255);
+}
+
+.tabs-example .tab-content {
+  padding: 16px;
+}

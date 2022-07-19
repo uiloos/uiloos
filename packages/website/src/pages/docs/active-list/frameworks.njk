@@ -1,0 +1,90 @@
+---
+title: Usage with Frameworks | ActiveList | Docs | uiloos
+layout: layouts/docs.njk
+permalink: /docs/active-list/usage-with-frameworks/
+renderData:
+  parent: 'active-list'
+  current: 'active-list-frameworks'
+---
+
+<div class="text-xl">
+  <h1 class="h1 mb-4">ActiveList usage with Frameworks</h1>
+
+  <em>Table of contents</em>
+  <ol class="list-decimal m-2 mb-4">
+    <li class="ml-8">
+      <a href="#in-general" class="text-purple-600 underline">In general</a>
+    </li>
+    <li class="ml-8">
+      <a href="#react" class="text-purple-600 underline">React</a>
+    </li>
+    <li class="ml-8">
+      <a href="#vue" class="text-purple-600 underline">Vue</a>
+    </li>
+    <li class="ml-8">
+      <a href="#angular" class="text-purple-600 underline">Angular</a>
+    </li>
+  </ol>
+
+  <h2 id="react" class="h2 mb-4"><a href="#react">1. In general</a></h2>
+
+  <p class="mb-4">
+    The <a href="/api/core/activelist/" class="underline high">ActiveList</a> 
+    component works well with any framework which supports reactivity.
+  </p>
+
+  <p class="mb-4">
+    For example in both Angular and Vue you can use instances of 
+    the ActiveList as is, both frameworks understand when you 
+    manipulate the ActiveList, that it will need to  re-render 
+    component.
+  </p>
+
+  <p class="mb-4">
+    When using frameworks you will not need to subscribe to changes
+    and observe the ActiveList manually. This allows you to use the
+    ActiveList more declaratively. Using the ActiveList declaratively 
+    results in easier to understand code.
+  </p>
+
+  <h2 id="react" class="h2 mb-4"><a href="#react">2. React</a></h2>
+
+  <p class="mb-4">
+    When using React you should use the 
+    <a href="https://www.npmjs.com/package/@uiloos/react" target="_blank" rel="noopener noreferrer" class="high underline">@uiloos/react</a>
+    library. It contains the <a href="/api/react/useactivelist/" class="high underline">useActiveList</a>
+    hook which provides you an ActiveList, without the need to subscribe 
+    to it.
+  </p>
+
+  <h2 id="vue" class="h2 mb-4"><a href="#vue">3. Vue</a></h2>
+
+  <p class="mb-4">
+    In Vue you should use the 
+    <a href="https://www.npmjs.com/package/@uiloos/vue" target="_blank" rel="noopener noreferrer" class="high underline">@uiloos/vue</a>
+    library. It contains the <a href="/api/vue/useactivelist/" class="high underline">useActiveList</a>
+    composable which provides you an ActiveList, without the need to subscribe 
+    to it.
+  </p>
+
+  <h2 id="angular" class="h2 mb-4"><a href="#angular">4. Angular</a></h2>
+
+  <p class="mb-4">
+    If you are using Angular there is no need to include an extra library.
+    As long as you use ActiveList inside of a <span class="high">@Component</span> 
+    it will pick up on changes automatically.
+  </p>
+
+  <a 
+    class="flex justify-between items-center p-4 rounded border border-gray-200 transition duration-300 ease-in-out bg-white shadow-md hover:shadow-lg mb-4" 
+    href="/docs/active-list/examples/"
+  >
+    <div>
+      <div class="text-normal font-medium mb-1">Examples</div>
+      <div class="text-sm">See the ActiveList in action with easy to copy examples</div>
+    </div>
+    <svg class="w-4 h-4 fill-current text-blue-600 shrink-0 ml-6" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z"></path>
+    </svg>
+  </a>
+</div>

@@ -1,0 +1,367 @@
+---
+title: Playground | ActiveList | Docs | uiloos
+layout: layouts/docs.njk
+permalink: /docs/active-list/playground/
+renderData:
+  parent: 'active-list'
+  current: 'active-list-playground'
+---
+
+<div class="text-xl">
+  <h1 class="h1 mb-4">ActiveList Playground</h1>
+
+  <p class="mb-4">
+    To get a feel for the
+    <a href="/api/core/activelist/" class="high underline">ActiveList</a>
+    we have created a playground. It allows you to use the API behind the
+    ActiveList in a visual manner.
+  </p>
+
+  <h2 class="h2 mb-4">Visual</h2>
+  <div
+    id="grid"
+    class="flex gap-4 mb-4 sticky top-4 bg-white p-4 overflow-x-auto shadow-xl"
+  >
+    <div
+      class="w-32 h-32 shrink-0 border rounded-full bg-gray-400 flex justify-center items-center text-white text-4xl cursor-pointer"
+    >
+      A
+    </div>
+    <div
+      class="w-32 h-32 shrink-0 border rounded-full bg-gray-400 flex justify-center items-center text-white text-4xl cursor-pointer"
+    >
+      B
+    </div>
+    <div
+      class="w-32 h-32 shrink-0 border rounded-full bg-gray-400 flex justify-center items-center text-white text-4xl cursor-pointer"
+    >
+      C
+    </div>
+  </div>
+
+  <h2 class="h2 mb-4">Properties</h2>
+
+  <h2 class="h2 mb-4">Activate</h2>
+  <ul class="text-md">
+    <li id="activate" class="mb-4">
+      <span class="high"
+        >activate(<select
+          id="activate-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="A">"A"</option>
+          <option value="A">"B"</option>
+          <option value="C">"C"</option></select
+        >)</span
+      >
+    </li>
+    <li id="activateByIndex" class="mb-4">
+      <span class="high"
+        >activateByIndex(<select
+          id="activateByIndex-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option></select
+        >)</span
+      >
+    </li>
+    <li id="activateByPredicate" class="mb-4">
+      <span class="high"
+        >activateByPredicate(<select
+          id="activateByPredicate-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="A">({value}) => value === "A"</option>
+          <option value="B">({index}) => index === 1</option>
+          <option value="C">({content}) => content.isLast</option></select
+        >)</span
+      >
+    </li>
+    <li id="activateFirst" class="cursor-pointer mb-4">
+      <span class="high">activateFirst()</span>
+    </li>
+    <li id="activateLast" class="cursor-pointer mb-4">
+      <span class="high">activateLast()</span>
+    </li>
+    <li id="activateNext" class="cursor-pointer mb-4">
+      <span class="high">activateNext()</span>
+    </li>
+    <li id="activatePrevious" class="cursor-pointer mb-4">
+      <span class="high">activatePrevious()</span>
+    </li>
+  </ul>
+
+  <h2 class="h2 mb-4">Deactivate</h2>
+  <ul class="text-md">
+    <li id="deactivate" class="mb-4">
+      <span class="high"
+        >deactivate(<select
+          id="deactivate-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="A">"A"</option>
+          <option value="A">"B"</option>
+          <option value="C">"C"</option></select
+        >)</span
+      >
+    </li>
+    <li id="deactivateByIndex" class="mb-4">
+      <span class="high"
+        >deactivateByIndex(<select
+          id="deactivateByIndex-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option></select
+        >)</span
+      >
+    </li>
+    <li id="deactivateByPredicate" class="mb-4">
+      <span class="high"
+        >deactivateByPredicate(<select
+          id="deactivateByPredicate-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="A">({value}) => value === "A"</option>
+          <option value="B">({index}) => index === 1</option>
+          <option value="C">({content}) => content.isLast</option></select
+        >)</span
+      >
+    </li>
+  </ul>
+
+  <h2 class="h2 mb-4">Insertion</h2>
+  <ul class="text-md">
+    <li id="insertAtIndex" class="mb-4">
+      <span class="high"
+        >insertAtIndex(<select
+          id="insertAtIndex-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option></select
+        >)</span
+      >
+    </li>
+    <li id="insertByPredicate" class="mb-4">
+      <span class="high"
+        >insertByPredicate(<select
+          id="insertByPredicate-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="A">({value}) => value === "A"</option>
+          <option value="B">({index}) => index === 1</option>
+          <option value="C">({content}) => content.isLast</option></select
+        >)</span
+      >
+    </li>
+    <li id="push" class="mb-4 cursor-pointer">
+      <span class="high">push()</span>
+    </li>
+    <li id="unshift" class="mb-4 cursor-pointer">
+      <span class="high">unshift()</span>
+    </li>
+  </ul>
+
+  <h2 class="h2 mb-4">Removal</h2>
+  <ul class="text-md">
+    <li id="remove" class="mb-4">
+      <span class="high"
+        >remove(<select
+          id="remove-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="A">"A"</option>
+          <option value="A">"B"</option>
+          <option value="C">"C"</option></select
+        >)</span
+      >
+    </li>
+    <li id="removeByIndex" class="mb-4">
+      <span class="high"
+        >removeByIndex(<select
+          id="removeByIndex-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option></select
+        >)</span
+      >
+    </li>
+    <li id="removeByPredicate" class="mb-4">
+      <span class="high"
+        >removeByPredicate(<select
+          id="removeByPredicate-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="A">({value}) => value === "A"</option>
+          <option value="B">({index}) => index === 1</option>
+          <option value="C">({content}) => content.isLast</option></select
+        >)</span
+      >
+    </li>
+    <li id="pop" class="mb-4 cursor-pointer">
+      <span class="high">pop()</span>
+    </li>
+    <li id="shift" class="mb-4 cursor-pointer">
+      <span class="high">shift()</span>
+    </li>
+  </ul>
+
+  <h2 class="h2 mb-4">Moving</h2>
+  <ul class="text-md">
+    <li id="move" class="mb-4">
+      <span class="high"
+        >move(<select
+          id="move-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="A">"A"</option>
+          <option value="A">"B"</option>
+          <option value="C">"C"</option></select
+        >,
+        <select
+          id="move-select-index"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option></select
+        >)</span
+      >
+    </li>
+    <li id="moveByIndex" class="mb-4">
+      <span class="high"
+        >moveByIndex(<select
+          id="move-select-a"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option></select
+        >,
+        <select
+          id="move-select-b"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option></select
+        >)</span
+      >
+    </li>
+    <li id="moveByPredicate" class="mb-4">
+      <span class="high"
+        >moveByIndexByPredicate( <br />&nbsp;<select
+          id="move-select-a"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="A">"A"</option>
+          <option value="A">"B"</option>
+          <option value="C">"C"</option></select
+        >,
+        <br/>&nbsp;<select
+          id="removeByPredicate-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="A">({value}) => value === "A"</option>
+          <option value="B">({index}) => index === 1</option>
+          <option value="C">({content}) => content.isLast</option></select
+        >,
+        <br/>&nbsp;&nbsp;{ mode:
+        <select
+          id="move-select-a"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="at">"at"</option>
+          <option value="before">"before"</option>
+          <option value="after">"after"</option>
+        </select>
+        }<br/>)</span
+      >
+    </li>
+    <li id="moveByIndexByPredicate" class="mb-4">
+      <span class="high"
+        >moveByIndexByPredicate( <br />&nbsp;<select
+          id="move-select-a"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option></select
+        >,
+        <br/>&nbsp;<select
+          id="removeByPredicate-select"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="A">({value}) => value === "A"</option>
+          <option value="B">({index}) => index === 1</option>
+          <option value="C">({content}) => content.isLast</option></select
+        >,
+        <br/>&nbsp;&nbsp;{ mode:
+        <select
+          id="move-select-a"
+          class="text-black border-none py-0 bg-transparent"
+        >
+          <option value="at">"at"</option>
+          <option value="before">"before"</option>
+          <option value="after">"after"</option>
+        </select>
+        }<br />)</span
+      >
+    </li>
+  </ul>
+
+  <!-- <h2 class="h2 mb-4">Selected</h2>
+  <ul>
+    <li>
+      <span class="high">activate()</span>
+    </li>
+    <li>
+      <span class="high">deactivate()</span>
+    </li>
+    <li>
+      <span class="high">toggle()</span>
+    </li>
+
+    <li>
+      <span class="high">swapWith()</span>
+    </li>
+    <li>
+      <span class="high">swapWithByIndex()</span>
+    </li>
+    <li>
+      <span class="high">swapWithNext()</span>
+    </li>
+    <li>
+      <span class="high">swapWithPrevious()</span>
+    </li>
+
+    <li>
+      <span class="high">moveToIndex()</span>
+    </li>
+    <li>
+      <span class="high">moveToFirst()</span>
+    </li>
+    <li>
+      <span class="high">moveToLast()</span>
+    </li>
+    <li>
+      <span class="high">moveToPredicate()</span>
+    </li>
+
+    <li>
+      <span class="high">remove()</span>
+    </li>
+  </ul> -->
+
+  <h2 class="h2 mb-4">JSON</h2>
+  <pre id="json"></pre>
+
+  <script src="/assets/active-list-playground.js" defer="true"></script>
+</div>

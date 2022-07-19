@@ -1,0 +1,43 @@
+<details class="js-code-switch">
+    <summary class="mb-4">Initialization code example</summary>
+
+    <ul class="flex bg-gray-200 px-2 pt-2 pb-4 gap-4">
+      <li class="border font-bold cursor-pointer border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">JavaScript</li>
+      <li class="border font-bold cursor-pointer border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">TypeScript</li>
+    </ul>
+
+    <div>
+      {% highlight "javascript" %}
+import { ActiveList } from '@uiloos/core';
+
+const config = {
+  contents: ["a", "b", "c"],
+  activeIndexes: [1]
+};
+
+function subscriber(activeList, event) {
+  console.log(event);
+}
+
+const activeList = new ActiveList(config, subscriber)
+{% endhighlight %}
+    </div>
+    <div>
+      {% highlight "typescript" %}
+const config = {
+  contents: ['a', 'b', 'c'],
+  activeIndexes: [1]
+};
+
+function subscriber(
+  activeList: ActiveList<string>,
+  event: ActiveListEvent<string>
+) {
+  console.log(event);
+}
+
+const activeList = new ActiveList(config, subscriber);
+
+{% endhighlight %}
+  </div>
+</details>

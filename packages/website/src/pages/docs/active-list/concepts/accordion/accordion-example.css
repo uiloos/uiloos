@@ -1,0 +1,26 @@
+.accordion-example {
+  margin-bottom: 16px;
+}
+
+.accordion-example .closed p {
+  display: none;
+}
+
+.accordion-example .opened p {
+  display: block;
+  margin-left: 18px;
+}
+
+.accordion-example button {
+  padding: 8px;
+  font-size: 32px;
+  width: 48px;
+}
+
+.accordion-example .accordion-title {
+  cursor: pointer;
+}
+
+.accordion-example .accordion-title:hover {
+  color: rgb(192 132 252);
+}

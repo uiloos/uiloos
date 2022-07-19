@@ -1,0 +1,41 @@
+<strong>
+  A. Tabs
+</strong>
+
+<p class="mb-4">
+  A tabs component for which one tab can be active at a time.
+</p>
+
+<style>
+  {% include "./tabs-example.css" %}
+</style>
+
+{% include "./tabs-example.html" %}
+
+<details>
+  <summary class="mb-4">View code</summary>
+
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 px-2 pt-2 pb-4 gap-4">
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">JavaScript</button>
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">HTML</button>
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">CSS</button>
+    </div>
+
+    <div class="example">
+      {% highlight "js" %}
+      {% include "./tabs-example.js" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "html" %}
+      {% include "./tabs-example.html" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "css" %}
+      {% include "./tabs-example.css" %}
+      {% endhighlight %}
+    </div>
+  </div>
+</details>

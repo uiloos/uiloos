@@ -1,0 +1,30 @@
+.segment-example {
+  margin-bottom: 16px;
+}
+
+.segment-example .segment-container {
+  display: flex;
+  display: flex;
+  justify-content: center;
+}
+
+.segment-example button {
+  color: white;
+  padding: 8px;
+  background-color: rgb(192 132 252);
+}
+
+.segment-example button.active,
+.segment-example button:hover {
+  color: white;
+  background-color: #6b21a8;
+}
+
+.segment-example .tab-content {
+  padding: 1rem;
+}
+
+.segment-example p {
+  padding: 0 64px;
+  margin: 16px 0;
+}

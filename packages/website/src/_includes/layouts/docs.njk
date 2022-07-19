@@ -1,0 +1,18 @@
+---
+layout: ./layouts/base.njk
+---
+
+<section>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+    <!-- Main content -->
+    <div class="md:pb-20 xl:flex xl:justify-between">
+      {% include "../components/docsnav.njk" %}
+
+      <!-- Page container -->
+      <div class="md:grow xl:mt-24">
+        {{ content | safe }}
+      </div>
+    </div>
+  </div>
+</section>
