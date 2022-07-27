@@ -25,6 +25,46 @@ module.exports = function (eleventyConfig) {
     }).toFormat('dd-MM-yy');
   });
 
+  eleventyConfig.addFilter('sortApi', (definitions) => {
+
+    // This array represents the bottom
+    const sort = [
+      'subscriber',
+      'config',
+      'options',
+      'callback',
+      'predicate',
+      'base', // So base events are above the events
+      'event',
+      'error'
+    ];
+  
+    function sortValue(defName) {
+      let index = 1;
+      for (const name of sort) {
+  
+        if (defName.includes(name)) {
+          return index;
+        }
+  
+        index++;
+      }
+  
+      return 0;
+    }
+  
+    return definitions.sort((a, b) => {
+      const aName = a.name.toLowerCase();
+      const bName = b.name.toLowerCase();
+  
+      const aValue = sortValue(aName);
+      const bValue = sortValue(bName);
+  
+      return aValue - bValue;
+    });
+  });
+
+>>>>>>> 07a6ff7 (improvement: now sorting API listings created by `displayApi` macro.)
   return {
     dir: { input: 'src', output: '_site' },
   };

@@ -1,8 +1,8 @@
 {% set isNumber = r/^\d*(\.\d+)?$/g %}
 
 {% macro displayApi(definitions, subapi) %}
-  <div class="grid xl:grid-cols-2 xl:text-sm">
-  {% for def in definitions %}
+  <div class="grid xl:grid-cols-2 xl:text-sm px-1 mb-2">
+  {% for def in definitions | sortApi %}
     <a 
       href="/api/{{subapi}}/{{ def.name | slug}}/" 
       class="block font-mono"
