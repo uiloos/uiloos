@@ -61,8 +61,9 @@ export class Autoplay<T> {
     // Cancel timer to prevent multiple timeouts from being active.
     this._cancelTimer();
 
-    // Stop playing when autoplay is false, when the content has
-    // become empty, or when there is no more lastActivatedContent.
+    // Do not start playing if there is no config, and stop playing 
+    // when autoplay is false, when the content has become empty, 
+    // or when there is no more lastActivatedContent.
     if (
       !this._config ||
       this._activeList.isEmpty() ||

@@ -49,7 +49,7 @@
   {% if type.type === 'reference' and type.typeArguments %}
    <a class="underline {% if purpleLink %} text-purple-600 {% else %} text-blue-500 {% endif %}" href="/api/core/{{ type.name | slug}}/">{{type.name}}&lt;{{type.typeArguments[0].name}}&gt;</a>
   {% elif type.type === 'reference'%}
-    {% if type.name === "T" or type.name === "Date" %}
+    {% if type.name.length === 1 or type.name === "Date" %}
       {{type.name}}
     {% else %}
       <a class="underline {% if purpleLink %} text-purple-600 {% else %} text-blue-500 {% endif %}" href="/api/core/{{ type.name | slug}}/">{{type.name}}</a>

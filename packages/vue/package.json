@@ -45,12 +45,12 @@
     "jest": "28.1.0",
     "jest-environment-jsdom": "28.1.0",
     "typedoc": "0.22.15",
-    "typescript": "4.7.2",
+    "typescript": "4.7.4",
     "vite": "2.9.9",
     "vitest": "0.12.9",
     "vue": "3.2.36"
   },
   "overrides": {
-    "typescript": "4.7.2"
+    "typescript": "4.7.4"
   }
 }

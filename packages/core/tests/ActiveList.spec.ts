@@ -14,7 +14,7 @@ import { licenseChecker } from '../src/license';
 
 import { UnsubscribeFunction } from '../src/generic/types';
 
-type TestConfig = Omit<ActiveListConfig<string>, 'subscriber' | 'contents'>;
+type TestConfig = Omit<ActiveListConfig<string>, 'contents'>;
 
 describe('ActiveList', () => {
   let unsubscribe: UnsubscribeFunction | null = null;
@@ -19871,7 +19871,7 @@ describe('ActiveList', () => {
         expect.objectContaining({ type: 'REMOVED', index: 0, value: 'a' }),
       ]);
 
-      // Now reset the history, not that if `keepHistoryFor` is zero
+      // Now reset the history, note that if `keepHistoryFor` is zero
       // the `history` array would be empty
       activeList.initialize({ contents: [], keepHistoryFor: 1 });
       expect(activeList.history).toEqual([

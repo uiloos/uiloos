@@ -57,4 +57,32 @@ if (activeList.lastActivated !== 'b') {
   process.exit(1);
 }
 
+load('dist/uiloos-view-channel-VERSION.min.js');
+
+const viewChannel = new uiloosViewChannel.ViewChannel();
+viewChannel.present({
+  data: "a",
+  priority: 2
+});
+viewChannel.present({
+  data: "b",
+  priority: 1
+});
+viewChannel.present({
+  data: "c",
+  priority: 0
+});
+
+if (viewChannel.views.length !== 3) {
+  console.error('viewChannel.views.length should be 3');
+  process.exit(1);
+}
+
+const [c, b, a] = viewChannel.views.map(v => v.data);
+
+if (c !== "c" || b !== "b" || a !== "a") {
+  console.error('viewChannel.views values are incorrect');
+  process.exit(1);
+}
+
 console.log("Finished checking minification");
