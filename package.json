@@ -9,13 +9,14 @@
     "clean": "lerna run clean",
     "bootstrap": "lerna bootstrap",
     "clean-bootstrap": "npm run clean && npm run bootstrap",
-    "test": "npm run link && npm run tsc && npm run test:unit && npm run apigen && npm run build-docs",
+    "test": "npm run link && npm run tsc && npm run test:unit && npm run build-docs",
     "test:unit": "nx run-many --target=test --all",
     "build": "nx run-many --target=build --all",
     "link": "npm run bootstrap && npm run build",
     "tsc": "lerna run tsc",
     "apigen": "nx run-many --target=apigen --all",
     "build-docs": "npm run link && npm run apigen && nx build-docs website",
-    "publish": "npm run test && lerna run before-publish && lerna publish"
+    "publish": "npm run test && lerna run before-publish && lerna publish",
+    "publish:alpha": "npm run test && lerna run before-publish && lerna publish --dist-tag alpha"
   }
 }
