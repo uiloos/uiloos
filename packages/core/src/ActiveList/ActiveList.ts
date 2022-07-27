@@ -1,6 +1,6 @@
 /*
   This import will be removed during the minification build so terser
-  leaves it alone. Make sure that it is not commited into git as an 
+  leaves it alone. Make sure that it is not committed into git as an 
   uncommented line!
 
   If you run build and the line below is commented you will get
@@ -40,6 +40,8 @@ import {
   ActiveListPredicateMode,
   ActiveListPredicateOptions,
 } from './types';
+import { _History } from '../private/History';
+import { _Observer } from '../private/Observer';
 
 /**
  * ActiveList is a class which represents visual elements which
@@ -76,12 +78,6 @@ export class ActiveList<T> {
    * the initial activation, and altering the history.
    */
   private _isInitializing = false;
-
-  /**
-   * Contains the subscribers of the ActiveList subscribers
-   * get informed of state changes within the ActiveList.
-   */
-  private _subscribers: ActiveListSubscriber<T>[] = [];
 
   /**
    * The `ActiveListContent`'s which the `ActiveList` holds.
@@ -241,6 +237,10 @@ export class ActiveList<T> {
    * history items do not store copies of the values.
    */
   public history: ActiveListEvent<T>[] = [];
+  private _history!: _History<ActiveListEvent<T>>;
+
+  private _observer: _Observer<ActiveList<T>, ActiveListEvent<T>> =
+    new _Observer();
 
   /**
    * Whether or not the `active` item has changed at least once.
@@ -261,9 +261,6 @@ export class ActiveList<T> {
   // But we lie about the type because otherwise there would
   // be to many checks.
   private _autoplay!: Autoplay<T>;
-
-  // The amount items that should be remembered in the history.
-  private _keepHistoryFor!: number;
 
   // Stores the current direction configuration
   private _directions!: ActiveListDirection;
@@ -302,11 +299,7 @@ export class ActiveList<T> {
    * @returns {UnsubscribeFunction} A function which when called will unsubscribe from the ActiveList.
    */
   public subscribe(subscriber: ActiveListSubscriber<T>): UnsubscribeFunction {
-    this._subscribers.push(subscriber);
-
-    return () => {
-      this.unsubscribe(subscriber);
-    };
+    return this._observer._subscribe(subscriber);
   }
 
   /**
@@ -316,7 +309,7 @@ export class ActiveList<T> {
    * @param {ActiveListSubscriber<T>} subscriber The subscriber which you want to unsubscribe.
    */
   public unsubscribe(subscriber: ActiveListSubscriber<T>): void {
-    this._subscribers = this._subscribers.filter((s) => subscriber !== s);
+    this._observer._unsubscribe(subscriber);
   }
 
   /**
@@ -359,9 +352,8 @@ export class ActiveList<T> {
       : { next: 'right', previous: 'left' };
 
     // Configure history
-    this.history = [];
-    this._keepHistoryFor =
-      config.keepHistoryFor !== undefined ? config.keepHistoryFor : 0;
+    this._history = new _History(config.keepHistoryFor);
+    this.history = this._history._events;
 
     // Reset the ActiveList
     this._becameEmpty();
@@ -1068,7 +1060,7 @@ export class ActiveList<T> {
    * So when `isActive` is `true` and `toggle` is called, `isActive`
    * will become `false`. When `isActive` is `false` and `toggle` is
    * called, `isActive` will become `true`.
-   * 
+   *
    * If the index does not exist an error will be thrown.
    *
    * With the `activationOptions` you can determine the effects
@@ -1093,11 +1085,11 @@ export class ActiveList<T> {
     }
   }
 
-   /**
+  /**
    * Toggles the given item based on identity by comparing the item
    * via a `===` check. When multiple items match on `===` only the
    * first matching item is activated.
-   * 
+   *
    * So when `isActive` is `true` and `toggle` is called, `isActive`
    * will become `false`. When `isActive` is `false` and `toggle` is
    * called, `isActive` will become `true`.
@@ -1112,7 +1104,7 @@ export class ActiveList<T> {
    * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
    * @throws {ActiveListItemNotFoundError} item must be in the contents array based on === equality
    */
-   public toggle(
+  public toggle(
     item: T,
     activationOptions?: ActiveListActivationOptions<T>
   ): void {
@@ -2400,17 +2392,9 @@ export class ActiveList<T> {
       return;
     }
 
-    // Track history if the developer wants it.
-    if (this._keepHistoryFor > 0) {
-      this.history.push(event);
+    this._history._push(event);
 
-      // Prevent from growing infinitely
-      if (this.history.length - 1 === this._keepHistoryFor) {
-        this.history.shift();
-      }
-    }
-
-    this._subscribers.forEach((subscriber) => subscriber(this, event));
+    this._observer._inform(this, event);
   }
 
   private _checkIndex(index: number): boolean {

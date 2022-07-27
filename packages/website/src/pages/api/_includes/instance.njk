@@ -13,9 +13,9 @@
   {% endif %}
 
   {% for tag in def.comment.tags %}
-    <p class="mb-4">
+    <p class="mb-4 flex">
        See: <a 
-        class="underline text-purple-600 font-mono font-bold block" 
+        class="ml-2 underline text-purple-600 font-mono font-bold block" 
         href="/api/core/{{ tag.text | replace('{', '') | slug}}/"
       >
         {{ tag.text | replace('{', '') }}

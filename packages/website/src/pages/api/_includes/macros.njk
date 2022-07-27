@@ -1,7 +1,15 @@
 {% set isNumber = r/^\d*(\.\d+)?$/g %}
 
+{% macro displayApiGroup(definitions, subapi, groups = []) %}
+  {% for group in groups %}
+    <h2 class="h2 mb-2" id="{{group}}"><a href="#{{group}}">{{loop.index}}. {{group}}</a></h3>
+
+    {{ displayApi(definitions | groupApi(groups, group), subapi) }}
+  {% endfor %}
+{% endmacro %}
+
 {% macro displayApi(definitions, subapi) %}
-  <div class="grid xl:grid-cols-2 xl:text-sm">
+  <div class="grid xl:grid-cols-2 xl:text-sm px-1 mb-2">
   {% for def in definitions %}
     <a 
       href="/api/{{subapi}}/{{ def.name | slug}}/" 
@@ -41,7 +49,7 @@
   {% if type.type === 'reference' and type.typeArguments %}
    <a class="underline {% if purpleLink %} text-purple-600 {% else %} text-blue-500 {% endif %}" href="/api/core/{{ type.name | slug}}/">{{type.name}}&lt;{{type.typeArguments[0].name}}&gt;</a>
   {% elif type.type === 'reference'%}
-    {% if type.name === "T" or type.name === "Date" %}
+    {% if type.name.length === 1 or type.name === "Date" %}
       {{type.name}}
     {% else %}
       <a class="underline {% if purpleLink %} text-purple-600 {% else %} text-blue-500 {% endif %}" href="/api/core/{{ type.name | slug}}/">{{type.name}}</a>

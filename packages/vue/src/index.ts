@@ -3,6 +3,8 @@ import components from './components';
 import ActiveList from './ActiveList/ActiveList';
 import { useActiveList } from './ActiveList/useActiveList';
 
+import { useViewChannel } from './ViewChannel/useViewChannel';
+
 /**
  * The uiloos Vue plugin, add it to vue via `app.use()`;
  */
@@ -18,4 +20,4 @@ const uiloosPlugin = {
   },
 };
 
-export { uiloosPlugin, useActiveList, ActiveList };
+export { uiloosPlugin, useActiveList, ActiveList, useViewChannel };

@@ -1,14 +1,14 @@
 const eleventyNavigationPlugin = require('@11ty/eleventy-navigation');
-const syntaxHighlightPlugin = require("@11ty/eleventy-plugin-syntaxhighlight");
+const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight');
 
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
   eleventyConfig.addPlugin(syntaxHighlightPlugin);
-  
+
   eleventyConfig.addPassthroughCopy('src/images');
   eleventyConfig.addPassthroughCopy('src/fonts');
 
-  eleventyConfig.addPassthroughCopy({ "src/**/*.css": "css" });
+  eleventyConfig.addPassthroughCopy({ 'src/**/*.css': 'css' });
 
   const { DateTime } = require('luxon');
 
@@ -23,6 +23,33 @@ module.exports = function (eleventyConfig) {
     return DateTime.fromJSDate(dateObj, {
       zone: 'utc',
     }).toFormat('dd-MM-yy');
+  });
+
+  // Filters the api definitions based on the groups, the last
+  // item is the bin for all non-matching items.
+  eleventyConfig.addFilter('groupApi', (definitions, groups, groupName) => {
+    // The last item collects all non matching items.
+    const lastInGroup = groups[groups.length - 1];
+
+    if (lastInGroup === groupName) {
+      // Leave only the normal groups
+      const filteredGroup = groups.filter(
+        (_g, index) => index !== groups.length - 1
+      );
+
+      // If the definition is in none of the the normal groups it 
+      // should not be displayed
+      return definitions.filter((def) => {
+        return filteredGroup.every(
+          (filteredGroupName) =>
+            !def.name.toLowerCase().includes(filteredGroupName.toLowerCase())
+        );
+      });
+    } else {
+      return definitions.filter((def) =>
+        def.name.toLowerCase().includes(groupName.toLowerCase())
+      );
+    }
   });
 
   return {

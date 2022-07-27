@@ -36,7 +36,8 @@ export type ActiveListConfig<T> = {
    *    the last item can be added without violating the limit. This
    *    basically means that the first one in is the first one out.
    *
-   * 2. 'error': An error is thrown whenever the limit is surpassed.: TODO: ERROR HERE
+   * 2. 'error': An error is thrown whenever the limit is surpassed,
+   *    the error is called the `ActiveListActivationLimitReachedError`.
    *
    * 3. 'ignore': Nothing happens when an item is added and the limit
    *    is ignored. The item is simply not added, but no error is
@@ -394,7 +395,7 @@ export type ActiveListDirection = {
 };
 
 /**
- * Represents whether the `ActiveListEvent` was added, removed, activated
+ * Represents whether the `ActiveListEvent` was inserted, removed, activated
  * swapped, etc etc.
  */
 export type ActiveListEventType =
