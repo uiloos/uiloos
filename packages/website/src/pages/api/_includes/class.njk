@@ -1,7 +1,7 @@
 {% from "./macros.njk" import displaySignatures %}
 
-<div class="text-xl">
-  <h1 class="h1 mb-4">
+<article>
+  <h1>
     {{def.name}}
 
     {% if def.typeParameter.length > 0 %}
@@ -9,34 +9,86 @@
     {% endif %}
   </h1>
 
+  <nav 
+    class="hidden 2xl:block 2xl:absolute 2xl:top-[80px] 2xl:right-2 2xl:w-[270px]" 
+    role="doc-toc"
+    data-no-highlight="true"
+  >
+    {% set foundProp = false %}
+    {% for item in def.children %}
+      {% if not foundProp and not item.flags.isPrivate and item.kindString === 'Property' %}
+        
+        <strong>Properties</strong>
+        {% set foundProp = true %}
+        <ol class="mb-4">
+          {% for item in def.children %}
+            {% if not item.flags.isPrivate and item.kindString === 'Property' %}
+              <li>
+                <a 
+                  href="#{{item.name}}" 
+                  class="text-purple-600 underline block text-ellipsis overflow-hidden"
+                >
+                  {{item.name}}
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ol>
+      {% endif %}
+    {% endfor %}
+
+    {% set foundMethod = false %}
+    {% for item in def.children %}
+      {% if not foundMethod and not item.flags.isPrivate and item.kindString === 'Method' and not item.name.startsWith('_') %}
+        {% set foundMethod = true %}
+
+        <strong>Methods</strong>
+        <ol class="mb-4">
+          {% for item in def.children %}
+            {% if not item.flags.isPrivate and item.kindString === 'Method' and not item.name.startsWith('_') %}
+              <li>
+                <a 
+                  href="#{{item.name}}" 
+                  class="text-purple-600 underline block text-ellipsis overflow-hidden"
+                >
+                  {{item.name}}
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ol>
+      {% endif %}
+    {% endfor %}
+  </nav>
+
   <p class="text-2xl font-mono mb-4 text-blue-800">CLASS</p>
 
-  <p class="mb-4">{{def.comment.shortText | escape | nl2br}}</p>
+  <p>{{def.comment.shortText | escape | nl2br}}</p>
   {% if def.comment.text %}
-    <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
+    <p>{{def.comment.text | escape | nl2br}}</p>
   {% endif %}
 
   {% for item in def.children %}
     {% if not item.flags.isPrivate and item.kindString === 'Constructor' %}
-      <h2 class="h2 mb-2" id="constructor"><a href="#constructor">Constructor</a></h3>
+      <h2 id="constructor"><a href="#constructor">Constructor</a></h3>
       <div class="border px-2 pt-4 mb-4">
         {{ displaySignatures(item.signatures) }}
       </div>
     {% endif %}
   {% endfor %}
 
-  <h2 class="h2 mb-2" id="properties"><a href="#properties">Properties</a></h2>
+  <h2 id="properties"><a href="#properties">Properties</a></h2>
   {% for item in def.children %}
     {% if not item.flags.isPrivate and item.kindString === 'Property' %}
       {% include "./property.njk" %}
     {% endif %}
   {% endfor %}
 
-  <h2 class="h2 mb-2" id="methods"><a href="#methods">Methods</a></h2>
+  <h2 id="methods"><a href="#methods">Methods</a></h2>
   {% for item in def.children %}
     {% if not item.flags.isPrivate and item.kindString === 'Method' and not item.name.startsWith('_') %}
       {% include "./method.njk" %}
     {% endif %}
   {% endfor %}
 
-</div>
+</article>

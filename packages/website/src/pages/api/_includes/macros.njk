@@ -1,7 +1,15 @@
 {% set isNumber = r/^\d*(\.\d+)?$/g %}
 
+{% macro displayApiGroup(definitions, subapi, groups = []) %}
+  {% for group in groups %}
+    <h2 id="{{group}}"><a href="#{{group}}">{{loop.index}}. {{group}}</a></h3>
+
+    {{ displayApi(definitions | groupApi(groups, group), subapi) }}
+  {% endfor %}
+{% endmacro %}
+
 {% macro displayApi(definitions, subapi) %}
-  <div class="grid xl:grid-cols-2 xl:text-sm px-1 mb-2">
+  <div class="px-1 mb-2">
   {% for def in definitions | sortApi %}
     <a 
       href="/api/{{subapi}}/{{ def.name | slug}}/" 
@@ -104,12 +112,12 @@
 
 {% macro displaySignatures(signatures) %}
   {% for signature in signatures %}
-    <p class="mb-4">{{signature.comment.shortText | escape | nl2br}}</p>
+    <p>{{signature.comment.shortText | escape | nl2br}}</p>
     {% if signature.comment.text %}
       <p class="mb-2">{{signature.comment.text | escape | nl2br}}</p>
     {% endif %}
 
-    <h4 class="h4 mt-4 mb-2">Signature</h3>
+    <h4 class="mt-4">Signature</h3>
     <div class="font-mono bg-gray-700 text-white p-4 mb-2">
       {% if not signature.parameters %}
         <span class="text-purple-400">
@@ -141,7 +149,7 @@
     </div>
 
     {% if signature.parameters %}
-      <h4 class="h4 mt-4 mb-2">Parameters</h3>
+      <h4 class="mt-4">Parameters</h3>
 
       {% for parameter in signature.parameters %}
         <div class="mb-4">
@@ -150,7 +158,7 @@
             {{ displayType(parameter.type) }}
           </strong>
 
-          <p class="mb-4">{{parameter.comment.shortText | escape | nl2br}}</p>
+          <p>{{parameter.comment.shortText | escape | nl2br}}</p>
           {% if parameter.comment.text %}
             <p class="mb-2">{{parameter.comment.text | escape | nl2br}}</p>
           {% endif %}
@@ -159,15 +167,15 @@
     {% endif %}
 
     {% if signature.comment.returns %}
-      <h4 class="h4 mt-4 mb-2">Returns</h4>
+      <h4 class="mt-4">Returns</h4>
       <strong class="mb-2 font-mono">{{ displayType(signature.type) }}</strong>
       <p class="mb-2">{{signature.comment.returns | escape | nl2br}}</p>
     {% endif %}
 
     {% if signature.comment.tags %}
-      <h4 class="h4 mt-4 mb-2">Throws</h3>
+      <h4 class="mt-4">Throws</h3>
       {% for tag in signature.comment.tags %}
-        <p class="mb-4">
+        <p>
           <a class="underline text-purple-600 font-mono font-bold block" href="/api/core/{{ tag.text.split('}')[0] | replace('{', '') | slug}}/">{{ tag.text.split('}')[0] | replace('{', '') }}</a>
           
           {{tag.text.split('} ')[1]}}
@@ -177,4 +185,3 @@
 
   {% endfor %}
 {% endmacro %}
-

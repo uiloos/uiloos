@@ -1,18 +1,16 @@
 ---
 layout: ./layouts/base.njk
+renderData:
+  stickyNavigation: false
 ---
 
-<section>
-  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 md:pb-20 xl:flex xl:justify-between">
 
-    <!-- Main content -->
-    <div class="md:pb-20 xl:flex xl:justify-between">
-      {% include "../components/docsnav.njk" %}
+  {% include "../components/docsnav.njk" %}
 
-      <!-- Page container -->
-      <div class="md:grow xl:mt-24">
-        {{ content | safe }}
-      </div>
-    </div>
+  <!-- Page container -->
+  <div class="md:grow">
+    {{ content | safe }}
   </div>
-</section>
+
+</div>

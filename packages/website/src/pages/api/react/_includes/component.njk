@@ -1,7 +1,7 @@
 {% from "../../_includes/macros.njk" import displaySignatures, displayType %}
 
-<div class="text-xl">
-  <h1 class="h1 mb-4">
+<article>
+  <h1>
     {{def.name}}
 
     {% if def.signatures[0].typeParameter.length > 0 %}
@@ -11,15 +11,15 @@
 
   <p class="text-2xl font-mono mb-4 text-red-800">COMPONENT</p>
   
- <p class="mb-4">{{def.signatures[0].comment.shortText | escape | nl2br}}</p>
+ <p>{{def.signatures[0].comment.shortText | escape | nl2br}}</p>
   {% if def.comment.text %}
     <p class="mb-2">{{def.signatures[0].comment.text | escape | nl2br}}</p>
   {% endif %}
 
-  <h2 class="h2 mb-2" id="props"><a href="#props">Props</a></h2>
+  <h2 id="props"><a href="#props">Props</a></h2>
   {% for item in api.react.children %}
     {% if def.name + "Props" === item.name %}
       {{ displayType(item.type) }}
     {% endif %}
   {% endfor %}
-</div>
+</article>

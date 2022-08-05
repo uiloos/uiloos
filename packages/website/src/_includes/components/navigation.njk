@@ -1,7 +1,5 @@
 {% if renderData and renderData.stickyNavigation === false %} 
-<header 
-  class="w-full z-30 md:bg-opacity-90 transition duration-300 ease-in-out" 
->
+<header class="w-full">
 {% else %} 
 <header 
   class="fixed w-full z-30 md:bg-opacity-90 transition duration-300 ease-in-out" 
@@ -10,75 +8,72 @@
   :class="{ 'bg-white backdrop-blur-sm shadow-lg' : !top }"
 >
 {% endif %}
-  <div class="max-w-6xl mx-auto px-5 sm:px-6">
-    <div class="flex items-center justify-between h-16 md:h-20">
+  <div class="max-w-6xl mx-auto px-5 sm:px-6 flex items-center justify-between h-16 md:h-20">
+  
+    <!-- Site branding -->
+    <div class="shrink-0 mr-4">
+      <!-- Logo -->
+      <a class="flex flex-row items-center" href="/" aria-label="uiloos">
+        <img alt="Outline of an owl" src="/images/uiloos.svg" width="64" height="64">
+        
+        <span class="ml-4 maven text-4xl">uiloos</span>
+      </a>
+    </div>
 
-      <!-- Site branding -->
-      <div class="shrink-0 mr-4">
-        <!-- Logo -->
-        <a class="flex flex-row items-center" href="/" aria-label="uiloos">
-          <img alt="Outline of an owl" src="/images/uiloos.svg" width="64" height="64">
-          
-          <span class="ml-4 maven text-4xl">uiloos</span>
-        </a>
-      </div>
+    <!-- Desktop navigation -->
+    <nav class="hidden md:flex md:grow">
+      <!-- Desktop menu links -->
+      {% set navPages = collections.all | eleventyNavigation %}
+      <ul class="flex grow justify-end flex-wrap items-center">
+        {% for entry in navPages %}
+          <li>
+            <a class="text-gray-700 hover:text-gray-900 px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out" href="{{entry.url}}">{{entry.title}}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
 
-      <!-- Desktop navigation -->
-      <nav class="hidden md:flex md:grow">
-        <!-- Desktop menu links -->
-        {% set navPages = collections.all | eleventyNavigation %}
-        <ul class="flex grow justify-end flex-wrap items-center">
+    <!-- Mobile menu -->
+    <div class="flex md:hidden" x-data="{ expanded: false }">
+      <!-- Hamburger button -->
+      <button
+        class="hamburger"
+        :class="{ 'active': expanded }"
+        @click.stop="expanded = !expanded"
+        aria-controls="mobile-nav"
+        :aria-expanded="expanded"
+      >
+        <span class="sr-only">Menu</span>
+        <svg class="w-6 h-6 fill-current text-gray-900" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <rect y="4" width="24" height="2"/>
+          <rect y="11" width="24" height="2"/>
+          <rect y="18" width="24" height="2"/>
+        </svg>
+      </button>
+
+      <!-- Mobile navigation -->
+      <nav
+        id="mobile-nav"
+        class="absolute top-24 h-screen pb-16 z-20 left-0 w-full overflow-scroll bg-white"
+        @click.outside="expanded = false"
+        @keydown.escape.window="expanded = false"
+        x-show="expanded"
+        x-transition:enter="transition ease-out duration-200 transform"
+        x-transition:enter-start="opacity-0 -translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-out duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        x-cloak
+      >
+        <ul class="px-5 py-2">
           {% for entry in navPages %}
             <li>
-              <a class="text-gray-700 hover:text-gray-900 px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out" href="{{entry.url}}">{{entry.title}}</a>
+              <a class="flex text-xl text-gray-700 hover:text-gray-900 py-2" href="{{entry.url}}">{{entry.title}}</a>
             </li>
           {% endfor %}
         </ul>
       </nav>
-
-      <!-- Mobile menu -->
-      <div class="flex md:hidden" x-data="{ expanded: false }">
-
-        <!-- Hamburger button -->
-        <button
-          class="hamburger"
-          :class="{ 'active': expanded }"
-          @click.stop="expanded = !expanded"
-          aria-controls="mobile-nav"
-          :aria-expanded="expanded"
-        >
-          <span class="sr-only">Menu</span>
-          <svg class="w-6 h-6 fill-current text-gray-900" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <rect y="4" width="24" height="2"/>
-            <rect y="11" width="24" height="2"/>
-            <rect y="18" width="24" height="2"/>
-          </svg>
-        </button>
-
-        <!-- Mobile navigation -->
-        <nav
-          id="mobile-nav"
-          class="absolute top-24 h-screen pb-16 z-20 left-0 w-full overflow-scroll bg-white"
-          @click.outside="expanded = false"
-          @keydown.escape.window="expanded = false"
-          x-show="expanded"
-          x-transition:enter="transition ease-out duration-200 transform"
-          x-transition:enter-start="opacity-0 -translate-y-2"
-          x-transition:enter-end="opacity-100 translate-y-0"
-          x-transition:leave="transition ease-out duration-200"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0"
-          x-cloak
-        >
-          <ul class="px-5 py-2">
-            {% for entry in navPages %}
-              <li>
-                <a class="flex text-xl text-gray-700 hover:text-gray-900 py-2" href="{{entry.url}}">{{entry.title}}</a>
-              </li>
-            {% endfor %}
-          </ul>
-        </nav>
-      </div>
     </div>
   </div>
 </header>

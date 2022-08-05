@@ -13,6 +13,13 @@
   #cc99cc Purple
 */
 
+@media (min-width: 1536px) {
+  code[class*='language-'],
+  pre[class*='language-'] {
+    max-width: 672px;
+  }
+}
+
 code[class*='language-'],
 pre[class*='language-'] {
   margin-top: 0px !important;
@@ -20,7 +27,7 @@ pre[class*='language-'] {
   color: #f2777a;
   background: none;
   font-family: Monaco, Consolas, 'Andale Mono', 'Ubuntu Mono', monospace;
-  font-size: 1em;
+  font-size: 18px;
   text-align: left;
   white-space: pre;
   word-spacing: normal;

@@ -4,13 +4,13 @@ layout: layouts/api.njk
 permalink: /api/core/
 ---
 
-{% from "../_includes/macros.njk" import displayApi %}
+{% from "../_includes/macros.njk" import displayApiGroup %}
 
-<div class="text-xl">
-  <h1 class="h1 mb-4">Core</h1>
+<article>
+  <h1>Core</h1>
 
-  <p class="mb-8">The core of uiloos consists of pure JavaScript classes and functions.</p>
+  <p>The core of uiloos consists of pure JavaScript classes and functions.</p>
 
-  {{ displayApi(api.core.children, 'core') }}
+  {{ displayApiGroup(api.core.children, 'core', ['ActiveList', 'ViewChannel', 'License', 'Generic']) }}
 
-</div>
+</article>

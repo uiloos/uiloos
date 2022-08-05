@@ -1,13 +1,13 @@
 {% from "./macros.njk" import displaySignatures %}
 
-<div class="text-xl">
-  <h1 class="h1 mb-4">
+<article>
+  <h1>
     {{def.name}}
   </h1>
 
   <p class="text-2xl font-mono mb-4 text-green-800">INSTANCE</p>
 
-  <p class="mb-4">{{def.comment.shortText | escape | nl2br}}</p>
+  <p>{{def.comment.shortText | escape | nl2br}}</p>
   {% if def.comment.text %}
     <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
   {% endif %}
@@ -23,4 +23,4 @@
     </p>
   {% endfor %}
 
-</div>
+</article>

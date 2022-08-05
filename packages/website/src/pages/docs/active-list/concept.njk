@@ -9,48 +9,50 @@ renderData:
 
 <script src="/assets/active-list-concepts.js" defer="true"></script>
 
-<div class="text-xl">
-  <h1 class="h1 mb-4">ActiveList Concepts</h1>
+<article>
+  <h1>ActiveList Concepts</h1>
 
-  <em>Table of contents</em>
-  <ol class="list-decimal m-2 mb-4">
-    <li class="ml-8">
-      <a href="#overview" class="text-purple-600 underline">Overview</a>
-    </li>
-    <li class="ml-8">
-      <a href="#initialization" class="text-purple-600 underline">Initialization</a>
-    </li>
-    <li class="ml-8">
-      <a href="#live-properties" class="text-purple-600 underline">Live properties</a>
-    </li>
-    <li class="ml-8">
-      <a href="#rules" class="text-purple-600 underline">Rules</a>
-    </li>
-    <li class="ml-8">
-      <a href="#multiple-or-single" class="text-purple-600 underline">Multiple or single mode</a>
-    </li>
-    <li class="ml-8">
-      <a href="#circular-or-linear" class="text-purple-600 underline">Circular or linear mode</a>
-    </li>
-    <li class="ml-8">
-      <a href="#direction" class="text-purple-600 underline">Direction</a>
-    </li>
-    <li class="ml-8">
-      <a href="#cooldown" class="text-purple-600 underline">Cooldown</a>
-    </li>
-    <li class="ml-8">
-      <a href="#autoplay" class="text-purple-600 underline">Autoplay</a>
-    </li>
-    <li class="ml-8">
-      <a href="#history" class="text-purple-600 underline">History</a>
-    </li>
-  </ol>
+  <nav class="2xl:fixed 2xl:top-24 2xl:right-2 2xl:w-[270px]" role="doc-toc">
+    <em>Table of contents</em>
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8">
+        <a href="#overview" class="text-purple-600 underline">Overview</a>
+      </li>
+      <li class="ml-8">
+        <a href="#initialization" class="text-purple-600 underline">Initialization</a>
+      </li>
+      <li class="ml-8">
+        <a href="#live-properties" class="text-purple-600 underline">Live properties</a>
+      </li>
+      <li class="ml-8">
+        <a href="#rules" class="text-purple-600 underline">Rules</a>
+      </li>
+      <li class="ml-8">
+        <a href="#multiple-or-single" class="text-purple-600 underline">Multiple or single mode</a>
+      </li>
+      <li class="ml-8">
+        <a href="#circular-or-linear" class="text-purple-600 underline">Circular or linear mode</a>
+      </li>
+      <li class="ml-8">
+        <a href="#direction" class="text-purple-600 underline">Direction</a>
+      </li>
+      <li class="ml-8">
+        <a href="#cooldown" class="text-purple-600 underline">Cooldown</a>
+      </li>
+      <li class="ml-8">
+        <a href="#autoplay" class="text-purple-600 underline">Autoplay</a>
+      </li>
+      <li class="ml-8">
+        <a href="#history" class="text-purple-600 underline">History</a>
+      </li>
+    </ol>
+  </nav>
 
   <h2 id="overview" class="h2 mb-4">
     <a href="#overview">1. Overview</a>
   </h2>
 
-  <p class="mb-4">
+  <p>
     The <a href="/api/core/activelist/" class="underline high">ActiveList</a> 
     is a component that can represent a large number of user interface 
     elements. Here are some examples:
@@ -62,20 +64,20 @@ renderData:
   {% include './concepts/carousel/carousel.njk' %}
   {% include './concepts/sortable/sortable.njk' %}
 
-  <p class="mb-4">
+  <p>
     All of these UI elements share one thing in common: there is 
     this notion of items / content being either <b>active</b>
     or <b>inactive</b>.
   </p>
 
-  <p class="mb-4">
+  <p>
     The <a href="/api/core/activelist/" class="underline high">ActiveList</a> 
     provides a host of methods to manipulate the contents inside of the 
     list. Ranging from insertion, removal, to moving and swapping items, 
     but also activating and deactivating items. 
   </p>
 
-  <p class="mb-4">
+  <p>
     <b>
       The most important things to know is that the ActiveList will 
       always keep track of the active items, no matter how you manipulate
@@ -83,30 +85,30 @@ renderData:
     </b>
   </p>
 
-  <p class="mb-4">
+  <p>
     If you move an active item, it will remain active. If you insert
     new items the old active item(s) will stay active. If you swap
     an item it will remain active if it is active. Etc etc 
   </p>
 
-  <p class="mb-4">
+  <p>
     An ActiveList contains items / values. These can be whatever you 
     want them to be, references to DOM elements, an object, strings, 
     numbers, booleans you name it.
   </p>
 
-  <p class="mb-4">
+  <p>
     Each item in the <span class="high">ActiveList</span> is wrapped in
     an <a href="/api/core/activelistcontent/" class="underline high">ActiveListContent</a>.
   </p>
 
-  <p class="mb-4">
+  <p>
     An ActiveListContent knows things like: whether it is currently 
     active or not, whether it is the first item or the last item in 
     the ActiveList, if there is an item next or before it.
   </p>
 
-  <p class="mb-4">
+  <p>
     An <a href="/api/core/activelistcontent/" class="underline high">ActiveListContent</a>
     also has methods so it can move / swap / remove / activate itself. 
   </p>
@@ -115,19 +117,19 @@ renderData:
     <a href="#initialization">2. Initialization</a>
   </h1>
 
-  <p class="mb-4">
+  <p>
     The ActiveList can be initialized by calling the <a href="/api/core/activelist/#constructor" class="high underline">constructor</a>.
     The constructor takes two arguments the <a href="/api/core/activelistconfig/" class="high underline">config</a>
     and an optional <a href="/api/core/activelistsubscriber/" class="high underline">subscriber</a>
   </p>
 
-  <p class="mb-4">
+  <p>
     The <a href="/api/core/activelistconfig/" class="high underline">config</a>
     allows for the ActiveList to be tuned to the use case. In the next sections
     we dive deeper into what can be configured.
   </p>
 
-  <p class="mb-4">
+  <p>
     The second argument is an optional <a href="/api/core/activelistsubscriber/" class="high underline">subscriber</a>,
     the subscriber is a callback function, allowing you to observe changes 
     of the ActiveList. When using vanilla JavaScript the callback is the place
@@ -135,7 +137,7 @@ renderData:
     that occurred so you can act on it.
   </p>
 
-  <p class="mb-4">
+  <p>
     When using reactive frameworks such as React, Vue, Angular or Svelte etc etc. 
     The subscriber is not necessary since your framework of choice will do the 
     heavy lifting of syncing the state of the ActiveList with the DOM. For more information see <a href="http://localhost:8082/docs/active-list/usage-with-frameworks/" class="underline">"Usage with Framework"</a>
@@ -147,14 +149,14 @@ renderData:
     <a href="#live-properties">3. Live properties</a>
   </h2>
 
-  <p class="mb-4">
+  <p>
     The ActiveList tracks the status of itself in "live" properties. 
     These live properties will sync automatically whenever you perform an 
     action (call a method) of the ActiveList, such as removal / activation 
     or insertion.
   </p>
 
-  <p class="mb-4">
+  <p>
     In other words: each time you call a method to alter the ActiveList,
     all "live" properties will have been updated to reflect the current 
     status. 
@@ -221,19 +223,19 @@ renderData:
     <a href="#rules">4. Rules</a>
   </h2>
 
-  <p class="mb-4">
+  <p>
     There is one important rule when using the ActiveList:
     <strong>you may never directly manipulate any of the fields of the ActiveList!</strong>
     Otherwise the subscribers will not be informed, and changes to the "live"
     properties will not be detected.
   </p>
 
-  <p class="mb-4">
+  <p>
     So always use the appropriate methods to realize the changes you want to see,
     so the ActiveList can keep the observers / subscribers in the loop.
   </p>
 
-  <p class="mb-4">
+  <p>
     Another rule is that you should not be using anything in the ActiveList
     which starts with an underscore. These classes / methods / instance
     fields should be considered private. 
@@ -248,12 +250,12 @@ renderData:
     <a href="#multiple-or-single">5. Multiple or single mode</a>
   </h2>
 
-  <p class="mb-4">
+  <p>
     The ActiveList be configured to allow multiple items to be active the same
     time, a specific number of items, or only one item.
   </p>
 
-  <p class="mb-4">
+  <p>
     The ActiveListConfig has a property called
     <a href="/api/core/activelistconfig/#maxActivationLimit" class="high underscore"
       >maxActivationLimit</a> it determines how many items can
@@ -264,7 +266,7 @@ renderData:
     considered to be in <span class="high">single</span> mode.
   </p>
 
-  <p class="mb-4">
+  <p>
     When in <span class="high">single</span> mode, the
     <span class="high">lastActivatedContent</span>,
     <span class="high">lastActivated</span> and
@@ -272,20 +274,20 @@ renderData:
     will always refer to the current active item.
   </p>
 
-  <p class="mb-4">
+  <p>
     When <span class="high">maxActivationLimit</span> is set to
     <span class="high">false</span>
     there is no limit to the items which an be activated.
   </p>
 
-  <p class="mb-4">
+  <p>
     When the <span class="high">maxActivationLimit</span> is set to a specific
     number, it will be limited to that amount. So you could set it to
     <span class="high">3</span> and allow only three items to be active at the
     same time.
   </p>
 
-  <p class="mb-4">
+  <p>
     When you set <span class="high">maxActivationLimit</span> to 
     <span class="high">false</span> or a number greater than
     one, the ActiveList is considered to be in
@@ -296,12 +298,12 @@ renderData:
     <a href="#circular-or-linear">6. Circular or linear mode</a>
   </h2>
 
-  <p class="mb-4">
+  <p>
     The ActiveList is by default <span class="high">linear</span>, meaning that it
     has a start and an finish.
   </p>
 
-  <p class="mb-4">
+  <p>
     By setting <a href="/api/core/activelistconfig/#isCircular" class="high underscore"
       >isCircular</a> to
     <span class="high">true</span> the ActiveList becomes
@@ -310,14 +312,14 @@ renderData:
     will wrap around.
   </p>
 
-  <p class="mb-4">
+  <p>
     When the ActiveList is on the last index and
     <span class="high">next()</span> is called it will activate the first item. When
     the ActiveList is on the first index and
     <span class="high">previous()</span> is called it will activate the last item.
   </p>
 
-  <p class="mb-4">
+  <p>
     When isCircular is true each
     <a href="/api/core/activelistcontent/" class="underline high"
       >ActiveListContent</a
@@ -327,7 +329,7 @@ renderData:
     because there is no start and finish.
   </p>
 
-  <p class="mb-4">
+  <p>
     Is circular is useful when making carousels which you want to 
     loop over the content indefinitely.
   </p>
@@ -336,7 +338,7 @@ renderData:
     <a href="#direction">7. Direction</a>
   </h2>
 
-  <p class="mb-4">
+  <p>
     The ActiveList has a property called 
     <a href="/api/core/activelist/#direction" class="high underscore">direction</a> 
     it holds the direction the ActiveList moved to when an
@@ -344,12 +346,12 @@ renderData:
     is activated or deactivated.
   </p>
 
-  <p class="mb-4">
+  <p>
     The <span class="high">direction</span> is useful for triggering 
     different animations based on movement.
   </p>
 
-  <p class="mb-4">
+  <p>
     The direction can either be <span class="high">previous</span> or
     <span class="high">next</span>. Each direction is assigned a
     <span class="high">string</span> value, by default
@@ -360,7 +362,7 @@ renderData:
     the values of next and previous as you please.
   </p>
 
-  <p class="mb-4">
+  <p>
     The direction is based on the shortest path from the current
     <span class="high">lastActivatedIndex</span> to the new 
     <span class="high">lastActivatedIndex</span>.
@@ -368,13 +370,13 @@ renderData:
     it might sometimes be quicker to go "previous" than to go "next".
   </p>
 
-  <p class="mb-4">
+  <p>
     If the lastActivatedIndex is <span class="high">-1</span> the direction is
     always considered <span class="high">next</span>. The lastActivatedIndex is
     <span class="high">-1</span> when no content is active.
   </p>
 
-  <p class="mb-4">
+  <p>
     If the ActiveList is <span class="high">circular</span>, and previous or
     next tie, the direction will become <span class="high">next</span>
   </p>
@@ -383,26 +385,26 @@ renderData:
     <a href="#cooldown">8. Cooldown</a>
   </h2>
 
-  <p class="mb-4">
+  <p>
     Sometimes it is useful to prevent many activations / deactivations from
     happening in rapid succession because you want an animation to finish.
   </p>
 
-  <p class="mb-4">
+  <p>
     For this reason a
     <a href="/api/core/activelistcooldownconfig/" class="high underline">cooldown</a> 
      can be configured. When a cooldown is active for a specified number of milliseconds, all other
     action / deactivation calls are simply ignored.
   </p>
 
-  <p class="mb-4">
+  <p>
     A <span class="high">cooldown</span> can be configured globally 
     (per ActiveList instance), or passed in via options to each activation /
     deactivation method. When both are present the cooldown from the method's
     options takes precedence.
   </p>
 
-  <p class="mb-4">
+  <p>
     A <span class="high">cooldown</span> can either be a number or a
     <a href="/api/core/activelistcooldowndurationcallback/" class="high underscore">callback function.</a>
     Via a callback function it is possible to set a cooldown based on 
@@ -410,7 +412,7 @@ renderData:
     content to have its own cooldown duration.
   </p>
 
-  <p class="mb-4">
+  <p>
     A cooldown is only checked when the action came from a end-user. This is
     determined by the
     <a href="/api/core/activelistactivationoptions/" class="high underscore"
@@ -423,7 +425,7 @@ renderData:
     <a href="#autoplay">9. Autoplay</a>
   </h2>
 
-  <p class="mb-4">
+  <p>
     An ActiveList can be put into <span class="high">autoplay</span> mode, 
     this means that it will move through the ActiveList by calling
     <span class="high">next()</span> at a
@@ -433,7 +435,7 @@ renderData:
     duration.
   </p>
 
-  <p class="mb-4">
+  <p>
     The autoplay will automatically stop when the end of the contents
     are reached, unless when the ActiveList has <span class="high">isCircular</span>
     set to <span class="high">true</span>, in this case it will
@@ -441,7 +443,7 @@ renderData:
     ActiveList, which can be useful in a carousel.
   </p>
 
-  <p class="mb-4">
+  <p>
     The duration can either be set globally (per ActiveList instance) 
     to a specific number, or a
     <a
@@ -453,7 +455,7 @@ renderData:
     in a carousel for example.
   </p>
 
-  <p class="mb-4">
+  <p>
     The ActiveList can be paused via <span class="high">pause()</span> and then
     resumed again via <span class="high">play()</span>. When resumed it will take
     into account the duration that had already passed. For example: if the duration
@@ -462,7 +464,7 @@ renderData:
     there was 200 milliseconds remaining for the duration.
   </p>
 
-  <p class="mb-4">
+  <p>
     The ActiveList can also be stopped via <span class="high">stop()</span>. The
     difference between <span class="high">stop()</span> and 
     <span class="high">pause()</span>, is that when
@@ -474,7 +476,7 @@ renderData:
     and not remembered.
   </p>
 
-  <p class="mb-4">
+  <p>
     The autoplay can be configured to stop on any
     <bold>user interaction</bold> via the
     <a href="/api/core/activelistautoplayconfig/#stopsOnUserInteraction" class="high underscore">stopsOnUserInteraction</a> 
@@ -487,7 +489,7 @@ renderData:
     next slide.
   </p>
 
-  <p class="mb-4">
+  <p>
     Diving a little bit deeper into "user" interaction:
     each time a activation / deactivation method 
     is called you can configure if it is a user interaction or not.
@@ -496,7 +498,7 @@ renderData:
     configuration set to <span class="high">true</span>.
   </p>
 
-  <p class="mb-4">
+  <p>
     Autoplay ignores any cooldown which might be active, as a cooldown is 
     not considered a <span class="high">isUserInteraction</span>. 
     Meaning that if you set a cooldown duration higher than the 
@@ -504,14 +506,14 @@ renderData:
     the cooldown.
   </p>
 
-  <p class="mb-4">
+  <p>
     IMPORTANT: the autoplay cannot be started without at least one active
     <span class="high">ActiveListContent</span>. This is because the 
     autoplay activates the "next" content, without any current active
     items there is no next item.
   </p>
 
-  <p class="mb-4">
+  <p>
     NOTE: autoplay will stop oif all content is removed whilst the ActiveList is
     playing.
   </p>
@@ -520,7 +522,7 @@ renderData:
     <a href="#history">10. History</a>
   </h2>
 
-  <p class="mb-4">
+  <p>
     The ActiveList can keep track of all
     <a href="/api/core/activelistevent/" class="high underline">events</a> that
     occurred, by default is it
@@ -530,7 +532,7 @@ renderData:
     not to keep any history.
   </p>
 
-  <p class="mb-4">
+  <p>
     When you set
     <a href="/api/core/activelistconfig/#keepHistoryFor" class="high underline"
       >keepHistoryFor</a
@@ -540,7 +542,7 @@ renderData:
     array will never exceed that size.
   </p>
 
-  <p class="mb-4">
+  <p>
     If the size is exceeded the oldest event is removed to make place for the new
     event. This is based on the first in first out principle.
   </p>
@@ -562,4 +564,4 @@ renderData:
     </svg>
   </a>
 
-</div>
+</article>
