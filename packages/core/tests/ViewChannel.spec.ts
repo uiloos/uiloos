@@ -148,6 +148,7 @@ describe('ViewChannel', () => {
               priority: [0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -159,6 +160,7 @@ describe('ViewChannel', () => {
             data: 'a',
             priority: [0],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -180,12 +182,14 @@ describe('ViewChannel', () => {
               priority: [0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [0],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -197,6 +201,7 @@ describe('ViewChannel', () => {
             data: 'b',
             priority: [0],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -218,18 +223,21 @@ describe('ViewChannel', () => {
               priority: [0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [0],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 2,
               priority: [0],
               data: 'c',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -241,6 +249,7 @@ describe('ViewChannel', () => {
             data: 'c',
             priority: [0],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -268,6 +277,7 @@ describe('ViewChannel', () => {
               priority: [1],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -279,6 +289,7 @@ describe('ViewChannel', () => {
             data: 'a',
             priority: [1],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -301,12 +312,14 @@ describe('ViewChannel', () => {
               priority: [0],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [1],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -318,6 +331,7 @@ describe('ViewChannel', () => {
             data: 'b',
             priority: [0],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -340,18 +354,21 @@ describe('ViewChannel', () => {
               priority: [0],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [1],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 2,
               priority: [3],
               data: 'c',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -363,6 +380,7 @@ describe('ViewChannel', () => {
             data: 'c',
             priority: [3],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -385,24 +403,28 @@ describe('ViewChannel', () => {
               priority: [0],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [1],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 2,
               priority: [2],
               data: 'd',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 3,
               priority: [3],
               data: 'c',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -414,6 +436,7 @@ describe('ViewChannel', () => {
             data: 'd',
             priority: [2],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -441,6 +464,7 @@ describe('ViewChannel', () => {
               priority: [0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -452,6 +476,7 @@ describe('ViewChannel', () => {
             data: 'a',
             priority: [0],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -474,12 +499,14 @@ describe('ViewChannel', () => {
               priority: [0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [1],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -491,6 +518,7 @@ describe('ViewChannel', () => {
             data: 'b',
             priority: [1],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -514,18 +542,21 @@ describe('ViewChannel', () => {
               priority: [0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [1],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 2,
               priority: [1],
               data: 'c',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -537,6 +568,7 @@ describe('ViewChannel', () => {
             data: 'c',
             priority: [1],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -560,24 +592,28 @@ describe('ViewChannel', () => {
               priority: [0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [1],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 2,
               priority: [1],
               data: 'c',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 3,
               priority: [1],
               data: 'd',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -589,6 +625,7 @@ describe('ViewChannel', () => {
             data: 'd',
             priority: [1],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -612,30 +649,35 @@ describe('ViewChannel', () => {
               priority: [0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [0],
               data: 'e',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 2,
               priority: [1],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 3,
               priority: [1],
               data: 'c',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 4,
               priority: [1],
               data: 'd',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -647,6 +689,7 @@ describe('ViewChannel', () => {
             data: 'e',
             priority: [0],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -674,6 +717,7 @@ describe('ViewChannel', () => {
               priority: [0, 1, 0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -685,6 +729,7 @@ describe('ViewChannel', () => {
             data: 'a',
             priority: [0, 1, 0],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -707,12 +752,14 @@ describe('ViewChannel', () => {
               priority: [0, 0, 0],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [0, 1, 0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -724,6 +771,7 @@ describe('ViewChannel', () => {
             data: 'b',
             priority: [0, 0, 0],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -746,18 +794,21 @@ describe('ViewChannel', () => {
               priority: [0, 0, 0],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [0, 1, 0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 2,
               priority: [0, 1, 2],
               data: 'c',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -769,6 +820,7 @@ describe('ViewChannel', () => {
             data: 'c',
             priority: [0, 1, 2],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -791,24 +843,28 @@ describe('ViewChannel', () => {
               priority: [0, 0, 0],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [0, 1, 0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 2,
               priority: [0, 1, 0],
               data: 'd',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 3,
               priority: [0, 1, 2],
               data: 'c',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -820,6 +876,7 @@ describe('ViewChannel', () => {
             data: 'd',
             priority: [0, 1, 0],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -842,30 +899,35 @@ describe('ViewChannel', () => {
               priority: [0, 0, 0],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [0, 1, 0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 2,
               priority: [0, 1, 0],
               data: 'd',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 3,
               priority: [0, 1, 1],
               data: 'e',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 4,
               priority: [0, 1, 2],
               data: 'c',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -877,6 +939,7 @@ describe('ViewChannel', () => {
             data: 'e',
             priority: [0, 1, 1],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -900,36 +963,42 @@ describe('ViewChannel', () => {
               priority: [0, 0, 0],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [0, 1, 0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 2,
               priority: [0, 1, 0],
               data: 'd',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 3,
               priority: [0, 1],
               data: 'f',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 4,
               priority: [0, 1, 1],
               data: 'e',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 5,
               priority: [0, 1, 2],
               data: 'c',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -941,6 +1010,7 @@ describe('ViewChannel', () => {
             data: 'f',
             priority: [0, 1],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -963,42 +1033,49 @@ describe('ViewChannel', () => {
               priority: [0, 0, 0],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [0],
               data: 'g',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 2,
               priority: [0, 1, 0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 3,
               priority: [0, 1, 0],
               data: 'd',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 4,
               priority: [0, 1],
               data: 'f',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 5,
               priority: [0, 1, 1],
               data: 'e',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 6,
               priority: [0, 1, 2],
               data: 'c',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -1010,6 +1087,7 @@ describe('ViewChannel', () => {
             data: 'g',
             priority: [0],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -1032,48 +1110,56 @@ describe('ViewChannel', () => {
               priority: [0, 0, 0],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [0],
               data: 'g',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 2,
               priority: [0, 0, 1],
               data: 'h',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 3,
               priority: [0, 1, 0],
               data: 'a',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 4,
               priority: [0, 1, 0],
               data: 'd',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 5,
               priority: [0, 1],
               data: 'f',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 6,
               priority: [0, 1, 1],
               data: 'e',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 7,
               priority: [0, 1, 2],
               data: 'c',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -1085,6 +1171,7 @@ describe('ViewChannel', () => {
             data: 'h',
             priority: [0, 0, 1],
             isPresented: true,
+            duration: 0,
           }),
           time: new Date(),
         }
@@ -1172,12 +1259,14 @@ describe('ViewChannel', () => {
                 priority: [0],
                 data: 'a',
                 isPresented: true,
+                duration: 0,
               },
               {
                 index: 1,
                 priority: [0],
                 data: 'c',
                 isPresented: true,
+                duration: 0,
               },
             ],
           },
@@ -1277,12 +1366,14 @@ describe('ViewChannel', () => {
                 priority: [0],
                 data: 'a',
                 isPresented: true,
+                duration: 0,
               },
               {
                 index: 1,
                 priority: [0],
                 data: 'b',
                 isPresented: true,
+                duration: 0,
               },
             ],
           },
@@ -1394,12 +1485,14 @@ describe('ViewChannel', () => {
               priority: [0],
               data: 'b',
               isPresented: true,
+              duration: 0,
             },
             {
               index: 1,
               priority: [0],
               data: 'c',
               isPresented: true,
+              duration: 0,
             },
           ],
         },
@@ -1487,7 +1580,7 @@ describe('ViewChannel', () => {
 
       // After 199 milliseconds nothing should have happened
       jest.advanceTimersByTime(199);
-      // Once for init
+      // Once for present
       expect(subscriber).toBeCalledTimes(1);
 
       // Finally after 200 milliseconds it should have auto dismissed
@@ -1529,7 +1622,7 @@ describe('ViewChannel', () => {
 
       jest.advanceTimersByTime(1000 * 60 * 60 * 24);
 
-      // Once for init
+      // Once for present
       expect(subscriber).toBeCalledTimes(1);
     });
 
@@ -1596,11 +1689,17 @@ describe('ViewChannel', () => {
         },
       });
 
+      // Once for present
+      expect(subscriber).toBeCalledTimes(1);
+
       expect(view.isPlaying()).toBe(true);
 
       // Now pause it at the half way.
       jest.advanceTimersByTime(500);
       view.pause();
+
+      // Once for present, once for pause
+      expect(subscriber).toBeCalledTimes(2);
 
       expect(view.isPlaying()).toBe(false);
       expect(view.isPresented).toBe(true);
@@ -1622,82 +1721,24 @@ describe('ViewChannel', () => {
       expect(view.isPlaying()).toBe(true);
       expect(view.isPresented).toBe(true);
 
-      // Once for init
-      expect(subscriber).toBeCalledTimes(1);
+      // Once for present, once pause for play, and once for play again.
+      expect(subscriber).toBeCalledTimes(3);
 
       // After 499 milliseconds should still be visible
       jest.advanceTimersByTime(499);
       expect(view.isPlaying()).toBe(true);
       expect(view.isPresented).toBe(true);
 
-      // Once for init
-      expect(subscriber).toBeCalledTimes(1);
+      // Once for present, once pause for play, and once for play again.
+      expect(subscriber).toBeCalledTimes(3);
 
       // After 500 milliseconds it should have been dismissed
       jest.advanceTimersByTime(1);
       expect(view.isPlaying()).toBe(false);
       expect(view.isPresented).toBe(false);
 
-      // Once for init once for dismiss
-      expect(subscriber).toBeCalledTimes(2);
-    });
-
-    test('that it is not possible to pause when already paused', () => {
-      jest.useFakeTimers();
-
-      const viewChannel = new ViewChannel<string, string>();
-      const subscriber = autoSubscribe(viewChannel);
-
-      // It should start with 'a' and be playing
-
-      // Present a playing "a"
-      const view = viewChannel.present({
-        data: 'a',
-        autoDismiss: {
-          duration: 1000,
-          result: 'TIMEOUT',
-        },
-      });
-
-      // It should start with 'a' and be playing
-      expect(view.isPlaying()).toBe(true);
-      expect(view.isPresented).toBe(true);
-
-      // Now pause it at the half way.
-      jest.advanceTimersByTime(500);
-      view.pause();
-
-      // Now advance the timer by a huge margin, and pause again, this
-      // second pause should be ignored
-      jest.advanceTimersByTime(10000);
-      view.pause(); // <--- this pause should be ignored
-
-      expect(view.isPlaying()).toBe(false);
-
-      // Now press play, after 500 milliseconds it should have
-      // dismissed.
-      view.play();
-      expect(view.isPlaying()).toBe(true);
-      expect(view.isPresented).toBe(true);
-
-      // Once for init
-      expect(subscriber).toBeCalledTimes(1);
-
-      // After 499 milliseconds should still be visible
-      jest.advanceTimersByTime(499);
-      expect(view.isPlaying()).toBe(true);
-      expect(view.isPresented).toBe(true);
-
-      // Once for init
-      expect(subscriber).toBeCalledTimes(1);
-
-      // After 500 milliseconds it should have been dismissed
-      jest.advanceTimersByTime(1);
-      expect(view.isPlaying()).toBe(false);
-      expect(view.isPresented).toBe(false);
-
-      // Once for init once for dismiss
-      expect(subscriber).toBeCalledTimes(2);
+      // Once for present, once pause for play, and once for play again, then a dismiss.
+      expect(subscriber).toBeCalledTimes(4);
     });
 
     test('that the autoplay can be stopped and continued', () => {
@@ -1717,6 +1758,9 @@ describe('ViewChannel', () => {
         },
       });
 
+      // Once for present
+      expect(subscriber).toBeCalledTimes(1);
+
       // It should start with 'a' and be playing
       expect(view.isPlaying()).toBe(true);
       expect(view.isPresented).toBe(true);
@@ -1724,6 +1768,9 @@ describe('ViewChannel', () => {
       // Now stop it at the half way.
       jest.advanceTimersByTime(500);
       view.stop();
+
+      // Once for present, once for stop
+      expect(subscriber).toBeCalledTimes(2);
 
       // When stopped advancing the time should do nothing.
       jest.advanceTimersByTime(500);
@@ -1742,25 +1789,134 @@ describe('ViewChannel', () => {
       expect(view.isPlaying()).toBe(true);
       expect(view.isPresented).toBe(true);
 
-      // Once for init
-      expect(subscriber).toBeCalledTimes(1);
+      // Once for present, once for stop, once for play
+      expect(subscriber).toBeCalledTimes(3);
 
       // After 999 milliseconds should still be visible
       jest.advanceTimersByTime(999);
       expect(view.isPlaying()).toBe(true);
       expect(view.isPresented).toBe(true);
 
-      // Once for init
-      expect(subscriber).toBeCalledTimes(1);
+      // Once for present, once for stop, once for play
+      expect(subscriber).toBeCalledTimes(3);
 
       // After 1000 milliseconds it should have been dismissed
       jest.advanceTimersByTime(1);
       expect(view.isPlaying()).toBe(false);
       expect(view.isPresented).toBe(false);
 
-      // Once for init once for dismiss
+      // Once for present, once for stop, once for play, once for dismiss
+      expect(subscriber).toBeCalledTimes(4);
+    });
+
+    test('that it is not possible to pause when already paused', () => {
+      jest.useFakeTimers();
+
+      const viewChannel = new ViewChannel<string, string>();
+      const subscriber = autoSubscribe(viewChannel);
+
+      // It should start with 'a' and be playing
+
+      // Present a playing "a"
+      const view = viewChannel.present({
+        data: 'a',
+        autoDismiss: {
+          duration: 1000,
+          result: 'TIMEOUT',
+        },
+      });
+
+      // Once for present
+      expect(subscriber).toBeCalledTimes(1);
+
+      // It should start with 'a' and be playing
+      expect(view.isPlaying()).toBe(true);
+      expect(view.isPresented).toBe(true);
+
+      // Now pause it at the half way.
+      jest.advanceTimersByTime(500);
+      view.pause();
+
+      // Once for present, once for pause
       expect(subscriber).toBeCalledTimes(2);
-     
+
+      // Now advance the timer by a huge margin, and pause again, this
+      // second pause should be ignored
+      jest.advanceTimersByTime(10000);
+      view.pause(); // <--- this pause should be ignored
+
+      // Once for present, once for pause
+      expect(subscriber).toBeCalledTimes(2);
+    });
+
+    test('that it is not possible to stop when already stopped', () => {
+      jest.useFakeTimers();
+
+      const viewChannel = new ViewChannel<string, string>();
+      const subscriber = autoSubscribe(viewChannel);
+
+      // It should start with 'a' and be playing
+
+      // Present a playing "a"
+      const view = viewChannel.present({
+        data: 'a',
+        autoDismiss: {
+          duration: 1000,
+          result: 'TIMEOUT',
+        },
+      });
+
+      // Once for present
+      expect(subscriber).toBeCalledTimes(1);
+
+      // It should start with 'a' and be playing
+      expect(view.isPlaying()).toBe(true);
+      expect(view.isPresented).toBe(true);
+
+      // Now stop it at the half way.
+      jest.advanceTimersByTime(500);
+      view.stop();
+
+      // Once for present, once for stop
+      expect(subscriber).toBeCalledTimes(2);
+
+      // Now advance the timer by a huge margin, and stop again, this
+      // second stop should be ignored
+      jest.advanceTimersByTime(10000);
+      view.stop(); // <--- this stop should be ignored
+
+      // Once for present, once for stop
+      expect(subscriber).toBeCalledTimes(2);
+    });
+
+    test('that it is not possible to play when already playing', () => {
+      jest.useFakeTimers();
+
+      const viewChannel = new ViewChannel<string, string>();
+      const subscriber = autoSubscribe(viewChannel);
+
+      // It should start with 'a' and be playing
+
+      // Present a playing "a"
+      const view = viewChannel.present({
+        data: 'a',
+        autoDismiss: {
+          duration: 1000,
+          result: 'TIMEOUT',
+        },
+      });
+
+      // Once for present
+      expect(subscriber).toBeCalledTimes(1);
+
+      // It should start with 'a' and be playing
+      expect(view.isPlaying()).toBe(true);
+      expect(view.isPresented).toBe(true);
+
+      view.play(); // <--- this play should be ignored
+
+      // Once for present
+      expect(subscriber).toBeCalledTimes(1);
     });
   });
 
@@ -1875,6 +2031,7 @@ describe('ViewChannel', () => {
             index: 0,
             data: 'a',
             isPresented: true,
+            duration: 0,
             priority: [0],
           }),
           index: 0,
@@ -1895,6 +2052,7 @@ describe('ViewChannel', () => {
             index: 0,
             data: 'a',
             isPresented: true,
+            duration: 0,
             priority: [0],
           }),
           index: 0,
@@ -1905,6 +2063,7 @@ describe('ViewChannel', () => {
             index: 1,
             data: 'b',
             isPresented: true,
+            duration: 0,
             priority: [0],
           }),
           index: 1,
@@ -1925,6 +2084,7 @@ describe('ViewChannel', () => {
             index: 0,
             data: 'a',
             isPresented: true,
+            duration: 0,
             priority: [0],
           }),
           index: 0,
@@ -1935,6 +2095,7 @@ describe('ViewChannel', () => {
             index: 1,
             data: 'b',
             isPresented: true,
+            duration: 0,
             priority: [0],
           }),
           index: 1,
@@ -1945,6 +2106,7 @@ describe('ViewChannel', () => {
             index: 2,
             data: 'c',
             isPresented: true,
+            duration: 0,
             priority: [0],
           }),
           index: 2,
@@ -1973,6 +2135,7 @@ describe('ViewChannel', () => {
             index: 0, // Note that b has now become the first index
             data: 'b',
             isPresented: true,
+            duration: 0,
             priority: [0],
           }),
           index: 1,
@@ -1983,6 +2146,7 @@ describe('ViewChannel', () => {
             index: 1, // Note that c has now become the second index
             data: 'c',
             isPresented: true,
+            duration: 0,
             priority: [0],
           }),
           index: 2,
@@ -2064,6 +2228,391 @@ describe('ViewChannel', () => {
             }),
           ],
           indexes: [0, 1],
+        }),
+      ]);
+
+      // Present a view so we can test pause, stop and play
+      const view = viewChannel.present({
+        data: 'd',
+        autoDismiss: {
+          duration: 1000,
+          result: "AUTO"
+        }
+      });
+
+      expect(viewChannel.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'a',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'b',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 1,
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 1,
+            data: 'c',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 2,
+        }),
+        expect.objectContaining({
+          type: 'DISMISSED',
+          reason: 'USER_INTERACTION',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'a',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'DISMISSED_ALL',
+          views: [
+            expect.objectContaining({
+              index: 0,
+              data: 'b',
+              isPresented: false,
+              priority: [0],
+            }),
+            expect.objectContaining({
+              index: 1, // Note that c has now become the second index
+              data: 'c',
+              isPresented: false,
+              priority: [0],
+            }),
+          ],
+          indexes: [0, 1],
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'd',
+            isPresented: true,
+            duration: 1000,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+      ]);
+
+      view.pause();
+
+      expect(viewChannel.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'a',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'b',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 1,
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 1,
+            data: 'c',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 2,
+        }),
+        expect.objectContaining({
+          type: 'DISMISSED',
+          reason: 'USER_INTERACTION',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'a',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'DISMISSED_ALL',
+          views: [
+            expect.objectContaining({
+              index: 0,
+              data: 'b',
+              isPresented: false,
+              priority: [0],
+            }),
+            expect.objectContaining({
+              index: 1, // Note that c has now become the second index
+              data: 'c',
+              isPresented: false,
+              priority: [0],
+            }),
+          ],
+          indexes: [0, 1],
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'd',
+            isPresented: true,
+            duration: 1000,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'AUTO_DISMISS_PAUSED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'd',
+            isPresented: true,
+            duration: 1000,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+      ]);
+
+      view.play();
+
+      expect(viewChannel.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'a',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'b',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 1,
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 1,
+            data: 'c',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 2,
+        }),
+        expect.objectContaining({
+          type: 'DISMISSED',
+          reason: 'USER_INTERACTION',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'a',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'DISMISSED_ALL',
+          views: [
+            expect.objectContaining({
+              index: 0,
+              data: 'b',
+              isPresented: false,
+              priority: [0],
+            }),
+            expect.objectContaining({
+              index: 1, // Note that c has now become the second index
+              data: 'c',
+              isPresented: false,
+              priority: [0],
+            }),
+          ],
+          indexes: [0, 1],
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'd',
+            isPresented: true,
+            duration: 1000,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'AUTO_DISMISS_PAUSED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'd',
+            isPresented: true,
+            duration: 1000,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'AUTO_DISMISS_PLAYING',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'd',
+            isPresented: true,
+            duration: 1000,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+      ]);
+
+      view.stop();
+
+      expect(viewChannel.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'a',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'b',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 1,
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 1,
+            data: 'c',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 2,
+        }),
+        expect.objectContaining({
+          type: 'DISMISSED',
+          reason: 'USER_INTERACTION',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'a',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'DISMISSED_ALL',
+          views: [
+            expect.objectContaining({
+              index: 0,
+              data: 'b',
+              isPresented: false,
+              priority: [0],
+            }),
+            expect.objectContaining({
+              index: 1, // Note that c has now become the second index
+              data: 'c',
+              isPresented: false,
+              priority: [0],
+            }),
+          ],
+          indexes: [0, 1],
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'd',
+            isPresented: true,
+            duration: 1000,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'AUTO_DISMISS_PAUSED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'd',
+            isPresented: true,
+            duration: 1000,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'AUTO_DISMISS_PLAYING',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'd',
+            isPresented: true,
+            duration: 1000,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'AUTO_DISMISS_STOPPED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'd',
+            isPresented: true,
+            duration: 1000,
+            priority: [0],
+          }),
+          index: 0,
         }),
       ]);
     });
@@ -2194,7 +2743,7 @@ type TestState<T, R> = ViewChannelSansHistory<T, R> & {
 
 type TestView<T, R> = Pick<
   ViewChannelView<T, R>,
-  'index' | 'priority' | 'isPresented'
+  'index' | 'priority' | 'isPresented' | 'duration'
 > & {
   data: string;
 };
@@ -2211,6 +2760,7 @@ function assertState<C>(
         priority: view.priority,
         data: view.data,
         isPresented: view.isPresented,
+        duration: view.duration
       };
 
       return viewAsTestView;

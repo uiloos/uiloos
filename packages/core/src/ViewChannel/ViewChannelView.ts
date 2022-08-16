@@ -1,5 +1,7 @@
 import { AutoDismiss } from './AutoDismiss';
-import { ViewChannelAutoDismissConfig } from './types';
+import {
+  ViewChannelAutoDismissConfig
+} from './types';
 import { ViewChannel } from './ViewChannel';
 
 /**
@@ -76,6 +78,16 @@ export class ViewChannelView<T, R> {
   private _autoDismiss: AutoDismiss<T, R>;
 
   /**
+   * The amount of milliseconds the view should remain visible to
+   * the user. Once the duration has passed the view is removed
+   * from the `ViewChannel` automatically.
+   *
+   * Note: this duration is not affected by calling `pause`, `play`
+   * or `stop`.
+   */
+  public duration: number = 0;
+
+  /**
    * A promise which will be resolved with the result (R) when this
    * ViewChannelView is dismissed. This promise will never be rejected
    * only resolved.
@@ -128,7 +140,9 @@ export class ViewChannelView<T, R> {
     });
 
     this._autoDismiss = new AutoDismiss(this, autoDismissConfig);
-    this._autoDismiss._play();
+    this._autoDismiss._play(false);
+
+    this.duration = autoDismissConfig?.duration ?? 0;
   }
 
   /**
@@ -157,34 +171,34 @@ export class ViewChannelView<T, R> {
 
   /**
    * Whether or not the ViewChannelView is playing. In other words
-   * wether or not it is going to be autoDismissed after a duration.
+   * whether or not it is going to be autoDismissed after a duration.
    *
    * @returns {boolean} Whether or not the ViewChannelView is playing.
    */
-   public isPlaying(): boolean {
-    return this._autoDismiss._isPlaying();
+  public isPlaying(): boolean {
+    return this._autoDismiss._isPlaying;
   }
 
   /**
-   * Will resume auto dismissing the ViewChannelView based on the 
+   * Will resume auto dismissing the ViewChannelView based on the
    * active autoDismiss. When `autoDismiss` is not defined nothing
    * will happen when calling play.
-   * 
-   * Important: you only need to call `play` yourself when also using 
+   *
+   * Important: you only need to call `play` yourself when also using
    * either `pause` or `stop`, as `play` is called automatically when
    * a view is presented.
    *
    * @throws {ViewChannelAutoDismissDurationError} autoDismiss duration must be a positive number when defined
    */
-   public play(): void {
-    this._autoDismiss._play();
+  public play(): void {
+    this._autoDismiss._play(true);
   }
 
   /**
-   * When the ViewChannelView is playing it will pause the 
+   * When the ViewChannelView is playing it will pause the
    * autoDismiss.
    *
-   * When paused, the current autoDismiss duration is remember and 
+   * When paused, the current autoDismiss duration is remember and
    * resumed from that position, when `play` is called again.
    *
    * For example: when the duration is 1 second and the `pause` is
@@ -213,5 +227,4 @@ export class ViewChannelView<T, R> {
   public stop(): void {
     this._autoDismiss._stop();
   }
-
 }

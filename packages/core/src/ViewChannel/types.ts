@@ -132,7 +132,10 @@ export type ViewChannelEventType =
   | 'INITIALIZED'
   | 'PRESENTED'
   | 'DISMISSED'
-  | 'DISMISSED_ALL';
+  | 'DISMISSED_ALL'
+  | 'AUTO_DISMISS_PLAYING'
+  | 'AUTO_DISMISS_PAUSED'
+  | 'AUTO_DISMISS_STOPPED';
 
 /**
  * Represents an event which happened in the ViewChannel. Based
@@ -198,7 +201,7 @@ export type ViewChannelViewDismissedEventReason =
   | 'USER_INTERACTION';
 
 /**
- * Represents an removal of an ViewChannelView of the ViewChannel.
+ * Represents a removal of an ViewChannelView of the ViewChannel.
  */
 export type ViewChannelViewDismissedEvent<T, R> = ViewChannelBaseEvent & {
   /**
@@ -252,6 +255,83 @@ export type ViewChannelViewDismissedAllEvent<T, R> = ViewChannelBaseEvent & {
 };
 
 /**
+ * Represents a ViewChannelView autoDismiss being restarted again
+ * when it was stopped or paused.
+ * 
+ * Note: this event is not fired when a ViewChannelView is presented
+ * initially, even though this does start the autoDismiss.
+ */
+ export type ViewChannelViewAutoDismissPlayingEvent<T, R> = ViewChannelBaseEvent & {
+  /**
+   * Which type occurred
+   */
+  type: 'AUTO_DISMISS_PLAYING';
+
+  /**
+   * The view which had its auto dismiss started / played.
+   */
+  view: ViewChannelView<T, R>;
+
+  /**
+   * The index of the view which had its auto dismiss started / 
+   * played.
+   *
+   * Note: this was the index at the time of playing, it might no 
+   * longer be accurate.
+   */
+  index: number;
+};
+
+/**
+ * Represents a ViewChannelView autoDismiss being paused of the 
+ * ViewChannel.
+ */
+ export type ViewChannelViewAutoDismissPausedEvent<T, R> = ViewChannelBaseEvent & {
+  /**
+   * Which type occurred
+   */
+  type: 'AUTO_DISMISS_PAUSED';
+
+  /**
+   * The view which had its auto dismiss paused.
+   */
+  view: ViewChannelView<T, R>;
+
+  /**
+   * The index of the view which had its auto dismiss paused.
+   *
+   * Note: this was the index at the time of pausing, it might no 
+   * longer be accurate.
+   */
+  index: number;
+};
+
+
+/**
+ * Represents a ViewChannelView autoDismiss being stopped of the 
+ * ViewChannel.
+ */
+ export type ViewChannelViewAutoDismissStoppedEvent<T, R> = ViewChannelBaseEvent & {
+  /**
+   * Which type occurred
+   */
+  type: 'AUTO_DISMISS_STOPPED';
+
+  /**
+   * The view which had its auto dismiss stopped.
+   */
+  view: ViewChannelView<T, R>;
+
+  /**
+   * The index of the view which had its auto dismiss stopped.
+   *
+   * Note: this was the index at the time of stopping, it might no 
+   * longer be accurate.
+   */
+  index: number;
+};
+
+/**
  * A ViewChannelEvent represents an event happened in the ViewChannel.
  * For example the insertion, removal, or activation of a
  * ViewChannelView<T>.
@@ -260,4 +340,7 @@ export type ViewChannelEvent<T, R> =
   | ViewChannelInitializedEvent
   | ViewChannelViewPresentedEvent<T, R>
   | ViewChannelViewDismissedEvent<T, R>
-  | ViewChannelViewDismissedAllEvent<T, R>;
+  | ViewChannelViewDismissedAllEvent<T, R>
+  | ViewChannelViewAutoDismissPlayingEvent<T, R>
+  | ViewChannelViewAutoDismissPausedEvent<T, R>
+  | ViewChannelViewAutoDismissStoppedEvent<T, R>;

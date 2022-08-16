@@ -1,9 +1,20 @@
 import { ViewChannelAutoDismissDurationError } from './errors/ViewChannelAutoDismissDurationError';
-import { ViewChannelAutoDismissConfig } from './types';
+import {
+  ViewChannelAutoDismissConfig,
+  ViewChannelViewAutoDismissPausedEvent,
+  ViewChannelViewAutoDismissPlayingEvent,
+  ViewChannelViewAutoDismissStoppedEvent,
+} from './types';
 import { ViewChannelView } from './ViewChannelView';
 
 // Autodismiss is a PRIVATE class, it should not be exposed directly.
 export class AutoDismiss<T, R> {
+  /*
+    Whether or not this AutoDismiss is playing, is used to prevent
+    transitions
+  */
+  public _isPlaying: boolean = false;
+
   /*
     The timeoutId given back by calling window.setTimeout for when 
     autoDismiss is enabled. Is kept here so it can be cleared via
@@ -47,11 +58,11 @@ export class AutoDismiss<T, R> {
     this._config = config;
   }
 
-  public _isPlaying(): boolean {
-    return this._autoDismissTimeoutId !== null;
-  }
+  public _play(inform: boolean): void {
+    if (this._isPlaying) {
+      return;
+    }
 
-  public _play(): void {
     // Cancel timer to prevent multiple timeouts from being active.
     this._cancelTimer();
 
@@ -80,6 +91,8 @@ export class AutoDismiss<T, R> {
       // I've not encountered this edge case ever happening in in
       // the wild. I'm keeping it just to be sure.
       if (this._view.isPresented) {
+        this._isPlaying = false;
+
         this._view.viewChannel._doRemoveByIndex(
           this._view.index,
           result,
@@ -101,6 +114,19 @@ export class AutoDismiss<T, R> {
     this._view.result.then(() => {
       this._cancelTimer();
     });
+
+    this._isPlaying = true;
+
+    if (inform) {
+      const event: ViewChannelViewAutoDismissPlayingEvent<T, R> = {
+        type: 'AUTO_DISMISS_PLAYING',
+        view: this._view,
+        index: this._view.index,
+        time: new Date(),
+      };
+
+      this._view.viewChannel._inform(event);
+    }
   }
 
   public _pause(): void {
@@ -117,7 +143,7 @@ export class AutoDismiss<T, R> {
       the _pauseStarted Date could become higher than the 
       _autoDismissStarted Date.
     */
-    if (this._pauseStarted) {
+    if (!this._isPlaying) {
       return;
     }
 
@@ -126,12 +152,38 @@ export class AutoDismiss<T, R> {
     this._pauseStarted = new Date();
 
     this._cancelTimer();
+
+    this._isPlaying = false;
+
+    const event: ViewChannelViewAutoDismissPausedEvent<T, R> = {
+      type: 'AUTO_DISMISS_PAUSED',
+      view: this._view,
+      index: this._view.index,
+      time: new Date(),
+    };
+
+    this._view.viewChannel._inform(event);
   }
 
   public _stop(): void {
+    if (!this._isPlaying) {
+      return;
+    }
+
     this._cancelTimer();
 
     this._pauseStarted = null;
+
+    this._isPlaying = false;
+
+    const event: ViewChannelViewAutoDismissStoppedEvent<T, R> = {
+      type: 'AUTO_DISMISS_STOPPED',
+      view: this._view,
+      index: this._view.index,
+      time: new Date(),
+    };
+
+    this._view.viewChannel._inform(event);
   }
 
   private _cancelTimer() {

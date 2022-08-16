@@ -10,7 +10,7 @@ import {
  *
  * The purpose of the ActiveListContent is to act as a wrapper around the
  * value which is actually in the contents array. It knows things like
- * wether the item is active or not.
+ * whether the item is active or not.
  *
  * It also contains methods to activate, remove, swap and move itself
  * within the ActiveList.

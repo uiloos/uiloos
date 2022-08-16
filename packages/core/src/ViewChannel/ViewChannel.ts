@@ -90,6 +90,15 @@ export class ViewChannel<T, R = void> {
    *
    *  3. DISMISSED, fired when ViewChannel dismissed a ViewChannelView
    *
+   *  4. AUTO_DISMISS_PLAYING, fired when ViewChannelView started to 
+   *     play after a stop or pause
+   *
+   *  5. AUTO_DISMISS_PAUSED, fired when a ViewChannelView auto 
+   *     dismiss was paused.
+   *
+   *  6. AUTO_DISMISS_STOPPED, fired when a ViewChannelView auto 
+   *     dismiss was stopped.
+   *
    * Goes only as far back as configured in the `Config` property
    * `keepHistoryFor`, to prevent an infinitely growing history.
    * Note that by default no history is kept, as `keepHistoryFor`
@@ -312,11 +321,11 @@ export class ViewChannel<T, R = void> {
   }
 
   /**
-   * Dismisses all `ViewChannelView`s within this `ViewChannel` with 
+   * Dismisses all `ViewChannelView`s within this `ViewChannel` with
    * the given result.
    *
    * The result (R) is the value with which the promise of all the
-   * `ViewChannelView` will be resolved with . For example when making 
+   * `ViewChannelView` will be resolved with . For example when making
    * a notifications bar, you could set the result to `"CLEARED"` when
    * the user presses the a "clear all" button.
    *
@@ -414,7 +423,7 @@ export class ViewChannel<T, R = void> {
     });
   }
 
-  private _inform(event: ViewChannelEvent<T, R>): void {
+  public _inform(event: ViewChannelEvent<T, R>): void {
     this._history._push(event);
 
     this._observer._inform(this, event);
