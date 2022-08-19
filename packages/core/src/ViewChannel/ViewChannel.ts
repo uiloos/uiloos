@@ -77,7 +77,7 @@ export class ViewChannel<T, R = void> {
   /**
    * The `ViewChannelView` instances which the `ViewChannel` holds.
    */
-  public views: ViewChannelView<T, R>[] = [];
+  public readonly views: ViewChannelView<T, R>[] = [];
 
   /**
    * Contains the history of the changes in the views array.
@@ -151,7 +151,7 @@ export class ViewChannel<T, R = void> {
     this._history = new _History(config.keepHistoryFor);
     this.history = this._history._events;
 
-    this.views = [];
+    this._clearViews();
 
     const event: ViewChannelInitializedEvent = {
       type: 'INITIALIZED',
@@ -353,7 +353,7 @@ export class ViewChannel<T, R = void> {
     const dismissedViews = [...this.views];
 
     // Clear all views first
-    this.views = [];
+    this._clearViews();
 
     // Resolve all promises and collect indexes.
     dismissedViews.forEach((view) => {
@@ -421,6 +421,10 @@ export class ViewChannel<T, R = void> {
     this.views.forEach((view, index) => {
       view.index = index;
     });
+  }
+
+  private _clearViews() {
+    this.views.splice(0, this.views.length);
   }
 
   public _inform(event: ViewChannelEvent<T, R>): void {
