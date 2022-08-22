@@ -1,8 +1,8 @@
-import { ref, Ref, onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted, Ref, shallowRef, triggerRef } from 'vue';
 
 import {
   ActiveList as ActiveListCore,
-  ActiveListConfig, 
+  ActiveListConfig,
   UnsubscribeFunction
 } from '@uiloos/core';
 
@@ -20,14 +20,13 @@ import {
 export function useActiveList<T>(
   config: ActiveListConfig<T>
 ): Ref<ActiveListCore<T>> {
-  const counter = ref(0);
-  const activeList = ref(new ActiveListCore<T>(config)) as unknown as Ref<ActiveListCore<T>>;
+  const activeList = shallowRef(new ActiveListCore<T>(config)) as unknown as Ref<ActiveListCore<T>>;
 
   let subscriber: UnsubscribeFunction;
 
   onMounted(() => {
     subscriber = activeList.value.subscribe(() => {
-      counter.value + 1;
+      triggerRef(activeList);
     });
   });
 
