@@ -1,6 +1,6 @@
 {
   "name": "@uiloos/vue",
-  "version": "0.0.6-alpha.4",
+  "version": "0.0.6-alpha.5",
   "description": "The Vue bindings of the uiloos headless UI",
   "keywords": [
     "uiloos"
