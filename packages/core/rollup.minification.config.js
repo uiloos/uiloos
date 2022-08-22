@@ -57,6 +57,33 @@ const config = [
       uiloosMinificationEnd(),
     ],
   },
+  {
+    input: 'src/ViewChannel/index.ts',
+    output: {
+      file: `dist/uiloos-view-channel-VERSION.min.js`,
+      format: 'iife',
+      name: 'uiloosViewChannel',
+      plugins: [
+        terser({
+          mangle: {
+            properties: {
+              regex: /^_|_$/, // It is safe to rename variables with underscores
+            },
+          },
+        }),
+      ],
+    },
+    plugins: [
+      uiloosMinificationStart(),
+      external(),
+      resolve(),
+      commonjs(),
+      typescript({
+        tsconfig: './tsconfig.json',
+      }),
+      uiloosMinificationEnd(),
+    ],
+  }
 ];
 
 export default config;

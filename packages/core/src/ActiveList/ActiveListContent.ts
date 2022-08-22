@@ -10,16 +10,16 @@ import {
  *
  * The purpose of the ActiveListContent is to act as a wrapper around the
  * value which is actually in the contents array. It knows things like
- * wether the item is active or not.
+ * whether the item is active or not.
  *
  * It also contains methods to activate, remove, swap and move itself
  * within the ActiveList.
  */
 export class ActiveListContent<T> {
   /**
-   * Reference to the active content is it a part of.
+   * Reference to the ActiveList is it a part of.
    */
-  public activeContent: ActiveList<T>;
+  public activeList: ActiveList<T>;
 
   /**
    * The index of the `ActiveListContent` which it has within the `contents`.
@@ -85,12 +85,12 @@ export class ActiveListContent<T> {
    * Note: you should never create instances of ActiveListContent yourself. You
    * are supposed to let ActiveList do this for you.
    *
-   * @param {ActiveList<T>} activeContent The ActiveList this ActiveListContent belongs to.
-   * @param {number} index The index of this ActiveListContent withing the ActiveList.
+   * @param {ActiveList<T>} activeList The ActiveList this ActiveListContent belongs to.
+   * @param {number} index The index of this ActiveListContent within the ActiveList.
    * @param {T} value The value this ActiveListContent wraps.
    */
-  constructor(activeContent: ActiveList<T>, index: number, value: T) {
-    this.activeContent = activeContent;
+  constructor(activeList: ActiveList<T>, index: number, value: T) {
+    this.activeList = activeList;
     this.index = index;
     this.value = value;
   }
@@ -101,7 +101,7 @@ export class ActiveListContent<T> {
    * @param {ActiveListActivationOptions<T>} [activationOptions] The activation options @see ActiveListActivationOptions<T>
    */
   public activate(activationOptions?: ActiveListActivationOptions<T>): void {
-    this.activeContent.activateByIndex(this.index, activationOptions);
+    this.activeList.activateByIndex(this.index, activationOptions);
   }
 
   /**
@@ -110,7 +110,7 @@ export class ActiveListContent<T> {
    * @param {ActiveListActivationOptions<T>} [activationOptions] The activation options @see ActiveListActivationOptions<T>
    */
   public deactivate(activationOptions?: ActiveListActivationOptions<T>): void {
-    this.activeContent.deactivateByIndex(this.index, activationOptions);
+    this.activeList.deactivateByIndex(this.index, activationOptions);
   }
 
   /**
@@ -127,7 +127,7 @@ export class ActiveListContent<T> {
    * @param {ActiveListActivationOptions<T>} [activationOptions] The activation options @see ActiveListActivationOptions<T>
    */
   public toggle(activationOptions?: ActiveListActivationOptions<T>): void {
-    this.activeContent.toggleByIndex(this.index, activationOptions);
+    this.activeList.toggleByIndex(this.index, activationOptions);
   }
 
   /**
@@ -137,7 +137,7 @@ export class ActiveListContent<T> {
    * @returns {T} The removed value
    */
   public remove(): T {
-    return this.activeContent.removeByIndex(this.index);
+    return this.activeList.removeByIndex(this.index);
   }
 
   /**
@@ -150,7 +150,7 @@ export class ActiveListContent<T> {
    * @throws Item not found error
    */
   public swapWith(item: T): void {
-    const itemIndex = this.activeContent.getIndex(item);
+    const itemIndex = this.activeList.getIndex(item);
     this.swapWithByIndex(itemIndex);
   }
 
@@ -164,7 +164,7 @@ export class ActiveListContent<T> {
    * @throws Index out of bounds error.
    */
   public swapWithByIndex(index: number) {
-    this.activeContent.swapByIndex(this.index, index);
+    this.activeList.swapByIndex(this.index, index);
   }
 
   /**
@@ -179,7 +179,7 @@ export class ActiveListContent<T> {
    * it will only get a new position.
    */
   public swapWithNext(): void {
-    const nextIndex = this.activeContent._getBoundedNextIndex(this.index);
+    const nextIndex = this.activeList._getBoundedNextIndex(this.index);
     this.swapWithByIndex(nextIndex);
   }
 
@@ -195,7 +195,7 @@ export class ActiveListContent<T> {
    * it will only get a new position.
    */
   public swapWithPrevious(): void {
-    const previousIndex = this.activeContent._getBoundedPreviousIndex(
+    const previousIndex = this.activeList._getBoundedPreviousIndex(
       this.index
     );
     this.swapWithByIndex(previousIndex);
@@ -214,7 +214,7 @@ export class ActiveListContent<T> {
    * @throws Index out of bounds error.
    */
   public moveToIndex(to: number) {
-    this.activeContent.moveByIndex(this.index, to);
+    this.activeList.moveByIndex(this.index, to);
   }
 
   /**
@@ -243,7 +243,7 @@ export class ActiveListContent<T> {
     predicate: ActiveListContentPredicate<T>,
     options?: ActiveListPredicateOptions
   ) {
-    this.activeContent.moveByIndexByPredicate(this.index, predicate, options);
+    this.activeList.moveByIndexByPredicate(this.index, predicate, options);
   }
 
   /**
@@ -253,7 +253,7 @@ export class ActiveListContent<T> {
    * meaning that the activeIndex will get updated.
    */
   public moveToFirst() {
-    this.activeContent.moveByIndex(this.index, 0);
+    this.activeList.moveByIndex(this.index, 0);
   }
 
   /**
@@ -263,9 +263,9 @@ export class ActiveListContent<T> {
    * meaning that the activeIndex will get updated.
    */
   public moveToLast() {
-    this.activeContent.moveByIndex(
+    this.activeList.moveByIndex(
       this.index,
-      this.activeContent.getLastIndex()
+      this.activeList.getLastIndex()
     );
   }
 }

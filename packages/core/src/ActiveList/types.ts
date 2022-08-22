@@ -36,7 +36,8 @@ export type ActiveListConfig<T> = {
    *    the last item can be added without violating the limit. This
    *    basically means that the first one in is the first one out.
    *
-   * 2. 'error': An error is thrown whenever the limit is surpassed.: TODO: ERROR HERE
+   * 2. 'error': An error is thrown whenever the limit is surpassed,
+   *    the error is called the `ActiveListActivationLimitReachedError`.
    *
    * 3. 'ignore': Nothing happens when an item is added and the limit
    *    is ignored. The item is simply not added, but no error is
@@ -90,7 +91,7 @@ export type ActiveListConfig<T> = {
    *
    * Note: autoplay will only start when one or more contents are
    * currently active. The reason for this is that the `duration`, is
-   * based on the `ActiveList`'s `lastActivatedContent` property.
+   * based on the `ActiveList` `lastActivatedContent` property.
    * Whenever there are no more items to activate the autoplay will
    * stop.
    * 
@@ -394,7 +395,7 @@ export type ActiveListDirection = {
 };
 
 /**
- * Represents whether the `ActiveListEvent` was added, removed, activated
+ * Represents whether the `ActiveListEvent` was inserted, removed, activated
  * swapped, etc etc.
  */
 export type ActiveListEventType =
@@ -445,7 +446,7 @@ export type ActiveListInitializedEvent<T> = ActiveListBaseEvent & {
   values: T[];
 
   /**
-   * The indexes of the value's which were active upon initialization.
+   * The indexes of the values which were active upon initialization.
    *
    * Note: there are the indexes at the time of the initialization, it might
    * no longer be accurate.
@@ -519,7 +520,7 @@ export type ActiveListRemovedMultipleEvent<T> = ActiveListBaseEvent & {
   type: 'REMOVED_MULTIPLE';
 
   /**
-   * The value's which were removed
+   * The values which were removed
    * 
    * Note: there are the values at the time of removal, they might
    * no longer be accurate. Keep in mind that when the `value` is
