@@ -33,4 +33,6 @@ it('ActiveList component', async () => {
   screen.getByText('a inactive');
   screen.getByText('b inactive');
   screen.getByText('c active');
+
+  expect(screen.getByText('c active')).toBeInstanceOf(HTMLElement);
 });
