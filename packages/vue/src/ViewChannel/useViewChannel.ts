@@ -1,6 +1,6 @@
-import { ref, Ref } from 'vue';
+import { ref, Ref, onMounted, onUnmounted } from 'vue';
 
-import { ViewChannel } from '@uiloos/core';
+import { UnsubscribeFunction, ViewChannel } from '@uiloos/core';
 
 /**
  * A composable which when given a ViewChannel from @uiloos/core
@@ -12,5 +12,21 @@ import { ViewChannel } from '@uiloos/core';
 export function useViewChannel<T, R>(
   viewChannel: ViewChannel<T, R>
 ): Ref<ViewChannel<T, R>> {
-  return ref(viewChannel) as unknown as Ref<ViewChannel<T, R>>;
+  const counter = ref(0);
+
+  const vc = ref(viewChannel) as unknown as Ref<ViewChannel<T, R>>;
+
+  let subscriber: UnsubscribeFunction;
+
+  onMounted(() => {
+    subscriber = vc.value.subscribe(() => {
+      counter.value + 1;
+    });
+  });
+
+  onUnmounted(() => {
+    subscriber();
+  })
+
+  return vc;
 }

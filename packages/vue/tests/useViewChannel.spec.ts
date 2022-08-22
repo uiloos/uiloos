@@ -27,20 +27,23 @@ test('useViewChannel composable', async () => {
   expect(wrapper.vm.viewChannel).instanceOf(ViewChannel);
 
   expect(wrapper.vm.viewChannel.views.length).toBe(0);
+  expect(viewChannelOriginal.views.length).toBe(0);
 
   let promise = Promise.resolve('ja');
 
-  const view = wrapper.vm.viewChannel.present({
+  const view = viewChannelOriginal.present({
     data: 'some flash message here',
   });
 
   promise = view.result;
 
   expect(wrapper.vm.viewChannel.views.length).toBe(1);
+  expect(viewChannelOriginal.views.length).toBe(1);
 
   wrapper.vm.viewChannel.views[0].dismiss('FINISHED');
 
   expect(wrapper.vm.viewChannel.views.length).toBe(0);
+  expect(viewChannelOriginal.views.length).toBe(0);
 
   expect(promise).resolves.toBe('FINISHED');
 });
