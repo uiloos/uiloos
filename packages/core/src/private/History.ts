@@ -1,14 +1,10 @@
 
 export class _History<T> {
   // The events that occurred
-  public _events: T[] = [];
+  public readonly _events: T[] = [];
   
   // The amount items that should be remembered in the history.
   private _keepHistoryFor: number = 0;
-
-  constructor(_keepHistoryFor: number = 0) {
-    this._keepHistoryFor = _keepHistoryFor;
-  }
 
   // Add an event to the history
   public _push(event: T) {
@@ -21,5 +17,9 @@ export class _History<T> {
         this._events.shift();
       }
     }
+  }
+
+  _setKeepHistoryFor(_keepHistoryFor: number = 0) {
+    this._keepHistoryFor = _keepHistoryFor;
   }
 }

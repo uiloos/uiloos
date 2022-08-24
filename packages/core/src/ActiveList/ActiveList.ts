@@ -82,7 +82,7 @@ export class ActiveList<T> {
   /**
    * The `ActiveListContent` instances which the `ActiveList` holds.
    */
-  public contents: ActiveListContent<T>[] = [];
+  public readonly contents: ActiveListContent<T>[] = [];
 
   /**
    * How many items can be active at the same time.
@@ -119,17 +119,17 @@ export class ActiveList<T> {
   /**
    * All `value` of the content which are currently considered active.
    */
-  public active: T[] = [];
+  public readonly active: T[] = [];
 
   /**
    * All `ActiveListContent` which are currently considered active.
    */
-  public activeContents: ActiveListContent<T>[] = [];
+  public readonly activeContents: ActiveListContent<T>[] = [];
 
   /**
    * All indexes of which are currently considered active.
    */
-  public activeIndexes: number[] = [];
+  public readonly activeIndexes: number[] = [];
 
   /**
    * Which `value` from within a `ActiveListContent` was the last value which
@@ -203,6 +203,8 @@ export class ActiveList<T> {
    */
   public direction: string = 'right';
 
+  private _history: _History<ActiveListEvent<T>> = new _History();
+
   /**
    * Contains the history of the changes in the contents array.
    *
@@ -236,9 +238,8 @@ export class ActiveList<T> {
    * when it is an array of object, as it might have been mutated, the
    * history items do not store copies of the values.
    */
-  public history: ActiveListEvent<T>[] = [];
-  private _history!: _History<ActiveListEvent<T>>;
-
+  public readonly history: ActiveListEvent<T>[] = this._history._events;
+  
   private _observer: _Observer<ActiveList<T>, ActiveListEvent<T>> =
     new _Observer();
 
@@ -338,13 +339,17 @@ export class ActiveList<T> {
 
     const contents = config.contents ? config.contents : [];
 
+    // Empty the contents first before assigning them, so re-init
+    // works with a new empty content.
+    this.contents.length = 0;
+
     // Contents is not actually correct yet at this point because the
     // `isPrevious` and `isNext` are still incorrectly set.
     // Only when the "Startup" is done by calling 'activate' will it become
     // a valid ActiveListContent.
-    this.contents = contents.map((c, index) =>
-      this._initializeABrokenContent(c, index, contents)
-    );
+    contents.forEach((c, index) => {
+      this.contents[index] = this._initializeABrokenContent(c, index, contents);
+    });
 
     // Configure directions
     this._directions = config.directions
@@ -352,8 +357,8 @@ export class ActiveList<T> {
       : { next: 'right', previous: 'left' };
 
     // Configure history
-    this._history = new _History(config.keepHistoryFor);
-    this.history = this._history._events;
+    this._history._events.length = 0;
+    this._history._setKeepHistoryFor(config.keepHistoryFor);
 
     // Reset the ActiveList
     this._becameEmpty();
@@ -1219,9 +1224,9 @@ export class ActiveList<T> {
     // must first increase all indexes by one which are larger or
     // equal to the the index we are inserting. Otherwise the indexes
     // are no longer synced.
-    this.activeIndexes = this.activeIndexes.map((i) =>
-      i >= index ? i + 1 : i
-    );
+    this.activeIndexes.forEach((i, aiIndex) => {
+      this.activeIndexes[aiIndex] = i >= index ? i + 1 : i;
+    });
 
     // Insert the new content at the correct position.
     this.contents.splice(index, 0, content);
@@ -1330,9 +1335,9 @@ export class ActiveList<T> {
     }
 
     // Sync all remaining active indexes
-    this.activeIndexes = this.activeIndexes.map((i) =>
-      i >= index ? i - 1 : i
-    );
+    this.activeIndexes.map((i, aiIndex) => {
+      this.activeIndexes[aiIndex] = i >= index ? i - 1 : i;
+    });
 
     if (this.isEmpty()) {
       this._becameEmpty();
@@ -1504,8 +1509,8 @@ export class ActiveList<T> {
 
       // Sync all remaining active indexes
       removedIndexes.forEach((removed) => {
-        this.activeIndexes = this.activeIndexes.map((index) => {
-          return index >= removed ? index - 1 : index;
+        this.activeIndexes.forEach((index, aiIndex) => {
+          this.activeIndexes[aiIndex] = index >= removed ? index - 1 : index;
         });
       });
 
@@ -1913,27 +1918,32 @@ export class ActiveList<T> {
     }
 
     // Lets fix the activeIndexes now.
-    this.activeIndexes = this.activeIndexes.map((index) => {
+    this.activeIndexes.forEach((index, aiIndex) => {
+
+
       // If the index is the `from`, we know already where he goes `to`
       if (index === from) {
-        return to;
+        this.activeIndexes[aiIndex] = to;
+        return;
       }
 
       // If the `index` is completely beyond the `from and` `to`, nothing
       // needs to happen because it is not affected.
       if (index > from && index > to) {
-        return index;
+        this.activeIndexes[aiIndex] = index;
+        return;
       }
 
       // If the `index` is completely before the `from` and `to`, nothing
       // needs to happen because it is not affected.
       if (index < from && index < to) {
-        return index;
+        this.activeIndexes[aiIndex] = index;
+        return
       }
 
       // If the `from` is larger than the `to` a move to the left is
       // made, if the "from" is smaller than the "to" the right is made.
-      return from > to ? index + 1 : index - 1;
+      this.activeIndexes[aiIndex] = from > to ? index + 1 : index - 1;
     });
 
     // First store the fromItem so we can add it back later.
@@ -2331,9 +2341,9 @@ export class ActiveList<T> {
   private _becameEmpty(): void {
     this._emptyLastActives();
 
-    this.activeContents = [];
-    this.activeIndexes = [];
-    this.active = [];
+    this.activeContents.length = 0;
+    this.activeIndexes.length = 0
+    this.active.length = 0;
 
     // When becoming empty we will reset hasActiveChangedAtLeastOnce
     this.hasActiveChangedAtLeastOnce = true;

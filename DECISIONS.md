@@ -43,3 +43,9 @@ so they can be minified more aggressively.
 
 Also having an underscore makes using private fields / methods even 
 more apparent to the users of the esm en cjs modules.
+
+## 000004 - Core - readonly arrays - 2022-08-22
+When we expose arrays like the ActiveList and ViewChannel do, they
+should be readonly. This makes it impossible to change the reference
+of the array (like const does). This is needed so frameworks such
+as Vue and Angular have an easier time to detect changes.

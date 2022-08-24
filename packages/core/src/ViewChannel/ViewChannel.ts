@@ -79,6 +79,8 @@ export class ViewChannel<T, R = void> {
    */
   public readonly views: ViewChannelView<T, R>[] = [];
 
+  private _history: _History<ViewChannelEvent<T, R>> = new _History();
+
   /**
    * Contains the history of the changes in the views array.
    *
@@ -110,9 +112,7 @@ export class ViewChannel<T, R = void> {
    * This means that a history at index 0 is further in the past than
    * an item at index 1.
    */
-  public history: ViewChannelEvent<T, R>[] = [];
-
-  private _history!: _History<ViewChannelEvent<T, R>>;
+  public history: ViewChannelEvent<T, R>[] = this._history._events;
 
   private _observer: _Observer<ViewChannel<T, R>, ViewChannelEvent<T, R>> =
     new _Observer();
@@ -148,8 +148,8 @@ export class ViewChannel<T, R = void> {
    */
   public initialize(config: ViewChannelConfig): void {
     // Configure history
-    this._history = new _History(config.keepHistoryFor);
-    this.history = this._history._events;
+    this._history._events.length = 0;
+    this._history._setKeepHistoryFor(config.keepHistoryFor);
 
     this._clearViews();
 
@@ -424,7 +424,7 @@ export class ViewChannel<T, R = void> {
   }
 
   private _clearViews() {
-    this.views.splice(0, this.views.length);
+    this.views.length = 0;
   }
 
   public _inform(event: ViewChannelEvent<T, R>): void {
