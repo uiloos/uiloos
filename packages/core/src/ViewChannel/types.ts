@@ -17,7 +17,7 @@ export type ViewChannelConfig = {
  * Represents the configuration for AutoDismiss. AutoDismiss means
  * that the ViewChannelView will remove itself after a duration.
  */
-export type ViewChannelAutoDismissConfig<R> = {
+export type ViewChannelViewAutoDismissConfig<R> = {
   /**
    * The amount of milliseconds the view should remain visible to
    * the user. Once the duration has passed the view is removed
@@ -31,6 +31,37 @@ export type ViewChannelAutoDismissConfig<R> = {
    * such as clicking a cancel / save button or an auto dismissal.
    */
   result: R;
+};
+
+/** 
+ * AutoDismiss means that the ViewChannelView will dismiss itself 
+ * after a duration.
+ * 
+ * Contains wether or not the autoDismiss is playing via `isPlaying` 
+ * and the current duration via `duration`.
+ */
+export type ViewChannelViewAutoDismiss = {
+  /**
+   * Whether or not the ViewChannelView is playing. In other words
+   * whether or not the ViewChannelView is going to be autoDismissed
+   * after a duration.
+   */
+  isPlaying: boolean;
+
+  /**
+   * The amount of milliseconds the view should remain visible to
+   * the user. Once the duration has passed the view is removed
+   * from the `ViewChannel` automatically.
+   *
+   * This duration is the duration for when the ViewChannelView
+   * started playing. It is not affected by calling pause, meaning
+   * that when the duration is set to 200ms and you pause after
+   * 100ms, the duration will still be 200ms.
+   *
+   * When calling `stop`, or when the ViewChannelView is dismissed
+   *  the duration will be set to zero.
+   */
+  duration: number;
 };
 
 /**
@@ -56,7 +87,7 @@ export type ViewChannelViewConfig<T, R> = {
    * Defaults to no autoDismiss, meaning it will stay visible forever,
    * until it is dismissed.
    */
-  autoDismiss?: ViewChannelAutoDismissConfig<R>;
+  autoDismiss?: ViewChannelViewAutoDismissConfig<R>;
 
   /**
    * The priority the `ViewChannelView` will have within the
@@ -191,7 +222,7 @@ export type ViewChannelViewPresentedEvent<T, R> = ViewChannelBaseEvent & {
 };
 
 /**
- * The reason for removal, this can either be because the
+ * The reason for dismissal, this can either be because the
  * `duration` of the view passed, in which case it is
  * `DURATION_PASSED`, or because the user closed the View, then
  * the reason will be `USER_INTERACTION`.
@@ -201,7 +232,11 @@ export type ViewChannelViewDismissedEventReason =
   | 'USER_INTERACTION';
 
 /**
- * Represents a removal of an ViewChannelView of the ViewChannel.
+ * Represents a dismissal of an ViewChannelView of the ViewChannel.
+ *
+ * Note: when this event is fired the "AUTO_DISMISS_STOPPED" event
+ * will not be fired even when autoDismiss is playing. The reason for
+ * this is because on "DISMISSED" the entire view should be cleared.
  */
 export type ViewChannelViewDismissedEvent<T, R> = ViewChannelBaseEvent & {
   /**
@@ -210,7 +245,7 @@ export type ViewChannelViewDismissedEvent<T, R> = ViewChannelBaseEvent & {
   type: 'DISMISSED';
 
   /**
-   * The reason for removal, this can either be because the
+   * The reason for dismissal, this can either be because the
    * `duration` of the view passed, in which case it is
    * `DURATION_PASSED`, or because the user closed the View, then
    * the reason will be `USER_INTERACTION`.
@@ -225,14 +260,14 @@ export type ViewChannelViewDismissedEvent<T, R> = ViewChannelBaseEvent & {
   /**
    * The index of removed item.
    *
-   * Note: this was the index at the time of the removal, it might
+   * Note: this was the index at the time of the dismissal, it might
    * no longer be accurate.
    */
   index: number;
 };
 
 /**
- * Represents an removal of all ViewChannelViews of the ViewChannel.
+ * Represents an dismissal of all ViewChannelViews of the ViewChannel.
  */
 export type ViewChannelViewDismissedAllEvent<T, R> = ViewChannelBaseEvent & {
   /**
@@ -248,7 +283,7 @@ export type ViewChannelViewDismissedAllEvent<T, R> = ViewChannelBaseEvent & {
   /**
    * The indexes of the dismissed views.
    *
-   * Note: there are the indexes at the time of the removal, it might
+   * Note: there are the indexes at the time of the dismissal, it might
    * no longer be accurate.
    */
   indexes: number[];
@@ -257,84 +292,85 @@ export type ViewChannelViewDismissedAllEvent<T, R> = ViewChannelBaseEvent & {
 /**
  * Represents a ViewChannelView autoDismiss being restarted again
  * when it was stopped or paused.
- * 
+ *
  * Note: this event is not fired when a ViewChannelView is presented
  * initially, even though this does start the autoDismiss.
  */
- export type ViewChannelViewAutoDismissPlayingEvent<T, R> = ViewChannelBaseEvent & {
-  /**
-   * Which type occurred
-   */
-  type: 'AUTO_DISMISS_PLAYING';
+export type ViewChannelViewAutoDismissPlayingEvent<T, R> =
+  ViewChannelBaseEvent & {
+    /**
+     * Which type occurred
+     */
+    type: 'AUTO_DISMISS_PLAYING';
 
-  /**
-   * The view which had its auto dismiss started / played.
-   */
-  view: ViewChannelView<T, R>;
+    /**
+     * The view which had its auto dismiss started / played.
+     */
+    view: ViewChannelView<T, R>;
 
-  /**
-   * The index of the view which had its auto dismiss started / 
-   * played.
-   *
-   * Note: this was the index at the time of playing, it might no 
-   * longer be accurate.
-   */
-  index: number;
-};
-
-/**
- * Represents a ViewChannelView autoDismiss being paused of the 
- * ViewChannel.
- */
- export type ViewChannelViewAutoDismissPausedEvent<T, R> = ViewChannelBaseEvent & {
-  /**
-   * Which type occurred
-   */
-  type: 'AUTO_DISMISS_PAUSED';
-
-  /**
-   * The view which had its auto dismiss paused.
-   */
-  view: ViewChannelView<T, R>;
-
-  /**
-   * The index of the view which had its auto dismiss paused.
-   *
-   * Note: this was the index at the time of pausing, it might no 
-   * longer be accurate.
-   */
-  index: number;
-};
-
+    /**
+     * The index of the view which had its auto dismiss started /
+     * played.
+     *
+     * Note: this was the index at the time of playing, it might no
+     * longer be accurate.
+     */
+    index: number;
+  };
 
 /**
- * Represents a ViewChannelView autoDismiss being stopped of the 
+ * Represents a ViewChannelView autoDismiss being paused of the given
  * ViewChannel.
  */
- export type ViewChannelViewAutoDismissStoppedEvent<T, R> = ViewChannelBaseEvent & {
-  /**
-   * Which type occurred
-   */
-  type: 'AUTO_DISMISS_STOPPED';
+export type ViewChannelViewAutoDismissPausedEvent<T, R> =
+  ViewChannelBaseEvent & {
+    /**
+     * Which type occurred
+     */
+    type: 'AUTO_DISMISS_PAUSED';
 
-  /**
-   * The view which had its auto dismiss stopped.
-   */
-  view: ViewChannelView<T, R>;
+    /**
+     * The view which had its auto dismiss paused.
+     */
+    view: ViewChannelView<T, R>;
 
-  /**
-   * The index of the view which had its auto dismiss stopped.
-   *
-   * Note: this was the index at the time of stopping, it might no 
-   * longer be accurate.
-   */
-  index: number;
-};
+    /**
+     * The index of the view which had its auto dismiss paused.
+     *
+     * Note: this was the index at the time of pausing, it might no
+     * longer be accurate.
+     */
+    index: number;
+  };
+
+/**
+ * Represents a ViewChannelView autoDismiss being stopped of the given
+ * ViewChannel.
+ */
+export type ViewChannelViewAutoDismissStoppedEvent<T, R> =
+  ViewChannelBaseEvent & {
+    /**
+     * Which type occurred
+     */
+    type: 'AUTO_DISMISS_STOPPED';
+
+    /**
+     * The view which had its auto dismiss stopped.
+     */
+    view: ViewChannelView<T, R>;
+
+    /**
+     * The index of the view which had its auto dismiss stopped.
+     *
+     * Note: this was the index at the time of stopping, it might no
+     * longer be accurate.
+     */
+    index: number;
+  };
 
 /**
  * A ViewChannelEvent represents an event happened in the ViewChannel.
- * For example the insertion, removal, or activation of a
- * ViewChannelView<T>.
+ * For example the presented and dismissal of the ViewChannelView.
  */
 export type ViewChannelEvent<T, R> =
   | ViewChannelInitializedEvent

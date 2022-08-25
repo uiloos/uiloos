@@ -6,8 +6,9 @@ import {
   ActiveListIndexOutOfBoundsError,
   ActiveListActivationLimitReachedError,
   ActiveListCooldownDurationError,
-  ActiveListAutoplayDurationError,
+  ActiveListAutoPlayDurationError,
   ActiveListItemNotFoundError,
+  ActiveListEventType,
 } from '../src/ActiveList';
 
 import { licenseChecker } from '../src/license';
@@ -36,7 +37,7 @@ describe('ActiveList', () => {
   function setup(
     config: TestConfig = {
       isCircular: false,
-      autoplay: undefined,
+      autoPlay: undefined,
       maxActivationLimit: 1,
       maxActivationLimitBehavior: 'circular',
       keepHistoryFor: 0,
@@ -74,6 +75,10 @@ describe('ActiveList', () => {
         maxActivationLimitBehavior: 'circular',
         history: [],
         hasActiveChangedAtLeastOnce: false,
+        autoPlay: {
+          isPlaying: false,
+          duration: 0,
+        },
         contents: [],
       });
 
@@ -104,6 +109,10 @@ describe('ActiveList', () => {
         maxActivationLimitBehavior: 'circular',
         history: [],
         hasActiveChangedAtLeastOnce: false,
+        autoPlay: {
+          isPlaying: false,
+          duration: 0,
+        },
         contents: [
           {
             isActive: false,
@@ -179,6 +188,10 @@ describe('ActiveList', () => {
         maxActivationLimitBehavior: 'circular',
         history: [],
         hasActiveChangedAtLeastOnce: false,
+        autoPlay: {
+          isPlaying: false,
+          duration: 0,
+        },
         contents: [],
       });
 
@@ -211,6 +224,10 @@ describe('ActiveList', () => {
         maxActivationLimitBehavior: 'circular',
         history: [],
         hasActiveChangedAtLeastOnce: false,
+        autoPlay: {
+          isPlaying: false,
+          duration: 0,
+        },
         contents: [
           {
             isActive: false,
@@ -273,6 +290,10 @@ describe('ActiveList', () => {
         maxActivationLimitBehavior: 'circular',
         history: [],
         hasActiveChangedAtLeastOnce: false,
+        autoPlay: {
+          isPlaying: false,
+          duration: 0,
+        },
         contents: [
           {
             isActive: true,
@@ -335,6 +356,10 @@ describe('ActiveList', () => {
         maxActivationLimitBehavior: 'circular',
         history: [],
         hasActiveChangedAtLeastOnce: false,
+        autoPlay: {
+          isPlaying: false,
+          duration: 0,
+        },
         contents: [
           {
             isActive: true,
@@ -394,6 +419,10 @@ describe('ActiveList', () => {
         maxActivationLimitBehavior: 'circular',
         history: [],
         hasActiveChangedAtLeastOnce: false,
+        autoPlay: {
+          isPlaying: false,
+          duration: 0,
+        },
         contents: [
           {
             isActive: false,
@@ -456,6 +485,10 @@ describe('ActiveList', () => {
         maxActivationLimitBehavior: 'circular',
         history: [],
         hasActiveChangedAtLeastOnce: false,
+        autoPlay: {
+          isPlaying: false,
+          duration: 0,
+        },
         contents: [
           {
             isActive: true,
@@ -518,6 +551,10 @@ describe('ActiveList', () => {
         maxActivationLimitBehavior: 'circular',
         history: [],
         hasActiveChangedAtLeastOnce: false,
+        autoPlay: {
+          isPlaying: false,
+          duration: 0,
+        },
         contents: [
           {
             isActive: true,
@@ -577,6 +614,10 @@ describe('ActiveList', () => {
         maxActivationLimitBehavior: 'circular',
         history: [],
         hasActiveChangedAtLeastOnce: false,
+        autoPlay: {
+          isPlaying: false,
+          duration: 0,
+        },
         contents: [
           {
             isActive: false,
@@ -636,6 +677,10 @@ describe('ActiveList', () => {
         maxActivationLimitBehavior: 'circular',
         history: [],
         hasActiveChangedAtLeastOnce: false,
+        autoPlay: {
+          isPlaying: false,
+          duration: 0,
+        },
         contents: [],
       });
 
@@ -671,6 +716,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: true,
@@ -750,6 +799,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [],
           },
           {
@@ -782,6 +835,10 @@ describe('ActiveList', () => {
           maxActivationLimitBehavior: 'circular',
           history: [],
           hasActiveChangedAtLeastOnce: false,
+          autoPlay: {
+            isPlaying: false,
+            duration: 0,
+          },
           contents: [
             {
               isActive: true,
@@ -820,6 +877,10 @@ describe('ActiveList', () => {
           maxActivationLimitBehavior: 'circular',
           history: [],
           hasActiveChangedAtLeastOnce: false,
+          autoPlay: {
+            isPlaying: false,
+            duration: 0,
+          },
           contents: [
             {
               isActive: true,
@@ -924,6 +985,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -989,6 +1054,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1054,6 +1123,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1126,6 +1199,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1191,6 +1268,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1256,6 +1337,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1332,6 +1417,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1432,6 +1521,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1532,6 +1625,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1632,6 +1729,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1732,6 +1833,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1796,6 +1901,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1855,6 +1964,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -1920,6 +2033,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -1989,6 +2106,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -2054,6 +2175,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -2134,6 +2259,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -2203,6 +2332,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -2279,6 +2412,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -2348,6 +2485,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -2429,6 +2570,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -2534,6 +2679,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -2639,6 +2788,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -2744,6 +2897,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -2848,6 +3005,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -2916,6 +3077,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -2981,6 +3146,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -3050,6 +3219,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -3125,6 +3298,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -3194,6 +3371,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -3314,6 +3495,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: true,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               isCircular: false,
               contents: [
                 {
@@ -3379,6 +3564,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: true,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               isCircular: false,
               contents: [
                 {
@@ -3444,6 +3633,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: true,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               isCircular: false,
               contents: [
                 {
@@ -3517,6 +3710,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'ignore',
               history: [],
               hasActiveChangedAtLeastOnce: true,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               isCircular: false,
               contents: [
                 {
@@ -3606,6 +3803,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'error',
               history: [],
               hasActiveChangedAtLeastOnce: true,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               isCircular: false,
               contents: [
                 {
@@ -3751,6 +3952,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
+            autoPlay:{
+            isPlaying: false,
+            duration: 0,
+            },
             isCircular: false,
             contents: [
               {
@@ -3852,6 +4057,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
+            autoPlay:{
+            isPlaying: false,
+            duration: 0,
+            },
             isCircular: false,
             contents: [
               {
@@ -3950,6 +4159,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
+            autoPlay:{
+            isPlaying: false,
+            duration: 0,
+            },
             isCircular: false,
             contents: [
               {
@@ -4395,6 +4608,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
+            autoPlay:{
+            isPlaying: false,
+            duration: 0,
+            },
             isCircular: true,
             contents: [
               {
@@ -4473,6 +4690,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -4549,6 +4770,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -4625,6 +4850,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -4701,6 +4930,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -4777,6 +5010,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -4853,6 +5090,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -4931,6 +5172,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -5007,6 +5252,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -5083,6 +5332,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -5159,6 +5412,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -5235,6 +5492,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -5311,6 +5572,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -5442,6 +5707,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
+            autoPlay:{
+            isPlaying: false,
+            duration: 0,
+            },
             isCircular: false,
             contents: [
               {
@@ -5545,6 +5814,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             isCircular: false,
             contents: [
               {
@@ -5841,6 +6114,10 @@ describe('ActiveList', () => {
           maxActivationLimitBehavior: 'circular',
           history: [],
           hasActiveChangedAtLeastOnce: false,
+          autoPlay: {
+            isPlaying: false,
+            duration: 0,
+          },
           contents: [
             {
               isActive: false,
@@ -5888,6 +6165,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: false,
@@ -5970,6 +6251,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: true,
@@ -6052,6 +6337,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: true,
@@ -6143,6 +6432,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: false,
@@ -6232,6 +6525,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: true,
@@ -6321,6 +6618,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: true,
@@ -6416,6 +6717,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: true,
@@ -6501,6 +6806,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: true,
@@ -6587,6 +6896,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -6671,6 +6984,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -6758,6 +7075,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -6843,6 +7164,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -6974,6 +7299,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
+            autoPlay:{
+            isPlaying: false,
+            duration: 0,
+            },
             contents: [],
           },
           {
@@ -7007,6 +7336,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
+            autoPlay:{
+            isPlaying: false,
+            duration: 0,
+            },
             contents: [],
           },
           {
@@ -7042,6 +7375,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -7102,6 +7439,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -7162,6 +7503,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -7224,6 +7569,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -7284,6 +7633,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -7344,6 +7697,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -7410,6 +7767,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: true,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -7473,6 +7834,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: true,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -7536,6 +7901,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: true,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -7595,6 +7964,10 @@ describe('ActiveList', () => {
           maxActivationLimitBehavior: 'circular',
           history: [],
           hasActiveChangedAtLeastOnce: false,
+          autoPlay: {
+            isPlaying: false,
+            duration: 0,
+          },
           contents: [],
         });
 
@@ -7621,6 +7994,10 @@ describe('ActiveList', () => {
           maxActivationLimitBehavior: 'circular',
           history: [],
           hasActiveChangedAtLeastOnce: false,
+          autoPlay: {
+            isPlaying: false,
+            duration: 0,
+          },
           contents: [],
         });
 
@@ -7678,6 +8055,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: true,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [],
             },
             {
@@ -7717,6 +8098,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -7779,6 +8164,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -7841,6 +8230,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -7905,6 +8298,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -7967,6 +8364,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8029,6 +8430,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8095,6 +8500,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -8150,6 +8559,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -8217,6 +8630,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8285,6 +8702,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -8365,6 +8786,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8445,6 +8870,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8519,6 +8948,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -8571,6 +9004,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8621,6 +9058,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8676,6 +9117,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8743,6 +9188,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8811,6 +9260,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8891,6 +9344,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8965,6 +9422,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9046,6 +9507,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: true,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [],
             },
             {
@@ -9088,6 +9553,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9153,6 +9622,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9218,6 +9691,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9288,6 +9765,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -9356,6 +9837,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -9424,6 +9909,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -9493,6 +9982,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9546,6 +10039,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9611,6 +10108,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9688,6 +10189,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: false,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9743,6 +10248,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -9796,6 +10305,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9849,6 +10362,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -9914,6 +10431,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9982,6 +10503,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -10062,6 +10587,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -10139,6 +10668,10 @@ describe('ActiveList', () => {
                   maxActivationLimitBehavior: 'circular',
                   history: [],
                   hasActiveChangedAtLeastOnce: true,
+                  autoPlay: {
+                    isPlaying: false,
+                    duration: 0,
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -10318,6 +10851,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -10395,6 +10932,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -10472,6 +11013,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -10552,6 +11097,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -10645,6 +11194,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -10725,6 +11278,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -10805,6 +11362,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -10902,6 +11463,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -10993,6 +11558,10 @@ describe('ActiveList', () => {
           maxActivationLimitBehavior: 'circular',
           history: [],
           hasActiveChangedAtLeastOnce: false,
+          autoPlay: {
+            isPlaying: false,
+            duration: 0,
+          },
           contents: [
             {
               isActive: false,
@@ -11071,6 +11640,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: false,
@@ -11148,6 +11721,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: false,
@@ -11230,6 +11807,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -11310,6 +11891,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -11404,6 +11989,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -11484,6 +12073,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -11564,6 +12157,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -11660,6 +12257,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -11740,6 +12341,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -11822,6 +12427,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -11902,6 +12511,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -11982,6 +12595,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -12164,6 +12781,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -12294,6 +12915,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -12424,6 +13049,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -12554,6 +13183,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -12684,6 +13317,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -12814,6 +13451,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -12944,6 +13585,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -13074,6 +13719,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -13204,6 +13853,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -13334,6 +13987,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -13464,6 +14121,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -13594,6 +14255,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -13719,6 +14384,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -13823,6 +14492,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -13962,6 +14635,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -14101,6 +14778,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -14240,6 +14921,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -14379,6 +15064,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -14518,6 +15207,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -14657,6 +15350,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -14796,6 +15493,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -14935,6 +15636,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -15074,6 +15779,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -15213,6 +15922,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -15352,6 +16065,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -15491,6 +16208,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -15621,6 +16342,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -15709,6 +16434,10 @@ describe('ActiveList', () => {
           maxActivationLimitBehavior: 'circular',
           history: [],
           hasActiveChangedAtLeastOnce: false,
+          autoPlay: {
+            isPlaying: false,
+            duration: 0,
+          },
           contents: [
             {
               isActive: false,
@@ -15786,6 +16515,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: true,
@@ -15877,6 +16610,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -15954,6 +16691,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -16033,6 +16774,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -16122,6 +16867,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -16201,6 +16950,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -16278,6 +17031,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -16405,6 +17162,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -16484,6 +17245,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -16561,6 +17326,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -16652,6 +17421,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -16729,6 +17502,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -16806,6 +17583,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -16897,6 +17678,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -16974,6 +17759,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -17051,6 +17840,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: true,
@@ -17142,6 +17935,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -17219,6 +18016,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -17298,6 +18099,10 @@ describe('ActiveList', () => {
                 maxActivationLimitBehavior: 'circular',
                 history: [],
                 hasActiveChangedAtLeastOnce: false,
+                autoPlay: {
+                  isPlaying: false,
+                  duration: 0,
+                },
                 contents: [
                   {
                     isActive: false,
@@ -17412,6 +18217,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: true,
@@ -17490,6 +18299,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -17597,6 +18410,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -17704,6 +18521,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -17809,6 +18630,10 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: false,
@@ -17885,6 +18710,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -17961,6 +18790,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -18037,6 +18870,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -18114,6 +18951,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -18190,6 +19031,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -18264,6 +19109,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: true,
@@ -18340,6 +19189,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -18414,6 +19267,10 @@ describe('ActiveList', () => {
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                duration: 0,
+              },
               contents: [
                 {
                   isActive: false,
@@ -18468,150 +19325,181 @@ describe('ActiveList', () => {
     });
   });
 
-  describe('autoplay', () => {
+  describe('autoPlay', () => {
     describe('duration errors', () => {
       test('cannot be less than zero', () => {
         expect(() => {
-          setup({ autoplay: { duration: -1 }, activeIndexes: 0 });
+          setup({ autoPlay: { duration: -1 }, activeIndexes: 0 });
         }).toThrowError(
-          'uiloos > ActiveList > autoplay > duration cannot be negative or zero'
+          'uiloos > ActiveList > autoPlay > duration cannot be negative or zero'
         );
 
         expect(() => {
-          setup({ autoplay: { duration: -1 }, activeIndexes: 0 });
-        }).toThrowError(ActiveListAutoplayDurationError);
+          setup({ autoPlay: { duration: -1 }, activeIndexes: 0 });
+        }).toThrowError(ActiveListAutoPlayDurationError);
       });
 
       test('cannot be zero', () => {
         expect(() => {
-          setup({ autoplay: { duration: 0 }, activeIndexes: 0 });
+          setup({ autoPlay: { duration: 0 }, activeIndexes: 0 });
         }).toThrowError(
-          'uiloos > ActiveList > autoplay > duration cannot be negative or zero'
+          'uiloos > ActiveList > autoPlay > duration cannot be negative or zero'
         );
 
         expect(() => {
-          setup({ autoplay: { duration: 0 }, activeIndexes: 0 });
-        }).toThrowError(ActiveListAutoplayDurationError);
+          setup({ autoPlay: { duration: 0 }, activeIndexes: 0 });
+        }).toThrowError(ActiveListAutoPlayDurationError);
       });
     });
 
-    test('that autoplay does not start when there is no active content', () => {
+    test('that autoPlay does not start when there is no active content', () => {
       jest.useFakeTimers();
 
-      const { activeList } = setup({
+      const { activeList, subscriber } = setup({
         active: [],
         maxActivationLimit: 1,
-        autoplay: { duration: 200 },
+        autoPlay: { duration: 200 },
         isCircular: false,
       });
 
-      jest.advanceTimersByTime(200);
-      expect(activeList.active).toEqual([]);
+      expect(subscriber).toBeCalledTimes(0);
 
       jest.advanceTimersByTime(200);
+
       expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(subscriber).toBeCalledTimes(0);
 
       jest.advanceTimersByTime(200);
+
       expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(subscriber).toBeCalledTimes(0);
+
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(subscriber).toBeCalledTimes(0);
 
       // Even calling play should have no effect
       activeList.play();
 
-      jest.advanceTimersByTime(200);
       expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(subscriber).toBeCalledTimes(0);
 
       jest.advanceTimersByTime(200);
+
       expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(subscriber).toBeCalledTimes(0);
 
       jest.advanceTimersByTime(200);
+
       expect(activeList.active).toEqual([]);
-    });
-
-    test('that autoplay stops when there is no more active content', () => {
-      jest.useFakeTimers();
-
-      const { activeList } = setup({
-        active: ['a'],
-        maxActivationLimit: 1,
-        autoplay: { duration: 200 },
-        isCircular: false,
-      });
-
-      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(subscriber).toBeCalledTimes(0);
 
       jest.advanceTimersByTime(200);
-      expect(activeList.active).toEqual(['b']);
 
-      // Now deactivate all content
-      activeList.deactivateByIndex(1);
-
-      // Nothing should become active no matter what
-      jest.advanceTimersByTime(200);
       expect(activeList.active).toEqual([]);
-
-      jest.advanceTimersByTime(200);
-      expect(activeList.active).toEqual([]);
-
-      jest.advanceTimersByTime(200);
-      expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(subscriber).toBeCalledTimes(0);
     });
 
     describe('effect of maxActivationLimit', () => {
       test('when maxActivationLimit is 1', () => {
         jest.useFakeTimers();
 
-        const { activeList } = setup({
+        const { activeList, subscriber } = setup({
           maxActivationLimit: 1,
           active: ['a'],
-          autoplay: { duration: 200 },
+          autoPlay: { duration: 200 },
           isCircular: false,
         });
 
         expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
 
         jest.advanceTimersByTime(200);
+
         expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
 
         jest.advanceTimersByTime(200);
+
         expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'ACTIVATED',
+        ]);
       });
 
       test('when maxActivationLimit is N', () => {
         jest.useFakeTimers();
 
-        const { activeList } = setup({
+        const { activeList, subscriber } = setup({
           maxActivationLimit: 2,
           active: ['a'],
-          autoplay: { duration: 200 },
+          autoPlay: { duration: 200 },
           isCircular: false,
         });
 
         expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
 
         jest.advanceTimersByTime(200);
+
         expect(activeList.active).toEqual(['a', 'b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
 
         jest.advanceTimersByTime(200);
+
         expect(activeList.active).toEqual(['b', 'c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'ACTIVATED',
+        ]);
       });
 
       test('when maxActivationLimit is false', () => {
         jest.useFakeTimers();
 
-        const { activeList } = setup({
+        const { activeList, subscriber } = setup({
           maxActivationLimit: false,
           active: ['a'],
-          autoplay: { duration: 200 },
+          autoPlay: { duration: 200 },
           isCircular: false,
         });
 
         expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
 
         jest.advanceTimersByTime(200);
+
         expect(activeList.active).toEqual(['a', 'b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
 
         jest.advanceTimersByTime(200);
+
         expect(activeList.active).toEqual(['a', 'b', 'c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'ACTIVATED',
+        ]);
       });
     });
 
@@ -18619,182 +19507,303 @@ describe('ActiveList', () => {
       test('goes to the next item after duration and wraps around correctly when circular', () => {
         jest.useFakeTimers();
 
-        const { activeList } = setup({
-          autoplay: { duration: 200 },
+        const { activeList, subscriber } = setup({
+          autoPlay: { duration: 200 },
           isCircular: true,
           activeIndexes: 0,
         });
 
         expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
 
         jest.advanceTimersByTime(200);
+
         expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
 
         jest.advanceTimersByTime(200);
+
         expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
 
         jest.advanceTimersByTime(200);
+
         expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED', 'ACTIVATED']);
       });
 
-      test('stops the autoplay at the last item when not circular', () => {
+      test('stops the autoPlay at the last item when not circular', () => {
         jest.useFakeTimers();
 
-        const { activeList } = setup({
-          autoplay: { duration: 200 },
+        const { activeList, subscriber } = setup({
+          autoPlay: { duration: 200 },
           isCircular: false,
           activeIndexes: 0,
         });
 
         expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
 
         jest.advanceTimersByTime(200);
+
         expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
 
         jest.advanceTimersByTime(200);
+
         expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'ACTIVATED',
+        ]);
 
         jest.advanceTimersByTime(200);
+
         expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'ACTIVATED',
+        ]);
       });
     });
 
-    describe('user calling configureAutoplay', () => {
-      test('that autoplay can be activated after the component has started', () => {
+    describe('user calling configureAutoPlay', () => {
+      test('that autoPlay can be activated after the component has started', () => {
         jest.useFakeTimers();
 
-        const { activeList } = setup({
-          autoplay: undefined,
+        const { activeList, subscriber } = setup({
+          autoPlay: undefined,
           isCircular: false,
           activeIndexes: 0,
         });
 
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(subscriber).toBeCalledTimes(0);
+
+        // Should do nothing
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(subscriber).toBeCalledTimes(0);
 
-        activeList.configureAutoplay({ duration: 200 });
+        activeList.configureAutoPlay({ duration: 200 });
+
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['AUTO_PLAY_PLAYING']);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['AUTO_PLAY_PLAYING', 'ACTIVATED']);
       });
 
-      test('that autoplay can be deactivated by the user', () => {
+      test('that autoPlay can be deactivated by the user', () => {
         jest.useFakeTimers();
 
-        const { activeList } = setup({
-          autoplay: { duration: 200 },
+        const { activeList, subscriber } = setup({
+          autoPlay: { duration: 200 },
           isCircular: true,
           activeIndexes: 0,
         });
 
         expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
 
         jest.advanceTimersByTime(200);
-        expect(activeList.active).toEqual(['b']);
 
-        // Stop the autoplay
-        activeList.configureAutoplay(null);
+        expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
+
+        // Stop the autoPlay
+        activeList.configureAutoPlay(null);
+
+        expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED']);
 
         // Should stay on 'b'
         jest.advanceTimersByTime(200);
+
         expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED']);
       });
     });
 
-    test('user interaction should stop the autoplay when stopsOnUserInteraction is true on activation', () => {
+    test('user interaction should stop the autoPlay when stopsOnUserInteraction is true on activation', () => {
       jest.useFakeTimers();
 
-      const { activeList } = setup({
-        autoplay: { duration: 200, stopsOnUserInteraction: true },
+      const { activeList, subscriber } = setup({
+        autoPlay: { duration: 200, stopsOnUserInteraction: true },
         isCircular: true,
         activeIndexes: 0,
       });
 
       expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(subscriber).toBeCalledTimes(0);
 
       jest.advanceTimersByTime(200);
+
       expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
 
       activeList.activateNext({ isUserInteraction: true });
-      expect(activeList.active).toEqual(['c']);
 
-      jest.advanceTimersByTime(200);
       expect(activeList.active).toEqual(['c']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED']);
+
+      // Should have no effect
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual(['c']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED']);
     });
 
-    test('user interaction should stop the autoplay when stopsOnUserInteraction is true on deactivation', () => {
+    test('user interaction should stop the autoPlay when stopsOnUserInteraction is true on deactivation', () => {
       jest.useFakeTimers();
 
-      const { activeList } = setup({
-        autoplay: { duration: 200, stopsOnUserInteraction: true },
+      const { activeList, subscriber } = setup({
+        autoPlay: { duration: 200, stopsOnUserInteraction: true },
         isCircular: true,
         activeIndexes: 0,
+        maxActivationLimit: false,
       });
 
       expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(subscriber).toHaveBeenCalledTimes(0);
 
       jest.advanceTimersByTime(200);
-      expect(activeList.active).toEqual(['b']);
+
+      expect(activeList.active).toEqual(['a', 'b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
 
       activeList.deactivateByIndex(1, { isUserInteraction: true });
-      expect(activeList.active).toEqual([]);
 
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'DEACTIVATED',
+      ]);
+
+      // Should have no effect
       jest.advanceTimersByTime(200);
-      expect(activeList.active).toEqual([]);
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'DEACTIVATED',
+      ]);
     });
 
     test('when user interacts it should debounce when stopsOnUserInteraction is false', () => {
       jest.useFakeTimers();
 
-      const { activeList } = setup({
-        autoplay: { duration: 200 },
+      const { activeList, subscriber } = setup({
+        autoPlay: { duration: 200 },
         isCircular: true,
         activeIndexes: 0,
       });
 
       // The active content should be 'a' at the start
       expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(subscriber).toBeCalledTimes(0);
 
       // After 200 milliseconds it should become 'b'
       jest.advanceTimersByTime(200);
+
       expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
 
       // We move the timer to just before it skips and trigger
-      // a user action, it should move to 'c' but debounce the autoplay
+      // a user action, it should move to 'c' but debounce the autoPlay
       jest.advanceTimersByTime(199);
+
       activeList.activateNext({ isUserInteraction: true });
-      expect(activeList.active).toEqual(['c']);
 
-      // The autoplay should now not trigger because it has been debounced
+      expect(activeList.active).toEqual(['c']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
+
+      // The autoPlay should now not trigger because it has been debounced
       jest.advanceTimersByTime(1);
-      expect(activeList.active).toEqual(['c']);
 
-      // The autoplay should still not have been triggered
+      expect(activeList.active).toEqual(['c']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
+
+      // The autoPlay should still not have been triggered
       jest.advanceTimersByTime(198);
-      expect(activeList.active).toEqual(['c']);
 
-      // The autoplay now be triggered
+      expect(activeList.active).toEqual(['c']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
+
+      // The autoPlay now be triggered
       jest.advanceTimersByTime(1);
+
       expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED', 'ACTIVATED']);
 
       // A double debounce should work as well
       jest.advanceTimersByTime(199);
       activeList.activateNext({ isUserInteraction: true });
+
       expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'ACTIVATED',
+        'ACTIVATED',
+        'ACTIVATED',
+      ]);
 
       // Trigger double debounce
       jest.advanceTimersByTime(199);
       activeList.activateNext({ isUserInteraction: true });
+
       expect(activeList.active).toEqual(['c']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'ACTIVATED',
+        'ACTIVATED',
+        'ACTIVATED',
+        'ACTIVATED',
+      ]);
     });
 
     test('that the duration can be a function instead of just a number', () => {
       jest.useFakeTimers();
 
-      const { activeList } = setup({
-        autoplay: {
+      const { activeList, subscriber } = setup({
+        autoPlay: {
           duration: (data) => {
             expect(data.index).toBeDefined();
             expect(data.value).toBeDefined();
@@ -18814,23 +19823,34 @@ describe('ActiveList', () => {
       });
 
       expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 100 });
+      expect(subscriber).toBeCalledTimes(0);
 
       jest.advanceTimersByTime(100);
+
       expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
 
       jest.advanceTimersByTime(200);
+
       expect(activeList.active).toEqual(['c']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 300 });
+      assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
 
       jest.advanceTimersByTime(300);
+
       expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 100 });
+      assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED', 'ACTIVATED']);
     });
 
-    test('that autoplay stops when the contents are cleared', () => {
+    test('that autoPlay stops when the contents are cleared via remove', () => {
       jest.useFakeTimers();
 
-      const { activeList } = setup({
-        autoplay: {
-          duration: ({ index }) => (index + 1) * 100,
+      const { activeList, subscriber } = setup({
+        autoPlay: {
+          duration: 200,
           stopsOnUserInteraction: false,
         },
         isCircular: true,
@@ -18838,102 +19858,340 @@ describe('ActiveList', () => {
       });
 
       expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(subscriber).toBeCalledTimes(0);
 
-      jest.advanceTimersByTime(100);
+      jest.advanceTimersByTime(200);
+
       expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
 
       // Now remove all content in between an duration's
       activeList.remove('a');
       activeList.remove('b');
       activeList.remove('c');
 
-      // Now check if after the duration the state.active has
-      // been set to [].
-      jest.advanceTimersByTime(200);
       expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'REMOVED',
+        'REMOVED',
+        'AUTO_PLAY_STOPPED',
+        'REMOVED',
+      ]);
+
+      // Now check if after the duration the state.active stays [].
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'REMOVED',
+        'REMOVED',
+        'AUTO_PLAY_STOPPED',
+        'REMOVED',
+      ]);
     });
 
-    test('that the autoplay can be paused and continued', () => {
+    test('that autoPlay stops when the contents are cleared via removeByPredicate', () => {
       jest.useFakeTimers();
 
-      const { activeList } = setup({
-        autoplay: { duration: 200 },
+      const { activeList, subscriber } = setup({
+        autoPlay: {
+          duration: 200,
+          stopsOnUserInteraction: false,
+        },
+        isCircular: true,
+        activeIndexes: 0,
+      });
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(subscriber).toBeCalledTimes(0);
+
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
+
+      // Now remove all content in between the duration
+      activeList.removeByPredicate(() => true);
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'REMOVED_MULTIPLE',
+      ]);
+
+      // Now check if after the duration the state.active stays [].
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'REMOVED_MULTIPLE',
+      ]);
+    });
+
+    test('that autoPlay stops when there is no more active content via deactivateByIndex', () => {
+      jest.useFakeTimers();
+
+      const { activeList, subscriber } = setup({
+        active: ['a'],
+        maxActivationLimit: 1,
+        autoPlay: { duration: 200 },
+        isCircular: false,
+      });
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(subscriber).toBeCalledTimes(0);
+
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
+
+      // Now deactivate all content
+      activeList.deactivateByIndex(1);
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'DEACTIVATED',
+      ]);
+
+      // Nothing should become active no matter what
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'DEACTIVATED',
+      ]);
+
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'DEACTIVATED',
+      ]);
+
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'DEACTIVATED',
+      ]);
+    });
+
+    test('that autoPlay stops when there is no more active content via deactivateByPredicate', () => {
+      jest.useFakeTimers();
+
+      const { activeList, subscriber } = setup({
+        active: ['a'],
+        maxActivationLimit: 1,
+        autoPlay: { duration: 200 },
+        isCircular: false,
+      });
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(subscriber).toBeCalledTimes(0);
+
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
+
+      // Now deactivate all content
+      activeList.deactivateByPredicate(() => true);
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      // Once for 'b', Once for deactivate, once for stop
+      expect(subscriber).toBeCalledTimes(3);
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'DEACTIVATED_MULTIPLE',
+      ]);
+
+      // Nothing should become active no matter what
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'DEACTIVATED_MULTIPLE',
+      ]);
+
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'DEACTIVATED_MULTIPLE',
+      ]);
+
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'DEACTIVATED_MULTIPLE',
+      ]);
+    });
+
+    test('that the autoPlay can be paused and continued', () => {
+      jest.useFakeTimers();
+
+      const { activeList, subscriber } = setup({
+        autoPlay: { duration: 200 },
         isCircular: false,
         activeIndexes: 0,
       });
 
       // It should start with 'a' and be playing
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.isPlaying()).toBe(true);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(subscriber).toBeCalledTimes(0);
 
       // After 200 seconds it should be on 'b'
       jest.advanceTimersByTime(200);
+
       expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
 
       // Now we advance the time to the half way point
       // between 'b' and 'c'.
-      expect(activeList.isPlaying()).toBe(true);
       jest.advanceTimersByTime(100);
-      expect(activeList.isPlaying()).toBe(true);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
 
       // Now pause it at the half way.
       activeList.pause();
-      expect(activeList.isPlaying()).toBe(false);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_PAUSED']);
 
       // When paused advancing the time should do nothing.
       jest.advanceTimersByTime(100);
+
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.isPlaying()).toBe(false);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_PAUSED']);
 
       // Even when advancing a huge amount of seconds, it should
       // stay paused no matter what.
       jest.advanceTimersByTime(10000);
+
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.isPlaying()).toBe(false);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_PAUSED']);
 
       // Now press play, after 100 milliseconds it should have
       // continued.
       activeList.play();
-      expect(activeList.isPlaying()).toBe(true);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+        'AUTO_PLAY_PLAYING',
+      ]);
 
       // After 80 milliseconds b should still be active though
       jest.advanceTimersByTime(80);
+
       expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+        'AUTO_PLAY_PLAYING',
+      ]);
 
       // Finally after 20 milliseconds it should be 'c'
       jest.advanceTimersByTime(20);
-      expect(activeList.active).toEqual(['c']);
 
-      // It has reached the end and is no longer playing.
-      expect(activeList.isPlaying()).toBe(false);
+      expect(activeList.active).toEqual(['c']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+        'AUTO_PLAY_PLAYING',
+        'AUTO_PLAY_STOPPED',
+        'ACTIVATED',
+      ]);
     });
 
     test('that it is not possible to pause when already paused', () => {
       jest.useFakeTimers();
 
-      const { activeList } = setup({
-        autoplay: { duration: 200 },
+      const { activeList, subscriber } = setup({
+        autoPlay: { duration: 200 },
         isCircular: false,
         activeIndexes: 0,
       });
 
       // It should start with 'a' and be playing
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.isPlaying()).toBe(true);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(subscriber).toBeCalledTimes(0);
 
       // After 200 seconds it should be on 'b'
       jest.advanceTimersByTime(200);
+
       expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
 
       // Now we advance the time to the half way point
       // between 'b' and 'c'.
-      expect(activeList.isPlaying()).toBe(true);
       jest.advanceTimersByTime(100);
-      expect(activeList.isPlaying()).toBe(true);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
 
       // Now pause it at the half way.
       activeList.pause();
-      expect(activeList.isPlaying()).toBe(false);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_PAUSED']);
 
       // Now advance the timer by a huge margin, and pause again, this
       // second pause should be ignored
@@ -18941,80 +20199,190 @@ describe('ActiveList', () => {
       activeList.pause(); // <--- this pause should be ignored
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.isPlaying()).toBe(false);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_PAUSED']);
 
       // Now press play, after 200 milliseconds it should have
       // continued.
       activeList.play();
 
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+        'AUTO_PLAY_PLAYING',
+      ]);
+
       // After 99 milliseconds b should still be active though
       jest.advanceTimersByTime(99);
+
       expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+        'AUTO_PLAY_PLAYING',
+      ]);
 
       // Finally after 1 milliseconds it should be 'c'
       jest.advanceTimersByTime(1);
       expect(activeList.active).toEqual(['c']);
-
-      // It has reached the end and is no longer playing.
-      expect(activeList.isPlaying()).toBe(false);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+        'AUTO_PLAY_PLAYING',
+        'AUTO_PLAY_STOPPED',
+        'ACTIVATED',
+      ]);
     });
 
-    test('that the autoplay can be stopped and continued', () => {
+    test('that the autoPlay can be stopped and continued', () => {
       jest.useFakeTimers();
 
-      const { activeList } = setup({
-        autoplay: { duration: 200 },
+      const { activeList, subscriber } = setup({
+        autoPlay: { duration: 200 },
         isCircular: false,
         activeIndexes: 0,
       });
 
       // It should start with 'a' and be playing
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.isPlaying()).toBe(true);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(subscriber).toBeCalledTimes(0);
 
       // After 200 seconds it should be on 'b'
       jest.advanceTimersByTime(200);
+
       expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
 
       // Now we advance the time to the half way point
       // between 'b' and 'c'.
-      expect(activeList.isPlaying()).toBe(true);
       jest.advanceTimersByTime(100);
-      expect(activeList.isPlaying()).toBe(true);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, ['ACTIVATED']);
 
       // Now pause it at the half way, this should be forgotten
       // because stop is not the same as pause.
       activeList.stop();
-      expect(activeList.isPlaying()).toBe(false);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED']);
 
       // When stopped advancing the time should do nothing.
       jest.advanceTimersByTime(100);
+
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.isPlaying()).toBe(false);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED']);
 
       // Even when advancing a huge amount of seconds, it should
       // stay stopped no matter what.
       jest.advanceTimersByTime(10000);
+
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.isPlaying()).toBe(false);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED']);
 
       // Now press play, after 100 milliseconds it should have
       // continued.
       activeList.play();
-      expect(activeList.isPlaying()).toBe(true);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'AUTO_PLAY_PLAYING',
+      ]);
 
       // After 100 milliseconds b should still be inactive because
       // stopping is not the same as pausing.
       jest.advanceTimersByTime(100);
+
       expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'AUTO_PLAY_PLAYING',
+      ]);
 
       // Finally after 100 milliseconds it should be 'c', because
       // that is the time it takes after a stop 100 + 100 = 200.
       jest.advanceTimersByTime(100);
-      expect(activeList.active).toEqual(['c']);
 
-      // It has reached the end and is no longer playing.
-      expect(activeList.isPlaying()).toBe(false);
+      expect(activeList.active).toEqual(['c']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_STOPPED',
+        'AUTO_PLAY_PLAYING',
+        'AUTO_PLAY_STOPPED',
+        'ACTIVATED',
+      ]);
+    });
+
+    test('that it is not possible to stop when already stopped', () => {
+      jest.useFakeTimers();
+
+      const { activeList, subscriber } = setup({
+        autoPlay: { duration: 200 },
+        isCircular: false,
+        activeIndexes: 0,
+      });
+
+      // It should start with 'a' and be playing
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(subscriber).toBeCalledTimes(0);
+
+      activeList.stop();
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, ['AUTO_PLAY_STOPPED']);
+
+      // This stop should be ignored
+      activeList.stop();
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, ['AUTO_PLAY_STOPPED']);
+    });
+
+    test('that it is possible to pause first then stop', () => {
+      jest.useFakeTimers();
+
+      const { activeList, subscriber } = setup({
+        autoPlay: { duration: 200 },
+        isCircular: false,
+        activeIndexes: 0,
+      });
+
+      // It should start with 'a' and be playing
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(subscriber).toBeCalledTimes(0);
+
+      activeList.pause();
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 200 });
+      assertEvents(subscriber, ['AUTO_PLAY_PAUSED']);
+
+      activeList.stop();
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, ['AUTO_PLAY_PAUSED', 'AUTO_PLAY_STOPPED']);
     });
   });
 
@@ -19797,6 +21165,212 @@ describe('ActiveList', () => {
           value: 'a',
         }),
       ]);
+
+      activeList.activateByPredicate(() => true);
+      expect(activeList.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+          indexes: [0],
+          values: ['a'],
+        }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 1, value: 'b' }),
+        expect.objectContaining({
+          type: 'REMOVED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'REMOVED_MULTIPLE',
+          indexes: [0, 1],
+          values: ['b', 'c'],
+        }),
+        expect.objectContaining({ type: 'INSERTED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'INSERTED', index: 1, value: 'b' }),
+        expect.objectContaining({ type: 'INSERTED', index: 2, value: 'c' }),
+        expect.objectContaining({
+          type: 'SWAPPED',
+          index: { a: 0, b: 2 },
+          value: { a: 'a', b: 'c' },
+        }),
+        expect.objectContaining({
+          type: 'MOVED',
+          index: {
+            from: 2,
+            to: 0,
+          },
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'DEACTIVATED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'ACTIVATED_MULTIPLE',
+          indexes: [0, 1, 2],
+          values: ['a', 'c', 'b'],
+        }),
+      ]);
+
+      activeList.configureAutoPlay({ duration: 1000 });
+      expect(activeList.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+          indexes: [0],
+          values: ['a'],
+        }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 1, value: 'b' }),
+        expect.objectContaining({
+          type: 'REMOVED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'REMOVED_MULTIPLE',
+          indexes: [0, 1],
+          values: ['b', 'c'],
+        }),
+        expect.objectContaining({ type: 'INSERTED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'INSERTED', index: 1, value: 'b' }),
+        expect.objectContaining({ type: 'INSERTED', index: 2, value: 'c' }),
+        expect.objectContaining({
+          type: 'SWAPPED',
+          index: { a: 0, b: 2 },
+          value: { a: 'a', b: 'c' },
+        }),
+        expect.objectContaining({
+          type: 'MOVED',
+          index: {
+            from: 2,
+            to: 0,
+          },
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'DEACTIVATED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'ACTIVATED_MULTIPLE',
+          indexes: [0, 1, 2],
+          values: ['a', 'c', 'b'],
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_PLAYING',
+        }),
+      ]);
+
+      activeList.pause();
+      expect(activeList.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+          indexes: [0],
+          values: ['a'],
+        }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 1, value: 'b' }),
+        expect.objectContaining({
+          type: 'REMOVED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'REMOVED_MULTIPLE',
+          indexes: [0, 1],
+          values: ['b', 'c'],
+        }),
+        expect.objectContaining({ type: 'INSERTED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'INSERTED', index: 1, value: 'b' }),
+        expect.objectContaining({ type: 'INSERTED', index: 2, value: 'c' }),
+        expect.objectContaining({
+          type: 'SWAPPED',
+          index: { a: 0, b: 2 },
+          value: { a: 'a', b: 'c' },
+        }),
+        expect.objectContaining({
+          type: 'MOVED',
+          index: {
+            from: 2,
+            to: 0,
+          },
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'DEACTIVATED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'ACTIVATED_MULTIPLE',
+          indexes: [0, 1, 2],
+          values: ['a', 'c', 'b'],
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_PLAYING',
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_PAUSED',
+        }),
+      ]);
+
+      activeList.stop();
+      expect(activeList.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+          indexes: [0],
+          values: ['a'],
+        }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 1, value: 'b' }),
+        expect.objectContaining({
+          type: 'REMOVED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'REMOVED_MULTIPLE',
+          indexes: [0, 1],
+          values: ['b', 'c'],
+        }),
+        expect.objectContaining({ type: 'INSERTED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'INSERTED', index: 1, value: 'b' }),
+        expect.objectContaining({ type: 'INSERTED', index: 2, value: 'c' }),
+        expect.objectContaining({
+          type: 'SWAPPED',
+          index: { a: 0, b: 2 },
+          value: { a: 'a', b: 'c' },
+        }),
+        expect.objectContaining({
+          type: 'MOVED',
+          index: {
+            from: 2,
+            to: 0,
+          },
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'DEACTIVATED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'ACTIVATED_MULTIPLE',
+          indexes: [0, 1, 2],
+          values: ['a', 'c', 'b'],
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_PLAYING',
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_PAUSED',
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_STOPPED',
+        }),
+      ]);
     });
 
     test('that a history is kept for a maximum number of events', () => {
@@ -19931,6 +21505,7 @@ type ActiveListSansContents<T> = Pick<
   | 'lastActivatedContent'
   | 'lastActivatedIndex'
   | 'hasActiveChangedAtLeastOnce'
+  | 'autoPlay'
   | 'direction'
   | 'history'
 >;
@@ -19965,6 +21540,10 @@ function assertState(state: ActiveList<string>, expected: TestState<string>) {
     lastActivatedIndex: state.lastActivatedIndex,
     lastActivated: state.lastActivated,
     hasActiveChangedAtLeastOnce: state.hasActiveChangedAtLeastOnce,
+    autoPlay: {
+      isPlaying: state.autoPlay.isPlaying,
+      duration: state.autoPlay.duration,
+    },
     direction: state.direction,
     history: state.history,
     contents: state.contents.map((content) => {
@@ -20008,4 +21587,18 @@ function assertLastSubscriber(
   delete expectedEventCopy.time;
 
   expect(eventCopy).toEqual(expectedEventCopy);
+}
+
+function assertEvents(
+  subscriber: jest.Mock<ActiveList<string>, any>,
+  expectedEvents: ActiveListEventType[]
+) {
+  const events: ActiveListEventType[] = subscriber.mock.calls.map((call) => {
+    const event: ActiveListEvent<string> = call[1];
+    return event.type;
+  });
+
+  expect(events).toEqual(expectedEvents);
+
+  expect(subscriber).toBeCalledTimes(expectedEvents.length);
 }

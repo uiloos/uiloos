@@ -1,14 +1,14 @@
 import { ViewChannelAutoDismissDurationError } from './errors/ViewChannelAutoDismissDurationError';
 import {
-  ViewChannelAutoDismissConfig,
+  ViewChannelViewAutoDismissConfig,
   ViewChannelViewAutoDismissPausedEvent,
   ViewChannelViewAutoDismissPlayingEvent,
   ViewChannelViewAutoDismissStoppedEvent,
 } from './types';
 import { ViewChannelView } from './ViewChannelView';
 
-// Autodismiss is a PRIVATE class, it should not be exposed directly.
-export class AutoDismiss<T, R> {
+// _AutoDismiss is a PRIVATE class, it should not be exposed directly.
+export class _AutoDismiss<T, R> {
   /*
     The timeoutId given back by calling window.setTimeout for when 
     autoDismiss is enabled. Is kept here so it can be cleared via
@@ -37,7 +37,7 @@ export class AutoDismiss<T, R> {
   /**
    * Contains the configuration of the autoDismiss.
    */
-  private _config?: ViewChannelAutoDismissConfig<R> | null = null;
+  private _config?: ViewChannelViewAutoDismissConfig<R> | null = null;
 
   /**
    * Reference to the ViewChannelView is it a part of.
@@ -46,14 +46,14 @@ export class AutoDismiss<T, R> {
 
   constructor(
     view: ViewChannelView<T, R>,
-    config?: ViewChannelAutoDismissConfig<R>
+    config?: ViewChannelViewAutoDismissConfig<R>
   ) {
     this._view = view;
     this._config = config;
   }
 
   public _play(inform: boolean): void {
-    if (this._view.isPlaying) {
+    if (this._view.autoDismiss.isPlaying) {
       return;
     }
 
@@ -74,6 +74,11 @@ export class AutoDismiss<T, R> {
     this._autoDismissCurrentDuration = duration;
     this._autoDismissStarted = new Date();
 
+    // The `autoPlayDuration` should not be affected by a pause.
+    if (this._pauseStarted === null) {
+      this._view.autoDismiss.duration = duration;
+    }
+
     const result = this._config.result;
 
     this._autoDismissTimeoutId = window.setTimeout(() => {
@@ -85,7 +90,8 @@ export class AutoDismiss<T, R> {
       // I've not encountered this edge case ever happening in in
       // the wild. I'm keeping it just to be sure.
       if (this._view.isPresented) {
-        this._view.isPlaying = false;
+        this._view.autoDismiss.isPlaying = false;
+        this._view.autoDismiss.duration = 0;
 
         this._view.viewChannel._doRemoveByIndex(
           this._view.index,
@@ -109,7 +115,7 @@ export class AutoDismiss<T, R> {
       this._cancelTimer();
     });
 
-    this._view.isPlaying = true;
+    this._view.autoDismiss.isPlaying = true;
 
     if (inform) {
       const event: ViewChannelViewAutoDismissPlayingEvent<T, R> = {
@@ -124,20 +130,7 @@ export class AutoDismiss<T, R> {
   }
 
   public _pause(): void {
-    /* 
-      A user can call pause multiple times, by accident, these 
-      subsequent calls should be ignored to prevent bugs:
-    
-      I (Maarten Hus) wrote a carousel example which paused when the 
-      users mouse entered the carousel. When moving the mouse over the
-      carousel whilst the duration had not passed, caused the 
-      "_pauseStarted" to move into the future. 
-
-      This could then in turn result in a negative duration, because
-      the _pauseStarted Date could become higher than the 
-      _autoDismissStarted Date.
-    */
-    if (!this._view.isPlaying) {
+    if (!this._view.autoDismiss.isPlaying) {
       return;
     }
 
@@ -147,7 +140,7 @@ export class AutoDismiss<T, R> {
 
     this._cancelTimer();
 
-    this._view.isPlaying = false;
+    this._view.autoDismiss.isPlaying = false;
 
     const event: ViewChannelViewAutoDismissPausedEvent<T, R> = {
       type: 'AUTO_DISMISS_PAUSED',
@@ -160,7 +153,8 @@ export class AutoDismiss<T, R> {
   }
 
   public _stop(): void {
-    if (!this._view.isPlaying) {
+    // Allow for pause then stop, but not stop then stop.
+    if (!this._view.autoDismiss.isPlaying && !this._pauseStarted) {
       return;
     }
 
@@ -168,7 +162,8 @@ export class AutoDismiss<T, R> {
 
     this._pauseStarted = null;
 
-    this._view.isPlaying = false;
+    this._view.autoDismiss.isPlaying = false;
+    this._view.autoDismiss.duration = 0;
 
     const event: ViewChannelViewAutoDismissStoppedEvent<T, R> = {
       type: 'AUTO_DISMISS_STOPPED',
@@ -187,7 +182,7 @@ export class AutoDismiss<T, R> {
     }
   }
 
-  private _getDuration(config: ViewChannelAutoDismissConfig<R>): number {
+  private _getDuration(config: ViewChannelViewAutoDismissConfig<R>): number {
     if (this._pauseStarted) {
       return (
         this._autoDismissCurrentDuration -

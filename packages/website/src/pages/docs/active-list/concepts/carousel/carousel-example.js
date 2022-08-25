@@ -8,7 +8,7 @@ const slidesEl = Array.from(
 const config = {
   contents: slidesEl,
   active: slidesEl[0],
-  autoplay: {
+  autoPlay: {
     duration: 5000
   },
   isCircular: true

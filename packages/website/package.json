@@ -4,13 +4,14 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "clean": "rm -rf _site",
+    "clean": "rm -rf node_modules && rm -f package-lock.json && rm -rf _site",
+    "clean:site": "rm -rf _site",
     "serve:webpack": "webpack --mode development --watch",
     "serve:eleventy": "ELEVENTY_ENV=development eleventy --serve --config=./eleventy.config.js",
-    "start": "npm-run-all clean --parallel serve:*",
+    "start": "npm-run-all clean:site --parallel serve:*",
     "build-docs:webpack": "webpack --mode production",
     "build-docs:eleventy": "ELEVENTY_ENV=production eleventy --config=./eleventy.config.js",
-    "build-docs": "NODE_ENV=production run-s clean build-docs:*",
+    "build-docs": "NODE_ENV=production run-s clean:site build-docs:*",
     "build": "echo ignoring build for website package",
     "apigen": "rm -rf src/_data/api"
   },
@@ -20,7 +21,7 @@
   "dependencies": {
     "alpinejs": "3.10.2",
     "aos": "3.0.0-beta.6",
-    "@uiloos/core": "^0.0.4"
+    "@uiloos/core": "^0.0.5"
   },
   "devDependencies": {
     "@11ty/eleventy": "1.0.1",

@@ -49,3 +49,20 @@ When we expose arrays like the ActiveList and ViewChannel do, they
 should be readonly. This makes it impossible to change the reference
 of the array (like const does). This is needed so frameworks such
 as Vue and Angular have an easier time to detect changes.
+
+## 000004 - Core - ban on computed state - 2022-08-24
+Methods should always perform an action, instance variables should
+reflect the state. No method should ever be a "getter" for the current
+state, this means a ban on computed state. 
+
+Before the ActiveList had a method called `isPlaying()` it told if the 
+autoPlay was active or not. This was in contrast with variables such
+as `activeIndexes` or `isActive`. Why is one a method and one a 
+variable, this is inconsistent.
+
+We should strive for uniformity in the API even at the cost of 
+complexity on our end. 
+
+We had two options: either turn isPlaying into a `getter` via the 
+`get` keyword, or simply turn it into a variable. We choose the latter
+as the `get` keyword also complicates things.

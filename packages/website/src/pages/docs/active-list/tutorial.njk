@@ -201,7 +201,7 @@ const carousel = new window.uiloosActiveList.ActiveList(
   </p>
 
     <p>
-    Next lets add an autoplay so the carousel automatically moves 
+    Next lets add an autoPlay so the carousel automatically moves 
     to the next active slide, and also lets flesh out the subscriber
     to make it work:
   </p>
@@ -214,7 +214,7 @@ const config = {
   activeIndexes: 0,
 
   // After 5 seconds go to the next slide
-  autoplay: { duration: 5000 },
+  autoPlay: { duration: 5000 },
 };
 
 function subscriber(carousel) {
@@ -258,8 +258,8 @@ const carousel = new window.uiloosActiveList.ActiveList(
   </p>
 
     <p>
-    You might notice that the autoplay will stop at the last slide, this
-    is because autoplay will stop when the end of the list is reached.
+    You might notice that the autoPlay will stop at the last slide, this
+    is because autoPlay will stop when the end of the list is reached.
     To make things a little nicer we are going to tell the ActiveList
     that it never ends, by setting <span class="high">isCircular</span>
     to <span class="high">true</span>.
@@ -273,10 +273,10 @@ const config = {
   activeIndexes: 0,
 
   // After 5 seconds go to the next slide
-  autoplay: { duration: 5000 },
+  autoPlay: { duration: 5000 },
 
   /* 
-    This ActiveList is a circle, this means that the autoplay
+    This ActiveList is a circle, this means that the autoPlay
     will wrap around back to the beginning when moving past the 
     final slide
   */
@@ -515,10 +515,10 @@ const config = {
   activeIndexes: 0,
 
   // After 5 seconds go to the next slide
-  autoplay: { duration: 5000 },
+  autoPlay: { duration: 5000 },
 
   /* 
-    This ActiveList is a circle, this means that the autoplay
+    This ActiveList is a circle, this means that the autoPlay
     will wrap around to the beginning when moving past the 
     final slide
   */
@@ -532,11 +532,11 @@ const config = {
 
   <p>
     Another behavior is that when the user starts using the
-    buttons to navigate the autoplay does not stop, instead it debounces / 
+    buttons to navigate the autoPlay does not stop, instead it debounces / 
     resets the duration for the next slide. 
-    By setting the autoplay's 
+    By setting the autoPlay's 
     <a href="/api/core/activelistautoplayconfig/#stopsOnUserInteraction" class="underline high">stopsOnUserInteraction</a>
-    to <span class="high">true</span> we can make the autoplay stop instead.
+    to <span class="high">true</span> we can make the autoPlay stop instead.
     
   </p>
 
@@ -550,16 +550,16 @@ const config = {
   contents: [0, 1, 2, 3, 4],
   activeIndexes: 0,
 
-  autoplay: {
+  autoPlay: {
     // After 5 seconds go to the next slide
     duration: 5000,
 
-    // If the user clicks a button stop the autoplay
+    // If the user clicks a button stop the autoPlay
     stopsOnUserInteraction: true
   },
 
   /* 
-    This ActiveList is a circle, this means that the autoplay
+    This ActiveList is a circle, this means that the autoPlay
     will wrap around to the beginning when moving past the 
     final slide
   */
@@ -587,7 +587,7 @@ const config = {
       must sync the DOM with what occurred.
     </li>
     <li class="ml-8 mb-4">
-      That via <span class="high">autoplay</span> we can move through
+      That via <span class="high">autoPlay</span> we can move through
       the slides programmatically at an interval.
     </li>
     <li class="ml-8 mb-4">

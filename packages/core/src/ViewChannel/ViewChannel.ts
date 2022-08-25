@@ -248,6 +248,9 @@ export class ViewChannel<T, R = void> {
     this._repairIndexes();
 
     view.isPresented = false;
+    view.autoDismiss.duration = 0;
+    view.autoDismiss.isPlaying = false;
+
     view._resolve(result);
 
     const event: ViewChannelViewDismissedEvent<T, R> = {

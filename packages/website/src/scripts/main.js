@@ -70,7 +70,7 @@ document.querySelectorAll('.js-code-switch').forEach((codeswitch) => {
 
 const docTocEl = document.querySelector('nav[role="doc-toc"]');
 
-if (!docTocEl.hasAttribute('data-no-highlight')) {
+if (docTocEl && !docTocEl.hasAttribute('data-no-highlight')) {
   // Keeps track of the current <a> which is highlighted
   let activeAEl = document.querySelector('nav[role="doc-toc"] a');
   const activeClasses = ['font-medium', 'decoration-4'];

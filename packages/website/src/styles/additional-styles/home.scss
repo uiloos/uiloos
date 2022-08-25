@@ -1,0 +1,14 @@
+
+.carousel-button-animation {
+  background: linear-gradient(to right, rgb(107 33 168) 50%, rgb(102, 102, 102) 50%);
+  background-size: 200% 100%;
+} 
+
+@keyframes progress {
+  from {
+    background-position: right bottom;
+  }
+  to {
+    background-position: left bottom;
+  }
+}

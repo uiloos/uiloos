@@ -1,6 +1,7 @@
-import { AutoDismiss } from './AutoDismiss';
+import { _AutoDismiss } from './AutoDismiss';
 import {
-  ViewChannelAutoDismissConfig
+  ViewChannelViewAutoDismiss,
+  ViewChannelViewAutoDismissConfig,
 } from './types';
 import { ViewChannel } from './ViewChannel';
 
@@ -42,14 +43,6 @@ export class ViewChannelView<T, R> {
   public isPresented: boolean;
 
   /**
-   * Whether or not the ViewChannelView is playing. In other words
-   * whether or not the ViewChannelView is going to be autoDismissed 
-   * after a duration.
-   *
-   */
-  public isPlaying: boolean = false;
-
-  /**
    * Reference to the ViewChannel is it a part of.
    */
   public viewChannel: ViewChannel<T, R>;
@@ -83,17 +76,19 @@ export class ViewChannelView<T, R> {
    * Defaults to no autoDismiss, meaning it will stay visible forever,
    * until it is dismissed.
    */
-  private _autoDismiss: AutoDismiss<T, R>;
+  private _autoDismiss: _AutoDismiss<T, R>;
 
   /**
-   * The amount of milliseconds the view should remain visible to
-   * the user. Once the duration has passed the view is removed
-   * from the `ViewChannel` automatically.
+   * AutoDismiss means that the ViewChannelView will dismiss itself
+   * after a duration.
    *
-   * Note: this duration is not affected by calling `pause`, `play`
-   * or `stop`.
+   * Contains wether or not the autoDismiss is playing via `isPlaying`
+   * and the current duration via `duration`.
    */
-  public duration: number = 0;
+  public autoDismiss: ViewChannelViewAutoDismiss = {
+    isPlaying: false,
+    duration: 0,
+  };
 
   /**
    * A promise which will be resolved with the result (R) when this
@@ -126,14 +121,14 @@ export class ViewChannelView<T, R> {
    * @param {number} index The index of this ViewChannelView within the ViewChannel.
    * @param {T} data The data function which when called provides the data for this ViewChannelView.
    * @param {number} priority The priority this ViewChannelView has within the ViewChannel
-   * @param {ViewChannelAutoDismissConfig<R} autoDismiss Whether or not this ViewChannelView is auto dismissed after a duration.
+   * @param {ViewChannelViewAutoDismissConfig<R>} autoDismiss Whether or not this ViewChannelView is auto dismissed after a duration.
    */
   constructor(
     viewChannel: ViewChannel<T, R>,
     index: number,
     data: T,
     priority: number[],
-    autoDismissConfig?: ViewChannelAutoDismissConfig<R>
+    autoDismissConfig?: ViewChannelViewAutoDismissConfig<R>
   ) {
     // Set to false in the ViewChannel _doRemoveByIndex method
     this.isPresented = true;
@@ -147,10 +142,10 @@ export class ViewChannelView<T, R> {
       this._resolve = resolve;
     });
 
-    this._autoDismiss = new AutoDismiss(this, autoDismissConfig);
+    this._autoDismiss = new _AutoDismiss(this, autoDismissConfig);
     this._autoDismiss._play(false);
 
-    this.duration = autoDismissConfig?.duration ?? 0;
+    this.autoDismiss.duration = autoDismissConfig?.duration ?? 0;
   }
 
   /**

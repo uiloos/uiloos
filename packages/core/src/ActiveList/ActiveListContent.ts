@@ -122,7 +122,7 @@ export class ActiveListContent<T> {
    * called, `isActive` will become `true`.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`.
+   * on `cooldown` and `autoPlay`.
    *
    * @param {ActiveListActivationOptions<T>} [activationOptions] The activation options @see ActiveListActivationOptions<T>
    */

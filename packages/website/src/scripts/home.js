@@ -15,12 +15,29 @@ document.addEventListener('DOMContentLoaded', function () {
   const config = {
     contents: slides,
     activeIndexes: 0,
-    autoplay: { duration: 5000, stopsOnUserInteraction: true },
+    autoPlay: { duration: 3000, stopsOnUserInteraction: true },
     isCircular: true,
     cooldown: 500,
   };
 
   const carousel = new ActiveList(config, (carousel, event) => {
+    if (
+      event.type === 'AUTO_PLAY_PAUSED' ||
+      event.type === 'AUTO_PLAY_PLAYING'
+    ) {
+      const button = document.getElementById(
+        `carousel-button-${carousel.lastActivated}`
+      );
+
+      if (carousel.autoPlay.isPlaying) {
+        button.style.animationPlayState = 'running';
+      } else {
+        button.style.animationPlayState = 'paused';
+      }
+
+      return;
+    }
+
     if (!carousel.isCircular) {
       if (carousel.lastActivatedContent.isFirst) {
         previousButton.classList.add('opacity-50', 'cursor-not-allowed');
@@ -40,6 +57,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (event.type === 'INITIALIZED') {
+      const button = document.getElementById(
+        `carousel-button-${carousel.lastActivated}`
+      );
+
+      button.classList.add('bg-purple-800', 'carousel-button-animation');
+      button.style.animation = `progress ${carousel.autoPlay.duration}ms linear`;
+
       return;
     }
 
@@ -50,9 +74,9 @@ document.addEventListener('DOMContentLoaded', function () {
         `carousel-button-${content.value}`
       );
 
-      slide.className = "absolute";
+      slide.className = 'absolute';
 
-      if (content.isActive) {;
+      if (content.isActive) {
         slide.classList.add('visible');
         slide.ariaHidden = 'false';
 
@@ -77,8 +101,9 @@ document.addEventListener('DOMContentLoaded', function () {
           });
         });
 
-        button.classList.add('bg-purple-800');
+        button.classList.add('carousel-button-animation');
         button.classList.remove('bg-gray-600');
+        button.style.animation = `progress ${carousel.autoPlay.duration}ms linear`;
 
         button.lastElementChild.classList.remove('hidden');
       } else if (content.value === previouslyActive) {
@@ -103,13 +128,15 @@ document.addEventListener('DOMContentLoaded', function () {
           }, 500);
         }, 10);
         button.classList.add('bg-gray-600');
-        button.classList.remove('bg-purple-800');
+        button.classList.remove('carousel-button-animation');
+        button.style.animation = '';
       } else {
         slide.classList.add('invisible');
         slide.ariaHidden = 'true';
 
         button.classList.add('bg-gray-600');
-        button.classList.remove('bg-purple-800');
+        button.classList.remove('carousel-button-animation');
+        button.style.animation = '';
 
         button.lastElementChild.classList.add('hidden');
       }
@@ -152,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
     .addEventListener('change', (event) => {
       const duration = parseInt(event.target.value, 10);
 
-      config.autoplay.duration = duration;
+      config.autoPlay.duration = duration;
       config.activeIndexes = [...carousel.activeIndexes];
 
       carousel.initialize(config);
@@ -170,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document
     .getElementById('carousel-stops-on-user-interaction')
     .addEventListener('change', (event) => {
-      config.autoplay.stopsOnUserInteraction = event.target.value === 'true';
+      config.autoPlay.stopsOnUserInteraction = event.target.value === 'true';
       config.activeIndexes = [...carousel.activeIndexes];
 
       carousel.initialize(config);

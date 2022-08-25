@@ -1,23 +1,28 @@
-
 import { ActiveList } from './ActiveList';
 import { ActiveListContent } from './ActiveListContent';
-import { ActiveListAutoplayDurationError } from './errors/ActiveListAutoplayDurationError';
-import { ActiveListAutoplayConfig, ActiveListActivationOptions } from './types';
+import { ActiveListAutoPlayDurationError } from './errors/ActiveListAutoPlayDurationError';
+import {
+  ActiveListAutoPlayConfig,
+  ActiveListActivationOptions,
+  ActiveListAutoPlayPlayingEvent,
+  ActiveListAutoPlayPausedEvent,
+  ActiveListAutoPlayStoppedEvent,
+} from './types';
 
-// Autoplay is a PRIVATE class, it should not be exposed directly.
-export class Autoplay<T> {
+// AutoPlay is a PRIVATE class, it should not be exposed directly.
+export class _AutoPlay<T> {
   /*
     The timeoutId given back by calling window.setTimeout for when 
-    autoplay is enabled. Is kept here so it can be cleared via
+    autoPlay is enabled. Is kept here so it can be cleared via
     window.clearTimeout.
   */
-  private _autoplayTimeoutId: number | null = null;
+  private _autoPlayTimeoutId: number | null = null;
 
   /*
-    The date on which the autoplay started, used to calculate
+    The date on which the autoPlay started, used to calculate
     what the duration should be after a pause is resumed.
   */
-  private _autoplayStarted: Date = new Date();
+  private _autoPlayStarted: Date = new Date();
 
   /*
     The date on which the pause started, used to calculate
@@ -29,12 +34,12 @@ export class Autoplay<T> {
     The current duration time of the current active content, used to calculate
     what the duration should be after a pause is resumed.
   */
-  private _autoplayCurrentDuration: number = 0;
+  private _autoPlayCurrentDuration: number = 0;
 
   /**
-   * Contains the configuration of the autoplay.
+   * Contains the configuration of the autoPlay.
    */
-  private _config?: ActiveListAutoplayConfig<T> | null = null;
+  private _config?: ActiveListAutoPlayConfig<T> | null = null;
 
   /**
    * Reference to the active content is it a part of.
@@ -43,32 +48,25 @@ export class Autoplay<T> {
 
   constructor(
     activeList: ActiveList<T>,
-    config: ActiveListAutoplayConfig<T> | null
+    config: ActiveListAutoPlayConfig<T> | null
   ) {
     this._activeList = activeList;
     this._config = config;
   }
 
-  public _setConfig(config: ActiveListAutoplayConfig<T> | null): void {
+  public _setConfig(config: ActiveListAutoPlayConfig<T> | null): void {
     this._config = config;
   }
 
-  public _isPlaying(): boolean {
-    return this._autoplayTimeoutId !== null;
-  }
-
-  public _play(): void {
+  public _play(inform: boolean): void {
     // Cancel timer to prevent multiple timeouts from being active.
     this._cancelTimer();
 
-    // Do not start playing if there is no config, and stop playing 
-    // when autoplay is false, when the content has become empty, 
-    // or when there is no more lastActivatedContent.
-    if (
-      !this._config ||
-      this._activeList.isEmpty() ||
-      this._activeList.lastActivatedContent === null
-    ) {
+    // Do not start playing if there is no config or when there is no
+    // more lastActivatedContent (in which case we cannot get a duration).
+    if (!this._config || this._activeList.lastActivatedContent === null) {
+      // There is no need to call stop here as this has already
+      // been done.
       return;
     }
 
@@ -78,53 +76,47 @@ export class Autoplay<T> {
     );
 
     if (duration <= 0) {
-      throw new ActiveListAutoplayDurationError();
+      throw new ActiveListAutoPlayDurationError();
     }
 
-    this._autoplayCurrentDuration = duration;
-    this._autoplayStarted = new Date();
+    this._autoPlayCurrentDuration = duration;
+  
+    // The `autoPlayDuration` should not be affected by a pause.
+    if (this._pauseStarted === null) {
+      this._activeList.autoPlay.duration = duration;
+    }
 
-    this._autoplayTimeoutId = window.setTimeout(() => {
-      // It could happen that during the "duration" the contents, or
-      // active is  now empty due to a removal / deactivation, in this
-      // case we simply want to do nothing.
-      if (
-        this._activeList.isEmpty() ||
-        this._activeList.lastActivatedContent === null
-      ) {
-        return;
-      }
+    this._autoPlayStarted = new Date();
 
+    this._autoPlayTimeoutId = window.setTimeout(() => {
       // Clear the timeout now that we have performed it. This way
       // the call to `cancelTimer` which is triggered by the following chain:
       // `next->activateByIndex->onActiveIndexChanged->play->cancelTimer`
       // does not need to call window.clearTimeout. This is just a
       // very minor performance boost. On other reason to do this
       // is that when debugging this code, it is slightly easier to
-      // follow due to the `_autoplayTimeoutId` getting cleaned up,
+      // follow due to the `_autoPlayTimeoutId` getting cleaned up,
       // otherwise it looks like the timeout is still in progress.
-      this._autoplayTimeoutId = null;
+      this._autoPlayTimeoutId = null;
 
       // Call next to actually trigger going to the next active content.
       this._activeList.activateNext({ isUserInteraction: false });
     }, duration);
+
+    this._activeList.autoPlay.isPlaying = true;
+
+    if (inform) {
+      const event: ActiveListAutoPlayPlayingEvent = {
+        type: 'AUTO_PLAY_PLAYING',
+        time: new Date(),
+      };
+
+      this._activeList._inform(event);
+    }
   }
 
   public _pause(): void {
-    /* 
-      A user can call pause multiple times, by accident, these 
-      subsequent calls should be ignored to prevent bugs:
-    
-      I (Maarten Hus) wrote a carousel example which paused when the 
-      users mouse entered the carousel. When moving the mouse over the
-      carousel whilst the duration had not passed, caused the 
-      "_pauseStarted" to move into the future. 
-
-      This could then in turn result in a negative duration, because
-      the _pauseStarted Date could become higher than the 
-      _autoplayStarted Date.
-    */
-    if (this._pauseStarted) {
+    if (!this._activeList.autoPlay.isPlaying) {
       return;
     }
 
@@ -133,29 +125,61 @@ export class Autoplay<T> {
     this._pauseStarted = new Date();
 
     this._cancelTimer();
+
+    this._activeList.autoPlay.isPlaying = false;
+
+    const event: ActiveListAutoPlayPausedEvent = {
+      type: 'AUTO_PLAY_PAUSED',
+      time: new Date(),
+    };
+
+    this._activeList._inform(event);
   }
 
   public _stop(): void {
+    // Allow for pause then stop, but not stop then stop.
+    if (!this._activeList.autoPlay.isPlaying && !this._pauseStarted) {
+      return;
+    }
+
     this._cancelTimer();
 
     this._pauseStarted = null;
+
+    this._activeList.autoPlay.isPlaying = false;
+    this._activeList.autoPlay.duration = 0;
+
+    const event: ActiveListAutoPlayStoppedEvent = {
+      type: 'AUTO_PLAY_STOPPED',
+      time: new Date(),
+    };
+
+    this._activeList._inform(event);
   }
 
   private _cancelTimer() {
-    if (this._autoplayTimeoutId !== null) {
-      window.clearTimeout(this._autoplayTimeoutId);
-      this._autoplayTimeoutId = null;
+    if (this._autoPlayTimeoutId !== null) {
+      window.clearTimeout(this._autoPlayTimeoutId);
+      this._autoPlayTimeoutId = null;
     }
   }
 
   public _onDeactivation(activationOptions: ActiveListActivationOptions<T>) {
-    // If there is no autoplay config do not bother.
+    // If there are no more lastActivatedContent stop, as we cannot
+    // get a duration in this case.
+    if (this._activeList.lastActivatedContent === null) {
+      this._stop();
+      return;
+    }
+
+    // If there is no autoPlay config do not bother.
     if (!this._config) {
       return;
     }
 
     if (this._shouldStopOnUserInteraction(activationOptions, this._config)) {
       this._stop();
+      return;
     }
   }
 
@@ -163,7 +187,7 @@ export class Autoplay<T> {
     index: number,
     activationOptions: ActiveListActivationOptions<T>
   ) {
-    // If there is no autoplay config do not bother.
+    // If there is no autoPlay config do not bother.
     if (!this._config) {
       return;
     }
@@ -174,20 +198,20 @@ export class Autoplay<T> {
       this._activeList.isCircular === false &&
       index === this._activeList.getLastIndex()
     ) {
-      // When the ActiveList is linear stop autoplay at the end.
+      // When the ActiveList is linear stop autoPlay at the end.
       this._stop();
     } else {
-      // Move the autoplay to the next "timer", needed because
+      // Move the autoPlay to the next "timer", needed because
       // each "item" can have a unique "duration" in which it
       // is active.
 
-      this._play();
+      this._play(false);
     }
   }
 
   private _shouldStopOnUserInteraction(
     activationOptions: ActiveListActivationOptions<T>,
-    config: ActiveListAutoplayConfig<T>
+    config: ActiveListAutoPlayConfig<T>
   ): boolean {
     // Stop when autoPlay.stopsOnUserInteraction is true and this
     // is a user interaction.
@@ -199,13 +223,13 @@ export class Autoplay<T> {
   }
 
   private _getDuration(
-    config: ActiveListAutoplayConfig<T>,
+    config: ActiveListAutoPlayConfig<T>,
     lastActivatedContent: ActiveListContent<T>
   ): number {
     if (this._pauseStarted) {
       return (
-        this._autoplayCurrentDuration -
-        (this._pauseStarted.getTime() - this._autoplayStarted.getTime())
+        this._autoPlayCurrentDuration -
+        (this._pauseStarted.getTime() - this._autoPlayStarted.getTime())
       );
     }
 
@@ -233,7 +257,7 @@ export class Autoplay<T> {
         So these are the options, for when `lastActivatedContent` is 
         `null`, regardless of the type of `duration`:
 
-        1. Stop the autoplay completely.
+        1. Stop the autoPlay completely.
 
         2. Activate the first item after a fallback duration, this 
            would be an extra config item.
@@ -243,15 +267,15 @@ export class Autoplay<T> {
 
         All seem reasonable, but there is one deciding factor: what
         happens when the user deactivates all items. When this happens
-        I think we should stop the autoplay. The reason is this: say
+        I think we should stop the autoPlay. The reason is this: say
         the end-user sees 1 active item, and he deactivates it, what
-        does the autoplay trigger, the start or the next item...
+        does the autoPlay trigger, the start or the next item...
 
         Both options would feel really strange, so the best thing is
         to simply stop.
 
         Now it is very important to document this behavior, that when
-        no items remain active, that the autoplay stops.
+        no items remain active, that the autoPlay stops.
       */
 
       return config.duration({

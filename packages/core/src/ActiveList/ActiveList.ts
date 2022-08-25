@@ -11,15 +11,15 @@
 import * as uiloosLicenseChecker from '../license/license';
 
 import { UnsubscribeFunction } from '../generic/types';
-import { Autoplay } from './Autoplay';
+import { _AutoPlay } from './AutoPlay';
 import { ActiveListContent } from './ActiveListContent';
-import { CooldownTimer } from './CooldownTimer';
+import { _CooldownTimer } from './CooldownTimer';
 import { ActiveListActivationLimitReachedError } from './errors/ActiveListActivationLimitReachedError';
 import { throwIndexOutOfBoundsError } from './errors/ActiveListIndexOutOfBoundsError';
 import { ActiveListItemNotFoundError } from './errors/ActiveListItemNotFoundError';
 import {
   ActiveListActivationOptions,
-  ActiveListAutoplayConfig,
+  ActiveListAutoPlayConfig,
   ActiveListConfig,
   ActiveListDirection,
   ActiveListEvent,
@@ -39,6 +39,7 @@ import {
   ActiveListActivatedMultipleEvent,
   ActiveListPredicateMode,
   ActiveListPredicateOptions,
+  ActiveListAutoPlay,
 } from './types';
 import { _History } from '../private/History';
 import { _Observer } from '../private/Observer';
@@ -53,7 +54,7 @@ import { _Observer } from '../private/Observer';
  *  1. A tabs component for which one tab can be active at a time.
  *
  *  2. A carrousel component: the user sees single slide, which will
- *     autoplay to the next slide automatically.
+ *     autoPlay to the next slide automatically.
  *
  *  3. A dropdown menu with one active menu item.
  *
@@ -208,7 +209,7 @@ export class ActiveList<T> {
   /**
    * Contains the history of the changes in the contents array.
    *
-   * Tracks ten types of changes:
+   * Tracks 13 types of changes:
    *
    *  1. INITIALIZED, fired when ActiveList is initialized
    *  2. INSERTED, fired when an item is added.
@@ -220,6 +221,9 @@ export class ActiveList<T> {
    *  8. DEACTIVATED_MULTIPLE, fired when multiple items are deactivated with a predicate.
    *  9. SWAPPED, fired when an item is swapped.
    *  10. MOVED, fired when an item is moved.
+   *  11. AUTO_PLAY_PLAYING, fire when play is called.
+   *  12. AUTO_PLAY_PAUSED, fired when pause is called.
+   *  13. AUTO_PLAY_STOPPED, fired when stop is called, or the autoPlay stops due to a condition.
    *
    * Goes only as far back as configured in the `Config` property
    * `keepHistoryFor`, to prevent an infinitely growing history.
@@ -239,7 +243,7 @@ export class ActiveList<T> {
    * history items do not store copies of the values.
    */
   public readonly history: ActiveListEvent<T>[] = this._history._events;
-  
+
   private _observer: _Observer<ActiveList<T>, ActiveListEvent<T>> =
     new _Observer();
 
@@ -254,14 +258,26 @@ export class ActiveList<T> {
   public hasActiveChangedAtLeastOnce: boolean = false;
 
   // The cooldown timer for activation
-  private _activationCooldownTimer!: CooldownTimer<T>;
+  private _activationCooldownTimer!: _CooldownTimer<T>;
 
-  // The autoplay instance for all autoplay related code.
+  // The AutoPlay instance for all autoPlay related code.
   // Note that it is undefined during initialization when
   // activateByIndex / deactivateByIndex is called.
   // But we lie about the type because otherwise there would
   // be to many checks.
-  private _autoplay!: Autoplay<T>;
+  private _autoPlay!: _AutoPlay<T>;
+
+  /**
+   * AutoPlay means that the ActiveList will move to the next content by
+   * itself after a duration.
+   *
+   * Contains wether or not the autoPlay is playing via `isPlaying` and
+   * the current duration via `duration`.
+   */
+  public autoPlay: ActiveListAutoPlay = {
+    isPlaying: false,
+    duration: 0,
+  };
 
   // Stores the current direction configuration
   private _directions!: ActiveListDirection;
@@ -320,7 +336,7 @@ export class ActiveList<T> {
    *
    * @param {ActiveListConfig<T>} config The new configuration which will override the old one
    *
-   * @throws {ActiveListAutoplayDurationError} autoplay duration must be a positive number when defined
+   * @throws {ActiveListAutoPlayDurationError} autoPlay duration must be a positive number when defined
    */
   public initialize(config: ActiveListConfig<T>): void {
     // Ignore changes for now, we will restore subscriber at the end
@@ -367,7 +383,7 @@ export class ActiveList<T> {
     // are going to activate the items with `isUserInteraction`
     // `false` below the cooldown will not have any effect during
     // initialization.
-    this._activationCooldownTimer = new CooldownTimer(this, config.cooldown);
+    this._activationCooldownTimer = new _CooldownTimer(this, config.cooldown);
 
     if (config.active !== undefined) {
       if (Array.isArray(config.active)) {
@@ -396,13 +412,13 @@ export class ActiveList<T> {
     this.hasActiveChangedAtLeastOnce = false;
     this.direction = this._directions.next;
 
-    // Begin the autoplay if it is configured
-    this._autoplay = new Autoplay(
+    // Begin the autoPlay if it is configured
+    this._autoPlay = new _AutoPlay(
       this,
-      config.autoplay ? config.autoplay : null
+      config.autoPlay ? config.autoPlay : null
     );
 
-    this.play();
+    this._autoPlay._play(false);
 
     // Now start sending out changes.
     this._isInitializing = false;
@@ -437,7 +453,7 @@ export class ActiveList<T> {
    * If the index does not exist an error will be thrown.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`.
+   * on `cooldown` and `autoPlay`.
    *
    * @param {number} index The index to activate
    * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
@@ -553,10 +569,10 @@ export class ActiveList<T> {
       }
     });
 
-    // During initialization the autoplay is still undefined. This
-    // means that we lie about the type of this._autoplay.
-    if (this._autoplay) {
-      this._autoplay.onActiveIndexChanged(index, activationOptions);
+    // During initialization the autoPlay is still undefined. This
+    // means that we lie about the type of this._autoPlay.
+    if (this._autoPlay) {
+      this._autoPlay.onActiveIndexChanged(index, activationOptions);
     }
 
     // Mark that the ActiveList has at least moved once.
@@ -574,7 +590,7 @@ export class ActiveList<T> {
    * throw an error.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`.
+   * on `cooldown` and `autoPlay`.
    *
    * @param {T} item The item to activate
    * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
@@ -601,7 +617,7 @@ export class ActiveList<T> {
    * subscribers, even if multiple items are activated.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`. When the cooldown is configured
+   * on `cooldown` and `autoPlay`. When the cooldown is configured
    * as a function, the last activated content will be the parameter
    * to the cooldown function.
    *
@@ -668,7 +684,7 @@ export class ActiveList<T> {
    * it will stay on the last position and do nothing.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`.
+   * on `cooldown` and `autoPlay`.
    *
    * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
    * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
@@ -700,7 +716,7 @@ export class ActiveList<T> {
    * it will stay on the first position and do nothing.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`.
+   * on `cooldown` and `autoPlay`.
    *
    * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
    * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
@@ -724,7 +740,7 @@ export class ActiveList<T> {
    * nothing will happen.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`.
+   * on `cooldown` and `autoPlay`.
    *
    * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
    * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
@@ -747,7 +763,7 @@ export class ActiveList<T> {
    * nothing will happen.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`.
+   * on `cooldown` and `autoPlay`.
    *
    * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
    * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
@@ -769,7 +785,7 @@ export class ActiveList<T> {
    * If the index does not exist an error will be thrown.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`.
+   * on `cooldown` and `autoPlay`.
    *
    * @param {number} index The index to deactivate
    * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
@@ -885,15 +901,15 @@ export class ActiveList<T> {
          A: Yes they should, because they are linked, like the 
             direction is linked as well.
 
-      5. autoplay: the idea of the autoplay is that you can 
+      5. autoPlay: the idea of the autoPlay is that you can 
         automatically "move" through the content. The poster boy being 
-        a carrousel. But what happens when autoplay is on and 
+        a carrousel. But what happens when autoPlay is on and 
         something is deactivated?
   
-        A: The autoplay should be cancelled when `isUserInteraction`
+        A: The autoPlay should be cancelled when `isUserInteraction`
            is `true`. The reason is the same as for the activation:
            because the end-user is interacting with the component,
-           the autoplay should stop.
+           the autoPlay should stop.
 
       6. cooldown: for animation purposes we can set an activation 
          cooldown. The idea is to allow an animation to finish before
@@ -960,14 +976,14 @@ export class ActiveList<T> {
     // Repair the next and previous
     this._repairContents();
 
-    // During initialization the autoplay is still undefined. This
-    // means that we lie about the type of this._autoplay.
-    if (this._autoplay) {
-      this._autoplay._onDeactivation(activationOptions);
-    }
-
     // Mark that the ActiveList has at least moved once.
     this.hasActiveChangedAtLeastOnce = true;
+
+    // During initialization the autoPlay is still undefined. This
+    // means that we lie about the type of this._autoPlay.
+    if (this._autoPlay) {
+      this._autoPlay._onDeactivation(activationOptions);
+    }
 
     return deactivatedContent;
   }
@@ -981,7 +997,7 @@ export class ActiveList<T> {
    * throw an error.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`.
+   * on `cooldown` and `autoPlay`.
    *
    * @param {T} item The item to deactivate
    * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
@@ -1007,7 +1023,7 @@ export class ActiveList<T> {
    * subscribers, even if multiple items are deactivated.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`. When the cooldown is configured
+   * on `cooldown` and `autoPlay`. When the cooldown is configured
    * as a function, the last deactivated content will be the parameter
    * to the cooldown function.
    *
@@ -1069,7 +1085,7 @@ export class ActiveList<T> {
    * If the index does not exist an error will be thrown.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`.
+   * on `cooldown` and `autoPlay`.
    *
    * @param {number} index The index to activate
    * @param {ActiveListActivationOptions<T>} [activationOptions] The activation options
@@ -1103,7 +1119,7 @@ export class ActiveList<T> {
    * throw an error.
    *
    * With the `activationOptions` you can determine the effects
-   * on `cooldown` and `autoplay`.
+   * on `cooldown` and `autoPlay`.
    *
    * @param {T} item The item to toggle
    * @param {ActiveListActivationOptions<T>} ActiveListActivationOptions The activation options
@@ -1119,55 +1135,46 @@ export class ActiveList<T> {
   }
 
   /**
-   * Whether or not the ActiveList is playing.
-   *
-   * @returns {boolean} Whether or not the ActiveList is playing.
-   */
-  public isPlaying(): boolean {
-    return this._autoplay._isPlaying();
-  }
-
-  /**
    * Will start playing the ActiveList based on the active
-   * autoplayConfig. When `autoplayConfig` is not defined nothing
+   * autoPlayConfig. When `autoPlayConfig` is not defined nothing
    * will happen when calling play.
    *
    * When there is no more content the playing will stop automatically.
    *
-   * Note: autoplay will only start when one or more contents are
+   * Note: autoPlay will only start when one or more contents are
    * currently active. The reason for this is that the `duration`, is
    * based on the `ActiveList` `lastActivatedContent` property.
-   * Whenever there are no more items to activate the autoplay will
+   * Whenever there are no more items to activate the autoPlay will
    * stop.
    *
-   * @throws {ActiveListAutoplayDurationError} autoplay duration must be a positive number when defined
+   * @throws {ActiveListAutoPlayDurationError} autoPlay duration must be a positive number when defined
    */
   public play(): void {
-    this._autoplay._play();
+    this._autoPlay._play(true);
   }
 
   /**
-   * When the ActiveList is playing it will pause the autoplay.
+   * When the ActiveList is playing it will pause the autoPlay.
    *
-   * When paused, the current autoplay duration is remember and resumed
+   * When paused, the current autoPlay duration is remember and resumed
    * from that position, when `play` is called again.
    *
    * For example: when the duration is 1 second and the `pause` is
    * called after 0.8 seconds, it will after `play` is called, take
    * 0.2 seconds to go to the next content.
    *
-   * Note: if the autoplay is already paused calling `pause` again
+   * Note: if the autoPlay is already paused calling `pause` again
    * will do nothing, the time used for the remaining duration is
    * based on the first pause.
    */
   public pause(): void {
-    this._autoplay._pause();
+    this._autoPlay._pause();
   }
 
   /**
-   * When the ActiveList is playing it will stop the autoplay.
+   * When the ActiveList is playing it will stop the autoPlay.
    *
-   * By calling `play` again it is possible to restart the autoplay.
+   * By calling `play` again it is possible to restart the autoPlay.
    * However the duration will behave in this scenario as it if was
    * reset.
    *
@@ -1176,24 +1183,30 @@ export class ActiveList<T> {
    * 1 second to go to the next content.
    */
   public stop(): void {
-    this._autoplay._stop();
+    this._autoPlay._stop();
   }
 
   /**
-   * Configures the autoplay, when the autoplay is `null` the autoplay
+   * Configures the autoPlay, when the autoPlay is `null` the autoPlay
    * is stopped.
    *
-   * Can be used to reconfigure the speed of the autoplay after the
+   * Can be used to reconfigure the speed of the autoPlay after the
    * ActiveList has been created.
    *
-   * @param {ActiveListAutoplayConfig<T> | null} autoplayConfig The new autoplay configuration
-   * @throws {ActiveListAutoplayDurationError} autoplay duration must be a positive number when defined
+   * @param {ActiveListAutoPlayConfig<T> | null} autoPlayConfig The new autoPlay configuration
+   * @throws {ActiveListAutoPlayDurationError} autoPlay duration must be a positive number when defined
    */
-  public configureAutoplay(
-    autoplayConfig: ActiveListAutoplayConfig<T> | null
+  public configureAutoPlay(
+    autoPlayConfig: ActiveListAutoPlayConfig<T> | null
   ): void {
-    this._autoplay._setConfig(autoplayConfig);
-    this.play();
+    this._autoPlay._setConfig(autoPlayConfig);
+
+    if (autoPlayConfig) {
+      this._autoPlay._play(true);
+    } else {
+      // Stop autoPlay when the config is not set.
+      this._autoPlay._stop();
+    }
   }
 
   /**
@@ -1341,6 +1354,9 @@ export class ActiveList<T> {
 
     if (this.isEmpty()) {
       this._becameEmpty();
+
+      // Stop autoPlay when there are no more items
+      this._autoPlay._stop();
     } else {
       this._setLastActives();
     }
@@ -1493,6 +1509,9 @@ export class ActiveList<T> {
     // Check if the active index was removed
     if (this.isEmpty()) {
       this._becameEmpty();
+
+      // Stop autoPlay when there are no more items
+      this._autoPlay._stop();
     } else {
       removedIndexes.forEach((index) => {
         const indexOfIndex = this.activeIndexes.indexOf(index);
@@ -1919,8 +1938,6 @@ export class ActiveList<T> {
 
     // Lets fix the activeIndexes now.
     this.activeIndexes.forEach((index, aiIndex) => {
-
-
       // If the index is the `from`, we know already where he goes `to`
       if (index === from) {
         this.activeIndexes[aiIndex] = to;
@@ -1938,7 +1955,7 @@ export class ActiveList<T> {
       // needs to happen because it is not affected.
       if (index < from && index < to) {
         this.activeIndexes[aiIndex] = index;
-        return
+        return;
       }
 
       // If the `from` is larger than the `to` a move to the left is
@@ -2342,7 +2359,7 @@ export class ActiveList<T> {
     this._emptyLastActives();
 
     this.activeContents.length = 0;
-    this.activeIndexes.length = 0
+    this.activeIndexes.length = 0;
     this.active.length = 0;
 
     // When becoming empty we will reset hasActiveChangedAtLeastOnce
@@ -2397,7 +2414,7 @@ export class ActiveList<T> {
     return null;
   }
 
-  private _inform(event: ActiveListEvent<T>): void {
+  public _inform(event: ActiveListEvent<T>): void {
     if (this._isInitializing) {
       return;
     }

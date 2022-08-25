@@ -11,7 +11,7 @@ export type ActiveListConfig<T> = {
    *
    * Note: the `ActiveList` will wrap each item in the `contents` array
    * inside of a `ActiveListContent` item.
-   * 
+   *
    * Defaults to `[]` meaning there is no content.
    */
   contents?: T[];
@@ -81,23 +81,23 @@ export type ActiveListConfig<T> = {
   isCircular?: boolean;
 
   /**
-   * Whether or not `autoplay` is enabled. When `autoplay` is enabled
+   * Whether or not `autoPlay` is enabled. When `autoPlay` is enabled
    * it will automatically move to the next content, based on the
    * `duration`.
    *
    * When `isCircular` is `true` content will move to the right
-   * indefinitely. When `isCircular` is `false` it will stop autoplay
+   * indefinitely. When `isCircular` is `false` it will stop autoPlay
    * at the end of the content.
    *
-   * Note: autoplay will only start when one or more contents are
+   * Note: autoPlay will only start when one or more contents are
    * currently active. The reason for this is that the `duration`, is
    * based on the `ActiveList` `lastActivatedContent` property.
-   * Whenever there are no more items to activate the autoplay will
+   * Whenever there are no more items to activate the autoPlay will
    * stop.
-   * 
-   * Defaults to no autoplay.
+   *
+   * Defaults to no autoPlay.
    */
-  autoplay?: ActiveListAutoplayConfig<T>;
+  autoPlay?: ActiveListAutoPlayConfig<T>;
 
   /**
    * Describes which strings should be associated with what
@@ -137,7 +137,7 @@ export type ActiveListConfig<T> = {
    * precedence over this more global cooldown.
    *
    * IMPORTANT: `cooldown` is only ran when `isUserInteraction` within
-   * the `ActiveListActivationOptions` is `true`. This means that `autoplay`, which
+   * the `ActiveListActivationOptions` is `true`. This means that `autoPlay`, which
    * is not a user interaction, ignores the `cooldown`.
    */
   cooldown?: ActiveListCooldownConfig<T>;
@@ -158,8 +158,8 @@ export type ActiveListMaxActivationLimitBehavior =
 export type ActiveListActivationOptions<T> = {
   /**
    * Whether or not the action was taken by a user / human.
-   * This affects the `autoplay` when `stopsOnUserInteraction`
-   * is `true`, the `autoplay` stops, when `false` the autoplay
+   * This affects the `autoPlay` when `stopsOnUserInteraction`
+   * is `true`, the `autoPlay` stops, when `false` the autoPlay
    * is debounced.
    *
    * Also affects the `cooldown` when `isUserInteraction`
@@ -187,7 +187,7 @@ export type ActiveListActivationOptions<T> = {
    * precedence over the `cooldown` in the `Config`.
    *
    * IMPORTANT: `cooldown` is only ran when `isUserInteraction` within
-   * the `ActiveListActivationOptions` is `true`. This means that `autoplay`, which
+   * the `ActiveListActivationOptions` is `true`. This means that `autoPlay`, which
    * is not a user interaction, ignores the `cooldown`.
    */
   cooldown?: ActiveListCooldownConfig<T>;
@@ -240,16 +240,18 @@ export type ActiveListContentPredicateData<T> = {
  * @param {ActiveListContentPredicateData<T>} data The data for which this predicate will determine if the action needs to be performed.
  * @returns {boolean} Whether or not to perform the action associated with the predicate based on the given item and index.
  */
-export type ActiveListContentPredicate<T> = (data: ActiveListContentPredicateData<T>) => boolean;
+export type ActiveListContentPredicate<T> = (
+  data: ActiveListContentPredicateData<T>
+) => boolean;
 
 /**
  * Represents a bundle of data which is given whenever the
- * AutoplayDurationCallbackData function must determine the number
+ * AutoPlayDurationCallbackData function must determine the number
  * of milliseconds the content should be active for.
  */
-export type ActiveListAutoplayDurationCallbackData<T> = {
+export type ActiveListAutoPlayDurationCallbackData<T> = {
   /**
-   * The value which is currently asking which autoplay duration it should have.
+   * The value which is currently asking which autoPlay duration it should have.
    */
   value: T;
 
@@ -270,40 +272,70 @@ export type ActiveListAutoplayDurationCallbackData<T> = {
 };
 
 /**
- * Represents a callback function which is given all relevant autoplay
+ * Represents a callback function which is given all relevant autoPlay
  * duration data, and expects to be given back the number of
- * milliseconds the content should be active before Autoplay moves on.
+ * milliseconds the content should be active before autoPlay moves on.
  *
- * @param {ActiveListAutoplayDurationCallbackData<T>} data An object containing all relevant duration data for which the callback function must determine the number of milliseconds the content is active for.
- * @returns {number} The time in milliseconds the content is active for the given AutoplayDurationCallbackData.
+ * @param {ActiveListAutoPlayDurationCallbackData<T>} data An object containing all relevant duration data for which the callback function must determine the number of milliseconds the content is active for.
+ * @returns {number} The time in milliseconds the content is active for the given AutoPlayDurationCallbackData.
  */
-export type ActiveListAutoplayDurationCallback<T> = (
-  config: ActiveListAutoplayDurationCallbackData<T>
+export type ActiveListAutoPlayDurationCallback<T> = (
+  config: ActiveListAutoPlayDurationCallbackData<T>
 ) => number;
 
 /**
- * Represents the configuration for Autoplay. Autoplay means
+ * Represents the configuration for AutoPlay. AutoPlay means
  * that the ActiveList will move to the next content by itself
  * after a duration.
  */
-export type ActiveListAutoplayConfig<T> = {
+export type ActiveListAutoPlayConfig<T> = {
   /**
    * The time in milliseconds the ActiveListContent should remain active, before
    * moving to the next ActiveListContent.
    */
-  duration: ActiveListAutoplayDurationCallback<T> | number;
+  duration: ActiveListAutoPlayDurationCallback<T> | number;
 
   /**
    * Whether or not the user interacting with the component should
-   * stop the autoplay.
-   * 
-   * When `true` any activation / deactivation method called on 
-   * the `ActiveList` will stop the autoplay. When `false` it will
-   * debounce the autoplay instead by the duration.
+   * stop the autoPlay.
+   *
+   * When `true` any activation / deactivation method called on
+   * the `ActiveList` will stop the autoPlay. When `false` it will
+   * debounce the autoPlay instead by the duration.
    *
    * Defaults to `false`.
    */
   stopsOnUserInteraction?: boolean;
+};
+
+/** 
+ * AutoPlay means that the ActiveList will move to the next content by 
+ * itself after a duration.
+ * 
+ * Contains wether or not the autoPlay is playing via `isPlaying` and
+ * the current duration via `duration`.
+ */
+export type ActiveListAutoPlay = {
+  /**
+   * Whether or not the ActiveList is playing. In other words whether
+   * or not the ActiveList is going to cycle through the content
+   * automatically.
+   */
+  isPlaying: boolean;
+
+  /**
+   * The amount of milliseconds the item should remain active before
+   * jumping to the next item.
+   *
+   * This duration is the duration for the current item which is
+   * playing. It is not affected by calling pause, meaning that
+   * when the duration is set to 200ms and you pause after 100ms,
+   * the duration will still be 200ms.
+   *
+   * When calling `stop`, or when `stop` is called when the autoPlay
+   * reaches the end, the duration will be set to zero.
+   */
+  duration: number;
 };
 
 /**
@@ -318,7 +350,9 @@ export type ActiveListAutoplayConfig<T> = {
  * 2. A number in milliseconds. When it is a number all items will
  *    have the same cooldown.
  */
-export type ActiveListCooldownConfig<T> = ActiveListCooldownDurationCallback<T> | number;
+export type ActiveListCooldownConfig<T> =
+  | ActiveListCooldownDurationCallback<T>
+  | number;
 
 /**
  * Represents a bundle of data which is given whenever the
@@ -352,11 +386,11 @@ export type ActiveListCooldownDurationCallbackData<T> = {
  * duration data, and expects to be given back the number of
  * milliseconds the content should be cooled down before it responds
  * to user interaction again.
- * 
+ *
  * WARNING: do not return a negative number or zero in this callback
  * as this results in a `ActiveListCooldownDurationError`. The action
  * will still occur however, this means that the ActiveList is invalid
- * when this happens. 
+ * when this happens.
  *
  * @param {ActiveListCooldownDurationCallbackData<T>} data An object containing all relevant cooldown data for which the callback function must determine the cooldown duration in number of milliseconds.
  * @returns {number} The time in milliseconds of the duration of the cooldown for the given CooldownCallbackData.
@@ -409,6 +443,9 @@ export type ActiveListEventType =
   | 'MOVED'
   | 'DEACTIVATED'
   | 'DEACTIVATED_MULTIPLE'
+  | 'AUTO_PLAY_PLAYING'
+  | 'AUTO_PLAY_PAUSED'
+  | 'AUTO_PLAY_STOPPED';
 
 /**
  * Represents an event which happened in the ActiveList. Based
@@ -437,7 +474,7 @@ export type ActiveListInitializedEvent<T> = ActiveListBaseEvent & {
 
   /**
    * The values which were active upon initialization.
-   * 
+   *
    * Note: there are the values at the time of the initialization, they might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
@@ -465,7 +502,7 @@ export type ActiveListInsertedEvent<T> = ActiveListBaseEvent & {
 
   /**
    * The value which was inserted.
-   * 
+   *
    * Note: this was the value at the time of insertion, it might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
@@ -493,7 +530,7 @@ export type ActiveListRemovedEvent<T> = ActiveListBaseEvent & {
 
   /**
    * The value which was removed.
-   * 
+   *
    * Note: this was the value at the time of removal, it might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
@@ -521,7 +558,7 @@ export type ActiveListRemovedMultipleEvent<T> = ActiveListBaseEvent & {
 
   /**
    * The values which were removed
-   * 
+   *
    * Note: there are the values at the time of removal, they might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
@@ -549,7 +586,7 @@ export type ActiveListActivatedEvent<T> = ActiveListBaseEvent & {
 
   /**
    * The value which was activated.
-   * 
+   *
    * Note: this was the value at the time of activation, it might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
@@ -567,10 +604,10 @@ export type ActiveListActivatedEvent<T> = ActiveListBaseEvent & {
 };
 
 /**
- * Represents multiple activations happening at the same time in an 
+ * Represents multiple activations happening at the same time in an
  * ActiveList.
  */
- export type ActiveListActivatedMultipleEvent<T> = ActiveListBaseEvent & {
+export type ActiveListActivatedMultipleEvent<T> = ActiveListBaseEvent & {
   /**
    * Which type occurred
    */
@@ -578,7 +615,7 @@ export type ActiveListActivatedEvent<T> = ActiveListBaseEvent & {
 
   /**
    * The values which were activated.
-   * 
+   *
    * Note: there are the values at the time of deactivation, they might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
@@ -606,7 +643,7 @@ export type ActiveListDeactivatedEvent<T> = ActiveListBaseEvent & {
 
   /**
    * The value which was deactivated.
-   * 
+   *
    * Note: this was the value at the time of deactivation, it might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
@@ -624,10 +661,10 @@ export type ActiveListDeactivatedEvent<T> = ActiveListBaseEvent & {
 };
 
 /**
- * Represents multiple deactivations happening at the same time in an 
+ * Represents multiple deactivations happening at the same time in an
  * ActiveList.
  */
- export type ActiveListDeactivatedMultipleEvent<T> = ActiveListBaseEvent & {
+export type ActiveListDeactivatedMultipleEvent<T> = ActiveListBaseEvent & {
   /**
    * Which type occurred
    */
@@ -635,7 +672,7 @@ export type ActiveListDeactivatedEvent<T> = ActiveListBaseEvent & {
 
   /**
    * The values which were deactivated.
-   * 
+   *
    * Note: there are the values at the time of deactivation, they might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
@@ -667,7 +704,7 @@ export type ActiveListSwappedEvent<T> = ActiveListBaseEvent & {
   value: {
     /**
      * The value of the first item which was swapped.
-     * 
+     *
      * Note: this was the value at the time of the swap, it might
      * no longer be accurate. Keep in mind that when the `value` is
      * an object or an array, they can still be mutated, because no
@@ -677,7 +714,7 @@ export type ActiveListSwappedEvent<T> = ActiveListBaseEvent & {
 
     /**
      * The value of the second item which was swapped.
-     * 
+     *
      *  Note: this was the value at the time of the swap, it might
      * no longer be accurate. Keep in mind that when the `value` is
      * an object or an array, they can still be mutated, because no
@@ -719,11 +756,11 @@ export type ActiveListMovedEvent<T> = ActiveListBaseEvent & {
 
   /**
    * The value which was moved.
-   * 
+   *
    * Note: this was the value at the time of the move, it might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
-    * copy is made.
+   * copy is made.
    */
   value: T;
 
@@ -754,8 +791,59 @@ export type ActiveListMovedEvent<T> = ActiveListBaseEvent & {
 };
 
 /**
+ * Represents an ActiveList autoPlay being restarted again when it was
+ * stopped or paused.
+ *
+ * Note: this event is not fired when a ActiveList is initialized
+ * even though this does start the autoPlay.
+ */
+export type ActiveListAutoPlayPlayingEvent = ActiveListBaseEvent & {
+  /**
+   * Which type occurred
+   */
+  type: 'AUTO_PLAY_PLAYING';
+};
+
+/**
+ * Represents an ActiveList autoPlay being paused.
+ */
+export type ActiveListAutoPlayPausedEvent = ActiveListBaseEvent & {
+  /**
+   * Which type occurred
+   */
+  type: 'AUTO_PLAY_PAUSED';
+};
+
+/**
+ * Represents an ActiveList autoPlay being stopped.
+ *
+ * Can be fired for four reasons:
+ *
+ * 1. The `stop` method on the `ActiveList` is called.
+ *
+ * 2. The autoPlay reached the last of the items, which can only
+ *    happen when `isCircular` is `false`.
+ *
+ * 3. When all content items are removed when the autoPlay is playing.
+ *    It will then stop automatically since there are no more items.
+ *
+ * 4. When no more items are left active, in this case the autoPlay
+ *    will stop as well.
+ *
+ * Note: due to reasons 3 and 4 this event can be fired right before
+ * a 'REMOVED', 'REMOVED_MULTIPLE', 'DEACTIVATED' and
+ * 'DEACTIVATED_MULTIPLE' event.
+ */
+export type ActiveListAutoPlayStoppedEvent = ActiveListBaseEvent & {
+  /**
+   * Which type occurred
+   */
+  type: 'AUTO_PLAY_STOPPED';
+};
+
+/**
  * A ActiveListEvent represents an event happened in the ActiveList.
- * For example the insertion, removal, or activation of a 
+ * For example the insertion, removal, or activation of a
  * ActiveListContent<T>.
  */
 export type ActiveListEvent<T> =
@@ -768,11 +856,14 @@ export type ActiveListEvent<T> =
   | ActiveListSwappedEvent<T>
   | ActiveListMovedEvent<T>
   | ActiveListDeactivatedEvent<T>
-  | ActiveListDeactivatedMultipleEvent<T>;
+  | ActiveListDeactivatedMultipleEvent<T>
+  | ActiveListAutoPlayPlayingEvent
+  | ActiveListAutoPlayPausedEvent
+  | ActiveListAutoPlayStoppedEvent;
 
 /**
- * Represents where the action needs to take place for when a 
- * predicate is provided. 
+ * Represents where the action needs to take place for when a
+ * predicate is provided.
  */
 export type ActiveListPredicateMode = 'at' | 'before' | 'after';
 
@@ -780,6 +871,5 @@ export type ActiveListPredicateMode = 'at' | 'before' | 'after';
  * Represents options for methods which require predicates.
  */
 export type ActiveListPredicateOptions = {
-  mode: ActiveListPredicateMode
-}
-
+  mode: ActiveListPredicateMode;
+};

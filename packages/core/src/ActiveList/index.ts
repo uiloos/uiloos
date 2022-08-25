@@ -1,7 +1,7 @@
 import { ActiveList } from './ActiveList';
 import { ActiveListContent } from './ActiveListContent';
 import { ActiveListActivationLimitReachedError } from './errors/ActiveListActivationLimitReachedError';
-import { ActiveListAutoplayDurationError } from './errors/ActiveListAutoplayDurationError';
+import { ActiveListAutoPlayDurationError } from './errors/ActiveListAutoPlayDurationError';
 import { ActiveListCooldownDurationError } from './errors/ActiveListCooldownDurationError';
 import { ActiveListIndexOutOfBoundsError } from './errors/ActiveListIndexOutOfBoundsError';
 import { ActiveListItemNotFoundError } from './errors/ActiveListItemNotFoundError';
@@ -12,7 +12,7 @@ export {
   ActiveList,
   ActiveListContent,
   ActiveListActivationLimitReachedError,
-  ActiveListAutoplayDurationError,
+  ActiveListAutoPlayDurationError,
   ActiveListCooldownDurationError,
   ActiveListIndexOutOfBoundsError,
   ActiveListItemNotFoundError

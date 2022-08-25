@@ -40,7 +40,7 @@ renderData:
         <a href="#cooldown" class="text-purple-600 underline">Cooldown</a>
       </li>
       <li class="ml-8">
-        <a href="#autoplay" class="text-purple-600 underline">Autoplay</a>
+        <a href="#autoplay" class="text-purple-600 underline">AutoPlay</a>
       </li>
       <li class="ml-8">
         <a href="#history" class="text-purple-600 underline">History</a>
@@ -212,9 +212,9 @@ renderData:
     </li>
 
     <li class="ml-8 mb-4">
-      <span class="high">isPlaying</span> a boolean telling if 
-      autoplay is currently enabled. See
-      <a href="/docs/active-list/concepts/#autoplay" class="underline">9. Autoplay</a> 
+      <span class="high">autoPlay</span> whether or not the 
+      AutoPlay is currently playing, and at what duration. See
+      <a href="/docs/active-list/concepts/#autoplay" class="underline">9. AutoPlay</a> 
       for more information.
     </li>
   </ol>
@@ -422,11 +422,11 @@ renderData:
   </p>
 
   <h2 id="autoplay" class="h2 mb-4">
-    <a href="#autoplay">9. Autoplay</a>
+    <a href="#autoplay">9. AutoPlay</a>
   </h2>
 
   <p>
-    An ActiveList can be put into <span class="high">autoplay</span> mode, 
+    An ActiveList can be put into <span class="high">AutoPlay</span> mode, 
     this means that it will move through the ActiveList by calling
     <span class="high">next()</span> at a
     <a href="/api/core/activelistautoplayconfig/" class="high underscore"
@@ -436,7 +436,7 @@ renderData:
   </p>
 
   <p>
-    The autoplay will automatically stop when the end of the contents
+    The AutoPlay will automatically stop when the end of the contents
     are reached, unless when the ActiveList has <span class="high">isCircular</span>
     set to <span class="high">true</span>, in this case it will
     restart from the first content. Allowing for an infinitely playing
@@ -477,11 +477,11 @@ renderData:
   </p>
 
   <p>
-    The autoplay can be configured to stop on any
+    The autoPlay can be configured to stop on any
     <bold>user interaction</bold> via the
     <a href="/api/core/activelistautoplayconfig/#stopsOnUserInteraction" class="high underscore">stopsOnUserInteraction</a> 
     configuration. When set to <span class="high">true</span> is will
-    stop the autoplay, when set to <span class="high">false</span> (the default)
+    stop the autoPlay, when set to <span class="high">false</span> (the default)
     it will debounce instead. Meaning that if the duration is set to 2000
     milliseconds, and the user presses "next" after 1999 milliseconds,
     that the next item will be active for 2000 milliseconds, and not
@@ -499,22 +499,22 @@ renderData:
   </p>
 
   <p>
-    Autoplay ignores any cooldown which might be active, as a cooldown is 
+    AutoPlay ignores any cooldown which might be active, as a cooldown is 
     not considered a <span class="high">isUserInteraction</span>. 
     Meaning that if you set a cooldown duration higher than the 
-    autoplay duration, the autoplay will still keep playing, and ignores
+    autoPlay duration, the autoPlay will still keep playing, and ignores
     the cooldown.
   </p>
 
   <p>
-    IMPORTANT: the autoplay cannot be started without at least one active
+    IMPORTANT: the autoPlay cannot be started without at least one active
     <span class="high">ActiveListContent</span>. This is because the 
-    autoplay activates the "next" content, without any current active
+    autoPlay activates the "next" content, without any current active
     items there is no next item.
   </p>
 
   <p>
-    NOTE: autoplay will stop oif all content is removed whilst the ActiveList is
+    NOTE: autoPlay will stop oif all content is removed whilst the ActiveList is
     playing.
   </p>
 

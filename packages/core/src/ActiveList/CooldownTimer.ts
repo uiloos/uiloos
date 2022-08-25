@@ -3,8 +3,8 @@ import { ActiveListContent } from './ActiveListContent';
 import { ActiveListCooldownDurationError } from './errors/ActiveListCooldownDurationError';
 import { ActiveListActivationOptions, ActiveListCooldownConfig } from './types';
 
-// CooldownTimer is a PRIVATE class, it should not be exposed directly.
-export class CooldownTimer<T> {
+// _CooldownTimer is a PRIVATE class, it should not be exposed directly.
+export class _CooldownTimer<T> {
   // The time in unix epoch the last activation occurred. Is used
   // to calculate the cooldown time.
   private _lastTime: number = Date.now();
