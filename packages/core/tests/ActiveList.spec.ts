@@ -79,6 +79,10 @@ describe('ActiveList', () => {
           isPlaying: false,
           duration: 0,
         },
+        cooldown: {
+          isActive: false,
+          duration: 0
+        },
         contents: [],
       });
 
@@ -112,6 +116,10 @@ describe('ActiveList', () => {
         autoPlay: {
           isPlaying: false,
           duration: 0,
+        },
+        cooldown: {
+          isActive: false,
+          duration: 0
         },
         contents: [
           {
@@ -192,6 +200,10 @@ describe('ActiveList', () => {
           isPlaying: false,
           duration: 0,
         },
+        cooldown: {
+          isActive: false,
+          duration: 0
+        },
         contents: [],
       });
 
@@ -227,6 +239,10 @@ describe('ActiveList', () => {
         autoPlay: {
           isPlaying: false,
           duration: 0,
+        },
+        cooldown: {
+          isActive: false,
+          duration: 0
         },
         contents: [
           {
@@ -294,6 +310,10 @@ describe('ActiveList', () => {
           isPlaying: false,
           duration: 0,
         },
+        cooldown: {
+          isActive: false,
+          duration: 0
+        },
         contents: [
           {
             isActive: true,
@@ -360,6 +380,10 @@ describe('ActiveList', () => {
           isPlaying: false,
           duration: 0,
         },
+        cooldown: {
+          isActive: false,
+          duration: 0
+        },
         contents: [
           {
             isActive: true,
@@ -422,6 +446,10 @@ describe('ActiveList', () => {
         autoPlay: {
           isPlaying: false,
           duration: 0,
+        },
+        cooldown: {
+          isActive: false,
+          duration: 0
         },
         contents: [
           {
@@ -489,6 +517,10 @@ describe('ActiveList', () => {
           isPlaying: false,
           duration: 0,
         },
+        cooldown: {
+          isActive: false,
+          duration: 0
+        },
         contents: [
           {
             isActive: true,
@@ -555,6 +587,10 @@ describe('ActiveList', () => {
           isPlaying: false,
           duration: 0,
         },
+        cooldown: {
+          isActive: false,
+          duration: 0
+        },
         contents: [
           {
             isActive: true,
@@ -617,6 +653,10 @@ describe('ActiveList', () => {
         autoPlay: {
           isPlaying: false,
           duration: 0,
+        },
+        cooldown: {
+          isActive: false,
+          duration: 0
         },
         contents: [
           {
@@ -681,6 +721,10 @@ describe('ActiveList', () => {
           isPlaying: false,
           duration: 0,
         },
+        cooldown: {
+          isActive: false,
+          duration: 0
+        },
         contents: [],
       });
 
@@ -718,6 +762,10 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
               duration: 0,
             },
             contents: [
@@ -803,6 +851,10 @@ describe('ActiveList', () => {
               isPlaying: false,
               duration: 0,
             },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
             contents: [],
           },
           {
@@ -838,6 +890,10 @@ describe('ActiveList', () => {
           autoPlay: {
             isPlaying: false,
             duration: 0,
+          },
+          cooldown: {
+            isActive: false,
+            duration: 0
           },
           contents: [
             {
@@ -880,6 +936,10 @@ describe('ActiveList', () => {
           autoPlay: {
             isPlaying: false,
             duration: 0,
+          },
+          cooldown: {
+            isActive: false,
+            duration: 0
           },
           contents: [
             {
@@ -989,6 +1049,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1058,6 +1122,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1126,6 +1194,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: true,
                 contents: [
@@ -1203,6 +1275,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1272,6 +1348,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1340,6 +1420,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: true,
                 contents: [
@@ -1420,6 +1504,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: true,
                 contents: [
@@ -1525,6 +1613,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1628,6 +1720,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: true,
                 contents: [
@@ -1733,6 +1829,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1837,6 +1937,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1905,6 +2009,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -1967,6 +2075,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: false,
                 contents: [
@@ -2036,6 +2148,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: false,
                 contents: [
@@ -2110,6 +2226,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -2178,6 +2298,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: false,
                 contents: [
@@ -2263,6 +2387,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -2335,6 +2463,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: true,
                 contents: [
@@ -2416,6 +2548,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -2488,6 +2624,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: true,
                 contents: [
@@ -2573,6 +2713,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: true,
                 contents: [
@@ -2683,6 +2827,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -2791,6 +2939,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: true,
                 contents: [
@@ -2901,6 +3053,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -3009,6 +3165,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -3081,6 +3241,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -3149,6 +3313,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: false,
                 contents: [
@@ -3222,6 +3390,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: false,
                 contents: [
@@ -3302,6 +3474,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -3374,6 +3550,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: false,
                 contents: [
@@ -3499,6 +3679,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               isCircular: false,
               contents: [
                 {
@@ -3568,6 +3752,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               isCircular: false,
               contents: [
                 {
@@ -3636,6 +3824,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               isCircular: false,
               contents: [
@@ -3713,6 +3905,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               isCircular: false,
               contents: [
@@ -3807,6 +4003,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               isCircular: false,
               contents: [
                 {
@@ -3873,6 +4073,20 @@ describe('ActiveList', () => {
           activeList.activateByIndex(2);
           expect(subscriber).toHaveBeenCalledTimes(3);
         });
+      });
+
+      test('that it sets a cooldown', () => {
+        const { activeList, subscriber } = setup({
+          activeIndexes: 0,
+          cooldown: 1000,
+        });
+
+        activeList.activateByIndex(2);
+
+        expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
+
+        expect(subscriber).toHaveBeenCalledTimes(2);
+        assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
       });
     });
 
@@ -3952,9 +4166,13 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
-            autoPlay:{
-            isPlaying: false,
-            duration: 0,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
             },
             isCircular: false,
             contents: [
@@ -4057,9 +4275,13 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
-            autoPlay:{
-            isPlaying: false,
-            duration: 0,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
             },
             isCircular: false,
             contents: [
@@ -4159,9 +4381,13 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
-            autoPlay:{
-            isPlaying: false,
-            duration: 0,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
             },
             isCircular: false,
             contents: [
@@ -4222,6 +4448,38 @@ describe('ActiveList', () => {
             time: new Date(),
           }
         );
+      });
+
+      test('that it sets a cooldown', () => {
+        const { activeList, subscriber } = setup({
+          activeIndexes: 0,
+          cooldown: 1000,
+        });
+
+        activeList.activateByPredicate(() => true);
+
+        expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
+
+        expect(subscriber).toHaveBeenCalledTimes(2);
+        assertEvents(subscriber, ['ACTIVATED_MULTIPLE', 'COOLDOWN_STARTED']);
+      });
+
+      test('that when a cooldown is active that it early exists', () => {
+        const { activeList, subscriber } = setup({
+          activeIndexes: 0,
+          cooldown: 1000,
+        });
+
+        activeList.deactivateByIndex(0);
+
+        expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
+
+        expect(subscriber).toHaveBeenCalledTimes(2);
+        assertEvents(subscriber, ['DEACTIVATED', 'COOLDOWN_STARTED']);
+
+        activeList.activateByPredicate(() => true);
+
+        expect(subscriber).toHaveBeenCalledTimes(2);
       });
     });
 
@@ -4608,9 +4866,13 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
-            autoPlay:{
-            isPlaying: false,
-            duration: 0,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
             },
             isCircular: true,
             contents: [
@@ -4694,6 +4956,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -4773,6 +5039,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: true,
                 contents: [
@@ -4854,6 +5124,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -4933,6 +5207,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: true,
                 contents: [
@@ -5014,6 +5292,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: true,
                 contents: [
                   {
@@ -5093,6 +5375,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: true,
                 contents: [
@@ -5176,6 +5462,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -5255,6 +5545,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: false,
                 contents: [
@@ -5336,6 +5630,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -5415,6 +5713,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 isCircular: false,
                 contents: [
@@ -5496,6 +5798,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -5576,6 +5882,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 isCircular: false,
                 contents: [
                   {
@@ -5625,6 +5935,20 @@ describe('ActiveList', () => {
             );
           });
         });
+      });
+
+      test('that it sets a cooldown', () => {
+        const { activeList, subscriber } = setup({
+          activeIndexes: 0,
+          cooldown: 1000,
+        });
+
+        activeList.deactivateByIndex(0);
+
+        expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
+
+        expect(subscriber).toHaveBeenCalledTimes(2);
+        assertEvents(subscriber, ['DEACTIVATED', 'COOLDOWN_STARTED']);
       });
     });
 
@@ -5707,9 +6031,13 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
-            autoPlay:{
-            isPlaying: false,
-            duration: 0,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
             },
             isCircular: false,
             contents: [
@@ -5818,6 +6146,10 @@ describe('ActiveList', () => {
               isPlaying: false,
               duration: 0,
             },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
             isCircular: false,
             contents: [
               {
@@ -5877,6 +6209,38 @@ describe('ActiveList', () => {
             time: new Date(),
           }
         );
+      });
+
+      test('that it sets a cooldown', () => {
+        const { activeList, subscriber } = setup({
+          activeIndexes: 0,
+          cooldown: 1000,
+        });
+
+        activeList.deactivateByPredicate(() => true);
+
+        expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
+
+        expect(subscriber).toHaveBeenCalledTimes(2);
+        assertEvents(subscriber, ['DEACTIVATED_MULTIPLE', 'COOLDOWN_STARTED']);
+      });
+
+      test('that when a cooldown is active that it early exists', () => {
+        const { activeList, subscriber } = setup({
+          activeIndexes: 1,
+          cooldown: 1000,
+        });
+
+        activeList.activateByIndex(0);
+
+        expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
+
+        expect(subscriber).toHaveBeenCalledTimes(2);
+        assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
+
+        activeList.deactivateByPredicate(() => true);
+
+        expect(subscriber).toHaveBeenCalledTimes(2);
       });
     });
 
@@ -6118,6 +6482,10 @@ describe('ActiveList', () => {
             isPlaying: false,
             duration: 0,
           },
+          cooldown: {
+            isActive: false,
+            duration: 0
+          },
           contents: [
             {
               isActive: false,
@@ -6167,6 +6535,10 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
               duration: 0,
             },
             contents: [
@@ -6255,6 +6627,10 @@ describe('ActiveList', () => {
               isPlaying: false,
               duration: 0,
             },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: true,
@@ -6339,6 +6715,10 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
               duration: 0,
             },
             contents: [
@@ -6436,6 +6816,10 @@ describe('ActiveList', () => {
               isPlaying: false,
               duration: 0,
             },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: false,
@@ -6529,6 +6913,10 @@ describe('ActiveList', () => {
               isPlaying: false,
               duration: 0,
             },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: true,
@@ -6620,6 +7008,10 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
               duration: 0,
             },
             contents: [
@@ -6721,6 +7113,10 @@ describe('ActiveList', () => {
               isPlaying: false,
               duration: 0,
             },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: true,
@@ -6808,6 +7204,10 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
               duration: 0,
             },
             contents: [
@@ -6900,6 +7300,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: false,
@@ -6987,6 +7391,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -7079,6 +7487,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -7167,6 +7579,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -7299,9 +7715,13 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
-            autoPlay:{
-            isPlaying: false,
-            duration: 0,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
             },
             contents: [],
           },
@@ -7336,9 +7756,13 @@ describe('ActiveList', () => {
             maxActivationLimitBehavior: 'circular',
             history: [],
             hasActiveChangedAtLeastOnce: true,
-            autoPlay:{
-            isPlaying: false,
-            duration: 0,
+            autoPlay: {
+              isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
             },
             contents: [],
           },
@@ -7378,6 +7802,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -7443,6 +7871,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: true,
@@ -7506,6 +7938,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -7573,6 +8009,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: false,
@@ -7637,6 +8077,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: false,
@@ -7700,6 +8144,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -7771,6 +8219,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -7837,6 +8289,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -7905,6 +8361,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -7968,6 +8428,10 @@ describe('ActiveList', () => {
             isPlaying: false,
             duration: 0,
           },
+          cooldown: {
+            isActive: false,
+            duration: 0
+          },
           contents: [],
         });
 
@@ -7997,6 +8461,10 @@ describe('ActiveList', () => {
           autoPlay: {
             isPlaying: false,
             duration: 0,
+          },
+          cooldown: {
+            isActive: false,
+            duration: 0
           },
           contents: [],
         });
@@ -8059,6 +8527,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [],
             },
             {
@@ -8101,6 +8573,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -8168,6 +8644,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -8233,6 +8713,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -8302,6 +8786,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8368,6 +8856,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8433,6 +8925,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -8504,6 +9000,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -8562,6 +9062,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -8634,6 +9138,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8705,6 +9213,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -8790,6 +9302,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8874,6 +9390,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -8952,6 +9472,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -9008,6 +9532,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9061,6 +9589,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -9120,6 +9652,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -9192,6 +9728,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9263,6 +9803,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -9348,6 +9892,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9425,6 +9973,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -9511,6 +10063,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [],
             },
             {
@@ -9556,6 +10112,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -9626,6 +10186,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -9694,6 +10258,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -9769,6 +10337,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -9841,6 +10413,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -9912,6 +10488,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -9986,6 +10566,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -10042,6 +10626,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -10111,6 +10699,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -10193,6 +10785,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -10252,6 +10848,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: true,
@@ -10309,6 +10909,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -10365,6 +10969,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -10434,6 +11042,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -10506,6 +11118,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -10591,6 +11207,10 @@ describe('ActiveList', () => {
                     isPlaying: false,
                     duration: 0,
                   },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
+                  },
                   contents: [
                     {
                       isActive: false,
@@ -10671,6 +11291,10 @@ describe('ActiveList', () => {
                   autoPlay: {
                     isPlaying: false,
                     duration: 0,
+                  },
+                  cooldown: {
+                    isActive: false,
+                    duration: 0
                   },
                   contents: [
                     {
@@ -10855,6 +11479,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: false,
@@ -10936,6 +11564,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: false,
@@ -11016,6 +11648,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -11100,6 +11736,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -11198,6 +11838,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -11282,6 +11926,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -11365,6 +12013,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -11467,6 +12119,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -11562,6 +12218,10 @@ describe('ActiveList', () => {
             isPlaying: false,
             duration: 0,
           },
+          cooldown: {
+            isActive: false,
+            duration: 0
+          },
           contents: [
             {
               isActive: false,
@@ -11644,6 +12304,10 @@ describe('ActiveList', () => {
               isPlaying: false,
               duration: 0,
             },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: false,
@@ -11723,6 +12387,10 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
               duration: 0,
             },
             contents: [
@@ -11811,6 +12479,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: true,
@@ -11894,6 +12566,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -11993,6 +12669,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: true,
@@ -12077,6 +12757,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: false,
@@ -12160,6 +12844,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -12261,6 +12949,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: true,
@@ -12344,6 +13036,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -12431,6 +13127,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: false,
@@ -12515,6 +13215,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: true,
@@ -12598,6 +13302,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -12785,6 +13493,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: false,
@@ -12918,6 +13630,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -13053,6 +13769,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: false,
@@ -13186,6 +13906,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -13321,6 +14045,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: false,
@@ -13454,6 +14182,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -13589,6 +14321,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: false,
@@ -13722,6 +14458,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -13857,6 +14597,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: false,
@@ -13990,6 +14734,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -14125,6 +14873,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -14259,6 +15011,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: false,
@@ -14388,6 +15144,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -14495,6 +15255,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -14639,6 +15403,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -14781,6 +15549,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -14925,6 +15697,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -15067,6 +15843,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -15211,6 +15991,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -15353,6 +16137,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -15497,6 +16285,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -15639,6 +16431,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -15783,6 +16579,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -15925,6 +16725,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -16069,6 +16873,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -16212,6 +17020,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -16346,6 +17158,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -16438,6 +17254,10 @@ describe('ActiveList', () => {
             isPlaying: false,
             duration: 0,
           },
+          cooldown: {
+            isActive: false,
+            duration: 0
+          },
           contents: [
             {
               isActive: false,
@@ -16517,6 +17337,10 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
               duration: 0,
             },
             contents: [
@@ -16614,6 +17438,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: true,
@@ -16694,6 +17522,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -16777,6 +17609,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -16871,6 +17707,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: false,
@@ -16954,6 +17794,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: false,
@@ -17034,6 +17878,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -17166,6 +18014,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: true,
@@ -17249,6 +18101,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: true,
@@ -17329,6 +18185,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -17425,6 +18285,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: false,
@@ -17506,6 +18370,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: false,
@@ -17586,6 +18454,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -17682,6 +18554,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: true,
@@ -17763,6 +18639,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: true,
@@ -17843,6 +18723,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -17939,6 +18823,10 @@ describe('ActiveList', () => {
                   isPlaying: false,
                   duration: 0,
                 },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
+                },
                 contents: [
                   {
                     isActive: false,
@@ -18019,6 +18907,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -18102,6 +18994,10 @@ describe('ActiveList', () => {
                 autoPlay: {
                   isPlaying: false,
                   duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0
                 },
                 contents: [
                   {
@@ -18221,6 +19117,10 @@ describe('ActiveList', () => {
               isPlaying: false,
               duration: 0,
             },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: true,
@@ -18302,6 +19202,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -18414,6 +19318,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -18525,6 +19433,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -18634,6 +19546,10 @@ describe('ActiveList', () => {
               isPlaying: false,
               duration: 0,
             },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
             contents: [
               {
                 isActive: false,
@@ -18713,6 +19629,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -18794,6 +19714,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: true,
@@ -18873,6 +19797,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -18955,6 +19883,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: false,
@@ -19035,6 +19967,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: false,
@@ -19112,6 +20048,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -19193,6 +20133,10 @@ describe('ActiveList', () => {
                 isPlaying: false,
                 duration: 0,
               },
+              cooldown: {
+                isActive: false,
+                duration: 0
+              },
               contents: [
                 {
                   isActive: false,
@@ -19270,6 +20214,10 @@ describe('ActiveList', () => {
               autoPlay: {
                 isPlaying: false,
                 duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0
               },
               contents: [
                 {
@@ -19644,160 +20592,548 @@ describe('ActiveList', () => {
       });
     });
 
-    test('user interaction should stop the autoPlay when stopsOnUserInteraction is true on activation', () => {
-      jest.useFakeTimers();
-
-      const { activeList, subscriber } = setup({
-        autoPlay: { duration: 200, stopsOnUserInteraction: true },
-        isCircular: true,
-        activeIndexes: 0,
+    describe("stopsOnUserInteraction", () => {
+      test('stop the autoPlay when stopsOnUserInteraction is true on activation, and isUserInteraction is true', () => {
+        jest.useFakeTimers();
+  
+        const { activeList, subscriber } = setup({
+          autoPlay: { duration: 200, stopsOnUserInteraction: true },
+          isCircular: true,
+          activeIndexes: 0,
+        });
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
+  
+        activeList.activateNext({ isUserInteraction: true });
+  
+        expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED']);
+  
+        // Should have no effect
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED']);
       });
-
-      expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      expect(subscriber).toBeCalledTimes(0);
-
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      assertEvents(subscriber, ['ACTIVATED']);
-
-      activeList.activateNext({ isUserInteraction: true });
-
-      expect(activeList.active).toEqual(['c']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED']);
-
-      // Should have no effect
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual(['c']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED']);
+  
+      test('stop the autoPlay when stopsOnUserInteraction is true on activation, and isUserInteraction is undefined', () => {
+        jest.useFakeTimers();
+  
+        const { activeList, subscriber } = setup({
+          autoPlay: { duration: 200, stopsOnUserInteraction: true },
+          isCircular: true,
+          activeIndexes: 0,
+        });
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
+  
+        // The `undefined` should default to `true`.
+        activeList.activateNext({ isUserInteraction: undefined });
+  
+        expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED']);
+  
+        // Should have no effect
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED']);
+      });
+  
+      test('stop the autoPlay when stopsOnUserInteraction is true on activation, and isUserInteraction is undefined, via the cooldown', () => {
+        jest.useFakeTimers();
+  
+        const { activeList, subscriber } = setup({
+          autoPlay: { duration: 200, stopsOnUserInteraction: true },
+          isCircular: true,
+          activeIndexes: 0,
+        });
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
+  
+        // The `undefined` for isUserInteraction should default to `true`.
+        activeList.activateNext({ cooldown: 1000 });
+  
+        expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
+        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED', 'COOLDOWN_STARTED']);
+  
+        // Should have no effect
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED', 'COOLDOWN_STARTED']);
+        expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
+      });
+  
+      test('stop the autoPlay when stopsOnUserInteraction is true on deactivation, and isUserInteraction is true', () => {
+        jest.useFakeTimers();
+  
+        const { activeList, subscriber } = setup({
+          autoPlay: { duration: 200, stopsOnUserInteraction: true },
+          isCircular: true,
+          activeIndexes: 0,
+          maxActivationLimit: false,
+        });
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toHaveBeenCalledTimes(0);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['a', 'b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
+  
+        activeList.deactivateByIndex(1, { isUserInteraction: true });
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED',
+        ]);
+  
+        // Should have no effect
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED',
+        ]);
+      });
+  
+      test('stop the autoPlay when stopsOnUserInteraction is true on deactivation, and isUserInteraction is undefined', () => {
+        jest.useFakeTimers();
+  
+        const { activeList, subscriber } = setup({
+          autoPlay: { duration: 200, stopsOnUserInteraction: true },
+          isCircular: true,
+          activeIndexes: 0,
+          maxActivationLimit: false,
+        });
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toHaveBeenCalledTimes(0);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['a', 'b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
+  
+        // The `undefined` should default to `true`.
+        activeList.deactivateByIndex(1, { isUserInteraction: undefined });
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED',
+        ]);
+  
+        // Should have no effect
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED',
+        ]);
+      });
+  
+      test('stop the autoPlay when stopsOnUserInteraction is true on deactivation, and isUserInteraction is undefined, via the cooldown', () => {
+        jest.useFakeTimers();
+  
+        const { activeList, subscriber } = setup({
+          autoPlay: { duration: 200, stopsOnUserInteraction: true },
+          isCircular: true,
+          activeIndexes: 0,
+          maxActivationLimit: false,
+        });
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toHaveBeenCalledTimes(0);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['a', 'b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
+  
+        // The `undefined` for isUserInteraction should default to `true`.
+        activeList.deactivateByIndex(1, { cooldown: 1000 });
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED',
+          'COOLDOWN_STARTED'
+        ]);
+  
+        // Should have no effect
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED',
+          'COOLDOWN_STARTED'
+        ]);
+      });
+  
+      test('when user interacts it should debounce when stopsOnUserInteraction is false', () => {
+        jest.useFakeTimers();
+  
+        const { activeList, subscriber } = setup({
+          autoPlay: { duration: 200 },
+          isCircular: true,
+          activeIndexes: 0,
+        });
+  
+        // The active content should be 'a' at the start
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
+  
+        // After 200 milliseconds it should become 'b'
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
+  
+        // We move the timer to just before it skips and trigger
+        // a user action, it should move to 'c' but debounce the autoPlay
+        jest.advanceTimersByTime(199);
+  
+        activeList.activateNext({ isUserInteraction: true });
+  
+        expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
+  
+        // The autoPlay should now not trigger because it has been debounced
+        jest.advanceTimersByTime(1);
+  
+        expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
+  
+        // The autoPlay should still not have been triggered
+        jest.advanceTimersByTime(198);
+  
+        expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
+  
+        // The autoPlay now be triggered
+        jest.advanceTimersByTime(1);
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED', 'ACTIVATED']);
+  
+        // A double debounce should work as well
+        jest.advanceTimersByTime(199);
+        activeList.activateNext({ isUserInteraction: true });
+  
+        expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'ACTIVATED',
+          'ACTIVATED',
+          'ACTIVATED',
+        ]);
+  
+        // Trigger double debounce
+        jest.advanceTimersByTime(199);
+        activeList.activateNext({ isUserInteraction: true });
+  
+        expect(activeList.active).toEqual(['c']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'ACTIVATED',
+          'ACTIVATED',
+          'ACTIVATED',
+          'ACTIVATED',
+        ]);
+      });
     });
 
-    test('user interaction should stop the autoPlay when stopsOnUserInteraction is true on deactivation', () => {
-      jest.useFakeTimers();
-
-      const { activeList, subscriber } = setup({
-        autoPlay: { duration: 200, stopsOnUserInteraction: true },
-        isCircular: true,
-        activeIndexes: 0,
-        maxActivationLimit: false,
+    describe("automatically stops when", () => {
+      test('that autoPlay stops when the contents are cleared via remove', () => {
+        jest.useFakeTimers();
+  
+        const { activeList, subscriber } = setup({
+          autoPlay: {
+            duration: 200,
+            stopsOnUserInteraction: false,
+          },
+          isCircular: true,
+          activeIndexes: 0,
+        });
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
+  
+        // Now remove all content in between an duration's
+        activeList.remove('a');
+        activeList.remove('b');
+        activeList.remove('c');
+  
+        expect(activeList.active).toEqual([]);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'REMOVED',
+          'REMOVED',
+          'AUTO_PLAY_STOPPED',
+          'REMOVED',
+        ]);
+  
+        // Now check if after the duration the state.active stays [].
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual([]);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'REMOVED',
+          'REMOVED',
+          'AUTO_PLAY_STOPPED',
+          'REMOVED',
+        ]);
       });
-
-      expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      expect(subscriber).toHaveBeenCalledTimes(0);
-
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual(['a', 'b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      assertEvents(subscriber, ['ACTIVATED']);
-
-      activeList.deactivateByIndex(1, { isUserInteraction: true });
-
-      expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'AUTO_PLAY_STOPPED',
-        'DEACTIVATED',
-      ]);
-
-      // Should have no effect
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'AUTO_PLAY_STOPPED',
-        'DEACTIVATED',
-      ]);
-    });
-
-    test('when user interacts it should debounce when stopsOnUserInteraction is false', () => {
-      jest.useFakeTimers();
-
-      const { activeList, subscriber } = setup({
-        autoPlay: { duration: 200 },
-        isCircular: true,
-        activeIndexes: 0,
+  
+      test('that autoPlay stops when the contents are cleared via removeByPredicate', () => {
+        jest.useFakeTimers();
+  
+        const { activeList, subscriber } = setup({
+          autoPlay: {
+            duration: 200,
+            stopsOnUserInteraction: false,
+          },
+          isCircular: true,
+          activeIndexes: 0,
+        });
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
+  
+        // Now remove all content in between the duration
+        activeList.removeByPredicate(() => true);
+  
+        expect(activeList.active).toEqual([]);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'REMOVED_MULTIPLE',
+        ]);
+  
+        // Now check if after the duration the state.active stays [].
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual([]);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'REMOVED_MULTIPLE',
+        ]);
       });
-
-      // The active content should be 'a' at the start
-      expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      expect(subscriber).toBeCalledTimes(0);
-
-      // After 200 milliseconds it should become 'b'
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      assertEvents(subscriber, ['ACTIVATED']);
-
-      // We move the timer to just before it skips and trigger
-      // a user action, it should move to 'c' but debounce the autoPlay
-      jest.advanceTimersByTime(199);
-
-      activeList.activateNext({ isUserInteraction: true });
-
-      expect(activeList.active).toEqual(['c']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
-
-      // The autoPlay should now not trigger because it has been debounced
-      jest.advanceTimersByTime(1);
-
-      expect(activeList.active).toEqual(['c']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
-
-      // The autoPlay should still not have been triggered
-      jest.advanceTimersByTime(198);
-
-      expect(activeList.active).toEqual(['c']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
-
-      // The autoPlay now be triggered
-      jest.advanceTimersByTime(1);
-
-      expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED', 'ACTIVATED']);
-
-      // A double debounce should work as well
-      jest.advanceTimersByTime(199);
-      activeList.activateNext({ isUserInteraction: true });
-
-      expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'ACTIVATED',
-        'ACTIVATED',
-        'ACTIVATED',
-      ]);
-
-      // Trigger double debounce
-      jest.advanceTimersByTime(199);
-      activeList.activateNext({ isUserInteraction: true });
-
-      expect(activeList.active).toEqual(['c']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'ACTIVATED',
-        'ACTIVATED',
-        'ACTIVATED',
-        'ACTIVATED',
-      ]);
-    });
+  
+      test('that autoPlay stops when there is no more active content via deactivateByIndex', () => {
+        jest.useFakeTimers();
+  
+        const { activeList, subscriber } = setup({
+          active: ['a'],
+          maxActivationLimit: 1,
+          autoPlay: { duration: 200 },
+          isCircular: false,
+        });
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
+  
+        // Now deactivate all content
+        activeList.deactivateByIndex(1);
+  
+        expect(activeList.active).toEqual([]);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED',
+        ]);
+  
+        // Nothing should become active no matter what
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual([]);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED',
+        ]);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual([]);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED',
+        ]);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual([]);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED',
+        ]);
+      });
+  
+      test('that autoPlay stops when there is no more active content via deactivateByPredicate', () => {
+        jest.useFakeTimers();
+  
+        const { activeList, subscriber } = setup({
+          active: ['a'],
+          maxActivationLimit: 1,
+          autoPlay: { duration: 200 },
+          isCircular: false,
+        });
+  
+        expect(activeList.active).toEqual(['a']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(subscriber).toBeCalledTimes(0);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual(['b']);
+        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        assertEvents(subscriber, ['ACTIVATED']);
+  
+        // Now deactivate all content
+        activeList.deactivateByPredicate(() => true);
+  
+        expect(activeList.active).toEqual([]);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        // Once for 'b', Once for deactivate, once for stop
+        expect(subscriber).toBeCalledTimes(3);
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED_MULTIPLE',
+        ]);
+  
+        // Nothing should become active no matter what
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual([]);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED_MULTIPLE',
+        ]);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual([]);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED_MULTIPLE',
+        ]);
+  
+        jest.advanceTimersByTime(200);
+  
+        expect(activeList.active).toEqual([]);
+        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'DEACTIVATED_MULTIPLE',
+        ]);
+      });
+    })
 
     test('that the duration can be a function instead of just a number', () => {
       jest.useFakeTimers();
@@ -19843,231 +21179,7 @@ describe('ActiveList', () => {
       expect(activeList.active).toEqual(['a']);
       expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 100 });
       assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED', 'ACTIVATED']);
-    });
-
-    test('that autoPlay stops when the contents are cleared via remove', () => {
-      jest.useFakeTimers();
-
-      const { activeList, subscriber } = setup({
-        autoPlay: {
-          duration: 200,
-          stopsOnUserInteraction: false,
-        },
-        isCircular: true,
-        activeIndexes: 0,
-      });
-
-      expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      expect(subscriber).toBeCalledTimes(0);
-
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      assertEvents(subscriber, ['ACTIVATED']);
-
-      // Now remove all content in between an duration's
-      activeList.remove('a');
-      activeList.remove('b');
-      activeList.remove('c');
-
-      expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'REMOVED',
-        'REMOVED',
-        'AUTO_PLAY_STOPPED',
-        'REMOVED',
-      ]);
-
-      // Now check if after the duration the state.active stays [].
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'REMOVED',
-        'REMOVED',
-        'AUTO_PLAY_STOPPED',
-        'REMOVED',
-      ]);
-    });
-
-    test('that autoPlay stops when the contents are cleared via removeByPredicate', () => {
-      jest.useFakeTimers();
-
-      const { activeList, subscriber } = setup({
-        autoPlay: {
-          duration: 200,
-          stopsOnUserInteraction: false,
-        },
-        isCircular: true,
-        activeIndexes: 0,
-      });
-
-      expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      expect(subscriber).toBeCalledTimes(0);
-
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      assertEvents(subscriber, ['ACTIVATED']);
-
-      // Now remove all content in between the duration
-      activeList.removeByPredicate(() => true);
-
-      expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'AUTO_PLAY_STOPPED',
-        'REMOVED_MULTIPLE',
-      ]);
-
-      // Now check if after the duration the state.active stays [].
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'AUTO_PLAY_STOPPED',
-        'REMOVED_MULTIPLE',
-      ]);
-    });
-
-    test('that autoPlay stops when there is no more active content via deactivateByIndex', () => {
-      jest.useFakeTimers();
-
-      const { activeList, subscriber } = setup({
-        active: ['a'],
-        maxActivationLimit: 1,
-        autoPlay: { duration: 200 },
-        isCircular: false,
-      });
-
-      expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      expect(subscriber).toBeCalledTimes(0);
-
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      assertEvents(subscriber, ['ACTIVATED']);
-
-      // Now deactivate all content
-      activeList.deactivateByIndex(1);
-
-      expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'AUTO_PLAY_STOPPED',
-        'DEACTIVATED',
-      ]);
-
-      // Nothing should become active no matter what
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'AUTO_PLAY_STOPPED',
-        'DEACTIVATED',
-      ]);
-
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'AUTO_PLAY_STOPPED',
-        'DEACTIVATED',
-      ]);
-
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'AUTO_PLAY_STOPPED',
-        'DEACTIVATED',
-      ]);
-    });
-
-    test('that autoPlay stops when there is no more active content via deactivateByPredicate', () => {
-      jest.useFakeTimers();
-
-      const { activeList, subscriber } = setup({
-        active: ['a'],
-        maxActivationLimit: 1,
-        autoPlay: { duration: 200 },
-        isCircular: false,
-      });
-
-      expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      expect(subscriber).toBeCalledTimes(0);
-
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
-      assertEvents(subscriber, ['ACTIVATED']);
-
-      // Now deactivate all content
-      activeList.deactivateByPredicate(() => true);
-
-      expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      // Once for 'b', Once for deactivate, once for stop
-      expect(subscriber).toBeCalledTimes(3);
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'AUTO_PLAY_STOPPED',
-        'DEACTIVATED_MULTIPLE',
-      ]);
-
-      // Nothing should become active no matter what
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'AUTO_PLAY_STOPPED',
-        'DEACTIVATED_MULTIPLE',
-      ]);
-
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'AUTO_PLAY_STOPPED',
-        'DEACTIVATED_MULTIPLE',
-      ]);
-
-      jest.advanceTimersByTime(200);
-
-      expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, [
-        'ACTIVATED',
-        'AUTO_PLAY_STOPPED',
-        'DEACTIVATED_MULTIPLE',
-      ]);
-    });
+    }); 
 
     test('that the autoPlay can be paused and continued', () => {
       jest.useFakeTimers();
@@ -20387,34 +21499,34 @@ describe('ActiveList', () => {
   });
 
   describe('cooldown', () => {
-    describe('cooldown errors on initialize', () => {
-      test('cannot be less than zero', () => {
-        expect(() => {
-          setup({ cooldown: -1, activeIndexes: 0 });
-        }).toThrowError(
-          'uiloos > ActiveList > cooldown > duration cannot be negative or zero'
-        );
+    describe('errors', () => {
+      describe('cooldown errors on initialize', () => {
+        test('cannot be less than zero', () => {
+          expect(() => {
+            setup({ cooldown: -1, activeIndexes: 0 });
+          }).toThrowError(
+            'uiloos > ActiveList > cooldown > duration cannot be negative or zero'
+          );
 
-        expect(() => {
-          setup({ cooldown: -1, activeIndexes: 0 });
-        }).toThrowError(ActiveListCooldownDurationError);
+          expect(() => {
+            setup({ cooldown: -1, activeIndexes: 0 });
+          }).toThrowError(ActiveListCooldownDurationError);
+        });
+
+        test('cannot be zero', () => {
+          expect(() => {
+            setup({ cooldown: 0, activeIndexes: 0 });
+          }).toThrowError(
+            'uiloos > ActiveList > cooldown > duration cannot be negative or zero'
+          );
+
+          expect(() => {
+            setup({ cooldown: 0, activeIndexes: 0 });
+          }).toThrowError(ActiveListCooldownDurationError);
+        });
       });
 
-      test('cannot be zero', () => {
-        expect(() => {
-          setup({ cooldown: 0, activeIndexes: 0 });
-        }).toThrowError(
-          'uiloos > ActiveList > cooldown > duration cannot be negative or zero'
-        );
-
-        expect(() => {
-          setup({ cooldown: 0, activeIndexes: 0 });
-        }).toThrowError(ActiveListCooldownDurationError);
-      });
-    });
-
-    describe('activation cooldown', () => {
-      describe('cooldown errors on activate', () => {
+      describe('cooldown errors on activateByIndex', () => {
         test('cannot be less than zero', () => {
           const { activeList } = setup({ cooldown: 600, activeIndexes: 0 });
 
@@ -20468,220 +21580,75 @@ describe('ActiveList', () => {
         });
       });
 
-      test('a cooldown is ignored when isUserInteraction is false', () => {
-        let epoch = 0;
-        Date.now = jest.fn(() => epoch);
+      describe('cooldown errors on activateByPredicate', () => {
+        test('cannot be less than zero', () => {
+          const { activeList } = setup({
+            cooldown: 600,
+            activeIndexes: [],
+            maxActivationLimit: 3,
+          });
 
-        const { activeList } = setup({
-          cooldown: 5000,
-          maxActivationLimit: false,
-          activeIndexes: [],
+          expect(() => {
+            activeList.activateByPredicate(() => true, {
+              isUserInteraction: true,
+              cooldown: -1,
+            });
+          }).toThrowError(
+            'uiloos > ActiveList > cooldown > duration cannot be negative or zero'
+          );
+
+          // It still has performed the action unfortunately, and the ActiveList is now invalid.
+          expect(activeList.activeIndexes).toEqual([0, 1, 2]);
+
+          // DeAtivate one so something can be deactivated
+          activeList.deactivateByIndex(0, { isUserInteraction: false });
+
+          expect(() => {
+            activeList.activateByPredicate(() => true, {
+              isUserInteraction: true,
+              cooldown: -1,
+            });
+          }).toThrowError(ActiveListCooldownDurationError);
+
+          // It still has performed the action unfortunately, and the ActiveList is now invalid.
+          expect(activeList.activeIndexes).toEqual([1, 2, 0]);
         });
-        expect(activeList.active).toEqual([]);
 
-        // Set the cooldown by calling activateByIndex
-        activeList.activateByIndex(0);
-        expect(activeList.active).toEqual(['a']);
+        test('cannot be zero', () => {
+          const { activeList } = setup({
+            cooldown: 600,
+            activeIndexes: [],
+            maxActivationLimit: 3,
+          });
 
-        // This call should ignore it the cooldown due to isUserInteraction being false.
-        activeList.activateByIndex(1, { isUserInteraction: false });
-        expect(activeList.active).toEqual(['a', 'b']);
+          expect(() => {
+            activeList.activateByPredicate(() => true, {
+              isUserInteraction: true,
+              cooldown: 0,
+            });
+          }).toThrowError(
+            'uiloos > ActiveList > cooldown > duration cannot be negative or zero'
+          );
 
-        // This call should ignore it the cooldown due to isUserInteraction being false.
-        activeList.deactivateByIndex(0, { isUserInteraction: false });
-        expect(activeList.active).toEqual(['b']);
+          // It still has performed the action unfortunately, and the ActiveList is now invalid.
+          expect(activeList.activeIndexes).toEqual([0, 1, 2]);
 
-        // This call should ignore it the cooldown due to isUserInteraction being false.
-        activeList.activateByIndex(2, { isUserInteraction: false });
-        expect(activeList.active).toEqual(['b', 'c']);
+          // Deactivate one so something can be deactivated
+          activeList.deactivateByIndex(0, { isUserInteraction: false });
+
+          expect(() => {
+            activeList.activateByPredicate(() => true, {
+              isUserInteraction: true,
+              cooldown: 0,
+            });
+          }).toThrowError(ActiveListCooldownDurationError);
+
+          // It still has performed the action unfortunately, and the ActiveList is now invalid.
+          expect(activeList.activeIndexes).toEqual([1, 2, 0]);
+        });
       });
 
-      test('a cooldown from the config', () => {
-        let epoch = 0;
-        Date.now = jest.fn(() => epoch);
-
-        const { activeList } = setup({ cooldown: 5000, activeIndexes: [] });
-        expect(activeList.active).toEqual([]);
-
-        // Set the cooldown by calling activateByIndex
-        activeList.activateByIndex(0);
-        expect(activeList.active).toEqual(['a']);
-
-        // Should still be 'a'
-        activeList.activateByIndex(1);
-        expect(activeList.active).toEqual(['a']);
-
-        // Should still be 'a'
-        epoch = 4999;
-        activeList.activateByIndex(1);
-        expect(activeList.active).toEqual(['a']);
-
-        // Should still be 'a'
-        activeList.deactivateByIndex(0);
-        expect(activeList.active).toEqual(['a']);
-
-        // Should still be 'a'
-        epoch = 5000;
-        activeList.activateByIndex(1);
-        expect(activeList.active).toEqual(['a']);
-
-        // Now it should be 'b' after 5000 milliseconds
-        epoch = 5001;
-        activeList.activateByIndex(1);
-        expect(activeList.active).toEqual(['b']);
-      });
-
-      test('a cooldown from options', () => {
-        let epoch = 0;
-        Date.now = jest.fn(() => epoch);
-
-        const { activeList } = setup({ activeIndexes: [] });
-        expect(activeList.active).toEqual([]);
-
-        // Activate 'a' and set a cooldown to 5000
-        activeList.activateByIndex(0, {
-          isUserInteraction: true,
-          cooldown: 5000,
-        });
-        expect(activeList.active).toEqual(['a']);
-
-        // Should still be ['a']
-        epoch = 4999;
-        activeList.activateByIndex(1, {
-          isUserInteraction: true,
-          // In essence this cooldown is ignored, because it is never set
-          cooldown: () => 100,
-        });
-        expect(activeList.active).toEqual(['a']);
-
-        // Should still be ['a']
-        activeList.deactivateByIndex(0, {
-          isUserInteraction: true,
-          // In essence this cooldown is ignored, because it is never set
-          cooldown: () => 100,
-        });
-        expect(activeList.active).toEqual(['a']);
-
-        // Should still be ['a']
-        epoch = 5000;
-        activeList.activateByIndex(2, {
-          isUserInteraction: true,
-          // In essence this cooldown is ignored, because it is never set
-          cooldown: 100,
-        });
-        expect(activeList.active).toEqual(['a']);
-
-        // Now it should become 'b' after 5001 milliseconds
-        epoch = 5001;
-        activeList.activateByIndex(1, {
-          isUserInteraction: true,
-          cooldown: 5000,
-        });
-        expect(activeList.active).toEqual(['b']);
-      });
-
-      test('that the cooldown from the ActivationOptions has precedence over the cooldown from the config', () => {
-        let epoch = 0;
-        Date.now = jest.fn(() => epoch);
-
-        // This cooldown of 5000 should be ignored, because it is
-        // from the initialize
-        const { activeList } = setup({ cooldown: 5000, activeIndexes: [] });
-        expect(activeList.active).toEqual([]);
-
-        epoch = 1;
-
-        // Now activate it
-        activeList.activateByIndex(0, {
-          isUserInteraction: true,
-          cooldown: 10000,
-        });
-        expect(activeList.active).toEqual(['a']);
-
-        // Should not allow the activation
-        epoch = 10000;
-        activeList.activateByIndex(1, {
-          isUserInteraction: true,
-          cooldown: 100, // In essence this cooldown is ignored, because it is never set
-        });
-        expect(activeList.active).toEqual(['a']);
-
-        // Should not allow the deactivation
-        activeList.deactivateByIndex(0, {
-          isUserInteraction: true,
-          cooldown: 100, // In essence this cooldown is ignored, because it is never set
-        });
-        expect(activeList.active).toEqual(['a']);
-
-        // Should not allow the activation
-        epoch = 10001;
-        activeList.activateByIndex(1, {
-          isUserInteraction: true,
-          cooldown: 100, // In essence this cooldown is ignored, because it is never set
-        });
-        expect(activeList.active).toEqual(['a']);
-
-        // Now it should allow the activation after 10002 milliseconds
-        epoch = 10002;
-        activeList.activateByIndex(1, {
-          isUserInteraction: true,
-          cooldown: 10000,
-        });
-        expect(activeList.active).toEqual(['b']);
-      });
-
-      test('that the cooldown can be a function instead of just a number', () => {
-        let epoch = 0;
-        Date.now = jest.fn(() => epoch);
-
-        const { activeList } = setup({
-          cooldown: (data) => {
-            expect(data.index).toBeDefined();
-
-            expect(data.content).toBeDefined();
-            expect(data.content).toBeInstanceOf(ActiveListContent);
-
-            expect(data.value).toBeDefined();
-
-            expect(data.activeList).toBeDefined();
-            expect(data.activeList).toBeInstanceOf(ActiveList);
-            return 5000;
-          },
-          activeIndexes: [],
-        });
-        expect(activeList.active).toEqual([]);
-
-        // Set the cooldown by calling activateByIndex
-        activeList.activateByIndex(0);
-        expect(activeList.active).toEqual(['a']);
-
-        // Should still be 'a'
-        activeList.activateByIndex(1);
-        expect(activeList.active).toEqual(['a']);
-
-        // Should still be 'a'
-        epoch = 4999;
-        activeList.activateByIndex(1);
-        expect(activeList.active).toEqual(['a']);
-
-        // Should still be 'a'
-        activeList.deactivateByIndex(0);
-        expect(activeList.active).toEqual(['a']);
-
-        // Should still be 'a'
-        epoch = 5000;
-        activeList.activateByIndex(1);
-        expect(activeList.active).toEqual(['a']);
-
-        // Now it should be 'b' after 5000 milliseconds
-        epoch = 5001;
-        activeList.activateByIndex(1);
-        expect(activeList.active).toEqual(['b']);
-      });
-    });
-
-    describe('deactivation cooldown', () => {
-      describe('cooldown errors on deactivate', () => {
+      describe('cooldown errors on deactivateByIndex', () => {
         test('cannot be less than zero', () => {
           const { activeList } = setup({
             cooldown: 600,
@@ -20743,223 +21710,383 @@ describe('ActiveList', () => {
         });
       });
 
-      test('a cooldown is ignored when isUserInteraction is false', () => {
-        let epoch = 0;
-        Date.now = jest.fn(() => epoch);
+      describe('cooldown errors on deactivateByPredicate', () => {
+        test('cannot be less than zero', () => {
+          const { activeList } = setup({
+            cooldown: 600,
+            activeIndexes: [0, 1],
+            maxActivationLimit: 3,
+          });
 
-        const { activeList } = setup({
-          cooldown: 5000,
-          maxActivationLimit: false,
-          activeIndexes: [0, 1, 2],
+          expect(() => {
+            activeList.deactivateByPredicate(() => true, {
+              isUserInteraction: true,
+              cooldown: -1,
+            });
+          }).toThrowError(
+            'uiloos > ActiveList > cooldown > duration cannot be negative or zero'
+          );
+
+          // It still has performed the action unfortunately, and the ActiveList is now invalid.
+          expect(activeList.activeIndexes).toEqual([]);
+
+          // Activate one so something can be deactivated
+          activeList.activateByIndex(0, { isUserInteraction: false });
+
+          expect(() => {
+            activeList.deactivateByPredicate(() => true, {
+              isUserInteraction: true,
+              cooldown: -1,
+            });
+          }).toThrowError(ActiveListCooldownDurationError);
+
+          // It still has performed the action unfortunately, and the ActiveList is now invalid.
+          expect(activeList.activeIndexes).toEqual([]);
         });
-        expect(activeList.active).toEqual(['a', 'b', 'c']);
 
-        // Set the cooldown by calling deactivateByIndex
-        activeList.deactivateByIndex(0);
-        expect(activeList.active).toEqual(['b', 'c']);
+        test('cannot be zero', () => {
+          const { activeList } = setup({
+            cooldown: 600,
+            activeIndexes: [0, 1],
+            maxActivationLimit: 3,
+          });
 
-        // This call should ignore it the cooldown due to isUserInteraction being false.
-        activeList.activateByIndex(0, { isUserInteraction: false });
-        expect(activeList.active).toEqual(['b', 'c', 'a']);
+          expect(() => {
+            activeList.deactivateByPredicate(() => true, {
+              isUserInteraction: true,
+              cooldown: 0,
+            });
+          }).toThrowError(
+            'uiloos > ActiveList > cooldown > duration cannot be negative or zero'
+          );
 
-        // This call should ignore it the cooldown due to isUserInteraction being false.
-        activeList.deactivateByIndex(1, { isUserInteraction: false });
-        expect(activeList.active).toEqual(['c', 'a']);
+          // It still has performed the action unfortunately, and the ActiveList is now invalid.
+          expect(activeList.activeIndexes).toEqual([]);
 
-        // This call should ignore it the cooldown due to isUserInteraction being false.
-        activeList.deactivateByIndex(2, { isUserInteraction: false });
-        expect(activeList.active).toEqual(['a']);
+          // Activate one so something can be deactivated
+          activeList.activateByIndex(0, { isUserInteraction: false });
+
+          expect(() => {
+            activeList.deactivateByPredicate(() => true, {
+              isUserInteraction: true,
+              cooldown: 0,
+            });
+          }).toThrowError(ActiveListCooldownDurationError);
+
+          // It still has performed the action unfortunately, and the ActiveList is now invalid.
+          expect(activeList.activeIndexes).toEqual([]);
+        });
+      });
+    });
+
+    test('a cooldown is ignored when isUserInteraction is false', () => {
+      jest.useFakeTimers();
+
+      const { activeList, subscriber } = setup({
+        cooldown: 5000,
+        maxActivationLimit: false,
+        activeIndexes: [],
       });
 
-      test('a cooldown from the config', () => {
-        let epoch = 0;
-        Date.now = jest.fn(() => epoch);
+      expect(activeList.active).toEqual([]);
+      expect(activeList.cooldown).toEqual({ isActive: false, duration: 0 });
+      assertEvents(subscriber, []);
 
-        const { activeList } = setup({
-          cooldown: 5000,
-          maxActivationLimit: false,
-          activeIndexes: [0, 1, 2],
-        });
-        expect(activeList.active).toEqual(['a', 'b', 'c']);
+      // Set the cooldown by calling activateByIndex
+      activeList.activateByIndex(0);
 
-        // Should now remove 'a' and set a cooldown for 5000
-        activeList.deactivateByIndex(0);
-        expect(activeList.active).toEqual(['b', 'c']);
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
 
-        // Should still be ['b', 'c']
-        epoch = 4999;
-        activeList.deactivateByIndex(1);
-        expect(activeList.active).toEqual(['b', 'c']);
+      // This call should ignore it the cooldown due to isUserInteraction being false.
+      activeList.activateByIndex(1, { isUserInteraction: false });
 
-        // Should still be ['b', 'c']
-        epoch = 5000;
-        activeList.deactivateByIndex(2);
-        expect(activeList.active).toEqual(['b', 'c']);
+      expect(activeList.active).toEqual(['a', 'b']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED', 'ACTIVATED']);
 
-        // Should still be ['b', 'c']
-        activeList.activateByIndex(0);
-        expect(activeList.active).toEqual(['b', 'c']);
+      // This call should ignore it the cooldown due to isUserInteraction being false.
+      activeList.deactivateByIndex(0, { isUserInteraction: false });
 
-        // Now it should be ['b'] after 5000 milliseconds
-        epoch = 5001;
-        activeList.deactivateByIndex(2);
-        expect(activeList.active).toEqual(['b']);
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'COOLDOWN_STARTED',
+        'ACTIVATED',
+        'DEACTIVATED',
+      ]);
+
+      // This call should ignore it the cooldown due to isUserInteraction being false.
+      activeList.activateByIndex(2, { isUserInteraction: false });
+
+      expect(activeList.active).toEqual(['b', 'c']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'COOLDOWN_STARTED',
+        'ACTIVATED',
+        'DEACTIVATED',
+        'ACTIVATED',
+      ]);
+    });
+
+    test('a cooldown from the config', () => {
+      jest.useFakeTimers();
+
+      const { activeList, subscriber } = setup({
+        cooldown: 5000,
+        activeIndexes: [],
       });
 
-      test('a cooldown from options', () => {
-        let epoch = 0;
-        Date.now = jest.fn(() => epoch);
+      expect(activeList.active).toEqual([]);
+      expect(activeList.cooldown).toEqual({ isActive: false, duration: 0 });
+      assertEvents(subscriber, []);
 
-        const { activeList } = setup({
-          maxActivationLimit: false,
-          activeIndexes: [0, 1, 2],
-        });
-        expect(activeList.active).toEqual(['a', 'b', 'c']);
+      // Set the cooldown by calling activateByIndex
+      activeList.activateByIndex(0);
 
-        // Deactivate 'a' and set a cooldown to 5000
-        activeList.deactivateByIndex(0, {
-          isUserInteraction: true,
-          cooldown: 5000,
-        });
-        expect(activeList.active).toEqual(['b', 'c']);
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
 
-        // Should still be ['b', 'c']
-        epoch = 4999;
-        activeList.deactivateByIndex(1, {
-          isUserInteraction: true,
-          // In essence this cooldown is ignored, because it is never set
-          cooldown: () => 100,
-        });
-        expect(activeList.active).toEqual(['b', 'c']);
+      // Should stay on 'a'
+      activeList.activateByIndex(1);
 
-        // Should still be ['b', 'c']
-        epoch = 5000;
-        activeList.deactivateByIndex(1, {
-          isUserInteraction: true,
-          // In essence this cooldown is ignored, because it is never set
-          cooldown: 100,
-        });
-        expect(activeList.active).toEqual(['b', 'c']);
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
 
-        // Should still be ['b', 'c']
-        activeList.activateByIndex(0, {
-          isUserInteraction: true,
-          // In essence this cooldown is ignored, because it is never set
-          cooldown: 100,
-        });
-        expect(activeList.active).toEqual(['b', 'c']);
+      // Should stay on 'a'
+      jest.advanceTimersByTime(4999);
+      activeList.activateByIndex(1);
 
-        // Now it should become 'a' after 5001 milliseconds
-        epoch = 5001;
-        activeList.deactivateByIndex(1, {
-          isUserInteraction: true,
-          cooldown: 5000,
-        });
-        expect(activeList.active).toEqual(['c']);
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
+
+      // Now it should be able to go to 'b' after 5000 milliseconds
+      jest.advanceTimersByTime(1);
+      expect(activeList.cooldown).toEqual({ isActive: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'COOLDOWN_STARTED',
+        'COOLDOWN_ENDED',
+      ]);
+
+      activeList.activateByIndex(1);
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'COOLDOWN_STARTED',
+        'COOLDOWN_ENDED',
+        'ACTIVATED',
+        'COOLDOWN_STARTED',
+      ]);
+    });
+
+    test('a cooldown from options', () => {
+      jest.useFakeTimers();
+
+      const { activeList, subscriber } = setup({ activeIndexes: [] });
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.cooldown).toEqual({ isActive: false, duration: 0 });
+      assertEvents(subscriber, []);
+
+      // Activate 'a' and set a cooldown to 5000
+      activeList.activateByIndex(0, {
+        isUserInteraction: true,
+        cooldown: 5000,
       });
 
-      test('that the cooldown from the ActivationOptions has precedence over the cooldown from the config', () => {
-        let epoch = 0;
-        Date.now = jest.fn(() => epoch);
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
 
-        // This cooldown of 5000 should be ignored, because it is
-        // from the initialize
-        const { activeList } = setup({
-          cooldown: 5000,
-          maxActivationLimit: false,
-          activeIndexes: [0, 1, 2],
-        });
-        expect(activeList.active).toEqual(['a', 'b', 'c']);
+      jest.advanceTimersByTime(4999);
 
-        epoch = 1;
-
-        // Now deactivate it
-        activeList.deactivateByIndex(0, {
-          isUserInteraction: true,
-          cooldown: 10000,
-        });
-        expect(activeList.active).toEqual(['b', 'c']);
-
-        // Should not allow the deactivation
-        epoch = 10000;
-        activeList.deactivateByIndex(1, {
-          isUserInteraction: true,
-          cooldown: 100, // In essence this cooldown is ignored, because it is never set
-        });
-        expect(activeList.active).toEqual(['b', 'c']);
-
-        // Should not allow the deactivation
-        epoch = 10001;
-        activeList.deactivateByIndex(1, {
-          isUserInteraction: true,
-          cooldown: 100, // In essence this cooldown is ignored, because it is never set
-        });
-        expect(activeList.active).toEqual(['b', 'c']);
-
-        activeList.activateByIndex(0, {
-          isUserInteraction: true,
-          cooldown: 100, // In essence this cooldown is ignored, because it is never set
-        });
-        expect(activeList.active).toEqual(['b', 'c']);
-
-        // Now it should allow the deactivation after 10002 milliseconds
-        epoch = 10002;
-        activeList.deactivateByIndex(1, {
-          isUserInteraction: true,
-          cooldown: 10000,
-        });
-        expect(activeList.active).toEqual(['c']);
+      // Should still be ['a']
+      activeList.activateByIndex(1, {
+        isUserInteraction: true,
+        // In essence this cooldown is ignored, because it is never set
+        cooldown: () => 100,
       });
 
-      test('that the cooldown can be a function instead of just a number', () => {
-        let epoch = 0;
-        Date.now = jest.fn(() => epoch);
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
 
-        const { activeList } = setup({
-          cooldown: (data) => {
-            expect(data.index).toBeDefined();
-
-            expect(data.content).toBeDefined();
-            expect(data.content).toBeInstanceOf(ActiveListContent);
-
-            expect(data.value).toBeDefined();
-
-            expect(data.activeList).toBeDefined();
-            expect(data.activeList).toBeInstanceOf(ActiveList);
-            return 5000;
-          },
-          maxActivationLimit: false,
-          activeIndexes: [0, 1, 2],
-        });
-        expect(activeList.active).toEqual(['a', 'b', 'c']);
-
-        // Set the cooldown by calling deactivateByIndex
-        activeList.deactivateByIndex(0);
-        expect(activeList.active).toEqual(['b', 'c']);
-
-        // Should still be ['b', 'c']
-        epoch = 4999;
-        activeList.deactivateByIndex(1);
-        expect(activeList.active).toEqual(['b', 'c']);
-
-        activeList.activateByIndex(0);
-        expect(activeList.active).toEqual(['b', 'c']);
-
-        // Should still be ['b', 'c']
-        epoch = 5000;
-        activeList.deactivateByIndex(1);
-        expect(activeList.active).toEqual(['b', 'c']);
-
-        // Now it should be ['c'] after 5000 milliseconds
-        epoch = 5001;
-        activeList.deactivateByIndex(1);
-        expect(activeList.active).toEqual(['c']);
+      // Should still be ['a']
+      activeList.deactivateByIndex(0, {
+        isUserInteraction: true,
+        // In essence this cooldown is ignored, because it is never set
+        cooldown: () => 100,
       });
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
+
+      // Now it can go to 'b' after 5000 milliseconds
+      jest.advanceTimersByTime(1);
+
+      expect(activeList.cooldown).toEqual({ isActive: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'COOLDOWN_STARTED',
+        'COOLDOWN_ENDED',
+      ]);
+
+      activeList.activateByIndex(1, {
+        isUserInteraction: true,
+        cooldown: 5000,
+      });
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'COOLDOWN_STARTED',
+        'COOLDOWN_ENDED',
+        'ACTIVATED',
+        'COOLDOWN_STARTED',
+      ]);
+    });
+
+    test('that the cooldown from the ActivationOptions has precedence over the cooldown from the config', () => {
+      jest.useFakeTimers();
+
+      // This cooldown of 5000 should be ignored, because it is
+      // from the initialize
+      const { activeList, subscriber } = setup({
+        cooldown: 5000,
+        activeIndexes: [],
+      });
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.cooldown).toEqual({ isActive: false, duration: 0 });
+      assertEvents(subscriber, []);
+
+      // This cooldown of 10000 should trump the one of 5000
+      activeList.activateByIndex(0, {
+        isUserInteraction: true,
+        cooldown: 10000,
+      });
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.cooldown).toEqual({
+        isActive: true,
+        duration: 10000,
+      });
+      assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
+    });
+
+    test('that the cooldown can be a function instead of just a number', () => {
+      jest.useFakeTimers();
+
+      expect.assertions(14);
+
+      const { activeList, subscriber } = setup({
+        cooldown: (data) => {
+          expect(data.index).toBe(0);
+
+          expect(data.content).toBeDefined();
+          expect(data.content).toBeInstanceOf(ActiveListContent);
+
+          expect(data.value).toBe('a');
+
+          expect(data.activeList).toBeDefined();
+          expect(data.activeList).toBeInstanceOf(ActiveList);
+          return 1234;
+        },
+        activeIndexes: [],
+      });
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.cooldown).toEqual({ isActive: false, duration: 0 });
+      assertEvents(subscriber, []);
+
+      // Set the cooldown by calling activateByIndex
+      activeList.activateByIndex(0);
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 1234 });
+      assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
+    });
+
+    test('that when isUserInteraction is undefined it is treated as true', () => {
+      jest.useFakeTimers();
+
+      const { activeList, subscriber } = setup({ activeIndexes: [] });
+
+      expect(activeList.active).toEqual([]);
+      expect(activeList.cooldown).toEqual({ isActive: false, duration: 0 });
+      assertEvents(subscriber, []);
+
+      // Activate 'a' and set a cooldown to 5000
+      activeList.activateByIndex(0, {
+        cooldown: 5000,
+      });
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
+
+      jest.advanceTimersByTime(4999);
+
+      // Should still be ['a']
+      activeList.activateByIndex(1, {
+        // In essence this cooldown is ignored, because it is never set
+        cooldown: () => 100,
+      });
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
+
+      // Should still be ['a']
+      activeList.deactivateByIndex(0, {
+        // In essence this cooldown is ignored, because it is never set
+        cooldown: () => 100,
+      });
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, ['ACTIVATED', 'COOLDOWN_STARTED']);
+
+      // Now it can go to 'b' after 5000 milliseconds
+      jest.advanceTimersByTime(1);
+
+      expect(activeList.cooldown).toEqual({ isActive: false, duration: 0 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'COOLDOWN_STARTED',
+        'COOLDOWN_ENDED',
+      ]);
+
+      activeList.activateByIndex(1, {
+        cooldown: 5000,
+      });
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.cooldown).toEqual({ isActive: true, duration: 5000 });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'COOLDOWN_STARTED',
+        'COOLDOWN_ENDED',
+        'ACTIVATED',
+        'COOLDOWN_STARTED',
+      ]);
     });
   });
 
   describe('history', () => {
     test('that a correct history is kept for all events', () => {
+      jest.useFakeTimers();
+
       const { activeList } = setup({
         keepHistoryFor: 100,
         activeIndexes: 0,
@@ -21371,6 +22498,131 @@ describe('ActiveList', () => {
           type: 'AUTO_PLAY_STOPPED',
         }),
       ]);
+
+      activeList.activateByIndex(0, { cooldown: 1, isUserInteraction: true });
+      expect(activeList.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+          indexes: [0],
+          values: ['a'],
+        }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 1, value: 'b' }),
+        expect.objectContaining({
+          type: 'REMOVED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'REMOVED_MULTIPLE',
+          indexes: [0, 1],
+          values: ['b', 'c'],
+        }),
+        expect.objectContaining({ type: 'INSERTED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'INSERTED', index: 1, value: 'b' }),
+        expect.objectContaining({ type: 'INSERTED', index: 2, value: 'c' }),
+        expect.objectContaining({
+          type: 'SWAPPED',
+          index: { a: 0, b: 2 },
+          value: { a: 'a', b: 'c' },
+        }),
+        expect.objectContaining({
+          type: 'MOVED',
+          index: {
+            from: 2,
+            to: 0,
+          },
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'DEACTIVATED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'ACTIVATED_MULTIPLE',
+          indexes: [0, 1, 2],
+          values: ['a', 'c', 'b'],
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_PLAYING',
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_PAUSED',
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_STOPPED',
+        }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 0, value: 'a' }),
+        expect.objectContaining({
+          type: 'COOLDOWN_STARTED',
+        }),
+        
+      ])
+
+      jest.advanceTimersByTime(1);
+
+      expect(activeList.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+          indexes: [0],
+          values: ['a'],
+        }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 1, value: 'b' }),
+        expect.objectContaining({
+          type: 'REMOVED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'REMOVED_MULTIPLE',
+          indexes: [0, 1],
+          values: ['b', 'c'],
+        }),
+        expect.objectContaining({ type: 'INSERTED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'INSERTED', index: 1, value: 'b' }),
+        expect.objectContaining({ type: 'INSERTED', index: 2, value: 'c' }),
+        expect.objectContaining({
+          type: 'SWAPPED',
+          index: { a: 0, b: 2 },
+          value: { a: 'a', b: 'c' },
+        }),
+        expect.objectContaining({
+          type: 'MOVED',
+          index: {
+            from: 2,
+            to: 0,
+          },
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'DEACTIVATED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'ACTIVATED_MULTIPLE',
+          indexes: [0, 1, 2],
+          values: ['a', 'c', 'b'],
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_PLAYING',
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_PAUSED',
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_STOPPED',
+        }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 0, value: 'a' }),
+        expect.objectContaining({
+          type: 'COOLDOWN_STARTED',
+        }),
+        expect.objectContaining({
+          type: 'COOLDOWN_ENDED',
+        }),
+      ])
     });
 
     test('that a history is kept for a maximum number of events', () => {
@@ -21506,6 +22758,7 @@ type ActiveListSansContents<T> = Pick<
   | 'lastActivatedIndex'
   | 'hasActiveChangedAtLeastOnce'
   | 'autoPlay'
+  | 'cooldown'
   | 'direction'
   | 'history'
 >;
@@ -21543,6 +22796,10 @@ function assertState(state: ActiveList<string>, expected: TestState<string>) {
     autoPlay: {
       isPlaying: state.autoPlay.isPlaying,
       duration: state.autoPlay.duration,
+    },
+    cooldown: {
+      isActive: state.cooldown.isActive,
+      duration: state.cooldown.duration,
     },
     direction: state.direction,
     history: state.history,

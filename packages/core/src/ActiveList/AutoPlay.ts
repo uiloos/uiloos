@@ -217,7 +217,7 @@ export class _AutoPlay<T> {
     // is a user interaction.
     return !!(
       activationOptions &&
-      activationOptions.isUserInteraction &&
+      activationOptions.isUserInteraction !== false && // So undefined is treated as true.
       config.stopsOnUserInteraction
     );
   }

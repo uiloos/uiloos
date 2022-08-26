@@ -157,14 +157,15 @@ export type ActiveListMaxActivationLimitBehavior =
  */
 export type ActiveListActivationOptions<T> = {
   /**
-   * Whether or not the action was taken by a user / human.
-   * This affects the `autoPlay` when `stopsOnUserInteraction`
-   * is `true`, the `autoPlay` stops, when `false` the autoPlay
-   * is debounced.
+   * Whether or not the action was taken by a user / human. This 
+   * affects the `autoPlay` when `stopsOnUserInteraction` is `true`, 
+   * the `autoPlay` stops, when `false` the autoPlay is debounced.
    *
-   * Also affects the `cooldown` when `isUserInteraction`
-   * is `true`, the `cooldown` is checked, otherwise when `false`
+   * Also affects the `cooldown` when `isUserInteraction` is `true`,
+   * the `cooldown` is checked, otherwise when `false` 
    * the `cooldown` is ignored.
+   * 
+   * Defaults to `true`.
    */
   isUserInteraction?: boolean;
 
@@ -180,15 +181,16 @@ export type ActiveListActivationOptions<T> = {
    *
    * The benefit of this `cooldown` over the `cooldown` in the
    * `Config`, is that this `cooldown` can be different for different
-   * actions. For example: it allows you to create two buttons each with a
-   * different cooldown.
+   * actions. For example: it allows you to create two buttons each 
+   * with a different cooldown.
    *
-   * Note that the `cooldown` options within the `ActiveListActivationOptions` takes
-   * precedence over the `cooldown` in the `Config`.
+   * Note that the `cooldown` options within the `ActiveListActivationOptions` 
+   * takes precedence over the `cooldown` in the `Config`.
    *
    * IMPORTANT: `cooldown` is only ran when `isUserInteraction` within
-   * the `ActiveListActivationOptions` is `true`. This means that `autoPlay`, which
-   * is not a user interaction, ignores the `cooldown`.
+   * the `ActiveListActivationOptions` is `true`. This means that 
+   * `autoPlay`, which is not a user interaction, ignores the 
+   * `cooldown`.
    */
   cooldown?: ActiveListCooldownConfig<T>;
 };
@@ -308,10 +310,10 @@ export type ActiveListAutoPlayConfig<T> = {
   stopsOnUserInteraction?: boolean;
 };
 
-/** 
- * AutoPlay means that the ActiveList will move to the next content by 
+/**
+ * AutoPlay means that the ActiveList will move to the next content by
  * itself after a duration.
- * 
+ *
  * Contains wether or not the autoPlay is playing via `isPlaying` and
  * the current duration via `duration`.
  */
@@ -400,6 +402,32 @@ export type ActiveListCooldownDurationCallback<T> = (
 ) => number;
 
 /**
+ * A Cooldown is a time period in which all user made activations
+ * and deactivations are prevented / ignored. Activations and
+ * deactivations where the `isUserInteraction` is set to `false`
+ * always bypass the cooldown.
+ *
+ * The use-case is a cooldown can guarantees that animations are
+ * completed, before another is triggered.
+ *
+ * Contains wether or not the cooldown is active via `isActive` and
+ * the current duration via `duration`.
+ */
+export type ActiveListCooldown = {
+  /**
+   * Whether or not the ActiveList is currently in the cooldown state.
+   * When in cooldown all activations and deactivations are ignored.
+   */
+  isActive: boolean;
+
+  /**
+   * The amount of milliseconds the ActiveList should remain in
+   * the cooldown state.
+   */
+  duration: number;
+};
+
+/**
  * Describes which strings should be associated with what
  * direction. For example it could be "right" and "left",
  * or "down" and "up".
@@ -445,7 +473,9 @@ export type ActiveListEventType =
   | 'DEACTIVATED_MULTIPLE'
   | 'AUTO_PLAY_PLAYING'
   | 'AUTO_PLAY_PAUSED'
-  | 'AUTO_PLAY_STOPPED';
+  | 'AUTO_PLAY_STOPPED'
+  | 'COOLDOWN_STARTED'
+  | 'COOLDOWN_ENDED';
 
 /**
  * Represents an event which happened in the ActiveList. Based
@@ -842,6 +872,28 @@ export type ActiveListAutoPlayStoppedEvent = ActiveListBaseEvent & {
 };
 
 /**
+ * Represents an ActiveList being in a cooldown state, meaning no
+ * activations or deactivations can occur.
+ */
+export type ActiveListCooldownStartedEvent = ActiveListBaseEvent & {
+  /**
+   * Which type occurred
+   */
+  type: 'COOLDOWN_STARTED';
+};
+
+/**
+ * Represents an ActiveList moving out of the cooldown state, meaning
+ * all activation and deactivations can occur again.
+ */
+export type ActiveListCooldownEndedEvent = ActiveListBaseEvent & {
+  /**
+   * Which type occurred
+   */
+  type: 'COOLDOWN_ENDED';
+};
+
+/**
  * A ActiveListEvent represents an event happened in the ActiveList.
  * For example the insertion, removal, or activation of a
  * ActiveListContent<T>.
@@ -859,7 +911,9 @@ export type ActiveListEvent<T> =
   | ActiveListDeactivatedMultipleEvent<T>
   | ActiveListAutoPlayPlayingEvent
   | ActiveListAutoPlayPausedEvent
-  | ActiveListAutoPlayStoppedEvent;
+  | ActiveListAutoPlayStoppedEvent
+  | ActiveListCooldownStartedEvent
+  | ActiveListCooldownEndedEvent;
 
 /**
  * Represents where the action needs to take place for when a

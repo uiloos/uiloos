@@ -40,6 +40,7 @@ import {
   ActiveListPredicateMode,
   ActiveListPredicateOptions,
   ActiveListAutoPlay,
+  ActiveListCooldown,
 } from './types';
 import { _History } from '../private/History';
 import { _Observer } from '../private/Observer';
@@ -209,7 +210,7 @@ export class ActiveList<T> {
   /**
    * Contains the history of the changes in the contents array.
    *
-   * Tracks 13 types of changes:
+   * Tracks 15 types of changes:
    *
    *  1. INITIALIZED, fired when ActiveList is initialized
    *  2. INSERTED, fired when an item is added.
@@ -224,6 +225,8 @@ export class ActiveList<T> {
    *  11. AUTO_PLAY_PLAYING, fire when play is called.
    *  12. AUTO_PLAY_PAUSED, fired when pause is called.
    *  13. AUTO_PLAY_STOPPED, fired when stop is called, or the autoPlay stops due to a condition.
+   *  14. COOLDOWN_STARTED, fired when ActiveList goes into cooldown state
+   *  15. COOLDOWN_ENDED, fired when ActiveList goes out of cooldown state
    *
    * Goes only as far back as configured in the `Config` property
    * `keepHistoryFor`, to prevent an infinitely growing history.
@@ -259,6 +262,23 @@ export class ActiveList<T> {
 
   // The cooldown timer for activation
   private _activationCooldownTimer!: _CooldownTimer<T>;
+
+  /**
+   * A Cooldown is a time period in which all user made activations
+   * and deactivations are prevented / ignored. Activations and
+   * deactivations where the `isUserInteraction` is set to `false`
+   * always bypass the cooldown.
+   *
+   * The use-case is a cooldown can guarantees that animations are
+   * completed, before another is triggered.
+   *
+   * Contains wether or not the cooldown is active via `isActive` and
+   * the current duration via `duration`.
+   */
+  public cooldown: ActiveListCooldown = {
+    isActive: false,
+    duration: 0,
+  };
 
   // The AutoPlay instance for all autoPlay related code.
   // Note that it is undefined during initialization when
@@ -474,15 +494,6 @@ export class ActiveList<T> {
       return;
     }
 
-    // Set the cooldown, if it is needed.
-    this._activationCooldownTimer._setCooldown(
-      // Note that at this point a `ActiveListCooldownDurationError`
-      // can be thrown, this means that the item is activated!
-      activationOptions,
-      // This works as we guard against indexes not being present
-      this.lastActivatedContent as ActiveListContent<T>
-    );
-
     const event: ActiveListActivatedEvent<T> = {
       type: 'ACTIVATED',
       value: activatedContent.value,
@@ -491,6 +502,15 @@ export class ActiveList<T> {
     };
 
     this._inform(event);
+
+    // Set the cooldown, if it is needed.
+    this._activationCooldownTimer._setCooldown(
+      // Note that at this point a `ActiveListCooldownDurationError`
+      // can be thrown, this means that the item is activated!
+      activationOptions,
+      // This works as we guard against indexes not being present
+      this.lastActivatedContent as ActiveListContent<T>
+    );
   }
 
   private _doActivateByIndex(
@@ -506,7 +526,7 @@ export class ActiveList<T> {
       return null;
     }
 
-    // Do nothing if cooldown is active;
+    // Do nothing when a cooldown is active.
     if (this._activationCooldownTimer._isActive(activationOptions)) {
       return null;
     }
@@ -633,6 +653,11 @@ export class ActiveList<T> {
       cooldown: undefined,
     }
   ) {
+    // Do nothing when a cooldown is active.
+    if (this._activationCooldownTimer._isActive(activationOptions)) {
+      return null;
+    }
+
     const activatedIndexes: number[] = [];
     const activatedValues: T[] = [];
 
@@ -649,6 +674,15 @@ export class ActiveList<T> {
       }
     });
 
+    const event: ActiveListActivatedMultipleEvent<T> = {
+      type: 'ACTIVATED_MULTIPLE',
+      values: activatedValues,
+      indexes: activatedIndexes,
+      time: new Date(),
+    };
+
+    this._inform(event);
+
     if (lastActivated) {
       // Set the cooldown, if it is needed.
       this._activationCooldownTimer._setCooldown(
@@ -658,15 +692,6 @@ export class ActiveList<T> {
         lastActivated
       );
     }
-
-    const event: ActiveListActivatedMultipleEvent<T> = {
-      type: 'ACTIVATED_MULTIPLE',
-      values: activatedValues,
-      indexes: activatedIndexes,
-      time: new Date(),
-    };
-
-    this._inform(event);
   }
 
   /**
@@ -808,14 +833,6 @@ export class ActiveList<T> {
       return;
     }
 
-    // Set the cooldown, if it is needed.
-    this._activationCooldownTimer._setCooldown(
-      // Note that at this point a `ActiveListCooldownDurationError`
-      // can be thrown, this means that the item is deactivated!
-      activationOptions,
-      deactivatedContent
-    );
-
     const event: ActiveListDeactivatedEvent<T> = {
       type: 'DEACTIVATED',
       value: this.contents[index].value,
@@ -824,6 +841,14 @@ export class ActiveList<T> {
     };
 
     this._inform(event);
+
+    // Set the cooldown, if it is needed.
+    this._activationCooldownTimer._setCooldown(
+      // Note that at this point a `ActiveListCooldownDurationError`
+      // can be thrown, this means that the item is deactivated!
+      activationOptions,
+      deactivatedContent
+    );
   }
 
   private _doDeactivateByIndex(
@@ -1038,6 +1063,11 @@ export class ActiveList<T> {
       cooldown: undefined,
     }
   ) {
+    // Do nothing when a cooldown is active.
+    if (this._activationCooldownTimer._isActive(activationOptions)) {
+      return null;
+    }
+
     const deactivatedIndexes: number[] = [];
     const deactivatedValues: T[] = [];
 
@@ -1054,6 +1084,15 @@ export class ActiveList<T> {
       }
     });
 
+    const event: ActiveListDeactivatedMultipleEvent<T> = {
+      type: 'DEACTIVATED_MULTIPLE',
+      values: deactivatedValues,
+      indexes: deactivatedIndexes,
+      time: new Date(),
+    };
+
+    this._inform(event);
+
     if (lastRemoved) {
       // Set the cooldown, if it is needed.
       this._activationCooldownTimer._setCooldown(
@@ -1063,15 +1102,6 @@ export class ActiveList<T> {
         lastRemoved
       );
     }
-
-    const event: ActiveListDeactivatedMultipleEvent<T> = {
-      type: 'DEACTIVATED_MULTIPLE',
-      values: deactivatedValues,
-      indexes: deactivatedIndexes,
-      time: new Date(),
-    };
-
-    this._inform(event);
   }
 
   /**
