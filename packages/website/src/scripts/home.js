@@ -38,6 +38,10 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
+    if (event.type === 'COOLDOWN_ENDED' || event.type === 'COOLDOWN_STARTED' || event.type === 'AUTO_PLAY_STOPPED') {
+      return;
+    }
+
     if (!carousel.isCircular) {
       if (carousel.lastActivatedContent.isFirst) {
         previousButton.classList.add('opacity-50', 'cursor-not-allowed');
@@ -145,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
     carouselCurrentActive.textContent = carousel.lastActivatedIndex + 1;
 
     previouslyActive = carousel.lastActivated;
+    return;
   });
 
   nextButton.onclick = () => {
@@ -171,7 +176,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   document.getElementById('carousel').addEventListener('mouseleave', () => {
-    carousel.play();
+    if (!carousel.autoPlay.hasBeenStoppedBefore) {
+      carousel.play();
+    }
   });
 
   document

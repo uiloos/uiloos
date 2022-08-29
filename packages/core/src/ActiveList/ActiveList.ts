@@ -275,7 +275,7 @@ export class ActiveList<T> {
    * Contains wether or not the cooldown is active via `isActive` and
    * the current duration via `duration`.
    */
-  public cooldown: ActiveListCooldown = {
+  public readonly cooldown: ActiveListCooldown = {
     isActive: false,
     duration: 0,
   };
@@ -291,12 +291,14 @@ export class ActiveList<T> {
    * AutoPlay means that the ActiveList will move to the next content by
    * itself after a duration.
    *
-   * Contains wether or not the autoPlay is playing via `isPlaying` and
-   * the current duration via `duration`.
+   * Contains wether or not the autoPlay is playing via `isPlaying`,
+   * the current duration via `duration`, and whether or not the 
+   * autoPlay has been stopped before via `hasBeenStoppedBefore`
    */
-  public autoPlay: ActiveListAutoPlay = {
+   public readonly autoPlay: ActiveListAutoPlay = {
     isPlaying: false,
     duration: 0,
+    hasBeenStoppedBefore: false,
   };
 
   // Stores the current direction configuration
@@ -350,9 +352,9 @@ export class ActiveList<T> {
   }
 
   /**
-   * Initializes the ActiveList based on the config provided.
-   * This can effectively resets the ActiveList when called,
-   * including the history.
+   * Initializes the ActiveList based on the config provided. This can 
+   * effectively reset the ActiveList when called, including the 
+   * history, autoPlay and cooldown.
    *
    * @param {ActiveListConfig<T>} config The new configuration which will override the old one
    *
@@ -404,6 +406,10 @@ export class ActiveList<T> {
     // `false` below the cooldown will not have any effect during
     // initialization.
     this._activationCooldownTimer = new _CooldownTimer(this, config.cooldown);
+    
+    // Reset the cooldown
+    this.cooldown.isActive = false;
+    this.cooldown.duration = 0;
 
     if (config.active !== undefined) {
       if (Array.isArray(config.active)) {
@@ -431,6 +437,11 @@ export class ActiveList<T> {
     // to true. For the same reason set the direction to 'next';
     this.hasActiveChangedAtLeastOnce = false;
     this.direction = this._directions.next;
+
+    // Reset autoPlay
+    this.autoPlay.isPlaying = false;
+    this.autoPlay.duration = 0;
+    this.autoPlay.hasBeenStoppedBefore = false;
 
     // Begin the autoPlay if it is configured
     this._autoPlay = new _AutoPlay(
@@ -1222,6 +1233,9 @@ export class ActiveList<T> {
    *
    * Can be used to reconfigure the speed of the autoPlay after the
    * ActiveList has been created.
+   * 
+   * Note: calling `configureAutoPlay` will not set (reset) the 
+   * hasBeenStoppedBefore` to `false` when called.
    *
    * @param {ActiveListAutoPlayConfig<T> | null} autoPlayConfig The new autoPlay configuration
    * @throws {ActiveListAutoPlayDurationError} autoPlay duration must be a positive number when defined

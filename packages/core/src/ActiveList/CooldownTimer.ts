@@ -127,7 +127,7 @@ export class _CooldownTimer<T> {
     }
   }
 
-  private _stopCooldown() {
+  public _stopCooldown() {
     if (this._cooldownTimeoutId) {
       window.clearTimeout(this._cooldownTimeoutId);
     }

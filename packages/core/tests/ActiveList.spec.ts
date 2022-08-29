@@ -77,11 +77,12 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         autoPlay: {
           isPlaying: false,
+          hasBeenStoppedBefore: false,
           duration: 0,
         },
         cooldown: {
           isActive: false,
-          duration: 0
+          duration: 0,
         },
         contents: [],
       });
@@ -115,11 +116,12 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         autoPlay: {
           isPlaying: false,
+          hasBeenStoppedBefore: false,
           duration: 0,
         },
         cooldown: {
           isActive: false,
-          duration: 0
+          duration: 0,
         },
         contents: [
           {
@@ -198,11 +200,12 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         autoPlay: {
           isPlaying: false,
+          hasBeenStoppedBefore: false,
           duration: 0,
         },
         cooldown: {
           isActive: false,
-          duration: 0
+          duration: 0,
         },
         contents: [],
       });
@@ -238,11 +241,12 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         autoPlay: {
           isPlaying: false,
+          hasBeenStoppedBefore: false,
           duration: 0,
         },
         cooldown: {
           isActive: false,
-          duration: 0
+          duration: 0,
         },
         contents: [
           {
@@ -308,11 +312,12 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         autoPlay: {
           isPlaying: false,
+          hasBeenStoppedBefore: false,
           duration: 0,
         },
         cooldown: {
           isActive: false,
-          duration: 0
+          duration: 0,
         },
         contents: [
           {
@@ -378,11 +383,12 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         autoPlay: {
           isPlaying: false,
+          hasBeenStoppedBefore: false,
           duration: 0,
         },
         cooldown: {
           isActive: false,
-          duration: 0
+          duration: 0,
         },
         contents: [
           {
@@ -445,11 +451,12 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         autoPlay: {
           isPlaying: false,
+          hasBeenStoppedBefore: false,
           duration: 0,
         },
         cooldown: {
           isActive: false,
-          duration: 0
+          duration: 0,
         },
         contents: [
           {
@@ -515,11 +522,12 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         autoPlay: {
           isPlaying: false,
+          hasBeenStoppedBefore: false,
           duration: 0,
         },
         cooldown: {
           isActive: false,
-          duration: 0
+          duration: 0,
         },
         contents: [
           {
@@ -585,11 +593,12 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         autoPlay: {
           isPlaying: false,
+          hasBeenStoppedBefore: false,
           duration: 0,
         },
         cooldown: {
           isActive: false,
-          duration: 0
+          duration: 0,
         },
         contents: [
           {
@@ -652,11 +661,12 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         autoPlay: {
           isPlaying: false,
+          hasBeenStoppedBefore: false,
           duration: 0,
         },
         cooldown: {
           isActive: false,
-          duration: 0
+          duration: 0,
         },
         contents: [
           {
@@ -719,11 +729,12 @@ describe('ActiveList', () => {
         hasActiveChangedAtLeastOnce: false,
         autoPlay: {
           isPlaying: false,
+          hasBeenStoppedBefore: false,
           duration: 0,
         },
         cooldown: {
           isActive: false,
-          duration: 0
+          duration: 0,
         },
         contents: [],
       });
@@ -733,7 +744,11 @@ describe('ActiveList', () => {
 
     describe('reset behavior', () => {
       test('that initialize can reset the ActiveList', () => {
-        const { activeList, subscriber } = setup({ activeIndexes: 2 });
+        const { activeList, subscriber } = setup({
+          activeIndexes: 2,
+          cooldown: 1000,
+          autoPlay: { duration: 1000 },
+        });
 
         expect(activeList.contents.map((v) => v.value)).toEqual([
           'a',
@@ -741,9 +756,31 @@ describe('ActiveList', () => {
           'c',
         ]);
 
-        const contents = ['d', 'e', 'f', 'g'];
+        // autoPlay should be reset when initialized
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 1000,
+          hasBeenStoppedBefore: false,
+        });
 
-        activeList.initialize({ contents, activeIndexes: 0 });
+        activeList.stop();
+
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          duration: 0,
+          hasBeenStoppedBefore: true,
+        });
+
+        // Trigger cooldown
+        activeList.activateByIndex(0);
+
+         // `cooldown` should be reset when initialized
+        expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
+
+        activeList.initialize({
+          contents: ['d', 'e', 'f', 'g'],
+          activeIndexes: 0,
+        });
 
         assertLastSubscriber(
           subscriber,
@@ -762,6 +799,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -849,6 +887,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -889,11 +928,12 @@ describe('ActiveList', () => {
           hasActiveChangedAtLeastOnce: false,
           autoPlay: {
             isPlaying: false,
+            hasBeenStoppedBefore: false,
             duration: 0,
           },
           cooldown: {
             isActive: false,
-            duration: 0
+            duration: 0,
           },
           contents: [
             {
@@ -935,11 +975,12 @@ describe('ActiveList', () => {
           hasActiveChangedAtLeastOnce: false,
           autoPlay: {
             isPlaying: false,
+            hasBeenStoppedBefore: false,
             duration: 0,
           },
           cooldown: {
             isActive: false,
-            duration: 0
+            duration: 0,
           },
           contents: [
             {
@@ -1047,11 +1088,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -1120,11 +1162,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -1193,11 +1236,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -1273,11 +1317,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -1346,11 +1391,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -1419,11 +1465,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -1503,11 +1550,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -1611,11 +1659,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -1719,11 +1768,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -1827,11 +1877,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -1935,11 +1986,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -2007,11 +2059,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -2074,11 +2127,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -2147,11 +2201,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -2224,11 +2279,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -2297,11 +2353,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -2385,11 +2442,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -2462,11 +2520,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -2546,11 +2605,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -2623,11 +2683,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -2712,11 +2773,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -2825,11 +2887,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -2938,11 +3001,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -3051,11 +3115,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -3163,11 +3228,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -3239,11 +3305,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -3312,11 +3379,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -3389,11 +3457,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -3472,11 +3541,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -3549,11 +3619,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -3677,11 +3748,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: true,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               isCircular: false,
               contents: [
@@ -3750,11 +3822,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: true,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               isCircular: false,
               contents: [
@@ -3823,11 +3896,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: true,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               isCircular: false,
               contents: [
@@ -3904,11 +3978,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: true,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               isCircular: false,
               contents: [
@@ -4001,11 +4076,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: true,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               isCircular: false,
               contents: [
@@ -4168,6 +4244,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: true,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -4277,6 +4354,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: true,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -4383,6 +4461,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: true,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -4868,6 +4947,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: true,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -4954,11 +5034,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -5038,11 +5119,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -5122,11 +5204,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -5206,11 +5289,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -5290,11 +5374,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -5374,11 +5459,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: true,
                 contents: [
@@ -5460,11 +5546,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -5544,11 +5631,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -5628,11 +5716,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -5712,11 +5801,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -5796,11 +5886,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -5880,11 +5971,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 isCircular: false,
                 contents: [
@@ -6033,6 +6125,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: true,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -6144,6 +6237,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -6480,11 +6574,12 @@ describe('ActiveList', () => {
           hasActiveChangedAtLeastOnce: false,
           autoPlay: {
             isPlaying: false,
+            hasBeenStoppedBefore: false,
             duration: 0,
           },
           cooldown: {
             isActive: false,
-            duration: 0
+            duration: 0,
           },
           contents: [
             {
@@ -6535,6 +6630,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -6625,6 +6721,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -6715,6 +6812,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -6814,6 +6912,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -6911,6 +7010,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -7008,6 +7108,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -7111,6 +7212,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -7204,6 +7306,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -7298,11 +7401,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -7390,11 +7494,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -7485,11 +7590,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -7578,11 +7684,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -7717,6 +7824,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: true,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -7758,6 +7866,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: true,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -7801,11 +7910,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -7869,11 +7979,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -7937,11 +8048,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -8007,11 +8119,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -8075,11 +8188,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -8143,11 +8257,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: true,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -8217,11 +8332,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: true,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -8288,11 +8404,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: true,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -8359,11 +8476,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: true,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -8426,11 +8544,12 @@ describe('ActiveList', () => {
           hasActiveChangedAtLeastOnce: false,
           autoPlay: {
             isPlaying: false,
+            hasBeenStoppedBefore: false,
             duration: 0,
           },
           cooldown: {
             isActive: false,
-            duration: 0
+            duration: 0,
           },
           contents: [],
         });
@@ -8460,11 +8579,12 @@ describe('ActiveList', () => {
           hasActiveChangedAtLeastOnce: false,
           autoPlay: {
             isPlaying: false,
+            hasBeenStoppedBefore: false,
             duration: 0,
           },
           cooldown: {
             isActive: false,
-            duration: 0
+            duration: 0,
           },
           contents: [],
         });
@@ -8525,11 +8645,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: true,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [],
             },
@@ -8572,11 +8693,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -8642,11 +8764,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -8712,11 +8835,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -8784,11 +8908,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -8854,11 +8979,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -8924,11 +9050,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -8998,11 +9125,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -9061,11 +9189,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -9136,11 +9265,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -9212,11 +9342,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -9300,11 +9431,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -9388,11 +9520,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -9470,11 +9603,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -9530,11 +9664,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -9588,11 +9723,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -9651,11 +9787,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -9726,11 +9863,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -9802,11 +9940,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -9890,11 +10029,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -9972,11 +10112,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -10061,11 +10202,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: true,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [],
             },
@@ -10111,11 +10253,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -10184,11 +10327,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -10257,11 +10401,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -10335,11 +10480,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -10411,11 +10557,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -10487,11 +10634,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -10564,11 +10712,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -10625,11 +10774,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -10698,11 +10848,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -10783,11 +10934,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: false,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -10846,11 +10998,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -10907,11 +11060,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -10968,11 +11122,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -11041,11 +11196,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -11117,11 +11273,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -11205,11 +11362,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -11290,11 +11448,12 @@ describe('ActiveList', () => {
                   hasActiveChangedAtLeastOnce: true,
                   autoPlay: {
                     isPlaying: false,
+                    hasBeenStoppedBefore: false,
                     duration: 0,
                   },
                   cooldown: {
                     isActive: false,
-                    duration: 0
+                    duration: 0,
                   },
                   contents: [
                     {
@@ -11477,11 +11636,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -11562,11 +11722,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -11647,11 +11808,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -11735,11 +11897,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -11836,11 +11999,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -11924,11 +12088,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -12012,11 +12177,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -12117,11 +12283,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -12216,11 +12383,12 @@ describe('ActiveList', () => {
           hasActiveChangedAtLeastOnce: false,
           autoPlay: {
             isPlaying: false,
+            hasBeenStoppedBefore: false,
             duration: 0,
           },
           cooldown: {
             isActive: false,
-            duration: 0
+            duration: 0,
           },
           contents: [
             {
@@ -12302,6 +12470,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -12387,6 +12556,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -12477,11 +12647,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -12565,11 +12736,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -12667,11 +12839,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -12755,11 +12928,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -12843,11 +13017,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -12947,11 +13122,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -13035,12 +13211,14 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
+
                 contents: [
                   {
                     isActive: false,
@@ -13125,11 +13303,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -13213,11 +13392,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -13301,11 +13481,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -13491,11 +13672,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -13629,11 +13811,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -13767,11 +13950,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -13905,11 +14089,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -14043,11 +14228,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -14181,11 +14367,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -14319,11 +14506,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -14457,11 +14645,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -14595,11 +14784,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -14733,11 +14923,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -14871,11 +15062,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -15009,11 +15201,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -15142,11 +15335,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -15254,11 +15448,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -15401,11 +15596,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -15548,11 +15744,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -15695,11 +15892,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -15842,11 +16040,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -15989,11 +16188,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -16136,11 +16336,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -16283,11 +16484,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -16430,11 +16632,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -16577,11 +16780,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -16724,11 +16928,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -16871,11 +17076,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -17018,11 +17224,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -17156,11 +17363,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -17252,11 +17460,12 @@ describe('ActiveList', () => {
           hasActiveChangedAtLeastOnce: false,
           autoPlay: {
             isPlaying: false,
+            hasBeenStoppedBefore: false,
             duration: 0,
           },
           cooldown: {
             isActive: false,
-            duration: 0
+            duration: 0,
           },
           contents: [
             {
@@ -17337,6 +17546,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -17436,11 +17646,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -17521,11 +17732,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -17608,11 +17820,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -17705,11 +17918,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -17792,11 +18006,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -17877,11 +18092,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -18012,11 +18228,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -18099,11 +18316,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -18184,11 +18402,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -18283,11 +18502,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -18368,11 +18588,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -18453,11 +18674,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -18552,11 +18774,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -18637,11 +18860,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -18722,11 +18946,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -18821,11 +19046,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -18906,11 +19132,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -18993,11 +19220,12 @@ describe('ActiveList', () => {
                 hasActiveChangedAtLeastOnce: false,
                 autoPlay: {
                   isPlaying: false,
+                  hasBeenStoppedBefore: false,
                   duration: 0,
                 },
                 cooldown: {
                   isActive: false,
-                  duration: 0
+                  duration: 0,
                 },
                 contents: [
                   {
@@ -19115,6 +19343,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -19201,11 +19430,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -19316,11 +19546,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -19431,11 +19662,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -19544,6 +19776,7 @@ describe('ActiveList', () => {
             hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
+              hasBeenStoppedBefore: false,
               duration: 0,
             },
             cooldown: {
@@ -19628,11 +19861,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -19712,11 +19946,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -19796,11 +20031,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -19881,11 +20117,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -19965,11 +20202,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -20047,11 +20285,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -20131,11 +20370,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -20213,11 +20453,12 @@ describe('ActiveList', () => {
               hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
+                hasBeenStoppedBefore: false,
                 duration: 0,
               },
               cooldown: {
                 isActive: false,
-                duration: 0
+                duration: 0,
               },
               contents: [
                 {
@@ -20315,44 +20556,72 @@ describe('ActiveList', () => {
       jest.advanceTimersByTime(200);
 
       expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 0,
+      });
       expect(subscriber).toBeCalledTimes(0);
 
       jest.advanceTimersByTime(200);
 
       expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 0,
+      });
       expect(subscriber).toBeCalledTimes(0);
 
       jest.advanceTimersByTime(200);
 
       expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 0,
+      });
       expect(subscriber).toBeCalledTimes(0);
 
       // Even calling play should have no effect
       activeList.play();
 
       expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 0,
+      });
       expect(subscriber).toBeCalledTimes(0);
 
       jest.advanceTimersByTime(200);
 
       expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 0,
+      });
       expect(subscriber).toBeCalledTimes(0);
 
       jest.advanceTimersByTime(200);
 
       expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 0,
+      });
       expect(subscriber).toBeCalledTimes(0);
 
       jest.advanceTimersByTime(200);
 
       expect(activeList.active).toEqual([]);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 0,
+      });
       expect(subscriber).toBeCalledTimes(0);
     });
 
@@ -20368,19 +20637,31 @@ describe('ActiveList', () => {
         });
 
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
@@ -20399,19 +20680,31 @@ describe('ActiveList', () => {
         });
 
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['a', 'b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['b', 'c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
@@ -20430,19 +20723,31 @@ describe('ActiveList', () => {
         });
 
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['a', 'b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['a', 'b', 'c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
@@ -20462,25 +20767,41 @@ describe('ActiveList', () => {
         });
 
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED', 'ACTIVATED']);
       });
 
@@ -20494,19 +20815,31 @@ describe('ActiveList', () => {
         });
 
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
@@ -20516,7 +20849,11 @@ describe('ActiveList', () => {
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
@@ -20535,29 +20872,45 @@ describe('ActiveList', () => {
           activeIndexes: 0,
         });
 
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: false,
+          duration: 0,
+        });
         expect(subscriber).toBeCalledTimes(0);
 
         // Should do nothing
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: false,
+          duration: 0,
+        });
         expect(subscriber).toBeCalledTimes(0);
 
         activeList.configureAutoPlay({ duration: 200 });
 
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['AUTO_PLAY_PLAYING']);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['AUTO_PLAY_PLAYING', 'ACTIVATED']);
       });
 
-      test('that autoPlay can be deactivated by the user', () => {
+      test('that autoPlay can be stopped / reset by the user by callling it with null', () => {
         jest.useFakeTimers();
 
         const { activeList, subscriber } = setup({
@@ -20567,338 +20920,508 @@ describe('ActiveList', () => {
         });
 
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
 
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
 
         // Stop the autoPlay
         activeList.configureAutoPlay(null);
 
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED']);
 
         // Should stay on 'b'
         jest.advanceTimersByTime(200);
 
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED']);
       });
     });
 
-    describe("stopsOnUserInteraction", () => {
+    describe('stopsOnUserInteraction', () => {
       test('stop the autoPlay when stopsOnUserInteraction is true on activation, and isUserInteraction is true', () => {
         jest.useFakeTimers();
-  
+
         const { activeList, subscriber } = setup({
           autoPlay: { duration: 200, stopsOnUserInteraction: true },
           isCircular: true,
           activeIndexes: 0,
         });
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
-  
+
         activeList.activateNext({ isUserInteraction: true });
-  
+
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED']);
-  
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'ACTIVATED',
+        ]);
+
         // Should have no effect
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED']);
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'ACTIVATED',
+        ]);
       });
-  
+
       test('stop the autoPlay when stopsOnUserInteraction is true on activation, and isUserInteraction is undefined', () => {
         jest.useFakeTimers();
-  
+
         const { activeList, subscriber } = setup({
           autoPlay: { duration: 200, stopsOnUserInteraction: true },
           isCircular: true,
           activeIndexes: 0,
         });
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
-  
+
         // The `undefined` should default to `true`.
         activeList.activateNext({ isUserInteraction: undefined });
-  
+
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED']);
-  
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'ACTIVATED',
+        ]);
+
         // Should have no effect
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED']);
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'ACTIVATED',
+        ]);
       });
-  
+
       test('stop the autoPlay when stopsOnUserInteraction is true on activation, and isUserInteraction is undefined, via the cooldown', () => {
         jest.useFakeTimers();
-  
+
         const { activeList, subscriber } = setup({
           autoPlay: { duration: 200, stopsOnUserInteraction: true },
           isCircular: true,
           activeIndexes: 0,
         });
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
-  
+
         // The `undefined` for isUserInteraction should default to `true`.
         activeList.activateNext({ cooldown: 1000 });
-  
+
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
-        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED', 'COOLDOWN_STARTED']);
-  
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'ACTIVATED',
+          'COOLDOWN_STARTED',
+        ]);
+
         // Should have no effect
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
-        assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED', 'ACTIVATED', 'COOLDOWN_STARTED']);
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
+        assertEvents(subscriber, [
+          'ACTIVATED',
+          'AUTO_PLAY_STOPPED',
+          'ACTIVATED',
+          'COOLDOWN_STARTED',
+        ]);
         expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
       });
-  
+
       test('stop the autoPlay when stopsOnUserInteraction is true on deactivation, and isUserInteraction is true', () => {
         jest.useFakeTimers();
-  
+
         const { activeList, subscriber } = setup({
           autoPlay: { duration: 200, stopsOnUserInteraction: true },
           isCircular: true,
           activeIndexes: 0,
           maxActivationLimit: false,
         });
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toHaveBeenCalledTimes(0);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['a', 'b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
-  
+
         activeList.deactivateByIndex(1, { isUserInteraction: true });
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED',
         ]);
-  
+
         // Should have no effect
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED',
         ]);
       });
-  
+
       test('stop the autoPlay when stopsOnUserInteraction is true on deactivation, and isUserInteraction is undefined', () => {
         jest.useFakeTimers();
-  
+
         const { activeList, subscriber } = setup({
           autoPlay: { duration: 200, stopsOnUserInteraction: true },
           isCircular: true,
           activeIndexes: 0,
           maxActivationLimit: false,
         });
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toHaveBeenCalledTimes(0);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['a', 'b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
-  
+
         // The `undefined` should default to `true`.
         activeList.deactivateByIndex(1, { isUserInteraction: undefined });
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED',
         ]);
-  
+
         // Should have no effect
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED',
         ]);
       });
-  
+
       test('stop the autoPlay when stopsOnUserInteraction is true on deactivation, and isUserInteraction is undefined, via the cooldown', () => {
         jest.useFakeTimers();
-  
+
         const { activeList, subscriber } = setup({
           autoPlay: { duration: 200, stopsOnUserInteraction: true },
           isCircular: true,
           activeIndexes: 0,
           maxActivationLimit: false,
         });
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toHaveBeenCalledTimes(0);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['a', 'b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
-  
+
         // The `undefined` for isUserInteraction should default to `true`.
         activeList.deactivateByIndex(1, { cooldown: 1000 });
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED',
-          'COOLDOWN_STARTED'
+          'COOLDOWN_STARTED',
         ]);
-  
+
         // Should have no effect
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         expect(activeList.cooldown).toEqual({ isActive: true, duration: 1000 });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED',
-          'COOLDOWN_STARTED'
+          'COOLDOWN_STARTED',
         ]);
       });
-  
+
       test('when user interacts it should debounce when stopsOnUserInteraction is false', () => {
         jest.useFakeTimers();
-  
+
         const { activeList, subscriber } = setup({
           autoPlay: { duration: 200 },
           isCircular: true,
           activeIndexes: 0,
         });
-  
+
         // The active content should be 'a' at the start
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
-  
+
         // After 200 milliseconds it should become 'b'
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
-  
+
         // We move the timer to just before it skips and trigger
         // a user action, it should move to 'c' but debounce the autoPlay
         jest.advanceTimersByTime(199);
-  
+
         activeList.activateNext({ isUserInteraction: true });
-  
+
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
-  
+
         // The autoPlay should now not trigger because it has been debounced
         jest.advanceTimersByTime(1);
-  
+
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
-  
+
         // The autoPlay should still not have been triggered
         jest.advanceTimersByTime(198);
-  
+
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
-  
+
         // The autoPlay now be triggered
         jest.advanceTimersByTime(1);
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED', 'ACTIVATED']);
-  
+
         // A double debounce should work as well
         jest.advanceTimersByTime(199);
         activeList.activateNext({ isUserInteraction: true });
-  
+
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'ACTIVATED',
           'ACTIVATED',
           'ACTIVATED',
         ]);
-  
+
         // Trigger double debounce
         jest.advanceTimersByTime(199);
         activeList.activateNext({ isUserInteraction: true });
-  
+
         expect(activeList.active).toEqual(['c']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'ACTIVATED',
@@ -20909,10 +21432,10 @@ describe('ActiveList', () => {
       });
     });
 
-    describe("automatically stops when", () => {
+    describe('automatically stops when', () => {
       test('that autoPlay stops when the contents are cleared via remove', () => {
         jest.useFakeTimers();
-  
+
         const { activeList, subscriber } = setup({
           autoPlay: {
             duration: 200,
@@ -20921,24 +21444,36 @@ describe('ActiveList', () => {
           isCircular: true,
           activeIndexes: 0,
         });
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
-  
+
         // Now remove all content in between an duration's
         activeList.remove('a');
         activeList.remove('b');
         activeList.remove('c');
-  
+
         expect(activeList.active).toEqual([]);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'REMOVED',
@@ -20946,12 +21481,16 @@ describe('ActiveList', () => {
           'AUTO_PLAY_STOPPED',
           'REMOVED',
         ]);
-  
+
         // Now check if after the duration the state.active stays [].
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual([]);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'REMOVED',
@@ -20960,10 +21499,10 @@ describe('ActiveList', () => {
           'REMOVED',
         ]);
       });
-  
+
       test('that autoPlay stops when the contents are cleared via removeByPredicate', () => {
         jest.useFakeTimers();
-  
+
         const { activeList, subscriber } = setup({
           autoPlay: {
             duration: 200,
@@ -20972,128 +21511,180 @@ describe('ActiveList', () => {
           isCircular: true,
           activeIndexes: 0,
         });
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
-  
+
         // Now remove all content in between the duration
         activeList.removeByPredicate(() => true);
-  
+
         expect(activeList.active).toEqual([]);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'REMOVED_MULTIPLE',
         ]);
-  
+
         // Now check if after the duration the state.active stays [].
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual([]);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'REMOVED_MULTIPLE',
         ]);
       });
-  
+
       test('that autoPlay stops when there is no more active content via deactivateByIndex', () => {
         jest.useFakeTimers();
-  
+
         const { activeList, subscriber } = setup({
           active: ['a'],
           maxActivationLimit: 1,
           autoPlay: { duration: 200 },
           isCircular: false,
         });
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
-  
+
         // Now deactivate all content
         activeList.deactivateByIndex(1);
-  
+
         expect(activeList.active).toEqual([]);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED',
         ]);
-  
+
         // Nothing should become active no matter what
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual([]);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED',
         ]);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual([]);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED',
         ]);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual([]);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED',
         ]);
       });
-  
+
       test('that autoPlay stops when there is no more active content via deactivateByPredicate', () => {
         jest.useFakeTimers();
-  
+
         const { activeList, subscriber } = setup({
           active: ['a'],
           maxActivationLimit: 1,
           autoPlay: { duration: 200 },
           isCircular: false,
         });
-  
+
         expect(activeList.active).toEqual(['a']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         expect(subscriber).toBeCalledTimes(0);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual(['b']);
-        expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: true,
+          duration: 200,
+          hasBeenStoppedBefore: false,
+        });
         assertEvents(subscriber, ['ACTIVATED']);
-  
+
         // Now deactivate all content
         activeList.deactivateByPredicate(() => true);
-  
+
         expect(activeList.active).toEqual([]);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         // Once for 'b', Once for deactivate, once for stop
         expect(subscriber).toBeCalledTimes(3);
         assertEvents(subscriber, [
@@ -21101,39 +21692,51 @@ describe('ActiveList', () => {
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED_MULTIPLE',
         ]);
-  
+
         // Nothing should become active no matter what
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual([]);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED_MULTIPLE',
         ]);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual([]);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED_MULTIPLE',
         ]);
-  
+
         jest.advanceTimersByTime(200);
-  
+
         expect(activeList.active).toEqual([]);
-        expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+        expect(activeList.autoPlay).toEqual({
+          isPlaying: false,
+          hasBeenStoppedBefore: true,
+          duration: 0,
+        });
         assertEvents(subscriber, [
           'ACTIVATED',
           'AUTO_PLAY_STOPPED',
           'DEACTIVATED_MULTIPLE',
         ]);
       });
-    })
+    });
 
     test('that the duration can be a function instead of just a number', () => {
       jest.useFakeTimers();
@@ -21159,27 +21762,43 @@ describe('ActiveList', () => {
       });
 
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 100 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 100,
+        hasBeenStoppedBefore: false,
+      });
       expect(subscriber).toBeCalledTimes(0);
 
       jest.advanceTimersByTime(100);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       assertEvents(subscriber, ['ACTIVATED']);
 
       jest.advanceTimersByTime(200);
 
       expect(activeList.active).toEqual(['c']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 300 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 300,
+        hasBeenStoppedBefore: false,
+      });
       assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED']);
 
       jest.advanceTimersByTime(300);
 
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 100 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 100,
+        hasBeenStoppedBefore: false,
+      });
       assertEvents(subscriber, ['ACTIVATED', 'ACTIVATED', 'ACTIVATED']);
-    }); 
+    });
 
     test('that the autoPlay can be paused and continued', () => {
       jest.useFakeTimers();
@@ -21192,14 +21811,22 @@ describe('ActiveList', () => {
 
       // It should start with 'a' and be playing
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       expect(subscriber).toBeCalledTimes(0);
 
       // After 200 seconds it should be on 'b'
       jest.advanceTimersByTime(200);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       assertEvents(subscriber, ['ACTIVATED']);
 
       // Now we advance the time to the half way point
@@ -21207,21 +21834,33 @@ describe('ActiveList', () => {
       jest.advanceTimersByTime(100);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       assertEvents(subscriber, ['ACTIVATED']);
 
       // Now pause it at the half way.
       activeList.pause();
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 200,
+      });
       assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_PAUSED']);
 
       // When paused advancing the time should do nothing.
       jest.advanceTimersByTime(100);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 200,
+      });
       assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_PAUSED']);
 
       // Even when advancing a huge amount of seconds, it should
@@ -21229,7 +21868,11 @@ describe('ActiveList', () => {
       jest.advanceTimersByTime(10000);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 200,
+      });
       assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_PAUSED']);
 
       // Now press play, after 100 milliseconds it should have
@@ -21237,7 +21880,11 @@ describe('ActiveList', () => {
       activeList.play();
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       assertEvents(subscriber, [
         'ACTIVATED',
         'AUTO_PLAY_PAUSED',
@@ -21248,7 +21895,11 @@ describe('ActiveList', () => {
       jest.advanceTimersByTime(80);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       assertEvents(subscriber, [
         'ACTIVATED',
         'AUTO_PLAY_PAUSED',
@@ -21259,7 +21910,11 @@ describe('ActiveList', () => {
       jest.advanceTimersByTime(20);
 
       expect(activeList.active).toEqual(['c']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: true,
+        duration: 0,
+      });
       assertEvents(subscriber, [
         'ACTIVATED',
         'AUTO_PLAY_PAUSED',
@@ -21280,14 +21935,22 @@ describe('ActiveList', () => {
 
       // It should start with 'a' and be playing
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       expect(subscriber).toBeCalledTimes(0);
 
       // After 200 seconds it should be on 'b'
       jest.advanceTimersByTime(200);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       assertEvents(subscriber, ['ACTIVATED']);
 
       // Now we advance the time to the half way point
@@ -21295,14 +21958,22 @@ describe('ActiveList', () => {
       jest.advanceTimersByTime(100);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       assertEvents(subscriber, ['ACTIVATED']);
 
       // Now pause it at the half way.
       activeList.pause();
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 200,
+      });
       assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_PAUSED']);
 
       // Now advance the timer by a huge margin, and pause again, this
@@ -21311,7 +21982,11 @@ describe('ActiveList', () => {
       activeList.pause(); // <--- this pause should be ignored
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 200,
+      });
       assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_PAUSED']);
 
       // Now press play, after 200 milliseconds it should have
@@ -21319,7 +21994,11 @@ describe('ActiveList', () => {
       activeList.play();
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       assertEvents(subscriber, [
         'ACTIVATED',
         'AUTO_PLAY_PAUSED',
@@ -21330,7 +22009,11 @@ describe('ActiveList', () => {
       jest.advanceTimersByTime(99);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       assertEvents(subscriber, [
         'ACTIVATED',
         'AUTO_PLAY_PAUSED',
@@ -21340,7 +22023,11 @@ describe('ActiveList', () => {
       // Finally after 1 milliseconds it should be 'c'
       jest.advanceTimersByTime(1);
       expect(activeList.active).toEqual(['c']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: true,
+        duration: 0,
+      });
       assertEvents(subscriber, [
         'ACTIVATED',
         'AUTO_PLAY_PAUSED',
@@ -21361,14 +22048,22 @@ describe('ActiveList', () => {
 
       // It should start with 'a' and be playing
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       expect(subscriber).toBeCalledTimes(0);
 
       // After 200 seconds it should be on 'b'
       jest.advanceTimersByTime(200);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       assertEvents(subscriber, ['ACTIVATED']);
 
       // Now we advance the time to the half way point
@@ -21376,7 +22071,11 @@ describe('ActiveList', () => {
       jest.advanceTimersByTime(100);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       assertEvents(subscriber, ['ACTIVATED']);
 
       // Now pause it at the half way, this should be forgotten
@@ -21384,14 +22083,22 @@ describe('ActiveList', () => {
       activeList.stop();
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: true,
+        duration: 0,
+      });
       assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED']);
 
       // When stopped advancing the time should do nothing.
       jest.advanceTimersByTime(100);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: true,
+        duration: 0,
+      });
       assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED']);
 
       // Even when advancing a huge amount of seconds, it should
@@ -21399,7 +22106,11 @@ describe('ActiveList', () => {
       jest.advanceTimersByTime(10000);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: true,
+        duration: 0,
+      });
       assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_STOPPED']);
 
       // Now press play, after 100 milliseconds it should have
@@ -21407,7 +22118,11 @@ describe('ActiveList', () => {
       activeList.play();
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: true,
+      });
       assertEvents(subscriber, [
         'ACTIVATED',
         'AUTO_PLAY_STOPPED',
@@ -21419,7 +22134,11 @@ describe('ActiveList', () => {
       jest.advanceTimersByTime(100);
 
       expect(activeList.active).toEqual(['b']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: true,
+      });
       assertEvents(subscriber, [
         'ACTIVATED',
         'AUTO_PLAY_STOPPED',
@@ -21431,7 +22150,11 @@ describe('ActiveList', () => {
       jest.advanceTimersByTime(100);
 
       expect(activeList.active).toEqual(['c']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: true,
+        duration: 0,
+      });
 
       assertEvents(subscriber, [
         'ACTIVATED',
@@ -21453,20 +22176,32 @@ describe('ActiveList', () => {
 
       // It should start with 'a' and be playing
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       expect(subscriber).toBeCalledTimes(0);
 
       activeList.stop();
 
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: true,
+        duration: 0,
+      });
       assertEvents(subscriber, ['AUTO_PLAY_STOPPED']);
 
       // This stop should be ignored
       activeList.stop();
 
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: true,
+        duration: 0,
+      });
       assertEvents(subscriber, ['AUTO_PLAY_STOPPED']);
     });
 
@@ -21481,19 +22216,31 @@ describe('ActiveList', () => {
 
       // It should start with 'a' and be playing
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: true, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
       expect(subscriber).toBeCalledTimes(0);
 
       activeList.pause();
 
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 200 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 200,
+      });
       assertEvents(subscriber, ['AUTO_PLAY_PAUSED']);
 
       activeList.stop();
 
       expect(activeList.active).toEqual(['a']);
-      expect(activeList.autoPlay).toEqual({ isPlaying: false, duration: 0 });
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: true,
+        duration: 0,
+      });
       assertEvents(subscriber, ['AUTO_PLAY_PAUSED', 'AUTO_PLAY_STOPPED']);
     });
   });
@@ -22557,8 +23304,7 @@ describe('ActiveList', () => {
         expect.objectContaining({
           type: 'COOLDOWN_STARTED',
         }),
-        
-      ])
+      ]);
 
       jest.advanceTimersByTime(1);
 
@@ -22622,7 +23368,7 @@ describe('ActiveList', () => {
         expect.objectContaining({
           type: 'COOLDOWN_ENDED',
         }),
-      ])
+      ]);
     });
 
     test('that a history is kept for a maximum number of events', () => {
@@ -22796,6 +23542,7 @@ function assertState(state: ActiveList<string>, expected: TestState<string>) {
     autoPlay: {
       isPlaying: state.autoPlay.isPlaying,
       duration: state.autoPlay.duration,
+      hasBeenStoppedBefore: state.autoPlay.hasBeenStoppedBefore,
     },
     cooldown: {
       isActive: state.cooldown.isActive,

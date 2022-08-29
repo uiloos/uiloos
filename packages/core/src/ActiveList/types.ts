@@ -338,6 +338,26 @@ export type ActiveListAutoPlay = {
    * reaches the end, the duration will be set to zero.
    */
   duration: number;
+
+  /**
+   * Whether or not the ActiveList had the autoPlay stopped at one
+   * point before.
+   * 
+   * Use case: say you are making a carousel which should stop on
+   * any user interaction, so you set `stopsOnUserInteraction` to 
+   * `true`. Say you also have another feature: a pause whenever
+   * the user hovers over the carousel. These two features would cause
+   * a conflict:
+   * 
+   * Whenever the mouse over happens you call `play()`, which negates
+   * the `stopsOnUserInteraction`, causing the carousel to play again.
+   * 
+   * To fix this problem you should on the mouse over not call 
+   * `play()` whenever `hasBeenStoppedBefore` is `true`.
+   * 
+   * @since 1.1.0
+   */
+   hasBeenStoppedBefore: boolean;
 };
 
 /**

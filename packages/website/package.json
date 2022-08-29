@@ -21,7 +21,7 @@
   "dependencies": {
     "alpinejs": "3.10.2",
     "aos": "3.0.0-beta.6",
-    "@uiloos/core": "^0.0.5"
+    "@uiloos/core": "^1.0.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "1.0.1",

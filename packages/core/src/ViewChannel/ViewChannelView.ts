@@ -85,7 +85,7 @@ export class ViewChannelView<T, R> {
    * Contains wether or not the autoDismiss is playing via `isPlaying`
    * and the current duration via `duration`.
    */
-  public autoDismiss: ViewChannelViewAutoDismiss = {
+  public readonly autoDismiss: ViewChannelViewAutoDismiss = {
     isPlaying: false,
     duration: 0,
   };

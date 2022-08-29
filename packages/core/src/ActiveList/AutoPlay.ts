@@ -149,6 +149,8 @@ export class _AutoPlay<T> {
     this._activeList.autoPlay.isPlaying = false;
     this._activeList.autoPlay.duration = 0;
 
+    this._activeList.autoPlay.hasBeenStoppedBefore = true;
+
     const event: ActiveListAutoPlayStoppedEvent = {
       type: 'AUTO_PLAY_STOPPED',
       time: new Date(),
