@@ -14,7 +14,7 @@
     "build": "nx run-many --target=build --all",
     "link": "npm run bootstrap && npm run build",
     "tsc": "lerna run tsc",
-    "apigen": "nx run-many --target=apigen --all",
+    "apigen": "nx run-many --target=apigen:pre --all && nx run-many --target=apigen --all",
     "build-docs": "npm run link && npm run apigen && nx build-docs website",
     "publish:release": "npm run test && lerna run before-publish && lerna publish",
     "publish:alpha": "npm run test && lerna run before-publish && lerna publish --dist-tag alpha"
