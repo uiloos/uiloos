@@ -9,14 +9,20 @@ renderData:
     title: "{{ def.name }} | core | API | uiloos"
 ---
 
+{% from "../_includes/error.njk" import errorPage %}
+{% from "../_includes/class.njk" import classPage %}
+{% from "../_includes/function.njk" import functionPage %}
+{% from "../_includes/typealias.njk" import typealiasPage %}
+{% from "../_includes/instance.njk" import instancePage %}
+
 {% if def.kindString === 'Class' and def.name.endsWith('Error') %}
-  {% include "../_includes/error.njk" %}
+  {{ errorPage(def, 'core') }}
 {% elif def.kindString === 'Class' %}
-  {% include "../_includes/class.njk" %}
+  {{ classPage(def, 'core') }}
 {% elif def.kindString === 'Function' %}
-  {% include "../_includes/function.njk" %}
+  {{ functionPage(def, 'core') }}
 {% elif def.kindString === 'Type alias' %}
-  {% include "../_includes/typealias.njk" %}
+  {{ typealiasPage(def, 'core') }}
 {% elif def.kindString === 'Variable' %}
-  {% include "../_includes/instance.njk" %}
+  {{ instancePage(def, 'core') }}
 {% endif %}

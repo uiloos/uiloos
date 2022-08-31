@@ -3,6 +3,8 @@ import { ActiveListComponent } from './ActiveList/ActiveList.component';
 
 /**
  * An Angular module that includes all uiloos Angular bindings.
+ * 
+ * @since 1.0.0
  */
 @NgModule({
   declarations: [

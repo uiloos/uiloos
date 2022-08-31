@@ -1,26 +1,33 @@
-{% from "./macros.njk" import displaySignatures %}
+{% from "./macros.njk" import displaySignatures,
+displaySince %}
 
-<article>
-  <h1>
-    {{def.name}}
-  </h1>
+{% macro instancePage(def, sinceRoot) %}
+  <article>
+    <h1>
+      {{def.name}}
+    </h1>
 
-  <p class="text-2xl font-mono mb-4 text-green-800">INSTANCE</p>
+    <p class="text-2xl font-mono mb-4 text-green-800">INSTANCE</p>
 
-  <p>{{def.comment.shortText | escape | nl2br}}</p>
-  {% if def.comment.text %}
-    <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
-  {% endif %}
+    <p>{{def.comment.shortText | escape | nl2br}}</p>
+    {% if def.comment.text %}
+      <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
+    {% endif %}
 
-  {% for tag in def.comment.tags %}
-    <p class="mb-4 flex">
-       See: <a 
-        class="ml-2 underline text-purple-600 font-mono font-bold block" 
-        href="/api/core/{{ tag.text | replace('{', '') | slug}}/"
-      >
-        {{ tag.text | replace('{', '') }}
-      </a>
-    </p>
-  {% endfor %}
+   F {{ displaySince(def, sinceRoot) }}
 
-</article>
+    {% for tag in def.comment.tags %}
+      {% if tag.tag === 'see' %}
+        <p>
+          <strong>See:</strong>
+          <a 
+            class="ml-2 underline text-purple-600 font-mono font-bold" 
+            href="/api/core/{{ tag.text | replace('{', '') | slug}}/"
+          >
+            {{ tag.text | replace('{', '') }}
+          </a>
+        </p>
+      {% endif %}
+    {% endfor %}
+  </article>
+{% endmacro %}

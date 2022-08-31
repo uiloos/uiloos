@@ -12,6 +12,8 @@ import { ActiveList, ActiveListConfig } from '@uiloos/core';
  * A component which wraps the ActiveList from @uiloos/core.
  *  
  * @alias uiloos-active-list
+ * 
+ * @since 1.0.0
  */
 @Component({
   selector: 'uiloos-active-list',

@@ -3,12 +3,16 @@ import { ViewChannelView } from './ViewChannelView';
 
 /**
  * Configures the initial state of the `ViewChannel`.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelConfig = {
   /**
    * For how many items the `history` may contain in the `ViewChannel`.
    *
    * Defaults to `0` meaning that it will not track history.
+   * 
+   * @since 1.0.0
    */
   keepHistoryFor?: number;
 };
@@ -16,12 +20,16 @@ export type ViewChannelConfig = {
 /**
  * Represents the configuration for AutoDismiss. AutoDismiss means
  * that the ViewChannelView will remove itself after a duration.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelViewAutoDismissConfig<R> = {
   /**
    * The amount of milliseconds the view should remain visible to
    * the user. Once the duration has passed the view is removed
    * from the `ViewChannel` automatically.
+   * 
+   * @since 1.0.0
    */
   duration: number;
 
@@ -29,6 +37,8 @@ export type ViewChannelViewAutoDismissConfig<R> = {
    * The value (R) to resolve the promise of the `ViewChannelView`
    * with. This allows you to distinguish between user events,
    * such as clicking a cancel / save button or an auto dismissal.
+   * 
+   * @since 1.0.0
    */
   result: R;
 };
@@ -45,6 +55,8 @@ export type ViewChannelViewAutoDismiss = {
    * Whether or not the ViewChannelView is playing. In other words
    * whether or not the ViewChannelView is going to be autoDismissed
    * after a duration.
+   * 
+   * @since 1.0.0
    */
   isPlaying: boolean;
 
@@ -59,7 +71,9 @@ export type ViewChannelViewAutoDismiss = {
    * 100ms, the duration will still be 200ms.
    *
    * When calling `stop`, or when the ViewChannelView is dismissed
-   *  the duration will be set to zero.
+   * the duration will be set to zero.
+   * 
+   * @since 1.0.0
    */
   duration: number;
 };
@@ -77,6 +91,8 @@ export type ViewChannelViewConfig<T, R> = {
    * text for a flash message or confirmation dialog.
    *
    * By default the value is `undefined`.
+   * 
+   * @since 1.0.0
    */
   data: T;
 
@@ -86,6 +102,8 @@ export type ViewChannelViewConfig<T, R> = {
    *
    * Defaults to no autoDismiss, meaning it will stay visible forever,
    * until it is dismissed.
+   * 
+   * @since 1.0.0
    */
   autoDismiss?: ViewChannelViewAutoDismissConfig<R>;
 
@@ -139,6 +157,8 @@ export type ViewChannelViewConfig<T, R> = {
    *
    * Defaults to `[0]` when no priority is given, this makes it the
    * highest priority.
+   * 
+   * @since 1.0.0
    */
   priority?: number | number[];
 };
@@ -149,6 +169,8 @@ export type ViewChannelViewConfig<T, R> = {
  *
  * @param {ViewChannel<T, C>} viewChannel The ViewChannel which had changes.
  * @param {ViewChannelEvent<T>} event The event that occurred.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelSubscriber<T, R> = (
   viewChannel: ViewChannel<T, R>,
@@ -158,6 +180,8 @@ export type ViewChannelSubscriber<T, R> = (
 /**
  * Represents whether the `ViewChannelEvent` was presented, dismissed
  * or initialized.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelEventType =
   | 'INITIALIZED'
@@ -171,35 +195,49 @@ export type ViewChannelEventType =
 /**
  * Represents an event which happened in the ViewChannel. Based
  * on the `type` you can determine which event occurred.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelBaseEvent = {
   /**
    * Which event occurred
+   * 
+   * @since 1.0.0
    */
   type: ViewChannelEventType;
 
   /**
    * The time the event occurred on as a Date object.
+   * 
+   * @since 1.0.0
    */
   time: Date;
 };
 
 /**
  * Represents the initialization of the ViewChannel
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelInitializedEvent = ViewChannelBaseEvent & {
   /**
    * Which type occurred
+   * 
+   * @since 1.0.0
    */
   type: 'INITIALIZED';
 };
 
 /**
  * Represents an insertion of a ViewChannelView into the ViewChannel.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelViewPresentedEvent<T, R> = ViewChannelBaseEvent & {
   /**
    * Which type occurred
+   * 
+   * @since 1.0.0
    */
   type: 'PRESENTED';
 
@@ -209,6 +247,8 @@ export type ViewChannelViewPresentedEvent<T, R> = ViewChannelBaseEvent & {
    * Note: this was the view at the time of insertion, it might
    * currently be removed, so be aware that this view might no
    * longer be displayed in the `ViewChannel`.
+   * 
+   * @since 1.0.0
    */
   view: ViewChannelView<T, R>;
 
@@ -217,6 +257,8 @@ export type ViewChannelViewPresentedEvent<T, R> = ViewChannelBaseEvent & {
    *
    * Note: this was the index at the time of the insertion, it might
    * no longer be accurate.
+   * 
+   * @since 1.0.0
    */
   index: number;
 };
@@ -226,6 +268,8 @@ export type ViewChannelViewPresentedEvent<T, R> = ViewChannelBaseEvent & {
  * `duration` of the view passed, in which case it is
  * `DURATION_PASSED`, or because the user closed the View, then
  * the reason will be `USER_INTERACTION`.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelViewDismissedEventReason =
   | 'AUTO_DISMISS'
@@ -237,10 +281,14 @@ export type ViewChannelViewDismissedEventReason =
  * Note: when this event is fired the "AUTO_DISMISS_STOPPED" event
  * will not be fired even when autoDismiss is playing. The reason for
  * this is because on "DISMISSED" the entire view should be cleared.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelViewDismissedEvent<T, R> = ViewChannelBaseEvent & {
   /**
    * Which type occurred
+   * 
+   * @since 1.0.0
    */
   type: 'DISMISSED';
 
@@ -249,11 +297,15 @@ export type ViewChannelViewDismissedEvent<T, R> = ViewChannelBaseEvent & {
    * `duration` of the view passed, in which case it is
    * `DURATION_PASSED`, or because the user closed the View, then
    * the reason will be `USER_INTERACTION`.
+   * 
+   * @since 1.0.0
    */
   reason: ViewChannelViewDismissedEventReason;
 
   /**
    * The view which was removed.
+   * 
+   * @since 1.0.0
    */
   view: ViewChannelView<T, R>;
 
@@ -262,21 +314,29 @@ export type ViewChannelViewDismissedEvent<T, R> = ViewChannelBaseEvent & {
    *
    * Note: this was the index at the time of the dismissal, it might
    * no longer be accurate.
+   * 
+   * @since 1.0.0
    */
   index: number;
 };
 
 /**
  * Represents an dismissal of all ViewChannelViews of the ViewChannel.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelViewDismissedAllEvent<T, R> = ViewChannelBaseEvent & {
   /**
    * Which type occurred
+   * 
+   * @since 1.0.0
    */
   type: 'DISMISSED_ALL';
 
   /**
    * The views which were removed.
+   * 
+   * @since 1.0.0
    */
   views: ViewChannelView<T, R>[];
 
@@ -285,6 +345,8 @@ export type ViewChannelViewDismissedAllEvent<T, R> = ViewChannelBaseEvent & {
    *
    * Note: there are the indexes at the time of the dismissal, it might
    * no longer be accurate.
+   * 
+   * @since 1.0.0
    */
   indexes: number[];
 };
@@ -300,11 +362,15 @@ export type ViewChannelViewAutoDismissPlayingEvent<T, R> =
   ViewChannelBaseEvent & {
     /**
      * Which type occurred
+     * 
+     * @since 1.0.0
      */
     type: 'AUTO_DISMISS_PLAYING';
 
     /**
      * The view which had its auto dismiss started / played.
+     * 
+     * @since 1.0.0
      */
     view: ViewChannelView<T, R>;
 
@@ -314,6 +380,8 @@ export type ViewChannelViewAutoDismissPlayingEvent<T, R> =
      *
      * Note: this was the index at the time of playing, it might no
      * longer be accurate.
+     * 
+     * @since 1.0.0
      */
     index: number;
   };
@@ -321,16 +389,22 @@ export type ViewChannelViewAutoDismissPlayingEvent<T, R> =
 /**
  * Represents a ViewChannelView autoDismiss being paused of the given
  * ViewChannel.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelViewAutoDismissPausedEvent<T, R> =
   ViewChannelBaseEvent & {
     /**
      * Which type occurred
+     * 
+     * @since 1.0.0
      */
     type: 'AUTO_DISMISS_PAUSED';
 
     /**
      * The view which had its auto dismiss paused.
+     * 
+     * @since 1.0.0
      */
     view: ViewChannelView<T, R>;
 
@@ -339,6 +413,8 @@ export type ViewChannelViewAutoDismissPausedEvent<T, R> =
      *
      * Note: this was the index at the time of pausing, it might no
      * longer be accurate.
+     * 
+     * @since 1.0.0
      */
     index: number;
   };
@@ -346,16 +422,22 @@ export type ViewChannelViewAutoDismissPausedEvent<T, R> =
 /**
  * Represents a ViewChannelView autoDismiss being stopped of the given
  * ViewChannel.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelViewAutoDismissStoppedEvent<T, R> =
   ViewChannelBaseEvent & {
     /**
      * Which type occurred
+     * 
+     * @since 1.0.0
      */
     type: 'AUTO_DISMISS_STOPPED';
 
     /**
      * The view which had its auto dismiss stopped.
+     * 
+     * @since 1.0.0
      */
     view: ViewChannelView<T, R>;
 
@@ -364,6 +446,8 @@ export type ViewChannelViewAutoDismissStoppedEvent<T, R> =
      *
      * Note: this was the index at the time of stopping, it might no
      * longer be accurate.
+     * 
+     * @since 1.0.0
      */
     index: number;
   };
@@ -371,6 +455,8 @@ export type ViewChannelViewAutoDismissStoppedEvent<T, R> =
 /**
  * A ViewChannelEvent represents an event happened in the ViewChannel.
  * For example the presented and dismissal of the ViewChannelView.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelEvent<T, R> =
   | ViewChannelInitializedEvent

@@ -45,7 +45,7 @@
   </div>
 {% endmacro %}
 
-{% macro displayType(type, inlineUnion = true, purpleLink = true) %}
+{% macro displayType(type, sinceRoot, inlineUnion = true, purpleLink = true) %}
   {% if type.type === 'reference' and type.typeArguments %}
    <a class="underline {% if purpleLink %} text-purple-600 {% else %} text-blue-500 {% endif %}" href="/api/core/{{ type.name | slug}}/">{{type.name}}&lt;{{type.typeArguments[0].name}}&gt;</a>
   {% elif type.type === 'reference'%}
@@ -74,19 +74,20 @@
     {% endif %}
   {% elif type.type === 'array' %}
     <span class="flex">
-    <span>{{ displayType(type.elementType, inlineUnion, purpleLink) }}</span><span>[]</span>
-  </span>
+      <span>{{ displayType(type.elementType, sinceRoot, inlineUnion, purpleLink) }}</span>
+      <span>[]</span>
+    </span>
   {% elif type.type === 'union' %}
     {% for type in type.types %}
       {% if not inlineUnion %} | {% endif %}
-      {{ displayType(type, inlineUnion, purpleLink) }}
+      {{ displayType(type, sinceRoot, inlineUnion, purpleLink) }}
       {% if not loop.last and inlineUnion %} | {% endif %}
       {% if not inlineUnion %} <br> {% endif %}
     {% endfor %}
   {% elif type.type === 'intersection' %}
     {% for type in type.types %}
       {% if not inlineUnion %} | {% endif %}
-      {{ displayType(type, inlineUnion, purpleLink) }}
+      {{ displayType(type, sinceRoot, inlineUnion, purpleLink) }}
       {% if not loop.last and inlineUnion %} & {% endif %}
       {% if not inlineUnion %} <br> {% endif %}
     {% endfor %}
@@ -94,7 +95,7 @@
     <h5 class="h4">Object</h4>
     {% for item in type.declaration.children %}
       <div class="ml-4 mb-2 py-2 {% if not loop.last %} border-b-2 border-dashed {% endif %}">
-        <strong class="mb-2 font-mono">{{item.name}}</strong>: {{ displayType(item.type, inlineUnion, purpleLink) }}
+        <strong class="mb-2 font-mono">{{item.name}}</strong>: {{ displayType(item.type, sineRoot, inlineUnion, purpleLink) }}
 
         <p class="my-2">{{item.comment.shortText | escape | nl2br}}</p>
 
@@ -102,29 +103,33 @@
           <p class="mb-2">{{item.comment.text | escape | nl2br}}</p>
         {% endif %}
 
+        {{ displaySince(item, sinceRoot) }}
+
         {% if item.signatures %}
-          {{displaySignatures(item.signatures)}}
+          {{displaySignatures(item.signatures, sinceRoot)}}
         {% endif %}
       </div>
     {% endfor %}
   {% endif %}
 {% endmacro %}
 
-{% macro displaySignatures(signatures) %}
+{% macro displaySignatures(signatures, sinceRoot) %}
   {% for signature in signatures %}
     <p>{{signature.comment.shortText | escape | nl2br}}</p>
     {% if signature.comment.text %}
       <p class="mb-2">{{signature.comment.text | escape | nl2br}}</p>
     {% endif %}
 
+    {{ displaySince(signature, sinceRoot) }}
+
     <h4 class="mt-4">Signature</h3>
     <div class="font-mono bg-gray-700 text-white p-4 mb-2">
       {% if not signature.parameters %}
         <span class="text-purple-400">
           {% if signature.name === '__type' %}
-            callback(): </span>{{ displayType(signature.type) }}
+            callback(): </span>{{ displayType(signature.type, sinceRoot) }}
           {% else %}
-            {{signature.name}}(): </span>{{ displayType(signature.type) }}
+            {{signature.name}}(): </span>{{ displayType(signature.type, sinceRoot) }}
           {% endif %}
         </span>
       {% else %}
@@ -139,12 +144,12 @@
           <div class="ml-4 flex">
             <span class="text-orange-400">{{parameter.name}}</span>
             <span class="text-white">:</span>
-            <span class="ml-2">{{ displayType(parameter.type, true, false) }}</span>
+            <span class="ml-2">{{ displayType(parameter.type, sinceRoot, true, false) }}</span>
             {% if not loop.last %}
               <span>,</span>{% endif %}
           </div>
         {% endfor %}
-        <span class="text-purple-400">):</span>{{ displayType(signature.type, false, false) }}
+        <span class="text-purple-400">):</span>{{ displayType(signature.type, sinceRoot, false, false) }}
       {% endif %}
     </div>
 
@@ -155,7 +160,7 @@
         <div class="mb-4">
           <strong class="mb-2 font-mono">
             <span>{{parameter.name}}:</span>
-            {{ displayType(parameter.type) }}
+            {{ displayType(parameter.type, sinceRoot) }}
           </strong>
 
           <p>{{parameter.comment.shortText | escape | nl2br}}</p>
@@ -168,20 +173,34 @@
 
     {% if signature.comment.returns %}
       <h4 class="mt-4">Returns</h4>
-      <strong class="mb-2 font-mono">{{ displayType(signature.type) }}</strong>
+      <strong class="mb-2 font-mono">{{ displayType(signature.type, sinceRoot) }}</strong>
       <p class="mb-2">{{signature.comment.returns | escape | nl2br}}</p>
     {% endif %}
 
     {% if signature.comment.tags %}
-      <h4 class="mt-4">Throws</h3>
       {% for tag in signature.comment.tags %}
-        <p>
-          <a class="underline text-purple-600 font-mono font-bold block" href="/api/core/{{ tag.text.split('}')[0] | replace('{', '') | slug}}/">{{ tag.text.split('}')[0] | replace('{', '') }}</a>
-          
-          {{tag.text.split('} ')[1]}}
-        </p>
+        {% if tag.tag === 'throws' %}
+          {% if loop.first%}
+            <h4 class="mt-4">Throws</h3>
+          {% endif %}
+          <p>
+            <a class="underline text-purple-600 font-mono font-bold block" href="/api/core/{{ tag.text.split('}')[0] | replace('{', '') | slug}}/">{{ tag.text.split('}')[0] | replace('{', '') }}</a>
+            
+            {{tag.text.split('} ')[1]}}
+          </p>
+        {% endif %}
       {% endfor %}
     {% endif %}
 
+  {% endfor %}
+{% endmacro %}
+
+{% macro displaySince(def, sinceRoot) %}
+  {% for tag in def.comment.tags %}
+    {% if tag.tag === 'since' %}
+      <p>
+        <strong>Since</strong> <a class="underline text-purple-600 font-mono font-bold" href="/releases/{{sinceRoot}}/{{tag.text | replace('\n', '')}}/">{{ tag.text | replace('\n', '')}}</a>
+      </p>
+    {% endif %}
   {% endfor %}
 {% endmacro %}

@@ -8,6 +8,8 @@ import { UnsubscribeFunction, ViewChannel } from '@uiloos/core';
  *
  * @param {ViewChannel<T, R>} viewChannel The ViewChannel to wrap in a ref.
  * @returns {Ref<ViewChannel<T,R>} A ref containing an instance of the ViewChannel from @uiloos/core
+ * 
+ * @since 1.0.0
  */
  export function useViewChannel<T, R>(
   viewChannel: ViewChannel<T, R>

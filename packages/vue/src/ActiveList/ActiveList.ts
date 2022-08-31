@@ -7,6 +7,8 @@ import { defineComponent } from 'vue';
  * 
  * @param {ActiveListConfig<T>} config The properties of the ActiveList component.
  * @returns A component which wraps the ActiveList from @uiloos/core.
+ * 
+ * @since 1.0.0
  */
 const ActiveList = defineComponent({
   name: 'ActiveList',

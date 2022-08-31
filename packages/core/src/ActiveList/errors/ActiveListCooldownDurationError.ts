@@ -9,6 +9,8 @@ import { common } from "./common";
  * negative or zero duration, the activation / deactivation will still 
  * have occurred! This error is considered a developer error on your
  * part and you should prevent it, as the ActiveList is now invalid.
+ * 
+ * @since 1.0.0
  */
 export class ActiveListCooldownDurationError extends Error {
   constructor() {

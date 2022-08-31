@@ -1,38 +1,8 @@
-{% from "./macros.njk" import displayType, displaySignatures %}
+{% from "./macros.njk" import displayType,
+displaySignatures,
+displaySince %}
 
-{% macro displayProperties(properties) %}
-  <h2 class="mt-4">Properties</h2>
-
-  {% for type in properties %}
-    <div class="border px-2 pt-4 mb-4">
-      <h3 class="font-mono" id="{{type.name}}">
-        <a href="#{{type.name}}">{{type.name}}</a>
-        {% if type.flags.isOptional %}
-          <span class="text-sm italic">Optional</span>
-        {% else %}
-          <span class="text-sm italic">Required</span>
-        {% endif %}
-      </h3>
-
-      {% if type.type.type !== 'reflection' %}
-        <p class="mb-4 font-mono">
-          {{ displayType(type.type) }}
-        </p>
-      {% endif %}
-
-      <p>{{type.comment.shortText | escape | nl2br}}</p>
-      {% if type.comment.text %}
-        <p class="mb-2">{{type.comment.text | escape | nl2br}}</p>
-      {% endif %}
-
-      {% if type.type.type === 'reflection' %}
-        {{ displayType(type.type) }}
-      {% endif %}
-
-    </div>
-  {% endfor %}
-{% endmacro %}
-
+{% macro typealiasPage(def, sinceRoot) %}
 <article>
   <h1>{{def.name}}
 
@@ -50,26 +20,67 @@
     <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
   {% endif %}
 
+  {{ displaySince(def, sinceRoot) }}
+
   {% if def.type.type === 'reflection' %}
     {% if def.type.declaration.children %}
-      {{ displayProperties(def.type.declaration.children) }}
+      {{ displayProperties(def.type.declaration.children, sinceRoot) }}
     {% else %}
-      {{ displaySignatures(def.type.declaration.signatures) }}
+      {{ displaySignatures(def.type.declaration.signatures, sinceeRoot) }}
     {% endif %}
   {% elif def.type.type === 'union' %}
     <h2 class="mt-4">Union of</h2>
     <p class="mb-4 font-mono">
-      {{ displayType(def.type, false) }}
+      {{ displayType(def.type, sinceRoot, false) }}
     </p>
   {% elif def.type.type === 'intersection' %}
     {% for inter in def.type.types %}
       {% if inter.type === 'reference' %}
-        <h2 class="font-mono">Extends
+        <h2 class="font-mono">extends
           <a class="underline text-purple-600" href="/api/core/{{ inter.name | slug}}/">{{inter.name}}</a>
         </h2>
       {% else %}
-        {{ displayProperties(inter.declaration.children) }}
+        {{ displayProperties(inter.declaration.children, sinceRoot) }}
       {% endif %}
     {% endfor %}
   {% endif %}
 </article>
+{% endmacro %}
+
+{% macro displayProperties(properties, sinceRoot) %}
+  <h2 class="mt-4">Properties</h2>
+
+  {% for type in properties %}
+    <div class="border px-2 pt-4 mb-4">
+      <h3 class="font-mono" id="{{type.name}}">
+        <a href="#{{type.name}}">{{type.name}}</a>
+        {% if type.flags.isOptional %}
+          <span class="text-sm italic">Optional</span>
+        {% else %}
+
+        {% endif %}
+      </h3>
+
+      {% if type.kindString === 'Method' %}
+        {{ displaySignatures(type.signatures, sinceRoot) }}
+      {% else %}
+        {% if type.type.type !== 'reflection' %}
+          <p class="mb-4 font-mono">
+            {{ displayType(type.type, sinceRoot) }}
+          </p>
+        {% endif %}
+
+        <p>{{type.comment.shortText | escape | nl2br}}</p>
+        {% if type.comment.text %}
+          <p class="mb-2">{{type.comment.text | escape | nl2br}}</p>
+        {% endif %}
+
+        {{ displaySince(type, sinceRoot) }}
+
+        {% if type.type.type === 'reflection' %}
+          {{ displayType(type.type, sinceRoot) }}
+        {% endif %}
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endmacro %}

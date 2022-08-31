@@ -1,3 +1,6 @@
+{% from "../../_includes/macros.njk" import displaySince %}
+{% from "../../_includes/property.njk" import displayProperty %}
+
 <article>
   <h1>
     {{def.name}}
@@ -20,10 +23,12 @@
     <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
   {% endif %}
 
+  {{ displaySince(def, 'angular') }}
+
   <h2 id="inputs"><a href="#inputs">Inputs</a></h2>
   {% for item in def.children %}
     {% if not item.flags.isPrivate and item.kindString === 'Property' and item.decorators[0].name === 'Input' %}
-      {% include "../../_includes/property.njk" %}
+      {{ displayProperty(def, item, 'angular') }}
     {% endif %}
   {% endfor %}
 

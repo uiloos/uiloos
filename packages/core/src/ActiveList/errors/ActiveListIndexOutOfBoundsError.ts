@@ -2,6 +2,8 @@ import { common } from "./common";
 
 /**
  * Error which is thrown whenever an index is out of bounds.
+ * 
+ * @since 1.0.0
  */
 export class ActiveListIndexOutOfBoundsError extends Error {
   constructor(message: string) {

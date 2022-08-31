@@ -1,7 +1,0 @@
-{% from "./macros.njk" import displaySignatures %}
-
-<div class="border px-2 pt-4 mb-4">
-  <h3 class="font-mono" id="{{item.name}}"><a href="#{{item.name}}">{{item.name}}</a></h3>
-
-  {{ displaySignatures(item.signatures) }}
-</div>

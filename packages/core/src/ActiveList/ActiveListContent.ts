@@ -14,44 +14,60 @@ import {
  *
  * It also contains methods to activate, remove, swap and move itself
  * within the ActiveList.
+ * 
+ * @since 1.0.0
  */
 export class ActiveListContent<T> {
   /**
    * Reference to the ActiveList is it a part of.
+   * 
+   * @since 1.0.0
    */
   public activeList: ActiveList<T>;
 
   /**
    * The index of the `ActiveListContent` which it has within the `contents`.
+   * 
+   * @since 1.0.0
    */
   public index: number;
 
   /**
    * The actual `value` of the `ActiveListContent` it can be whatever the
    * developer wants it to be.
+   * 
+   * @since 1.0.0
    */
   public value: T;
 
   /**
    * Whether or not the `ActiveListContent` is currently active.
+   * 
+   * @since 1.0.0
    */
   public isActive = false;
 
   /**
    * Whether or not the `ActiveListContent` has been active at least once
    * in the past.
+   * 
+   * @since 1.0.0
    */
   public hasBeenActiveBefore = false;
 
   /**
    * Whether or not the `ActiveListContent` is considered to be the first
    * item in the `contents`.
+   * 
+   * @since 1.0.0
    */
   public isFirst = false;
 
   /**
    * Whether or not the `ActiveListContent` is considered to be the last
    * item in the `contents`.
+   * 
+   * @since 1.0.0
    */
   public isLast = false;
 
@@ -63,19 +79,25 @@ export class ActiveListContent<T> {
 
   /**
    * Whether this `ActiveListContent` has at least one other `ActiveListContent` coming
-   * before it in the `contents`
+   * before it in the `contents`.
+   * 
+   * @since 1.0.0
    */
   public hasPrevious = false;
 
   /**
    * Whether this `ActiveListContent` comes directly after the `ActiveListContent`, in the
    * `contents` array, which is currently the `lastActiveList`.
+   * 
+   * @since 1.0.0
    */
   public isNext = false;
 
   /**
    * Whether this `ActiveListContent` comes directly before the `ActiveListContent`, in the
    * `contents` array, which is currently the `lastActiveList`.
+   * 
+   * @since 1.0.0
    */
   public isPrevious = false;
 
@@ -88,6 +110,8 @@ export class ActiveListContent<T> {
    * @param {ActiveList<T>} activeList The ActiveList this ActiveListContent belongs to.
    * @param {number} index The index of this ActiveListContent within the ActiveList.
    * @param {T} value The value this ActiveListContent wraps.
+   * 
+   * @since 1.0.0
    */
   constructor(activeList: ActiveList<T>, index: number, value: T) {
     this.activeList = activeList;
@@ -99,6 +123,8 @@ export class ActiveListContent<T> {
    * When calling `activate` it will make this `ActiveListContent` active.
    *
    * @param {ActiveListActivationOptions<T>} [activationOptions] The activation options @see ActiveListActivationOptions<T>
+   * 
+   * @since 1.0.0
    */
   public activate(activationOptions?: ActiveListActivationOptions<T>): void {
     this.activeList.activateByIndex(this.index, activationOptions);
@@ -108,6 +134,8 @@ export class ActiveListContent<T> {
    * When calling `deactivate` it will make this `ActiveListContent` inactive.
    *
    * @param {ActiveListActivationOptions<T>} [activationOptions] The activation options @see ActiveListActivationOptions<T>
+   * 
+   * @since 1.0.0
    */
   public deactivate(activationOptions?: ActiveListActivationOptions<T>): void {
     this.activeList.deactivateByIndex(this.index, activationOptions);
@@ -125,6 +153,8 @@ export class ActiveListContent<T> {
    * on `cooldown` and `autoPlay`.
    *
    * @param {ActiveListActivationOptions<T>} [activationOptions] The activation options @see ActiveListActivationOptions<T>
+   * 
+   * @since 1.0.0
    */
   public toggle(activationOptions?: ActiveListActivationOptions<T>): void {
     this.activeList.toggleByIndex(this.index, activationOptions);
@@ -135,6 +165,8 @@ export class ActiveListContent<T> {
    * the `value` the ActiveListContent held.
    *
    * @returns {T} The removed value
+   * 
+   * @since 1.0.0
    */
   public remove(): T {
     return this.activeList.removeByIndex(this.index);
@@ -148,6 +180,8 @@ export class ActiveListContent<T> {
    *
    * @param {number} index The index to swap the current `ActiveListContent` with.
    * @throws Item not found error
+   * 
+   * @since 1.0.0
    */
   public swapWith(item: T): void {
     const itemIndex = this.activeList.getIndex(item);
@@ -162,6 +196,8 @@ export class ActiveListContent<T> {
    *
    * @param {number} index] The index to swap the current `ActiveListContent` with.
    * @throws Index out of bounds error.
+   * 
+   * @since 1.0.0
    */
   public swapWithByIndex(index: number) {
     this.activeList.swapByIndex(this.index, index);
@@ -177,6 +213,8 @@ export class ActiveListContent<T> {
    *
    * Note: if the active `ActiveListContent` is swapped, it will stay active,
    * it will only get a new position.
+   * 
+   * @since 1.0.0
    */
   public swapWithNext(): void {
     const nextIndex = this.activeList._getBoundedNextIndex(this.index);
@@ -193,6 +231,8 @@ export class ActiveListContent<T> {
    *
    * Note: if the active `ActiveListContent` is swapped, it will stay active,
    * it will only get a new position.
+   * 
+   * @since 1.0.0
    */
   public swapWithPrevious(): void {
     const previousIndex = this.activeList._getBoundedPreviousIndex(
@@ -212,6 +252,8 @@ export class ActiveListContent<T> {
    *
    * @param {number} to The location the `from` needs to move "to".
    * @throws Index out of bounds error.
+   * 
+   * @since 1.0.0
    */
   public moveToIndex(to: number) {
     this.activeList.moveByIndex(this.index, to);
@@ -238,6 +280,8 @@ export class ActiveListContent<T> {
    *
    * @param {ActiveListContentPredicate<T>} predicate The predicate function which when `true` is returned moves the item to after that position.
    * @param {ActiveListPredicateOptions} options The options for the predicate, when no options are provided the mode will default to "at".
+   * 
+   * @since 1.0.0
    */
   public moveToPredicate(
     predicate: ActiveListContentPredicate<T>,
@@ -251,6 +295,8 @@ export class ActiveListContent<T> {
    *
    * Note: if the active `ActiveListContent` is moved it will stay active,
    * meaning that the activeIndex will get updated.
+   * 
+   * @since 1.0.0
    */
   public moveToFirst() {
     this.activeList.moveByIndex(this.index, 0);
@@ -261,6 +307,8 @@ export class ActiveListContent<T> {
    *
    * Note: if the active `ActiveListContent` is moved it will stay active,
    * meaning that the activeIndex will get updated.
+   * 
+   * @since 1.0.0
    */
   public moveToLast() {
     this.activeList.moveByIndex(

@@ -7,6 +7,8 @@ import { useViewChannel } from './ViewChannel/useViewChannel';
 
 /**
  * The uiloos Vue plugin, add it to vue via `app.use()`;
+ * 
+ * @since 1.0.0
  */
 const uiloosPlugin = {
   install(Vue: any) {

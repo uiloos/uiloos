@@ -9,14 +9,18 @@ renderData:
     title: "{{ def.name }} | React | API | uiloos"
 ---
 
+{% from "../_includes/class.njk" import classPage %}
+{% from "../_includes/function.njk" import functionPage %}
+{% from "../_includes/typealias.njk" import typealiasPage %}
+
 {% if def.kindString === 'Function' and def.signatures[0].type.name === 'JSX.Element' %}
   {% include "./_includes/component.njk" %}
 {% elif def.kindString === 'Function' and def.name.startsWith('use') %}
   {% include "./_includes/hook.njk" %}
 {% elif def.kindString === 'Class' %}
-  {% include "../_includes/class.njk" %}
+  {{ classPage(def, 'react')}}
 {% elif def.kindString === 'Type alias' %}
-  {% include "../_includes/typealias.njk" %}
+  {{ typealiasPage(def, 'react')}}
 {% elif def.kindString === 'Function' %}
-  {% include "../_includes/function.njk" %}
+  {{ functionPage(def, 'react')}}
 {% endif %}

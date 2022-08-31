@@ -9,6 +9,10 @@ renderData:
     title: "{{ def.name }} | Vue | API | uiloos"
 ---
 
+{% from "../_includes/class.njk" import classPage %}
+{% from "../_includes/function.njk" import functionPage %}
+{% from "../_includes/typealias.njk" import typealiasPage %}
+
 {% if def.name === 'uiloosPlugin' %}
   {% include "./_includes/plugin.njk" %}
 {% elif def.kindString === 'Function' and def.name.startsWith('use') %}
@@ -16,10 +20,10 @@ renderData:
 {% elif def.type.qualifiedName === 'DefineComponent' %}
   {% include "./_includes/component.njk" %}
 {% elif def.kindString === 'Class' %}
-  {% include "../_includes/class.njk" %}
+  {{ classPage(def, 'vue')}}
 {% elif def.kindString === 'Type alias' %}
-  {% include "../_includes/typealias.njk" %}
+  {{ typealiasPage(def, 'vue')}}
 {% elif def.kindString === 'Function' %}
-  {% include "../_includes/function.njk" %}
+  {{ functionPage(def, 'vue')}}
 {% endif %}
 

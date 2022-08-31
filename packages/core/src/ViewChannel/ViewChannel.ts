@@ -71,11 +71,15 @@ import { ViewChannelView } from './ViewChannelView';
  * view has more priority than another view. The ViewChannel will
  * make sure that the views are sorted by priority. The higher the
  * priority the earlier in the `views` array the view is placed.
- * This makes the  ViewChannel a priority queue like data structure.
+ * This makes the ViewChannel a priority queue like data structure.
+ * 
+ * @since 1.0.0
  */
 export class ViewChannel<T, R = void> {
   /**
    * The `ViewChannelView` instances which the `ViewChannel` holds.
+   * 
+   * @since 1.0.0
    */
   public readonly views: ViewChannelView<T, R>[] = [];
 
@@ -111,6 +115,8 @@ export class ViewChannel<T, R = void> {
    *
    * This means that a history at index 0 is further in the past than
    * an item at index 1.
+   * 
+   * @since 1.0.0
    */
   public history: ViewChannelEvent<T, R>[] = this._history._events;
 
@@ -125,6 +131,8 @@ export class ViewChannel<T, R = void> {
    *
    * @param {ViewChannelConfig<T>} config The initial configuration of the ViewChannel.
    * @param {ViewChannelSubscriber<T> | undefined} subscriber An optional subscriber which responds to changes in the ViewChannel.
+   * 
+   * @since 1.0.0
    */
   constructor(
     config: ViewChannelConfig = {},
@@ -145,6 +153,8 @@ export class ViewChannel<T, R = void> {
    * including the history.
    *
    * @param {ViewChannelConfig<T>} config The new configuration which will override the old one
+   * 
+   * @since 1.0.0
    */
   public initialize(config: ViewChannelConfig): void {
     // Configure history
@@ -171,6 +181,8 @@ export class ViewChannel<T, R = void> {
    *
    * @param {ViewChannelSubscriber<T>} subscriber The subscriber which responds to changes in the ViewChannel.
    * @returns {UnsubscribeFunction} A function which when called will unsubscribe from the ViewChannel.
+   * 
+   * @since 1.0.0
    */
   public subscribe(
     subscriber: ViewChannelSubscriber<T, R>
@@ -183,6 +195,8 @@ export class ViewChannel<T, R = void> {
    * of the state changes of the ViewChannel.
    *
    * @param {ViewChannelSubscriber<T>} subscriber The subscriber which you want to unsubscribe.
+   * 
+   * @since 1.0.0
    */
   public unsubscribe(subscriber: ViewChannelSubscriber<T, R>): void {
     this._observer._unsubscribe(subscriber);
@@ -196,6 +210,8 @@ export class ViewChannel<T, R = void> {
    * @param {ViewChannelConfig<T, R>} viewConfig The configuration for the view which is presented and returned.
    * @returns {ViewChannelView<R>} The view which was presented
    * @throws {ViewChannelAutoDismissDurationError} autoDismiss duration must be a positive number when defined
+   * 
+   * @since 1.0.0
    */
   public present(
     viewConfig: ViewChannelViewConfig<T, R>
@@ -280,6 +296,7 @@ export class ViewChannel<T, R = void> {
    * @param {number} index The index of the ViewChannelView to dismiss
    * @param {R} result The value to resolve the promise of the ViewChannelView with.
    * @throws {ViewChannelIndexOutOfBoundsError} index cannot be out of bounds
+   * @since 1.0.0
    */
   public dismissByIndex(index: number, result: R): void {
     this._doRemoveByIndex(index, result, 'USER_INTERACTION');
@@ -304,6 +321,7 @@ export class ViewChannel<T, R = void> {
    * @param {number} index The index of the ViewChannelView to dismiss
    * @param {R} result The value to resolve the promise of the ViewChannelView with.
    * @throws {ViewChannelNotFoundError} item must be in the views array based on === equality
+   * @since 1.0.0
    */
   public dismiss(view: ViewChannelView<T, R>, result: R): void {
     // If the view was already dismissed simply ignore the dismissal.
@@ -336,6 +354,7 @@ export class ViewChannel<T, R = void> {
    * array) calling dismissAll will result in nothing happening.
    *
    * @param {R} result The value to resolve the promises of all the ViewChannelViews within the ViewChannel.
+   * @since 1.0.0
    */
   public dismissAll(result: R): void {
     // Do nothing when there are no views

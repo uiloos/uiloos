@@ -39,16 +39,22 @@ import { ViewChannel } from './ViewChannel';
 export class ViewChannelView<T, R> {
   /**
    * Whether or not this ViewChannelView is presented.
+   * 
+   * @since 1.0.0
    */
   public isPresented: boolean;
 
   /**
    * Reference to the ViewChannel is it a part of.
+   * 
+   * @since 1.0.0
    */
   public viewChannel: ViewChannel<T, R>;
 
   /**
    * The index of the `ViewChannelView` which it has within the `contents`.
+   * 
+   * @since 1.0.0
    */
   public index: number;
 
@@ -59,6 +65,8 @@ export class ViewChannelView<T, R> {
    * text for a flash message or confirmation dialog.
    *
    * By default the value is `undefined`.
+   * 
+   * @since 1.0.0
    */
   public data: T;
 
@@ -66,6 +74,8 @@ export class ViewChannelView<T, R> {
    * The priority the `ViewChannelView` will have within the
    * `ViewChannel` the lower the priority the closer it will be
    * to the start of the `ViewChannel` content array.
+   * 
+   * @since 1.0.0
    */
   public priority: number[];
 
@@ -75,6 +85,8 @@ export class ViewChannelView<T, R> {
    *
    * Defaults to no autoDismiss, meaning it will stay visible forever,
    * until it is dismissed.
+   * 
+   * @since 1.0.0
    */
   private _autoDismiss: _AutoDismiss<T, R>;
 
@@ -84,6 +96,8 @@ export class ViewChannelView<T, R> {
    *
    * Contains wether or not the autoDismiss is playing via `isPlaying`
    * and the current duration via `duration`.
+   * 
+   * @since 1.0.0
    */
   public readonly autoDismiss: ViewChannelViewAutoDismiss = {
     isPlaying: false,
@@ -105,6 +119,8 @@ export class ViewChannelView<T, R> {
    *
    * Note: this promise might never get resolved if "dismiss" is
    * never called.
+   * 
+   * @since 1.0.0
    */
   public result: Promise<R>;
 
@@ -121,7 +137,9 @@ export class ViewChannelView<T, R> {
    * @param {number} index The index of this ViewChannelView within the ViewChannel.
    * @param {T} data The data function which when called provides the data for this ViewChannelView.
    * @param {number} priority The priority this ViewChannelView has within the ViewChannel
-   * @param {ViewChannelViewAutoDismissConfig<R>} autoDismiss Whether or not this ViewChannelView is auto dismissed after a duration.
+   * @param {ViewChannelViewAutoDismissConfig<R>} autoDismiss Whether or not this ViewChannelView is auto dismissed after a duration. 
+   * 
+   * @since 1.0.0
    */
   constructor(
     viewChannel: ViewChannel<T, R>,
@@ -167,6 +185,7 @@ export class ViewChannelView<T, R> {
    * @param {number} index The index of the ViewChannelView to dismiss
    * @param {R} result The value to resolve the promise of the ViewChannelView with.
    * @throws {ViewChannelNotFoundError} item must be in the views array based on === equality
+   * @since 1.0.0
    */
   public dismiss(result: R): void {
     this.viewChannel.dismiss(this, result);
@@ -182,6 +201,8 @@ export class ViewChannelView<T, R> {
    * a view is presented.
    *
    * @throws {ViewChannelAutoDismissDurationError} autoDismiss duration must be a positive number when defined
+   * 
+   * @since 1.0.0
    */
   public play(): void {
     this._autoDismiss._play(true);
@@ -201,6 +222,8 @@ export class ViewChannelView<T, R> {
    * Note: if the autoDismiss is already paused calling `pause` again
    * will do nothing, the time used for the remaining duration is
    * based on the first pause.
+   * 
+   * @since 1.0.0
    */
   public pause(): void {
     this._autoDismiss._pause();
@@ -216,6 +239,8 @@ export class ViewChannelView<T, R> {
    * For example: when the duration is 1 second and the `stop` is
    * called after 0.8 seconds, it will after `play` is called, take
    * 1 second to dismiss this view.
+   * 
+   * @since 1.0.0
    */
   public stop(): void {
     this._autoDismiss._stop();

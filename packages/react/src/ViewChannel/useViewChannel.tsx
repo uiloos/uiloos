@@ -9,6 +9,8 @@ import { ViewChannel } from '@uiloos/core';
  *
  * @param {ViewChannel<T, R>} viewChannel The ViewChannel to subscribe to.
  * @returns An instance of the ViewChannel from @uiloos/core
+ * 
+ * @since 1.0.0
  */
 export function useViewChannel<T, R>(
   viewChannel: ViewChannel<T, R>

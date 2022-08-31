@@ -1,4 +1,4 @@
-{% from "../../_includes/macros.njk" import displayType %}
+{% from "../../_includes/macros.njk" import displayType, displaySince %}
 
 <article>
   <h1>
@@ -19,6 +19,8 @@
     <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
   {% endif %}
 
+  {{ displaySince(def, 'vue') }}
+
   <h2 id="props"><a href="#props">Props</a></h2>
   {% for item in def.type.typeArguments[0].declaration.children %}
     <div class="border px-2 pt-4 mb-4">
@@ -27,7 +29,7 @@
       <p class="mb-4 font-mono">
         {% for subitem in item.type.declaration.children %}
           {% if subitem.name === 'type' %}
-            {{ displayType(subitem.type.declaration.signatures[0].type) }}
+            {{ displayType(subitem.type.declaration.signatures[0].type, 'vue') }}
           {% endif %}
         {% endfor %}
       </p>

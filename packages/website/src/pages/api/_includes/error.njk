@@ -1,19 +1,23 @@
-{% from "./macros.njk" import displaySignatures %}
+{% from "./macros.njk" import displaySignatures, displaySince %}
 
-<article>
-  <h1>
-    {{def.name}}
+{% macro errorPage(def, sinceRoot) %}
+  <article>
+    <h1>
+      {{def.name}}
 
-    {% if def.typeParameter.length > 0 %}
-      &lt;{{def.typeParameter[0].name}}&gt;
+      {% if def.typeParameter.length > 0 %}
+        &lt;{{def.typeParameter[0].name}}&gt;
+      {% endif %}
+    </h1>
+
+    <p class="text-2xl font-mono mb-4 text-red-800">ERROR</p>
+
+    <p>{{def.comment.shortText | escape | nl2br}}</p>
+    {% if def.comment.text %}
+      <p>{{def.comment.text | escape | nl2br}}</p>
     {% endif %}
-  </h1>
 
-  <p class="text-2xl font-mono mb-4 text-red-800">ERROR</p>
+    {{ displaySince(def, sinceRoot) }}
 
-  <p>{{def.comment.shortText | escape | nl2br}}</p>
-  {% if def.comment.text %}
-    <p>{{def.comment.text | escape | nl2br}}</p>
-  {% endif %}
-
-</article>
+  </article>
+{% endmacro %}

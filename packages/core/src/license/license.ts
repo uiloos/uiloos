@@ -3,6 +3,8 @@
  * 
  * Note: you are not supposed to use this class directly. Use the
  * variable `licenseChecker` instead.
+ * 
+ * @since 1.0.0
  */
 export class _LicenseChecker {
   private _licenseKey: string = '';
@@ -74,6 +76,7 @@ export class _LicenseChecker {
  * activate your license.
  * 
  * @see _LicenseChecker
+ * @since 1.0.0
  */
 export let licenseChecker = new _LicenseChecker();
 
