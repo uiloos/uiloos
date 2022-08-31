@@ -47,12 +47,20 @@
 
 {% macro displayType(type, sinceRoot, inlineUnion = true, purpleLink = true) %}
   {% if type.type === 'reference' and type.typeArguments %}
-   <a class="underline {% if purpleLink %} text-purple-600 {% else %} text-blue-500 {% endif %}" href="/api/core/{{ type.name | slug}}/">{{type.name}}&lt;{{type.typeArguments[0].name}}&gt;</a>
+    {% if partOfCore(type) %}
+      <a class="underline {% if purpleLink %} text-purple-600 {% else %} text-blue-500 {% endif %}" href="/api/core/{{ type.name | slug}}/">{{type.name}}&lt;{{type.typeArguments[0].name}}&gt;</a>
+    {% else %}
+      {{type.name}}
+    {% endif %} 
   {% elif type.type === 'reference'%}
     {% if type.name.length === 1 or type.name === "Date" %}
       {{type.name}}
     {% else %}
-      <a class="underline {% if purpleLink %} text-purple-600 {% else %} text-blue-500 {% endif %}" href="/api/core/{{ type.name | slug}}/">{{type.name}}</a>
+      {% if partOfCore(type) %}
+        <a class="underline {% if purpleLink %} text-purple-600 {% else %} text-blue-500 {% endif %}" href="/api/core/{{ type.name | slug}}/">{{type.name}}</a>
+      {% else %}
+        {{type.name}}
+      {% endif %}
     {% endif %}
   {% elif type.type === 'intrinsic' %}
     {{type.name}}
@@ -73,12 +81,12 @@
       undefined
     {% endif %}
   {% elif type.type === 'array' %}
-    <span class="flex">
+    <span class="inline-flex">
       <span>{{ displayType(type.elementType, sinceRoot, inlineUnion, purpleLink) }}</span>
       <span>[]</span>
     </span>
   {% elif type.type === 'union' %}
-    {% for type in type.types %}
+    {% for type in type.types | sortType %}
       {% if not inlineUnion %} | {% endif %}
       {{ displayType(type, sinceRoot, inlineUnion, purpleLink) }}
       {% if not loop.last and inlineUnion %} | {% endif %}
@@ -86,7 +94,7 @@
     {% endfor %}
   {% elif type.type === 'intersection' %}
     {% for type in type.types %}
-      {% if not inlineUnion %} | {% endif %}
+      {% if not inlineUnion %} & {% endif %}
       {{ displayType(type, sinceRoot, inlineUnion, purpleLink) }}
       {% if not loop.last and inlineUnion %} & {% endif %}
       {% if not inlineUnion %} <br> {% endif %}
@@ -149,7 +157,7 @@
               <span>,</span>{% endif %}
           </div>
         {% endfor %}
-        <span class="text-purple-400">):</span>{{ displayType(signature.type, sinceRoot, false, false) }}
+        <span class="text-purple-400">):</span>{{ displayType(signature.type, sinceRoot, true, false) }}
       {% endif %}
     </div>
 
