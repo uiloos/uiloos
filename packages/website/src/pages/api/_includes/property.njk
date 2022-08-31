@@ -1,4 +1,4 @@
-{% from "./macros.njk" import displayType, displaySince %}
+{% from "./macros.njk" import displayType, displaySince, displayComment %}
 
 {% macro displayProperty(def, item, sinceRoot) %}
   <div class="border px-2 pt-4 mb-4">
@@ -8,10 +8,7 @@
       {{ displayType(item.type, sinceRoot) }}
     </p>
 
-    <p class="mb-2">{{item.comment.shortText | escape | nl2br}}</p>
-    {% if item.comment.text %}
-      <p class="mb-2">{{item.comment.text | escape | nl2br}}</p>
-    {% endif %}
+    {{ displayComment(item) }}
 
     {{ displaySince(def, sinceRoot) }}
   </div>

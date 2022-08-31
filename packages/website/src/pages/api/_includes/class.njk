@@ -1,4 +1,4 @@
-{% from "./macros.njk" import displaySignatures, displaySince %}
+{% from "./macros.njk" import displaySignatures, displaySince, displayComment %}
 {% from "./property.njk" import displayProperty %}
 
 {% macro classPage(def, sinceRoot) %}
@@ -65,10 +65,7 @@
 
     <p class="text-2xl font-mono mb-4 text-blue-800">CLASS</p>
 
-    <p>{{def.comment.shortText | escape | nl2br}}</p>
-    {% if def.comment.text %}
-      <p>{{def.comment.text | escape | nl2br}}</p>
-    {% endif %}
+    {{ displayComment(def) }}
 
     {{ displaySince(def, sinceRoot) }}
 

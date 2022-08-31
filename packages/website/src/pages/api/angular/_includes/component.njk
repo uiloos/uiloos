@@ -1,4 +1,4 @@
-{% from "../../_includes/macros.njk" import displaySince %}
+{% from "../../_includes/macros.njk" import displaySince, displayComment %}
 {% from "../../_includes/property.njk" import displayProperty %}
 
 <article>
@@ -18,10 +18,7 @@
     {% endif %}
   {% endfor %}
 
-  <p>{{def.comment.shortText | escape | nl2br}}</p>
-  {% if def.comment.text %}
-    <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
-  {% endif %}
+  {{ displayComment(def) }}
 
   {{ displaySince(def, 'angular') }}
 

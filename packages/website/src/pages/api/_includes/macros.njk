@@ -105,11 +105,7 @@
       <div class="ml-4 mb-2 py-2 {% if not loop.last %} border-b-2 border-dashed {% endif %}">
         <strong class="mb-2 font-mono">{{item.name}}</strong>: {{ displayType(item.type, sineRoot, inlineUnion, purpleLink) }}
 
-        <p class="my-2">{{item.comment.shortText | escape | nl2br}}</p>
-
-        {% if item.comment.text %}
-          <p class="mb-2">{{item.comment.text | escape | nl2br}}</p>
-        {% endif %}
+        {{ displayComment(item) }}
 
         {{ displaySince(item, sinceRoot) }}
 
@@ -123,10 +119,8 @@
 
 {% macro displaySignatures(signatures, sinceRoot) %}
   {% for signature in signatures %}
-    <p>{{signature.comment.shortText | escape | nl2br}}</p>
-    {% if signature.comment.text %}
-      <p class="mb-2">{{signature.comment.text | escape | nl2br}}</p>
-    {% endif %}
+
+    {{ displayComment(signature) }}
 
     {{ displaySince(signature, sinceRoot) }}
 
@@ -171,10 +165,7 @@
             {{ displayType(parameter.type, sinceRoot) }}
           </strong>
 
-          <p>{{parameter.comment.shortText | escape | nl2br}}</p>
-          {% if parameter.comment.text %}
-            <p class="mb-2">{{parameter.comment.text | escape | nl2br}}</p>
-          {% endif %}
+          {{ displayComment(parameter) }}
         </div>
       {% endfor %}
     {% endif %}
@@ -211,4 +202,11 @@
       </p>
     {% endif %}
   {% endfor %}
+{% endmacro %}
+
+{% macro displayComment(def) %}
+  <p>{{def.comment.shortText | escape | nlnl2br | safe}}</p>
+  {% if def.comment.text %}
+    <p>{{def.comment.text | escape | nlnl2br | safe}}</p>
+  {% endif %}
 {% endmacro %}

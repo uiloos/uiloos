@@ -128,6 +128,13 @@ module.exports = function (eleventyConfig) {
     return coreNames.includes(x.name);
   });
 
+  eleventyConfig.addFilter('nlnl2br', (str) => {
+    if (str === null || str === undefined) {
+      return '';
+    }
+    return (str, str.replace(/\n\n/g, '<br /><br />\n'));
+  });
+
   return {
     dir: { input: 'src', output: '_site' },
   };

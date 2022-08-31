@@ -1,5 +1,4 @@
-{% from "./macros.njk" import displaySignatures,
-displaySince %}
+{% from "./macros.njk" import displaySignatures, displaySince, displayComment %}
 
 {% macro instancePage(def, sinceRoot) %}
   <article>
@@ -9,12 +8,9 @@ displaySince %}
 
     <p class="text-2xl font-mono mb-4 text-green-800">INSTANCE</p>
 
-    <p>{{def.comment.shortText | escape | nl2br}}</p>
-    {% if def.comment.text %}
-      <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
-    {% endif %}
+   {{ displayComment(def) }}
 
-   F {{ displaySince(def, sinceRoot) }}
+   {{ displaySince(def, sinceRoot) }}
 
     {% for tag in def.comment.tags %}
       {% if tag.tag === 'see' %}

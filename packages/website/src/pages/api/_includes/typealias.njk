@@ -1,6 +1,4 @@
-{% from "./macros.njk" import displayType,
-displaySignatures,
-displaySince %}
+{% from "./macros.njk" import displayType, displaySignatures, displaySince, displayComment %}
 
 {% macro typealiasPage(def, sinceRoot) %}
 <article>
@@ -13,12 +11,7 @@ displaySince %}
 
   <p class="text-2xl font-mono mb-4 text-orange-800">TYPE DEFINITION</p>
 
-  {% if def.comment.shortText %}
-    <p>{{def.comment.shortText | escape | nl2br}}</p>
-  {% endif %}
-  {% if def.comment.text %}
-    <p class="mb-2">{{def.comment.text | escape | nl2br}}</p>
-  {% endif %}
+  {{ displayComment(def) }}
 
   {{ displaySince(def, sinceRoot) }}
 
@@ -26,7 +19,7 @@ displaySince %}
     {% if def.type.declaration.children %}
       {{ displayProperties(def.type.declaration.children, sinceRoot) }}
     {% else %}
-      {{ displaySignatures(def.type.declaration.signatures, sinceeRoot) }}
+      {{ displaySignatures(def.type.declaration.signatures, sinceRoot) }}
     {% endif %}
   {% elif def.type.type === 'union' %}
     <h2 class="mt-4">Union of</h2>
@@ -70,10 +63,7 @@ displaySince %}
           </p>
         {% endif %}
 
-        <p>{{type.comment.shortText | escape | nl2br}}</p>
-        {% if type.comment.text %}
-          <p class="mb-2">{{type.comment.text | escape | nl2br}}</p>
-        {% endif %}
+        {{ displayComment(def) }}
 
         {{ displaySince(type, sinceRoot) }}
 

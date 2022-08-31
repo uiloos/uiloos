@@ -88,7 +88,7 @@ export class ViewChannel<T, R = void> {
   /**
    * Contains the history of the changes in the views array.
    *
-   * Tracks 3 types of changes:
+   * Tracks 6 types of changes:
    *
    *  1. INITIALIZED, fired when ViewChannel is initialized
    *

@@ -1,4 +1,4 @@
-{% from "../../_includes/macros.njk" import displaySignatures, displayType, displaySince %}
+{% from "../../_includes/macros.njk" import displaySignatures, displayType, displaySince, displayComment %}
 
 <article>
   <h1>
@@ -11,10 +11,7 @@
 
   <p class="text-2xl font-mono mb-4 text-red-800">COMPONENT</p>
   
-  <p>{{def.signatures[0].comment.shortText | escape | nl2br}}</p>
-  {% if def.comment.text %}
-    <p class="mb-2">{{def.signatures[0].comment.text | escape | nl2br}}</p>
-  {% endif %}
+  {{ displayComment(def) }}
 
   {{ displaySince(def.signatures[0], 'react') }}
 
