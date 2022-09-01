@@ -18,13 +18,13 @@
     >
       {% set foundProp = false %}
       {% for item in def.children %}
-        {% if not foundProp and not item.flags.isPrivate and item.kindString === 'Property' %}
+        {% if not foundProp and not item.flags.isPrivate and item.kindString === 'Property' and not item.name.startsWith('_') %}
           
           <strong>Properties</strong>
           {% set foundProp = true %}
           <ol class="mb-4">
             {% for item in def.children %}
-              {% if not item.flags.isPrivate and item.kindString === 'Property' %}
+              {% if not item.flags.isPrivate and item.kindString === 'Property' and not item.name.startsWith('_') %}
                 <li>
                   <a 
                     href="#{{item.name}}" 
@@ -80,7 +80,7 @@
 
     <h2 id="properties"><a href="#properties">Properties</a></h2>
     {% for item in def.children %}
-      {% if not item.flags.isPrivate and item.kindString === 'Property' %}
+      {% if not item.flags.isPrivate and item.kindString === 'Property'and not item.name.startsWith('_') %}
         {{ displayProperty(def, item, sinceRoot) }}
       {% endif %}
     {% endfor %}
