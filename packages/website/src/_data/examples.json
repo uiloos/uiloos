@@ -4,54 +4,93 @@
     "text": "A Carousel created with JavaScript",
     "description": "A basic carousel using vanilla JavaScript and uiloos",
     "url": "https://codesandbox.io/s/carousel-vanilla-qh7ffo?file=/carousel.js",
-    "tags": ["ActiveList", "JavaScript", "Carousel"]
+    "tags": ["JavaScript", "Carousel"],
+    "for": "ActiveList"
   },
   {
     "id": 2,
     "text": "A Carousel created in React",
     "description": "An example of how to use React and uiloos to create a carousel",
     "url": "https://codesandbox.io/s/carousel-react-55h9ib?file=/src/Carousel/Carousel.tsx",
-    "tags": ["ActiveList", "React", "Carousel"]
+    "tags": ["React", "Carousel"],
+    "for": "ActiveList"
   },
   {
     "id": 3,
     "text": "A Todo-list created in Svelte",
     "description": "A sortable todo list in Svelte using the ActiveList",
     "url": "https://codesandbox.io/s/todo-svelte-1mswsf?file=/App.svelte",
-    "tags": ["ActiveList", "Svelte", "Todo-list"]
+    "tags": ["Svelte", "Todo-list"],
+    "for": "ActiveList"
   }, 
   {
     "id": 4,
     "text": "A Timeline created in Angular using uiloos's ActiveList",
     "description": "A vertical timeline which shows information based on a date",
     "url": "https://codesandbox.io/s/timeline-angular-gtouh5?file=/src/app/timeline/timeline.component.ts",
-    "tags": ["ActiveList", "Angular", "Timeline"]
+    "tags": ["Angular", "Timeline"],
+    "for": "ActiveList"
   },
   {
     "id": 5,
     "text": "An Accordion created in Vue using the ActiveList",
     "description": "Shows how to create a Vue component which looks just like regular HTML powered by the ActiveList",
     "url": "https://codesandbox.io/s/vue-accordion-lsbw53?file=/src/components/Accordion/Accordion.vue",
-    "tags": ["ActiveList", "Vue", "Accordion"]
+    "tags": ["Vue", "Accordion"]
   },{
     "id": 6,
     "text": "A MultipleSelect form component using React",
     "description": "Shows to limit the number of active items in an ActiveList using <span class='high'>maxActivationLimit</span>.",
     "url": "https://codesandbox.io/s/hamburger-condiment-picker-react-5tg9b4?file=/src/CondimentPicker/CondimentPicker.tsx",
-    "tags": ["ActiveList", "React", "MultipleSelect"]
+    "tags": ["React", "MultipleSelect"],
+    "for": "ActiveList"
   },
   {
     "id": 7,
     "text": "A SegmentedButton / ButtonGroup using vanilla JavaScript",
     "description": "Demonstrates how to create a button group from which only one button can be active at a time. Shows a jQuery like way of creating components.",
     "url": "https://codesandbox.io/s/segmentedbutton-vanilla-kqw4cd?file=/segmented-button.js",
-    "tags": ["ActiveList", "JavaScript", "SegmentedButton"]
+    "tags": ["JavaScript", "SegmentedButton"],
+    "for": "ActiveList"
   },
   {
     "id": 8,
     "text": "A Tab component using Vue",
     "description": "Shows how to create a simple tab component, which displays content based on the active tab.",
     "url": "https://codesandbox.io/s/vue-tabs-7mo9ru?file=/src/components/Tabs/Tabs.vue",
-    "tags": ["ActiveList", "Vue", "Tabs"]
+    "tags": ["Vue", "Tabs"],
+    "for": "ActiveList"
+  },
+  {
+    "id": 9,
+    "text": "ViewChannel usage in vanilla JavaScript",
+    "description": "Shows a notification center, a flash message, a modal and a confirmation dialog.",
+    "url": "https://codesandbox.io/s/viewchannel-vanilla-94hwi3?file=/scripts/main.js",
+    "tags": ["JavaScript"],
+    "for": "ViewChannel"
+  },
+  {
+    "id": 10,
+    "text": "ViewChannel usage in Vue",
+    "description": "Shows how to use the composable `useViewChannel` in order to create the example.",
+    "url": "https://codesandbox.io/s/viewchannel-vue-pth0sr?file=/src/App.vue",
+    "tags": ["Vue"],
+    "for": "ViewChannel"
+  },
+  {
+    "id": 11,
+    "text": "ViewChannel usage in React",
+    "description": "Shows how to use the `useViewChannel` hook in order to create the example.",
+    "url": "https://codesandbox.io/s/viewchannel-react-756b3i?file=/src/App.tsx",
+    "tags": ["React"],
+    "for": "ViewChannel"
+  },
+  {
+    "id": 12,
+    "text": "ViewChannel usage in Angular",
+    "description": "Shows how to create services for each type of ViewChannel and use them to create the example.",
+    "url": "https://codesandbox.io/s/viewchannel-angular-xpd5h6?file=/src/app/app.component.ts",
+    "tags": ["Angular"],
+    "for": "ViewChannel"
   }
 ]

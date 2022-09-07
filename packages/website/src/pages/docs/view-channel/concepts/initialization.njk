@@ -8,37 +8,40 @@
 
     <div>
       {% highlight "javascript" %}
-import { ActiveList } from '@uiloos/core';
+import { ViewChannel } from '@uiloos/core';
 
 const config = {
-  contents: ["a", "b", "c"],
-  activeIndexes: [1]
+  keepHistoryFor: 100
 };
 
 function subscriber(activeList, event) {
   console.log(event);
 }
 
-const activeList = new ActiveList(config, subscriber)
+const viewChannel = new ViewChannel(config, subscriber);
 {% endhighlight %}
     </div>
     <div>
       {% highlight "typescript" %}
-import { ActiveList, ActiveListEvent } from '@uiloos/core';
+import { ViewChannel ViewChannelEvent } from '@uiloos/core';
 
 const config = {
-  contents: ['a', 'b', 'c'],
-  activeIndexes: [1]
+   keepHistoryFor: 100
 };
 
+type FlashMessage = {
+  text: string;
+  icon: string;
+}
+
 function subscriber(
-  activeList: ActiveList<string>,
-  event: ActiveListEvent<string>
+  viewChannel: ViewChannel<FlashMessage, boolean>,
+  event: ViewChannelEvent<FlashMessage, boolean>
 ) {
   console.log(event);
 }
 
-const activeList = new ActiveList(config, subscriber);
+const viewChannel = new ViewChannel(config, subscriber);
 
 {% endhighlight %}
   </div>

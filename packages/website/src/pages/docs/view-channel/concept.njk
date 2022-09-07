@@ -1,0 +1,402 @@
+---
+title: Concepts | ViewChannel | Docs | uiloos
+layout: layouts/docs.njk
+permalink: /docs/view-channel/concepts/
+renderData:
+  parent: 'view-channel'
+  current: 'view-channel-concepts'
+---
+
+<script src="/assets/view-channel-concepts.js" defer="true"></script>
+
+<article>
+  <h1>ViewChannel Concepts</h1>
+
+  <nav class="2xl:fixed 2xl:top-24 2xl:right-2 2xl:w-[270px]" role="doc-toc">
+    <em>Table of contents</em>
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8">
+        <a href="#overview" class="text-purple-600 underline">Overview</a>
+      </li>
+      <li class="ml-8">
+        <a href="#initialization" class="text-purple-600 underline">Initialization</a>
+      </li>
+      <li class="ml-8">
+        <a href="#live-properties" class="text-purple-600 underline">Live properties</a>
+      </li>
+      <li class="ml-8">
+        <a href="#rules" class="text-purple-600 underline">Rules</a>
+      </li>
+      <li class="ml-8">
+        <a href="#priority" class="text-purple-600 underline">Priority</a>
+      </li>
+      <li class="ml-8">
+        <a href="#autodismiss" class="text-purple-600 underline">AutoDismiss</a>
+      </li>
+      <li class="ml-8">
+        <a href="#history" class="text-purple-600 underline">History</a>
+      </li>
+    </ol>
+  </nav>
+
+  <h2 id="overview" class="h2 mb-4">
+    <a href="#overview">1. Overview</a>
+  </h2>
+
+  <p>
+    A <a href="/api/core/viewchannel/" class="underline high">ViewChannel</a> 
+    is a class which represents an area on the screen
+    which contains visual elements (views) which are visible for a
+    certain amount of time, or until when the user performs a certain
+    action. Here are some examples:
+  </p>
+
+  {% include './concepts/flash-message/flash-message.njk' %}
+  {% include './concepts/confirm/confirm.njk' %}
+  {% include './concepts/modal/modal.njk' %}
+  {% include './concepts/notification/notification.njk' %}
+ 
+  <p>
+    The general idea is that often areas on the screen exists which
+    contain contain a specific type of visual element. These elements
+    are often presented (triggered) from code at a distance from the
+    area they are displayed in. This is why `ViewChannel` is considered
+    a "channel", it is a way of transporting views.
+  </p>
+ 
+  <p>
+    This way you can have one part of the code consume the channel,
+    and use it to simply display the views, and many places (in code)
+    where you put views on the channel.
+  </p>
+ 
+  <p>
+    The idea of the ViewChannel is that you instantiate one for each
+    type of View you want to support, for example: you might have a
+    flash message and a modal ViewChannel instance. Then you use these
+    instances to send "views" to the channel.
+  </p>
+
+  <p>
+    The views are represented by a class called <a href="/api/core/viewchannelview/" class="underline high">ViewChannelView</a>.
+    The ViewChannelView knows whether or not it is displayed, can 
+    dismiss itself, and has a result. The value of the result depends
+    on the meaning you give it as a developer. 
+  </p>
+
+  <p>
+    For example: when building a confirmation dialog the result may
+    be a boolean. When building a modal containing choices the result
+    can be a string representing the choice.
+  </p>
+
+  <p>
+    The result is stored inside of a Promise allowing for asynchronous 
+    communication. This allows you to present the view and 
+    <span class="high">await</span> the result.
+  </p>
+
+  <h2 id="initialization" class="h2 mb-4">
+    <a href="#initialization">2. Initialization</a>
+  </h1>
+
+  <p>
+    A ViewChannel can be initialized by calling the <a href="/api/core/viewchannel/#constructor" class="high underline">constructor</a>.
+    The constructor takes two arguments the <a href="/api/core/viewchannelconfig/" class="high underline">config</a>
+    and an optional <a href="/api/core/viewchannelsubscriber/" class="high underline">subscriber</a>
+  </p>
+
+  <p>
+    The <a href="/api/core/viewchannelconfig/" class="high underline">config</a>
+    allows you to tell the ViewChannel how many history items it should 
+    track, see <a href="/docs/view-channel/concepts/#history" class="underline">8. History</a> 
+      for more information.
+  </p>
+
+  <p>
+    The second argument is an optional <a href="/api/core/viewchannelsubscriber/" class="high underline">subscriber</a>,
+    the subscriber is a callback function, allowing you to observe changes 
+    of the ViewChannel. When using vanilla JavaScript the callback is the place
+    to perform any DOM manipulations. The callback receives the <a href="/api/core/viewchannelevent/" class="high underline">event</a>
+    that occurred so you can act on it.
+  </p>
+
+  <p>
+    When using reactive frameworks such as React, Vue, Angular or Svelte etc etc. 
+    The subscriber is not necessary since your framework of choice will do the 
+    heavy lifting of syncing the state of the ViewChannel with the DOM. For more information see <a href="/docs/view-channel/usage-with-frameworks/" class="underline">"Usage with Framework"</a>
+  </p>
+
+  {% include './concepts/initialization.njk' %}
+
+  <h2 id="live-properties" class="h2 mb-4">
+    <a href="#live-properties">3. Live properties</a>
+  </h2>
+
+  <p>
+    A ViewChannel tracks the number of displayed views in a <span class="high">views</span>
+    array property. Loop over the <span class="high">views</span> to render all views 
+    associated with the ViewChannel.
+  </p>
+
+  <p>
+    Each time you either present or dismiss a <a href="/api/core/viewchannelview/" class="underline high">ViewChannelView</a> the <span class="high">views</span>
+    array will be immediately updated.
+  </p>
+
+  <p>
+    The <span class="high">views</span> array contains ViewChannelViews, which have
+    live properties. A live properties is an instance variable
+    which automatically sync whenever the ViewChannelView is changed.
+  </p>
+
+  <ol class="list-decimal m-2 mb-4">
+    <li class="ml-8 mb-4">
+      <p>
+        <span class="high">isPresented</span> whether or not the ViewChannelView 
+        is currently presented. In other words if it is inside of a 
+        ViewChannels <span class="high">views</span> array. When a 
+        ViewChannelView is dismissed the <span class="high">isPresented</span>
+        will be <span class="high">false</span>.
+      </p>
+      <p>
+        <span class="high">isPresented</span> is only relevant when keeping a 
+        reference (either by accident or intentional) to a ViewChannelView, 
+        or when you access the <span class="high">history</span> array.
+        See <a href="/docs/view-channel/concepts/#history" class="underline">8. History</a> 
+      for more information.
+      </p>
+    </li>
+
+    <li class="ml-8 mb-4">
+      <span class="high">index</span> the index this view has, or used to have
+      when dismissed, inside of the ViewChannelViews <span class="high">views</span> array.
+    </li>
+    
+    <li class="ml-8 mb-4">
+      <p>
+        <span class="high">result</span> the result of the ViewChannelView. Is a <span class="high">Promise</span>
+        which will be resolved with the result when the
+        ViewChannelView is dismissed.
+      </p>
+
+      <p>
+        You the developer decide what the resulting value of the promise will be. It might
+        be a boolean for a confirmation dialog, or simply undefined for a flash message.
+      </p>
+      
+      <p>
+        The promise will never be rejected only resolved.
+      </p>
+     
+       <p>
+        Note: this promise might never get resolved the ViewChannelView is never dismissed.
+      </p>
+    </li>
+  
+    <li class="ml-8 mb-4">
+      <span class="high">autoDismiss</span> whether or not the 
+      AutoDismiss is currently playing, and at what duration. See
+      <a href="/docs/view-channel/concepts/#autodismiss" class="underline">7. AutoDismiss</a> 
+      for more information.
+    </li>
+  </ol>
+
+  <h2 id="rules" class="h2 mb-4">
+    <a href="#rules">4. Rules</a>
+  </h2>
+
+  <p>
+    There is one important rule when using the ViewChannel:
+    <strong>you may never directly manipulate any of the fields of the ViewChannel!</strong>
+    Otherwise the subscribers will not be informed, and changes to the "live"
+    properties will not be detected.
+  </p>
+
+  <p>
+    So always use the appropriate methods to realize the changes you want to see,
+    so the ViewChannel can keep the observers / subscribers in the loop.
+  </p>
+
+  <p>
+    Another rule is that you should not be using anything in the ViewChannel
+    which starts with an underscore. These classes / methods / instance
+    fields should be considered private. 
+    <strong>
+      We reserve the right to change their names / inner workings and not
+      consider it a breaking change! So please do not use and depend on them.
+    </strong>
+  </p>
+
+  <h2 id="priority" class="h2 mb-4">
+    <a href="#priority">5. Priority</a>
+  </h2>
+
+  <p>
+    The <a href="/api/core/viewchannel/#views" class="high underline">views</a> array
+    within a ViewChannel is sorted by priority. The ViewChannelViews with the 
+    highest priority are placed earlier in the <span class="high">views</span> array.
+  </p>
+
+  <p>
+    Whenever you call <a href="/api/core/viewchannel/#present" class="high underscore">present</a>
+    on a ViewChannel, you can provide the priority of the presented view, by setting
+    the <a class="high underscore" href="/api/core/viewchannelviewconfig/#priority">priority</a>
+    property the viewConfig argument.
+  </p>
+
+  <p>
+    The value of <span class="high">priority</span> is either a number
+    or an array of numbers. The lower the number the higher the priority.
+    This matches the way the DEFCON scale works: 0 means war,
+    and 5 means "normal readiness".
+  </p>
+
+  <p>
+    If priority is expressed as an array of numbers, each index in the array 
+    represents a "level" in the priority, the earlier levels (the lower indexes) 
+    have higher priority over the later levels (the higher indexes).
+  </p>
+
+  <p>
+    If two priorities are compared, first the level at index zero is compared, if they are the same the index at the second level is compared, if the second level is also the same the third level is compared, and so on and so on until there are no more levels.
+  </p>
+
+  <p>
+    A couple examples:
+  </p>
+
+  <ol class="list-decimal m-2 mb-4">
+    <li class="ml-8 mb-4">
+      <span class="high">[0, 0, 0]</span> has a higher priority than <span class="high">[1, 0, 0]</span>
+    </li>
+    <li class="ml-8 mb-4">
+      <span class="high">[1, 0, 0]</span> has a higher priority than <span class="high">[2, 0, 0]</span>
+    </li>
+    <li class="ml-8 mb-4">
+      <span class="high">[0, 0, 0]</span> has a higher priority than <span class="high">[0, 1, 0]</span>
+    </li>
+    <li class="ml-8 mb-4">
+      <span class="high">[0, 1, 0]</span> has a higher priority than <span class="high">[0, 2, 0]</span>
+    </li>
+    <li class="ml-8 mb-4">
+      <span class="high">[0, 0, 0]</span> has a higher priority than <span class="high">[0, 0, 1]</span>
+    </li>
+    <li class="ml-8 mb-4">
+      <span class="high">[0, 0, 1]</span> has a higher priority than <span class="high">[0, 0, 2]</span>
+    </li>
+    <li class="ml-8 mb-4">
+      <span class="high">[0, 0, 1]</span> has a higher priority than <span class="high">[1, 0, 0]</span>
+    </li>
+  </ol>
+
+  <p>If the priority arrays when compared differ in size, the missing items are considered zeros. So for example:</p>
+
+  <ol class="list-decimal m-2 mb-4">
+    <li class="ml-8 mb-4">
+       <span class="high">[0]</span> has a higher priority than <span class="high">[1, 0, 0]</span>
+    </li>
+
+    <li class="ml-8 mb-4">
+      <span class="high">[0, 0]</span> has a higher priority than <span class="high">[0, 1, 1]</span>
+    </li>
+  </ol>
+
+  <p>
+    If two priorities match exactly the view is placed after the existing view with the same priority. This means that the order will be the order of insertion.
+  </p>
+    
+  <p>
+    The priority is tracked inside of the ViewChannelViews <a class="high underscore" href="/api/core/viewchannelview/#priority">priority</a>
+    property, in which it is always an array of numbers. When you provide
+    a number in the viewConfig it will be transformed into an array.
+    For example: <span class="high">10</span> will become
+    <span class="high">[10]</span>.
+  </p>
+
+  <h2 id="autodismiss" class="h2 mb-4">
+    <a href="#autodismiss">6. AutoDismiss</a>
+  </h2>
+
+  <p>
+    A ViewChannelView can be put into <span class="high">AutoDismiss</span> mode, 
+    this means that it dismiss itself after the configured
+    <a href="/api/core/viewchannelviewautodismissconfig/#duration" class="high underscore">duration</a>.
+    The ViewChannelView will then dismiss itself with the configured
+    <a href="/api/core/viewchannelviewautodismissconfig/#result" class="high underscore">result</a>.
+  </p>
+
+  <p>
+    The use case for AutoDismiss are components such as flash messages, these types of messages
+    appear only briefly to the user.
+  </p>
+
+
+  <p>
+    The AutoDismiss can be paused via <span class="high">pause()</span> and then
+    resumed again via <span class="high">play()</span>. When resumed it will take
+    into account the duration that had already passed. For example: if the duration
+    is 1000 milliseconds, and the user pauses after 800 milliseconds, when resumed the
+    item will stay presented for another 200 milliseconds. This is because
+    there was 200 milliseconds remaining for the duration.
+  </p>
+
+  <p>
+    The AutoDismiss can also be stopped via <span class="high">stop()</span>. The
+    difference between <span class="high">stop()</span> and 
+    <span class="high">pause()</span>, is that when
+    <span class="high">play()</span> is called after 
+    <span class="high">stop()</span> the duration is reset. 
+    For example: if the duration is 500 milliseconds, and the user stops after 
+    250 milliseconds, when play is called, the item will stay presented 
+    for 1000 milliseconds. This is because the duration is reset 
+    and not remembered.
+  </p>
+
+  <h2 id="history" class="h2 mb-4">
+    <a href="#history">7. History</a>
+  </h2>
+
+  <p>
+    The ViewChannelView can keep track of all
+    <a href="/api/core/viewchannelevent/" class="high underline">events</a> that
+    occurred, by default is it
+    <a href="/api/core/viewchannelconfig/#keepHistoryFor" class="high underline"
+      >configured</a
+    >
+    not to keep any history.
+  </p>
+
+  <p>
+    When you set
+    <a href="/api/core/viewchannelconfig/#keepHistoryFor" class="high underline"
+      >keepHistoryFor</a
+    >
+    to a number, the ViewChannel will make sure the
+    <span class="high">history</span>
+    array will never exceed that size.
+  </p>
+
+  <p>
+    If the size is exceeded the oldest event is removed to make place for the new
+    event. This is based on the first in first out principle.
+  </p>
+
+  <a
+    class="flex justify-between items-center p-4 rounded border border-gray-200 transition duration-300 ease-in-out bg-white shadow-md hover:shadow-lg mb-4"
+    href="/docs/view-channel/tutorial/"
+  >
+    <div>
+      <div class="text-normal font-medium mb-1">Tutorial</div>
+      <div class="text-sm">Learn how to use the ViewChannel</div>
+    </div>
+    <svg
+      class="w-4 h-4 fill-current text-blue-600 shrink-0 ml-6"
+      viewBox="0 0 16 16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z"></path>
+    </svg>
+  </a>
+
+</article>

@@ -1,10 +1,8 @@
 import '../styles/main.scss';
 
-// Import Alpine.js
 import Alpine from 'alpinejs';
-
-// Import aos
 import AOS from 'aos';
+import { ActiveList } from '@uiloos/core';
 
 // Initialize Alpine
 window.Alpine = Alpine;
@@ -18,8 +16,6 @@ AOS.init({
 });
 
 // Code switch examples
-
-import { ActiveList } from '@uiloos/core';
 
 const activeCodeSwitchClasses = ['text-purple-800', 'border-purple-500'];
 const preferredLanguageKey = 'PREFERRED_LANGUAGE';
@@ -100,3 +96,40 @@ if (docTocEl && !docTocEl.hasAttribute('data-no-highlight')) {
   // For each h2 in the document observe when it is in view.
   document.querySelectorAll('h2').forEach((e) => observer.observe(e));
 }
+
+const activeExampleSwitchClasses = ['text-purple-800', 'border-purple-500'];
+
+document.querySelectorAll('.js-example-switcher').forEach((exampleSwitchEl) => {
+  const buttons = exampleSwitchEl.querySelectorAll('button');
+  const examples = exampleSwitchEl.querySelectorAll('div.example');
+
+  const exampleSwitcher = new ActiveList(
+    {
+      contents: ['JavaScript', 'HTML', 'CSS'],
+      active: ['JavaScript'],
+    },
+    subscriber
+  );
+
+  function subscriber(activeList) {
+    buttons.forEach((button, index) => {
+      if (index === activeList.lastActivatedIndex) {
+        button.classList.add(...activeExampleSwitchClasses);
+      } else {
+        button.classList.remove(...activeExampleSwitchClasses);
+      }
+    });
+
+    examples.forEach((example, index) => {
+      if (index === activeList.lastActivatedIndex) {
+        example.classList.remove('visually-hidden');
+      } else {
+        example.classList.add('visually-hidden');
+      }
+    });
+  }
+
+  buttons.forEach((button, index) => {
+    button.onclick = () => exampleSwitcher.activateByIndex(index);
+  });
+});

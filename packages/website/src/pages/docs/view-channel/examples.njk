@@ -1,23 +1,24 @@
 ---
-title: Examples | ActiveList | Docs | uiloos
+title: Examples | ViewChannel | Docs | uiloos
 layout: layouts/docs.njk
-permalink: /docs/active-list/examples/
+permalink: /docs/view-channel/examples/
 renderData:
-  parent: 'active-list'
-  current: 'active-list-examples'
+  parent: 'view-channel'
+  current: 'view-channel-examples'
 ---
 
 <article>
-  <h1>ActiveList Examples</h1>
+  <h1>ViewChannel Examples</h1>
 
   <p>
-    Fleshed out examples showing how to use the ActiveList. They 
+    Below are examples of how to use the ViewChannel to create dialogs,
+    modals, flash messages and a notification center. They 
     serve as starting points for your own components.
   </p>
 
   <div class="grid lg:grid-cols-2 gap-4">
     {% for example in examples %}
-      {% if example.for === 'ActiveList' %}
+      {% if example.for === 'ViewChannel' %}
         <a 
           class="p-4 rounded border border-gray-200 transition duration-300 ease-in-out bg-white shadow-md hover:shadow-lg mb-4" 
           href="{{ example.url }}"

@@ -1,0 +1,43 @@
+<strong>
+  D. Notification center
+</strong>
+
+<p>
+  A notification center is usually a space on the left or the 
+  right of the screen, which contains messages which the users must
+  clear themselves.
+</p>
+
+<style>
+  {% include "./notification-example.css" %}
+</style>
+
+{% include "./notification-example.html" %}
+
+<details>
+  <summary class="mb-4">View code</summary>
+
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 px-2 pt-2 pb-4 gap-4">
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">JavaScript</button>
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">HTML</button>
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">CSS</button>
+    </div>
+
+    <div class="example">
+      {% highlight "js" %}
+      {% include "./notification-example.js" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "html" %}
+      {% include "./notification-example.html" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "css" %}
+      {% include "./notification-example.css" %}
+      {% endhighlight %}
+    </div>
+  </div>
+</details>
