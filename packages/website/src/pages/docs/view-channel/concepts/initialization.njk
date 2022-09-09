@@ -1,12 +1,13 @@
-<details class="js-code-switch">
-    <summary class="mb-4">Initialization code example</summary>
+<details>
+  <summary class="mb-4">Initialization code example</summary>
 
-    <ul class="flex bg-gray-200 px-2 pt-2 pb-4 gap-4">
-      <li class="border font-bold cursor-pointer border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">JavaScript</li>
-      <li class="border font-bold cursor-pointer border-0 border-b-4 hover:text-purple-800 hover:border-purple-500">TypeScript</li>
-    </ul>
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 dark:bg-gray-700 px-2 pt-2 pb-4 gap-4">
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-500 hover:border-purple-500">JavaScript</button>
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-500 hover:border-purple-500">TypeScript</button>
+    </div>
 
-    <div>
+    <div class="example">
       {% highlight "javascript" %}
 import { ViewChannel } from '@uiloos/core';
 
@@ -21,7 +22,7 @@ function subscriber(activeList, event) {
 const viewChannel = new ViewChannel(config, subscriber);
 {% endhighlight %}
     </div>
-    <div>
+    <div class="example">
       {% highlight "typescript" %}
 import { ViewChannel ViewChannelEvent } from '@uiloos/core';
 

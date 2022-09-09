@@ -7,53 +7,6 @@ import { ActiveList } from '@uiloos/core';
 window.Alpine = Alpine;
 Alpine.start();
 
-// Code switch examples
-
-const activeCodeSwitchClasses = ['text-purple-800', 'border-purple-500'];
-const preferredLanguageKey = 'PREFERRED_LANGUAGE';
-
-const codeSwitcher = new ActiveList(
-  {
-    contents: ['js', 'ts'],
-    active: [localStorage.getItem(preferredLanguageKey) || 'ts'],
-  },
-  subscriber
-);
-
-function subscriber(activeList) {
-  localStorage.setItem(preferredLanguageKey, activeList.lastActivated);
-
-  document.querySelectorAll('.js-code-switch').forEach((codeswitch) => {
-    const buttons = codeswitch.querySelectorAll('li');
-
-    buttons.forEach((button, index) => {
-      if (index === activeList.lastActivatedIndex) {
-        button.classList.add(...activeCodeSwitchClasses);
-      } else {
-        button.classList.remove(...activeCodeSwitchClasses);
-      }
-    });
-
-    const examples = codeswitch.querySelectorAll('div');
-
-    examples.forEach((example, index) => {
-      if (index === activeList.lastActivatedIndex) {
-        example.classList.remove('visually-hidden');
-      } else {
-        example.classList.add('visually-hidden');
-      }
-    });
-  });
-}
-
-document.querySelectorAll('.js-code-switch').forEach((codeswitch) => {
-  const buttons = codeswitch.querySelectorAll('li');
-
-  buttons.forEach((button, index) => {
-    button.onclick = () => codeSwitcher.activateByIndex(index);
-  });
-});
-
 // ToC highlighter
 
 const docTocEl = document.querySelector('nav[role="doc-toc"]');
@@ -89,6 +42,8 @@ if (docTocEl && !docTocEl.hasAttribute('data-no-highlight')) {
   document.querySelectorAll('h2').forEach((e) => observer.observe(e));
 }
 
+// Switcher
+
 const activeExampleSwitchClasses = ['text-purple-500', 'border-purple-500'];
 
 document.querySelectorAll('.js-example-switcher').forEach((exampleSwitchEl) => {
@@ -97,8 +52,8 @@ document.querySelectorAll('.js-example-switcher').forEach((exampleSwitchEl) => {
 
   const exampleSwitcher = new ActiveList(
     {
-      contents: ['JavaScript', 'HTML', 'CSS'],
-      active: ['JavaScript'],
+      contents: buttons,
+      active: buttons[0],
     },
     subscriber
   );
