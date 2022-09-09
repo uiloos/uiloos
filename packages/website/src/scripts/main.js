@@ -89,7 +89,7 @@ if (docTocEl && !docTocEl.hasAttribute('data-no-highlight')) {
   document.querySelectorAll('h2').forEach((e) => observer.observe(e));
 }
 
-const activeExampleSwitchClasses = ['text-purple-800', 'border-purple-500'];
+const activeExampleSwitchClasses = ['text-purple-500', 'border-purple-500'];
 
 document.querySelectorAll('.js-example-switcher').forEach((exampleSwitchEl) => {
   const buttons = exampleSwitchEl.querySelectorAll('button');
@@ -125,3 +125,13 @@ document.querySelectorAll('.js-example-switcher').forEach((exampleSwitchEl) => {
     button.onclick = () => exampleSwitcher.activateByIndex(index);
   });
 });
+
+// Dark mode toggle
+
+document.getElementById('darkModeToggle').onclick = () => {
+  const isDark = document.documentElement.classList.contains('dark');
+
+  document.documentElement.classList.toggle('dark');
+
+  localStorage.theme = isDark ? 'light' : 'dark';
+};

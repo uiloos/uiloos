@@ -6,6 +6,7 @@ module.exports = {
     "./src/index.{html,md,11ty.js,liquid,njk,hbs,mustache,ejs,haml,pug}",
     "./src/scripts/**/*.{js,ts}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {

@@ -5,7 +5,7 @@
   class="fixed w-full z-30 md:bg-opacity-90 transition duration-300 ease-in-out" 
   x-data="{ top: true }" 
   @scroll.window="top = window.pageYOffset > 10 ? false : true" 
-  :class="{ 'bg-white backdrop-blur-sm shadow-lg' : !top }"
+  :class="{ 'bg-white dark:bg-black backdrop-blur-sm shadow-lg' : !top }"
 >
 {% endif %}
   <div class="max-w-6xl mx-auto px-5 sm:px-6 flex items-center justify-between h-16 md:h-20">
@@ -14,8 +14,8 @@
     <div class="shrink-0 mr-4">
       <!-- Logo -->
       <a class="flex flex-row items-center" href="/" aria-label="uiloos">
-        <img alt="Outline of an owl" src="/images/uiloos.svg" width="64" height="64">
-        
+        <img alt="Outline of an owl" src="/images/uiloos.svg" width="64" height="64" class="dark:hidden"/>
+        <img alt="Outline of an owl" src="/images/uiloos-dark.svg" width="64" height="64" class="hidden dark:block"/>
         <span class="ml-4 maven text-4xl">uiloos</span>
       </a>
     </div>
@@ -27,11 +27,23 @@
       <ul class="flex grow justify-end flex-wrap items-center">
         {% for entry in navPages %}
           <li>
-            <a class="text-gray-700 hover:text-gray-900 px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out" href="{{entry.url}}">{{entry.title}}</a>
+            <a class="text-gray-700 hover:text-gray-900 dark:text-white px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out" href="{{entry.url}}">{{entry.title}}</a>
           </li>
         {% endfor %}
       </ul>
     </nav>
+
+    <div class="flex justify-center">
+      <button
+        class="mx-4" 
+        id="darkModeToggle"
+        title="Toggle dark / light mode" 
+        aria-label="Toggle dark / light mode"
+      >
+        <img alt="Moon representing dark mode" src="/images/icons/moon.svg" width="26" height="26" class="dark:hidden"/>
+        <img alt="Sun representing light mode" src="/images/icons/sun.svg" width="32" height="32" class="hidden dark:block stoke-white"/>
+      </button
+    </div>  
 
     <!-- Mobile menu -->
     <div class="flex md:hidden" x-data="{ expanded: false }">
@@ -44,7 +56,7 @@
         :aria-expanded="expanded"
       >
         <span class="sr-only">Menu</span>
-        <svg class="w-6 h-6 fill-current text-gray-900" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <svg class="w-6 h-6 fill-current text-gray-900 dark:text-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <rect y="4" width="24" height="2"/>
           <rect y="11" width="24" height="2"/>
           <rect y="18" width="24" height="2"/>
@@ -54,7 +66,7 @@
       <!-- Mobile navigation -->
       <nav
         id="mobile-nav"
-        class="absolute top-24 h-screen pb-16 z-20 left-0 w-full overflow-scroll bg-white"
+        class="absolute top-24 h-screen pb-16 z-20 left-0 w-full overflow-scroll bg-white dark:bg-black"
         @click.outside="expanded = false"
         @keydown.escape.window="expanded = false"
         x-show="expanded"
@@ -69,7 +81,7 @@
         <ul class="px-5 py-2">
           {% for entry in navPages %}
             <li>
-              <a class="flex text-xl text-gray-700 hover:text-gray-900 py-2" href="{{entry.url}}">{{entry.title}}</a>
+              <a class="flex text-xl text-gray-700 hover:text-gray-900 dark:text-white py-2" href="{{entry.url}}">{{entry.title}}</a>
             </li>
           {% endfor %}
         </ul>

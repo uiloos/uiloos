@@ -12,6 +12,10 @@
 			<feFlood style="flood-color:white;flood-opacity:1" result="back"/>
 			<feBlend in="source" in2="back" mode="normal"/>
 		</filter>
+		<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="0.8727" y1="16" x2="31.1273" y2="16">
+			<stop offset="0" style="stop-color:#F6A31D"/>
+			<stop offset="1" style="stop-color:#B31F81"/>
+		</linearGradient>
 	</defs>
 	<mask maskUnits="userSpaceOnUse" x="0.87" y="0.87" width="30.25" height="30.25" id="SVGID_1_">
 		<g class="st7">
@@ -64,5 +68,6 @@
 		</g>
 	</mask>
 
+	<circle style="fill:url(#SVGID_2_);" cx="16" cy="16" r="15.13"/>
 	<circle style="mask:url(#SVGID_1_);" cx="16" cy="16" r="15.13"/>
 </svg>

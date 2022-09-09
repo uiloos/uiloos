@@ -16,27 +16,27 @@
       class="block font-mono"
     >
       {% if def.kindString === 'Function' and def.signatures[0].type.name === 'JSX.Element' %}
-        <span class="border bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
+        <span class="bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
       {% elif def.kindString === 'Function' and def.name.startsWith('use') %}
-        <span class="border bg-yellow-400 font-medium text-white inline-block px-1 my-2 text-sm">{% if subapi === 'react' %}H{% else %}C{% endif %}</span>
+        <span class="bg-yellow-400 font-medium text-white inline-block px-1 my-2 text-sm">{% if subapi === 'react' %}H{% else %}C{% endif %}</span>
       {% elif def.kindString === 'Class' and def.decorators[0].type.name === 'Component' %}
-        <span class="border bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
+        <span class="bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
       {% elif def.type.qualifiedName === 'DefineComponent' %}
-        <span class="border bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
+        <span class="bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
       {% elif def.kindString === 'Class' and def.decorators[0].type.name === 'NgModule' %}
-        <span class="border bg-purple-400 font-medium text-white inline-block px-1 my-2 text-sm">M</span>
+        <span class="bg-purple-400 font-medium text-white inline-block px-1 my-2 text-sm">M</span>
       {% elif def.kindString === 'Class' and def.name.endsWith('Error') %}
-        <span class="border bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">E</span>
+        <span class="bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">E</span>
       {% elif def.name === 'uiloosPlugin' %}
-        <span class="border bg-purple-400 font-medium text-white inline-block px-1 my-2 text-sm">P</span>
+        <span class="bg-purple-400 font-medium text-white inline-block px-1 my-2 text-sm">P</span>
       {% elif def.kindString === 'Class' %}
-        <span class="border bg-blue-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
+        <span class="bg-blue-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
       {% elif def.kindString === 'Function' %}
-        <span class="border bg-green-400 font-medium text-white inline-block px-1 my-2 text-sm">F</span>
+        <span class="bg-green-400 font-medium text-white inline-block px-1 my-2 text-sm">F</span>
       {% elif def.kindString === 'Variable' %}
-        <span class="border bg-green-400 font-medium text-white inline-block px-1 my-2 text-sm">I</span>
+        <span class="bg-green-400 font-medium text-white inline-block px-1 my-2 text-sm">I</span>
       {% else %}
-        <span class="border bg-orange-400 font-medium text-white inline-block px-1 my-2 text-sm">T</span>
+        <span class="bg-orange-400 font-medium text-white inline-block px-1 my-2 text-sm">T</span>
       {% endif %}
       
       {{def.name}}
@@ -125,7 +125,7 @@
     {{ displaySince(signature, sinceRoot) }}
 
     <h4 class="mt-4">Signature</h3>
-    <div class="font-mono bg-gray-700 text-white p-4 mb-2">
+    <div class="font-mono bg-gray-800 text-white p-4 mb-2">
       {% if not signature.parameters %}
         <span class="text-purple-400">
           {% if signature.name === '__type' %}

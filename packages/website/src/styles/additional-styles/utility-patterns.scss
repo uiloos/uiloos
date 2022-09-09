@@ -16,7 +16,7 @@ h4 {
 }
 
 a.high, span.high {
-  @apply font-mono font-bold text-purple-800 bg-purple-100 py-0.5;
+  @apply font-mono font-bold text-purple-800 bg-purple-100 dark:text-white dark:bg-purple-900 py-0.5;
 }
 
 a.high {
@@ -109,11 +109,19 @@ details {
 }
 
 .note {
-  @apply bg-yellow-200 px-4 py-4 border-yellow-500 border-l-8 
+  @apply bg-yellow-200 dark:bg-gray-800 px-4 py-4 border-yellow-500 border-l-8 
 }
 
 .note::before{
   content: 'Note';
   display: block;
   font-weight: bold;
+}
+
+.card {
+  @apply flex justify-between items-center p-4 rounded border border-gray-200 transition duration-300 ease-in-out bg-white dark:bg-gray-900 shadow-md hover:shadow-lg mb-4
+}
+
+.example-card {
+  @apply p-4 rounded border border-gray-200 transition duration-300 ease-in-out bg-white dark:bg-gray-900 shadow-md hover:shadow-lg mb-4
 }
