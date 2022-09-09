@@ -1,19 +1,11 @@
 import '../styles/main.scss';
 
 import Alpine from 'alpinejs';
-import AOS from 'aos';
 import { ActiveList } from '@uiloos/core';
 
 // Initialize Alpine
 window.Alpine = Alpine;
 Alpine.start();
-
-AOS.init({
-  once: true,
-  disable: 'phone',
-  duration: 700,
-  easing: 'ease-out-cubic',
-});
 
 // Code switch examples
 

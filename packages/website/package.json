@@ -20,7 +20,6 @@
   "license": "ISC",
   "dependencies": {
     "alpinejs": "3.10.2",
-    "aos": "3.0.0-beta.6",
     "@uiloos/core": "^1.0.0"
   },
   "devDependencies": {
