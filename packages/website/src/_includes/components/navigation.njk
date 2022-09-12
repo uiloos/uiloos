@@ -77,7 +77,7 @@
       <!-- Mobile navigation -->
       <nav
         id="mobile-nav"
-        class="absolute top-24 h-screen pb-16 z-20 left-0 w-full overflow-scroll bg-white dark:bg-black"
+        class="absolute top-16 h-screen pb-16 z-20 left-0 w-full overflow-scroll bg-white dark:bg-black"
         @click.outside="expanded = false"
         @keydown.escape.window="expanded = false"
         x-show="expanded"
@@ -89,10 +89,10 @@
         x-transition:leave-end="opacity-0"
         x-cloak
       >
-        <ul class="px-5 py-2">
+        <ul class="px-5 py-10 text-center">
           {% for entry in navPages %}
             <li>
-              <a class="flex text-xl text-gray-700 hover:text-gray-900 dark:text-white py-2" href="{{entry.url}}">{{entry.title}}</a>
+              <a class="flex justify-center text-xl text-gray-700 hover:text-gray-900 dark:text-white py-4" href="{{entry.url}}">{{entry.title}}</a>
             </li>
           {% endfor %}
         </ul>
