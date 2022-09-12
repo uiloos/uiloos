@@ -13,7 +13,8 @@
     "build-docs:eleventy": "ELEVENTY_ENV=production eleventy --config=./eleventy.config.js",
     "build-docs": "NODE_ENV=production run-s clean:site build-docs:*",
     "build": "echo ignoring build for website package",
-    "apigen:pre": "rm -rf src/_data/api"
+    "apigen:pre": "rm -rf src/_data/api",
+    "apigen:post": "rm -f src/search/data.json && node ./generate-search-data.js"
   },
   "keywords": [],
   "author": "",

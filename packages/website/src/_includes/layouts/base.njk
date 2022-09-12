@@ -20,7 +20,7 @@
     </script>
   </head>
 
-  <body class="font-inter antialiased bg-white text-gray-900 dark:bg-black dark:text-white  tracking-tight flex flex-col min-h-screen">
+  <body class="font-inter antialiased bg-white text-gray-900 dark:bg-black dark:text-white tracking-tight flex flex-col min-h-screen">
 
     {% include "../components/navigation.njk" %}
 
@@ -30,6 +30,32 @@
     </main>
 
     {% include "../components/footer.njk" %}
+
+    <div id="searchModal" class="relative z-50 text-xl hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+      <div class="fixed inset-0 z-10 overflow-y-auto">
+        <div class="flex min-h-full items-start justify-center p-4 text-center sm:p-0">
+          <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg lg:max-w-xl">
+            <div id="searchModalBody" class="bg-white dark:bg-gray-900">
+              <label for="searchInput" class="flex p-4">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 dark:stroke-white self-center">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+                <input id="searchInput" name="searchInput" class="ml-4 h-12 px-2 flex-grow dark:bg-gray-900" placeholder="Search docs and API"/>
+              </label>
+
+              <p id="modal-title" class="visually-hidden">
+                Search the documentation and API reference.
+              </p>
+
+              <ol id="searchModalResults">
+              </ol> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="/assets/main.js"></script>
   </body>

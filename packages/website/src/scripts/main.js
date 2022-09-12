@@ -90,3 +90,74 @@ document.getElementById('darkModeToggle').onclick = () => {
 
   localStorage.theme = isDark ? 'light' : 'dark';
 };
+
+// Search modal
+const searchModal = document.getElementById('searchModal');
+const searchModalBody = document.getElementById('searchModalBody');
+const searchModalResults = document.getElementById('searchModalResults');
+const searchInput = document.getElementById('searchInput');
+
+// Load the search data index.
+let searchData = [];
+fetch('/search/data.json')
+  .then(async (result) => {
+    return result.json();
+  })
+  .then((data) => {
+    searchData = data;
+  });
+
+document.addEventListener('keydown', searchModalListener, { passive: true });
+
+function searchModalListener(event) {
+  if (event.key === 'k' && (event.metaKey || event.ctrKey)) {
+    toggleSearch();
+  } else if (event.key === 'Escape') {
+    searchModal.classList.add('hidden');
+  }
+}
+
+document.getElementById('searchToggle').onclick = toggleSearch;
+
+searchModal.onclick = (event) => {
+  if (!searchModalBody.contains(event.target)) {
+    toggleSearch();
+  }
+};
+
+function toggleSearch() {
+  searchModal.classList.toggle('hidden');
+
+  if (!searchModal.classList.contains('hidden')) {
+    searchInput.focus();
+  }
+}
+
+// Filter search index based on query
+searchInput.onkeyup = (event) => {
+  searchModalResults.innerHTML = '';
+
+  const query = event.target.value.toLowerCase();
+
+  const filtered = searchData.filter((data) => {
+    const haystack = (data.name + ' ' + data.description).toLowerCase();
+
+    return haystack.includes(query);
+  });
+
+  filtered.forEach((data) => {
+    const liEl = document.createElement('li');
+    liEl.className = 'p-4 border-b-2';
+    liEl.innerHTML = `
+      <a href="${data.link}">
+        <span class="flex justify-between">
+          <span class="text-ellipsis overflow-clip ${data.type === 'API' ? 'high underline' : 'font-bold' }">${data.name}</span>
+          <span class="ml-2 font-mono">${data.type}</span>
+        </span>
+        <p class="mt-2 text-lg">${data.description}</p>
+      </a>
+    `;
+
+    searchModalResults.append(liEl);
+  });
+};
