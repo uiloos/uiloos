@@ -13,7 +13,8 @@
   {% for def in definitions | sortApi %}
     <a 
       href="/api/{{subapi}}/{{ def.name | slug}}/" 
-      class="block font-mono"
+      class="block font-mono text-ellipsis overflow-hidden whitespace-nowrap"
+      title="{{ def.name }}"
     >
       {% if def.kindString === 'Function' and def.signatures[0].type.name === 'JSX.Element' %}
         <span class="bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
