@@ -2,11 +2,13 @@
 layout: layouts/api.njk
 permalink: "/api/vue/{{ def.name | slug }}/"
 pagination:
-    data: api.vue.children
-    size: 1
-    alias: def
+  data: api.vue.children
+  size: 1
+  alias: def
 renderData:
-    title: "{{ def.name }} | Vue | API | uiloos"
+  title: "{{ def.name }} | Vue | API | uiloos"
+  description: "{{ def.name }} {{def.comment.shortText}}"
+  keywords: "@uiloos/vue {{ def.name }} API, {{ def.name }}"
 ---
 
 {% from "../_includes/class.njk" import classPage %}

@@ -2,11 +2,13 @@
 layout: layouts/api.njk
 permalink: "/api/react/{{ def.name | slug }}/"
 pagination:
-    data: api.react.children
-    size: 1
-    alias: def
+  data: api.react.children
+  size: 1
+  alias: def
 renderData:
-    title: "{{ def.name }} | React | API | uiloos"
+  title: "{{ def.name }} | React | API | uiloos"
+  description: "{{ def.name }} {{def.comment.shortText}}"
+  keywords: "@uiloos/react {{ def.name }} API, {{ def.name }}"
 ---
 
 {% from "../_includes/class.njk" import classPage %}

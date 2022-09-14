@@ -2,11 +2,13 @@
 layout: layouts/api.njk
 permalink: "/api/core/{{ def.name | slug }}/"
 pagination:
-    data: api.core.children
-    size: 1
-    alias: def
+  data: api.core.children
+  size: 1
+  alias: def
 renderData:
-    title: "{{ def.name }} | core | API | uiloos"
+  title: "{{ def.name }} | core | API | uiloos" 
+  description: "{{ def.name }} {{def.comment.shortText}}"
+  keywords: "@uiloos/core {{ def.name }} API, {{ def.name }}"
 ---
 
 {% from "../_includes/error.njk" import errorPage %}

@@ -18,6 +18,18 @@
         document.documentElement.classList.remove('dark')
       }
     </script>
+
+    {% if renderData and renderData.description %}
+      <meta name="description" content="{{ renderData.description }}">
+    {% else %}
+      <meta name="description" content="uiloos is a headless library for JavaScript and TypeScript, which provides common behaviors seen in most websites and web-applications.">
+    {% endif %}
+
+    {% if renderData and renderData.keywords %}
+      <meta name="keywords" content="{{ renderData.keywords }}">
+    {% else %}
+      <meta name="keywords" content="uiloos, headless ui, component library, common web behaviors, javascript component library, typescript component library, headless component library">
+    {% endif %}
   </head>
 
   <body class="font-inter antialiased bg-white text-gray-900 dark:bg-black dark:text-white tracking-tight flex flex-col min-h-screen">

@@ -2,11 +2,13 @@
 layout: layouts/api.njk
 permalink: "/api/angular/{{ def.name | slug }}/"
 pagination:
-    data: api.angular.children
-    size: 1
-    alias: def
+  data: api.angular.children
+  size: 1
+  alias: def
 renderData:
-    title: "{{ def.name }} | Angular | API | uiloos"
+  title: "{{ def.name }} | Angular | API | uiloos"
+  description: "{{ def.name }} {{def.comment.shortText}}"
+  keywords: "@uiloos/angular {{ def.name }} API, {{ def.name }}"
 ---
 
 {% from "../_includes/class.njk" import classPage %}
