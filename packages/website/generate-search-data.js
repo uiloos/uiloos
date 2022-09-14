@@ -116,7 +116,7 @@ core.children.forEach((child) => {
         data.push({
           name: child.name + "::" + grandchild.name,
           description: grandchild.comment?.shortText ?? '' + grandchild.signatures[0].comment.shortText ?? '',
-          link: `/api/core/${child.name}/#${grandchild.name}`,
+          link: `/api/core/${child.name}/#${grandchild.name}`.toLowerCase(),
           kindString: grandchild.kindString,
           type: "API",
           package: '@uiloos/core',
