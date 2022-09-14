@@ -14,7 +14,7 @@
     "build-docs": "NODE_ENV=production run-s clean:site build-docs:*",
     "build": "echo ignoring build for website package",
     "apigen:pre": "rm -rf src/_data/api",
-    "apigen:post": "rm -f src/search/data.json && node ./generate-search-data.js"
+    "apigen:post": "rm -rf src/search && mkdir src/search && node ./generate-search-data.js"
   },
   "keywords": [],
   "author": "",
