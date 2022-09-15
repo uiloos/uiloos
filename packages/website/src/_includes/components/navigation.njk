@@ -27,7 +27,12 @@
       <ul class="flex grow justify-end flex-wrap items-center">
         {% for entry in navPages %}
           <li>
-            <a class="text-gray-700 hover:text-gray-900 dark:text-white px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out" href="{{entry.url}}">{{entry.title}}</a>
+            <a 
+              class="{% if page.url.startsWith(entry.url) %} text-purple-600 dark:text-purple-600 {% else %} text-black dark:text-white {% endif %} hover:text-purple-600 dark:hover:text-purple-600 px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out" 
+              href="{{entry.url}}"
+            >
+              {{entry.title}}
+            </a>
           </li>
         {% endfor %}
       </ul>
@@ -92,7 +97,12 @@
         <ul class="px-5 py-10 text-center">
           {% for entry in navPages %}
             <li>
-              <a class="flex justify-center text-xl text-gray-700 hover:text-gray-900 dark:text-white py-4" href="{{entry.url}}">{{entry.title}}</a>
+              <a 
+                class="{% if page.url.startsWith(entry.url) %} text-purple-600 dark:text-purple-600 {% else %} text-black dark:text-white {% endif %} hover:text-purple-600 dark:hover:text-purple-600 flex justify-center text-xl text-gray-700 py-4" 
+                href="{{entry.url}}"
+              >
+                {{entry.title}}
+              </a>
             </li>
           {% endfor %}
         </ul>
