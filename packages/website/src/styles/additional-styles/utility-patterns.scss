@@ -4,7 +4,7 @@ h1 {
 }
 
 h2 {
-  @apply text-3xl font-extrabold leading-tight tracking-tighter mb-2;
+  @apply text-3xl font-extrabold leading-tight tracking-tighter mb-4;
 }
 
 h3 {
@@ -15,7 +15,7 @@ h4 {
   @apply text-2xl font-bold leading-snug tracking-tight mb-2;
 }
 
-a.high, span.high {
+.high {
   @apply font-mono font-bold text-purple-800 bg-purple-100 dark:text-white dark:bg-purple-900 py-0.5;
 }
 

@@ -27,9 +27,6 @@ renderData:
         <a href="#live-properties" class="text-purple-600 underline">Live properties</a>
       </li>
       <li class="ml-8">
-        <a href="#rules" class="text-purple-600 underline">Rules</a>
-      </li>
-      <li class="ml-8">
         <a href="#multiple-or-single" class="text-purple-600 underline">Multiple or single mode</a>
       </li>
       <li class="ml-8">
@@ -50,7 +47,7 @@ renderData:
     </ol>
   </nav>
 
-  <h2 id="overview" class="h2 mb-4">
+  <h2 id="overview">
     <a href="#overview">1. Overview</a>
   </h2>
 
@@ -115,7 +112,7 @@ renderData:
     also has methods so it can move / swap / remove / activate itself. 
   </p>
 
-  <h2 id="initialization" class="h2 mb-4">
+  <h2 id="initialization" >
     <a href="#initialization">2. Initialization</a>
   </h1>
 
@@ -142,12 +139,13 @@ renderData:
   <p>
     When using reactive frameworks such as React, Vue, Angular or Svelte etc etc. 
     The subscriber is not necessary since your framework of choice will do the 
-    heavy lifting of syncing the state of the ActiveList with the DOM. For more information see <a href="/docs/active-list/usage-with-frameworks/" class="underline">"Usage with Framework"</a>
+    heavy lifting of syncing the state of the ActiveList with the DOM. For more information see 
+    <a href="/docs/active-list/usage-with-frameworks/" class="underline">"Usage with Framework"</a>
   </p>
 
   {% include './concepts/initialization.njk' %}
 
-  <h2 id="live-properties" class="h2 mb-4">
+  <h2 id="live-properties" >
     <a href="#live-properties">3. Live properties</a>
   </h2>
 
@@ -209,47 +207,20 @@ renderData:
     <li class="ml-8 mb-4">
       <span class="high">direction</span> is a string telling which 
       direction the ActiveList moved to on it last activation. See
-      <a href="/docs/active-list/concepts/#direction" class="underline">7. direction</a> 
+      <a href="/docs/active-list/concepts/#direction" class="underline">Direction</a> 
       for more information.
     </li>
 
     <li class="ml-8 mb-4">
       <span class="high">autoPlay</span> whether or not the 
       AutoPlay is currently playing, and at what duration. See
-      <a href="/docs/active-list/concepts/#autoplay" class="underline">9. AutoPlay</a> 
+      <a href="/docs/active-list/concepts/#autoplay" class="underline">AutoPlay</a> 
       for more information.
     </li>
   </ol>
 
-  <h2 id="rules" class="h2 mb-4">
-    <a href="#rules">4. Rules</a>
-  </h2>
-
-  <p>
-    There is one important rule when using the ActiveList:
-    <strong>you may never directly manipulate any of the fields of the ActiveList!</strong>
-    Otherwise the subscribers will not be informed, and changes to the "live"
-    properties will not be detected.
-  </p>
-
-  <p>
-    So always use the appropriate methods to realize the changes you want to see,
-    so the ActiveList can keep the observers / subscribers in the loop.
-  </p>
-
-  <p>
-    Another rule is that you should not be using anything in the ActiveList
-    which starts with an underscore. These classes / methods / instance
-    fields should be considered private. 
-    <strong>
-      We reserve the right to change their names / inner workings and not
-      consider it a breaking change! So please do not use and depend on them.
-    </strong>
-    
-  </p>
-
-  <h2 id="multiple-or-single" class="h2 mb-4">
-    <a href="#multiple-or-single">5. Multiple or single mode</a>
+  <h2 id="multiple-or-single" >
+    <a href="#multiple-or-single">4. Multiple or single mode</a>
   </h2>
 
   <p>
@@ -296,8 +267,8 @@ renderData:
     <span class="high">multiple</span> mode.
   </p>
 
-  <h2 id="circular-or-linear" class="h2 mb-4">
-    <a href="#circular-or-linear">6. Circular or linear mode</a>
+  <h2 id="circular-or-linear" >
+    <a href="#circular-or-linear">5. Circular or linear mode</a>
   </h2>
 
   <p>
@@ -336,8 +307,8 @@ renderData:
     loop over the content indefinitely.
   </p>
 
-  <h2 id="direction" class="h2 mb-4">
-    <a href="#direction">7. Direction</a>
+  <h2 id="direction" >
+    <a href="#direction">6. Direction</a>
   </h2>
 
   <p>
@@ -383,8 +354,8 @@ renderData:
     next tie, the direction will become <span class="high">next</span>
   </p>
 
-  <h2 id="cooldown" class="h2 mb-4">
-    <a href="#cooldown">8. Cooldown</a>
+  <h2 id="cooldown" >
+    <a href="#cooldown">7. Cooldown</a>
   </h2>
 
   <p>
@@ -423,8 +394,8 @@ renderData:
     is set to <span class="high">false</span>, the cooldown is ignored.
   </p>
 
-  <h2 id="autoplay" class="h2 mb-4">
-    <a href="#autoplay">9. AutoPlay</a>
+  <h2 id="autoplay" >
+    <a href="#autoplay">8. AutoPlay</a>
   </h2>
 
   <p>
@@ -520,8 +491,8 @@ renderData:
     playing.
   </p>
 
-  <h2 id="history" class="h2 mb-4">
-    <a href="#history">10. History</a>
+  <h2 id="history" >
+    <a href="#history">9. History</a>
   </h2>
 
   <p>

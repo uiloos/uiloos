@@ -5,6 +5,7 @@ console.log('Generating search data file');
 const core = require('./src/_data/api/core.json');
 
 const data = [
+  // Getting started
   {
     name: "Installation",
     description: "Learn how to install uiloos",
@@ -16,6 +17,32 @@ const data = [
     description: "Learn how to activate uiloos",
     type: "Docs",
     link: "/docs/getting-started/activation/"
+  },
+  {
+    name: "Overview",
+    description: "Get an overview of the uiloos library, get to know the use case, learn the philosophy behind uiloos.",
+    type: "Docs",
+    link: "/docs/getting-started/overview/"
+  },
+
+  // Miscellaneous
+  {
+    name: "Rules",
+    description: "Learn about the rules of using uiloos.",
+    type: "Docs",
+    link: "/docs/miscellaneous/rules/"
+  },
+  {
+    name: "TypeScript",
+    description: "uiloos fully supports TypeScript",
+    type: "Docs",
+    link: "/docs/miscellaneous/typescript/"
+  },
+  {
+    name: "Future",
+    description: "View what the future of uiloos holds, read about upcoming features",
+    type: "Docs",
+    link: "/docs/miscellaneous/future/"
   },
 
   // ActiveList

@@ -27,9 +27,6 @@ renderData:
         <a href="#live-properties" class="text-purple-600 underline">Live properties</a>
       </li>
       <li class="ml-8">
-        <a href="#rules" class="text-purple-600 underline">Rules</a>
-      </li>
-      <li class="ml-8">
         <a href="#priority" class="text-purple-600 underline">Priority</a>
       </li>
       <li class="ml-8">
@@ -41,7 +38,7 @@ renderData:
     </ol>
   </nav>
 
-  <h2 id="overview" class="h2 mb-4">
+  <h2 id="overview" >
     <a href="#overview">1. Overview</a>
   </h2>
 
@@ -98,7 +95,7 @@ renderData:
     <span class="high">await</span> the result.
   </p>
 
-  <h2 id="initialization" class="h2 mb-4">
+  <h2 id="initialization" >
     <a href="#initialization">2. Initialization</a>
   </h1>
 
@@ -131,7 +128,7 @@ renderData:
 
   {% include './concepts/initialization.njk' %}
 
-  <h2 id="live-properties" class="h2 mb-4">
+  <h2 id="live-properties" >
     <a href="#live-properties">3. Live properties</a>
   </h2>
 
@@ -204,34 +201,8 @@ renderData:
     </li>
   </ol>
 
-  <h2 id="rules" class="h2 mb-4">
-    <a href="#rules">4. Rules</a>
-  </h2>
-
-  <p>
-    There is one important rule when using the ViewChannel:
-    <strong>you may never directly manipulate any of the fields of the ViewChannel!</strong>
-    Otherwise the subscribers will not be informed, and changes to the "live"
-    properties will not be detected.
-  </p>
-
-  <p>
-    So always use the appropriate methods to realize the changes you want to see,
-    so the ViewChannel can keep the observers / subscribers in the loop.
-  </p>
-
-  <p>
-    Another rule is that you should not be using anything in the ViewChannel
-    which starts with an underscore. These classes / methods / instance
-    fields should be considered private. 
-    <strong>
-      We reserve the right to change their names / inner workings and not
-      consider it a breaking change! So please do not use and depend on them.
-    </strong>
-  </p>
-
-  <h2 id="priority" class="h2 mb-4">
-    <a href="#priority">5. Priority</a>
+  <h2 id="priority" >
+    <a href="#priority">4. Priority</a>
   </h2>
 
   <p>
@@ -316,8 +287,8 @@ renderData:
     <span class="high">[10]</span>.
   </p>
 
-  <h2 id="autodismiss" class="h2 mb-4">
-    <a href="#autodismiss">6. AutoDismiss</a>
+  <h2 id="autodismiss" >
+    <a href="#autodismiss">5. AutoDismiss</a>
   </h2>
 
   <p>
@@ -355,8 +326,8 @@ renderData:
     and not remembered.
   </p>
 
-  <h2 id="history" class="h2 mb-4">
-    <a href="#history">7. History</a>
+  <h2 id="history" >
+    <a href="#history">6. History</a>
   </h2>
 
   <p>

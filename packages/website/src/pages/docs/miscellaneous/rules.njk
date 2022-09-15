@@ -1,0 +1,36 @@
+---
+title: Rules | Miscellaneous | Docs | uiloos
+layout: layouts/docs.njk
+permalink: /docs/miscellaneous/rules/
+renderData:
+  parent: 'miscellaneous'
+  current: 'rules'
+  description: "Learn about the rules of using uiloos."
+  keywords: "uiloos rules, uiloos pitfalls, uiloos caveats"
+---
+
+<article>
+ <h1>Rules</h1>
+
+  <p>
+    There is one important rule when using uiloos:
+    <strong>you may never directly manipulate any of the fields of the components!</strong>
+    Otherwise the subscribers will not be informed, and changes to the "live"
+    properties will not be detected.
+  </p>
+
+  <p>
+    So always use the appropriate methods to realize the changes you want to see,
+    so the components can keep the observers / subscribers in the loop.
+  </p>
+
+  <p>
+    Another rule is that you should not be using anything inside of the components
+    that start with an underscore. These classes / methods / instance
+    fields should be considered private. 
+    <strong>
+      We reserve the right to change their names / inner workings and not
+      consider it a breaking change! So please do not use and depend on them.
+    </strong>
+  </p>
+</article>

@@ -57,7 +57,7 @@ renderData:
     </ol>
   </nav>
 
-  <h2 id="introduction" class="h2 mb-4"><a href="#introduction">1. Introduction</a></h2>
+  <h2 id="introduction" ><a href="#introduction">1. Introduction</a></h2>
 
   <p>
     We are going to build a flash message system in vanilla JavaScript.
@@ -82,7 +82,7 @@ renderData:
     up an entire development environment.
   </p>
 
-  <h2 id="files-overview" class="h2 mb-4"><a href="#files-overview">2. Files overview</a></h2>
+  <h2 id="files-overview" ><a href="#files-overview">2. Files overview</a></h2>
 
   <p>
     In the sandbox you will see a couple of files:
@@ -110,7 +110,7 @@ renderData:
     </li>
   </ol>
 
-  <h2 id="goals" class="h2 mb-4"><a href="#goals">3. Goals</a></h2>
+  <h2 id="goals" ><a href="#goals">3. Goals</a></h2>
 
   <p>
     We want our flash messages to have the following behaviors:
@@ -135,7 +135,7 @@ renderData:
     </li>
   </ol>
 
-  <h2 id="instantiating" class="h2 mb-4"><a href="#instantiating">4. Instantiating</a></h2>
+  <h2 id="instantiating" ><a href="#instantiating">4. Instantiating</a></h2>
 
   <p>
     The first step is to instantiate the ViewChannel in the flash-messages.js file:
@@ -170,7 +170,7 @@ function subscriber(viewChannel, event) {
     and a channel for confirmation dialogs in your application.
   </p>
 
-  <h2 id="presenting" class="h2 mb-4"><a href="#presenting">5. Presenting</a></h2>
+  <h2 id="presenting" ><a href="#presenting">5. Presenting</a></h2>
 
   <p>
     Lets first alter the subscriber function so it responds to the "PRESENT"
@@ -298,7 +298,7 @@ if (event.type === 'PRESENTED') {
 }
 {% endhighlight %}
 
-  <h2 id="dismissing" class="h2 mb-4"><a href="#dismissing">6. Dismissing</a></h2>
+  <h2 id="dismissing" ><a href="#dismissing">6. Dismissing</a></h2>
 
   <p>
     To be able to dismiss the flash message we need to first handle
@@ -343,7 +343,7 @@ flashMessagesContainerEl.append(flashMessageEl);
     If you click on the flash message it should be removed now.
   </p>
 
-  <h2 id="types" class="h2 mb-4"><a href="#types">7. Message types</a></h2>
+  <h2 id="types" ><a href="#types">7. Message types</a></h2>
   
   <p>
     Flash messages usually have different colors for different types of messages. 
@@ -472,7 +472,7 @@ document.getElementById('flashError').onclick = () => {
     flash messages.
   </p>
 
-  <h2 id="priority" class="h2 mb-4"><a href="#priority">8. Priority</a></h2>
+  <h2 id="priority" ><a href="#priority">8. Priority</a></h2>
 
   <p>
     One thing you might have noticed is that each of our flash message 
@@ -510,7 +510,7 @@ flashMessagesContainerEl.insertBefore(
     always on top.
   <p>
 
-  <h2 id="autodismiss" class="h2 mb-4"><a href="#autodismiss">9. AutoDismiss</a></h2>
+  <h2 id="autodismiss" ><a href="#autodismiss">9. AutoDismiss</a></h2>
 
   <p>
     We want the flash messages to dismiss automatically after a certain duration,
@@ -603,7 +603,7 @@ export function successFlashMessage(text) {
     <span class='high'>undefined</span> is fine.
   </p>
 
-  <h2 id="animation" class="h2 mb-4"><a href="#animation">10. Exit animation</a></h2>
+  <h2 id="animation" ><a href="#animation">10. Exit animation</a></h2>
 
   <p>
     We already have a nice enter animation for the flash message, but 
@@ -639,7 +639,7 @@ if (event.type === 'DISMISSED') {
 }
 {% endhighlight %}
 
-  <h2 id="playpause" class="h2 mb-4"><a href="#playpause">11. Play & pause</a></h2>
+  <h2 id="playpause" ><a href="#playpause">11. Play & pause</a></h2>
 
   <p>
     One thing about flash messages being automatically dismissed is that you
@@ -674,7 +674,7 @@ progressEl.style.animation = `progress ${view.autoDismiss.duration}ms ease-out`;
     stay visible.
   </p>
 
-  <h2 id="what-you-have-learned" class="h2 mb-4"><a href="#what-you-have-learned">12. What you have learned</a></h2>
+  <h2 id="what-you-have-learned" ><a href="#what-you-have-learned">12. What you have learned</a></h2>
 
   <ol class="list-decimal m-2 mb-4">
     <li class="ml-8 mb-4">
@@ -701,7 +701,7 @@ progressEl.style.animation = `progress ${view.autoDismiss.duration}ms ease-out`;
     </li>
   </ol>
 
-  <h2 id="further-reading" class="h2 mb-4"><a href="#further-reading">13. Further reading</a></h2>
+  <h2 id="further-reading" ><a href="#further-reading">13. Further reading</a></h2>
 
   <ol class="list-decimal m-2 mb-4">
     <li class="ml-8 mb-4">

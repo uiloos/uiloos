@@ -1,0 +1,187 @@
+---
+title: Overview | getting started | Docs | uiloos
+layout: layouts/docs.njk
+permalink: /docs/getting-started/overview/
+renderData:
+  parent: 'getting-started'
+  current: 'overview'
+  description: "Get an overview of the uiloos library, get to know the use case, learn the philosophy behind uiloos."
+  keywords: "uiloos overview, uiloos reason for existing, uiloos philosophy, what is uiloos, uiloos explained"
+---
+
+<article>
+ <h1>Overview</h1>
+
+  <nav class="2xl:fixed 2xl:top-24 2xl:right-2 2xl:w-[270px]" role="doc-toc">
+    <em>Table of contents</em>
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8">
+        <a href="#what-is-uiloos" class="text-purple-600 underline">What is uiloos</a>
+      </li>
+
+      <li class="ml-8">
+        <a href="#when-to-use-uiloos" class="text-purple-600 underline">When to use uiloos</a>
+      </li>
+
+      <li class="ml-8">
+        <a href="#components" class="text-purple-600 underline">Components</a>
+      </li>
+
+      <li class="ml-8">
+        <a href="#usage" class="text-purple-600 underline">Usage</a>
+      </li>
+    </ol>
+  </nav>
+
+  <h2 id="what-is-uiloos" >
+    <a href="#what-is-uiloos">1. What is uiloos</a>
+  </h2>
+
+  <p>
+    "uiloos" can best be described as a "Headless JavaScript / TypeScript Component Library".
+  </p>
+
+  <p>
+    "uiloos" is a headless component framework because it does not contain
+    any HTML or CSS, it only contains behavior. This gives you the
+    developer / designer complete control over the graphical design of the
+    website / application / game.
+  </p>
+
+  <p>
+    The idea for "uiloos" came when we had the following realization: 
+    <strong>across many websites / applications we are re-implementing the
+    same behaviors over and over again.</strong> Just with a new 
+    look and feel.
+  </p>
+
+  <p>Surely there must be a better way of doing things?</p>
+
+  <p>We think the answer is "uiloos".</p>
+
+  <h2 id="when-to-use-uiloos" >
+    <a href="#when-to-use-uiloos">2. When to use uiloos</a>
+  </h2>
+
+  <p>
+    You might want to use uiloos when when you find yourself in the
+    following situation:
+  </p>
+
+  <p>
+    <strong>
+      You need complete control over the design / appearance of the website
+      and you do not want to sacrifice on the design one bit.
+    </strong>
+  </p>
+
+  <p>
+    When you are put into this situation using third party components 
+    is often out of the question. Some third party components cannot
+    be re-skinned to fit your design, or they can only be re-skinned
+    partially which can look awkward.
+  </p>
+
+  <p>
+    At this point you are forced to write you own code / behaviors. 
+    This is where "uiloos" can accelerate you greatly by providing
+    these behaviors.
+  </p>
+
+  <h2 id="components" >
+    <a href="#components">3. Components</a>
+  </h2>
+
+  <p>At this moment uiloos provides the following components:</p>
+
+  <div class="max-w-sm mx-auto grid gap-6 md:grid-cols-2 lg:grid-cols-2 items-start md:max-w-2xl lg:max-w-none mb-8">
+
+    <!-- 1st item -->
+    <a class="relative flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded shadow-xl h-full" href="/docs/active-list/concepts/">
+      <h3 class="high leading-snug tracking-tight mb-1">ActiveList</h3>
+      <p class="text-gray-800 dark:text-white text-center">A component to create carousels, sortable lists, tabs interfaces and segmented buttons.</p>
+    </a>
+
+    <!-- 2nd item -->
+    <a class="relative flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded shadow-xl h-full" href="/docs/view-channel/concepts/">
+      <h3 class="high leading-snug tracking-tight mb-1">ViewChannel</h3>
+      <p class="text-gray-800 dark:text-white text-center">A component to create flash message centers, modal windows, confirm dialog and notifications centers with.</p>
+    </a>
+  </div>
+
+  <p>
+    Take a look at our <a href="/docs/miscellaneous/future/" class="underline">future plans</a> 
+    to see what is coming next in uiloos.
+  </p>
+
+  <h2 id="usage" >
+    <a href="#usage">5. Usage</a>
+  </h2>
+
+  <p>
+    There are two main ways of using uiloos:
+  </p>
+
+  <h3>5.1 Using Vanilla JavaScript / TypeScript</h3>
+
+  <p>
+    When using vanilla JavaScript or <a href="/docs/miscellaneous/typescript/" class="underline">TypeScript</a> you will be responsible
+    for manipulating the DOM based on the events that occur. 
+  </p>
+
+  <p>
+    All uiloos components can be observed, this means that you can
+    subscribe to changes of the component. Whenever the component
+    changes you will receive an event in the subscriber.
+  </p>
+
+  <p>
+    When an event occurs you must then synchronize with the DOM. This
+    means altering the DOM so it represents the new state. You might 
+    add a CSS class to an element, remove elements, add elements or change an 
+    elements text.
+  </p>
+
+  <p>
+    For example when using the ActiveList one event that exist is called
+    the <span class="high">"ACTIVATED"</span> event. When this event
+    occurs you might add an <span class="high">.active</span> CSS
+    class, to the element which became active.
+  </p>
+  
+  <h3>5.2 With a reactive framework</h3>
+
+  <p>
+    With a reactive framework such as Svelte, React, Vue, Angular etc etc.
+    Manually performing the DOM manipulation is not necessary, as your framework 
+    of choice will handle the DOM manipulation for you.
+  </p>
+
+  <p>
+    uiloos works nicely with reactive frameworks because reactive frameworks
+    are good at detecting changes in JavaScript state. State being arrays,
+    objects and variables. Whenever the state changes the frameworks 
+    re-render. Since uiloos provides only "state" in the form of objects
+    they work nicely together.
+  </p>
+
+  <p>
+    uiloos does however provide bindings for React, Vue and Angular.
+    With these bindings using uiloos with a framework becomes easier.
+    For example the React bindings provides various hooks, and the vue bindings
+    provides various composables. 
+  </p>
+  
+  <a 
+    class="card" 
+    href="/docs/getting-started/installation/"
+  >
+    <div>
+      <div class="text-normal font-medium mb-1">Installation</div>
+      <div class="text-sm">Learn how to activate your uiloos license</div>
+    </div>
+    <svg class="w-4 h-4 fill-current text-blue-600 shrink-0 ml-6" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z"></path>
+    </svg>
+  </a>
+</article>
