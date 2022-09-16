@@ -4,12 +4,12 @@
     <!-- Top area: Blocks -->
     <div class="grid sm:grid-cols-12 gap-8 py-8 md:py-12 border-t border-gray-200">
       
-      <div class="flex justify-center sm:col-span-12 md:col-span-4 place-items-center">
+      <div class="flex justify-center sm:col-span-12 lg:col-span-3 place-items-center">
         <!-- Logo -->
         <img src="/images/uiloos-colored.svg" width="160" height="160" alt="uiloos logo" loading="lazy" />
       </div>
 
-      <div class="sm:col-span-6 md:col-span-4 text-center md:text-left">
+      <div class="sm:col-span-6 lg:col-span-3 text-center lg:text-left sm:ml-32 md:ml-56 lg:ml-0">
         <h2 class="text-gray-800 dark:text-white font-medium text-xl mb-2">Resources</h2>
         <ul class="text-sm">
           <li class="mb-2">
@@ -24,12 +24,9 @@
         </ul>
       </div>
 
-      <div class="sm:col-span-6 md:col-span-4 text-center md:text-left">
+      <div class="sm:col-span-6 lg:col-span-3 text-center lg:text-left sm:mr-32 md:mr-56 lg:mr-0">
         <h2 class="text-gray-800 dark:text-white font-medium text-xl mb-2">Company</h2>
         <ul class="text-sm">
-          <li class="mb-2">
-            <a class="text-gray-600 dark:text-white hover:text-gray-900 transition duration-150 ease-in-out" href="#0">Home</a>
-          </li>
           <li class="mb-2">
             <a class="text-gray-600 dark:text-white hover:text-gray-900 transition duration-150 ease-in-out" href="/pricing">Pricing</a>
           </li>
@@ -40,6 +37,49 @@
             <a class="text-gray-600 dark:text-white hover:text-gray-900 transition duration-150 ease-in-out" href="https://dashboard.uiloos.dev/privacy">Privacy</a>
           </li>
         </ul>
+      </div>
+
+      <div class="sm:col-span-12 lg:col-span-3 text-center lg:text-left">
+        <h2 class="text-gray-800 dark:text-white font-medium text-xl mb-2">Subscribe</h2>
+        <p class="text-sm text-gray-800 mb-4 dark:text-white">Get the latest news and articles to your inbox every month.</p>
+        <form
+          action="https://dev.us17.list-manage.com/subscribe/post?u=57e3fd9f66d61b254fafffc7b&amp;id=d4899ef56b&amp;f_id=00a552e0f0"
+          method="post"
+          id="mc-embedded-subscribe-form"
+          name="mc-embedded-subscribe-form"
+          target="_self"
+        >
+          <div class="mb-4 max-w-sm mx-auto">
+            <label class="block text-sm sr-only" for="mce-EMAIL">Email</label>
+            <div class="relative flex items-center">
+              <input
+                type="email"
+                value=""
+                placeholder="Your email"
+                name="EMAIL"
+                class="form-input w-full text-gray-800 px-3 py-2 pr-12 text-sm dark:text-white dark:bg-gray-900"
+                id="mce-EMAIL"
+                required
+              />
+
+              <div style="position: absolute; left: -5000px" aria-hidden="true">
+                <input
+                  type="text"
+                  name="b_57e3fd9f66d61b254fafffc7b_d4899ef56b"
+                  tabindex="-1"
+                  value=""
+                />
+              </div>
+
+              <button type="submit" class="absolute inset-0 left-auto" aria-label="Subscribe">
+                  <span class="absolute inset-0 right-auto w-px -ml-px my-2 bg-gray-300" aria-hidden="true"></span>
+                  <svg class="w-3 h-3 fill-current text-blue-600 mx-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fill-rule="nonzero" />
+                  </svg>
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
 
     </div>
@@ -64,6 +104,5 @@
         <div class="text-sm text-gray-600 dark:text-white">KVK: 83561420</div>
       </div>
     </div>
-
   </div>
 </footer>
