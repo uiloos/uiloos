@@ -154,7 +154,7 @@ searchInput.onkeyup = (event) => {
           <span class="text-ellipsis overflow-clip ${data.type === 'API' ? 'high underline' : 'font-bold' }">${data.name}</span>
           <span class="ml-2 font-mono">${data.type}</span>
         </span>
-        <p class="mt-2 text-lg">${data.description}</p>
+        <p class="mt-2 text-lg mb-0">${data.description}</p>
       </a>
     `;
 

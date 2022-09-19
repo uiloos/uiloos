@@ -4,6 +4,8 @@ console.log('Generating search data file');
 
 const core = require('./src/_data/api/core.json');
 
+const releases = getReleases();
+
 const data = [
   // Getting started
   {
@@ -123,7 +125,41 @@ const data = [
     description: "Learn the concepts behind the ViewChannels priority",
     type: "Docs",
     link: "/docs/view-channel/concepts/#priority"
-  }
+  },
+
+   // Releases
+   {
+    name: "Releases HUB",
+    description: "View all releases of all uiloos",
+    type: "Release",
+    link: "/releases/"
+  },
+  {
+    name: "Releases of @uiloos/core",
+    description: "View all releases of @uiloos/core",
+    type: "Release",
+    link: "/releases/core/"
+  },
+  {
+    name: "Releases of @uiloos/angular",
+    description: "View all releases of @uiloos/angular",
+    type: "Release",
+    link: "/releases/angular/"
+  },
+  {
+    name: "Releases of @uiloos/vue",
+    description: "View all releases of @uiloos/vue",
+    type: "Release",
+    link: "/releases/vue/"
+  },
+  {
+    name: "Releases of @uiloos/react",
+    description: "View all releases of @uiloos/react",
+    type: "Release",
+    link: "/releases/react/"
+  },
+  
+  ...releases,
 ];
 
 core.children.forEach((child) => {
@@ -156,3 +192,36 @@ core.children.forEach((child) => {
 fs.writeFileSync('./src/search/data.json', JSON.stringify(data, null, 2));
 
 console.log('Wrote search data file successfully');
+
+// utils
+
+function getReleases() {
+
+  const releases = [];
+
+  const releasesDir = './src/pages/releases/';
+  
+  const files = fs.readdirSync(releasesDir);
+
+
+  files.forEach((file) => {
+    if (fs.lstatSync(releasesDir + file).isDirectory()) {
+      const releasesFiles = fs.readdirSync(releasesDir + file);
+  
+      releasesFiles.forEach((releaseFile) => {
+        if (!releaseFile.endsWith('-releases.njk')) {
+          const version = releaseFile.split('.njk')[0];
+  
+          releases.push({
+            name: `@uiloos/${file} ${version}`,
+            description: `The release notes / change logs of @uiloos/${file} ${version}`,
+            type: "Release",
+            link: `/releases/${file}/${version}`
+          })
+        }
+      });
+    }
+  });
+
+  return releases;
+}
