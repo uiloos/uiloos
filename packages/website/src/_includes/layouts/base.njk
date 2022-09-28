@@ -2,6 +2,9 @@
 <html lang="en">
   <head>
     <title>{{ title or renderData.title}} | uiloos</title>
+    <meta name="twitter:title" content="{{ title or renderData.title}} | uiloos" />
+    <meta property="og:title" content="{{ title or renderData.title}} | uiloos" />
+
     <link rel="stylesheet" type="text/css" href="/assets/main.css"/>
 
     <link rel="icon" href="/images/favicon.png" sizes="any">
@@ -21,8 +24,12 @@
 
     {% if renderData and renderData.description %}
       <meta name="description" content="{{ renderData.description }}">
+      <meta name="twitter:description" content="{{ renderData.description }}" />
+      <meta property="og:description" content="{{ renderData.description }}" />
     {% else %}
       <meta name="description" content="uiloos is a headless library for JavaScript and TypeScript, which provides common behaviors seen in most websites and web-applications.">
+      <meta name="twitter:description" content="uiloos is a headless library for JavaScript and TypeScript, which provides common behaviors seen in most websites and web-applications." />
+      <meta property="og:description" content="uiloos is a headless library for JavaScript and TypeScript, which provides common behaviors seen in most websites and web-applications." />
     {% endif %}
 
     {% if renderData and renderData.keywords %}
@@ -30,6 +37,16 @@
     {% else %}
       <meta name="keywords" content="uiloos, headless ui, component library, common web behaviors, javascript component library, typescript component library, headless component library">
     {% endif %}
+
+    <meta name="twitter:creator" content="@uiloosdev" />
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="https://www.uiloos.dev/images/uiloos.jpg" />
+    <meta name="twitter:image:alt" content="uiloos is a headless library for JavaScript and TypeScript, which provides common behaviors seen in most websites and web-applications." />
+    
+    <meta property="og:image" content="https://www.uiloos.dev/images/uiloos.jpg" />
+    <meta property="og:image:secure_url" content="https://www.uiloos.dev/images/uiloos.jpg" />
+    <meta name="og:image:alt" content="uiloos is a headless library for JavaScript and TypeScript, which provides common behaviors seen in most websites and web-applications." />
   </head>
 
   <body class="font-inter antialiased bg-white text-gray-900 dark:bg-black dark:text-white tracking-tight flex flex-col min-h-screen">
