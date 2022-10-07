@@ -12,34 +12,47 @@ Alpine.start();
 const docTocEl = document.querySelector('nav[role="doc-toc"]');
 
 if (docTocEl && !docTocEl.hasAttribute('data-no-highlight')) {
-  // Keeps track of the current <a> which is highlighted
-  let activeAEl = document.querySelector('nav[role="doc-toc"] a');
+  // The classes to apply when the <a> should become highlighted.
   const activeClasses = ['font-medium', 'decoration-4'];
-  activeAEl.classList.add(...activeClasses);
 
-  const observer = new IntersectionObserver((entries) => {
-    const entry = entries.find((entry) => entry.intersectionRatio > 0);
+  // Keeps track of the current <a> which is highlighted
+  let activeAEl = null;
 
-    if (entry) {
-      // Get the <a> which belongs to this <h2>
-      const aEl = document.querySelector(`a[href='#${entry.target.id}']`);
+  // Reference to all <h2> elements which
+  const h2Els = Array.from(document.querySelectorAll('article h2'));
 
-      // If it is in the view
-      if (entry.intersectionRatio > 0) {
-        // Remove from previous active <a>
-        activeAEl.classList.remove(...activeClasses);
+  window.addEventListener('scroll', highlightClosest, {passive: true});
 
-        // Now change it
-        activeAEl = aEl;
+  highlightClosest();
 
-        // And make it active
-        activeAEl.classList.add(...activeClasses);
-      }
+  function highlightClosest() {
+    // Find the closest <h2> element to the users current scroll position.
+    const closestH2el = h2Els.reduce((closestEl, h2El) => {
+      // The bounding rect top is a number which is relative to the
+      // current position of the Y scroll position. This means that 
+      // top can also be a negative number. The closer to zero the 
+      // absolute value of top is the closer the element is to the 
+      // user on the screen.
+      const closestElTop = Math.abs(closestEl.getBoundingClientRect().top);
+      const h2ElTop = Math.abs(h2El.getBoundingClientRect().top);
+
+      return closestElTop < h2ElTop ? closestEl : h2El;
+    });
+
+    if (activeAEl) {
+      // First remove the active classes from the old active element.
+      activeAEl.classList.remove(...activeClasses);
     }
-  });
 
-  // For each h2 in the document observe when it is in view.
-  document.querySelectorAll('h2').forEach((e) => observer.observe(e));
+    // Find the closest <a> element the <h2> element links to.
+    const aEl = document.querySelector(`a[href='#${closestH2el.id}']`);
+
+    // Now activate it.
+    aEl.classList.add(...activeClasses);
+
+    // Now set it for the next iteration.
+    activeAEl = aEl;
+  }
 }
 
 // Switcher
@@ -151,7 +164,9 @@ searchInput.onkeyup = (event) => {
     liEl.innerHTML = `
       <a href="${data.link}">
         <span class="flex justify-between">
-          <span class="text-ellipsis overflow-clip ${data.type === 'API' ? 'high underline' : 'font-bold' }">${data.name}</span>
+          <span class="text-ellipsis overflow-clip ${
+            data.type === 'API' ? 'high underline' : 'font-bold'
+          }">${data.name}</span>
           <span class="ml-2 font-mono">${data.type}</span>
         </span>
         <p class="mt-2 text-lg mb-0">${data.description}</p>
