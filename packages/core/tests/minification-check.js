@@ -85,4 +85,6 @@ if (c !== "c" || b !== "b" || a !== "a") {
   process.exit(1);
 }
 
+// TODO minification check for typewriter
+
 console.log("Finished checking minification");

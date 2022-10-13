@@ -8,10 +8,11 @@
 
   See rollup.minification.config.js for more information
 */
+import * as uiloosLicenseChecker from '../license/license';
+
 import { UnsubscribeFunction } from '../generic';
 import { _History } from '../private/History';
 import { _Observer } from '../private/Observer';
-import * as uiloosLicenseChecker from '../license/license';
 import { ViewChannelIndexOutOfBoundsError } from './errors/ViewChannelIndexOutOfBoundsError';
 import { ViewChannelViewNotFoundError } from './errors/ViewChannelViewNotFoundError';
 import {
@@ -72,13 +73,13 @@ import { ViewChannelView } from './ViewChannelView';
  * make sure that the views are sorted by priority. The higher the
  * priority the earlier in the `views` array the view is placed.
  * This makes the ViewChannel a priority queue like data structure.
- * 
+ *
  * @since 1.0.0
  */
 export class ViewChannel<T, R = void> {
   /**
    * The `ViewChannelView` instances which the `ViewChannel` holds.
-   * 
+   *
    * @since 1.0.0
    */
   public readonly views: ViewChannelView<T, R>[] = [];
@@ -96,13 +97,13 @@ export class ViewChannel<T, R = void> {
    *
    *  3. DISMISSED, fired when ViewChannel dismissed a ViewChannelView
    *
-   *  4. AUTO_DISMISS_PLAYING, fired when ViewChannelView started to 
+   *  4. AUTO_DISMISS_PLAYING, fired when ViewChannelView started to
    *     play after a stop or pause
    *
-   *  5. AUTO_DISMISS_PAUSED, fired when a ViewChannelView auto 
+   *  5. AUTO_DISMISS_PAUSED, fired when a ViewChannelView auto
    *     dismiss was paused.
    *
-   *  6. AUTO_DISMISS_STOPPED, fired when a ViewChannelView auto 
+   *  6. AUTO_DISMISS_STOPPED, fired when a ViewChannelView auto
    *     dismiss was stopped.
    *
    * Goes only as far back as configured in the `Config` property
@@ -115,7 +116,7 @@ export class ViewChannel<T, R = void> {
    *
    * This means that a history at index 0 is further in the past than
    * an item at index 1.
-   * 
+   *
    * @since 1.0.0
    */
   public history: ViewChannelEvent<T, R>[] = this._history._events;
@@ -131,7 +132,7 @@ export class ViewChannel<T, R = void> {
    *
    * @param {ViewChannelConfig<T>} config The initial configuration of the ViewChannel.
    * @param {ViewChannelSubscriber<T> | undefined} subscriber An optional subscriber which responds to changes in the ViewChannel.
-   * 
+   *
    * @since 1.0.0
    */
   constructor(
@@ -149,11 +150,11 @@ export class ViewChannel<T, R = void> {
 
   /**
    * Initializes the ViewChannel based on the config provided.
-   * This can effectively resets the ViewChannel when called,
+   * This  the ViewChannel when called,
    * including the history.
    *
    * @param {ViewChannelConfig<T>} config The new configuration which will override the old one
-   * 
+   *
    * @since 1.0.0
    */
   public initialize(config: ViewChannelConfig): void {
@@ -181,7 +182,7 @@ export class ViewChannel<T, R = void> {
    *
    * @param {ViewChannelSubscriber<T>} subscriber The subscriber which responds to changes in the ViewChannel.
    * @returns {UnsubscribeFunction} A function which when called will unsubscribe from the ViewChannel.
-   * 
+   *
    * @since 1.0.0
    */
   public subscribe(
@@ -195,7 +196,7 @@ export class ViewChannel<T, R = void> {
    * of the state changes of the ViewChannel.
    *
    * @param {ViewChannelSubscriber<T>} subscriber The subscriber which you want to unsubscribe.
-   * 
+   *
    * @since 1.0.0
    */
   public unsubscribe(subscriber: ViewChannelSubscriber<T, R>): void {
@@ -210,7 +211,7 @@ export class ViewChannel<T, R = void> {
    * @param {ViewChannelConfig<T, R>} viewConfig The configuration for the view which is presented and returned.
    * @returns {ViewChannelView<R>} The view which was presented
    * @throws {ViewChannelAutoDismissDurationError} autoDismiss duration must be a positive number when defined
-   * 
+   *
    * @since 1.0.0
    */
   public present(

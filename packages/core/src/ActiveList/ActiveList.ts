@@ -316,7 +316,7 @@ export class ActiveList<T> {
    * The use-case is a cooldown can guarantees that animations are
    * completed, before another is triggered.
    *
-   * Contains wether or not the cooldown is active via `isActive` and
+   * Contains whether or not the cooldown is active via `isActive` and
    * the current duration via `duration`.
    * 
    * @since 1.0.0
@@ -337,7 +337,7 @@ export class ActiveList<T> {
    * AutoPlay means that the ActiveList will move to the next content by
    * itself after a duration.
    *
-   * Contains wether or not the autoPlay is playing via `isPlaying`,
+   * Contains whether or not the autoPlay is playing via `isPlaying`,
    * the current duration via `duration`, and whether or not the 
    * autoPlay has been stopped before via `hasBeenStoppedBefore`
    * 

@@ -94,7 +94,7 @@ export class ViewChannelView<T, R> {
    * AutoDismiss means that the ViewChannelView will dismiss itself
    * after a duration.
    *
-   * Contains wether or not the autoDismiss is playing via `isPlaying`
+   * Contains whether or not the autoDismiss is playing via `isPlaying`
    * and the current duration via `duration`.
    * 
    * @since 1.0.0

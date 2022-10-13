@@ -2067,7 +2067,7 @@ describe('ViewChannel', () => {
       ]);
     });
 
-    test('that the autoplay can be stopped and continued', () => {
+    test('that the autoplay can be stopped and restarted', () => {
       jest.useFakeTimers();
 
       const viewChannel = new ViewChannel<string, string>();
@@ -2220,6 +2220,29 @@ describe('ViewChannel', () => {
       assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_PAUSED']);
     });
 
+    test('that it is not possible to pause when never playing', () => {
+      jest.useFakeTimers();
+
+      const viewChannel = new ViewChannel<string, string>();
+      const subscriber = autoSubscribe(viewChannel);
+
+      // Present a non playing "a"
+      const view = viewChannel.present({
+        data: 'a'
+      });
+
+      expect(view.isPresented).toBe(true);
+      expect(view.autoDismiss).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, ['PRESENTED']);
+
+      // Should do nothing
+      view.pause();
+
+      expect(view.isPresented).toBe(true);
+      expect(view.autoDismiss).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, ['PRESENTED']);
+    });
+
     test('that it is not possible to stop when already stopped', () => {
       jest.useFakeTimers();
 
@@ -2258,6 +2281,29 @@ describe('ViewChannel', () => {
       expect(view.isPresented).toBe(true);
       expect(view.autoDismiss).toEqual({ isPlaying: false, duration: 0 });
       assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_STOPPED']);
+    });
+
+    test('that it is not possible to stop when never playing', () => {
+      jest.useFakeTimers();
+
+      const viewChannel = new ViewChannel<string, string>();
+      const subscriber = autoSubscribe(viewChannel);
+
+      // Present a non playing "a"
+      const view = viewChannel.present({
+        data: 'a'
+      });
+
+      expect(view.isPresented).toBe(true);
+      expect(view.autoDismiss).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, ['PRESENTED']);
+
+      // Should do nothing
+      view.stop();
+
+      expect(view.isPresented).toBe(true);
+      expect(view.autoDismiss).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, ['PRESENTED']);
     });
 
     test('that it is not possible to play when already playing', () => {
@@ -3156,9 +3202,9 @@ describe('ViewChannel', () => {
   });
 });
 
-type ViewChannelSansHistory<T, R> = Pick<ViewChannel<T, R>, 'history'>;
+type ViewChannelWithHistory<T, R> = Pick<ViewChannel<T, R>, 'history'>;
 
-type TestState<T, R> = ViewChannelSansHistory<T, R> & {
+type TestState<T, R> = ViewChannelWithHistory<T, R> & {
   views: TestView<T, R>[];
 };
 
@@ -3169,7 +3215,7 @@ type TestView<T, R> = Pick<
   data: string;
 };
 
-function assertState<C>(
+function assertState(
   state: ViewChannel<string, string>,
   expected: TestState<string, string>
 ) {
@@ -3194,7 +3240,7 @@ function assertState<C>(
   expect(callAsTestState).toEqual(expected);
 }
 
-function assertLastSubscriber<C>(
+function assertLastSubscriber(
   subscriber: jest.Mock<ViewChannel<string, string>, any>,
   expectedState: TestState<string, string>,
   expectedEvent: ViewChannelEvent<string, string>

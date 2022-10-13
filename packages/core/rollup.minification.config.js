@@ -84,6 +84,7 @@ const config = [
       uiloosMinificationEnd(),
     ],
   }
+  // TODO add typewriter, one for every builder
 ];
 
 export default config;
