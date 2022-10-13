@@ -264,7 +264,7 @@ describe('Typewriter', () => {
         keystrokes: [{ key: '', delay: 999 }],
         keepHistoryFor: 1,
         repeat: 1337,
-        repeatDelay: 666
+        repeatDelay: 666,
       });
 
       const subscriber = jest.fn();
@@ -2019,6 +2019,7 @@ describe('Typewriter', () => {
             delay: 50,
           },
         ],
+        text: 'z',
         blinkAfter: 50,
         repeat: 3,
       });
@@ -2040,7 +2041,7 @@ describe('Typewriter', () => {
             delay: 50,
           },
         ],
-        text: '',
+        text: 'z',
         isBlinking: true,
         blinkAfter: 50,
         isPlaying: true,
@@ -2072,7 +2073,7 @@ describe('Typewriter', () => {
               delay: 50,
             },
           ],
-          text: 'a',
+          text: 'za',
           isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
@@ -2111,7 +2112,7 @@ describe('Typewriter', () => {
               delay: 50,
             },
           ],
-          text: 'ab',
+          text: 'zab',
           isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
@@ -2150,7 +2151,7 @@ describe('Typewriter', () => {
               delay: 50,
             },
           ],
-          text: 'abc',
+          text: 'zabc',
           isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
@@ -2189,7 +2190,7 @@ describe('Typewriter', () => {
               delay: 50,
             },
           ],
-          text: '',
+          text: 'z',
           isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
@@ -2226,7 +2227,7 @@ describe('Typewriter', () => {
               delay: 50,
             },
           ],
-          text: 'a',
+          text: 'za',
           isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
@@ -2265,7 +2266,7 @@ describe('Typewriter', () => {
               delay: 50,
             },
           ],
-          text: 'ab',
+          text: 'zab',
           isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
@@ -2304,7 +2305,7 @@ describe('Typewriter', () => {
               delay: 50,
             },
           ],
-          text: 'abc',
+          text: 'zabc',
           isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
@@ -2343,7 +2344,7 @@ describe('Typewriter', () => {
               delay: 50,
             },
           ],
-          text: '',
+          text: 'z',
           isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
@@ -2380,7 +2381,7 @@ describe('Typewriter', () => {
               delay: 50,
             },
           ],
-          text: 'a',
+          text: 'za',
           isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
@@ -2419,7 +2420,7 @@ describe('Typewriter', () => {
               delay: 50,
             },
           ],
-          text: 'ab',
+          text: 'zab',
           isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
@@ -2458,7 +2459,7 @@ describe('Typewriter', () => {
               delay: 50,
             },
           ],
-          text: 'abc',
+          text: 'zabc',
           isBlinking: false,
           blinkAfter: 50,
           isPlaying: false,
@@ -2796,6 +2797,129 @@ describe('Typewriter', () => {
         'STOPPED',
         'PLAYING',
         'CHANGED',
+      ]);
+    });
+
+    test('that the autoplay can be stopped and restarted when animation repeats', () => {
+      const typewriter = new Typewriter({
+        keystrokes: [
+          {
+            key: 'a',
+            delay: 100,
+          },
+          {
+            key: 'b',
+            delay: 100,
+          },
+        ],
+        blinkAfter: 1000,
+        repeat: 2,
+      });
+      const subscriber = autoSubscribe(typewriter);
+
+      // Should be empty initially
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('');
+      assertEvents(subscriber, []);
+
+      // After 100 milliseconds it should now be 'a'
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, ['CHANGED']);
+
+      // Stop at 'a'
+      typewriter.stop();
+
+      expect(typewriter.isPlaying).toBe(false);
+      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, ['CHANGED', 'STOPPED']);
+
+      // Reset now, the animation should now play twice.
+      typewriter.play();
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.text).toBe('');
+      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING']);
+
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED']);
+
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.text).toBe('ab');
+      assertEvents(subscriber, [
+        'CHANGED',
+        'STOPPED',
+        'PLAYING',
+        'CHANGED',
+        'CHANGED',
+      ]);
+
+      // Repeat first time
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.text).toBe('');
+      assertEvents(subscriber, [
+        'CHANGED',
+        'STOPPED',
+        'PLAYING',
+        'CHANGED',
+        'CHANGED',
+        'REPEATING',
+      ]);
+
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, [
+        'CHANGED',
+        'STOPPED',
+        'PLAYING',
+        'CHANGED',
+        'CHANGED',
+        'REPEATING',
+        'CHANGED',
+      ]);
+
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(false);
+      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.text).toBe('ab');
+      assertEvents(subscriber, [
+        'CHANGED',
+        'STOPPED',
+        'PLAYING',
+        'CHANGED',
+        'CHANGED',
+        'REPEATING',
+        'CHANGED',
+        'FINISHED',
       ]);
     });
 
@@ -3219,748 +3343,85 @@ describe('Typewriter', () => {
     });
   });
 
-  // TODO: test history
-  // describe('history', () => {
-  //   test('that a correct history is kept for all events', () => {
-  //     const viewChannel = new ViewChannel<string, string>({
-  //       keepHistoryFor: 100,
-  //     });
+  describe('history', () => {
+    test('that a history is kept for a maximum number of events', () => {
+      const typewriter = new Typewriter({
+        keystrokes: [
+          {
+            key: 'a',
+            delay: 100,
+          },
+        ],
+        keepHistoryFor: 3,
+      });
 
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //     ]);
+      expect(typewriter.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+      ]);
 
-  //     viewChannel.present({
-  //       data: 'a',
-  //     });
+      typewriter.pause();
+      expect(typewriter.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+        expect.objectContaining({ type: 'PAUSED' }),
+      ]);
 
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //     ]);
+      typewriter.play();
+      expect(typewriter.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+        expect.objectContaining({ type: 'PAUSED' }),
+        expect.objectContaining({ type: 'PLAYING' }),
+      ]);
 
-  //     viewChannel.present({
-  //       data: 'b',
-  //     });
+      typewriter.pause();
+      expect(typewriter.history).toEqual([
+        expect.objectContaining({ type: 'PAUSED' }),
+        expect.objectContaining({ type: 'PLAYING' }),
+        expect.objectContaining({ type: 'PAUSED' }),
+      ]);
+    });
 
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'b',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //     ]);
+    test('that initialize resets the history', () => {
+      const typewriter = new Typewriter({
+        keystrokes: [
+          {
+            key: 'a',
+            delay: 100,
+          },
+        ],
+        keepHistoryFor: 5,
+      });
 
-  //     viewChannel.present({
-  //       data: 'c',
-  //     });
+      expect(typewriter.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+      ]);
 
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'b',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 2,
-  //           data: 'c',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //     ]);
+      typewriter.pause()
 
-  //     viewChannel.dismissByIndex(0, 'SUCCESS');
+      expect(typewriter.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+        expect.objectContaining({ type: 'PAUSED' }),
+      ]);
 
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0, // Note that b has now become the first index
-  //           data: 'b',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1, // Note that c has now become the second index
-  //           data: 'c',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED',
-  //         reason: 'USER_INTERACTION',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //     ]);
-
-  //     viewChannel.dismissAll('SUCCESS');
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'b',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'c',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED',
-  //         reason: 'USER_INTERACTION',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED_ALL',
-  //         views: [
-  //           expect.objectContaining({
-  //             index: 0,
-  //             data: 'b',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //           expect.objectContaining({
-  //             index: 1, // Note that c has now become the second index
-  //             data: 'c',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //         ],
-  //         indexes: [0, 1],
-  //       }),
-  //     ]);
-
-  //     // Present a view so we can test pause, stop and play
-  //     const view = viewChannel.present({
-  //       data: 'd',
-  //       autoDismiss: {
-  //         duration: 1000,
-  //         result: 'AUTO',
-  //       },
-  //     });
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'b',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'c',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED',
-  //         reason: 'USER_INTERACTION',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED_ALL',
-  //         views: [
-  //           expect.objectContaining({
-  //             index: 0,
-  //             data: 'b',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //           expect.objectContaining({
-  //             index: 1, // Note that c has now become the second index
-  //             data: 'c',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //         ],
-  //         indexes: [0, 1],
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: true,
-  //             duration: 1000,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //     ]);
-
-  //     view.pause();
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'b',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'c',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED',
-  //         reason: 'USER_INTERACTION',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED_ALL',
-  //         views: [
-  //           expect.objectContaining({
-  //             index: 0,
-  //             data: 'b',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //           expect.objectContaining({
-  //             index: 1, // Note that c has now become the second index
-  //             data: 'c',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //         ],
-  //         indexes: [0, 1],
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 1000,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_PAUSED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 1000,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //     ]);
-
-  //     view.play();
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'b',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'c',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED',
-  //         reason: 'USER_INTERACTION',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED_ALL',
-  //         views: [
-  //           expect.objectContaining({
-  //             index: 0,
-  //             data: 'b',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //           expect.objectContaining({
-  //             index: 1, // Note that c has now become the second index
-  //             data: 'c',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //         ],
-  //         indexes: [0, 1],
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: true,
-  //             duration: 1000,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_PAUSED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: true,
-  //             duration: 1000,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_PLAYING',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: true,
-  //             duration: 1000,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //     ]);
-
-  //     view.stop();
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'b',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'c',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED',
-  //         reason: 'USER_INTERACTION',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED_ALL',
-  //         views: [
-  //           expect.objectContaining({
-  //             index: 0,
-  //             data: 'b',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //           expect.objectContaining({
-  //             index: 1, // Note that c has now become the second index
-  //             data: 'c',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //         ],
-  //         indexes: [0, 1],
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_PAUSED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_PLAYING',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_STOPPED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //     ]);
-  //   });
-
-  //   test('that a history is kept for a maximum number of events', () => {
-  //     const viewChannel = new ViewChannel<string, string>({
-  //       keepHistoryFor: 3,
-  //     });
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //     ]);
-
-  //     viewChannel.present({ data: 'view' });
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 0 }),
-  //     ]);
-
-  //     viewChannel.present({ data: 'view' });
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 0 }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 1 }),
-  //     ]);
-
-  //     viewChannel.present({ data: 'view' });
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({ type: 'PRESENTED', index: 0 }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 1 }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 2 }),
-  //     ]);
-  //   });
-
-  //   test('that initialize resets the history', () => {
-  //     const viewChannel = new ViewChannel<string, string>({
-  //       keepHistoryFor: 5,
-  //     });
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //     ]);
-
-  //     viewChannel.present({ data: 'view' });
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 0 }),
-  //     ]);
-
-  //     viewChannel.present({ data: 'view' });
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 0 }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 1 }),
-  //     ]);
-
-  //     // Now reset the history, note that if `keepHistoryFor` is zero
-  //     // the `history` array would be empty
-  //     viewChannel.initialize({ keepHistoryFor: 1 });
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //     ]);
-  //   });
-  // });
+      // Now reset the history, note that if `keepHistoryFor` is zero
+      // the `history` array would be empty
+      typewriter.initialize({ keepHistoryFor: 1 });
+      expect(typewriter.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+      ]);
+    });
+  });
 
   describe('subscribers', () => {
     test('multiple subscribers', () => {

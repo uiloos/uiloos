@@ -34,8 +34,6 @@ import { TypewriterDelayError } from './errors/TypewriterDelayError';
 import { TypewriterRepeatError } from './errors/TypewriterRepeatError';
 import { TypewriterRepeatDelayError } from './errors/TypewriterRepeatDelayError';
 
-// TODO: repeat
-
 // TODO: builders
 
 // TODO: cursors, plus movement...
@@ -426,11 +424,14 @@ export class Typewriter {
 
   /**
    * When the Typewriter is playing it will stop the animation.
+   * 
+   * Calling `play()` again will restart the animation.
    *
    * Note: this will keep the text of the Typewriter as is, util
-   * it `play()` is called again then the text will reset.
-   *
-   * Calling `play()` again will restart the animation.
+   * `play()` is called again then the text will reset.
+   * 
+   * Note: calling stop will also reset the number of repeats if 
+   * `repeat` was set to a number. 
    *
    * @since 1.2.0
    */
@@ -449,6 +450,7 @@ export class Typewriter {
     this._index = 0;
     this._pauseStarted = null;
     this._stopped = true;
+    this._repeated = 0;
 
     this._startBlink();
 
