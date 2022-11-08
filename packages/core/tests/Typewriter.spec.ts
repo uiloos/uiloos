@@ -10,11 +10,16 @@ import {
   typewriterFromSentences,
   TypewriterRepeatError,
   TypewriterRepeatDelayError,
+  TypewriterInvalidCursorError,
+  TypewriterCursorConfig,
+  typewriterKeyStrokeLeft,
+  typewriterKeyStrokeRight,
 } from '../src/Typewriter';
 
 import { licenseChecker } from '../src/license';
 
 import { UnsubscribeFunction } from '../src/generic/types';
+import { TypewriterCursor } from '../src/Typewriter/TypewriterCursor';
 
 describe('Typewriter', () => {
   let unsubscribe: UnsubscribeFunction | null = null;
@@ -78,6 +83,7 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: -1,
+                  cursor: 0,
                 },
               ],
             });
@@ -91,6 +97,7 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: -1,
+                  cursor: 0,
                 },
               ],
             });
@@ -103,14 +110,17 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: 100,
+                  cursor: 0,
                 },
                 {
                   key: 'b',
                   delay: -1,
+                  cursor: 0,
                 },
                 {
                   key: 'c',
                   delay: 100,
+                  cursor: 0,
                 },
               ],
             });
@@ -123,14 +133,17 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: 100,
+                  cursor: 0,
                 },
                 {
                   key: 'b',
                   delay: 100,
+                  cursor: 0,
                 },
                 {
                   key: 'c',
                   delay: -1,
+                  cursor: 0,
                 },
               ],
             });
@@ -144,6 +157,7 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: 0,
+                  cursor: 0,
                 },
               ],
             });
@@ -157,6 +171,7 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: 0,
+                  cursor: 0,
                 },
               ],
             });
@@ -169,14 +184,17 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: 100,
+                  cursor: 0,
                 },
                 {
                   key: 'b',
                   delay: 0,
+                  cursor: 0,
                 },
                 {
                   key: 'c',
                   delay: 100,
+                  cursor: 0,
                 },
               ],
             });
@@ -189,14 +207,17 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: 100,
+                  cursor: 0,
                 },
                 {
                   key: 'b',
                   delay: 100,
+                  cursor: 0,
                 },
                 {
                   key: 'c',
                   delay: 0,
+                  cursor: 0,
                 },
               ],
             });
@@ -255,16 +276,131 @@ describe('Typewriter', () => {
           }).toThrowError(TypewriterRepeatDelayError);
         });
       });
+
+      describe('cursor errors', () => {
+        test('cannot be less than zero', () => {
+          expect(() => {
+            new Typewriter({
+              text: 'abc',
+              cursors: [
+                { position: -1, name: '' },
+                { position: 2, name: '' },
+                { position: 3, name: '' },
+                { position: 4, name: '' },
+              ],
+            });
+          }).toThrowError('uiloos > Typewriter > cursor is out of bounds');
+
+          expect(() => {
+            new Typewriter({
+              text: 'abc',
+              cursors: [
+                { position: -1, name: '' },
+                { position: 2, name: '' },
+                { position: 3, name: '' },
+                { position: 4, name: '' },
+              ],
+            });
+          }).toThrowError(TypewriterInvalidCursorError);
+
+          // Middle of array
+          expect(() => {
+            new Typewriter({
+              text: 'abc',
+              cursors: [
+                { position: 1, name: '' },
+                { position: -1, name: '' },
+                { position: 2, name: '' },
+              ],
+            });
+          }).toThrowError(TypewriterInvalidCursorError);
+
+          // End of array
+          expect(() => {
+            new Typewriter({
+              text: 'abc',
+              cursors: [
+                { position: 2, name: '' },
+                { position: 0, name: '' },
+                { position: -1, name: '' },
+              ],
+            });
+          }).toThrowError(TypewriterInvalidCursorError);
+        });
+
+        test('cannot be more than length of text', () => {
+          expect(() => {
+            new Typewriter({
+              text: 'abc',
+              cursors: [
+                { position: 4, name: '' },
+                { position: 0, name: '' },
+                { position: 1, name: '' },
+              ],
+            });
+          }).toThrowError('uiloos > Typewriter > cursor is out of bounds');
+
+          expect(() => {
+            new Typewriter({
+              text: 'abc',
+              cursors: [
+                { position: 4, name: '' },
+                { position: 0, name: '' },
+                { position: 1, name: '' },
+              ],
+            });
+          }).toThrowError(TypewriterInvalidCursorError);
+
+          // Middle of array
+          expect(() => {
+            new Typewriter({
+              text: 'abc',
+              cursors: [
+                { position: 1, name: '' },
+                { position: 4, name: '' },
+                { position: 2, name: '' },
+              ],
+            });
+          }).toThrowError(TypewriterInvalidCursorError);
+
+          // End of array
+          expect(() => {
+            new Typewriter({
+              text: 'abc',
+              cursors: [
+                { position: 2, name: '' },
+                { position: 0, name: '' },
+                { position: 4, name: '' },
+              ],
+            });
+          }).toThrowError(TypewriterInvalidCursorError);
+        });
+      });
     });
 
     test('with a config it should initialize with configured values', () => {
       const typewriter: Typewriter = new Typewriter({
         text: 'aap',
         blinkAfter: 1337,
-        keystrokes: [{ key: '', delay: 999 }],
+        keystrokes: [
+          { key: 'a', delay: 999, cursor: 0 },
+          { key: 'a', delay: 999, cursor: 2 },
+          { key: 'a', delay: 999, cursor: 1 },
+          { key: 'b', delay: 999, cursor: 0 },
+          { key: 'b', delay: 999, cursor: 2 },
+          { key: 'b', delay: 999, cursor: 1 },
+          { key: 'c', delay: 999, cursor: 0 },
+          { key: 'c', delay: 999, cursor: 2 },
+          { key: 'c', delay: 999, cursor: 1 },
+        ],
         keepHistoryFor: 1,
         repeat: 1337,
         repeatDelay: 666,
+        cursors: [
+          { position: 0, name: 'Tosca' },
+          { position: 1, name: 'Owen' },
+          { position: 0, name: 'Jane' },
+        ],
       });
 
       const subscriber = jest.fn();
@@ -276,15 +412,41 @@ describe('Typewriter', () => {
             type: 'INITIALIZED',
           }),
         ],
-        keystrokes: [{ key: '', delay: 999 }],
+        keystrokesPerCursor: [
+          [{ key: 'a', delay: 999, cursor: 0 } ,{ key: 'b', delay: 999, cursor: 0 }, { key: 'c', delay: 999, cursor: 0 }],
+          [{ key: 'a', delay: 999, cursor: 1 }, { key: 'b', delay: 999, cursor: 1 }, { key: 'c', delay: 999, cursor: 1 }],
+          [{ key: 'a', delay: 999, cursor: 2 }, { key: 'b', delay: 999, cursor: 2 }, { key: 'c', delay: 999, cursor: 2 }],
+        ],
+        cursors: [
+          { position: 0, name: 'Tosca', isBlinking: true },
+          { position: 1, name: 'Owen', isBlinking: true },
+          { position: 0, name: 'Jane', isBlinking: true },
+        ],
         text: 'aap',
-        isBlinking: true,
         blinkAfter: 1337,
         isPlaying: true,
         isFinished: false,
         hasBeenStoppedBefore: false,
         repeat: 1337,
         repeatDelay: 666,
+      });
+
+      expect(subscriber).toHaveBeenCalledTimes(0);
+    });
+
+    test('cursor should start at end of text by default', () => {
+      const typewriter: Typewriter = new Typewriter({
+        text: 'aap',
+      });
+
+      const subscriber = jest.fn();
+      unsubscribe = typewriter.subscribe(subscriber);
+
+      expect(typewriter.cursors.length).toBe(1);
+      assertCursor(typewriter.cursors[0],{
+        position: 3,
+        name: '',
+        isBlinking: true,
       });
 
       expect(subscriber).toHaveBeenCalledTimes(0);
@@ -298,9 +460,9 @@ describe('Typewriter', () => {
 
       assertState(typewriter, {
         history: [],
-        keystrokes: [],
+        keystrokesPerCursor: [[]],
+        cursors: [{ position: 0, name: '', isBlinking: true }],
         text: '',
-        isBlinking: true,
         blinkAfter: 50,
         isPlaying: false,
         isFinished: true,
@@ -322,9 +484,9 @@ describe('Typewriter', () => {
 
       assertState(typewriter, {
         history: [],
-        keystrokes: [],
+        keystrokesPerCursor: [[]],
+        cursors: [{ position: 0, name: '', isBlinking: true }],
         text: '',
-        isBlinking: true,
         blinkAfter: 50,
         isPlaying: false,
         isFinished: true,
@@ -352,9 +514,9 @@ describe('Typewriter', () => {
 
       assertState(typewriter, {
         history: [],
-        keystrokes: [],
+        keystrokesPerCursor: [[]],
+        cursors: [{ position: 0, name: '', isBlinking: true }],
         text: '',
-        isBlinking: true,
         blinkAfter: 50,
         isPlaying: false,
         isFinished: true,
@@ -422,6 +584,7 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: -1,
+                  cursor: 0,
                 },
               ],
             });
@@ -435,6 +598,7 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: -1,
+                  cursor: 0,
                 },
               ],
             });
@@ -447,14 +611,17 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: 100,
+                  cursor: 0,
                 },
                 {
                   key: 'b',
                   delay: -1,
+                  cursor: 0,
                 },
                 {
                   key: 'c',
                   delay: 100,
+                  cursor: 0,
                 },
               ],
             });
@@ -467,14 +634,17 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: 100,
+                  cursor: 0,
                 },
                 {
                   key: 'b',
                   delay: 100,
+                  cursor: 0,
                 },
                 {
                   key: 'c',
                   delay: -1,
+                  cursor: 0,
                 },
               ],
             });
@@ -493,6 +663,7 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: 0,
+                  cursor: 0,
                 },
               ],
             });
@@ -506,6 +677,7 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: 0,
+                  cursor: 0,
                 },
               ],
             });
@@ -518,14 +690,17 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: 100,
+                  cursor: 0,
                 },
                 {
                   key: 'b',
                   delay: 0,
+                  cursor: 0,
                 },
                 {
                   key: 'c',
                   delay: 100,
+                  cursor: 0,
                 },
               ],
             });
@@ -538,14 +713,17 @@ describe('Typewriter', () => {
                 {
                   key: 'a',
                   delay: 100,
+                  cursor: 0,
                 },
                 {
                   key: 'b',
                   delay: 100,
+                  cursor: 0,
                 },
                 {
                   key: 'c',
                   delay: 0,
+                  cursor: 0,
                 },
               ],
             });
@@ -621,6 +799,116 @@ describe('Typewriter', () => {
           expect(subscriber).toBeCalledTimes(0);
         });
       });
+
+      describe('cursor errors', () => {
+        test('cannot be less than zero', () => {
+          const typewriter = new Typewriter();
+          const subscriber = autoSubscribe(typewriter);
+
+          expect(() => {
+            typewriter.initialize({
+              text: 'abc',
+              cursors: [
+                { position: -1, name: '' },
+                { position: 2, name: '' },
+                { position: 3, name: '' },
+                { position: 4, name: '' },
+              ],
+            });
+          }).toThrowError('uiloos > Typewriter > cursor is out of bounds');
+
+          expect(() => {
+            typewriter.initialize({
+              text: 'abc',
+              cursors: [
+                { position: -1, name: '' },
+                { position: 2, name: '' },
+                { position: 3, name: '' },
+                { position: 4, name: '' },
+              ],
+            });
+          }).toThrowError(TypewriterInvalidCursorError);
+
+          // Middle of array
+          expect(() => {
+            typewriter.initialize({
+              text: 'abc',
+              cursors: [
+                { position: 1, name: '' },
+                { position: -1, name: '' },
+                { position: 2, name: '' },
+              ],
+            });
+          }).toThrowError(TypewriterInvalidCursorError);
+
+          // End of array
+          expect(() => {
+            typewriter.initialize({
+              text: 'abc',
+              cursors: [
+                { position: 2, name: '' },
+                { position: 0, name: '' },
+                { position: -1, name: '' },
+              ],
+            });
+          }).toThrowError(TypewriterInvalidCursorError);
+
+          expect(subscriber).toBeCalledTimes(0);
+        });
+
+        test('cannot be more than length of text', () => {
+          const typewriter = new Typewriter();
+          const subscriber = autoSubscribe(typewriter);
+
+          expect(() => {
+            typewriter.initialize({
+              text: 'abc',
+              cursors: [
+                { position: 4, name: '' },
+                { position: 0, name: '' },
+                { position: 1, name: '' },
+              ],
+            });
+          }).toThrowError('uiloos > Typewriter > cursor is out of bounds');
+
+          expect(() => {
+            typewriter.initialize({
+              text: 'abc',
+              cursors: [
+                { position: 4, name: '' },
+                { position: 0, name: '' },
+                { position: 1, name: '' },
+              ],
+            });
+          }).toThrowError(TypewriterInvalidCursorError);
+
+          // Middle of array
+          expect(() => {
+            typewriter.initialize({
+              text: 'abc',
+              cursors: [
+                { position: 1, name: '' },
+                { position: 4, name: '' },
+                { position: 2, name: '' },
+              ],
+            });
+          }).toThrowError(TypewriterInvalidCursorError);
+
+          // End of array
+          expect(() => {
+            typewriter.initialize({
+              text: 'abc',
+              cursors: [
+                { position: 2, name: '' },
+                { position: 0, name: '' },
+                { position: 4, name: '' },
+              ],
+            });
+          }).toThrowError(TypewriterInvalidCursorError);
+
+          expect(subscriber).toBeCalledTimes(0);
+        });
+      });
     });
 
     describe('reset behavior', () => {
@@ -628,7 +916,7 @@ describe('Typewriter', () => {
         const typewriter: Typewriter = new Typewriter({
           text: 'aap',
           blinkAfter: 1337,
-          keystrokes: [{ key: '', delay: 999 }],
+          keystrokes: [{ key: '', delay: 999, cursor: 0 }],
           keepHistoryFor: 1,
         });
 
@@ -642,9 +930,9 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokes: [],
+            keystrokesPerCursor: [[]],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
             text: '',
-            isBlinking: true,
             blinkAfter: 50,
             isPlaying: false,
             isFinished: true,
@@ -662,8 +950,8 @@ describe('Typewriter', () => {
       it('should reset the animation timeout', () => {
         const typewriter: Typewriter = new Typewriter({
           keystrokes: [
-            { key: 'a', delay: 100 },
-            { key: 'b', delay: 100 },
+            { key: 'a', delay: 100, cursor: 0 },
+            { key: 'b', delay: 100, cursor: 0 },
           ],
         });
 
@@ -686,22 +974,22 @@ describe('Typewriter', () => {
       it('should reset the blinking timeout', () => {
         const typewriter: Typewriter = new Typewriter({
           keystrokes: [
-            { key: 'a', delay: 100 },
-            { key: 'b', delay: 100 },
+            { key: 'a', delay: 100, cursor: 0 },
+            { key: 'b', delay: 100, cursor: 0 },
           ],
         });
 
-        expect(typewriter.isBlinking).toBe(true);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
 
         jest.advanceTimersByTime(100);
 
-        expect(typewriter.isBlinking).toBe(false);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
 
         // Just before the timer hits do an initialize
         typewriter.initialize({
           keystrokes: [
-            { key: 'c', delay: 100 },
-            { key: 'd', delay: 100 },
+            { key: 'c', delay: 100, cursor: 0 },
+            { key: 'd', delay: 100, cursor: 0 },
           ],
         });
 
@@ -709,15 +997,15 @@ describe('Typewriter', () => {
 
         // It should only trigger now after another 50ms
         jest.advanceTimersByTime(1);
-        expect(typewriter.isBlinking).toBe(false);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
 
         // Move it just before
         jest.advanceTimersByTime(48);
-        expect(typewriter.isBlinking).toBe(false);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
 
         // Now push it over the time limit
         jest.advanceTimersByTime(1);
-        expect(typewriter.isBlinking).toBe(true);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
       });
     });
 
@@ -729,14 +1017,17 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'c',
             delay: 100,
+            cursor: 0,
           },
         ],
       });
@@ -745,880 +1036,4237 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(100);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.text).toBe('a');
     });
   });
 
   describe('animation', () => {
-    it('should know how to do a basic text animation from start to finish', () => {
-      const typewriter = new Typewriter({
-        keystrokes: [
-          {
-            key: 'a',
-            delay: 100,
-          },
-          {
-            key: 'b',
-            delay: 200,
-          },
-          {
-            key: 'c',
-            delay: 300,
-          },
-        ],
-        blinkAfter: 50,
+    describe('single cursor', () => {
+      describe('inserting', () => {
+        it('should know how to do a basic text animation from start to finish', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: 'a',
+                delay: 100,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 200,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 300,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: 'a',
+                  delay: 100,
+                  cursor: 0,
+                },
+                {
+                  key: 'b',
+                  delay: 200,
+                  cursor: 0,
+                },
+                {
+                  key: 'c',
+                  delay: 300,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(100);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: 'a',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'b',
+                    delay: 200,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'c',
+                    delay: 300,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'a',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: 'a',
+                delay: 100,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(200);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: 'a',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'b',
+                    delay: 200,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'c',
+                    delay: 300,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 2, name: '', isBlinking: false }],
+              text: 'ab',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: 'b',
+                delay: 200,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(300);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: 'a',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'b',
+                    delay: 200,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'c',
+                    delay: 300,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 3, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: 'c',
+                delay: 300,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should know how to add a letter in the middle', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: 'b',
+                delay: 100,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'ac',
+            cursors: [{ position: 1, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: 'b',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 1, name: '', isBlinking: true }],
+            text: 'ac',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(100);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: 'b',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 2, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: 'b',
+                delay: 100,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should know how to add a letter at the start', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: 'a',
+                delay: 100,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'bc',
+            cursors: [{ position: 0, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: 'a',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: 'bc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(100);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: 'a',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: 'a',
+                delay: 100,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
       });
-      const subscriber = autoSubscribe(typewriter);
 
-      assertState(typewriter, {
-        history: [],
-        keystrokes: [
-          {
-            key: 'a',
-            delay: 100,
-          },
-          {
-            key: 'b',
-            delay: 200,
-          },
-          {
-            key: 'c',
-            delay: 300,
-          },
-        ],
-        text: '',
-        isBlinking: true,
-        blinkAfter: 50,
-        isPlaying: true,
-        isFinished: false,
-        hasBeenStoppedBefore: false,
-        repeat: false,
-        repeatDelay: 0,
+      describe('backspace', () => {
+        it('should know how to to apply a backspace from the end', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: 'a',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'b',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'c',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: 'a',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'b',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'c',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'a',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: 'a',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'b',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'c',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: 'a',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'b',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'c',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'b',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: 'a',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'b',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'c',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: 'a',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'b',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'c',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'c',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should know how to to apply a backspace from the middle', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 2, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 2, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'ac',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should know how to to apply a backspace from index 1', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 1, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 1, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: 'bc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should ignore a backspace from the start and continue the animation', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 0, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'z',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          // It should ignore the keystroke
+          jest.advanceTimersByTime(50);
+          expect(subscriber).toBeCalledTimes(0);
+          
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'z',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'zabc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should be able to finish from a backspace from the start which is ignored', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 0, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should know how to to apply a backspace when using unicode chars such as emoji', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: '😀',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: '😃',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: '😀',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: '😃',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: '😄',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😀',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: '😃',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😀',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: '😀',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😀',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: '😃',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😀',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: '😃',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😃',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: '😃',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😀',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: '😃',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😀',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: '😃',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when backspace is the last keystroke start repeating', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            repeat: true,
+            blinkAfter: 1000,
+            text: '',
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: '😄',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 1000,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: true,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'REPEATING',
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when backspace is ignored still start repeating', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            repeat: true,
+            blinkAfter: 1000,
+            text: '',
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: '😄',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 1000,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: true,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          // The last typewriterKeyStrokeBackspace should have no effect
+          expect(subscriber).toBeCalledTimes(2);
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'REPEATING',
+              time: new Date(),
+            }
+          );
+        });
       });
 
-      jest.advanceTimersByTime(100);
+      describe('clear all', () => {
+        it('should know how to to apply a clear all and continue the animation', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'Hello world!',
+          });
+          const subscriber = autoSubscribe(typewriter);
 
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 100,
-            },
-            {
-              key: 'b',
-              delay: 200,
-            },
-            {
-              key: 'c',
-              delay: 300,
-            },
-          ],
-          text: 'a',
-          isBlinking: false,
-          blinkAfter: 50,
-          isPlaying: true,
-          isFinished: false,
-          hasBeenStoppedBefore: false,
-          repeat: false,
-          repeatDelay: 0,
-        },
-        {
-          type: 'CHANGED',
-          keystroke: {
-            key: 'a',
-            delay: 100,
-          },
-          time: new Date(),
-        }
-      );
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeClearAll,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: '😄',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 12, name: '', isBlinking: true }],
+            text: 'Hello world!',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
 
-      jest.advanceTimersByTime(200);
+          jest.advanceTimersByTime(50);
 
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          keystrokes: [
+          assertLastSubscriber(
+            subscriber,
             {
-              key: 'a',
-              delay: 100,
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
             },
             {
-              key: 'b',
-              delay: 200,
-            },
-            {
-              key: 'c',
-              delay: 300,
-            },
-          ],
-          text: 'ab',
-          isBlinking: false,
-          blinkAfter: 50,
-          isPlaying: true,
-          isFinished: false,
-          hasBeenStoppedBefore: false,
-          repeat: false,
-          repeatDelay: 0,
-        },
-        {
-          type: 'CHANGED',
-          keystroke: {
-            key: 'b',
-            delay: 200,
-          },
-          time: new Date(),
-        }
-      );
+              type: 'CHANGED',
+              keystroke: {
+                key: typewriterKeyStrokeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
 
-      jest.advanceTimersByTime(300);
+          jest.advanceTimersByTime(50);
 
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          keystrokes: [
+          assertLastSubscriber(
+            subscriber,
             {
-              key: 'a',
-              delay: 100,
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
             },
             {
-              key: 'b',
-              delay: 200,
+              type: 'FINISHED',
+              keystroke: {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should know how to to finish on a clear all', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'Hello world!',
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeClearAll,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 12, name: '', isBlinking: true }],
+            text: 'Hello world!',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
             },
             {
-              key: 'c',
-              delay: 300,
+              type: 'FINISHED',
+              keystroke: {
+                key: typewriterKeyStrokeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should ignore a clear all when text is already empty', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 1000,
+            text: 'a',
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeClearAll,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'b',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 1, name: '', isBlinking: true }],
+            text: 'a',
+            blinkAfter: 1000,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'b',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
             },
-          ],
-          text: 'abc',
-          isBlinking: false,
-          blinkAfter: 50,
-          isPlaying: false,
-          isFinished: true,
-          hasBeenStoppedBefore: false,
-          repeat: false,
-          repeatDelay: 0,
-        },
-        {
-          type: 'FINISHED',
-          keystroke: {
-            key: 'c',
-            delay: 300,
-          },
-          time: new Date(),
-        }
-      );
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: typewriterKeyStrokeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          // Clear all should be ignored
+          expect(subscriber).toBeCalledTimes(1);
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeBackspace,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'b',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'b',
+              blinkAfter: 1000,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should still finish on a clear all when text is already empty and ignored', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: '',
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeClearAll,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: typewriterKeyStrokeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when clear all is the last keystroke start repeating', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            repeat: true,
+            blinkAfter: 1000,
+            text: '',
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: '😄',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeClearAll,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 1000,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: true,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: typewriterKeyStrokeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'REPEATING',
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when clear all is ignored still start repeating', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            repeat: true,
+            blinkAfter: 1000,
+            text: '',
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: '😄',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeClearAll,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeClearAll,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 1000,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: true,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: typewriterKeyStrokeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          // The last typewriterKeyStrokeClearAll should have no effect
+          expect(subscriber).toBeCalledTimes(2);
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeClearAll,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'REPEATING',
+              time: new Date(),
+            }
+          );
+        });
+      });
+
+      describe('move left', () => {
+        it('should ignore a move left from the start and continue the animation', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeLeft,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 0, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeLeft,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'z',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          // It should ignore the keystroke
+          jest.advanceTimersByTime(50);
+          expect(subscriber).toBeCalledTimes(0);
+          
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'z',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'zabc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should be able to finish from a move left from the start which is ignored', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeLeft,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 0, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeLeft,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: typewriterKeyStrokeLeft,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when move left is the last keystroke start repeating', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeLeft,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            repeat: true,
+            blinkAfter: 1000,
+            text: '',
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: '😄',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeLeft,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 1000,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: true,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: typewriterKeyStrokeLeft,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'REPEATING',
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when move left is ignored still start repeating', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeLeft,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeLeft,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            repeat: true,
+            blinkAfter: 1000,
+            text: '',
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: '😄',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeLeft,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeLeft,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 1000,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: true,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: typewriterKeyStrokeLeft,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          // The last typewriterKeyStrokeLeft should have no effect
+          expect(subscriber).toBeCalledTimes(2);
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'REPEATING',
+              time: new Date(),
+            }
+          );
+        });
+        
+        it('should know how to move left from the middle', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeLeft,
+                delay: 100,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 1, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeLeft,
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 1, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(100);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeLeft,
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: typewriterKeyStrokeLeft,
+                delay: 100,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should know how to move left from the end', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeLeft,
+                delay: 100,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 2, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeLeft,
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 2, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(100);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeLeft,
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: typewriterKeyStrokeLeft,
+                delay: 100,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+      });
+
+      describe('move right', () => {
+        it('should know how to move right from the start', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeRight,
+                delay: 100,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 0, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeRight,
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(100);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeRight,
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: typewriterKeyStrokeRight,
+                delay: 100,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+        
+        it('should know how to move right from the middle', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeRight,
+                delay: 100,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 1, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeRight,
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 1, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(100);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeRight,
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 2, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: typewriterKeyStrokeRight,
+                delay: 100,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should ignore a move right from the end and continue the animation', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeRight,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 3, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeRight,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'z',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 3, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          // It should ignore the keystroke
+          jest.advanceTimersByTime(50);
+          expect(subscriber).toBeCalledTimes(0);
+          
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeRight,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: 'z',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 4, name: '', isBlinking: false }],
+              text: 'abcz',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should be able to finish from a move right from the end which is ignored', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: typewriterKeyStrokeRight,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 3, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeRight,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 3, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: typewriterKeyStrokeRight,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 3, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              keystroke: {
+                key: typewriterKeyStrokeRight,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when move right is the last keystroke start repeating', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeRight,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            repeat: true,
+            blinkAfter: 1000,
+            text: '',
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: '😄',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeRight,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 1000,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: true,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeRight,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeRight,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeRight,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'REPEATING',
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when move right is ignored still start repeating', () => {
+          const typewriter = new Typewriter({
+            keystrokes: [
+              {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeRight,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: typewriterKeyStrokeRight,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            repeat: true,
+            blinkAfter: 1000,
+            text: '',
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: '😄',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeRight,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: typewriterKeyStrokeRight,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 1000,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: true,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeRight,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeRight,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              keystroke: {
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          // The first typewriterKeyStrokeRight should have no effect
+          jest.advanceTimersByTime(50);
+          expect(subscriber).toBeCalledTimes(1);
+
+          jest.advanceTimersByTime(50);
+
+          // The last typewriterKeyStrokeRight should also have no effect
+          expect(subscriber).toBeCalledTimes(1);
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              keystrokesPerCursor: [
+                [
+                  {
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeRight,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    key: typewriterKeyStrokeRight,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'REPEATING',
+              time: new Date(),
+            }
+          );
+        });
+      });
     });
 
-    it('should know how to to apply a backspace', () => {
-      const typewriter = new Typewriter({
-        keystrokes: [
-          {
-            key: 'a',
-            delay: 50,
-          },
-          {
-            key: typewriterKeyStrokeBackspace,
-            delay: 50,
-          },
-          {
-            key: 'b',
-            delay: 50,
-          },
-          {
-            key: typewriterKeyStrokeBackspace,
-            delay: 50,
-          },
-          {
-            key: 'c',
-            delay: 50,
-          },
-        ],
-        blinkAfter: 50,
-      });
-      const subscriber = autoSubscribe(typewriter);
-
-      assertState(typewriter, {
-        history: [],
-        keystrokes: [
-          {
-            key: 'a',
-            delay: 50,
-          },
-          {
-            key: typewriterKeyStrokeBackspace,
-            delay: 50,
-          },
-          {
-            key: 'b',
-            delay: 50,
-          },
-          {
-            key: typewriterKeyStrokeBackspace,
-            delay: 50,
-          },
-          {
-            key: 'c',
-            delay: 50,
-          },
-        ],
-        text: '',
-        isBlinking: true,
-        blinkAfter: 50,
-        isPlaying: true,
-        isFinished: false,
-        hasBeenStoppedBefore: false,
-        repeat: false,
-        repeatDelay: 0,
-      });
-
-      jest.advanceTimersByTime(50);
-
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
+    xdescribe('multiple cursors', () => {
+      it('should know how to do a basic text animation from start to finish', () => {
+        const typewriter = new Typewriter({
           keystrokes: [
             {
-              key: 'a',
-              delay: 50,
+              key: 'o',
+              delay: 100,
+              cursor: 2,
             },
             {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
+              key: 'o',
+              delay: 100,
+              cursor: 1,
             },
             {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
+              key: 'e',
+              delay: 100,
+              cursor: 0,
             },
           ],
-          text: 'a',
-          isBlinking: false,
+          blinkAfter: 50,
+          text: 'hllwrld',
+          cursors: [
+            { position: 1, name: '' },
+            { position: 3, name: '' },
+            { position: 4, name: '' },
+          ],
+        });
+        const subscriber = autoSubscribe(typewriter);
+
+        assertState(typewriter, {
+          history: [],
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'o',
+                delay: 100,
+                cursor: 2,
+              },
+              {
+                key: 'o',
+                delay: 100,
+                cursor: 1,
+              },
+              {
+                key: 'e',
+                delay: 100,
+                cursor: 0,
+              },
+            ],
+          ],
+          cursors: [
+            { position: 1, name: '', isBlinking: true },
+            { position: 3, name: '', isBlinking: true },
+            { position: 4, name: '', isBlinking: true },
+          ],
+          text: 'hllwrld',
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
           hasBeenStoppedBefore: false,
           repeat: false,
           repeatDelay: 0,
-        },
-        {
-          type: 'CHANGED',
-          keystroke: {
-            key: 'a',
-            delay: 50,
-          },
-          time: new Date(),
-        }
-      );
+        });
 
-      jest.advanceTimersByTime(50);
+        jest.advanceTimersByTime(100);
 
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
-          ],
-          text: '',
-          isBlinking: false,
-          blinkAfter: 50,
-          isPlaying: true,
-          isFinished: false,
-          hasBeenStoppedBefore: false,
-          repeat: false,
-          repeatDelay: 0,
-        },
-        {
-          type: 'CHANGED',
-          keystroke: {
-            key: typewriterKeyStrokeBackspace,
-            delay: 50,
-          },
-          time: new Date(),
-        }
-      );
-
-      jest.advanceTimersByTime(50);
-
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
-          ],
-          text: 'b',
-          isBlinking: false,
-          blinkAfter: 50,
-          isPlaying: true,
-          isFinished: false,
-          hasBeenStoppedBefore: false,
-          repeat: false,
-          repeatDelay: 0,
-        },
-        {
-          type: 'CHANGED',
-          keystroke: {
-            key: 'b',
-            delay: 50,
-          },
-          time: new Date(),
-        }
-      );
-
-      jest.advanceTimersByTime(50);
-
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
-          ],
-          text: '',
-          isBlinking: false,
-          blinkAfter: 50,
-          isPlaying: true,
-          isFinished: false,
-          hasBeenStoppedBefore: false,
-          repeat: false,
-          repeatDelay: 0,
-        },
-        {
-          type: 'CHANGED',
-          keystroke: {
-            key: typewriterKeyStrokeBackspace,
-            delay: 50,
-          },
-          time: new Date(),
-        }
-      );
-
-      jest.advanceTimersByTime(50);
-
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
-          ],
-          text: 'c',
-          isBlinking: false,
-          blinkAfter: 50,
-          isPlaying: false,
-          isFinished: true,
-          hasBeenStoppedBefore: false,
-          repeat: false,
-          repeatDelay: 0,
-        },
-        {
-          type: 'FINISHED',
-          keystroke: {
-            key: 'c',
-            delay: 50,
-          },
-          time: new Date(),
-        }
-      );
-    });
-
-    it('should know how to to apply a backspace when using unicode chars such as emoji', () => {
-      const typewriter = new Typewriter({
-        keystrokes: [
+        assertLastSubscriber(
+          subscriber,
           {
-            key: '😀',
-            delay: 50,
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: 'o',
+                  delay: 100,
+                  cursor: 2,
+                },
+                {
+                  key: 'o',
+                  delay: 100,
+                  cursor: 1,
+                },
+                {
+                  key: 'e',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [
+              { position: 1, name: '', isBlinking: false },
+              { position: 3, name: '', isBlinking: false },
+              { position: 5, name: '', isBlinking: false },
+            ],
+            text: 'hllworld',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
           },
           {
-            key: typewriterKeyStrokeBackspace,
-            delay: 50,
-          },
-          {
-            key: '😃',
-            delay: 50,
-          },
-          {
-            key: typewriterKeyStrokeBackspace,
-            delay: 50,
-          },
-          {
-            key: '😄',
-            delay: 50,
-          },
-        ],
-        blinkAfter: 50,
-      });
-      const subscriber = autoSubscribe(typewriter);
+            type: 'CHANGED',
+            keystroke: {
+              key: 'o',
+              delay: 100,
+              cursor: 2,
+            },
+            time: new Date(),
+          }
+        );
 
-      assertState(typewriter, {
-        history: [],
-        keystrokes: [
+        jest.advanceTimersByTime(100);
+
+        assertLastSubscriber(
+          subscriber,
           {
-            key: '😀',
-            delay: 50,
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: 'o',
+                  delay: 100,
+                  cursor: 2,
+                },
+                {
+                  key: 'o',
+                  delay: 100,
+                  cursor: 1,
+                },
+                {
+                  key: 'e',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [
+              { position: 1, name: '', isBlinking: false },
+              { position: 4, name: '', isBlinking: false },
+              { position: 5, name: '', isBlinking: false },
+            ],
+            text: 'hlloworld',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
           },
           {
-            key: typewriterKeyStrokeBackspace,
-            delay: 50,
+            type: 'CHANGED',
+            keystroke: {
+              key: 'o',
+              delay: 100,
+              cursor: 1,
+            },
+            time: new Date(),
+          }
+        );
+
+        jest.advanceTimersByTime(100);
+
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: 'o',
+                  delay: 100,
+                  cursor: 2,
+                },
+                {
+                  key: 'o',
+                  delay: 100,
+                  cursor: 1,
+                },
+                {
+                  key: 'e',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [
+              { position: 2, name: '', isBlinking: false },
+              { position: 4, name: '', isBlinking: false },
+              { position: 5, name: '', isBlinking: false },
+            ],
+            text: 'helloworld',
+            blinkAfter: 50,
+            isPlaying: false,
+            isFinished: true,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
           },
           {
-            key: '😃',
-            delay: 50,
-          },
-          {
-            key: typewriterKeyStrokeBackspace,
-            delay: 50,
-          },
-          {
-            key: '😄',
-            delay: 50,
-          },
-        ],
-        text: '',
-        isBlinking: true,
-        blinkAfter: 50,
-        isPlaying: true,
-        isFinished: false,
-        hasBeenStoppedBefore: false,
-        repeat: false,
-        repeatDelay: 0,
+            type: 'FINISHED',
+            keystroke: {
+              key: 'e',
+              delay: 100,
+              cursor: 0,
+            },
+            time: new Date(),
+          }
+        );
       });
 
-      jest.advanceTimersByTime(50);
-
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
+      it('should when backspace is pressed move cursors that are on the end of the text one place backwards', () => {
+        const typewriter = new Typewriter({
           keystrokes: [
             {
-              key: '😀',
-              delay: 50,
-            },
-            {
               key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: '😃',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: '😄',
-              delay: 50,
+              delay: 100,
+              cursor: 0,
             },
           ],
-          text: '😀',
-          isBlinking: false,
+          blinkAfter: 50,
+          text: 'john',
+          cursors: [
+            { position: 2, name: '' },
+            { position: 4, name: '' },
+            { position: 4, name: '' },
+          ],
+        });
+        const subscriber = autoSubscribe(typewriter);
+
+        assertState(typewriter, {
+          history: [],
+          keystrokesPerCursor: [
+            [
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 100,
+                cursor: 0,
+              },
+            ],
+          ],
+          cursors: [
+            { position: 2, name: '', isBlinking: true },
+            { position: 4, name: '', isBlinking: true },
+            { position: 4, name: '', isBlinking: true },
+          ],
+          text: 'john',
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
           hasBeenStoppedBefore: false,
           repeat: false,
           repeatDelay: 0,
-        },
-        {
-          type: 'CHANGED',
-          keystroke: {
-            key: '😀',
-            delay: 50,
-          },
-          time: new Date(),
-        }
-      );
+        });
 
-      jest.advanceTimersByTime(50);
+        jest.advanceTimersByTime(100);
 
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          keystrokes: [
-            {
-              key: '😀',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: '😃',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: '😄',
-              delay: 50,
-            },
-          ],
-          text: '',
-          isBlinking: false,
-          blinkAfter: 50,
-          isPlaying: true,
-          isFinished: false,
-          hasBeenStoppedBefore: false,
-          repeat: false,
-          repeatDelay: 0,
-        },
-        {
-          type: 'CHANGED',
-          keystroke: {
-            key: typewriterKeyStrokeBackspace,
-            delay: 50,
-          },
-          time: new Date(),
-        }
-      );
-
-      jest.advanceTimersByTime(50);
-
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          keystrokes: [
-            {
-              key: '😀',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: '😃',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: '😄',
-              delay: 50,
-            },
-          ],
-          text: '😃',
-          isBlinking: false,
-          blinkAfter: 50,
-          isPlaying: true,
-          isFinished: false,
-          hasBeenStoppedBefore: false,
-          repeat: false,
-          repeatDelay: 0,
-        },
-        {
-          type: 'CHANGED',
-          keystroke: {
-            key: '😃',
-            delay: 50,
-          },
-          time: new Date(),
-        }
-      );
-
-      jest.advanceTimersByTime(50);
-
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          keystrokes: [
-            {
-              key: '😀',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: '😃',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: '😄',
-              delay: 50,
-            },
-          ],
-          text: '',
-          isBlinking: false,
-          blinkAfter: 50,
-          isPlaying: true,
-          isFinished: false,
-          hasBeenStoppedBefore: false,
-          repeat: false,
-          repeatDelay: 0,
-        },
-        {
-          type: 'CHANGED',
-          keystroke: {
-            key: typewriterKeyStrokeBackspace,
-            delay: 50,
-          },
-          time: new Date(),
-        }
-      );
-
-      jest.advanceTimersByTime(50);
-
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          keystrokes: [
-            {
-              key: '😀',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: '😃',
-              delay: 50,
-            },
-            {
-              key: typewriterKeyStrokeBackspace,
-              delay: 50,
-            },
-            {
-              key: '😄',
-              delay: 50,
-            },
-          ],
-          text: '😄',
-          isBlinking: false,
-          blinkAfter: 50,
-          isPlaying: false,
-          isFinished: true,
-          hasBeenStoppedBefore: false,
-          repeat: false,
-          repeatDelay: 0,
-        },
-        {
-          type: 'FINISHED',
-          keystroke: {
-            key: '😄',
-            delay: 50,
-          },
-          time: new Date(),
-        }
-      );
-    });
-
-    it('should know how to to apply a clear all', () => {
-      const typewriter = new Typewriter({
-        keystrokes: [
+        assertLastSubscriber(
+          subscriber,
           {
-            key: typewriterKeyStrokeClearAll,
-            delay: 50,
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [
+              { position: 1, name: '', isBlinking: false },
+              { position: 3, name: '', isBlinking: false },
+              { position: 3, name: '', isBlinking: false },
+            ],
+            text: 'jhn',
+            blinkAfter: 50,
+            isPlaying: false,
+            isFinished: true,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
           },
           {
-            key: '😄',
-            delay: 50,
-          },
-        ],
-        blinkAfter: 50,
-        text: 'Hello world!',
-      });
-      const subscriber = autoSubscribe(typewriter);
-
-      assertState(typewriter, {
-        history: [],
-        keystrokes: [
-          {
-            key: typewriterKeyStrokeClearAll,
-            delay: 50,
-          },
-          {
-            key: '😄',
-            delay: 50,
-          },
-        ],
-        text: 'Hello world!',
-        isBlinking: true,
-        blinkAfter: 50,
-        isPlaying: true,
-        isFinished: false,
-        hasBeenStoppedBefore: false,
-        repeat: false,
-        repeatDelay: 0,
+            type: 'FINISHED',
+            keystroke: {
+              key: typewriterKeyStrokeBackspace,
+              delay: 100,
+              cursor: 0,
+            },
+            time: new Date(),
+          }
+        );
       });
 
-      jest.advanceTimersByTime(50);
+      it('should when backspace is pressed not move cursors that are before the cursor that performed the backspace ', () => {
+        const typewriter = new Typewriter({
+          keystrokes: [
+            {
+              key: typewriterKeyStrokeBackspace,
+              delay: 100,
+              cursor: 0,
+            },
+          ],
+          blinkAfter: 50,
+          text: 'john',
+          cursors: [
+            { position: 3, name: '' },
+            { position: 1, name: '' },
+            { position: 0, name: '' },
+          ],
+        });
+        const subscriber = autoSubscribe(typewriter);
 
-      assertLastSubscriber(
-        subscriber,
-        {
+        assertState(typewriter, {
           history: [],
+          keystrokesPerCursor: [
+            [
+              {
+                key: typewriterKeyStrokeBackspace,
+                delay: 100,
+                cursor: 0,
+              },
+            ],
+          ],
+          cursors: [
+            { position: 3, name: '', isBlinking: true },
+            { position: 1, name: '', isBlinking: true },
+            { position: 0, name: '', isBlinking: true },
+          ],
+          text: 'john',
+          blinkAfter: 50,
+          isPlaying: true,
+          isFinished: false,
+          hasBeenStoppedBefore: false,
+          repeat: false,
+          repeatDelay: 0,
+        });
+
+        jest.advanceTimersByTime(100);
+
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeBackspace,
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [
+              { position: 2, name: '', isBlinking: false },
+              { position: 1, name: '', isBlinking: false },
+              { position: 0, name: '', isBlinking: false },
+            ],
+            text: 'jon',
+            blinkAfter: 50,
+            isPlaying: false,
+            isFinished: true,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          },
+          {
+            type: 'FINISHED',
+            keystroke: {
+              key: typewriterKeyStrokeBackspace,
+              delay: 100,
+              cursor: 0,
+            },
+            time: new Date(),
+          }
+        );
+      });
+
+      it('should set all cursors to index 0 when a clear all is performed', () => {
+        const typewriter = new Typewriter({
           keystrokes: [
             {
               key: typewriterKeyStrokeClearAll,
-              delay: 50,
-            },
-            {
-              key: '😄',
-              delay: 50,
+              delay: 100,
+              cursor: 2,
             },
           ],
-          text: '',
-          isBlinking: false,
+          blinkAfter: 50,
+          text: 'hllwrld',
+          cursors: [
+            { position: 1, name: '' },
+            { position: 3, name: '' },
+            { position: 4, name: '' },
+          ],
+        });
+        const subscriber = autoSubscribe(typewriter);
+
+        assertState(typewriter, {
+          history: [],
+          keystrokesPerCursor: [
+            [
+              {
+                key: typewriterKeyStrokeClearAll,
+                delay: 100,
+                cursor: 2,
+              },
+            ],
+          ],
+          cursors: [
+            { position: 1, name: '', isBlinking: true },
+            { position: 3, name: '', isBlinking: true },
+            { position: 4, name: '', isBlinking: true },
+          ],
+          text: 'hllwrld',
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
           hasBeenStoppedBefore: false,
           repeat: false,
           repeatDelay: 0,
-        },
-        {
-          type: 'CHANGED',
-          keystroke: {
-            key: typewriterKeyStrokeClearAll,
-            delay: 50,
+        });
+
+        jest.advanceTimersByTime(100);
+
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            keystrokesPerCursor: [
+              [
+                {
+                  key: typewriterKeyStrokeClearAll,
+                  delay: 100,
+                  cursor: 2,
+                },
+              ],
+            ],
+            cursors: [
+              { position: 0, name: '', isBlinking: false },
+              { position: 0, name: '', isBlinking: false },
+              { position: 0, name: '', isBlinking: false },
+            ],
+            text: '',
+            blinkAfter: 50,
+            isPlaying: false,
+            isFinished: true,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
           },
-          time: new Date(),
-        }
-      );
-
-      jest.advanceTimersByTime(50);
-
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          keystrokes: [
-            {
+          {
+            type: 'FINISHED',
+            keystroke: {
               key: typewriterKeyStrokeClearAll,
-              delay: 50,
+              delay: 100,
+              cursor: 2,
             },
-            {
-              key: '😄',
-              delay: 50,
-            },
-          ],
-          text: '😄',
-          isBlinking: false,
-          blinkAfter: 50,
-          isPlaying: false,
-          isFinished: true,
-          hasBeenStoppedBefore: false,
-          repeat: false,
-          repeatDelay: 0,
-        },
-        {
-          type: 'FINISHED',
-          keystroke: {
-            key: '😄',
-            delay: 50,
-          },
-          time: new Date(),
-        }
-      );
+            time: new Date(),
+          }
+        );
+      });
     });
   });
 
@@ -1629,14 +5277,17 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 50,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 50,
+            cursor: 0,
           },
           {
             key: 'c',
             delay: 50,
+            cursor: 0,
           },
         ],
         blinkAfter: 50,
@@ -1647,22 +5298,27 @@ describe('Typewriter', () => {
 
       assertState(typewriter, {
         history: [],
-        keystrokes: [
-          {
-            key: 'a',
-            delay: 50,
-          },
-          {
-            key: 'b',
-            delay: 50,
-          },
-          {
-            key: 'c',
-            delay: 50,
-          },
+        keystrokesPerCursor: [
+          [
+            {
+              key: 'a',
+              delay: 50,
+              cursor: 0,
+            },
+            {
+              key: 'b',
+              delay: 50,
+              cursor: 0,
+            },
+            {
+              key: 'c',
+              delay: 50,
+              cursor: 0,
+            },
+          ],
         ],
+        cursors: [{ position: 0, name: '', isBlinking: true }],
         text: '',
-        isBlinking: true,
         blinkAfter: 50,
         isPlaying: true,
         isFinished: false,
@@ -1677,22 +5333,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 1, name: '', isBlinking: false }],
           text: 'a',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
@@ -1705,6 +5366,7 @@ describe('Typewriter', () => {
           keystroke: {
             key: 'a',
             delay: 50,
+            cursor: 0,
           },
           time: new Date(),
         }
@@ -1716,22 +5378,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 2, name: '', isBlinking: false }],
           text: 'ab',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
@@ -1744,6 +5411,7 @@ describe('Typewriter', () => {
           keystroke: {
             key: 'b',
             delay: 50,
+            cursor: 0,
           },
           time: new Date(),
         }
@@ -1755,22 +5423,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 3, name: '', isBlinking: false }],
           text: 'abc',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: false,
           isFinished: true,
@@ -1783,6 +5456,7 @@ describe('Typewriter', () => {
           keystroke: {
             key: 'c',
             delay: 50,
+            cursor: 0,
           },
           time: new Date(),
         }
@@ -1795,14 +5469,17 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 50,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 50,
+            cursor: 0,
           },
           {
             key: 'c',
             delay: 50,
+            cursor: 0,
           },
         ],
         blinkAfter: 50,
@@ -1813,22 +5490,27 @@ describe('Typewriter', () => {
 
       assertState(typewriter, {
         history: [],
-        keystrokes: [
-          {
-            key: 'a',
-            delay: 50,
-          },
-          {
-            key: 'b',
-            delay: 50,
-          },
-          {
-            key: 'c',
-            delay: 50,
-          },
+        keystrokesPerCursor: [
+          [
+            {
+              key: 'a',
+              delay: 50,
+              cursor: 0,
+            },
+            {
+              key: 'b',
+              delay: 50,
+              cursor: 0,
+            },
+            {
+              key: 'c',
+              delay: 50,
+              cursor: 0,
+            },
+          ],
         ],
+        cursors: [{ position: 0, name: '', isBlinking: true }],
         text: '',
-        isBlinking: true,
         blinkAfter: 50,
         isPlaying: true,
         isFinished: false,
@@ -1844,22 +5526,27 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokes: [
-              {
-                key: 'a',
-                delay: 50,
-              },
-              {
-                key: 'b',
-                delay: 50,
-              },
-              {
-                key: 'c',
-                delay: 50,
-              },
+            keystrokesPerCursor: [
+              [
+                {
+                  key: 'a',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'b',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'c',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
             ],
+            cursors: [{ position: 1, name: '', isBlinking: false }],
             text: 'a',
-            isBlinking: false,
             blinkAfter: 50,
             isPlaying: true,
             isFinished: false,
@@ -1872,6 +5559,7 @@ describe('Typewriter', () => {
             keystroke: {
               key: 'a',
               delay: 50,
+              cursor: 0,
             },
             time: new Date(),
           }
@@ -1883,22 +5571,27 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokes: [
-              {
-                key: 'a',
-                delay: 50,
-              },
-              {
-                key: 'b',
-                delay: 50,
-              },
-              {
-                key: 'c',
-                delay: 50,
-              },
+            keystrokesPerCursor: [
+              [
+                {
+                  key: 'a',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'b',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'c',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
             ],
+            cursors: [{ position: 2, name: '', isBlinking: false }],
             text: 'ab',
-            isBlinking: false,
             blinkAfter: 50,
             isPlaying: true,
             isFinished: false,
@@ -1911,6 +5604,7 @@ describe('Typewriter', () => {
             keystroke: {
               key: 'b',
               delay: 50,
+              cursor: 0,
             },
             time: new Date(),
           }
@@ -1922,22 +5616,27 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokes: [
-              {
-                key: 'a',
-                delay: 50,
-              },
-              {
-                key: 'b',
-                delay: 50,
-              },
-              {
-                key: 'c',
-                delay: 50,
-              },
+            keystrokesPerCursor: [
+              [
+                {
+                  key: 'a',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'b',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'c',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
             ],
+            cursors: [{ position: 3, name: '', isBlinking: false }],
             text: 'abc',
-            isBlinking: false,
             blinkAfter: 50,
             isPlaying: true,
             isFinished: false,
@@ -1950,6 +5649,7 @@ describe('Typewriter', () => {
             keystroke: {
               key: 'c',
               delay: 50,
+              cursor: 0,
             },
             time: new Date(),
           }
@@ -1961,22 +5661,27 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokes: [
-              {
-                key: 'a',
-                delay: 50,
-              },
-              {
-                key: 'b',
-                delay: 50,
-              },
-              {
-                key: 'c',
-                delay: 50,
-              },
+            keystrokesPerCursor: [
+              [
+                {
+                  key: 'a',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'b',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  key: 'c',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
             ],
+            cursors: [{ position: 0, name: '', isBlinking: false }],
             text: '',
-            isBlinking: false,
             blinkAfter: 50,
             isPlaying: true,
             isFinished: false,
@@ -2009,14 +5714,17 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 50,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 50,
+            cursor: 0,
           },
           {
             key: 'c',
             delay: 50,
+            cursor: 0,
           },
         ],
         text: 'z',
@@ -2027,22 +5735,27 @@ describe('Typewriter', () => {
 
       assertState(typewriter, {
         history: [],
-        keystrokes: [
-          {
-            key: 'a',
-            delay: 50,
-          },
-          {
-            key: 'b',
-            delay: 50,
-          },
-          {
-            key: 'c',
-            delay: 50,
-          },
+        keystrokesPerCursor: [
+          [
+            {
+              key: 'a',
+              delay: 50,
+              cursor: 0,
+            },
+            {
+              key: 'b',
+              delay: 50,
+              cursor: 0,
+            },
+            {
+              key: 'c',
+              delay: 50,
+              cursor: 0,
+            },
+          ],
         ],
+        cursors: [{ position: 1, name: '', isBlinking: true }],
         text: 'z',
-        isBlinking: true,
         blinkAfter: 50,
         isPlaying: true,
         isFinished: false,
@@ -2059,22 +5772,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 2, name: '', isBlinking: false }],
           text: 'za',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
@@ -2087,6 +5805,7 @@ describe('Typewriter', () => {
           keystroke: {
             key: 'a',
             delay: 50,
+            cursor: 0,
           },
           time: new Date(),
         }
@@ -2098,22 +5817,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 3, name: '', isBlinking: false }],
           text: 'zab',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
@@ -2126,6 +5850,7 @@ describe('Typewriter', () => {
           keystroke: {
             key: 'b',
             delay: 50,
+            cursor: 0,
           },
           time: new Date(),
         }
@@ -2137,22 +5862,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 4, name: '', isBlinking: false }],
           text: 'zabc',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
@@ -2165,6 +5895,7 @@ describe('Typewriter', () => {
           keystroke: {
             key: 'c',
             delay: 50,
+            cursor: 0,
           },
           time: new Date(),
         }
@@ -2176,22 +5907,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 1, name: '', isBlinking: false }],
           text: 'z',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
@@ -2213,22 +5949,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 2, name: '', isBlinking: false }],
           text: 'za',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
@@ -2241,6 +5982,7 @@ describe('Typewriter', () => {
           keystroke: {
             key: 'a',
             delay: 50,
+            cursor: 0,
           },
           time: new Date(),
         }
@@ -2252,22 +5994,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 3, name: '', isBlinking: false }],
           text: 'zab',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
@@ -2280,6 +6027,7 @@ describe('Typewriter', () => {
           keystroke: {
             key: 'b',
             delay: 50,
+            cursor: 0,
           },
           time: new Date(),
         }
@@ -2291,22 +6039,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 4, name: '', isBlinking: false }],
           text: 'zabc',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
@@ -2319,6 +6072,7 @@ describe('Typewriter', () => {
           keystroke: {
             key: 'c',
             delay: 50,
+            cursor: 0,
           },
           time: new Date(),
         }
@@ -2330,22 +6084,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 1, name: '', isBlinking: false }],
           text: 'z',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
@@ -2367,22 +6126,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 2, name: '', isBlinking: false }],
           text: 'za',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
@@ -2395,6 +6159,7 @@ describe('Typewriter', () => {
           keystroke: {
             key: 'a',
             delay: 50,
+            cursor: 0,
           },
           time: new Date(),
         }
@@ -2406,22 +6171,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 3, name: '', isBlinking: false }],
           text: 'zab',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: true,
           isFinished: false,
@@ -2434,6 +6204,7 @@ describe('Typewriter', () => {
           keystroke: {
             key: 'b',
             delay: 50,
+            cursor: 0,
           },
           time: new Date(),
         }
@@ -2445,22 +6216,27 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokes: [
-            {
-              key: 'a',
-              delay: 50,
-            },
-            {
-              key: 'b',
-              delay: 50,
-            },
-            {
-              key: 'c',
-              delay: 50,
-            },
+          keystrokesPerCursor: [
+            [
+              {
+                key: 'a',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'b',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                key: 'c',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
           ],
+          cursors: [{ position: 4, name: '', isBlinking: false }],
           text: 'zabc',
-          isBlinking: false,
           blinkAfter: 50,
           isPlaying: false,
           isFinished: true,
@@ -2473,6 +6249,7 @@ describe('Typewriter', () => {
           keystroke: {
             key: 'c',
             delay: 50,
+            cursor: 0,
           },
           time: new Date(),
         }
@@ -2489,14 +6266,17 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'c',
             delay: 100,
+            cursor: 0,
           },
         ],
         blinkAfter: 50,
@@ -2505,7 +6285,7 @@ describe('Typewriter', () => {
 
       // Should be empty initially
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, []);
@@ -2514,7 +6294,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(100);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED']);
@@ -2523,7 +6303,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(50);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'BLINKING']);
@@ -2531,7 +6311,7 @@ describe('Typewriter', () => {
       typewriter.pause();
 
       expect(typewriter.isPlaying).toBe(false);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'PAUSED']);
 
@@ -2539,7 +6319,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(500);
 
       expect(typewriter.isPlaying).toBe(false);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'PAUSED']);
@@ -2549,7 +6329,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(10000);
 
       expect(typewriter.isPlaying).toBe(false);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'PAUSED']);
@@ -2558,7 +6338,7 @@ describe('Typewriter', () => {
       typewriter.play();
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'PAUSED', 'PLAYING']);
@@ -2567,7 +6347,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(49);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'PAUSED', 'PLAYING']);
@@ -2576,7 +6356,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(1);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('ab');
       assertEvents(subscriber, [
@@ -2594,14 +6374,17 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'c',
             delay: 100,
+            cursor: 0,
           },
         ],
         blinkAfter: 50,
@@ -2610,7 +6393,7 @@ describe('Typewriter', () => {
 
       // Should be empty initially
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, []);
@@ -2619,7 +6402,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(100);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED']);
@@ -2628,7 +6411,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(50);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'BLINKING']);
@@ -2636,7 +6419,7 @@ describe('Typewriter', () => {
       typewriter.stop();
 
       expect(typewriter.isPlaying).toBe(false);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'STOPPED']);
@@ -2645,7 +6428,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(500);
 
       expect(typewriter.isPlaying).toBe(false);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'STOPPED']);
@@ -2655,7 +6438,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(10000);
 
       expect(typewriter.isPlaying).toBe(false);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'STOPPED']);
@@ -2664,7 +6447,7 @@ describe('Typewriter', () => {
       typewriter.play();
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'STOPPED', 'PLAYING']);
@@ -2673,7 +6456,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(99);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'STOPPED', 'PLAYING']);
 
@@ -2681,7 +6464,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(1);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, [
@@ -2699,14 +6482,17 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'c',
             delay: 100,
+            cursor: 0,
           },
         ],
         blinkAfter: 50,
@@ -2716,7 +6502,7 @@ describe('Typewriter', () => {
 
       // Should be empty initially
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('z');
       assertEvents(subscriber, []);
@@ -2725,7 +6511,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(100);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('za');
       assertEvents(subscriber, ['CHANGED']);
@@ -2734,7 +6520,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(50);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('za');
       assertEvents(subscriber, ['CHANGED', 'BLINKING']);
@@ -2742,7 +6528,7 @@ describe('Typewriter', () => {
       typewriter.stop();
 
       expect(typewriter.isPlaying).toBe(false);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('za');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'STOPPED']);
@@ -2751,7 +6537,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(500);
 
       expect(typewriter.isPlaying).toBe(false);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('za');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'STOPPED']);
@@ -2761,7 +6547,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(10000);
 
       expect(typewriter.isPlaying).toBe(false);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('za');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'STOPPED']);
@@ -2770,7 +6556,7 @@ describe('Typewriter', () => {
       typewriter.play();
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('z');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'STOPPED', 'PLAYING']);
@@ -2779,7 +6565,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(99);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('z');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'STOPPED', 'PLAYING']);
@@ -2788,7 +6574,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(1);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('za');
       assertEvents(subscriber, [
@@ -2806,10 +6592,12 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 100,
+            cursor: 0,
           },
         ],
         blinkAfter: 1000,
@@ -2819,7 +6607,7 @@ describe('Typewriter', () => {
 
       // Should be empty initially
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, []);
@@ -2828,7 +6616,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(100);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED']);
@@ -2837,7 +6625,7 @@ describe('Typewriter', () => {
       typewriter.stop();
 
       expect(typewriter.isPlaying).toBe(false);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'STOPPED']);
@@ -2846,7 +6634,7 @@ describe('Typewriter', () => {
       typewriter.play();
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING']);
@@ -2854,7 +6642,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(100);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED']);
@@ -2862,7 +6650,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(100);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('ab');
       assertEvents(subscriber, [
@@ -2877,7 +6665,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(100);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, [
@@ -2892,7 +6680,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(100);
 
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, [
@@ -2908,7 +6696,7 @@ describe('Typewriter', () => {
       jest.advanceTimersByTime(100);
 
       expect(typewriter.isPlaying).toBe(false);
-      expect(typewriter.isBlinking).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('ab');
       assertEvents(subscriber, [
@@ -2929,14 +6717,17 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'c',
             delay: 100,
+            cursor: 0,
           },
         ],
         blinkAfter: 50,
@@ -2945,7 +6736,7 @@ describe('Typewriter', () => {
 
       // Should be empty initially
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, []);
@@ -2971,14 +6762,17 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'c',
             delay: 100,
+            cursor: 0,
           },
         ],
         blinkAfter: 50,
@@ -2987,7 +6781,7 @@ describe('Typewriter', () => {
 
       // Should be empty initially
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, []);
@@ -3013,14 +6807,17 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'c',
             delay: 100,
+            cursor: 0,
           },
         ],
         blinkAfter: 50,
@@ -3029,7 +6826,7 @@ describe('Typewriter', () => {
 
       // Should be empty initially
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, []);
@@ -3056,7 +6853,7 @@ describe('Typewriter', () => {
 
       // Should be empty initially
       expect(typewriter.isPlaying).toBe(false);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, []);
@@ -3075,14 +6872,17 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'c',
             delay: 100,
+            cursor: 0,
           },
         ],
         blinkAfter: 50,
@@ -3091,7 +6891,7 @@ describe('Typewriter', () => {
 
       // Should be empty initially
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, []);
@@ -3110,14 +6910,17 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 100,
+            cursor: 0,
           },
           {
             key: 'c',
             delay: 100,
+            cursor: 0,
           },
         ],
         blinkAfter: 50,
@@ -3126,7 +6929,7 @@ describe('Typewriter', () => {
 
       // Should be empty initially
       expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.isBlinking).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, []);
@@ -3350,6 +7153,7 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 100,
+            cursor: 0,
           },
         ],
         keepHistoryFor: 3,
@@ -3392,6 +7196,7 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 100,
+            cursor: 0,
           },
         ],
         keepHistoryFor: 5,
@@ -3403,7 +7208,7 @@ describe('Typewriter', () => {
         }),
       ]);
 
-      typewriter.pause()
+      typewriter.pause();
 
       expect(typewriter.history).toEqual([
         expect.objectContaining({
@@ -3430,14 +7235,17 @@ describe('Typewriter', () => {
           {
             key: 'a',
             delay: 10000,
+            cursor: 0,
           },
           {
             key: 'b',
             delay: 10000,
+            cursor: 0,
           },
           {
             key: 'c',
             delay: 10000,
+            cursor: 0,
           },
         ],
       });
@@ -3474,35 +7282,49 @@ describe('Typewriter', () => {
   });
 });
 
+type TestCursor = TypewriterCursorConfig & { isBlinking: boolean };
+
 type TestState = Pick<
   Typewriter,
   | 'text'
   | 'history'
-  | 'isBlinking'
   | 'blinkAfter'
   | 'isPlaying'
   | 'isFinished'
   | 'hasBeenStoppedBefore'
-  | 'keystrokes'
+  | 'keystrokesPerCursor'
   | 'repeat'
   | 'repeatDelay'
->;
+> & {
+  cursors: TestCursor[];
+};
 
 function assertState(state: Typewriter, expected: TestState) {
   const callAsTestState: TestState = {
     history: state.history,
     text: state.text,
-    isBlinking: state.isBlinking,
     blinkAfter: state.blinkAfter,
     isPlaying: state.isPlaying,
     isFinished: state.isFinished,
     repeat: state.repeat,
     repeatDelay: state.repeatDelay,
     hasBeenStoppedBefore: state.hasBeenStoppedBefore,
-    keystrokes: state.keystrokes.map((keystroke) => {
-      const copy: TypewriterKeystroke = {
-        key: keystroke.key,
-        delay: keystroke.delay,
+    keystrokesPerCursor: state.keystrokesPerCursor.map((keystrokes) => {
+      return keystrokes.map((keystroke) => {
+        const copy: TypewriterKeystroke = {
+          key: keystroke.key,
+          delay: keystroke.delay,
+          cursor: keystroke.cursor,
+        };
+
+        return copy;
+      });
+    }),
+    cursors: state.cursors.map((cursor) => {
+      const copy: TestCursor = {
+        position: cursor.position,
+        name: cursor.name,
+        isBlinking: cursor.isBlinking,
       };
 
       return copy;
@@ -3510,6 +7332,16 @@ function assertState(state: Typewriter, expected: TestState) {
   };
 
   expect(callAsTestState).toEqual(expected);
+}
+
+function assertCursor(cursor: TypewriterCursor, expected: TestCursor) {
+  const testState: TestCursor = {
+    position: cursor.position,
+    name: cursor.name,
+    isBlinking: cursor.isBlinking,
+  };
+
+  expect(testState).toEqual(expected);
 }
 
 function assertLastSubscriber(

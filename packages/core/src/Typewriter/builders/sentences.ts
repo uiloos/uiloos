@@ -31,7 +31,8 @@ export type TypewriterFromSentencesConfig = Omit<
 };
 
 /**
- * Creates a TypeWriter which will type in the provided sentences.
+ * Creates a TypeWriter which will type in the provided sentences 
+ * using a single cursor.
  *
  * Intelligently moves from one sentence to another, only removing
  * parts of the sentence if necessary.
@@ -118,6 +119,7 @@ export function typewriterFromSentences(
       keystrokes.push({
         key: typewriterKeyStrokeBackspace,
         delay,
+        cursor: 0
       });
     }
 
@@ -136,6 +138,7 @@ export function typewriterFromSentences(
       keystrokes.push({
         key: missingChar,
         delay,
+        cursor: 0
       });
     }
 

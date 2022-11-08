@@ -1,4 +1,5 @@
 import { Typewriter } from './Typewriter';
+import { TypewriterCursor } from './TypewriterCursor';
 
 /**
  * Represents a backspace key for when text needs to be removed
@@ -17,6 +18,43 @@ export const typewriterKeyStrokeBackspace = Symbol();
 export const typewriterKeyStrokeClearAll = Symbol();
 
 /**
+ * Represents the user clicking the left arrow key on the keyboard.
+ *
+ * @since 1.2.0
+ */
+ export const typewriterKeyStrokeLeft = Symbol();
+
+ /**
+ * Represents the user clicking the right arrow key on the keyboard.
+ *
+ * @since 1.2.0
+ */
+  export const typewriterKeyStrokeRight = Symbol();
+
+/**
+ * Configures the initial state of the `TypewriterCursor`.
+ *
+ * @since 1.2.0
+ */
+export type TypewriterCursorConfig = {
+  /**
+   * The position of the cursor within the `Typewriter` text.
+   * 
+   * @since 1.2.0
+   */
+   position: number;
+
+   /**
+   * The optional name associated with the cursor.
+   * 
+   * Defaults to an empty string when not provided
+   * 
+   * @since 1.2.0
+   */
+  name?: string;
+}
+
+/**
  * Represents the key / character being pressed. Can be any string,
  * or special keys such as the backspace key.
  *
@@ -25,11 +63,13 @@ export const typewriterKeyStrokeClearAll = Symbol();
 export type TypewriterKey =
   | string
   | typeof typewriterKeyStrokeBackspace
-  | typeof typewriterKeyStrokeClearAll;
+  | typeof typewriterKeyStrokeClearAll
+  | typeof typewriterKeyStrokeLeft
+  | typeof typewriterKeyStrokeRight;
 
 /**
- * Represents the typing in of a key including the delay before
- * typing in the key.
+ * Represents a key press including the delay before pressing in the 
+ * key.
  *
  * @since 1.2.0
  */
@@ -43,21 +83,42 @@ export type TypewriterKeystroke = {
   delay: number;
 
   /**
-   * The key which will be typed when this keystroke is made.
+   * The key which will be pressed when this keystroke is made.
    *
    * @since 1.2.0
    */
   key: TypewriterKey;
+
+  /**
+   * The cursor responsible for typing in the key. Is the value
+   * is the index of the cursor in the Typewriters cursors array.
+   * 
+   * @since 1.2.0
+   */
+  cursor: number; // TODO should this be the index and provide a cursor as well?
 };
+
 /**
  * Configures the initial state of the `Typewriter`.
  *
  * @since 1.2.0
  */
 export type TypewriterConfig = {
+
+  /**
+   * The cursors the `Typewriter` is going to have.
+   * 
+   * Defaults to one cursor at the end of the provided `text`
+   * with an empty name.
+   * 
+   * @since 1.2.0
+   */
+  cursors?: TypewriterCursorConfig[];
+
   /**
    * The keystrokes this `Typewriter` is set to enter. Each stroke
-   * represents a letter to be added to the `text.
+   * represents a key press on the typewriter. A stroke can add
+   * or remove characters, or move the cursor.
    *
    * Defaults to an empty array, meaning no keystrokes will be made.
    *
@@ -92,7 +153,6 @@ export type TypewriterConfig = {
    * @since 1.2.0
    */
   keepHistoryFor?: number;
-
 
   /**
    * Whether or not this animation repeats and how often. 
@@ -280,7 +340,7 @@ export type TypewriterFinishedEvent = TypewriterBaseEvent & {
 };
 
 /**
- * Represents that the Typewriters cursor should now be blinking.
+ * Represents that a Typewriters cursor should now be blinking.
  *
  * @since 1.2.0
  */
@@ -291,6 +351,13 @@ export type TypewriterBlinkingEvent = TypewriterBaseEvent & {
    * @since 1.2.0
    */
   type: 'BLINKING';
+
+  /**
+   * The cursor which has started blinking.
+   * 
+   * @since 1.2.0
+   */
+  cursor: TypewriterCursor;
 };
 
 /**
