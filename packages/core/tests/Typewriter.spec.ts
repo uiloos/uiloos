@@ -4,16 +4,16 @@ import {
   TypewriterDelayError,
   TypewriterEvent,
   TypewriterEventType,
-  TypewriterKeystroke,
-  typewriterKeyStrokeBackspace,
-  typewriterKeyStrokeClearAll,
+  typewriterActionTypeBackspace,
+  typewriterActionTypeClearAll,
   typewriterFromSentences,
   TypewriterRepeatError,
   TypewriterRepeatDelayError,
   TypewriterInvalidCursorError,
   TypewriterCursorConfig,
-  typewriterKeyStrokeLeft,
-  typewriterKeyStrokeRight,
+  typewriterActionTypeLeft,
+  typewriterActionTypeRight,
+  TypewriterAction,
 } from '../src/Typewriter';
 
 import { licenseChecker } from '../src/license';
@@ -79,8 +79,9 @@ describe('Typewriter', () => {
         test('cannot be less than zero', () => {
           expect(() => {
             new Typewriter({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: -1,
                   cursor: 0,
@@ -93,8 +94,9 @@ describe('Typewriter', () => {
 
           expect(() => {
             new Typewriter({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: -1,
                   cursor: 0,
@@ -106,18 +108,21 @@ describe('Typewriter', () => {
           // Middle of array
           expect(() => {
             new Typewriter({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: -1,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: 100,
                   cursor: 0,
@@ -129,18 +134,21 @@ describe('Typewriter', () => {
           // End of array
           expect(() => {
             new Typewriter({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 100,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: -1,
                   cursor: 0,
@@ -153,8 +161,9 @@ describe('Typewriter', () => {
         test('cannot be zero', () => {
           expect(() => {
             new Typewriter({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 0,
                   cursor: 0,
@@ -167,8 +176,9 @@ describe('Typewriter', () => {
 
           expect(() => {
             new Typewriter({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 0,
                   cursor: 0,
@@ -180,18 +190,21 @@ describe('Typewriter', () => {
           // Middle of array
           expect(() => {
             new Typewriter({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 0,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: 100,
                   cursor: 0,
@@ -203,18 +216,21 @@ describe('Typewriter', () => {
           // End of array
           expect(() => {
             new Typewriter({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 100,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: 0,
                   cursor: 0,
@@ -382,16 +398,24 @@ describe('Typewriter', () => {
       const typewriter: Typewriter = new Typewriter({
         text: 'aap',
         blinkAfter: 1337,
-        keystrokes: [
-          { key: 'a', delay: 999, cursor: 0 },
-          { key: 'a', delay: 999, cursor: 2 },
-          { key: 'a', delay: 999, cursor: 1 },
-          { key: 'b', delay: 999, cursor: 0 },
-          { key: 'b', delay: 999, cursor: 2 },
-          { key: 'b', delay: 999, cursor: 1 },
-          { key: 'c', delay: 999, cursor: 0 },
-          { key: 'c', delay: 999, cursor: 2 },
-          { key: 'c', delay: 999, cursor: 1 },
+        actions: [
+          { type: 'keyboard', key: 'a', delay: 999, cursor: 0 },
+
+          { type: 'keyboard', key: 'a', delay: 999, cursor: 2 },
+
+          { type: 'keyboard', key: 'a', delay: 999, cursor: 1 },
+
+          { type: 'keyboard', key: 'b', delay: 999, cursor: 0 },
+
+          { type: 'keyboard', key: 'b', delay: 999, cursor: 2 },
+
+          { type: 'keyboard', key: 'b', delay: 999, cursor: 1 },
+
+          { type: 'keyboard', key: 'c', delay: 999, cursor: 0 },
+
+          { type: 'keyboard', key: 'c', delay: 999, cursor: 2 },
+
+          { type: 'keyboard', key: 'c', delay: 999, cursor: 1 },
         ],
         keepHistoryFor: 1,
         repeat: 1337,
@@ -412,10 +436,28 @@ describe('Typewriter', () => {
             type: 'INITIALIZED',
           }),
         ],
-        keystrokesPerCursor: [
-          [{ key: 'a', delay: 999, cursor: 0 } ,{ key: 'b', delay: 999, cursor: 0 }, { key: 'c', delay: 999, cursor: 0 }],
-          [{ key: 'a', delay: 999, cursor: 1 }, { key: 'b', delay: 999, cursor: 1 }, { key: 'c', delay: 999, cursor: 1 }],
-          [{ key: 'a', delay: 999, cursor: 2 }, { key: 'b', delay: 999, cursor: 2 }, { key: 'c', delay: 999, cursor: 2 }],
+        actionsPerCursor: [
+          [
+            { type: 'keyboard', key: 'a', delay: 999, cursor: 0 },
+
+            { type: 'keyboard', key: 'b', delay: 999, cursor: 0 },
+
+            { type: 'keyboard', key: 'c', delay: 999, cursor: 0 },
+          ],
+          [
+            { type: 'keyboard', key: 'a', delay: 999, cursor: 1 },
+
+            { type: 'keyboard', key: 'b', delay: 999, cursor: 1 },
+
+            { type: 'keyboard', key: 'c', delay: 999, cursor: 1 },
+          ],
+          [
+            { type: 'keyboard', key: 'a', delay: 999, cursor: 2 },
+
+            { type: 'keyboard', key: 'b', delay: 999, cursor: 2 },
+
+            { type: 'keyboard', key: 'c', delay: 999, cursor: 2 },
+          ],
         ],
         cursors: [
           { position: 0, name: 'Tosca', isBlinking: true },
@@ -443,7 +485,7 @@ describe('Typewriter', () => {
       unsubscribe = typewriter.subscribe(subscriber);
 
       expect(typewriter.cursors.length).toBe(1);
-      assertCursor(typewriter.cursors[0],{
+      assertCursor(typewriter.cursors[0], {
         position: 3,
         name: '',
         isBlinking: true,
@@ -460,7 +502,7 @@ describe('Typewriter', () => {
 
       assertState(typewriter, {
         history: [],
-        keystrokesPerCursor: [[]],
+        actionsPerCursor: [[]],
         cursors: [{ position: 0, name: '', isBlinking: true }],
         text: '',
         blinkAfter: 50,
@@ -484,7 +526,7 @@ describe('Typewriter', () => {
 
       assertState(typewriter, {
         history: [],
-        keystrokesPerCursor: [[]],
+        actionsPerCursor: [[]],
         cursors: [{ position: 0, name: '', isBlinking: true }],
         text: '',
         blinkAfter: 50,
@@ -514,7 +556,7 @@ describe('Typewriter', () => {
 
       assertState(typewriter, {
         history: [],
-        keystrokesPerCursor: [[]],
+        actionsPerCursor: [[]],
         cursors: [{ position: 0, name: '', isBlinking: true }],
         text: '',
         blinkAfter: 50,
@@ -580,8 +622,9 @@ describe('Typewriter', () => {
 
           expect(() => {
             typewriter.initialize({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: -1,
                   cursor: 0,
@@ -594,8 +637,9 @@ describe('Typewriter', () => {
 
           expect(() => {
             typewriter.initialize({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: -1,
                   cursor: 0,
@@ -607,18 +651,21 @@ describe('Typewriter', () => {
           // Middle of array
           expect(() => {
             typewriter.initialize({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: -1,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: 100,
                   cursor: 0,
@@ -630,18 +677,21 @@ describe('Typewriter', () => {
           // End of array
           expect(() => {
             typewriter.initialize({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 100,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: -1,
                   cursor: 0,
@@ -659,8 +709,9 @@ describe('Typewriter', () => {
 
           expect(() => {
             typewriter.initialize({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 0,
                   cursor: 0,
@@ -673,8 +724,9 @@ describe('Typewriter', () => {
 
           expect(() => {
             typewriter.initialize({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 0,
                   cursor: 0,
@@ -686,18 +738,21 @@ describe('Typewriter', () => {
           // Middle of array
           expect(() => {
             typewriter.initialize({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 0,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: 100,
                   cursor: 0,
@@ -709,18 +764,21 @@ describe('Typewriter', () => {
           // End of array
           expect(() => {
             typewriter.initialize({
-              keystrokes: [
+              actions: [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 100,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: 0,
                   cursor: 0,
@@ -916,7 +974,7 @@ describe('Typewriter', () => {
         const typewriter: Typewriter = new Typewriter({
           text: 'aap',
           blinkAfter: 1337,
-          keystrokes: [{ key: '', delay: 999, cursor: 0 }],
+          actions: [{ type: 'keyboard', key: '', delay: 999, cursor: 0 }],
           keepHistoryFor: 1,
         });
 
@@ -930,7 +988,7 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokesPerCursor: [[]],
+            actionsPerCursor: [[]],
             cursors: [{ position: 0, name: '', isBlinking: true }],
             text: '',
             blinkAfter: 50,
@@ -949,9 +1007,10 @@ describe('Typewriter', () => {
 
       it('should reset the animation timeout', () => {
         const typewriter: Typewriter = new Typewriter({
-          keystrokes: [
-            { key: 'a', delay: 100, cursor: 0 },
-            { key: 'b', delay: 100, cursor: 0 },
+          actions: [
+            { type: 'keyboard', key: 'a', delay: 100, cursor: 0 },
+
+            { type: 'keyboard', key: 'b', delay: 100, cursor: 0 },
           ],
         });
 
@@ -973,9 +1032,10 @@ describe('Typewriter', () => {
 
       it('should reset the blinking timeout', () => {
         const typewriter: Typewriter = new Typewriter({
-          keystrokes: [
-            { key: 'a', delay: 100, cursor: 0 },
-            { key: 'b', delay: 100, cursor: 0 },
+          actions: [
+            { type: 'keyboard', key: 'a', delay: 100, cursor: 0 },
+
+            { type: 'keyboard', key: 'b', delay: 100, cursor: 0 },
           ],
         });
 
@@ -987,9 +1047,10 @@ describe('Typewriter', () => {
 
         // Just before the timer hits do an initialize
         typewriter.initialize({
-          keystrokes: [
-            { key: 'c', delay: 100, cursor: 0 },
-            { key: 'd', delay: 100, cursor: 0 },
+          actions: [
+            { type: 'keyboard', key: 'c', delay: 100, cursor: 0 },
+
+            { type: 'keyboard', key: 'd', delay: 100, cursor: 0 },
           ],
         });
 
@@ -1009,22 +1070,25 @@ describe('Typewriter', () => {
       });
     });
 
-    it('should start playing automatically when there are keystrokes configured', () => {
+    it('should start playing automatically when there are actions configured', () => {
       const typewriter = new Typewriter();
 
       typewriter.initialize({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'c',
             delay: 100,
             cursor: 0,
@@ -1046,18 +1110,21 @@ describe('Typewriter', () => {
       describe('inserting', () => {
         it('should know how to do a basic text animation from start to finish', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 100,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 200,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 300,
                 cursor: 0,
@@ -1069,19 +1136,22 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 200,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: 300,
                   cursor: 0,
@@ -1104,19 +1174,22 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: 'a',
                     delay: 100,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'b',
                     delay: 200,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'c',
                     delay: 300,
                     cursor: 0,
@@ -1134,7 +1207,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: 'a',
                 delay: 100,
                 cursor: 0,
@@ -1149,19 +1223,22 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: 'a',
                     delay: 100,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'b',
                     delay: 200,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'c',
                     delay: 300,
                     cursor: 0,
@@ -1179,7 +1256,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: 'b',
                 delay: 200,
                 cursor: 0,
@@ -1194,19 +1272,22 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: 'a',
                     delay: 100,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'b',
                     delay: 200,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'c',
                     delay: 300,
                     cursor: 0,
@@ -1224,7 +1305,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: 'c',
                 delay: 300,
                 cursor: 0,
@@ -1236,8 +1318,9 @@ describe('Typewriter', () => {
 
         it('should know how to add a letter in the middle', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 100,
                 cursor: 0,
@@ -1251,9 +1334,10 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 100,
                   cursor: 0,
@@ -1276,9 +1360,10 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: 'b',
                     delay: 100,
                     cursor: 0,
@@ -1296,7 +1381,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: 'b',
                 delay: 100,
                 cursor: 0,
@@ -1308,8 +1394,9 @@ describe('Typewriter', () => {
 
         it('should know how to add a letter at the start', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 100,
                 cursor: 0,
@@ -1323,9 +1410,10 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 100,
                   cursor: 0,
@@ -1348,9 +1436,10 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: 'a',
                     delay: 100,
                     cursor: 0,
@@ -1368,7 +1457,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: 'a',
                 delay: 100,
                 cursor: 0,
@@ -1382,28 +1472,33 @@ describe('Typewriter', () => {
       describe('backspace', () => {
         it('should know how to to apply a backspace from the end', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -1415,29 +1510,34 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: 50,
                   cursor: 0,
@@ -1460,29 +1560,34 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: 'a',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'b',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'c',
                     delay: 50,
                     cursor: 0,
@@ -1500,7 +1605,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
@@ -1515,29 +1621,34 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: 'a',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'b',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'c',
                     delay: 50,
                     cursor: 0,
@@ -1555,8 +1666,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
-                key: typewriterKeyStrokeBackspace,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -1570,29 +1682,34 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: 'a',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'b',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'c',
                     delay: 50,
                     cursor: 0,
@@ -1610,7 +1727,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
@@ -1625,29 +1743,34 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: 'a',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'b',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'c',
                     delay: 50,
                     cursor: 0,
@@ -1665,8 +1788,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
-                key: typewriterKeyStrokeBackspace,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -1680,29 +1804,34 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: 'a',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'b',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'c',
                     delay: 50,
                     cursor: 0,
@@ -1720,7 +1849,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -1732,9 +1862,10 @@ describe('Typewriter', () => {
 
         it('should know how to to apply a backspace from the middle', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -1747,10 +1878,11 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -1772,10 +1904,11 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
@@ -1792,8 +1925,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
-                key: typewriterKeyStrokeBackspace,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -1804,9 +1938,10 @@ describe('Typewriter', () => {
 
         it('should know how to to apply a backspace from index 1', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -1819,10 +1954,11 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -1844,10 +1980,11 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
@@ -1864,8 +2001,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
-                key: typewriterKeyStrokeBackspace,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -1876,13 +2014,15 @@ describe('Typewriter', () => {
 
         it('should ignore a backspace from the start and continue the animation', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'z',
                 delay: 50,
                 cursor: 0,
@@ -1896,14 +2036,16 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'z',
                   delay: 50,
                   cursor: 0,
@@ -1920,24 +2062,26 @@ describe('Typewriter', () => {
             repeatDelay: 0,
           });
 
-          // It should ignore the keystroke
+          // It should ignore the action
           jest.advanceTimersByTime(50);
           expect(subscriber).toBeCalledTimes(0);
-          
+
           jest.advanceTimersByTime(50);
 
           assertLastSubscriber(
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'z',
                     delay: 50,
                     cursor: 0,
@@ -1955,7 +2099,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: 'z',
                 delay: 50,
                 cursor: 0,
@@ -1967,9 +2112,10 @@ describe('Typewriter', () => {
 
         it('should be able to finish from a backspace from the start which is ignored', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -1982,10 +2128,11 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -2007,10 +2154,11 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
@@ -2027,8 +2175,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
-                key: typewriterKeyStrokeBackspace,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2039,28 +2188,33 @@ describe('Typewriter', () => {
 
         it('should know how to to apply a backspace when using unicode chars such as emoji', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
+                type: 'keyboard',
                 key: '😀',
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: '😃',
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
@@ -2072,29 +2226,34 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: '😀',
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: '😃',
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: '😄',
                   delay: 50,
                   cursor: 0,
@@ -2117,29 +2276,34 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😀',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: '😃',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
@@ -2157,7 +2321,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: '😀',
                 delay: 50,
                 cursor: 0,
@@ -2172,29 +2337,34 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😀',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: '😃',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
@@ -2212,8 +2382,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
-                key: typewriterKeyStrokeBackspace,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2227,29 +2398,34 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😀',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: '😃',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
@@ -2267,7 +2443,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: '😃',
                 delay: 50,
                 cursor: 0,
@@ -2282,29 +2459,34 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😀',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: '😃',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
@@ -2322,8 +2504,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
-                key: typewriterKeyStrokeBackspace,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2337,29 +2520,34 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😀',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: '😃',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
@@ -2377,7 +2565,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
@@ -2387,16 +2576,18 @@ describe('Typewriter', () => {
           );
         });
 
-        it('should when backspace is the last keystroke start repeating', () => {
+        it('should when backspace is the last action start repeating', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2409,15 +2600,17 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -2439,15 +2632,17 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
@@ -2464,7 +2659,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
@@ -2479,15 +2675,17 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
@@ -2504,8 +2702,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
-                key: typewriterKeyStrokeBackspace,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2519,15 +2718,17 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
@@ -2551,19 +2752,22 @@ describe('Typewriter', () => {
 
         it('should when backspace is ignored still start repeating', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2576,20 +2780,23 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -2611,20 +2818,23 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
@@ -2641,7 +2851,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
@@ -2656,20 +2867,23 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
@@ -2686,8 +2900,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
-                key: typewriterKeyStrokeBackspace,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2697,7 +2912,7 @@ describe('Typewriter', () => {
 
           jest.advanceTimersByTime(50);
 
-          // The last typewriterKeyStrokeBackspace should have no effect
+          // The last typewriterActionTypeBackspace should have no effect
           expect(subscriber).toBeCalledTimes(2);
 
           jest.advanceTimersByTime(50);
@@ -2706,20 +2921,23 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
@@ -2745,13 +2963,15 @@ describe('Typewriter', () => {
       describe('clear all', () => {
         it('should know how to to apply a clear all and continue the animation', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeClearAll,
+                type: 'keyboard',
+                key: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
@@ -2764,14 +2984,16 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeClearAll,
+                  type: 'keyboard',
+                  key: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: '😄',
                   delay: 50,
                   cursor: 0,
@@ -2794,14 +3016,16 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
@@ -2819,8 +3043,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
-                key: typewriterKeyStrokeClearAll,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -2834,14 +3059,16 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
@@ -2859,7 +3086,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
@@ -2871,9 +3099,10 @@ describe('Typewriter', () => {
 
         it('should know how to to finish on a clear all', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeClearAll,
+                type: 'keyboard',
+                key: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -2885,10 +3114,11 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeClearAll,
+                  type: 'keyboard',
+                  key: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -2910,10 +3140,11 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
@@ -2930,8 +3161,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
-                key: typewriterKeyStrokeClearAll,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -2942,18 +3174,21 @@ describe('Typewriter', () => {
 
         it('should ignore a clear all when text is already empty', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeClearAll,
+                type: 'keyboard',
+                key: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
@@ -2966,19 +3201,22 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeClearAll,
+                  type: 'keyboard',
+                  key: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 50,
                   cursor: 0,
@@ -3001,19 +3239,22 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'b',
                     delay: 50,
                     cursor: 0,
@@ -3031,8 +3272,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
-                key: typewriterKeyStrokeBackspace,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -3051,19 +3293,22 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeBackspace,
+                    type: 'keyboard',
+                    key: typewriterActionTypeBackspace,
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'b',
                     delay: 50,
                     cursor: 0,
@@ -3081,7 +3326,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
@@ -3093,9 +3339,10 @@ describe('Typewriter', () => {
 
         it('should still finish on a clear all when text is already empty and ignored', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeClearAll,
+                type: 'keyboard',
+                key: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -3107,10 +3354,11 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeClearAll,
+                  type: 'keyboard',
+                  key: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -3132,10 +3380,11 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
@@ -3152,8 +3401,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
-                key: typewriterKeyStrokeClearAll,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -3162,16 +3412,18 @@ describe('Typewriter', () => {
           );
         });
 
-        it('should when clear all is the last keystroke start repeating', () => {
+        it('should when clear all is the last action start repeating', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeClearAll,
+                type: 'keyboard',
+                key: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -3184,15 +3436,17 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeClearAll,
+                  type: 'keyboard',
+                  key: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -3214,15 +3468,17 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
@@ -3239,7 +3495,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
@@ -3254,15 +3511,17 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
@@ -3279,8 +3538,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
-                key: typewriterKeyStrokeClearAll,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -3294,15 +3554,17 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
@@ -3326,19 +3588,22 @@ describe('Typewriter', () => {
 
         it('should when clear all is ignored still start repeating', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeClearAll,
+                type: 'keyboard',
+                key: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeClearAll,
+                type: 'keyboard',
+                key: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -3351,20 +3616,23 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeClearAll,
+                  type: 'keyboard',
+                  key: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeClearAll,
+                  type: 'keyboard',
+                  key: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -3386,20 +3654,23 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
@@ -3416,7 +3687,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
@@ -3431,20 +3703,23 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
@@ -3461,8 +3736,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
-                key: typewriterKeyStrokeClearAll,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -3472,7 +3748,7 @@ describe('Typewriter', () => {
 
           jest.advanceTimersByTime(50);
 
-          // The last typewriterKeyStrokeClearAll should have no effect
+          // The last typewriterActionTypeClearAll should have no effect
           expect(subscriber).toBeCalledTimes(2);
 
           jest.advanceTimersByTime(50);
@@ -3481,20 +3757,23 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeClearAll,
+                    type: 'keyboard',
+                    key: typewriterActionTypeClearAll,
                     delay: 50,
                     cursor: 0,
                   },
@@ -3520,13 +3799,15 @@ describe('Typewriter', () => {
       describe('move left', () => {
         it('should ignore a move left from the start and continue the animation', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeLeft,
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'z',
                 delay: 50,
                 cursor: 0,
@@ -3540,14 +3821,16 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeLeft,
+                  type: 'keyboard',
+                  key: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'z',
                   delay: 50,
                   cursor: 0,
@@ -3564,24 +3847,26 @@ describe('Typewriter', () => {
             repeatDelay: 0,
           });
 
-          // It should ignore the keystroke
+          // It should ignore the action
           jest.advanceTimersByTime(50);
           expect(subscriber).toBeCalledTimes(0);
-          
+
           jest.advanceTimersByTime(50);
 
           assertLastSubscriber(
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeLeft,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'z',
                     delay: 50,
                     cursor: 0,
@@ -3599,7 +3884,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: 'z',
                 delay: 50,
                 cursor: 0,
@@ -3611,9 +3897,10 @@ describe('Typewriter', () => {
 
         it('should be able to finish from a move left from the start which is ignored', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeLeft,
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -3626,10 +3913,11 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeLeft,
+                  type: 'keyboard',
+                  key: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -3651,10 +3939,11 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeLeft,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
                     delay: 50,
                     cursor: 0,
                   },
@@ -3671,8 +3960,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
-                key: typewriterKeyStrokeLeft,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -3681,16 +3971,18 @@ describe('Typewriter', () => {
           );
         });
 
-        it('should when move left is the last keystroke start repeating', () => {
+        it('should when move left is the last action start repeating', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeLeft,
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -3703,15 +3995,17 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeLeft,
+                  type: 'keyboard',
+                  key: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -3733,15 +4027,17 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeLeft,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
                     delay: 50,
                     cursor: 0,
                   },
@@ -3758,7 +4054,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
@@ -3773,15 +4070,17 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeLeft,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
                     delay: 50,
                     cursor: 0,
                   },
@@ -3798,8 +4097,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
-                key: typewriterKeyStrokeLeft,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -3813,15 +4113,17 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeLeft,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
                     delay: 50,
                     cursor: 0,
                   },
@@ -3845,19 +4147,22 @@ describe('Typewriter', () => {
 
         it('should when move left is ignored still start repeating', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeLeft,
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeLeft,
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -3870,20 +4175,23 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeLeft,
+                  type: 'keyboard',
+                  key: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeLeft,
+                  type: 'keyboard',
+                  key: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -3905,20 +4213,23 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeLeft,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeLeft,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
                     delay: 50,
                     cursor: 0,
                   },
@@ -3935,7 +4246,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
@@ -3950,20 +4262,23 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeLeft,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeLeft,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
                     delay: 50,
                     cursor: 0,
                   },
@@ -3980,8 +4295,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
-                key: typewriterKeyStrokeLeft,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -3991,7 +4307,7 @@ describe('Typewriter', () => {
 
           jest.advanceTimersByTime(50);
 
-          // The last typewriterKeyStrokeLeft should have no effect
+          // The last typewriterActionTypeLeft should have no effect
           expect(subscriber).toBeCalledTimes(2);
 
           jest.advanceTimersByTime(50);
@@ -4000,20 +4316,23 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeLeft,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeLeft,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
                     delay: 50,
                     cursor: 0,
                   },
@@ -4034,12 +4353,13 @@ describe('Typewriter', () => {
             }
           );
         });
-        
+
         it('should know how to move left from the middle', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeLeft,
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -4052,10 +4372,11 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeLeft,
+                  type: 'keyboard',
+                  key: typewriterActionTypeLeft,
                   delay: 100,
                   cursor: 0,
                 },
@@ -4077,10 +4398,11 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeLeft,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
                     delay: 100,
                     cursor: 0,
                   },
@@ -4097,8 +4419,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
-                key: typewriterKeyStrokeLeft,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -4109,9 +4432,10 @@ describe('Typewriter', () => {
 
         it('should know how to move left from the end', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeLeft,
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -4124,10 +4448,11 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeLeft,
+                  type: 'keyboard',
+                  key: typewriterActionTypeLeft,
                   delay: 100,
                   cursor: 0,
                 },
@@ -4149,10 +4474,11 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeLeft,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
                     delay: 100,
                     cursor: 0,
                   },
@@ -4169,8 +4495,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
-                key: typewriterKeyStrokeLeft,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -4183,9 +4510,10 @@ describe('Typewriter', () => {
       describe('move right', () => {
         it('should know how to move right from the start', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeRight,
+                type: 'keyboard',
+                key: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -4198,10 +4526,11 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeRight,
+                  type: 'keyboard',
+                  key: typewriterActionTypeRight,
                   delay: 100,
                   cursor: 0,
                 },
@@ -4223,10 +4552,11 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeRight,
+                    type: 'keyboard',
+                    key: typewriterActionTypeRight,
                     delay: 100,
                     cursor: 0,
                   },
@@ -4243,8 +4573,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
-                key: typewriterKeyStrokeRight,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -4252,12 +4583,13 @@ describe('Typewriter', () => {
             }
           );
         });
-        
+
         it('should know how to move right from the middle', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeRight,
+                type: 'keyboard',
+                key: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -4270,10 +4602,11 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeRight,
+                  type: 'keyboard',
+                  key: typewriterActionTypeRight,
                   delay: 100,
                   cursor: 0,
                 },
@@ -4295,10 +4628,11 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeRight,
+                    type: 'keyboard',
+                    key: typewriterActionTypeRight,
                     delay: 100,
                     cursor: 0,
                   },
@@ -4315,8 +4649,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
-                key: typewriterKeyStrokeRight,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -4327,13 +4662,15 @@ describe('Typewriter', () => {
 
         it('should ignore a move right from the end and continue the animation', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeRight,
+                type: 'keyboard',
+                key: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'z',
                 delay: 50,
                 cursor: 0,
@@ -4347,14 +4684,16 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeRight,
+                  type: 'keyboard',
+                  key: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'z',
                   delay: 50,
                   cursor: 0,
@@ -4371,24 +4710,26 @@ describe('Typewriter', () => {
             repeatDelay: 0,
           });
 
-          // It should ignore the keystroke
+          // It should ignore the action
           jest.advanceTimersByTime(50);
           expect(subscriber).toBeCalledTimes(0);
-          
+
           jest.advanceTimersByTime(50);
 
           assertLastSubscriber(
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeRight,
+                    type: 'keyboard',
+                    key: typewriterActionTypeRight,
                     delay: 50,
                     cursor: 0,
                   },
                   {
+                    type: 'keyboard',
                     key: 'z',
                     delay: 50,
                     cursor: 0,
@@ -4406,7 +4747,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: 'z',
                 delay: 50,
                 cursor: 0,
@@ -4418,9 +4760,10 @@ describe('Typewriter', () => {
 
         it('should be able to finish from a move right from the end which is ignored', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
-                key: typewriterKeyStrokeRight,
+                type: 'keyboard',
+                key: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -4433,10 +4776,11 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeRight,
+                  type: 'keyboard',
+                  key: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4458,10 +4802,11 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
-                    key: typewriterKeyStrokeRight,
+                    type: 'keyboard',
+                    key: typewriterActionTypeRight,
                     delay: 50,
                     cursor: 0,
                   },
@@ -4478,8 +4823,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'FINISHED',
-              keystroke: {
-                key: typewriterKeyStrokeRight,
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -4488,16 +4834,26 @@ describe('Typewriter', () => {
           );
         });
 
-        it('should when move right is the last keystroke start repeating', () => {
+        it('should when move right is the last action start repeating', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeRight,
+                // Add artificial move left so move right is not an
+                // ignored final action.
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                type: 'keyboard',
+                key: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -4510,15 +4866,23 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeRight,
+                  type: 'keyboard',
+                  key: typewriterActionTypeLeft,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  type: 'keyboard',
+                  key: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4540,15 +4904,23 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeRight,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    key: typewriterActionTypeRight,
                     delay: 50,
                     cursor: 0,
                   },
@@ -4565,7 +4937,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
@@ -4580,15 +4953,72 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeRight,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    key: typewriterActionTypeRight,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeLeft,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'keyboard',
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    key: typewriterActionTypeRight,
                     delay: 50,
                     cursor: 0,
                   },
@@ -4605,8 +5035,9 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
-                key: '😄',
+              action: {
+                type: 'keyboard',
+                key: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -4620,15 +5051,23 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeRight,
+                    type: 'keyboard',
+                    key: typewriterActionTypeLeft,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    key: typewriterActionTypeRight,
                     delay: 50,
                     cursor: 0,
                   },
@@ -4652,19 +5091,22 @@ describe('Typewriter', () => {
 
         it('should when move right is ignored still start repeating', () => {
           const typewriter = new Typewriter({
-            keystrokes: [
+            actions: [
               {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeRight,
+                type: 'keyboard',
+                key: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
               {
-                key: typewriterKeyStrokeRight,
+                type: 'keyboard',
+                key: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -4677,20 +5119,23 @@ describe('Typewriter', () => {
 
           assertState(typewriter, {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeRight,
+                  type: 'keyboard',
+                  key: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
                 {
-                  key: typewriterKeyStrokeRight,
+                  type: 'keyboard',
+                  key: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4712,20 +5157,23 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeRight,
+                    type: 'keyboard',
+                    key: typewriterActionTypeRight,
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeRight,
+                    type: 'keyboard',
+                    key: typewriterActionTypeRight,
                     delay: 50,
                     cursor: 0,
                   },
@@ -4742,7 +5190,8 @@ describe('Typewriter', () => {
             },
             {
               type: 'CHANGED',
-              keystroke: {
+              action: {
+                type: 'keyboard',
                 key: '😄',
                 delay: 50,
                 cursor: 0,
@@ -4751,13 +5200,13 @@ describe('Typewriter', () => {
             }
           );
 
-          // The first typewriterKeyStrokeRight should have no effect
+          // The first typewriterActionTypeRight should have no effect
           jest.advanceTimersByTime(50);
           expect(subscriber).toBeCalledTimes(1);
 
           jest.advanceTimersByTime(50);
 
-          // The last typewriterKeyStrokeRight should also have no effect
+          // The last typewriterActionTypeRight should also have no effect
           expect(subscriber).toBeCalledTimes(1);
 
           jest.advanceTimersByTime(50);
@@ -4766,20 +5215,1083 @@ describe('Typewriter', () => {
             subscriber,
             {
               history: [],
-              keystrokesPerCursor: [
+              actionsPerCursor: [
                 [
                   {
+                    type: 'keyboard',
                     key: '😄',
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeRight,
+                    type: 'keyboard',
+                    key: typewriterActionTypeRight,
                     delay: 50,
                     cursor: 0,
                   },
                   {
-                    key: typewriterKeyStrokeRight,
+                    type: 'keyboard',
+                    key: typewriterActionTypeRight,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'REPEATING',
+              time: new Date(),
+            }
+          );
+        });
+      });
+
+      describe('mouse click', () => {
+        it('should know to move the cursor to the position clicked.', () => {
+          const typewriter = new Typewriter({
+            actions: [
+              {
+                type: 'mouse',
+                position: 1,
+                delay: 100,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 0, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            actionsPerCursor: [
+              [
+                {
+                  type: 'mouse',
+                  position: 1,
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(100);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'mouse',
+                    position: 1,
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              action: {
+                type: 'mouse',
+                position: 1,
+                delay: 100,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should ignore a mouse click on the current position and continue the animation', () => {
+          const typewriter = new Typewriter({
+            actions: [
+              {
+                type: 'mouse',
+                position: 3,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                type: 'keyboard',
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 3, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            actionsPerCursor: [
+              [
+                {
+                  type: 'mouse',
+                  position: 3,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  type: 'keyboard',
+                  key: 'z',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 3, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          // It should ignore the action
+          jest.advanceTimersByTime(50);
+          expect(subscriber).toBeCalledTimes(0);
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'mouse',
+                    position: 3,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    key: 'z',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 4, name: '', isBlinking: false }],
+              text: 'abcz',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              action: {
+                type: 'keyboard',
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when a mouse click has a position less than 0 move to 0 instead', () => {
+          const typewriter = new Typewriter({
+            actions: [
+              {
+                type: 'mouse',
+                position: -1,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                type: 'keyboard',
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 3, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            actionsPerCursor: [
+              [
+                {
+                  type: 'mouse',
+                  position: -1,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  type: 'keyboard',
+                  key: 'z',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 3, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'mouse',
+                    position: -1,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    key: 'z',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              action: {
+                type: 'mouse',
+                position: -1,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'mouse',
+                    position: -1,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    key: 'z',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'zabc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              action: {
+                type: 'keyboard',
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when a mouse click has a position less than 0 and the current position is zero ignore the click', () => {
+          const typewriter = new Typewriter({
+            actions: [
+              {
+                type: 'mouse',
+                position: -1,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                type: 'keyboard',
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 0, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            actionsPerCursor: [
+              [
+                {
+                  type: 'mouse',
+                  position: -1,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  type: 'keyboard',
+                  key: 'z',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          // It should ignore the action
+          jest.advanceTimersByTime(50);
+          expect(subscriber).toBeCalledTimes(0);
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'mouse',
+                    position: -1,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    key: 'z',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'zabc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              action: {
+                type: 'keyboard',
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when a mouse click has a position larger than the text move to text length instead', () => {
+          const typewriter = new Typewriter({
+            actions: [
+              {
+                type: 'mouse',
+                position: 4,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                type: 'keyboard',
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 0, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            actionsPerCursor: [
+              [
+                {
+                  type: 'mouse',
+                  position: 4,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  type: 'keyboard',
+                  key: 'z',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'mouse',
+                    position: 4,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    key: 'z',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 3, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              action: {
+                type: 'mouse',
+                position: 4,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'mouse',
+                    position: 4,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    key: 'z',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 4, name: '', isBlinking: false }],
+              text: 'abcz',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              action: {
+                type: 'keyboard',
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when a mouse click has a position larger than the text and the current position is the text length ignore the click', () => {
+          const typewriter = new Typewriter({
+            actions: [
+              {
+                type: 'mouse',
+                position: 4,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                type: 'keyboard',
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 3, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            actionsPerCursor: [
+              [
+                {
+                  type: 'mouse',
+                  position: 4,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  type: 'keyboard',
+                  key: 'z',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 3, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          // It should ignore the action
+          jest.advanceTimersByTime(50);
+          expect(subscriber).toBeCalledTimes(0);
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'mouse',
+                    position: 4,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    key: 'z',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 4, name: '', isBlinking: false }],
+              text: 'abcz',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              action: {
+                type: 'keyboard',
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should be able to finish from a mouse click at the end which is ignored', () => {
+          const typewriter = new Typewriter({
+            actions: [
+              {
+                type: 'mouse',
+                position: 3,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 3, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            actionsPerCursor: [
+              [
+                {
+                  type: 'mouse',
+                  position: 3,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 3, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'mouse',
+                    position: 3,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 3, name: '', isBlinking: false }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              action: {
+                type: 'mouse',
+                position: 3,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when a mouse click is the last action start repeating', () => {
+          const typewriter = new Typewriter({
+            actions: [
+              {
+                type: 'keyboard',
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                type: 'mouse',
+                position: 0,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            repeat: true,
+            blinkAfter: 1000,
+            text: '',
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            actionsPerCursor: [
+              [
+                {
+                  type: 'keyboard',
+                  key: '😄',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  type: 'mouse',
+                  position: 0,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 1000,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: true,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'keyboard',
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'mouse',
+                    position: 0,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              action: {
+                type: 'keyboard',
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'keyboard',
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'mouse',
+                    position: 0,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              action: {
+                type: 'mouse',
+                position: 0,
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'keyboard',
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'mouse',
+                    position: 0,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false }],
+              text: '',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'REPEATING',
+              time: new Date(),
+            }
+          );
+        });
+
+        it('should when a mouse click is ignored still start repeating', () => {
+          const typewriter = new Typewriter({
+            actions: [
+              {
+                type: 'keyboard',
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                type: 'mouse',
+                position: 1,
+                delay: 50,
+                cursor: 0,
+              },
+              {
+                type: 'mouse',
+                position: 1,
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            repeat: true,
+            blinkAfter: 1000,
+            text: '',
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            actionsPerCursor: [
+              [
+                {
+                  type: 'keyboard',
+                  key: '😄',
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  type: 'mouse',
+                  position: 1,
+                  delay: 50,
+                  cursor: 0,
+                },
+                {
+                  type: 'mouse',
+                  position: 1,
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: '',
+            blinkAfter: 1000,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: true,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'keyboard',
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'mouse',
+                    position: 1,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'mouse',
+                    position: 1,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: '😄',
+              blinkAfter: 1000,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: true,
+              repeatDelay: 0,
+            },
+            {
+              type: 'CHANGED',
+              action: {
+                type: 'keyboard',
+                key: '😄',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+            }
+          );
+
+          // The first typewriterActionTypeRight should have no effect
+          jest.advanceTimersByTime(50);
+          expect(subscriber).toBeCalledTimes(1);
+
+          jest.advanceTimersByTime(50);
+
+          // The last typewriterActionTypeRight should also have no effect
+          expect(subscriber).toBeCalledTimes(1);
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actionsPerCursor: [
+                [
+                  {
+                    type: 'keyboard',
+                    key: '😄',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'mouse',
+                    position: 1,
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'mouse',
+                    position: 1,
                     delay: 50,
                     cursor: 0,
                   },
@@ -4806,18 +6318,21 @@ describe('Typewriter', () => {
     xdescribe('multiple cursors', () => {
       it('should know how to do a basic text animation from start to finish', () => {
         const typewriter = new Typewriter({
-          keystrokes: [
+          actions: [
             {
+              type: 'keyboard',
               key: 'o',
               delay: 100,
               cursor: 2,
             },
             {
+              type: 'keyboard',
               key: 'o',
               delay: 100,
               cursor: 1,
             },
             {
+              type: 'keyboard',
               key: 'e',
               delay: 100,
               cursor: 0,
@@ -4835,19 +6350,22 @@ describe('Typewriter', () => {
 
         assertState(typewriter, {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'o',
                 delay: 100,
                 cursor: 2,
               },
               {
+                type: 'keyboard',
                 key: 'o',
                 delay: 100,
                 cursor: 1,
               },
               {
+                type: 'keyboard',
                 key: 'e',
                 delay: 100,
                 cursor: 0,
@@ -4874,19 +6392,22 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: 'o',
                   delay: 100,
                   cursor: 2,
                 },
                 {
+                  type: 'keyboard',
                   key: 'o',
                   delay: 100,
                   cursor: 1,
                 },
                 {
+                  type: 'keyboard',
                   key: 'e',
                   delay: 100,
                   cursor: 0,
@@ -4908,7 +6429,8 @@ describe('Typewriter', () => {
           },
           {
             type: 'CHANGED',
-            keystroke: {
+            action: {
+              type: 'keyboard',
               key: 'o',
               delay: 100,
               cursor: 2,
@@ -4923,19 +6445,22 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: 'o',
                   delay: 100,
                   cursor: 2,
                 },
                 {
+                  type: 'keyboard',
                   key: 'o',
                   delay: 100,
                   cursor: 1,
                 },
                 {
+                  type: 'keyboard',
                   key: 'e',
                   delay: 100,
                   cursor: 0,
@@ -4957,7 +6482,8 @@ describe('Typewriter', () => {
           },
           {
             type: 'CHANGED',
-            keystroke: {
+            action: {
+              type: 'keyboard',
               key: 'o',
               delay: 100,
               cursor: 1,
@@ -4972,19 +6498,22 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: 'o',
                   delay: 100,
                   cursor: 2,
                 },
                 {
+                  type: 'keyboard',
                   key: 'o',
                   delay: 100,
                   cursor: 1,
                 },
                 {
+                  type: 'keyboard',
                   key: 'e',
                   delay: 100,
                   cursor: 0,
@@ -5006,7 +6535,8 @@ describe('Typewriter', () => {
           },
           {
             type: 'FINISHED',
-            keystroke: {
+            action: {
+              type: 'keyboard',
               key: 'e',
               delay: 100,
               cursor: 0,
@@ -5018,9 +6548,10 @@ describe('Typewriter', () => {
 
       it('should when backspace is pressed move cursors that are on the end of the text one place backwards', () => {
         const typewriter = new Typewriter({
-          keystrokes: [
+          actions: [
             {
-              key: typewriterKeyStrokeBackspace,
+              type: 'keyboard',
+              key: typewriterActionTypeBackspace,
               delay: 100,
               cursor: 0,
             },
@@ -5037,10 +6568,11 @@ describe('Typewriter', () => {
 
         assertState(typewriter, {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -5066,10 +6598,11 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 100,
                   cursor: 0,
                 },
@@ -5090,8 +6623,9 @@ describe('Typewriter', () => {
           },
           {
             type: 'FINISHED',
-            keystroke: {
-              key: typewriterKeyStrokeBackspace,
+            action: {
+              type: 'keyboard',
+              key: typewriterActionTypeBackspace,
               delay: 100,
               cursor: 0,
             },
@@ -5102,9 +6636,10 @@ describe('Typewriter', () => {
 
       it('should when backspace is pressed not move cursors that are before the cursor that performed the backspace ', () => {
         const typewriter = new Typewriter({
-          keystrokes: [
+          actions: [
             {
-              key: typewriterKeyStrokeBackspace,
+              type: 'keyboard',
+              key: typewriterActionTypeBackspace,
               delay: 100,
               cursor: 0,
             },
@@ -5121,10 +6656,11 @@ describe('Typewriter', () => {
 
         assertState(typewriter, {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
-                key: typewriterKeyStrokeBackspace,
+                type: 'keyboard',
+                key: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -5150,10 +6686,11 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeBackspace,
+                  type: 'keyboard',
+                  key: typewriterActionTypeBackspace,
                   delay: 100,
                   cursor: 0,
                 },
@@ -5174,8 +6711,9 @@ describe('Typewriter', () => {
           },
           {
             type: 'FINISHED',
-            keystroke: {
-              key: typewriterKeyStrokeBackspace,
+            action: {
+              type: 'keyboard',
+              key: typewriterActionTypeBackspace,
               delay: 100,
               cursor: 0,
             },
@@ -5186,9 +6724,10 @@ describe('Typewriter', () => {
 
       it('should set all cursors to index 0 when a clear all is performed', () => {
         const typewriter = new Typewriter({
-          keystrokes: [
+          actions: [
             {
-              key: typewriterKeyStrokeClearAll,
+              type: 'keyboard',
+              key: typewriterActionTypeClearAll,
               delay: 100,
               cursor: 2,
             },
@@ -5205,10 +6744,11 @@ describe('Typewriter', () => {
 
         assertState(typewriter, {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
-                key: typewriterKeyStrokeClearAll,
+                type: 'keyboard',
+                key: typewriterActionTypeClearAll,
                 delay: 100,
                 cursor: 2,
               },
@@ -5234,10 +6774,11 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
-                  key: typewriterKeyStrokeClearAll,
+                  type: 'keyboard',
+                  key: typewriterActionTypeClearAll,
                   delay: 100,
                   cursor: 2,
                 },
@@ -5258,8 +6799,9 @@ describe('Typewriter', () => {
           },
           {
             type: 'FINISHED',
-            keystroke: {
-              key: typewriterKeyStrokeClearAll,
+            action: {
+              type: 'keyboard',
+              key: typewriterActionTypeClearAll,
               delay: 100,
               cursor: 2,
             },
@@ -5273,18 +6815,21 @@ describe('Typewriter', () => {
   describe('repeat', () => {
     it('should when repeat is false run the animation only once', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 50,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 50,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'c',
             delay: 50,
             cursor: 0,
@@ -5298,19 +6843,22 @@ describe('Typewriter', () => {
 
       assertState(typewriter, {
         history: [],
-        keystrokesPerCursor: [
+        actionsPerCursor: [
           [
             {
+              type: 'keyboard',
               key: 'a',
               delay: 50,
               cursor: 0,
             },
             {
+              type: 'keyboard',
               key: 'b',
               delay: 50,
               cursor: 0,
             },
             {
+              type: 'keyboard',
               key: 'c',
               delay: 50,
               cursor: 0,
@@ -5333,19 +6881,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -5363,7 +6914,8 @@ describe('Typewriter', () => {
         },
         {
           type: 'CHANGED',
-          keystroke: {
+          action: {
+            type: 'keyboard',
             key: 'a',
             delay: 50,
             cursor: 0,
@@ -5378,19 +6930,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -5408,7 +6963,8 @@ describe('Typewriter', () => {
         },
         {
           type: 'CHANGED',
-          keystroke: {
+          action: {
+            type: 'keyboard',
             key: 'b',
             delay: 50,
             cursor: 0,
@@ -5423,19 +6979,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -5453,7 +7012,8 @@ describe('Typewriter', () => {
         },
         {
           type: 'FINISHED',
-          keystroke: {
+          action: {
+            type: 'keyboard',
             key: 'c',
             delay: 50,
             cursor: 0,
@@ -5465,18 +7025,21 @@ describe('Typewriter', () => {
 
     it('should when repeat is true run the animation indefinitely', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 50,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 50,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'c',
             delay: 50,
             cursor: 0,
@@ -5485,31 +7048,35 @@ describe('Typewriter', () => {
         blinkAfter: 50,
         repeat: true,
         repeatDelay: 1,
+        cursors: [{ position: 0, name: 'Owen' }],
       });
       const subscriber = autoSubscribe(typewriter);
 
       assertState(typewriter, {
         history: [],
-        keystrokesPerCursor: [
+        actionsPerCursor: [
           [
             {
+              type: 'keyboard',
               key: 'a',
               delay: 50,
               cursor: 0,
             },
             {
+              type: 'keyboard',
               key: 'b',
               delay: 50,
               cursor: 0,
             },
             {
+              type: 'keyboard',
               key: 'c',
               delay: 50,
               cursor: 0,
             },
           ],
         ],
-        cursors: [{ position: 0, name: '', isBlinking: true }],
+        cursors: [{ position: 0, name: 'Owen', isBlinking: true }],
         text: '',
         blinkAfter: 50,
         isPlaying: true,
@@ -5526,26 +7093,29 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: 50,
                   cursor: 0,
                 },
               ],
             ],
-            cursors: [{ position: 1, name: '', isBlinking: false }],
+            cursors: [{ position: 1, name: 'Owen', isBlinking: false }],
             text: 'a',
             blinkAfter: 50,
             isPlaying: true,
@@ -5556,7 +7126,8 @@ describe('Typewriter', () => {
           },
           {
             type: 'CHANGED',
-            keystroke: {
+            action: {
+              type: 'keyboard',
               key: 'a',
               delay: 50,
               cursor: 0,
@@ -5571,26 +7142,29 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: 50,
                   cursor: 0,
                 },
               ],
             ],
-            cursors: [{ position: 2, name: '', isBlinking: false }],
+            cursors: [{ position: 2, name: 'Owen', isBlinking: false }],
             text: 'ab',
             blinkAfter: 50,
             isPlaying: true,
@@ -5601,7 +7175,8 @@ describe('Typewriter', () => {
           },
           {
             type: 'CHANGED',
-            keystroke: {
+            action: {
+              type: 'keyboard',
               key: 'b',
               delay: 50,
               cursor: 0,
@@ -5616,26 +7191,29 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: 50,
                   cursor: 0,
                 },
               ],
             ],
-            cursors: [{ position: 3, name: '', isBlinking: false }],
+            cursors: [{ position: 3, name: 'Owen', isBlinking: false }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -5646,7 +7224,8 @@ describe('Typewriter', () => {
           },
           {
             type: 'CHANGED',
-            keystroke: {
+            action: {
+              type: 'keyboard',
               key: 'c',
               delay: 50,
               cursor: 0,
@@ -5661,26 +7240,29 @@ describe('Typewriter', () => {
           subscriber,
           {
             history: [],
-            keystrokesPerCursor: [
+            actionsPerCursor: [
               [
                 {
+                  type: 'keyboard',
                   key: 'a',
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'b',
                   delay: 50,
                   cursor: 0,
                 },
                 {
+                  type: 'keyboard',
                   key: 'c',
                   delay: 50,
                   cursor: 0,
                 },
               ],
             ],
-            cursors: [{ position: 0, name: '', isBlinking: false }],
+            cursors: [{ position: 0, name: 'Owen', isBlinking: false }],
             text: '',
             blinkAfter: 50,
             isPlaying: true,
@@ -5710,18 +7292,21 @@ describe('Typewriter', () => {
 
     it('should when repeat is a number repeat that number amount of times, and then finish', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 50,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 50,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'c',
             delay: 50,
             cursor: 0,
@@ -5735,19 +7320,22 @@ describe('Typewriter', () => {
 
       assertState(typewriter, {
         history: [],
-        keystrokesPerCursor: [
+        actionsPerCursor: [
           [
             {
+              type: 'keyboard',
               key: 'a',
               delay: 50,
               cursor: 0,
             },
             {
+              type: 'keyboard',
               key: 'b',
               delay: 50,
               cursor: 0,
             },
             {
+              type: 'keyboard',
               key: 'c',
               delay: 50,
               cursor: 0,
@@ -5772,19 +7360,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -5802,7 +7393,8 @@ describe('Typewriter', () => {
         },
         {
           type: 'CHANGED',
-          keystroke: {
+          action: {
+            type: 'keyboard',
             key: 'a',
             delay: 50,
             cursor: 0,
@@ -5817,19 +7409,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -5847,7 +7442,8 @@ describe('Typewriter', () => {
         },
         {
           type: 'CHANGED',
-          keystroke: {
+          action: {
+            type: 'keyboard',
             key: 'b',
             delay: 50,
             cursor: 0,
@@ -5862,19 +7458,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -5892,7 +7491,8 @@ describe('Typewriter', () => {
         },
         {
           type: 'CHANGED',
-          keystroke: {
+          action: {
+            type: 'keyboard',
             key: 'c',
             delay: 50,
             cursor: 0,
@@ -5907,19 +7507,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -5949,19 +7552,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -5979,7 +7585,8 @@ describe('Typewriter', () => {
         },
         {
           type: 'CHANGED',
-          keystroke: {
+          action: {
+            type: 'keyboard',
             key: 'a',
             delay: 50,
             cursor: 0,
@@ -5994,19 +7601,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -6024,7 +7634,8 @@ describe('Typewriter', () => {
         },
         {
           type: 'CHANGED',
-          keystroke: {
+          action: {
+            type: 'keyboard',
             key: 'b',
             delay: 50,
             cursor: 0,
@@ -6039,19 +7650,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -6069,7 +7683,8 @@ describe('Typewriter', () => {
         },
         {
           type: 'CHANGED',
-          keystroke: {
+          action: {
+            type: 'keyboard',
             key: 'c',
             delay: 50,
             cursor: 0,
@@ -6084,19 +7699,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -6126,19 +7744,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -6156,7 +7777,8 @@ describe('Typewriter', () => {
         },
         {
           type: 'CHANGED',
-          keystroke: {
+          action: {
+            type: 'keyboard',
             key: 'a',
             delay: 50,
             cursor: 0,
@@ -6171,19 +7793,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -6201,7 +7826,8 @@ describe('Typewriter', () => {
         },
         {
           type: 'CHANGED',
-          keystroke: {
+          action: {
+            type: 'keyboard',
             key: 'b',
             delay: 50,
             cursor: 0,
@@ -6216,19 +7842,22 @@ describe('Typewriter', () => {
         subscriber,
         {
           history: [],
-          keystrokesPerCursor: [
+          actionsPerCursor: [
             [
               {
+                type: 'keyboard',
                 key: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
+                type: 'keyboard',
                 key: 'c',
                 delay: 50,
                 cursor: 0,
@@ -6246,7 +7875,8 @@ describe('Typewriter', () => {
         },
         {
           type: 'FINISHED',
-          keystroke: {
+          action: {
+            type: 'keyboard',
             key: 'c',
             delay: 50,
             cursor: 0,
@@ -6262,18 +7892,21 @@ describe('Typewriter', () => {
   describe('play & pause and stop', () => {
     test('that the animation can be paused and continued', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'c',
             delay: 100,
             cursor: 0,
@@ -6370,18 +8003,21 @@ describe('Typewriter', () => {
 
     test('that the autoplay can be stopped and restarted', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'c',
             delay: 100,
             cursor: 0,
@@ -6478,18 +8114,21 @@ describe('Typewriter', () => {
 
     test('that the autoplay can be stopped and restarted with the original text', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'c',
             delay: 100,
             cursor: 0,
@@ -6588,13 +8227,15 @@ describe('Typewriter', () => {
 
     test('that the autoplay can be stopped and restarted when animation repeats', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 100,
             cursor: 0,
@@ -6713,18 +8354,21 @@ describe('Typewriter', () => {
 
     test('that it is possible to pause first then stop', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'c',
             delay: 100,
             cursor: 0,
@@ -6758,18 +8402,21 @@ describe('Typewriter', () => {
 
     test('that it is not possible to pause when already paused', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'c',
             delay: 100,
             cursor: 0,
@@ -6803,18 +8450,21 @@ describe('Typewriter', () => {
 
     test('that it is not possible to stop when already stopped', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'c',
             delay: 100,
             cursor: 0,
@@ -6868,18 +8518,21 @@ describe('Typewriter', () => {
 
     test('that it is not possible to play when already playing', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'c',
             delay: 100,
             cursor: 0,
@@ -6906,18 +8559,21 @@ describe('Typewriter', () => {
 
     test('that it is not possible to play when already playing', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 100,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'c',
             delay: 100,
             cursor: 0,
@@ -7149,8 +8805,9 @@ describe('Typewriter', () => {
   describe('history', () => {
     test('that a history is kept for a maximum number of events', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 100,
             cursor: 0,
@@ -7170,6 +8827,7 @@ describe('Typewriter', () => {
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
+
         expect.objectContaining({ type: 'PAUSED' }),
       ]);
 
@@ -7178,22 +8836,27 @@ describe('Typewriter', () => {
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
+
         expect.objectContaining({ type: 'PAUSED' }),
+
         expect.objectContaining({ type: 'PLAYING' }),
       ]);
 
       typewriter.pause();
       expect(typewriter.history).toEqual([
         expect.objectContaining({ type: 'PAUSED' }),
+
         expect.objectContaining({ type: 'PLAYING' }),
+
         expect.objectContaining({ type: 'PAUSED' }),
       ]);
     });
 
     test('that initialize resets the history', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 100,
             cursor: 0,
@@ -7214,6 +8877,7 @@ describe('Typewriter', () => {
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
+
         expect.objectContaining({ type: 'PAUSED' }),
       ]);
 
@@ -7231,18 +8895,21 @@ describe('Typewriter', () => {
   describe('subscribers', () => {
     test('multiple subscribers', () => {
       const typewriter = new Typewriter({
-        keystrokes: [
+        actions: [
           {
+            type: 'keyboard',
             key: 'a',
             delay: 10000,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'b',
             delay: 10000,
             cursor: 0,
           },
           {
+            type: 'keyboard',
             key: 'c',
             delay: 10000,
             cursor: 0,
@@ -7292,7 +8959,7 @@ type TestState = Pick<
   | 'isPlaying'
   | 'isFinished'
   | 'hasBeenStoppedBefore'
-  | 'keystrokesPerCursor'
+  | 'actionsPerCursor'
   | 'repeat'
   | 'repeatDelay'
 > & {
@@ -7309,15 +8976,27 @@ function assertState(state: Typewriter, expected: TestState) {
     repeat: state.repeat,
     repeatDelay: state.repeatDelay,
     hasBeenStoppedBefore: state.hasBeenStoppedBefore,
-    keystrokesPerCursor: state.keystrokesPerCursor.map((keystrokes) => {
-      return keystrokes.map((keystroke) => {
-        const copy: TypewriterKeystroke = {
-          key: keystroke.key,
-          delay: keystroke.delay,
-          cursor: keystroke.cursor,
-        };
+    actionsPerCursor: state.actionsPerCursor.map((actions) => {
+      return actions.map((action) => {
+        if (action.type === 'keyboard') {
+          const copy: TypewriterAction = {
+            type: 'keyboard',
+            delay: action.delay,
+            cursor: action.cursor,
+            key: action.key,
+          };
 
-        return copy;
+          return copy;
+        } else {
+          const copy: TypewriterAction = {
+            type: 'mouse',
+            delay: action.delay,
+            cursor: action.cursor,
+            position: action.position,
+          };
+
+          return copy;
+        }
       });
     }),
     cursors: state.cursors.map((cursor) => {

@@ -14,17 +14,17 @@ import { UnsubscribeFunction } from '../generic';
 import { _History } from '../private/History';
 import { _Observer } from '../private/Observer';
 import {
+  TypewriterAction,
+  typewriterActionTypeBackspace,
+  typewriterActionTypeClearAll,
+  typewriterActionTypeLeft,
+  typewriterActionTypeRight,
   TypewriterChangedEvent,
   TypewriterConfig,
   TypewriterCursorConfig,
   TypewriterEvent,
   TypewriterFinishedEvent,
   TypewriterInitializedEvent,
-  TypewriterKeystroke,
-  typewriterKeyStrokeBackspace,
-  typewriterKeyStrokeClearAll,
-  typewriterKeyStrokeLeft,
-  typewriterKeyStrokeRight,
   TypewriterPausedEvent,
   TypewriterPlayingEvent,
   TypewriterRepeatingEvent,
@@ -39,10 +39,6 @@ import { TypewriterInvalidCursorError } from './errors/TypewriterInvalidCursorEr
 import { TypewriterCursor } from './TypewriterCursor';
 
 // TODO: builders: ascii, marble, fluentapi
-
-// TODO: Cursor movement
-
-// TODO: multi blinking cursors,
 
 // TODO: Cursor selection
 
@@ -81,7 +77,7 @@ export class Typewriter {
   private readonly _originalCursors: TypewriterCursorConfig[] = [];
 
   /**
-   * The keystrokes the `Typewriter` is going to make, per cursor.
+   * The actions the `Typewriter` is going to make, per cursor.
    *
    * A representation of the entire animation.
    *
@@ -91,7 +87,7 @@ export class Typewriter {
    *
    * @since 1.2.0
    */
-  public readonly keystrokesPerCursor: TypewriterKeystroke[][] = [];
+  public readonly actionsPerCursor: TypewriterAction[][] = [];
 
   /**
    * The current text the `Typewriter` has typed.
@@ -182,7 +178,7 @@ export class Typewriter {
    */
   public hasBeenStoppedBefore: boolean = false;
 
-  // Reference to the current keystroke
+  // Reference to the current action
   private _index = 0;
 
   // The amount of ticks in the animation.
@@ -282,7 +278,7 @@ export class Typewriter {
     this.text = config.text !== undefined ? config.text : '';
     this._originalText = this.text;
 
-    this.keystrokesPerCursor.length = 0;
+    this.actionsPerCursor.length = 0;
     this.cursors.length = 0;
 
     // Get unicode text length.
@@ -290,39 +286,39 @@ export class Typewriter {
 
     if (config.cursors) {
       config.cursors.forEach((c) => {
-        this.keystrokesPerCursor.push([]);
+        this.actionsPerCursor.push([]);
 
         this.cursors.push(
           new TypewriterCursor(this, c.position, c.name ? c.name : '')
         );
       });
     } else {
-      this.keystrokesPerCursor.push([]);
+      this.actionsPerCursor.push([]);
       this.cursors.push(new TypewriterCursor(this, textLength, ''));
     }
 
-    if (config.keystrokes) {
-      for (let i = 0; i < config.keystrokes.length; i++) {
-        const keystroke = config.keystrokes[i];
+    if (config.actions) {
+      for (let i = 0; i < config.actions.length; i++) {
+        const action = config.actions[i];
 
-        if (keystroke.delay <= 0) {
+        if (action.delay <= 0) {
           throw new TypewriterDelayError();
         }
 
-        this.keystrokesPerCursor[keystroke.cursor].push(keystroke);
+        this.actionsPerCursor[action.cursor].push(action);
       }
     }
 
-    this.keystrokesPerCursor.forEach((keystrokes, cursor) => {
-      if (keystrokes.length > this._noTicks) {
-        this._noTicks = keystrokes.length;
+    this.actionsPerCursor.forEach((actions, cursor) => {
+      if (actions.length > this._noTicks) {
+        this._noTicks = actions.length;
         this._finalCursor = cursor;
       }
     });
 
     // The number of ticks is the cursor with the most strokes.
-    this._noTicks = this.keystrokesPerCursor.reduce((acc, keystrokes) => {
-      return Math.max(acc, keystrokes.length);
+    this._noTicks = this.actionsPerCursor.reduce((acc, actions) => {
+      return Math.max(acc, actions.length);
     }, 0);
 
     this._index = 0;
@@ -429,10 +425,10 @@ export class Typewriter {
    * automatically.
    *
    * Is called automatically when the Typewriter is instantiated
-   * and there are `keystrokes` configured.
+   * and there are `actions` configured.
    *
    * Note: the animation will only start when there are one or more
-   * keystrokes are defined.
+   * actions are defined.
    *
    * @since 1.2.0
    */
@@ -447,7 +443,7 @@ export class Typewriter {
     if (this._stopped) {
       this._stopped = false;
 
-      this.reset();
+      this._reset();
     }
 
     this._tick();
@@ -470,7 +466,7 @@ export class Typewriter {
    * For example: when the `pause` of the current `TypewriterKeystroke`
    * is 1 second and the `pause` is called after 0.8 seconds, it will
    * after `play` is called, take 0.2 seconds to go to the next
-   * keystroke.
+   * action.
    *
    * @since 1.2.0
    */
@@ -539,28 +535,28 @@ export class Typewriter {
   }
 
   private _tick(): void {
-    for (let i = 0; i < this.keystrokesPerCursor.length; i++) {
-      const keystrokes = this.keystrokesPerCursor[i];
+    for (let i = 0; i < this.actionsPerCursor.length; i++) {
+      const actions = this.actionsPerCursor[i];
 
-      // Get the current keystroke.
-      const keystroke = keystrokes[this._index];
+      // Get the current action.
+      const action = actions[this._index];
 
       // Do nothing if the cursor no longer has any strokes.
-      if (keystroke === undefined) {
+      if (action === undefined) {
         break;
       }
 
       // Is this the last stroke within this tick?
-      const lastStrokeInTick = i === this.keystrokesPerCursor.length - 1;
+      const lastStrokeInTick = i === this.actionsPerCursor.length - 1;
 
-      const cursor = this.cursors[keystroke.cursor];
+      const cursor = this.cursors[action.cursor];
 
       // Trigger the blink to start, will get debounced if the cursor
       // does another key press.
       cursor._startBlink();
 
       // Calculate the time until the letter is typed.
-      let delay = keystroke.delay;
+      let delay = action.delay;
 
       // If paused then calculate remaining time.
       if (this._pauseStarted) {
@@ -571,7 +567,7 @@ export class Typewriter {
       // Set when this tick started to calculate resume after pause() call.
       this._tickStarted = new Date();
 
-      // Now enter the keystroke after the delay.
+      // Now enter the action after the delay.
       this._animationTimeoutId = window.setTimeout(() => {
         // Array.from makes sure emoji's are counted as one, instead
         // of their separate unicode parts.
@@ -580,68 +576,84 @@ export class Typewriter {
         // Stop blinking because we are starting to type.
         cursor.isBlinking = false;
 
-        // Whether or not this particular keystroke is a no op.
+        // Whether or not this particular action is a no op.
         let noOp = false;
 
-        // Figure out what to do with the text next
-        if (keystroke.key === typewriterKeyStrokeClearAll) {
-          // If it is already empty it is a noOp.
-          if (this.text === '') {
-            noOp = true;
+        if (action.type === 'keyboard') {
+          // Figure out what to do with the text next
+          if (action.key === typewriterActionTypeClearAll) {
+            // If it is already empty it is a noOp.
+            if (this.text === '') {
+              noOp = true;
+            } else {
+              this.text = '';
+
+              // Reset all cursors to position 0.
+              this.cursors.forEach((cursor) => {
+                cursor.position = 0;
+              });
+            }
+          } else if (action.key === typewriterActionTypeBackspace) {
+            const position = cursor.position;
+
+            // If the index is currently zero, just ignore the back-space
+            // it should count as a no op.
+            if (position !== 0) {
+              textArray.splice(position - 1, 1);
+
+              this.text = textArray.join('');
+
+              // Move the cursor that typed one to the left, move all
+              // cursors that are now past the end of the text to
+              // the end of the text.
+              this.cursors.forEach((cursor, index) => {
+                if (index === action.cursor) {
+                  // Current one to the left
+                  cursor.position -= 1;
+                } else if (cursor.position > textArray.length) {
+                  // Reset bounds if out of bounds.
+                  cursor.position = textArray.length;
+                }
+              });
+            } else {
+              noOp = true;
+            }
+          } else if (action.key === typewriterActionTypeLeft) {
+            if (cursor.position === 0) {
+              noOp = true;
+            } else {
+              cursor.position -= 1;
+            }
+          } else if (action.key === typewriterActionTypeRight) {
+            if (cursor.position === textArray.length) {
+              noOp = true;
+            } else {
+              cursor.position += 1;
+            }
           } else {
-            this.text = '';
-
-            // Reset all cursors to position 0.
-            this.cursors.forEach((cursor) => {
-              cursor.position = 0;
-            });
-          }
-        } else if (keystroke.key === typewriterKeyStrokeBackspace) {
-          const position = cursor.position;
-
-          // If the index is currently zero, just ignore the back-space
-          // it should count as a no op.
-          if (position !== 0) {
-            textArray.splice(position - 1, 1);
+            // Insert the new key at the correct position.
+            textArray.splice(cursor.position, 0, action.key);
 
             this.text = textArray.join('');
 
-            // Move the cursor that typed one to the left, move all
-            // cursors that are now past the end of the text to
-            // the end of the text.
-            this.cursors.forEach((cursor, index) => {
-              if (index === keystroke.cursor) {
-                // Current one to the left
-                cursor.position -= 1;
-              } else if (cursor.position > textArray.length) {
-                // Reset bounds if out of bounds.
-                cursor.position = textArray.length;
-              }
-            });
-          } else {
-            noOp = true;
-          }
-        } else if (keystroke.key === typewriterKeyStrokeLeft) {
-          if (cursor.position === 0) {
-            noOp = true;
-          } else {
-            cursor.position -= 1;
-          }
-        } else if (keystroke.key === typewriterKeyStrokeRight) {
-          if (cursor.position === textArray.length) {
-            noOp = true;
-          } else {
+            // Move the cursor that typed one to the right.
             cursor.position += 1;
           }
-
         } else {
-          // Insert the new key at the correct position.
-          textArray.splice(cursor.position, 0, keystroke.key);
+          // Limit the mouse clicks to within the text, so clicks
+          // outside the text end up inside of the text. This happens
+          // when providing negative numbers or numbers larger than
+          // the text itself.
+          const position = Math.min(
+            textArray.length,
+            Math.max(0, action.position)
+          );
 
-          this.text = textArray.join('');
-
-          // Move the cursor that typed one to the right.
-          cursor.position += 1;
+          if (cursor.position === position) {
+            noOp = true;
+          } else {
+            cursor.position = position;
+          }
         }
 
         // Increase the index inside of the timeout so the when the
@@ -654,7 +666,7 @@ export class Typewriter {
 
         if (
           this._index >= this._noTicks &&
-          this._finalCursor === keystroke.cursor
+          this._finalCursor === action.cursor
         ) {
           // Are we finished?
           if (this.repeat === false || this.repeat === this._repeated + 1) {
@@ -663,7 +675,7 @@ export class Typewriter {
 
             const event: TypewriterFinishedEvent = {
               type: 'FINISHED',
-              keystroke,
+              action,
               time: new Date(),
             };
 
@@ -674,7 +686,7 @@ export class Typewriter {
             if (!noOp) {
               const event: TypewriterChangedEvent = {
                 type: 'CHANGED',
-                keystroke,
+                action,
                 time: new Date(),
               };
 
@@ -684,8 +696,7 @@ export class Typewriter {
             this._animationTimeoutId = window.setTimeout(() => {
               this._index = 0;
 
-              // TODO: restore extract
-              this.reset();
+              this._reset();
 
               const event: TypewriterRepeatingEvent = {
                 type: 'REPEATING',
@@ -701,7 +712,7 @@ export class Typewriter {
           if (!noOp) {
             const event: TypewriterChangedEvent = {
               type: 'CHANGED',
-              keystroke,
+              action,
               time: new Date(),
             };
 
@@ -728,7 +739,7 @@ export class Typewriter {
     }
   }
 
-  private reset() {
+  private _reset() {
     this.text = this._originalText;
 
     // Copy the cursor here otherwise it will be mutated on the

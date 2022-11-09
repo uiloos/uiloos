@@ -1,8 +1,8 @@
 import {
   TypewriterConfig,
-  TypewriterKeystroke,
-  typewriterKeyStrokeBackspace,
+  TypewriterAction,
   TypewriterSubscriber,
+  typewriterActionTypeBackspace,
 } from '../types';
 import { Typewriter } from '../Typewriter';
 
@@ -11,7 +11,7 @@ import { Typewriter } from '../Typewriter';
  */
 export type TypewriterFromSentencesConfig = Omit<
   TypewriterConfig,
-  'keystrokes'
+  'actions'
 > & {
   /**
    * The sentences the Typewriter should animate.
@@ -55,7 +55,7 @@ export function typewriterFromSentences(
 ): Typewriter {
   const delay = config.delay === undefined ? 50 : config.delay;
 
-  const keystrokes: TypewriterKeystroke[] = [];
+  const actions: TypewriterAction[] = [];
 
   // This will be the text which is manipulated.
   let text: string[] = [];
@@ -116,8 +116,9 @@ export function typewriterFromSentences(
 
     // Now apply the number of backspaces
     for (let i = 0; i < backspaces; i++) {
-      keystrokes.push({
-        key: typewriterKeyStrokeBackspace,
+      actions.push({
+        type: 'keyboard',
+        key: typewriterActionTypeBackspace,
         delay,
         cursor: 0
       });
@@ -135,7 +136,8 @@ export function typewriterFromSentences(
 
     // Now we must add the missing characters one at a time.
     for (const missingChar of missingChars) {
-      keystrokes.push({
+      actions.push({
+        type: 'keyboard',
         key: missingChar,
         delay,
         cursor: 0
@@ -150,7 +152,7 @@ export function typewriterFromSentences(
       text: config.text,
       blinkAfter: config.blinkAfter,
       keepHistoryFor: config.keepHistoryFor,
-      keystrokes,
+      actions,
     },
     subscriber
   );
