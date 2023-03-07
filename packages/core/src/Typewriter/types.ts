@@ -2,6 +2,28 @@ import { Typewriter } from './Typewriter';
 import { TypewriterCursor } from './TypewriterCursor';
 
 /**
+ * Represents the selection of a cursor, were the start and 
+ * end are positions in the Typewriters text.
+ * 
+ * @since 1.2.0
+ */
+export type TypewriterCursorSelection = {
+  /**
+   * The start position of the selection.
+   * 
+   * @since 1.2.0
+   */
+  start: number,
+
+  /**
+   * The end position of the selection.
+   * 
+   * @since 1.2.0
+   */
+  end: number
+}
+
+/**
  * Configures the initial state of the `TypewriterCursor`.
  *
  * @since 1.2.0
@@ -15,13 +37,30 @@ export type TypewriterCursorConfig = {
   position: number;
 
   /**
-   * The optional name associated with the cursor.
+   * The optional name associated with the cursor. Nothing is done 
+   * with the name itself by the Typewriter.
+   * 
+   * You could use the name to:
+   * 
+   *   1. Give the cursor a label in the animation, telling to which
+   *      "user" the cursor belongs.
+   * 
+   *   2. Give the cursor a name to more easily identify the cursor,
+   *      perhaps to give different styling to each individual cursor.
+   *      In this case the name might even be a CSS selector.
    *
-   * Defaults to an empty string when not provided
+   * Defaults to an empty string when not provided.
    *
    * @since 1.2.0
    */
   name?: string;
+
+  /**
+   * The range of positions which this cursor has selected.
+   *
+   * Defaults to undefined, meaning no selection has been made.
+   */
+  selection?: TypewriterCursorSelection;
 };
 
 /**
@@ -84,8 +123,8 @@ export type TypewriterConfig = {
    *
    * There are three ways to define `repeat`.
    *
-   *  1. When `repeat` is `false` it will never repeat the animation,
-   *     the animation will run once.
+   *  1. When `repeat` is `false` or `1` it will never repeat the 
+   *     animation, the animation will run only once.
    *
    *  2. When `repeat` is `true` it will loop the animation forever.
    *
@@ -154,6 +193,22 @@ export const typewriterActionTypeLeft = Symbol();
 export const typewriterActionTypeRight = Symbol();
 
 /**
+ * Represents the user selecting text and extending the selection
+ * one movement to the left.
+ *
+ * @since 1.2.0
+ */
+export const typewriterActionTypeSelectLeft = Symbol();
+
+/**
+ * Represents the user selecting text and extending the selection
+ * one movement to the right.
+ *
+ * @since 1.2.0
+ */
+export const typewriterActionTypeSelectRight = Symbol();
+
+/**
  * Represents which button on the keyboard was pressed. Is either
  * a string or a special type of button such as backspace, arrow
  * left and right, or a specific action such as clearing all
@@ -166,7 +221,9 @@ export type TypewriterActionTypeKeyPressKey =
   | typeof typewriterActionTypeBackspace
   | typeof typewriterActionTypeClearAll
   | typeof typewriterActionTypeLeft
-  | typeof typewriterActionTypeRight;
+  | typeof typewriterActionTypeRight
+  | typeof typewriterActionTypeSelectLeft
+  | typeof typewriterActionTypeSelectRight;
 
 /**
  * The type of action which occurred on the Typewriter, can either
@@ -254,7 +311,7 @@ export type TypewriterActionTypeMouseClick = BaseTypewriterAction & {
 /**
  * The type of action which occurred on the Typewriter, can either
  * be a keyboard press or a mouse click.
- * 
+ *
  * @since 1.2.0
  */
 export type TypewriterAction =
@@ -314,8 +371,8 @@ export type TypewriterInitializedEvent = TypewriterBaseEvent & {
 };
 
 /**
- * Represents a change in the text of the typewriter, or the moving
- * of a cursor.
+ * Represents a change in the text of the typewriter, the moving
+ * of a cursor, or a change in a cursors selection.
  *
  * This also means that the typewriter is no longer blinking at
  * this time, until the `BLINKING` event is triggered again.
@@ -337,6 +394,8 @@ export type TypewriterChangedEvent = TypewriterBaseEvent & {
    * @since 1.2.0
    */
   action: TypewriterAction;
+
+  // TODO: Should we model the change in selection? Could be a boolean 'selectionChanged', or the current selection.
 };
 
 /**

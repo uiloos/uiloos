@@ -1,6 +1,4 @@
-import {
-  TypewriterBlinkingEvent
-} from './types';
+import { TypewriterBlinkingEvent, TypewriterCursorSelection } from './types';
 import { Typewriter } from './Typewriter';
 
 /**
@@ -33,6 +31,16 @@ export class TypewriterCursor {
   public name: string;
 
   /**
+   * The range of positions which this cursor has selected, or when
+   * it is `undefined signifying no selection.
+   * 
+   * Note: whenever the cursor stops selecting text the selection
+   * will be turned into `undefined`. This means that this is one of
+   * the few objects in uiloos that can change its reference.
+   */
+  public selection?: TypewriterCursorSelection;
+
+  /**
    * Whether or not this cursor is blinking.
    *
    * A cursor does not blink when the user is typing, only when the
@@ -54,10 +62,12 @@ export class TypewriterCursor {
     typewriter: Typewriter,
     position: number,
     name: string,
+    selection?: TypewriterCursorSelection
   ) {
     this._typewriter = typewriter;
     this.position = position;
     this.name = name;
+    this.selection = selection;
   }
 
   // Start blinking after the configured _blinkAfter delay

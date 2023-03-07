@@ -6,9 +6,9 @@ import { common } from "./common";
  * 
  * @since 1.2.0
  */
-export class TypewriterInvalidCursorError extends Error {
+export class TypewriterCursorOutOfBoundsError extends Error {
   constructor() {
     super(`${common} cursor is out of bounds`);
-    this.name = "TypewriterInvalidCursorError";
+    this.name = "TypewriterCursorOutOfBoundsError";
   }
 }
