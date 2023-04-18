@@ -43,13 +43,21 @@ import { TypewriterCursorNotAtSelectionEdgeError } from './errors/TypewriterCurs
 import { TypewriterCursorSelectionInvalidRangeError } from './errors/TypewriterCursorSelectionInvalidRangeError';
 import { TypewriterCursorSelectionOutOfBoundsError } from './errors/TypewriterCursorSelectionOutOfBoundsError';
 
+// CURRENT:
+
+// After first two are done
+
+// TODO: Check if we can reduce code, check the _.tick especially,
+// also check the conditions very closely perhaps we can remove entire / reduce expressions
+
 // TODO: builders: ascii, marble, fluentapi
 
-// TODO: Cursor selection
+// TODO: build
 
-// TODO: Check if we can reduce code, check the _.tick especially.
+// TODO: create docs
 
-// TODO: Test for multiple cursors.
+// TODO: create composer, where the user can compose animations by typing an clicking.
+// Perhaps this should even be the primary way of doing things.
 
 /**
  * A component to create versatile typewriter animations with.
@@ -75,17 +83,17 @@ export class Typewriter {
   private readonly _originalCursors: TypewriterCursorConfig[] = [];
 
   /**
-   * The actions the `Typewriter` is going to make, per cursor.
+   * The actions which the `Typewriter` is going to perform.
    *
-   * A representation of the entire animation.
+   * Basically the representation of the entire animation.
    *
-   * An array of arrays each subarray represents the animation that
-   * the TypewriterCursor at the index of the subarray is going to
-   * make.
+   * The actions happen in a linear fashion, meaning the first item
+   * in the array is chronologically the first action, and the last
+   * item in the array the last action.
    *
    * @since 1.2.0
    */
-  public readonly actionsPerCursor: TypewriterAction[][] = [];
+  public readonly actions: TypewriterAction[] = [];
 
   /**
    * The current text the `Typewriter` has typed.
@@ -180,12 +188,6 @@ export class Typewriter {
   // Reference to the current action
   private _index = 0;
 
-  // The amount of ticks in the animation.
-  private _noTicks = 0;
-
-  // The cursor which will deliver the final tick in this animation.
-  private _finalCursor = 0;
-
   /*
     The timeoutId given back by calling window.setTimeout for when 
     animation is playing. Is kept here so it can be cleared via
@@ -275,7 +277,7 @@ export class Typewriter {
     this.text = config.text !== undefined ? config.text : '';
     this._originalText = this.text;
 
-    this.actionsPerCursor.length = 0;
+    this.actions.length = 0;
     this.cursors.length = 0;
 
     // Get unicode text length.
@@ -283,8 +285,6 @@ export class Typewriter {
 
     if (config.cursors) {
       config.cursors.forEach((c) => {
-        this.actionsPerCursor.push([]);
-
         this.cursors.push(
           new TypewriterCursor(
             this,
@@ -295,7 +295,6 @@ export class Typewriter {
         );
       });
     } else {
-      this.actionsPerCursor.push([]);
       this.cursors.push(new TypewriterCursor(this, textLength, '', undefined));
     }
 
@@ -307,25 +306,13 @@ export class Typewriter {
           throw new TypewriterDelayError();
         }
 
-        this.actionsPerCursor[action.cursor].push(action);
+        this.actions.push(action);
       }
     }
 
-    this.actionsPerCursor.forEach((actions, cursor) => {
-      if (actions.length > this._noTicks) {
-        this._noTicks = actions.length;
-        this._finalCursor = cursor;
-      }
-    });
-
-    // The number of ticks is the cursor with the most strokes.
-    this._noTicks = this.actionsPerCursor.reduce((acc, actions) => {
-      return Math.max(acc, actions.length);
-    }, 0);
-
     this._index = 0;
 
-    this.isPlaying = this._noTicks > 0;
+    this.isPlaying = this.actions.length > 0;
     this.isFinished = !this.isPlaying;
 
     this.blinkAfter = config.blinkAfter !== undefined ? config.blinkAfter : 50;
@@ -568,70 +555,340 @@ export class Typewriter {
   }
 
   private _tick(): void {
-    for (let i = 0; i < this.actionsPerCursor.length; i++) {
-      const actions = this.actionsPerCursor[i];
-      
-      // Get the current action, based on the "current" index.
-      const action = actions[this._index];
+    // Get the current action, based on the "current" index.
+    const action = this.actions[this._index];
 
-      // Do nothing if the cursor no longer has any strokes.
-      if (action === undefined) {
-        console.log(i, "stopping");
-        continue;
-      }
+    const cursor = this.cursors[action.cursor];
 
-      // Is this the last stroke within this tick?
-      const lastStrokeInTick = i === this.actionsPerCursor.length - 1;
+    // Trigger the blink to start, will get debounced if the cursor
+    // does another key press.
+    cursor._startBlink();
 
-      const cursor = this.cursors[action.cursor];
+    // Calculate the time until the letter is typed.
+    let delay = action.delay;
 
-      // Trigger the blink to start, will get debounced if the cursor
-      // does another key press.
-      cursor._startBlink();
+    // If paused then calculate remaining time.
+    if (this._pauseStarted) {
+      delay =
+        delay - (this._pauseStarted.getTime() - this._tickStarted.getTime());
+    }
 
-      // Calculate the time until the letter is typed.
-      let delay = action.delay;
+    // Set when this tick started to calculate resume after pause() call.
+    this._tickStarted = new Date();
 
-      // If paused then calculate remaining time.
-      if (this._pauseStarted) {
-        delay =
-          delay - (this._pauseStarted.getTime() - this._tickStarted.getTime());
-      }
+    // Now enter the action after the delay.
+    this._animationTimeoutId = window.setTimeout(() => {
+      // Array.from makes sure emoji's are counted as one, instead
+      // of their separate unicode parts.
+      const textArray = Array.from(this.text);
 
-      // Set when this tick started to calculate resume after pause() call.
-      this._tickStarted = new Date();
+      // Stop blinking because we are starting to type.
+      cursor.isBlinking = false;
 
-      // Now enter the action after the delay.
-      this._animationTimeoutId = window.setTimeout(() => {
-        // @ts-expect-error ja ja
-        console.log(this._index, action.key);
+      // Whether or not this particular action is a no op.
+      let noOp = false;
 
-        // Array.from makes sure emoji's are counted as one, instead
-        // of their separate unicode parts.
-        const textArray = Array.from(this.text);
+      if (action.type === 'keyboard') {
+        // Figure out what to do with the text next
+        if (action.key === typewriterActionTypeClearAll) {
+          // If it is already empty it is a noOp.
+          if (this.text === '') {
+            noOp = true;
+          } else {
+            this.text = '';
 
-        // Stop blinking because we are starting to type.
-        cursor.isBlinking = false;
+            // Reset all cursors to position 0, and reset the selection.
+            this.cursors.forEach((c) => {
+              c.position = 0;
+              c.selection = undefined;
+            });
+          }
+        } else if (action.key === typewriterActionTypeBackspace) {
+          // Stores which positions have been removed, so we can
+          // update the cursors later.
+          const removed = {
+            start: -1,
+            end: -1,
+            no: -1,
+          };
 
-        // Whether or not this particular action is a no op.
-        let noOp = false;
+          // When there is a selection, remove the entire selection.
+          if (cursor.selection) {
+            const start = cursor.selection.start;
+            const end = cursor.selection.end;
 
-        if (action.type === 'keyboard') {
-          // Figure out what to do with the text next
-          if (action.key === typewriterActionTypeClearAll) {
-            // If it is already empty it is a noOp.
-            if (this.text === '') {
-              noOp = true;
+            const no = end - start;
+
+            textArray.splice(cursor.selection.start, no);
+            this.text = textArray.join('');
+
+            removed.start = start;
+            removed.end = end;
+            removed.no = no;
+          } else {
+            const position = cursor.position;
+
+            // If the index is currently zero, just ignore the back-space
+            // it should count as a no op.
+            if (position !== 0) {
+              textArray.splice(position - 1, 1);
+              this.text = textArray.join('');
+
+              removed.start = position - 1;
+              removed.end = position;
+              removed.no = 1;
             } else {
-              this.text = '';
-
-              // Reset all cursors to position 0, and reset the selection.
-              this.cursors.forEach((c) => {
-                c.position = 0;
-                c.selection = undefined;
-              });
+              noOp = true;
             }
-          } else if (action.key === typewriterActionTypeBackspace) {
+          }
+
+          cursor.selection = undefined;
+
+          if (!noOp) {
+            this.cursors.forEach((c) => {
+              const hasOverlap =
+                c.selection &&
+                ((removed.start >= c.selection.start &&
+                  removed.start <= c.selection.end) ||
+                  (removed.end > c.selection.start &&
+                    removed.end <= c.selection.end));
+
+              // Move all cursors that are after or on the current cursor
+              // to their new positions.
+              if (c.position > removed.start) {
+                // If the cursor removes the selection of the other
+                // cursor the position of that cursor becomes
+                // the removed.start. But only if the position of
+                // the cursor lies before the remove.end..
+                if (
+                  c.selection &&
+                  hasOverlap &&
+                  removed.start < c.selection.start &&
+                  c.position < removed.end
+                ) {
+                  c.position = removed.start;
+                } else {
+                  c.position -= removed.no;
+                }
+              }
+
+              // Update the selections of other cursors:
+              // If user A selects a text and user B removes letters from the selection
+              // the selection shrinks. Can even remove the selection this way!
+              if (c.selection) {
+                /*
+                  We are dealing with two sets here, the "removed"
+                  of the current cursor, and the "selection" of the other 
+                  cursor.
+                  
+                  Legend: [] is current selection () = other selection
+
+                  The variants then become:
+
+                  1. The entire selection of the other cursor lies 
+                     after the selection of the current cursor.
+
+                     a[ap] noot (mies)
+
+                     The other selection must move cursor selection
+                     to the left.
+
+                  2. The entire selection of the other cursor lies 
+                     before the selection of the current cursor.
+
+                     a(ap) noot [mies]
+
+                     Nothing happens to the other selection.
+
+                  3. The entire selection of the other cursor lies 
+                     inside of the current cursor selection.
+
+                     aap [n(oo)t] mies
+
+                     The other selection gets deleted.
+
+                  4. Part of the selection of the other cursor lies 
+                     inside of the current cursor selection.
+
+                     aap (n[oo]t) mies
+
+                     The remaining selection becomes (nt).
+
+                     ACTION: remove overlap
+
+                  5. Part of the selection of the other cursor lies 
+                     inside of the current cursor selection. But starts
+                     left of the other selection.
+
+                     aa[p (n]oot) mies
+
+                     The remaining selection becomes (oot).
+
+                     ACTION: remove overlap
+
+                  6. Part of the selection of the other cursor lies 
+                     inside of the current cursor selection. But starts
+                     inside of the other selection.
+
+                     aap (noo[t) m]ies
+
+                     The remaining selection becomes (noo).
+
+                     ACTION: remove overlap
+                */
+
+                // Is there overlap?
+                if (hasOverlap) {
+                  // How many positions do selection and remove have in common.
+                  const overlap =
+                    Math.min(c.selection.end, removed.end) -
+                    Math.max(c.selection.start, removed.start);
+
+                  /*
+                    Now there are two situations: either the 
+                    selection.start lies before or on the removed.start, 
+                    or it lies after the remove.start.
+
+                    When it lies before or on the removed start, 
+                    the selection.start does not need to change.
+
+                    Scenario A: when it lies after: 
+                    
+                    AAP N[O(O]T MI)ES
+                        
+                    Removed:           { start: 5, end: 7 }
+                    Initial selection: { start: 6, end: 11 }
+                    Desired selection: { start: 5, end: 9 }
+
+                    start = 6 - 1 = 5
+                    end = 11 - 2 = 9
+
+                    1 = overlap
+                    2 = removed.no;
+
+                    Scenario B: when it before or on: 
+
+                    AAP N[(OO]T M)IES
+                        
+                    Removed:           { start: 5, end: 7 }
+                    Initial selection: { start: 5, end: 10 }
+                    Desired selection: { start: 5, end: 8 }
+
+                    start = 5
+                    end = 11 - 2 = 9
+
+                    0 = do nothing
+                    2 = overlap;
+                  */
+                  if (c.selection.start <= removed.start) {
+                    c.selection.end -= overlap;
+
+                    // When start becomes end make it undefined,
+                    // this happens when entire selection is removed.
+                    if (c.selection.start === c.selection.end) {
+                      c.selection = undefined;
+                    }
+                  } else {
+                    c.selection.start -= overlap;
+                    c.selection.end -= removed.no;
+
+                    // When start becomes end make it undefined,
+                    // this happens when entire selection is removed.
+                    if (c.selection.start === c.selection.end) {
+                      c.selection = undefined;
+                    }
+                  }
+                } else if (
+                  // Is the selection is completely on the right of the removal
+                  removed.start <= c.selection.start &&
+                  removed.end <= c.selection.start
+                ) {
+                  // Then remove that many chars from the selection
+                  c.selection.start -= removed.no;
+                  c.selection.end -= removed.no;
+                }
+              }
+            });
+          }
+        } else if (action.key === typewriterActionTypeLeft) {
+          // If cursor is at the start it is a no op if there is no selection.
+          if (cursor.position === 0) {
+            if (cursor.selection === undefined) {
+              noOp = true;
+            }
+          } else {
+            if (cursor.selection) {
+              // Move the cursor to the start of the selection
+              cursor.position = cursor.selection.start;
+            } else {
+              // Move the cursor to the left if there is no selection
+              cursor.position -= 1;
+            }
+          }
+
+          // Whatever happens the selection is killed.
+          cursor.selection = undefined;
+        } else if (action.key === typewriterActionTypeRight) {
+          // If cursor is at the end it is a no op if there is no selection.
+          if (cursor.position === textArray.length) {
+            if (cursor.selection === undefined) {
+              noOp = true;
+            }
+          } else {
+            if (cursor.selection) {
+              // Move the cursor to the end of the selection
+              cursor.position = cursor.selection.end;
+            } else {
+              // Move the cursor to the right if there is no selection
+              cursor.position += 1;
+            }
+          }
+
+          // Whatever happens the selection is killed.
+          cursor.selection = undefined;
+        } else if (action.key === typewriterActionTypeSelectLeft) {
+          // Is noOp whenever the user is already at the start of the text
+          if (cursor.position === 0) {
+            noOp = true;
+          } else {
+            // Otherwise the position of the cursor moves to the left
+            cursor.position -= 1;
+            if (cursor.selection) {
+              // If there is already a selection expand left from the start.
+              cursor.selection.start -= 1;
+            } else {
+              // If no selection create a new one
+              cursor.selection = {
+                start: cursor.position,
+                end: cursor.position + 1,
+              };
+            }
+          }
+        } else if (action.key === typewriterActionTypeSelectRight) {
+          // Is noOp whenever the user is already at the end of the text
+          if (cursor.position === textArray.length) {
+            noOp = true;
+          } else {
+            // Otherwise the position of the cursor moves to the right
+            cursor.position += 1;
+            if (cursor.selection) {
+              // If there is already a selection expand right from the end
+              cursor.selection.end += 1;
+            } else {
+              // If no selection create a new one
+              cursor.selection = {
+                start: cursor.position - 1,
+                end: cursor.position,
+              };
+            }
+          }
+        } else {
+          // action is insert char
+
+          if (cursor.selection) {
+            // When something is selected it will delete the selected
+            // text and insert the new char on that position
+
             // Stores which positions have been removed, so we can
             // update the cursors later.
             const removed = {
@@ -640,287 +897,184 @@ export class Typewriter {
               no: -1,
             };
 
-            // When there is a selection, remove the entire selection.
-            if (cursor.selection) {
-              const start = cursor.selection.start;
-              const end = cursor.selection.end;
+            const start = cursor.selection.start;
+            const end = cursor.selection.end;
 
-              const no = end - start;
+            const no = end - start;
 
-              textArray.splice(cursor.selection.start, no);
-              this.text = textArray.join('');
+            textArray.splice(cursor.selection.start, no);
 
-              removed.start = start;
-              removed.end = end;
-              removed.no = no;
+            removed.start = start;
+            removed.end = end;
+            removed.no = no;
 
-              cursor.position = cursor.selection.start;
-            } else {
-              const position = cursor.position;
+            cursor.position = removed.start;
 
-              // If the index is currently zero, just ignore the back-space
-              // it should count as a no op.
-              if (position !== 0) {
-                textArray.splice(position - 1, 1);
-                this.text = textArray.join('');
+            // Insert the new key at the correct position.
+            textArray.splice(cursor.position, 0, action.key);
 
-                removed.start = position - 1;
-                removed.end = position;
-                removed.no = 1;
-              } else {
-                noOp = true;
+            this.text = textArray.join('');
+
+            this.cursors.forEach((c) => {
+              if (cursor === c) {
+                return;
               }
-            }
 
-            cursor.selection = undefined;
+              if (c.selection) {
+                // If the other cursors selection falls completely inside of the
+                // selection of the current cursor then remove the selection.
+                if (
+                  c.selection.start >= removed.start &&
+                  c.selection.end <= removed.end
+                ) {
+                  c.selection = undefined;
+                  c.position = removed.start;
+                } else {
+                  const hasOverlap =
+                    c.selection &&
+                    ((removed.start >= c.selection.start &&
+                      removed.start <= c.selection.end) ||
+                      (removed.end > c.selection.start &&
+                        removed.end <= c.selection.end));
 
-            if (!noOp) {
-              this.cursors.forEach((c) => {
-                // Move all cursors that were after the insert to their next positions.
-                if (c.position > removed.start) {
-                  c.position -= removed.no;
-                }
+                  if (hasOverlap) {
+                    // How many positions do selection and remove have in common.
+                    const overlap =
+                      Math.min(c.selection.end, removed.end) -
+                      Math.max(c.selection.start, removed.start);
 
-                // TODO: test multi cursors properly start and end can go out of bounds
+                    if (c.selection.start > removed.start) {
+                      c.selection.start -= removed.no - overlap;
+                    } 
+                    
+                    if (c.selection.end === removed.end) {
+                      c.selection.end -= removed.no;
+                    } else if (c.selection.end === removed.start) {
 
-                // Update the selections of other cursors:
-                // If user A selects a text and user B removes letters from the selection
-                // the selection shrinks. Can even remove the selection this way!
-                if (c.selection && c.selection.start >= removed.start) {
-                  c.selection.start -= removed.no;
-                  c.selection.end -= removed.no;
+                    } else {
+                      c.selection.end -= removed.no - 1;
+                    }
 
-                  if (c.selection.start === c.selection.end) {
-                    c.selection = undefined;
+                    c.selection.start = Math.max(0, c.selection.start);
+
+                    // The new position becomes the position that is
+                    // closest to the current position.
+                    const distanceStart = Math.abs(
+                      c.selection.start - c.position
+                    );
+                    const distanceEnd = Math.abs(c.selection.end - c.position);
+
+                    c.position =
+                      distanceStart < distanceEnd
+                        ? c.selection.start
+                        : c.selection.end;
+                  } else if (
+                    // Is the selection is completely on the right of the removal
+                    removed.start <= c.selection.start &&
+                    removed.end <= c.selection.start
+                  ) {
+                    // Minus the char that was added.
+                    const removedNo = removed.no - 1;
+
+                    // Minus the char that was added.
+                    c.selection.start -= removedNo;
+
+                    // Minus the char that was added.
+                    c.selection.end -= removedNo;
+                    c.position -= removedNo;
+
+                    c.selection.start = Math.max(0, c.selection.start);
                   }
                 }
-              });
-            }
-          } else if (action.key === typewriterActionTypeLeft) {
-            // If cursor is at the start it is a no op if there is no selection.
-            if (cursor.position === 0) {
-              if (cursor.selection === undefined) {
-                noOp = true;
               }
-            } else {
-              if (cursor.selection) {
-                // Move the cursor to the start of the selection
-                cursor.position = cursor.selection.start;
-              } else {
-                // Move the cursor to the left if there is no selection
-                cursor.position -= 1;
-              }
-            }
+            });
 
-            // Whatever happens the selection is killed.
-            cursor.selection = undefined;
-          } else if (action.key === typewriterActionTypeRight) {
-            // If cursor is at the end it is a no op if there is no selection.
-            if (cursor.position === textArray.length) {
-              if (cursor.selection === undefined) {
-                noOp = true;
-              }
-            } else {
-              if (cursor.selection) {
-                // Move the cursor to the end of the selection
-                cursor.position = cursor.selection.end;
-              } else {
-                // Move the cursor to the right if there is no selection
-                cursor.position += 1;
-              }
-            }
-
-            // Whatever happens the selection is killed.
-            cursor.selection = undefined;
-          } else if (action.key === typewriterActionTypeSelectLeft) {
-            // Is noOp whenever the user is already at the start of the text
-            if (cursor.position === 0) {
-              noOp = true;
-            } else {
-              // Otherwise the position of the cursor moves to the left
-              cursor.position -= 1;
-              if (cursor.selection) {
-                // If there is already a selection expand left from the start.
-                cursor.selection.start -= 1;
-              } else {
-                // If no selection create a new one
-                cursor.selection = {
-                  start: cursor.position,
-                  end: cursor.position + 1,
-                };
-              }
-            }
-          } else if (action.key === typewriterActionTypeSelectRight) {
-            // Is noOp whenever the user is already at the end of the text
-            if (cursor.position === textArray.length) {
-              noOp = true;
-            } else {
-              // Otherwise the position of the cursor moves to the right
-              cursor.position += 1;
-              if (cursor.selection) {
-                // If there is already a selection expand right from the end
-                cursor.selection.end += 1;
-              } else {
-                // If no selection create a new one
-                cursor.selection = {
-                  start: cursor.position - 1,
-                  end: cursor.position,
-                };
-              }
-            }
+            // Move the cursor that typed one to the right.
+            cursor.position += 1;
           } else {
-            // action is insert char
+            // Insert the new key at the correct position.
+            textArray.splice(cursor.position, 0, action.key);
 
-            if (cursor.selection) {
-              // When something is selected it will delete the selected
-              // text and insert the new char on that position
+            this.text = textArray.join('');
 
-              // Stores which positions have been removed, so we can
-              // update the cursors later.
-              const removed = {
-                start: -1,
-                end: -1,
-                no: -1,
-              };
+            this.cursors.forEach((c) => {
+              if (cursor === c) {
+                return;
+              }
 
-              const start = cursor.selection.start;
-              const end = cursor.selection.end;
-
-              const no = end - start;
-
-              textArray.splice(cursor.selection.start, no);
-
-              removed.start = start;
-              removed.end = end;
-              removed.no = no;
-
-              cursor.position = removed.start;
-
-              // Insert the new key at the correct position.
-              textArray.splice(cursor.position, 0, action.key);
-
-              this.text = textArray.join('');
-
-              // Move the cursor that typed one to the right.
-              cursor.position += 1;
-
-              this.cursors.forEach((c) => {
-                // Update the selections
-
-                 // TODO: test multi cursors properly start and end can go out of bounds
-
-                // If user A selects a text and user B types inside of the selection.
-                // Where inside is before last letter of selection but before
-                // first letter! Then the selection of user A will automatically grow.
-                if (c.selection && c.selection.start >= removed.start) {
-                  c.selection.start -= removed.no;
-                  c.selection.end -= removed.no;
-
-                  if (c.selection.start === c.selection.end) {
-                    c.selection = undefined;
-                  }
-                }
-              });
-            } else {
-              // Insert the new key at the correct position.
-              textArray.splice(cursor.position, 0, action.key);
-
-              this.text = textArray.join('');
-
-              // Move the cursor that typed one to the right.
-              cursor.position += 1;
-
-              this.cursors.forEach((c) => {
-                // Update the selections
-                if (c.selection && c.selection.start >= c.position) {
+              // Update the selections
+              if (c.selection) {
+                // If cursor lies before the insert move the selection right
+                if (cursor.position < c.selection.start) {
+                  c.selection.start += 1;
                   c.selection.end += 1;
                 }
-              });
-            }
+                // If cursor lies before end stretch the selections end.
+                else if (cursor.position < c.selection.end) {
+                  c.selection.end += 1;
+                }
+              }
 
-            cursor.selection = undefined;
+              // If the cursor types before the position of the
+              // other cursor, +1 the other cursors position.
+              if (cursor.position < c.position) {
+                c.position += 1;
+              }
+            });
+
+            // Move the cursor that typed one to the right.
+            cursor.position += 1;
           }
-        } else {
-          // action.type === 'mouse'
 
-          /* 
+          cursor.selection = undefined;
+        }
+      } else {
+        // action.type === 'mouse'
+
+        /* 
             When you click far to the left or right of a line inside
             of a text editor you move the cursor to the closest 
             position. So we allow negative numbers and larger 
             numbers than the text is wide to allow this.
           */
-          const position = Math.min(
-            textArray.length,
-            Math.max(0, action.position)
-          );
+        const position = Math.min(
+          textArray.length,
+          Math.max(0, action.position)
+        );
 
-          if (cursor.position === position) {
-            if (cursor.selection === undefined) {
-              noOp = true;
-            }
-          } else {
-            cursor.position = position;
-          }
-
-          cursor.selection = undefined;
-        }
-
-        // Increase the index inside of the timeout so the when the
-        // animation is paused the index is still the same as
-        // before, so the _pauseStarted delay calculation still
-        // works.
-        if (lastStrokeInTick) {
-          this._index += 1;
-        }
-
-        if (
-          this._index >= this._noTicks &&
-          this._finalCursor === action.cursor
-        ) {
-          // Are we finished?
-          if (this.repeat === false || this.repeat === this._repeated + 1) {
-            this.isFinished = true;
-            this.isPlaying = false;
-
-            const event: TypewriterFinishedEvent = {
-              type: 'FINISHED',
-              action,
-              time: new Date(),
-            };
-
-            this._inform(event);
-          } else {
-            this._repeated += 1;
-
-            if (!noOp) {
-              const event: TypewriterChangedEvent = {
-                type: 'CHANGED',
-                action,
-                time: new Date(),
-              };
-
-              this._inform(event);
-            }
-
-            this._animationTimeoutId = window.setTimeout(() => {
-              this._index = 0;
-
-              this._reset();
-
-              // Also make all cursors blink again.
-              this.cursors.forEach((c) => (c.isBlinking = true));
-
-              const event: TypewriterRepeatingEvent = {
-                type: 'REPEATING',
-                time: new Date(),
-              };
-
-              this._inform(event);
-
-              this._tick();
-            }, this.repeatDelay);
+        if (cursor.position === position) {
+          if (cursor.selection === undefined) {
+            noOp = true;
           }
         } else {
+          cursor.position = position;
+        }
+
+        cursor.selection = undefined;
+      }
+
+      // Increase the index inside of the timeout so the when the
+      // animation is paused the index is still the same as
+      // before, so the _pauseStarted delay calculation still
+      // works.
+      this._index += 1;
+
+      if (this._index >= this.actions.length) {
+        // Are we finished?
+        if (this.repeat === false || this.repeat === this._repeated + 1) {
+          this.isFinished = true;
+          this.isPlaying = false;
+
+          const event: TypewriterFinishedEvent = {
+            type: 'FINISHED',
+            action,
+            time: new Date(),
+          };
+
+          this._inform(event);
+        } else {
+          this._repeated += 1;
+
           if (!noOp) {
             const event: TypewriterChangedEvent = {
               type: 'CHANGED',
@@ -931,10 +1085,38 @@ export class Typewriter {
             this._inform(event);
           }
 
-          this._tick();
+          this._animationTimeoutId = window.setTimeout(() => {
+            this._index = 0;
+
+            this._reset();
+
+            // Also make all cursors blink again.
+            this.cursors.forEach((c) => (c.isBlinking = true));
+
+            const event: TypewriterRepeatingEvent = {
+              type: 'REPEATING',
+              time: new Date(),
+            };
+
+            this._inform(event);
+
+            this._tick();
+          }, this.repeatDelay);
         }
-      }, delay);
-    }
+      } else {
+        if (!noOp) {
+          const event: TypewriterChangedEvent = {
+            type: 'CHANGED',
+            action,
+            time: new Date(),
+          };
+
+          this._inform(event);
+        }
+
+        this._tick();
+      }
+    }, delay);
   }
 
   private _clearAnimation(): void {
@@ -979,3 +1161,46 @@ export class Typewriter {
     this._observer._inform(this, event);
   }
 }
+
+type Range = { start: number; end: number };
+
+/*
+  # Cursor rules as divined from google docs
+
+  ## Own cursor rules
+
+  1. When a text is selected and backspace is pressed the whole text
+    vanishes.
+
+  2. When a text is selected and a letter is typed the whole text is 
+    replaced by the new letter.
+
+  2. When the left arrow key is pressed the user deselects and moves
+    to start of selection.
+
+  3. When the right arrow key is pressed the user deselects and moves
+    to end of selection. 
+
+  ## Multiple selection rules
+
+  1. If user A selects a text and user B types inside of the selection.
+    
+    Where inside is before last letter of selection but before
+    first letter! 
+    
+    Than the selection of user A will automatically grow.
+
+  2. If user A selects a text and user B removes letters from the selection
+    the selection shrinks. Can even remove the selection this way!
+
+  3. If user A selects a text and user B removes the text and more
+    surrounding letters the selection of A disappears.
+
+  # Multiple cursor type no selection
+
+  1. If user A types before the position of cursor B the 
+     cursor of B moves one to the right.
+
+  2. If user A types after or on the position of cursor B the 
+     cursor of B stays in position.
+*/

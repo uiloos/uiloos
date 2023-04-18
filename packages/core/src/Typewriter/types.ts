@@ -241,8 +241,8 @@ export type TypeWriterActionType = 'mouse' | 'keyboard';
  */
 export type BaseTypewriterAction = {
   /**
-   * The time in milliseconds to wait until the action should
-   * be made.
+   * The time in milliseconds after the previous action to wait until 
+   * the action is performed.
    *
    * @since 1.2.0
    */
