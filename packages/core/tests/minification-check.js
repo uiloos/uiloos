@@ -13,6 +13,11 @@ console.log("Checking minification");
 const vm = require('vm');
 const fs = require('fs');
 
+// Mocks for all functionality that uses timeouts.
+window = {};
+window.setTimeout = setTimeout;
+window.clearTimeout = clearTimeout;
+
 function load(file) {
   const licenseFile = fs.readFileSync(file);
   const script = new vm.Script(licenseFile);
@@ -59,6 +64,17 @@ if (activeList.lastActivated !== 'b') {
 
 load('dist/uiloos-view-channel-VERSION.min.js');
 
+if (!uiloosViewChannel) {
+  console.error('uiloosViewChannel is not defined');
+  process.exit(1);
+}
+
+
+if (!uiloosViewChannel.ViewChannel) {
+  console.error('uiloosViewChannel.ViewChannel is not defined');
+  process.exit(1);
+}
+
 const viewChannel = new uiloosViewChannel.ViewChannel();
 viewChannel.present({
   data: "a",
@@ -85,6 +101,36 @@ if (c !== "c" || b !== "b" || a !== "a") {
   process.exit(1);
 }
 
-// TODO minification check for typewriter
+load('dist/uiloos-typewriter-VERSION.min.js');
+const typewriter = new uiloosTypewriter.Typewriter({
+  actions: [
+    {
+      type: 'keyboard',
+      key: 'a',
+      delay: 100,
+      cursor: 0,
+    },
+    {
+      type: 'keyboard',
+      key: 'b',
+      delay: 200,
+      cursor: 0,
+    },
+    {
+      type: 'keyboard',
+      key: 'c',
+      delay: 300,
+      cursor: 0,
+    },
+  ],
+  blinkAfter: 50,
+});
+
+if (typewriter.actions.length !== 3) {
+  console.error('typewriter.actions.length should be 3');
+  process.exit(1);
+}
+
+// TODO minification check for typewriter builders
 
 console.log("Finished checking minification");

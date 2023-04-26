@@ -1,0 +1,109 @@
+---
+title: Usage with Frameworks | Typewriter | Docs | uiloos
+layout: layouts/docs.njk
+permalink: /docs/typewriter/usage-with-frameworks/
+renderData:
+  parent: 'typewriter'
+  current: 'typewriter-frameworks'
+  description: "How to use the ViewChannel with frameworks such as React, Angular or Vue."
+  keywords: "ViewChannel, ViewChannel React, ViewChannel Vue, ViewChannel Angular"
+---
+
+<article>
+  <h1>Typewriter usage with Frameworks</h1>
+
+  <nav class="2xl:fixed 2xl:top-24 2xl:right-2 2xl:w-[270px]" role="doc-toc" data-no-highlight="true">
+    <em>Table of contents</em>
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8">
+        <a href="#in-general" class="text-purple-600 underline">In general</a>
+      </li>
+      <li class="ml-8">
+        <a href="#react" class="text-purple-600 underline">React</a>
+      </li>
+      <li class="ml-8">
+        <a href="#vue" class="text-purple-600 underline">Vue</a>
+      </li>
+      <li class="ml-8">
+        <a href="#angular" class="text-purple-600 underline">Angular</a>
+      </li>
+    </ol>
+  </nav>
+
+  <h2 id="react" ><a href="#react">1. In general</a></h2>
+
+  <p>
+    The <a href="/api/core/viewchannel/" class="underline high">ViewChannel</a> 
+    component works well with any framework which supports reactivity.
+  </p>
+  
+  <p>
+    When using frameworks you will not need to subscribe to changes
+    and observe the ViewChannel manually. This allows you to use the
+    ViewChannel more declaratively. Using the ViewChannel declaratively 
+    results in easier to understand code.
+  </p>
+
+  <h2 id="react" ><a href="#react">2. React</a></h2>
+
+  <p>
+    When using React you should use the 
+    <a href="https://www.npmjs.com/package/@uiloos/react" target="_blank" rel="noopener noreferrer" class="high underline">@uiloos/react</a>
+    library. It contains the <a href="/api/react/useviewchannel/" class="high underline">useViewChannel</a>
+    hook. The useViewChannel hook takes an instance of a ViewChannel, and it will subscribe to changes of that ViewChannel.
+    This way each time a ViewChannelView is presented or dismissed React will automatically
+    re-render the component the useViewChannel is used in.
+  </p>
+
+  <p>
+    The easiest way to share a ViewChannel in React is by simply creating an export
+    of an instance of the ViewChannel, and then importing that instance were it
+    is needed.
+  </p>
+
+  <h2 id="vue" ><a href="#vue">3. Vue</a></h2>
+
+  <p>
+    In Vue you should use the 
+    <a href="https://www.npmjs.com/package/@uiloos/vue" target="_blank" rel="noopener noreferrer" class="high underline">@uiloos/vue</a>
+    library. It contains a composable called <a href="/api/vue/useviewchannel/" class="high underline">useViewChannel</a>.
+    The useViewChannel hook takes an instance of a ViewChannel, and it will subscribe to changes of that ViewChannel.
+    This way each time a ViewChannelView is presented or dismissed Vue will automatically
+    re-render the component the useViewChannel is used in..
+  </p>
+
+   <p>
+    The easiest way to share a ViewChannel in Vue is by simply creating an export
+    of an instance of the ViewChannel, and then importing that instance were it
+    is needed.
+  </p>
+
+  <h2 id="angular" ><a href="#angular">4. Angular</a></h2>
+
+  <p>
+    If you are using Angular there is no need to include an extra library.
+    As long as you use ViewChannel inside of a <span class="high">@Component</span> 
+    it will pick up on changes automatically.
+  </p>
+
+  <p>
+    It is recommended to create an <span class="high">@Injectable</span> for each 
+    type of ViewChannel that you use. This way each component which needs to 
+    use the ViewChannel can inject it via Angulars dependency injection
+    mechanism. This keeps the usage of the ViewChannel close to the Angular
+    way of doing things.
+  </p>
+
+  <a 
+    class="card" 
+    href="/docs/view-channel/examples/"
+  >
+    <div>
+      <div class="text-normal font-medium mb-1">Examples</div>
+      <div class="text-sm">See the ViewChannel in action with easy to copy examples</div>
+    </div>
+    <svg class="w-4 h-4 fill-current text-blue-600 shrink-0 ml-6" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z"></path>
+    </svg>
+  </a>
+</article>

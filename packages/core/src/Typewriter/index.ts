@@ -1,4 +1,6 @@
 import { Typewriter } from './Typewriter';
+import { TypewriterCursor } from './TypewriterCursor';
+
 import { TypewriterBlinkAfterError } from './errors/TypewriterBlinkAfterError';
 import { TypewriterDelayError } from './errors/TypewriterDelayError';
 import { TypewriterRepeatError } from './errors/TypewriterRepeatError';
@@ -7,6 +9,7 @@ import { TypewriterCursorOutOfBoundsError } from './errors/TypewriterCursorOutOf
 import { TypewriterCursorNotAtSelectionEdgeError } from './errors/TypewriterCursorNotPlacedAtBoundsOfSelectionError'
 import { TypewriterCursorSelectionOutOfBoundsError } from './errors/TypewriterCursorSelectionOutOfBoundsError';
 import { TypewriterCursorSelectionInvalidRangeError } from './errors/TypewriterCursorSelectionInvalidRangeError';
+
 import {
   TypewriterFromSentencesConfig,
   typewriterFromSentences,
@@ -16,6 +19,7 @@ export * from './types';
 
 export {
   Typewriter,
+  TypewriterCursor,
   TypewriterBlinkAfterError,
   TypewriterDelayError,
   TypewriterRepeatError,
@@ -25,5 +29,5 @@ export {
   TypewriterCursorSelectionOutOfBoundsError,
   TypewriterCursorSelectionInvalidRangeError,
   TypewriterFromSentencesConfig,
-  typewriterFromSentences,
+  typewriterFromSentences
 };

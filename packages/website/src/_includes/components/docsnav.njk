@@ -195,6 +195,80 @@
       </li>
 
       <!-- 1st level -->
+      <li class="py-2" x-data="{ open: {% if renderData and renderData.parent === 'typewriter' %} true {% else %} false {% endif %} }">
+        <a
+          class="flex items-center hover:underline"
+          href="#2"
+          @click.prevent="open = !open"
+          aria-haspopup="true"
+          :aria-expanded="open"
+        >
+          <div class="flex items-center grow">
+            <span>Typewriter</span>
+          </div>
+          <svg
+            class="w-3 h-3 fill-current text-gray-400 cursor-pointer ml-1 shrink-0"
+            viewBox="0 0 12 12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10.28 4.305L5.989 8.598 1.695 4.305A1 1 0 00.28 5.72l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z"
+            />
+          </svg>
+        </a>
+        <!-- 2nd level -->
+        <ul
+          class="font-normal -mb-1 mt-1 ml-2 pl-5 border-l border-gray-300"
+          :class="{ 'hidden': !open }"
+        >
+          <li class="py-1">
+            <a 
+              class="hover:underline {% if renderData and renderData.current === 'typewriter-concepts' %} font-bold {% endif %}" 
+              href="/docs/typewriter/concepts/"
+            >
+              Concepts
+            </a>
+          </li>
+         
+          <li class="py-1">
+            <a 
+              class="hover:underline {% if renderData and renderData.current === 'typewriter-tutorial' %} font-bold {% endif %}" 
+              href="/docs/typewriter/tutorial/"
+            >
+              Tutorial
+            </a>
+          </li>
+
+          <li class="py-1">
+            <a 
+              class="hover:underline {% if renderData and renderData.current === 'typewriter-frameworks' %} font-bold {% endif %}" 
+              href="/docs/typewriter/usage-with-frameworks/"
+            >
+              Usage with Frameworks
+            </a>
+          </li>
+
+          <li class="py-1">
+            <a 
+              class="hover:underline {% if renderData and renderData.current === 'typewriter-composer' %} font-bold {% endif %}" 
+              href="/docs/typewriter/composer/"
+            >
+              Composer
+            </a>
+          </li>
+
+          <li class="py-1">
+            <a 
+              class="hover:underline {% if renderData and renderData.current === 'typewriter-examples' %} font-bold {% endif %}" 
+              href="/docs/typewriter/examples/"
+            >
+              Examples
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- 1st level -->
       <li class="py-2" x-data="{ open: {% if renderData and renderData.parent === 'miscellaneous' %} true {% else %} false {% endif %} }">
         <a
           class="flex items-center hover:underline"

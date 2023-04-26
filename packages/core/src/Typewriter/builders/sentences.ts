@@ -11,7 +11,7 @@ import { Typewriter } from '../Typewriter';
  */
 export type TypewriterFromSentencesConfig = Omit<
   TypewriterConfig,
-  'actions'
+  'actions' | 'cursor'
 > & {
   /**
    * The sentences the Typewriter should animate.
@@ -31,7 +31,7 @@ export type TypewriterFromSentencesConfig = Omit<
 };
 
 /**
- * Creates a TypeWriter which will type in the provided sentences 
+ * Creates a Typewriter which will type in the provided sentences 
  * using a single cursor.
  *
  * Intelligently moves from one sentence to another, only removing
@@ -58,7 +58,7 @@ export function typewriterFromSentences(
   const actions: TypewriterAction[] = [];
 
   // This will be the text which is manipulated.
-  let text: string[] = [];
+  let text: string[] = config.text ? Array.from(config.text) : [];
 
   // Yield each sentence with a slight delay between them.
   for (let sentence of config.sentences) {

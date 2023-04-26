@@ -91,19 +91,19 @@ export class ViewChannel<T, R = void> {
    *
    * Tracks 6 types of changes:
    *
-   *  1. INITIALIZED, fired when ViewChannel is initialized
+   *  1. INITIALIZED: fired when ViewChannel is initialized.
    *
-   *  2. PRESENTED, fired when ViewChannel presented a ViewChannelView
+   *  2. PRESENTED: fired when ViewChannel presented a ViewChannelView.
    *
-   *  3. DISMISSED, fired when ViewChannel dismissed a ViewChannelView
+   *  3. DISMISSED: fired when ViewChannel dismissed a ViewChannelView.
    *
-   *  4. AUTO_DISMISS_PLAYING, fired when ViewChannelView started to
-   *     play after a stop or pause
+   *  4. AUTO_DISMISS_PLAYING: fired when ViewChannelView started to
+   *     play after a stop or pause.
    *
-   *  5. AUTO_DISMISS_PAUSED, fired when a ViewChannelView auto
+   *  5. AUTO_DISMISS_PAUSED: fired when a ViewChannelView auto
    *     dismiss was paused.
    *
-   *  6. AUTO_DISMISS_STOPPED, fired when a ViewChannelView auto
+   *  6. AUTO_DISMISS_STOPPED: fired when a ViewChannelView auto
    *     dismiss was stopped.
    *
    * Goes only as far back as configured in the `Config` property

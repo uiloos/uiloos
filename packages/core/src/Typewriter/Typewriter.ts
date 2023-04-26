@@ -29,6 +29,7 @@ import {
   TypewriterInitializedEvent,
   TypewriterPausedEvent,
   TypewriterPlayingEvent,
+  TypewriterPosition,
   TypewriterRepeatingEvent,
   TypewriterStoppedEvent,
   TypewriterSubscriber,
@@ -43,28 +44,23 @@ import { TypewriterCursorNotAtSelectionEdgeError } from './errors/TypewriterCurs
 import { TypewriterCursorSelectionInvalidRangeError } from './errors/TypewriterCursorSelectionInvalidRangeError';
 import { TypewriterCursorSelectionOutOfBoundsError } from './errors/TypewriterCursorSelectionOutOfBoundsError';
 
-// CURRENT:
-
-// After first two are done
-
-// TODO: Check if we can reduce code, check the _.tick especially,
-// also check the conditions very closely perhaps we can remove entire / reduce expressions
-
 // TODO: builders: ascii, marble, fluentapi
 
 // TODO: build
 
 // TODO: create docs
 
-// TODO: create composer, where the user can compose animations by typing an clicking.
+// CURRENT: create composer, where the user can compose animations by typing an clicking.
 // Perhaps this should even be the primary way of doing things.
 
 /**
  * A component to create versatile typewriter animations with.
  *
  * A typewriter animation is an type of text based animation in which
- * a piece of text is typed one letter at a time at a certain
- * interval.
+ * a piece of text is typed one letter at a time at a certain interval.
+ *
+ * Has support for: multiple cursors, cursor selection, mouse movement,
+ * and keyboard movement.
  *
  * TODO bit about fluent api and from array builder.
  *
@@ -116,10 +112,10 @@ export class Typewriter {
    *
    * @since 1.2.0
    */
-  public blinkAfter: number = 50;
+  public blinkAfter: number = 250;
 
   /**
-   * Whether or not the `TypeWriter` is currently playing.
+   * Whether or not the `Typewriter` is currently playing.
    *
    * @since 1.2.0
    */
@@ -128,7 +124,7 @@ export class Typewriter {
   private _stopped: boolean = false;
 
   /**
-   * Whether or not the `TypeWriter` has finished playing
+   * Whether or not the `Typewriter` has finished playing
    * the entire animation.
    *
    * Note: when `repeat` is configured as `true` the animation will
@@ -212,7 +208,26 @@ export class Typewriter {
   /**
    * Contains the history of the changes in the views array.
    *
-   * Tracks X types of changes: TODO CHANGES
+   * Tracks X types of changes:
+   *
+   * 1. INITIALIZED: fired when Typewriter is initialized
+   *
+   * 2. CHANGED: fired when a change in the text of the typewriter occurred,
+   *    when a cursor moves, or a when aa cursors selection changes.
+   *
+   * 3. PLAYING: fired when play is called.
+   *
+   * 4. PAUSED: fired when pause is called.
+   *
+   * 5. STOPPED: fire when stop is called.
+   *
+   * 6. FINISHED: fired when the animation was finished. When the
+   *    Typewriter is configured to repeat indefinitely the FINISHED
+   *    event will never fire.
+   *
+   * 7. BLINKING: fired when one of the cursors started blinking.
+   *
+   * 8. REPEATING: fired when the animation starts repeating.
    *
    * Goes only as far back as configured in the `Config` property
    * `keepHistoryFor`, to prevent an infinitely growing history.
@@ -241,7 +256,15 @@ export class Typewriter {
    *
    * @param {TypewriterConfig} config The initial configuration of the Typewriter.
    * @param {TypewriterSubscriber | undefined} subscriber An optional subscriber which responds to changes in the Typewriter.
-   *
+   * @throws {TypewriterBlinkAfterError} blinkAfter duration must be a positive number
+   * @throws {TypewriterDelayError} delay duration must be a positive number
+   * @throws {TypewriterRepeatError} repeat must be a positive number
+   * @throws {TypewriterRepeatDelayError} repeatDelay must be a positive number or zero
+   * @throws {TypewriterRepeatDelayError} repeatDelay must be a positive number or zero
+   * @throws {TypewriterCursorOutOfBoundsError} cursor must be in bounds of text
+   * @throws {TypewriterCursorNotAtSelectionEdgeError} when cursor has a selection the cursor must be on edges of the selection
+   * @throws {TypewriterCursorSelectionOutOfBoundsError} the start and end of the selection must be in bounds of the text
+   * @throws {TypewriterCursorSelectionInvalidRangeError} the start of a selection must on or after the end of a selection
    * @since 1.2.0
    */
   constructor(
@@ -265,20 +288,37 @@ export class Typewriter {
    * Will start running the animation automatically.
    *
    * @param {TypewriterConfig} config The new configuration which will override the old one
-   * @throws {TypeWriterBlinkAfterError} blinkAfter duration must be a positive number
+   * @throws {TypewriterBlinkAfterError} blinkAfter duration must be a positive number
    * @throws {TypewriterDelayError} delay duration must be a positive number
+   * @throws {TypewriterRepeatError} repeat must be a positive number
+   * @throws {TypewriterRepeatDelayError} repeatDelay must be a positive number or zero
+   * @throws {TypewriterRepeatDelayError} repeatDelay must be a positive number or zero
+   * @throws {TypewriterCursorOutOfBoundsError} cursor must be in bounds of text
+   * @throws {TypewriterCursorNotAtSelectionEdgeError} when cursor has a selection the cursor must be on edges of the selection
+   * @throws {TypewriterCursorSelectionOutOfBoundsError} the start and end of the selection must be in bounds of the text
+   * @throws {TypewriterCursorSelectionInvalidRangeError} the start of a selection must on or after the end of a selection
    * @since 1.2.0
    */
   public initialize(config: TypewriterConfig): void {
+    // Clear the timers of the current active animation first, for when
+    // the initialize is called mid animation, otherwise it will start
+    // blinking cursors and doing animations.
+    this._clearAnimation();
+
+    // The`this.cursors` will get wiped, but we need to clear the
+    // timers of the previous cursors, that may still be active.
+    this.cursors.forEach((c) => c._clearBlink());
+
+    // Clear actions and cursors.
+    this.actions.length = 0;
+    this.cursors.length = 0;
+
     // Configure history
     this._history._events.length = 0;
     this._history._setKeepHistoryFor(config.keepHistoryFor);
 
     this.text = config.text !== undefined ? config.text : '';
     this._originalText = this.text;
-
-    this.actions.length = 0;
-    this.cursors.length = 0;
 
     // Get unicode text length.
     const textLength = Array.from(this.text).length;
@@ -306,6 +346,8 @@ export class Typewriter {
           throw new TypewriterDelayError();
         }
 
+        // TODO: Check if cursor exists before applying action create new error
+
         this.actions.push(action);
       }
     }
@@ -315,7 +357,7 @@ export class Typewriter {
     this.isPlaying = this.actions.length > 0;
     this.isFinished = !this.isPlaying;
 
-    this.blinkAfter = config.blinkAfter !== undefined ? config.blinkAfter : 50;
+    this.blinkAfter = config.blinkAfter !== undefined ? config.blinkAfter : 250;
 
     if (this.blinkAfter <= 0) {
       throw new TypewriterBlinkAfterError();
@@ -390,10 +432,6 @@ export class Typewriter {
 
     this.hasBeenStoppedBefore = false;
 
-    this._clearAnimation();
-
-    this.cursors.forEach((c) => c._clearBlink());
-
     this._pauseStarted = null;
 
     if (this.isPlaying) {
@@ -442,7 +480,7 @@ export class Typewriter {
    * When the Typewriter is paused or stopped it will start the
    * animation.
    *
-   * When there are is no more animations the TypeWriter will stop
+   * When there are is no more animations the Typewriter will stop
    * automatically.
    *
    * Is called automatically when the Typewriter is instantiated
@@ -560,17 +598,12 @@ export class Typewriter {
 
     const cursor = this.cursors[action.cursor];
 
-    // Trigger the blink to start, will get debounced if the cursor
-    // does another key press.
-    cursor._startBlink();
-
     // Calculate the time until the letter is typed.
     let delay = action.delay;
 
     // If paused then calculate remaining time.
     if (this._pauseStarted) {
-      delay =
-        delay - (this._pauseStarted.getTime() - this._tickStarted.getTime());
+      delay -= this._pauseStarted.getTime() - this._tickStarted.getTime();
     }
 
     // Set when this tick started to calculate resume after pause() call.
@@ -584,6 +617,10 @@ export class Typewriter {
 
       // Stop blinking because we are starting to type.
       cursor.isBlinking = false;
+
+      // Trigger the blink to start, after the `blinkAfter` timeout
+      // will get debounced if the cursor does another key press.
+      cursor._startBlink();
 
       // Whether or not this particular action is a no op.
       let noOp = false;
@@ -603,6 +640,19 @@ export class Typewriter {
               c.selection = undefined;
             });
           }
+        } else if (action.key === typewriterActionTypeLeft) {
+          noOp = this._actionLorR(cursor, -1, cursor.selection?.start || 0, 0);
+        } else if (action.key === typewriterActionTypeRight) {
+          noOp = this._actionLorR(
+            cursor,
+            1,
+            cursor.selection?.end || 0,
+            textArray.length
+          );
+        } else if (action.key === typewriterActionTypeSelectLeft) {
+          noOp = this._actionSLorR(cursor, -1, 'start', 0);
+        } else if (action.key === typewriterActionTypeSelectRight) {
+          noOp = this._actionSLorR(cursor, 1, 'end', textArray.length);
         } else if (action.key === typewriterActionTypeBackspace) {
           // Stores which positions have been removed, so we can
           // update the cursors later.
@@ -646,12 +696,7 @@ export class Typewriter {
 
           if (!noOp) {
             this.cursors.forEach((c) => {
-              const hasOverlap =
-                c.selection &&
-                ((removed.start >= c.selection.start &&
-                  removed.start <= c.selection.end) ||
-                  (removed.end > c.selection.start &&
-                    removed.end <= c.selection.end));
+              const hasOverlap = this._hasOverlap(c, removed);
 
               // Move all cursors that are after or on the current cursor
               // to their new positions.
@@ -659,7 +704,7 @@ export class Typewriter {
                 // If the cursor removes the selection of the other
                 // cursor the position of that cursor becomes
                 // the removed.start. But only if the position of
-                // the cursor lies before the remove.end..
+                // the cursor lies before the remove.end.
                 if (
                   c.selection &&
                   hasOverlap &&
@@ -740,9 +785,7 @@ export class Typewriter {
                 // Is there overlap?
                 if (hasOverlap) {
                   // How many positions do selection and remove have in common.
-                  const overlap =
-                    Math.min(c.selection.end, removed.end) -
-                    Math.max(c.selection.start, removed.start);
+                  const overlap = this._overlap(c.selection, removed);
 
                   /*
                     Now there are two situations: either the 
@@ -782,21 +825,15 @@ export class Typewriter {
                   */
                   if (c.selection.start <= removed.start) {
                     c.selection.end -= overlap;
-
-                    // When start becomes end make it undefined,
-                    // this happens when entire selection is removed.
-                    if (c.selection.start === c.selection.end) {
-                      c.selection = undefined;
-                    }
                   } else {
                     c.selection.start -= overlap;
                     c.selection.end -= removed.no;
+                  }
 
-                    // When start becomes end make it undefined,
-                    // this happens when entire selection is removed.
-                    if (c.selection.start === c.selection.end) {
-                      c.selection = undefined;
-                    }
+                  // When start becomes end make it undefined,
+                  // this happens when entire selection is removed.
+                  if (c.selection.start === c.selection.end) {
+                    c.selection = undefined;
                   }
                 } else if (
                   // Is the selection is completely on the right of the removal
@@ -810,92 +847,12 @@ export class Typewriter {
               }
             });
           }
-        } else if (action.key === typewriterActionTypeLeft) {
-          // If cursor is at the start it is a no op if there is no selection.
-          if (cursor.position === 0) {
-            if (cursor.selection === undefined) {
-              noOp = true;
-            }
-          } else {
-            if (cursor.selection) {
-              // Move the cursor to the start of the selection
-              cursor.position = cursor.selection.start;
-            } else {
-              // Move the cursor to the left if there is no selection
-              cursor.position -= 1;
-            }
-          }
-
-          // Whatever happens the selection is killed.
-          cursor.selection = undefined;
-        } else if (action.key === typewriterActionTypeRight) {
-          // If cursor is at the end it is a no op if there is no selection.
-          if (cursor.position === textArray.length) {
-            if (cursor.selection === undefined) {
-              noOp = true;
-            }
-          } else {
-            if (cursor.selection) {
-              // Move the cursor to the end of the selection
-              cursor.position = cursor.selection.end;
-            } else {
-              // Move the cursor to the right if there is no selection
-              cursor.position += 1;
-            }
-          }
-
-          // Whatever happens the selection is killed.
-          cursor.selection = undefined;
-        } else if (action.key === typewriterActionTypeSelectLeft) {
-          // Is noOp whenever the user is already at the start of the text
-          if (cursor.position === 0) {
-            noOp = true;
-          } else {
-            // Otherwise the position of the cursor moves to the left
-            cursor.position -= 1;
-            if (cursor.selection) {
-              // If there is already a selection expand left from the start.
-              cursor.selection.start -= 1;
-            } else {
-              // If no selection create a new one
-              cursor.selection = {
-                start: cursor.position,
-                end: cursor.position + 1,
-              };
-            }
-          }
-        } else if (action.key === typewriterActionTypeSelectRight) {
-          // Is noOp whenever the user is already at the end of the text
-          if (cursor.position === textArray.length) {
-            noOp = true;
-          } else {
-            // Otherwise the position of the cursor moves to the right
-            cursor.position += 1;
-            if (cursor.selection) {
-              // If there is already a selection expand right from the end
-              cursor.selection.end += 1;
-            } else {
-              // If no selection create a new one
-              cursor.selection = {
-                start: cursor.position - 1,
-                end: cursor.position,
-              };
-            }
-          }
         } else {
           // action is insert char
 
           if (cursor.selection) {
             // When something is selected it will delete the selected
             // text and insert the new char on that position
-
-            // Stores which positions have been removed, so we can
-            // update the cursors later.
-            const removed = {
-              start: -1,
-              end: -1,
-              no: -1,
-            };
 
             const start = cursor.selection.start;
             const end = cursor.selection.end;
@@ -904,11 +861,15 @@ export class Typewriter {
 
             textArray.splice(cursor.selection.start, no);
 
-            removed.start = start;
-            removed.end = end;
-            removed.no = no;
+            cursor.position = start;
 
-            cursor.position = removed.start;
+            // Stores which positions have been removed, so we can
+            // update the cursors later.
+            const removed = {
+              start,
+              end,
+              no,
+            };
 
             // Insert the new key at the correct position.
             textArray.splice(cursor.position, 0, action.key);
@@ -930,28 +891,19 @@ export class Typewriter {
                   c.selection = undefined;
                   c.position = removed.start;
                 } else {
-                  const hasOverlap =
-                    c.selection &&
-                    ((removed.start >= c.selection.start &&
-                      removed.start <= c.selection.end) ||
-                      (removed.end > c.selection.start &&
-                        removed.end <= c.selection.end));
+                  const hasOverlap = this._hasOverlap(c, removed);
 
                   if (hasOverlap) {
                     // How many positions do selection and remove have in common.
-                    const overlap =
-                      Math.min(c.selection.end, removed.end) -
-                      Math.max(c.selection.start, removed.start);
+                    const overlap = this._overlap(c.selection, removed);
 
                     if (c.selection.start > removed.start) {
                       c.selection.start -= removed.no - overlap;
-                    } 
-                    
+                    }
+
                     if (c.selection.end === removed.end) {
                       c.selection.end -= removed.no;
-                    } else if (c.selection.end === removed.start) {
-
-                    } else {
+                    } else if (c.selection.end !== removed.start) {
                       c.selection.end -= removed.no - 1;
                     }
 
@@ -1032,11 +984,11 @@ export class Typewriter {
         // action.type === 'mouse'
 
         /* 
-            When you click far to the left or right of a line inside
-            of a text editor you move the cursor to the closest 
-            position. So we allow negative numbers and larger 
-            numbers than the text is wide to allow this.
-          */
+          When you click far to the left or right of a line inside
+          of a text editor you move the cursor to the closest 
+          position. So we allow negative numbers and larger 
+          numbers than the text is wide to allow this.
+        */
         const position = Math.min(
           textArray.length,
           Math.max(0, action.position)
@@ -1091,7 +1043,14 @@ export class Typewriter {
             this._reset();
 
             // Also make all cursors blink again.
-            this.cursors.forEach((c) => (c.isBlinking = true));
+            this.cursors.forEach((c) => {
+              // Clear the blink of any cursor that still has a blink
+              // queued so the blink from the previous animation does 
+              // not cross over to the next animation.
+              c._clearBlink();
+
+              c.isBlinking = true;
+            });
 
             const event: TypewriterRepeatingEvent = {
               type: 'REPEATING',
@@ -1155,10 +1114,140 @@ export class Typewriter {
     });
   }
 
+  private _hasOverlap(c: TypewriterCursor, r: Range) {
+    return (
+      c.selection &&
+      ((r.start >= c.selection.start && r.start <= c.selection.end) ||
+        (r.end > c.selection.start && r.end <= c.selection.end))
+    );
+  }
+
+  private _overlap(c: Range, r: Range) {
+    return Math.min(c.end, r.end) - Math.max(c.start, r.start);
+  }
+
+  // handles left and right cursor movement, returns whether it is a no op or not.
+  private _actionLorR(
+    cursor: TypewriterCursor,
+    mod: number,
+    select: number,
+    stop: number
+  ): boolean {
+    // Normally I would not write such a method but it reduces the code by a lot.
+
+    // If cursor is at the start it is a no op if there is no selection.
+    if (cursor.position === stop) {
+      if (cursor.selection === undefined) {
+        return true;
+      }
+    } else {
+      if (cursor.selection) {
+        // Move the cursor to the start of the selection
+        cursor.position = select;
+      } else {
+        // Move the cursor to the left if there is no selection
+        cursor.position += mod;
+      }
+    }
+
+    // Whatever happens the selection is killed.
+    cursor.selection = undefined;
+    return false;
+  }
+
+  // handles left and right shift cursor movement, returns whether it is a no op or not.
+  private _actionSLorR(
+    cursor: TypewriterCursor,
+    mod: number,
+    which: 'start' | 'end',
+    stop: number
+  ): boolean {
+    // Normally I would not write such a method but it reduces the code by a lot.
+
+    // Is noOp whenever the user is already at the end of the text
+    if (cursor.position === stop) {
+      return true;
+    } else {
+      // Otherwise the position of the cursor moves to the right
+      cursor.position += mod;
+      if (cursor.selection) {
+        // If there is already a selection expand right from the end
+        cursor.selection[which] += mod;
+      } else {
+        // If no selection create a new one
+        cursor.selection = { start: -1, end: -1 };
+
+        cursor.selection[which === 'start' ? 'end' : 'start'] =
+          cursor.position - mod;
+        cursor.selection[which] = cursor.position;
+      }
+    }
+
+    return false;
+  }
+
   public _inform(event: TypewriterEvent): void {
     this._history._push(event);
 
     this._observer._inform(this, event);
+  }
+
+  /**
+   * Iterates over the Typewriters text, and returns all positions in
+   * the text. For each position you will be given a object of type:
+   * `TypewriterPosition`, which contains all information about that
+   * position, such as which cursors are on that position, and the
+   * character on that position.
+   *
+   * When there is a cursor on the last position, you will receive an
+   * additional `TypewriterPosition` which has an empty string for
+   * the `character` field.
+   *
+   * IMPORTANT: in JavaScript some unicode characters have a length
+   * bigger than 1. For example `"😃".length` is `2` not `1`.
+   *
+   * The Typewriter "normalizes" these so all unicode characters have
+   * a length of 1, by calling `Array.from(text)`.
+   *
+   * This means that the `.length` of the `Typewriter.text` can differ
+   * from the number of iterations you get from iterating over the
+   * Typewriter!
+   *
+   * @returns {Iterator<TypewriterPosition>} an iterator which yields TypewriterCursor and strings.
+   * @since 1.2.0
+   */
+  *[Symbol.iterator](): Iterator<TypewriterPosition> {
+    // Transform to array which respects unicode.
+    const text = Array.from(this.text);
+
+    const cursorMap: Record<number, TypewriterCursor[]> = {};
+
+    this.cursors.forEach((cursor) => {
+      if (cursorMap[cursor.position]) {
+        cursorMap[cursor.position].push(cursor);
+      } else {
+        cursorMap[cursor.position] = [cursor];
+      }
+    });
+
+    for (let i = 0; i < text.length; i++) {
+      const cursors = cursorMap[i];
+
+      yield {
+        position: i,
+        cursors: cursors ? cursors : [],
+        character: text[i],
+      };
+    }
+
+    const finalCursors = cursorMap[text.length];
+    if (finalCursors) {
+      yield {
+        position: text.length,
+        character: '',
+        cursors: finalCursors,
+      };
+    }
   }
 }
 

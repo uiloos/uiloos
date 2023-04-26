@@ -1,0 +1,55 @@
+---
+title: Examples | Typewriter | Docs | uiloos
+layout: layouts/docs.njk
+permalink: /docs/typewriter/examples/
+renderData:
+  parent: 'typewriter'
+  current: 'typewriter-examples'
+  description: "Shows multiple complete examples on how to use the ViewChannel from uiloos."
+  keywords: "ViewChannel examples, ViewChannel flash messages example, ViewChannel notification center example, ViewChannel modal example, ViewChannel dialog example"
+---
+
+<article>
+  <h1>Typewriter Examples</h1>
+
+  <p>
+    Below are examples of how to use the ViewChannel to create dialogs,
+    modals, flash messages and a notification center. They 
+    serve as starting points for your own components.
+  </p>
+
+  <div class="grid lg:grid-cols-2 gap-4">
+    {% for example in examples %}
+      {% if example.for === 'ViewChannel' %}
+        <a 
+          class="example-card" 
+          href="{{ example.url }}"
+        >
+          <div class="flex flex-col h-full">
+            <div class="text-normal font-medium mb-4">{{ example.text }}</div>
+            <div class="grow mb-4">{{ example.description | safe }}</div>
+            <div class="justify-self-end flex items-center gap-4 text-sm">
+              {% for tag in example.tags %}
+                {% if tag === 'JavaScript' %}
+                  <img src="/images/frameworks/vanilla.svg" class="w-12 h-12 p-1" loading="lazy" alt="JavaScript logo" /> 
+                {% elif tag === 'React' %}
+                  <img src="/images/frameworks/react.svg" class="w-12 h-12 p-1" loading="lazy" alt="React logo" />
+                {% elif tag === 'Vue' %}
+                  <img src="/images/frameworks/vue.svg" class="w-12 h-12 p-1" loading="lazy" alt="Vue logo" />
+                {% elif tag === 'Angular' %}
+                  <img src="/images/frameworks/angular.svg" class="w-12 h-12 p-1" loading="lazy" alt="Angular logo" />
+                {% elif tag === 'Svelte' %}
+                  <img src="/images/frameworks/svelte.svg" class="w-12 h-12 p-1" loading="lazy" alt="Svelte logo" />
+                {% else %}
+                  <span class="text-center text-white font-bold py-1 px-3 rounded-full bg-purple-500">
+                    {{ tag }}
+                  </span>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</article>

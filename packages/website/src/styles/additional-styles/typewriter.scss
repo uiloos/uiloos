@@ -1,0 +1,27 @@
+.typewriter {
+  font-family: monospace;
+  font-size: 32px;
+  display: inline-block;
+
+  span {
+    margin-right: 1px;
+  }
+
+  .cursor {
+    border-right: 2px solid currentcolor; 
+  }
+
+  .blink {
+    animation: blink 1s step-start infinite;
+  }
+}
+
+@keyframes blink {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: currentcolor;
+  }
+}

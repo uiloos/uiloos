@@ -81,7 +81,7 @@ export type TypewriterConfig = {
 
   /**
    * The actions this `Typewriter` is set to enter. Each stroke
-   * represents a key press on the typewriter. A stroke can add
+   * represents a key press on the Typewriter. A stroke can add
    * or remove characters, or move the cursor.
    *
    * Defaults to an empty array, meaning no actions will be made.
@@ -93,7 +93,7 @@ export type TypewriterConfig = {
   /**
    * The initial text the `Typewriter` starts with.
    *
-   * Defaults to `` meaning that the typewriter will not have any
+   * Defaults to `` meaning that the Typewriter will not have any
    * initial text.
    *
    * @since 1.2.0
@@ -101,9 +101,25 @@ export type TypewriterConfig = {
   text?: string;
 
   /**
-   * The time it takes until the cursor starts blinking.
+   * The time it takes until the cursor starts blinking again after 
+   * the cursor was used.
+   * 
+   * A cursor does not blink when it is used until after a certain 
+   * time. So if you keep typing the cursor does not blink, until 
+   * you stop typing for some predefined amount of time. 
+   * 
+   * The `blinkAfter` is what represents that debounce time.
+   * 
+   * Note: when you set the `blinkAfter` to a number lower or equal to
+   * the `delay` of a `TypewriterAction`, it will negate the debounce.
+   * The effect is that all "CHANGED" events will have a "BLINKING"
+   * event. This might not "visually" affect your animation, but 
+   * will make the `Typewriter` send extra events. If this happens it
+   * is technically as "misconfiguration" on your part, but the 
+   * Typewriter will not throw any errors, since visually nothing
+   * bad happens. 
    *
-   * Defaults to after `50` milliseconds.
+   * Defaults to after `250` milliseconds.
    *
    * @since 1.2.0
    */
@@ -231,7 +247,7 @@ export type TypewriterActionTypeKeyPressKey =
  *
  * @since 1.2.0
  */
-export type TypeWriterActionType = 'mouse' | 'keyboard';
+export type TypewriterActionType = 'mouse' | 'keyboard';
 
 /**
  * Represents an action taken by the user can either be a key press,
@@ -253,7 +269,7 @@ export type BaseTypewriterAction = {
    *
    * @since 1.2.0
    */
-  type: TypeWriterActionType;
+  type: TypewriterActionType;
 
   /**
    * The cursor responsible for the action. Is the value
@@ -261,7 +277,7 @@ export type BaseTypewriterAction = {
    *
    * @since 1.2.0
    */
-  cursor: number;
+  cursor: number; // TODO: api inconsistency should be the cursor object.
 };
 
 /**
@@ -357,6 +373,40 @@ export type TypewriterBaseEvent = {
 };
 
 /**
+ * When you loop over a Typewriter, using a `for-of` statement, you 
+ * iterate over all positions in the Typewriters text. These positions
+ * are represented by a `TypewriterPosition`.
+ * 
+ * `TypewriterPosition` contains the character for that position, 
+ * which cursors there are, and the position (index) of the character
+ * in the text.
+ * 
+ * @since 1.2.0
+ */
+export type TypewriterPosition = {
+  /**
+   * The position of the 'character' in the text.
+   * 
+   * IMPORTANT: in JavaScript some unicode characters have a length 
+   * bigger than 1. For example "😃".length is 2 not 1.
+   * 
+   * The Typewriter "normalizes" these so all unicode characters have 
+   * a length of 1, by calling `Array.from(text)`.
+   */
+  position: number;
+
+  /**
+   * The character which is at this position in the text.
+   */
+  character: string;
+
+  /**
+   * The cursors that are on this position.
+   */
+  cursors: TypewriterCursor[];
+}
+
+/**
  * Represents the initialization of the Typewriter
  *
  * @since 1.2.0
@@ -394,8 +444,6 @@ export type TypewriterChangedEvent = TypewriterBaseEvent & {
    * @since 1.2.0
    */
   action: TypewriterAction;
-
-  // TODO: Should we model the change in selection? Could be a boolean 'selectionChanged', or the current selection.
 };
 
 /**
@@ -442,6 +490,11 @@ export type TypewriterStoppedEvent = TypewriterBaseEvent & {
 
 /**
  * Represents that the Typewriter has finished the animation.
+ * 
+ * Important: finishing only refers to the fact that the 'text' will
+ * no longer change, but a cursor might start blinking after the 
+ * animation is finished. So "FINISHED" is not necessarily the last 
+ * event that will take place.
  *
  * @since 1.2.0
  */

@@ -6,7 +6,6 @@ import {
   TypewriterEventType,
   typewriterActionTypeBackspace,
   typewriterActionTypeClearAll,
-  typewriterFromSentences,
   TypewriterRepeatError,
   TypewriterRepeatDelayError,
   TypewriterCursorOutOfBoundsError,
@@ -19,12 +18,13 @@ import {
   TypewriterCursorNotAtSelectionEdgeError,
   TypewriterCursorSelectionOutOfBoundsError,
   TypewriterCursorSelectionInvalidRangeError,
+  typewriterFromSentences,
+  TypewriterCursor,
 } from '../src/Typewriter';
 
 import { licenseChecker } from '../src/license';
 
 import { UnsubscribeFunction } from '../src/generic/types';
-import { TypewriterCursor } from '../src/Typewriter/TypewriterCursor';
 
 describe('Typewriter', () => {
   let unsubscribe: UnsubscribeFunction | null = null;
@@ -51,6 +51,10 @@ describe('Typewriter', () => {
 
     return subscriber;
   }
+
+  test("imports", () => {
+    expect(TypewriterCursor).toBeDefined();
+  })
 
   describe('constructor', () => {
     describe('errors', () => {
@@ -706,7 +710,7 @@ describe('Typewriter', () => {
         actions: [],
         cursors: [{ position: 0, name: '', isBlinking: true }],
         text: '',
-        blinkAfter: 50,
+        blinkAfter: 250,
         isPlaying: false,
         isFinished: true,
         hasBeenStoppedBefore: false,
@@ -730,7 +734,7 @@ describe('Typewriter', () => {
         actions: [],
         cursors: [{ position: 0, name: '', isBlinking: true }],
         text: '',
-        blinkAfter: 50,
+        blinkAfter: 250,
         isPlaying: false,
         isFinished: true,
         hasBeenStoppedBefore: false,
@@ -760,7 +764,7 @@ describe('Typewriter', () => {
         actions: [],
         cursors: [{ position: 0, name: '', isBlinking: true }],
         text: '',
-        blinkAfter: 50,
+        blinkAfter: 250,
         isPlaying: false,
         isFinished: true,
         hasBeenStoppedBefore: false,
@@ -1412,7 +1416,7 @@ describe('Typewriter', () => {
             actions: [],
             cursors: [{ position: 0, name: '', isBlinking: true }],
             text: '',
-            blinkAfter: 50,
+            blinkAfter: 250,
             isPlaying: false,
             isFinished: true,
             hasBeenStoppedBefore: false,
@@ -1453,41 +1457,54 @@ describe('Typewriter', () => {
 
       it('should reset the blinking timeout', () => {
         const typewriter: Typewriter = new Typewriter({
+          blinkAfter: 50,
           actions: [
             { type: 'keyboard', key: 'a', delay: 100, cursor: 0 },
-
             { type: 'keyboard', key: 'b', delay: 100, cursor: 0 },
           ],
         });
 
+        const subscriber = autoSubscribe(typewriter);
+
         expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('');
+        assertEvents(subscriber, []);
 
         jest.advanceTimersByTime(100);
 
         expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('a');
+        assertEvents(subscriber, ['CHANGED']);
 
-        // Just before the timer hits do an initialize
+        // Move it to just before the blink.
+        jest.advanceTimersByTime(49);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('a');
+        assertEvents(subscriber, ['CHANGED']);
+
+        // But then hits it with an initialize
         typewriter.initialize({
           actions: [
             { type: 'keyboard', key: 'c', delay: 100, cursor: 0 },
-
             { type: 'keyboard', key: 'd', delay: 100, cursor: 0 },
           ],
         });
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('');
+        assertEvents(subscriber, ['CHANGED', 'INITIALIZED']);
 
-        jest.advanceTimersByTime(100);
-
-        // It should only trigger now after another 50ms
-        jest.advanceTimersByTime(1);
-        expect(typewriter.cursors[0].isBlinking).toBe(false);
-
-        // Move it just before
-        jest.advanceTimersByTime(48);
-        expect(typewriter.cursors[0].isBlinking).toBe(false);
-
-        // Now push it over the time limit
+        // Push it to over the blink if it where still active, nothing
+        // should happen.
         jest.advanceTimersByTime(1);
         expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('');
+        assertEvents(subscriber, ['CHANGED', 'INITIALIZED']);
+
+        // Check that the next event is 'CHANGED'.
+        jest.advanceTimersByTime(99);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('c');
+        assertEvents(subscriber, ['CHANGED', 'INITIALIZED', 'CHANGED']);
       });
     });
 
@@ -12019,9 +12036,9 @@ describe('Typewriter', () => {
         blinkAfter: 50,
         text: 'hllwrld',
         cursors: [
-          { position: 1, name: '' },
-          { position: 3, name: '' },
-          { position: 4, name: '' },
+          { position: 1, name: 'bert' },
+          { position: 3, name: 'annie' },
+          { position: 4, name: 'hank' },
         ],
       });
       const subscriber = autoSubscribe(typewriter);
@@ -12049,9 +12066,14 @@ describe('Typewriter', () => {
           },
         ],
         cursors: [
-          { position: 1, name: '', isBlinking: true, selection: undefined },
-          { position: 3, name: '', isBlinking: true, selection: undefined },
-          { position: 4, name: '', isBlinking: true, selection: undefined },
+          { position: 1, name: 'bert', isBlinking: true, selection: undefined },
+          {
+            position: 3,
+            name: 'annie',
+            isBlinking: true,
+            selection: undefined,
+          },
+          { position: 4, name: 'hank', isBlinking: true, selection: undefined },
         ],
         text: 'hllwrld',
         blinkAfter: 50,
@@ -12089,9 +12111,24 @@ describe('Typewriter', () => {
             },
           ],
           cursors: [
-            { position: 1, name: '', isBlinking: true, selection: undefined },
-            { position: 3, name: '', isBlinking: true, selection: undefined },
-            { position: 5, name: '', isBlinking: false, selection: undefined },
+            {
+              position: 1,
+              name: 'bert',
+              isBlinking: true,
+              selection: undefined,
+            },
+            {
+              position: 3,
+              name: 'annie',
+              isBlinking: true,
+              selection: undefined,
+            },
+            {
+              position: 5,
+              name: 'hank',
+              isBlinking: false,
+              selection: undefined,
+            },
           ],
           text: 'hllworld',
           blinkAfter: 50,
@@ -12140,9 +12177,24 @@ describe('Typewriter', () => {
             },
           ],
           cursors: [
-            { position: 1, name: '', isBlinking: true, selection: undefined },
-            { position: 4, name: '', isBlinking: false, selection: undefined },
-            { position: 6, name: '', isBlinking: false, selection: undefined },
+            {
+              position: 1,
+              name: 'bert',
+              isBlinking: true,
+              selection: undefined,
+            },
+            {
+              position: 4,
+              name: 'annie',
+              isBlinking: false,
+              selection: undefined,
+            },
+            {
+              position: 6,
+              name: 'hank',
+              isBlinking: true,
+              selection: undefined,
+            },
           ],
           text: 'hlloworld',
           blinkAfter: 50,
@@ -12191,9 +12243,24 @@ describe('Typewriter', () => {
             },
           ],
           cursors: [
-            { position: 2, name: '', isBlinking: false, selection: undefined },
-            { position: 5, name: '', isBlinking: false, selection: undefined },
-            { position: 7, name: '', isBlinking: false, selection: undefined },
+            {
+              position: 2,
+              name: 'bert',
+              isBlinking: false,
+              selection: undefined,
+            },
+            {
+              position: 5,
+              name: 'annie',
+              isBlinking: true,
+              selection: undefined,
+            },
+            {
+              position: 7,
+              name: 'hank',
+              isBlinking: true,
+              selection: undefined,
+            },
           ],
           text: 'helloworld',
           blinkAfter: 50,
@@ -12241,8 +12308,8 @@ describe('Typewriter', () => {
         blinkAfter: 50,
         text: 'hllorld',
         cursors: [
-          { position: 1, name: '' },
-          { position: 3, name: '' },
+          { position: 1, name: 'john' },
+          { position: 3, name: 'sally' },
         ],
       });
       const subscriber = autoSubscribe(typewriter);
@@ -12270,8 +12337,13 @@ describe('Typewriter', () => {
           },
         ],
         cursors: [
-          { position: 1, name: '', isBlinking: true, selection: undefined },
-          { position: 3, name: '', isBlinking: true, selection: undefined },
+          { position: 1, name: 'john', isBlinking: true, selection: undefined },
+          {
+            position: 3,
+            name: 'sally',
+            isBlinking: true,
+            selection: undefined,
+          },
         ],
         text: 'hllorld',
         blinkAfter: 50,
@@ -12309,8 +12381,18 @@ describe('Typewriter', () => {
             },
           ],
           cursors: [
-            { position: 1, name: '', isBlinking: true, selection: undefined },
-            { position: 4, name: '', isBlinking: false, selection: undefined },
+            {
+              position: 1,
+              name: 'john',
+              isBlinking: true,
+              selection: undefined,
+            },
+            {
+              position: 4,
+              name: 'sally',
+              isBlinking: false,
+              selection: undefined,
+            },
           ],
           text: 'hlloorld',
           blinkAfter: 50,
@@ -12359,8 +12441,18 @@ describe('Typewriter', () => {
             },
           ],
           cursors: [
-            { position: 1, name: '', isBlinking: true, selection: undefined },
-            { position: 5, name: '', isBlinking: false, selection: undefined },
+            {
+              position: 1,
+              name: 'john',
+              isBlinking: true,
+              selection: undefined,
+            },
+            {
+              position: 5,
+              name: 'sally',
+              isBlinking: false,
+              selection: undefined,
+            },
           ],
           text: 'hlloworld',
           blinkAfter: 50,
@@ -12409,8 +12501,18 @@ describe('Typewriter', () => {
             },
           ],
           cursors: [
-            { position: 2, name: '', isBlinking: false, selection: undefined },
-            { position: 6, name: '', isBlinking: false, selection: undefined },
+            {
+              position: 2,
+              name: 'john',
+              isBlinking: false,
+              selection: undefined,
+            },
+            {
+              position: 6,
+              name: 'sally',
+              isBlinking: true,
+              selection: undefined,
+            },
           ],
           text: 'helloworld',
           blinkAfter: 50,
@@ -18798,6 +18900,783 @@ describe('Typewriter', () => {
     });
   });
 
+  describe('blinking', () => {
+    it('should not blink a cursor when the user is typing until after the blinkAfter, and debounce the blinking whenever an event occurs', () => {
+      const typewriter = new Typewriter({
+        blinkAfter: 250, // btw this is the default
+        cursors: [{ position: 0 }],
+        actions: [
+          { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
+          { type: 'keyboard', key: 'o', delay: 50, cursor: 0 },
+          { type: 'keyboard', key: 'y', delay: 50, cursor: 0 },
+          { type: 'keyboard', key: '!', delay: 50, cursor: 0 },
+        ],
+      });
+      const subscriber = autoSubscribe(typewriter);
+
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
+      expect(typewriter.text).toBe('');
+      assertEvents(subscriber, []);
+
+      jest.advanceTimersByTime(50);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.text).toBe('j');
+      assertEvents(subscriber, ['CHANGED']);
+
+      jest.advanceTimersByTime(50);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.text).toBe('jo');
+      assertEvents(subscriber, ['CHANGED', 'CHANGED']);
+
+      jest.advanceTimersByTime(50);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.text).toBe('joy');
+      assertEvents(subscriber, ['CHANGED', 'CHANGED', 'CHANGED']);
+
+      jest.advanceTimersByTime(50);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.text).toBe('joy!');
+      assertEvents(subscriber, ['CHANGED', 'CHANGED', 'CHANGED', 'FINISHED']);
+
+      // Move it to the edge
+      jest.advanceTimersByTime(249);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.text).toBe('joy!');
+      assertEvents(subscriber, ['CHANGED', 'CHANGED', 'CHANGED', 'FINISHED']);
+
+      // Push it over
+      jest.advanceTimersByTime(1);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
+      assertEvents(subscriber, [
+        'CHANGED',
+        'CHANGED',
+        'CHANGED',
+        'FINISHED',
+        'BLINKING',
+      ]);
+    });
+
+    describe('testing the edges', () => {
+      it('should work even if a blinkAfter is equal to the delay', () => {
+        // In this test we kind of misconfigure the Typewriter by
+        // setting the blinkAfter equal to the delay.
+
+        const typewriter = new Typewriter({
+          blinkAfter: 50,
+          cursors: [{ position: 0 }],
+          actions: [
+            { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: 'o', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: 'y', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: '!', delay: 50, cursor: 0 },
+          ],
+        });
+        const subscriber = autoSubscribe(typewriter);
+
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('');
+        assertEvents(subscriber, []);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('j');
+        assertEvents(subscriber, ['CHANGED']);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('jo');
+        assertEvents(subscriber, ['CHANGED', 'BLINKING', 'CHANGED']);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+        ]);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'FINISHED',
+        ]);
+
+        // Move it to the edge
+        jest.advanceTimersByTime(49);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'FINISHED',
+        ]);
+
+        // Push it over
+        jest.advanceTimersByTime(1);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        assertEvents(subscriber, [
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'FINISHED',
+          'BLINKING',
+        ]);
+      });
+
+      it('should work even if a blinkAfter is one number less than the delay', () => {
+        // In this test we kind of misconfigure the Typewriter by
+        // setting the blinkAfter one less than the delay.
+
+        const typewriter = new Typewriter({
+          blinkAfter: 49,
+          cursors: [{ position: 0 }],
+          actions: [
+            { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: 'o', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: 'y', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: '!', delay: 50, cursor: 0 },
+          ],
+        });
+        const subscriber = autoSubscribe(typewriter);
+
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('');
+        assertEvents(subscriber, []);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('j');
+        assertEvents(subscriber, ['CHANGED']);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('jo');
+        assertEvents(subscriber, ['CHANGED', 'BLINKING', 'CHANGED']);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+        ]);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'FINISHED',
+        ]);
+
+        // Move it to the edge
+        jest.advanceTimersByTime(48);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'FINISHED',
+        ]);
+
+        // Push it over
+        jest.advanceTimersByTime(1);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        assertEvents(subscriber, [
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'CHANGED',
+          'BLINKING',
+          'FINISHED',
+          'BLINKING',
+        ]);
+      });
+
+      it('should work even if a blinkAfter is one more than the delay', () => {
+        // This one is not a misconfiguration, but it is cutting it close :P
+
+        const typewriter = new Typewriter({
+          blinkAfter: 51,
+          cursors: [{ position: 0 }],
+          actions: [
+            { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: 'o', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: 'y', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: '!', delay: 50, cursor: 0 },
+          ],
+        });
+        const subscriber = autoSubscribe(typewriter);
+
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('');
+        assertEvents(subscriber, []);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('j');
+        assertEvents(subscriber, ['CHANGED']);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('jo');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED']);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED', 'CHANGED']);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED', 'CHANGED', 'FINISHED']);
+
+        // Move it to the edge
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED', 'CHANGED', 'FINISHED']);
+
+        // Push it over
+        jest.advanceTimersByTime(1);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'FINISHED',
+          'BLINKING', // This might seem odd but in line with what FINISHED means.
+        ]);
+      });
+    });
+
+    it('should blink multiple cursors independently', () => {
+      const typewriter = new Typewriter({
+        blinkAfter: 100,
+        cursors: [
+          { position: 0, name: 'first' },
+          { position: 0, name: 'middle' }, // This one should always blink
+          { position: 0, name: 'last' }, // This one does the first and last action
+        ],
+        actions: [
+          { type: 'keyboard', key: 'a', delay: 50, cursor: 2 },
+          { type: 'keyboard', key: 'b', delay: 50, cursor: 0 },
+          { type: 'keyboard', key: 'c', delay: 50, cursor: 0 },
+          { type: 'keyboard', key: 'd', delay: 50, cursor: 2 },
+        ],
+      });
+      const subscriber = autoSubscribe(typewriter);
+
+      // All cursors should blink at the start
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
+      expect(typewriter.cursors[1].isBlinking).toBe(true);
+      expect(typewriter.cursors[2].isBlinking).toBe(true);
+      expect(typewriter.text).toBe('');
+      assertEvents(subscriber, []);
+
+      // Now the last cursor should not blink because it typed 'a'
+      jest.advanceTimersByTime(50);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
+      expect(typewriter.cursors[1].isBlinking).toBe(true);
+      expect(typewriter.cursors[2].isBlinking).toBe(false);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, ['CHANGED']);
+
+      // Now the last cursor should still blink because it has not
+      // passed blinkAfter/ The first one typed 'b' to it does not
+      // blink now
+      jest.advanceTimersByTime(50);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.cursors[1].isBlinking).toBe(true);
+      expect(typewriter.cursors[2].isBlinking).toBe(false);
+      expect(typewriter.text).toBe('ba');
+      assertEvents(subscriber, ['CHANGED', 'CHANGED']);
+
+      // Now the first cursor types in 'c' so it does not blink.
+      // but the final cursor now starts blinking again.
+      jest.advanceTimersByTime(50);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.cursors[1].isBlinking).toBe(true);
+      expect(typewriter.cursors[2].isBlinking).toBe(true);
+      expect(typewriter.text).toBe('bca');
+      assertEvents(subscriber, ['CHANGED', 'CHANGED', 'BLINKING', 'CHANGED']);
+
+      // Now the first cursor is still blinking, and the final cursor stops
+      // blinking again since it typed 'd' .
+      jest.advanceTimersByTime(50);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.cursors[1].isBlinking).toBe(true);
+      expect(typewriter.cursors[2].isBlinking).toBe(false);
+      expect(typewriter.text).toBe('bcad');
+      assertEvents(subscriber, [
+        'CHANGED',
+        'CHANGED',
+        'BLINKING',
+        'CHANGED',
+        'FINISHED',
+      ]);
+
+      // Move the first cursor to the edge
+      jest.advanceTimersByTime(49);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.cursors[1].isBlinking).toBe(true);
+      expect(typewriter.cursors[2].isBlinking).toBe(false);
+      expect(typewriter.text).toBe('bcad');
+
+      // Push it over
+      jest.advanceTimersByTime(1);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
+      expect(typewriter.cursors[1].isBlinking).toBe(true);
+      expect(typewriter.cursors[2].isBlinking).toBe(false);
+      assertEvents(subscriber, [
+        'CHANGED',
+        'CHANGED',
+        'BLINKING',
+        'CHANGED',
+        'FINISHED',
+        'BLINKING',
+      ]);
+
+      // Move the last cursor to the edge
+      jest.advanceTimersByTime(49);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
+      expect(typewriter.cursors[1].isBlinking).toBe(true);
+      expect(typewriter.cursors[2].isBlinking).toBe(false);
+      assertEvents(subscriber, [
+        'CHANGED',
+        'CHANGED',
+        'BLINKING',
+        'CHANGED',
+        'FINISHED',
+        'BLINKING',
+      ]);
+
+      // Push it over
+      jest.advanceTimersByTime(1);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
+      expect(typewriter.cursors[1].isBlinking).toBe(true);
+      expect(typewriter.cursors[2].isBlinking).toBe(true);
+      assertEvents(subscriber, [
+        'CHANGED',
+        'CHANGED',
+        'BLINKING',
+        'CHANGED',
+        'FINISHED',
+        'BLINKING',
+        'BLINKING',
+      ]);
+    });
+
+    describe('effects of repeating on blinking', () => {
+      it('should still start blinking during the repeatDelay', () => {
+        const typewriter = new Typewriter({
+          blinkAfter: 100,
+          repeat: 2,
+          repeatDelay: 1000,
+          cursors: [{ position: 0 }],
+          actions: [
+            { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: 'o', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: 'y', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: '!', delay: 50, cursor: 0 },
+          ],
+        });
+        const subscriber = autoSubscribe(typewriter);
+
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('');
+        assertEvents(subscriber, []);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('j');
+        assertEvents(subscriber, ['CHANGED']);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('jo');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED']);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED', 'CHANGED']);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED', 'CHANGED', 'CHANGED']);
+
+        // At this time we finished this animation iteration, and are
+        // awaiting the repeat delay.
+        jest.advanceTimersByTime(99);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED', 'CHANGED', 'CHANGED']);
+
+        // Should start blinking now
+        jest.advanceTimersByTime(1);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'BLINKING',
+        ]);
+
+        // Should still be blinking now, the second before the repeat
+        jest.advanceTimersByTime(899);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'BLINKING',
+        ]);
+
+        // Check the firing of the repeat
+        jest.advanceTimersByTime(1);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'BLINKING',
+          'REPEATING',
+        ]);
+
+        // Once more check the animation, just to be sure
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('j');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'BLINKING',
+          'REPEATING',
+          'CHANGED',
+        ]);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('jo');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'BLINKING',
+          'REPEATING',
+          'CHANGED',
+          'CHANGED',
+        ]);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'BLINKING',
+          'REPEATING',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+        ]);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'BLINKING',
+          'REPEATING',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'FINISHED',
+        ]);
+
+        // At this time we finished this animation iteration, and are
+        // awaiting the repeat delay.
+        jest.advanceTimersByTime(99);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'BLINKING',
+          'REPEATING',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'FINISHED',
+        ]);
+
+        // Should start blinking now
+        jest.advanceTimersByTime(1);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'BLINKING',
+          'REPEATING',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'FINISHED',
+          'BLINKING',
+        ]);
+
+        // Should still be blinking now, the second before the repeat
+        jest.advanceTimersByTime(899);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'BLINKING',
+          'REPEATING',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'FINISHED',
+          'BLINKING',
+        ]);
+
+        // Check the firing of the finished event.
+        jest.advanceTimersByTime(1);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('joy!');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'BLINKING',
+          'REPEATING',
+          'CHANGED',
+          'CHANGED',
+          'CHANGED',
+          'FINISHED',
+          'BLINKING',
+        ]);
+      });
+
+      it('should when repeating reset the cursor and ignore blinks from the previous iterations', () => {
+        const typewriter = new Typewriter({
+          blinkAfter: 51,
+          repeat: true,
+          repeatDelay: 50, // The repeatDelay lies before the blinkAfter
+          cursors: [{ position: 0 }],
+          actions: [
+            { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: '!', delay: 50, cursor: 0 },
+          ],
+        });
+        const subscriber = autoSubscribe(typewriter);
+
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('');
+        assertEvents(subscriber, []);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('j');
+        assertEvents(subscriber, ['CHANGED']);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('j!');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED']);
+
+        // At this time we finished this animation iteration, and are
+        // awaiting the repeat delay.
+        jest.advanceTimersByTime(49);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('j!');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED']);
+
+        // Should start repeating and blinking due to the reset
+        jest.advanceTimersByTime(1);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED', 'REPEATING']);
+
+        // Trigger first letter
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('j');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'REPEATING',
+          'CHANGED',
+        ]);
+
+        // This would have triggerd the blink from the previous '!' if
+        // blinks from previous iterations are not ignored.
+        jest.advanceTimersByTime(1);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('j');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'REPEATING',
+          'CHANGED',
+        ]);
+
+        // Make sure changed is the next event is not BLINKING.
+        jest.advanceTimersByTime(49);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('j!');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'REPEATING',
+          'CHANGED',
+          'CHANGED',
+        ]);
+      });
+
+      it('should when repeating reset the cursors and ignore blinks from the previous iterations for multiple cursors', () => {
+        // Two cursors first cursor is not the last action, but
+        // blinks in the time of the repeatDelay.
+
+        // Timeline: 0 50 100 150 200 250 300
+        //  Actions:   j   !   R   j   !   R
+        //    Blink:            0   1
+        const typewriter = new Typewriter({
+          blinkAfter: 101,
+          repeat: true,
+          repeatDelay: 50,
+          cursors: [{ position: 0 }, { position: 0 }],
+          actions: [
+            { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
+            { type: 'keyboard', key: '!', delay: 50, cursor: 1 },
+          ],
+        });
+        const subscriber = autoSubscribe(typewriter);
+
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.cursors[1].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('');
+        assertEvents(subscriber, []);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.cursors[1].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('j');
+        assertEvents(subscriber, ['CHANGED']);
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.cursors[1].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('!j');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED']);
+
+        // At this time we finished this animation iteration, and are
+        // awaiting the repeat delay.
+        jest.advanceTimersByTime(49);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.cursors[1].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('!j');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED']);
+
+        // Should start repeating and blinking due to the reset
+        jest.advanceTimersByTime(1);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.cursors[1].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED', 'REPEATING']);
+
+        // This would have triggerd the blink from the previous 'j' if
+        // blinks from previous iterations are not ignored.
+        jest.advanceTimersByTime(1);
+        expect(typewriter.cursors[0].isBlinking).toBe(true);
+        expect(typewriter.cursors[1].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('');
+        assertEvents(subscriber, ['CHANGED', 'CHANGED', 'REPEATING']);
+
+        // Trigger first letter
+        jest.advanceTimersByTime(49);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.cursors[1].isBlinking).toBe(true);
+        expect(typewriter.text).toBe('j');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'REPEATING',
+          'CHANGED',
+        ]);
+
+        // Make sure changed is the next event is not BLINKING.
+        jest.advanceTimersByTime(50);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.cursors[1].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('!j');
+        assertEvents(subscriber, [
+          'CHANGED',
+          'CHANGED',
+          'REPEATING',
+          'CHANGED',
+          'CHANGED',
+        ]);
+      });
+    });
+  });
+
   describe('builders', () => {
     describe('typewriterFromSentences', () => {
       it('should know how to build a Typewriter from sentences', () => {
@@ -18998,6 +19877,260 @@ describe('Typewriter', () => {
         jest.advanceTimersByTime(50);
         expect(typewriter.text).toBe('I 🥹 dogs');
       });
+
+      it('should work when setting an initial text', () => {
+        const typewriter = typewriterFromSentences({
+          text: 'I love cats',
+          sentences: ['I love dogs'],
+        });
+
+        expect(typewriter.text).toBe('I love cats');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love cat');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love ca');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love c');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love ');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love d');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love do');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love dog');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love dogs');
+      });
+    });
+  });
+
+  describe('iterator', () => {
+    it('the Typewriter should be iterable and return all positions and cursors', () => {
+      const typewriter = new Typewriter({
+        text: 'joy',
+        cursors: [
+          {
+            position: 0,
+            name: 'owen',
+          },
+          {
+            position: 1,
+            name: 'jane',
+          },
+          {
+            position: 2,
+            name: 'tosca',
+          },
+          {
+            position: 3,
+            name: 'maarten',
+          },
+        ],
+        actions: [],
+      });
+
+      const iterator = typewriter[Symbol.iterator]();
+
+      const result0 = iterator.next();
+      expect(result0.done).toBe(false);
+      expect(result0.value.position).toBe(0);
+      expect(result0.value.cursors.length).toBe(1);
+      expect(result0.value.cursors[0].name).toBe('owen');
+      expect(result0.value.character).toBe('j');
+
+      const result1 = iterator.next();
+      expect(result1.done).toBe(false);
+      expect(result1.value.position).toBe(1);
+      expect(result1.value.cursors.length).toBe(1);
+      expect(result1.value.cursors[0].name).toBe('jane');
+      expect(result1.value.character).toBe('o');
+
+      const result2 = iterator.next();
+      expect(result2.done).toBe(false);
+      expect(result2.value.position).toBe(2);
+      expect(result2.value.cursors.length).toBe(1);
+      expect(result2.value.cursors[0].name).toBe('tosca');
+      expect(result2.value.character).toBe('y');
+
+      const result3 = iterator.next();
+      expect(result3.done).toBe(false);
+      expect(result3.value.position).toBe(3);
+      expect(result3.value.cursors.length).toBe(1);
+      expect(result3.value.cursors[0].name).toBe('maarten');
+      expect(result3.value.character).toBe('');
+
+      const result4 = iterator.next();
+      expect(result4.done).toBe(true);
+      expect(result4.value).toBe(undefined);
+    });
+
+    it('it should work when there are multiple cursor on each position', () => {
+      const typewriter = new Typewriter({
+        text: 'joy',
+        cursors: [
+          {
+            position: 0,
+            name: 'owen',
+          },
+          {
+            position: 0,
+            name: 'tessa',
+          },
+          {
+            position: 1,
+            name: 'jane',
+          },
+          {
+            position: 1,
+            name: 'sam',
+          },
+          {
+            position: 2,
+            name: 'tosca',
+          },
+          {
+            position: 2,
+            name: 'carla',
+          },
+          {
+            position: 3,
+            name: 'leen',
+          },
+          {
+            position: 3,
+            name: 'maarten',
+          },
+          {
+            position: 3,
+            name: 'arie',
+          },
+        ],
+        actions: [],
+      });
+
+      const iterator = typewriter[Symbol.iterator]();
+
+      const result0 = iterator.next();
+      expect(result0.done).toBe(false);
+      expect(result0.value.position).toBe(0);
+      expect(result0.value.cursors.length).toBe(2);
+      expect(result0.value.cursors[0].name).toBe('owen');
+      expect(result0.value.cursors[1].name).toBe('tessa');
+      expect(result0.value.character).toBe('j');
+
+      const result1 = iterator.next();
+      expect(result1.done).toBe(false);
+      expect(result1.value.position).toBe(1);
+      expect(result1.value.cursors.length).toBe(2);
+      expect(result1.value.cursors[0].name).toBe('jane');
+      expect(result1.value.cursors[1].name).toBe('sam');
+      expect(result1.value.character).toBe('o');
+
+      const result2 = iterator.next();
+      expect(result2.done).toBe(false);
+      expect(result2.value.position).toBe(2);
+      expect(result2.value.cursors.length).toBe(2);
+      expect(result2.value.cursors[0].name).toBe('tosca');
+      expect(result2.value.cursors[1].name).toBe('carla');
+      expect(result2.value.character).toBe('y');
+
+      const result3 = iterator.next();
+      expect(result3.done).toBe(false);
+      expect(result3.value.position).toBe(3);
+      expect(result3.value.cursors.length).toBe(3);
+      expect(result3.value.cursors[0].name).toBe('leen');
+      expect(result3.value.cursors[1].name).toBe('maarten');
+      expect(result3.value.cursors[2].name).toBe('arie');
+      expect(result3.value.character).toBe('');
+
+      const result4 = iterator.next();
+      expect(result4.done).toBe(true);
+      expect(result4.value).toBe(undefined);
+    });
+
+    it('the iterator should work when there is just one cursor at the end', () => {
+      const typewriter = new Typewriter({
+        text: 'joy',
+        actions: [],
+      });
+
+      const iterator = typewriter[Symbol.iterator]();
+
+      const result0 = iterator.next();
+      expect(result0.done).toBe(false);
+      expect(result0.value.position).toBe(0);
+      expect(result0.value.cursors.length).toBe(0);
+      expect(result0.value.character).toBe('j');
+
+      const result1 = iterator.next();
+      expect(result1.done).toBe(false);
+      expect(result1.value.position).toBe(1);
+      expect(result1.value.cursors.length).toBe(0);
+      expect(result1.value.character).toBe('o');
+
+      const result2 = iterator.next();
+      expect(result2.done).toBe(false);
+      expect(result2.value.position).toBe(2);
+      expect(result2.value.cursors.length).toBe(0);
+      expect(result2.value.character).toBe('y');
+
+      const result3 = iterator.next();
+      expect(result3.done).toBe(false);
+      expect(result3.value.position).toBe(3);
+      expect(result3.value.cursors.length).toBe(1);
+      expect(result3.value.cursors[0].name).toBe('');
+      expect(result3.value.character).toBe('');
+
+      const result4 = iterator.next();
+      expect(result4.done).toBe(true);
+      expect(result4.value).toBe(undefined);
+    });
+
+    it('the iterator should work when there is no cursor at the end', () => {
+      const typewriter = new Typewriter({
+        cursors: [
+          {
+            position: 2,
+            name: 'tosca',
+          },
+        ],
+        text: 'joy',
+        actions: [],
+      });
+
+      const iterator = typewriter[Symbol.iterator]();
+
+      const result0 = iterator.next();
+      expect(result0.done).toBe(false);
+      expect(result0.value.position).toBe(0);
+      expect(result0.value.cursors.length).toBe(0);
+      expect(result0.value.character).toBe('j');
+
+      const result1 = iterator.next();
+      expect(result1.done).toBe(false);
+      expect(result1.value.position).toBe(1);
+      expect(result1.value.cursors.length).toBe(0);
+      expect(result1.value.character).toBe('o');
+
+      const result2 = iterator.next();
+      expect(result2.done).toBe(false);
+      expect(result2.value.position).toBe(2);
+      expect(result2.value.cursors.length).toBe(1);
+      expect(result2.value.cursors[0].name).toBe('tosca');
+      expect(result2.value.character).toBe('y');
+
+      const result3 = iterator.next();
+      expect(result3.done).toBe(true);
+      expect(result3.value).toBe(undefined);
     });
   });
 
