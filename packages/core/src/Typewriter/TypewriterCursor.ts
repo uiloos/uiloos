@@ -2,24 +2,25 @@ import { TypewriterBlinkingEvent, TypewriterCursorSelection } from './types';
 import { Typewriter } from './Typewriter';
 
 /**
- * Represents a cursor within the Typewriter.
+ * Represents a cursor within a Typewriter.
+ *
+ * Note: when `initialize` is called on a `Typewriter` all cursors
+ * are reset, and the previously attached cursors become detached,
+ * this means that the positions of the cursors are no longer
+ * accurate.
  *
  * @since 1.2.0
  */
 export class TypewriterCursor {
-  /**
-   * The position of the cursor within the `Typewriter` text.
-   *
-   * @since 1.2.0
-   *
-   */
   private _typewriter: Typewriter;
 
   /**
    * The position of the cursor within the `Typewriter` text.
    *
-   * @since 1.2.0
+   * Note: when `initialize` is called on a `Typewriter` all cursors
+   * become detached, and the position is no longer accurate.
    *
+   * @since 1.2.0
    */
   public position: number;
 
@@ -33,7 +34,7 @@ export class TypewriterCursor {
   /**
    * The range of positions which this cursor has selected, or when
    * it is `undefined signifying no selection.
-   * 
+   *
    * Note: whenever the cursor stops selecting text the selection
    * will be turned into `undefined`. This means that this is one of
    * the few objects in uiloos that can change its reference.

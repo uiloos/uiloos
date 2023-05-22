@@ -135,6 +135,18 @@ export type TypewriterConfig = {
   keepHistoryFor?: number;
 
   /**
+   * Whether or not the animation will immediately start playing.
+   * 
+   * When `true` the animation will start playing immediately, when 
+   * `false` the animation will start when `play()` is called.
+   * 
+   * Defaults to `true` meaning that the animation will play instantly.
+   * 
+   * TODO: autoPlay test
+   */
+  autoPlay?: boolean;
+
+  /**
    * Whether or not this animation repeats and how often.
    *
    * There are three ways to define `repeat`.
@@ -277,7 +289,7 @@ export type BaseTypewriterAction = {
    *
    * @since 1.2.0
    */
-  cursor: number; // TODO: api inconsistency should be the cursor object.
+  cursor: number; // Has to be a number since the real cursor does not exist yet
 };
 
 /**
@@ -322,6 +334,26 @@ export type TypewriterActionTypeMouseClick = BaseTypewriterAction & {
    * @since 1.2.0
    */
   position: number;
+
+  /**
+   * Optionally the selection the mouse made when clicking.
+   * 
+   * Normally there are two ways a someone can create selections with
+   * a mouse: the first is clicking and dragging the mouse, the second
+   * is double clicking on a word.
+   * 
+   * The idea is that the `selection` covers the second use-case: 
+   * double clicking on a word. In the animation you will see the 
+   * selection happen instantly. 
+   * 
+   * For first use-case: mouse click selection, it is better to  use 
+   * a keyboard event using `typewriterActionTypeSelectLeft` or 
+   * `typewriterActionTypeSelectRight`. This you animate the selection
+   * growing.
+   *
+   * @since 1.2.0
+   */
+  selection?: TypewriterCursorSelection
 };
 
 /**
@@ -392,18 +424,31 @@ export type TypewriterPosition = {
    * 
    * The Typewriter "normalizes" these so all unicode characters have 
    * a length of 1, by calling `Array.from(text)`.
+   * 
+   * @since 1.2.0
    */
   position: number;
 
   /**
    * The character which is at this position in the text.
+   * 
+   * @since 1.2.0
    */
   character: string;
 
   /**
    * The cursors that are on this position.
+   * 
+   * @since 1.2.0
    */
   cursors: TypewriterCursor[];
+
+  /**
+   * The cursors that have selected this position.
+   * 
+   * @since 1.2.0
+   */
+  selected: TypewriterCursor[];
 }
 
 /**
@@ -444,6 +489,13 @@ export type TypewriterChangedEvent = TypewriterBaseEvent & {
    * @since 1.2.0
    */
   action: TypewriterAction;
+
+  /**
+   * The cursor which triggered the changed event
+   *
+   * @since 1.2.0
+   */
+  cursor: TypewriterCursor;
 };
 
 /**
@@ -493,7 +545,10 @@ export type TypewriterStoppedEvent = TypewriterBaseEvent & {
  * 
  * Important: finishing only refers to the fact that the 'text' will
  * no longer change, but a cursor might start blinking after the 
- * animation is finished. So "FINISHED" is not necessarily the last 
+ * animation is finished. 
+ * 
+ * Also when you call `play()` again the animation restarts, 
+ * for both these reasons "FINISHED" is not necessarily the last 
  * event that will take place.
  *
  * @since 1.2.0
@@ -513,6 +568,13 @@ export type TypewriterFinishedEvent = TypewriterBaseEvent & {
    * @since 1.2.0
    */
   action: TypewriterAction;
+
+  /**
+   * The cursor triggered the finished event.
+   *
+   * @since 1.2.0
+   */
+  cursor: TypewriterCursor;
 };
 
 /**
@@ -548,6 +610,13 @@ export type TypewriterRepeatingEvent = TypewriterBaseEvent & {
    * @since 1.2.0
    */
   type: 'REPEATING';
+
+  /**
+   * The cursor triggered the repeating event.
+   *
+   * @since 1.2.0
+   */
+  cursor: TypewriterCursor;
 };
 
 /**

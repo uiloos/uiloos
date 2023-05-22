@@ -50,6 +50,10 @@ import { TypewriterCursorSelectionOutOfBoundsError } from './errors/TypewriterCu
 
 // TODO: create docs
 
+// TODO: word mode
+
+// TODO: check since 1.2.0
+
 // CURRENT: create composer, where the user can compose animations by typing an clicking.
 // Perhaps this should even be the primary way of doing things.
 
@@ -307,7 +311,9 @@ export class Typewriter {
 
     // The`this.cursors` will get wiped, but we need to clear the
     // timers of the previous cursors, that may still be active.
-    this.cursors.forEach((c) => c._clearBlink());
+    this.cursors.forEach((c) => {
+      c._clearBlink();
+    });
 
     // Clear actions and cursors.
     this.actions.length = 0;
@@ -354,7 +360,8 @@ export class Typewriter {
 
     this._index = 0;
 
-    this.isPlaying = this.actions.length > 0;
+    // TODO: test autoplay disabled
+    this.isPlaying = !!!config.autoPlay && this.actions.length > 0;
     this.isFinished = !this.isPlaying;
 
     this.blinkAfter = config.blinkAfter !== undefined ? config.blinkAfter : 250;
@@ -478,13 +485,14 @@ export class Typewriter {
 
   /**
    * When the Typewriter is paused or stopped it will start the
-   * animation.
+   * animation from that point. If the animation was finished
+   * calling `play()` will restart the animation.
    *
    * When there are is no more animations the Typewriter will stop
    * automatically.
    *
    * Is called automatically when the Typewriter is instantiated
-   * and there are `actions` configured.
+   * and there are `actions` configured and `autoPlay` is `true`.
    *
    * Note: the animation will only start when there are one or more
    * actions are defined.
@@ -492,18 +500,22 @@ export class Typewriter {
    * @since 1.2.0
    */
   public play(): void {
-    // Do nothing when already playing
-    if (this.isPlaying) {
+    // If the typewriter is finished restart the animation.
+    if (this.isFinished) {
+      this._init();
+      // This includes hasBeenStoppedBefore.
+      this.hasBeenStoppedBefore = false;
+      this._resetTandC();
+    } else if (this.isPlaying) {
+      // Do nothing when already playing
       return;
+    } else if (this._stopped) {
+      this._stopped = false;
+
+      this._resetTandC();
     }
 
     this.isPlaying = true;
-
-    if (this._stopped) {
-      this._stopped = false;
-
-      this._reset();
-    }
 
     this._tick();
 
@@ -568,21 +580,17 @@ export class Typewriter {
    */
   public stop(): void {
     // Allow for pause then stop, but not stop then stop.
-    if (!this.isPlaying && !this._pauseStarted) {
+    if (this.isFinished || (!this.isPlaying && !this._pauseStarted)) {
       return;
     }
 
     this._clearAnimation();
 
-    this.isFinished = false;
     this.isPlaying = false;
     this.hasBeenStoppedBefore = true;
-    this._index = 0;
-    this._pauseStarted = null;
     this._stopped = true;
-    this._repeated = 0;
 
-    this.cursors.forEach((c) => (c.isBlinking = true));
+    this._init();
 
     const event: TypewriterStoppedEvent = {
       type: 'STOPPED',
@@ -590,6 +598,15 @@ export class Typewriter {
     };
 
     this._inform(event);
+  }
+
+  private _init() {
+    this.isFinished = false;
+    this._index = 0;
+    this._pauseStarted = null;
+    this._repeated = 0;
+
+    this.cursors.forEach((c) => (c.isBlinking = true));
   }
 
   private _tick(): void {
@@ -994,15 +1011,25 @@ export class Typewriter {
           Math.max(0, action.position)
         );
 
-        if (cursor.position === position) {
-          if (cursor.selection === undefined) {
-            noOp = true;
-          }
+        // No-op whenever the cursor does not change position and the
+        // selection does not change.
+        if (
+          cursor.position === position &&
+          this._same(cursor.selection, action.selection)
+        ) {
+          noOp = true;
         } else {
           cursor.position = position;
-        }
 
-        cursor.selection = undefined;
+          if (action.selection) {
+            cursor.selection = {
+              start: action.selection.start,
+              end: action.selection.end,
+            };
+          } else {
+            cursor.selection = undefined;
+          }
+        }
       }
 
       // Increase the index inside of the timeout so the when the
@@ -1021,6 +1048,7 @@ export class Typewriter {
             type: 'FINISHED',
             action,
             time: new Date(),
+            cursor,
           };
 
           this._inform(event);
@@ -1032,6 +1060,7 @@ export class Typewriter {
               type: 'CHANGED',
               action,
               time: new Date(),
+              cursor,
             };
 
             this._inform(event);
@@ -1040,12 +1069,12 @@ export class Typewriter {
           this._animationTimeoutId = window.setTimeout(() => {
             this._index = 0;
 
-            this._reset();
+            this._resetTandC();
 
             // Also make all cursors blink again.
             this.cursors.forEach((c) => {
               // Clear the blink of any cursor that still has a blink
-              // queued so the blink from the previous animation does 
+              // queued so the blink from the previous animation does
               // not cross over to the next animation.
               c._clearBlink();
 
@@ -1055,6 +1084,7 @@ export class Typewriter {
             const event: TypewriterRepeatingEvent = {
               type: 'REPEATING',
               time: new Date(),
+              cursor,
             };
 
             this._inform(event);
@@ -1068,6 +1098,7 @@ export class Typewriter {
             type: 'CHANGED',
             action,
             time: new Date(),
+            cursor,
           };
 
           this._inform(event);
@@ -1092,7 +1123,7 @@ export class Typewriter {
     }
   }
 
-  private _reset() {
+  private _resetTandC() {
     this.text = this._originalText;
 
     // Copy the cursor here otherwise it will be mutated on the
@@ -1124,6 +1155,20 @@ export class Typewriter {
 
   private _overlap(c: Range, r: Range) {
     return Math.min(c.end, r.end) - Math.max(c.start, r.start);
+  }
+
+  private _same(a: Range | undefined, b: Range | undefined) {
+    // Are both undefined, or same object?
+    if (a === b) {
+      return true;
+    }
+
+    if (a && b) {
+      return a.start === b.start && a.end === b.end;
+    } else {
+      // Either a or b are not defined, so they cannot be the same.
+      return false;
+    }
   }
 
   // handles left and right cursor movement, returns whether it is a no op or not.
@@ -1237,6 +1282,12 @@ export class Typewriter {
         position: i,
         cursors: cursors ? cursors : [],
         character: text[i],
+        selected: this.cursors.filter(
+          (cursor) =>
+            cursor.selection &&
+            i >= cursor.selection.start &&
+            i < cursor.selection.end
+        ),
       };
     }
 
@@ -1246,6 +1297,7 @@ export class Typewriter {
         position: text.length,
         character: '',
         cursors: finalCursors,
+        selected: [],
       };
     }
   }

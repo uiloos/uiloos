@@ -1648,6 +1648,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -1695,6 +1696,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -1742,6 +1744,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -1814,6 +1817,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -1886,6 +1890,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -2030,6 +2035,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -2089,6 +2095,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -2148,6 +2155,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -2207,6 +2215,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -2266,6 +2275,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -2338,6 +2348,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -2410,6 +2421,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -2504,6 +2516,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -2576,6 +2589,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -2718,6 +2732,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -2777,6 +2792,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -2836,6 +2852,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -2895,6 +2912,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -2954,6 +2972,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -3044,6 +3063,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -3085,6 +3105,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -3120,6 +3141,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -3228,6 +3250,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -3275,6 +3298,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -3321,6 +3345,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -3412,6 +3437,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -3453,6 +3479,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -3524,6 +3551,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -3631,6 +3659,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -3683,6 +3712,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -3754,6 +3784,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -3844,6 +3875,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -3885,6 +3917,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -3920,6 +3953,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -4028,6 +4062,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -4075,6 +4110,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -4121,6 +4157,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -4195,6 +4232,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -4267,6 +4305,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -4361,6 +4400,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -4433,6 +4473,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -4523,6 +4564,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -4564,6 +4606,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -4599,6 +4642,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -4707,6 +4751,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -4754,6 +4799,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -4800,6 +4846,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -4874,6 +4921,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -4946,6 +4994,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -5040,6 +5089,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -5112,6 +5162,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -5222,6 +5273,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -5269,6 +5321,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -5316,6 +5369,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -5357,6 +5411,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -5465,6 +5520,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -5515,13 +5571,14 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
       });
 
       describe('mouse click', () => {
-        it('should know to move the cursor to the position clicked.', () => {
+        it('should know to move the cursor to the position clicked', () => {
           const typewriter = new Typewriter({
             actions: [
               {
@@ -5589,6 +5646,96 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
+            }
+          );
+        });
+
+        it('should know to select text on mouse clicked', () => {
+          const typewriter = new Typewriter({
+            actions: [
+              {
+                type: 'mouse',
+                position: 0,
+                delay: 100,
+                cursor: 0,
+                selection: {
+                  start: 0,
+                  end: 3
+                }
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 0, name: '' }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            actions: [
+              {
+                type: 'mouse',
+                position: 0,
+                delay: 100,
+                cursor: 0,
+                selection: {
+                  start: 0,
+                  end: 3
+                }
+              },
+            ],
+            cursors: [{ position: 0, name: '', isBlinking: true }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(100);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actions: [
+                {
+                  type: 'mouse',
+                  position: 0,
+                  delay: 100,
+                  cursor: 0,
+                  selection: {
+                    start: 0,
+                    end: 3
+                  }
+                },
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: false, selection: { start: 0, end: 3 } }],
+              text: 'abc',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              action: {
+                type: 'mouse',
+                position: 0,
+                delay: 100,
+                cursor: 0,
+                selection: {
+                  start: 0,
+                  end: 3
+                }
+              },
+              time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -5683,6 +5830,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -5773,6 +5921,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -5814,6 +5963,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -5908,6 +6058,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -5998,6 +6149,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -6039,6 +6191,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -6133,6 +6286,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -6205,6 +6359,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -6295,6 +6450,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -6336,6 +6492,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -6371,6 +6528,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -6479,6 +6637,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -6529,6 +6688,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -6610,6 +6770,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -6689,6 +6850,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -6783,6 +6945,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -6855,6 +7018,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -6945,6 +7109,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -6993,6 +7158,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -7028,6 +7194,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -7136,6 +7303,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -7190,6 +7358,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -7236,6 +7405,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -7317,6 +7487,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -7396,6 +7567,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -7490,6 +7662,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -7562,6 +7735,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -7670,6 +7844,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -7717,6 +7892,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -7771,6 +7947,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -7812,6 +7989,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -7902,6 +8080,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -7942,6 +8121,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -8032,6 +8212,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -8120,6 +8301,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -8206,6 +8388,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -8293,6 +8476,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -8329,6 +8513,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -8428,6 +8613,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -8469,6 +8655,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -8548,6 +8735,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -8663,6 +8851,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -8715,6 +8904,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -8813,6 +9003,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -8854,6 +9045,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -8896,6 +9088,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -9012,6 +9205,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -9059,6 +9253,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -9112,6 +9307,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -9195,6 +9391,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -9276,6 +9473,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -9357,6 +9555,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -9439,6 +9638,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -9475,6 +9675,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -9558,6 +9759,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -9639,6 +9841,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -9721,6 +9924,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -9803,6 +10007,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -9839,6 +10044,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -9922,6 +10128,114 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
+            }
+          );
+        });
+
+        it('should ignore selection when selection is already selected and continue the animation.', () => {
+          const typewriter = new Typewriter({
+            actions: [
+              {
+                type: 'mouse',
+                position: 3,
+                delay: 50,
+                cursor: 0,
+                selection: {
+                  start: 0,
+                  end: 3
+                }
+              },
+              {
+                type: 'keyboard',
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'abc',
+            cursors: [{ position: 3, name: '', selection: { start: 0, end : 3} }],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            actions: [
+              {
+                type: 'mouse',
+                position: 3,
+                delay: 50,
+                cursor: 0,
+                selection: {
+                  start: 0,
+                  end: 3
+                }
+              },
+              {
+                type: 'keyboard',
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+            ],
+            cursors: [{ position: 3, name: '', isBlinking: true, selection: { start: 0, end : 3} }],
+            text: 'abc',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          // It should ignore the action
+          jest.advanceTimersByTime(50);
+          expect(subscriber).toBeCalledTimes(0);
+
+          jest.advanceTimersByTime(50);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actions: [
+                {
+                  type: 'mouse',
+                  position: 3,
+                  delay: 50,
+                  cursor: 0,
+                  selection: {
+                    start: 0,
+                    end: 3
+                  }
+                },
+                {
+                  type: 'keyboard',
+                  key: 'z',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+              cursors: [{ position: 1, name: '', isBlinking: false }],
+              text: 'z',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              action: {
+                type: 'keyboard',
+                key: 'z',
+                delay: 50,
+                cursor: 0,
+              },
+              time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -10022,6 +10336,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -10063,6 +10378,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -10162,6 +10478,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -10203,6 +10520,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -10303,6 +10621,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -10344,6 +10663,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -10443,6 +10763,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -10484,6 +10805,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -10584,6 +10906,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -10625,6 +10948,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -10725,6 +11049,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -10766,6 +11091,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -10808,6 +11134,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -10898,6 +11225,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -10986,6 +11314,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -11089,6 +11418,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -11177,6 +11507,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -11277,6 +11608,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -11325,6 +11657,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -11367,6 +11700,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -11457,6 +11791,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -11545,6 +11880,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -11648,6 +11984,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -11736,6 +12073,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -11854,6 +12192,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -11901,6 +12240,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -11955,6 +12295,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
 
@@ -12003,6 +12344,7 @@ describe('Typewriter', () => {
             {
               type: 'REPEATING',
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -12147,6 +12489,7 @@ describe('Typewriter', () => {
             cursor: 2,
           },
           time: new Date(),
+          cursor: typewriter.cursors[2],
         }
       );
 
@@ -12213,6 +12556,7 @@ describe('Typewriter', () => {
             cursor: 1,
           },
           time: new Date(),
+          cursor: typewriter.cursors[1],
         }
       );
 
@@ -12279,6 +12623,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
     });
@@ -12411,6 +12756,7 @@ describe('Typewriter', () => {
             cursor: 1,
           },
           time: new Date(),
+          cursor: typewriter.cursors[1],
         }
       );
 
@@ -12471,6 +12817,7 @@ describe('Typewriter', () => {
             cursor: 1,
           },
           time: new Date(),
+          cursor: typewriter.cursors[1],
         }
       );
 
@@ -12531,6 +12878,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
     });
@@ -12657,6 +13005,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -12780,6 +13129,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -12903,6 +13253,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -13047,6 +13398,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -13316,6 +13668,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -13459,6 +13812,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -13608,6 +13962,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -13878,6 +14233,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -14039,6 +14395,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -14159,6 +14516,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -14282,6 +14640,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -14405,6 +14764,131 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
+            }
+          );
+        });
+
+        fit('should alter other cursors positions, when inserting at the start', () => {
+          const typewriter = new Typewriter({
+            actions: [
+              {
+                type: 'keyboard',
+                key: 'x',
+                delay: 100,
+                cursor: 0,
+              },
+            ],
+            blinkAfter: 50,
+            text: 'john',
+            cursors: [
+              { position: 0, name: '' },
+              { position: 2, name: '' },
+              { position: 3, name: '' },
+              { position: 1, name: '' },
+              { position: 0, name: '' },
+              { position: 4, name: '' },
+            ],
+          });
+          const subscriber = autoSubscribe(typewriter);
+
+          assertState(typewriter, {
+            history: [],
+            actions: [
+              {
+                type: 'keyboard',
+                key: 'x',
+                delay: 100,
+                cursor: 0,
+              },
+            ],
+            cursors: [
+              { position: 0, name: '', isBlinking: true, selection: undefined },
+              { position: 2, name: '', isBlinking: true, selection: undefined },
+              { position: 3, name: '', isBlinking: true, selection: undefined },
+              { position: 1, name: '', isBlinking: true, selection: undefined },
+              { position: 0, name: '', isBlinking: true, selection: undefined },
+              { position: 4, name: '', isBlinking: true, selection: undefined },
+            ],
+            text: 'john',
+            blinkAfter: 50,
+            isPlaying: true,
+            isFinished: false,
+            hasBeenStoppedBefore: false,
+            repeat: false,
+            repeatDelay: 0,
+          });
+
+          jest.advanceTimersByTime(100);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  key: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              cursors: [
+                {
+                  position: 1,
+                  name: '',
+                  isBlinking: false,
+                  selection: undefined,
+                },
+                {
+                  position: 3,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 4,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 2,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 0,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 5,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+              ],
+              text: 'xjohn',
+              blinkAfter: 50,
+              isPlaying: false,
+              isFinished: true,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            },
+            {
+              type: 'FINISHED',
+              action: {
+                type: 'keyboard',
+                key: 'x',
+                delay: 100,
+                cursor: 0,
+              },
+              time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -14640,6 +15124,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -14968,6 +15453,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -15171,6 +15657,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
               time: new Date(),
+              cursor: typewriter.cursors[0],
             }
           );
         });
@@ -15469,6 +15956,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
                 time: new Date(),
+                cursor: typewriter.cursors[0],
               }
             );
           });
@@ -15767,6 +16255,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
                 time: new Date(),
+                cursor: typewriter.cursors[0],
               }
             );
           });
@@ -16009,6 +16498,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
                 time: new Date(),
+                cursor: typewriter.cursors[0],
               }
             );
           });
@@ -16306,6 +16796,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
                 time: new Date(),
+                cursor: typewriter.cursors[0],
               }
             );
           });
@@ -16604,6 +17095,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
                 time: new Date(),
+                cursor: typewriter.cursors[0],
               }
             );
           });
@@ -16846,6 +17338,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
                 time: new Date(),
+                cursor: typewriter.cursors[0],
               }
             );
           });
@@ -16948,6 +17441,7 @@ describe('Typewriter', () => {
             cursor: 2,
           },
           time: new Date(),
+          cursor: typewriter.cursors[2],
         }
       );
     });
@@ -17058,6 +17552,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -17105,6 +17600,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -17152,6 +17648,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
     });
@@ -17260,6 +17757,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -17307,6 +17805,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -17354,6 +17853,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
     });
@@ -17464,6 +17964,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
             time: new Date(),
+            cursor: typewriter.cursors[0],
           }
         );
 
@@ -17511,6 +18012,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
             time: new Date(),
+            cursor: typewriter.cursors[0],
           }
         );
 
@@ -17558,6 +18060,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
             time: new Date(),
+            cursor: typewriter.cursors[0],
           }
         );
 
@@ -17599,6 +18102,7 @@ describe('Typewriter', () => {
           {
             type: 'REPEATING',
             time: new Date(),
+            cursor: typewriter.cursors[0],
           }
         );
       }
@@ -17721,6 +18225,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -17768,6 +18273,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -17815,6 +18321,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -17856,6 +18363,7 @@ describe('Typewriter', () => {
         {
           type: 'REPEATING',
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -17905,6 +18413,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -17952,6 +18461,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -17999,6 +18509,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -18040,6 +18551,7 @@ describe('Typewriter', () => {
         {
           type: 'REPEATING',
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -18089,6 +18601,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -18136,6 +18649,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -18183,6 +18697,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
           time: new Date(),
+          cursor: typewriter.cursors[0],
         }
       );
 
@@ -18411,6 +18926,123 @@ describe('Typewriter', () => {
         'PLAYING',
         'CHANGED',
       ]);
+    });
+
+    test('that calling play when finished restarts the animation', () => {
+      const typewriter = new Typewriter({
+        actions: [
+          {
+            type: 'keyboard',
+            key: 'a',
+            delay: 100,
+            cursor: 0,
+          },
+          {
+            type: 'keyboard',
+            key: 'b',
+            delay: 100,
+            cursor: 0,
+          },
+        ],
+        blinkAfter: 200,
+      });
+      const subscriber = autoSubscribe(typewriter);
+
+      // Should be empty initially
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('');
+      assertEvents(subscriber, []);
+
+      // After 100 milliseconds it should now be 'a'
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isFinished).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, ['CHANGED']);
+
+      // Stop the animation so we can test if the 'hasBeenStoppedBefore'
+      // will be reset after play() is called when FINISHED.
+      typewriter.stop();
+
+      expect(typewriter.isPlaying).toBe(false);
+      expect(typewriter.isFinished).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, ['CHANGED', 'STOPPED']);
+
+      // Now trigger the play an run the animation to finished.
+      typewriter.play();
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isFinished).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.text).toBe('');
+      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING']);
+
+      // After 100 milliseconds it should now be 'a'
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isFinished).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED']);
+
+      // After 100 milliseconds it should now be 'b'
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(false);
+      expect(typewriter.isFinished).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.text).toBe('ab');
+      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED', 'FINISHED']);
+
+      // Trigger blinking
+      jest.advanceTimersByTime(200);
+      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED', 'FINISHED', 'BLINKING']);
+
+      // Nothing should happen unless play() is called
+      jest.advanceTimersByTime(1000);
+      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED', 'FINISHED', 'BLINKING']);
+
+      // Call play
+      typewriter.play();
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isFinished).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('');
+      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED', 'FINISHED', 'BLINKING', 'PLAYING']);
+
+      // After 100 milliseconds it should now be 'a'
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isFinished).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED', 'FINISHED', 'BLINKING', 'PLAYING', 'CHANGED']);
+
+      // After 100 milliseconds it should now be 'b'
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(false);
+      expect(typewriter.isFinished).toBe(true);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('ab');
+      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED', 'FINISHED', 'BLINKING', 'PLAYING', 'CHANGED', 'FINISHED']);
     });
 
     test('that the autoplay can be stopped and restarted with the original text', () => {
@@ -18858,7 +19490,7 @@ describe('Typewriter', () => {
       assertEvents(subscriber, []);
     });
 
-    test('that it is not possible to play when already playing', () => {
+    test('that it is not possible to stop when already finished', () => {
       const typewriter = new Typewriter({
         actions: [
           {
@@ -18866,37 +19498,36 @@ describe('Typewriter', () => {
             key: 'a',
             delay: 100,
             cursor: 0,
-          },
-          {
-            type: 'keyboard',
-            key: 'b',
-            delay: 100,
-            cursor: 0,
-          },
-          {
-            type: 'keyboard',
-            key: 'c',
-            delay: 100,
-            cursor: 0,
-          },
+          }
         ],
         blinkAfter: 50,
       });
       const subscriber = autoSubscribe(typewriter);
 
       // Should be empty initially
+      expect(typewriter.isFinished).toBe(false);
       expect(typewriter.isPlaying).toBe(true);
       expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, []);
 
-      typewriter.play();
+      // Let the animation run its course
+      jest.advanceTimersByTime(100);
 
-      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isFinished).toBe(true);
+      expect(typewriter.isPlaying).toBe(false);
+      expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, ['FINISHED']);
 
-      assertEvents(subscriber, []);
+      // Should not do anything.
+      typewriter.stop();
+
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      
+      assertEvents(subscriber, ['FINISHED']);
     });
   });
 
@@ -19914,25 +20545,41 @@ describe('Typewriter', () => {
   });
 
   describe('iterator', () => {
-    it('the Typewriter should be iterable and return all positions and cursors', () => {
+    it('the Typewriter should be iterable and return all positions, selections and cursors', () => {
       const typewriter = new Typewriter({
         text: 'joy',
         cursors: [
           {
             position: 0,
             name: 'owen',
+            selection: { // joy
+              start: 0,
+              end: 3
+            }
           },
           {
             position: 1,
             name: 'jane',
+            selection: { // o
+              start: 1,
+              end: 2
+            }
           },
           {
             position: 2,
             name: 'tosca',
+            selection: { // jo
+              start: 0,
+              end: 2
+            }
           },
           {
             position: 3,
             name: 'maarten',
+            selection: { // joy
+              start: 0,
+              end: 3
+            }
           },
         ],
         actions: [],
@@ -19943,6 +20590,10 @@ describe('Typewriter', () => {
       const result0 = iterator.next();
       expect(result0.done).toBe(false);
       expect(result0.value.position).toBe(0);
+      expect(result0.value.selected.length).toBe(3);
+      expect(result0.value.selected[0].name).toBe('owen');
+      expect(result0.value.selected[1].name).toBe('tosca');
+      expect(result0.value.selected[2].name).toBe('maarten');
       expect(result0.value.cursors.length).toBe(1);
       expect(result0.value.cursors[0].name).toBe('owen');
       expect(result0.value.character).toBe('j');
@@ -19950,6 +20601,11 @@ describe('Typewriter', () => {
       const result1 = iterator.next();
       expect(result1.done).toBe(false);
       expect(result1.value.position).toBe(1);
+      expect(result1.value.selected.length).toBe(4);
+      expect(result1.value.selected[0].name).toBe('owen');
+      expect(result1.value.selected[1].name).toBe('jane');
+      expect(result1.value.selected[2].name).toBe('tosca');
+      expect(result1.value.selected[3].name).toBe('maarten');
       expect(result1.value.cursors.length).toBe(1);
       expect(result1.value.cursors[0].name).toBe('jane');
       expect(result1.value.character).toBe('o');
@@ -19957,6 +20613,9 @@ describe('Typewriter', () => {
       const result2 = iterator.next();
       expect(result2.done).toBe(false);
       expect(result2.value.position).toBe(2);
+      expect(result2.value.selected.length).toBe(2);
+      expect(result2.value.selected[0].name).toBe('owen');
+      expect(result2.value.selected[1].name).toBe('maarten');
       expect(result2.value.cursors.length).toBe(1);
       expect(result2.value.cursors[0].name).toBe('tosca');
       expect(result2.value.character).toBe('y');
@@ -19964,6 +20623,7 @@ describe('Typewriter', () => {
       const result3 = iterator.next();
       expect(result3.done).toBe(false);
       expect(result3.value.position).toBe(3);
+      expect(result3.value.selected.length).toBe(0);
       expect(result3.value.cursors.length).toBe(1);
       expect(result3.value.cursors[0].name).toBe('maarten');
       expect(result3.value.character).toBe('');
@@ -20022,6 +20682,7 @@ describe('Typewriter', () => {
       const result0 = iterator.next();
       expect(result0.done).toBe(false);
       expect(result0.value.position).toBe(0);
+      expect(result0.value.selected.length).toBe(0);
       expect(result0.value.cursors.length).toBe(2);
       expect(result0.value.cursors[0].name).toBe('owen');
       expect(result0.value.cursors[1].name).toBe('tessa');
@@ -20030,6 +20691,7 @@ describe('Typewriter', () => {
       const result1 = iterator.next();
       expect(result1.done).toBe(false);
       expect(result1.value.position).toBe(1);
+      expect(result1.value.selected.length).toBe(0);
       expect(result1.value.cursors.length).toBe(2);
       expect(result1.value.cursors[0].name).toBe('jane');
       expect(result1.value.cursors[1].name).toBe('sam');
@@ -20038,6 +20700,7 @@ describe('Typewriter', () => {
       const result2 = iterator.next();
       expect(result2.done).toBe(false);
       expect(result2.value.position).toBe(2);
+      expect(result2.value.selected.length).toBe(0);
       expect(result2.value.cursors.length).toBe(2);
       expect(result2.value.cursors[0].name).toBe('tosca');
       expect(result2.value.cursors[1].name).toBe('carla');
@@ -20046,6 +20709,7 @@ describe('Typewriter', () => {
       const result3 = iterator.next();
       expect(result3.done).toBe(false);
       expect(result3.value.position).toBe(3);
+      expect(result3.value.selected.length).toBe(0);
       expect(result3.value.cursors.length).toBe(3);
       expect(result3.value.cursors[0].name).toBe('leen');
       expect(result3.value.cursors[1].name).toBe('maarten');
@@ -20068,24 +20732,28 @@ describe('Typewriter', () => {
       const result0 = iterator.next();
       expect(result0.done).toBe(false);
       expect(result0.value.position).toBe(0);
+      expect(result0.value.selected.length).toBe(0);
       expect(result0.value.cursors.length).toBe(0);
       expect(result0.value.character).toBe('j');
 
       const result1 = iterator.next();
       expect(result1.done).toBe(false);
       expect(result1.value.position).toBe(1);
+      expect(result1.value.selected.length).toBe(0);
       expect(result1.value.cursors.length).toBe(0);
       expect(result1.value.character).toBe('o');
 
       const result2 = iterator.next();
       expect(result2.done).toBe(false);
       expect(result2.value.position).toBe(2);
+      expect(result2.value.selected.length).toBe(0);
       expect(result2.value.cursors.length).toBe(0);
       expect(result2.value.character).toBe('y');
 
       const result3 = iterator.next();
       expect(result3.done).toBe(false);
       expect(result3.value.position).toBe(3);
+      expect(result3.value.selected.length).toBe(0);
       expect(result3.value.cursors.length).toBe(1);
       expect(result3.value.cursors[0].name).toBe('');
       expect(result3.value.character).toBe('');
@@ -20112,18 +20780,21 @@ describe('Typewriter', () => {
       const result0 = iterator.next();
       expect(result0.done).toBe(false);
       expect(result0.value.position).toBe(0);
+      expect(result0.value.selected.length).toBe(0);
       expect(result0.value.cursors.length).toBe(0);
       expect(result0.value.character).toBe('j');
 
       const result1 = iterator.next();
       expect(result1.done).toBe(false);
       expect(result1.value.position).toBe(1);
+      expect(result1.value.selected.length).toBe(0);
       expect(result1.value.cursors.length).toBe(0);
       expect(result1.value.character).toBe('o');
 
       const result2 = iterator.next();
       expect(result2.done).toBe(false);
       expect(result2.value.position).toBe(2);
+      expect(result2.value.selected.length).toBe(0);
       expect(result2.value.cursors.length).toBe(1);
       expect(result2.value.cursors[0].name).toBe('tosca');
       expect(result2.value.character).toBe('y');
@@ -20327,6 +20998,7 @@ function assertState(state: Typewriter, expected: TestState) {
           delay: action.delay,
           cursor: action.cursor,
           position: action.position,
+          selection: action.selection
         };
 
         return copy;

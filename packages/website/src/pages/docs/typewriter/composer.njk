@@ -1,26 +1,124 @@
 ---
 title: Composer | Typewriter | Docs | uiloos
-layout: layouts/docs.njk
+layout: layouts/base.njk
 permalink: /docs/typewriter/composer/
 renderData:
   parent: 'typewriter'
   current: 'typewriter-composer'
   description: "Shows multiple complete examples on how to use the ViewChannel from uiloos."
   keywords: "ViewChannel examples, ViewChannel flash messages example, ViewChannel notification center example, ViewChannel modal example, ViewChannel dialog example"
+  stickyNavigation: false
 ---
 
 <script src="/assets/typewriter-composer.js" defer="true"></script>
 
-<article>
+<section class="mx-auto px-5 sm:px-6 md:pb-20 mt-8">
   <h1>Typewriter Composer</h1>
 
-  <div id="animation" class="typewriter"></div>
+  <div class="grid gap-4 xl:grid-cols-12 items-start">
+    <div class="xl:order-2 xl:col-span-9 grid gap-4">
+      <div class="border p-4 shadow-lg grid gap-4">
+        <h2 class="text-2xl mb-0">Preview</h2>
+        <div id="animation" class="typewriter"></div>
 
-  <div>Output here</div>
+        <div class="flex justify-between gap-2">
+          <button id="play" class="justify-self-start btn-sm text-white bg-purple-600 hover:bg-purple-700">
+            <span class="mt-1 mr-2">▶</span> Play
+          </button>
 
-  <label>
-    Cursors: <input value="5" />
-  <label>
+          <button id="reset" class="justify-self-start btn-sm text-white bg-red-600 hover:bg-red-700">
+            <img alt="A trash can" src="/images/icons/trash.svg" width="16" height="16"/>
+            Reset
+          </button>
+        </div>
+      </div>
 
-  <canvas id=""  height="200"></canvas>
-</article>
+      <div class="border p-4 shadow-lg grid gap-4">
+        <form class="grid gap-2" autocomplete="off">
+          <label for="input" class="font-bold">Input <span class="font-normal">(<span id="name">Cursor #1</span> is active)</span></label>
+          <input id="input" name="input" class="p-2 border text-black" autocomplete="off"/>
+        </form>
+
+        <p>
+          To begin composing your "animation" type into the input.
+        </p>
+      </div>
+      
+      <div class="border p-4 shadow-lg grid gap-4">
+        <h2 class="text-2xl mb-0">Timeline</h2>
+
+        <ul id="timeline" class="flex flex-nowrap overflow-auto max-w-7xl gap-4"></ul>
+
+        <template id="timeline-item-template">
+          <li class="timeline-item min-w-[128px] max-w-[128px] h-44 border p-4 flex flex-col items-center gap-2 cursor-grab" draggable="true"> 
+            <img data-id="mouse" alt="A mouse action" src="/images/icons/mouse.svg" width="16" height="16"/>
+            <img data-id="keyboard" alt="A keyboard action" src="/images/icons/keyboard.svg" width="24" height="16"/>
+            <span data-id="position" class="font-mono"></span>
+            <input data-id="key" class="font-mono w-12 text-center" />
+            <div class="flex">
+              <input data-id="delay" class="font-mono w-12 text-right"/>
+              ms
+            </div>
+            <button data-id="delete" class="mt-4">
+              <img alt="A trash can" src="/images/icons/trash.svg" width="16" height="16"/>
+            </button>
+          </li>
+        </template>
+      </div>
+    </div>
+
+    <div class="grid gap-4 xl:order-1 xl:col-span-3">
+      <div class="grid gap-2 border p-4 shadow-lg">
+        <h2 class="text-2xl mb-0">Cursors</h2>
+
+        <button 
+          id="add-cursor" 
+          class="btn-sm text-white bg-purple-600 hover:bg-purple-700 justify-self-end"
+        >
+          + Add cursor
+        </button>
+
+        <ul id="cursors" class="grid"></ul>
+
+        <p id="cursorsExplanation" hidden>
+          Click on the rows to change the active cursor, you can also use "shift+up or shift+down" to toggle activity via keyboard.
+        </p>
+
+        <template id="cursor-template">
+          <li class="border p-4 flex items-center justify-between cursor-grab" draggable="true">
+            <div class="flex items-center gap-2">
+              <span data-id="color" class="p-2 rounded-full w-4 h-4"></span>
+              <input class="p-2 border"/>
+            </div>
+            <span data-id="active" class="text-purple-800 font-bold uppercase">active</span>
+          </li>
+        </template>
+      </div>
+
+      <div class="grid border shadow-lg">
+        <h2 class="text-2xl mb-0 p-4">Config</h2>
+
+        <form class="grid gap-2" autocomplete="off">
+          <div class="grid gap-2 p-4 border-t border-b">
+            <label for="initialText" class="font-bold">Initial text</label>
+            <input id="initialText" name="initialText" class="p-2 border text-black" autocomplete="off"/>
+            <p>The text the typewriter will initialize with.</p>
+          </div>
+
+          <div class="grid gap-2 p-4 border-b">
+            <label for="fixedDelay" class="font-bold">Fixed delay (ms)</label>
+            <input id="fixedDelay" name="fixedDelay" class="p-2 border text-black" autocomplete="off"/>
+            <p>
+              By default the animation follows your typing speed. By entering
+              a "fixed delay" the animation will happen at fixed intervals.
+            </p>
+
+            <p>
+              A fixed delay will feel less "human" and more "robotic".
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

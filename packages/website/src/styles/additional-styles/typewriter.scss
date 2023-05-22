@@ -1,19 +1,56 @@
+
+// Note: --cursor-color, and --background-color is set from JavaScript
+
 .typewriter {
+  position: relative;
   font-family: monospace;
   font-size: 32px;
   display: inline-block;
+  width: 100%;
 
-  span {
-    margin-right: 1px;
+  .info {
+    font-family: sans-serif;
+    font-weight: bold;
+    display: none;
+    position: absolute;
+    top: -16px;
+    margin-left: -21px;
+    padding: 4px;
+    font-size: 12px;
+    background-color: var(--cursor-color);
+    color: white;
   }
 
-  .cursor {
-    border-right: 2px solid currentcolor; 
+  .cursor:hover + .info {
+    display: inline;
+  }
+  .cursor::after:hover + .info {
+    display: inline;
+  }
+
+  .letter {
+    background-color: var(--background-color);
+    border-left: 2px solid var(--cursor-color);
+    padding: 0;
   }
 
   .blink {
     animation: blink 1s step-start infinite;
   }
+}
+
+.timeline-item:not(:last-of-type)::after {
+  content: "";
+  position: relative;
+  top: -92px;
+  left: 72px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 16px solid var(--cursor-color);
+  border-right: 0;
 }
 
 @keyframes blink {
@@ -22,6 +59,6 @@
     border-color: transparent;
   }
   50% {
-    border-color: currentcolor;
+    border-color: var(--cursor-color);
   }
 }
