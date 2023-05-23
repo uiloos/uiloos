@@ -9,6 +9,7 @@ import { TypewriterCursorOutOfBoundsError } from './errors/TypewriterCursorOutOf
 import { TypewriterCursorNotAtSelectionEdgeError } from './errors/TypewriterCursorNotPlacedAtBoundsOfSelectionError'
 import { TypewriterCursorSelectionOutOfBoundsError } from './errors/TypewriterCursorSelectionOutOfBoundsError';
 import { TypewriterCursorSelectionInvalidRangeError } from './errors/TypewriterCursorSelectionInvalidRangeError';
+import { TypewriterActionUnknownCursorError } from './errors/TypewriterActionUnknownCursorError';
 
 import {
   TypewriterFromSentencesConfig,
@@ -28,6 +29,7 @@ export {
   TypewriterCursorNotAtSelectionEdgeError,
   TypewriterCursorSelectionOutOfBoundsError,
   TypewriterCursorSelectionInvalidRangeError,
+  TypewriterActionUnknownCursorError,
   TypewriterFromSentencesConfig,
   typewriterFromSentences
 };

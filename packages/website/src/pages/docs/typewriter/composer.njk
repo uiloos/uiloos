@@ -22,56 +22,51 @@ renderData:
         <div id="animation" class="typewriter"></div>
 
         <div class="flex justify-between gap-2">
-          <button id="play" class="justify-self-start btn-sm text-white bg-purple-600 hover:bg-purple-700">
+          <button type="button" id="play" class="justify-self-start btn-sm text-white bg-purple-600 hover:bg-purple-700">
             <span class="mt-1 mr-2">▶</span> Play
-          </button>
-
-          <button id="reset" class="justify-self-start btn-sm text-white bg-red-600 hover:bg-red-700">
-            <img alt="A trash can" src="/images/icons/trash.svg" width="16" height="16"/>
-            Reset
           </button>
         </div>
       </div>
 
       <div class="border p-4 shadow-lg grid gap-4">
         <form class="grid gap-2" autocomplete="off">
-          <label for="input" class="font-bold">Input <span class="font-normal">(<span id="name">Cursor #1</span> is active)</span></label>
-          <input id="input" name="input" class="p-2 border text-black" autocomplete="off"/>
+          <label for="animation-input" class="font-bold">Input <span class="font-normal">(<span id="cursor-name">Cursor #1</span> is active)</span></label>
+          <input id="animation-input" name="animation-input" class="p-2 border text-black" autocomplete="off"/>
         </form>
 
         <p>
           To begin composing your "animation" type into the input.
         </p>
       </div>
-      
+
       <div class="border p-4 shadow-lg grid gap-4">
         <h2 class="text-2xl mb-0">Timeline</h2>
 
         <ul id="timeline" class="flex flex-nowrap overflow-auto max-w-7xl gap-4"></ul>
 
+        <p>Total time <span id="timeline-total-time">0</span>s</p>
+
         <template id="timeline-item-template">
-          <li class="timeline-item min-w-[128px] max-w-[128px] h-44 border p-4 flex flex-col items-center gap-2 cursor-grab" draggable="true"> 
-            <img data-id="mouse" alt="A mouse action" src="/images/icons/mouse.svg" width="16" height="16"/>
-            <img data-id="keyboard" alt="A keyboard action" src="/images/icons/keyboard.svg" width="24" height="16"/>
-            <span data-id="position" class="font-mono"></span>
-            <input data-id="key" class="font-mono w-12 text-center" />
+          <li class="timeline-item min-w-[128px] max-w-[128px] h-44 border p-4 flex flex-col items-center gap-2 cursor-grab" draggable="true">
+            <img id="timeline-item-mouse" alt="A mouse action" src="/images/icons/mouse.svg" width="16" height="16"/>
+            <img id="timeline-item-keyboard" alt="A keyboard action" src="/images/icons/keyboard.svg" width="24" height="16"/>
+            <span id="timeline-item-position" class="font-mono"></span>
+            <input id="timeline-item-key" class="w-12 text-center"/>
             <div class="flex">
-              <input data-id="delay" class="font-mono w-12 text-right"/>
+              <input id="timeline-item-delay" class="font-mono w-12 text-right"/>
               ms
             </div>
-            <button data-id="delete" class="mt-4">
+            <button type="button" id="timeline-item-delete" class="mt-4">
               <img alt="A trash can" src="/images/icons/trash.svg" width="16" height="16"/>
             </button>
           </li>
         </template>
       </div>
-    </div>
 
-    <div class="grid gap-4 xl:order-1 xl:col-span-3">
-      <div class="grid gap-2 border p-4 shadow-lg">
+      <div class="grid gap-4 border p-4 shadow-lg">
         <h2 class="text-2xl mb-0">Cursors</h2>
 
-        <button 
+        <button type="button" 
           id="add-cursor" 
           class="btn-sm text-white bg-purple-600 hover:bg-purple-700 justify-self-end"
         >
@@ -79,35 +74,126 @@ renderData:
         </button>
 
         <ul id="cursors" class="grid"></ul>
-
-        <p id="cursorsExplanation" hidden>
+       
+        <p>
           Click on the rows to change the active cursor, you can also use "shift+up or shift+down" to toggle activity via keyboard.
         </p>
 
+        <p id="cursors-position-explanation">
+          The initial position of a cursor must lie within the bounds of the initial text,
+          in this case between <b>0</b> and <b id="max-position-cursor">0</b>.
+        </p>
+        
         <template id="cursor-template">
-          <li class="border p-4 flex items-center justify-between cursor-grab" draggable="true">
-            <div class="flex items-center gap-2">
-              <span data-id="color" class="p-2 rounded-full w-4 h-4"></span>
-              <input class="p-2 border"/>
+          <li class="border p-4 flex items-center justify-between cursor-pointer">
+            <div class="flex items-center gap-4">
+              <span id="cursor-template-color" class="p-2 rounded-full w-4 h-4 mr-4"></span>
+              <div class="grid gap-2">
+                <label for="cursor-template-name" class="font-bold">
+                  Name
+                </label>
+                <input id="cursor-template-name" name="cursor-template-name" class="p-2 border"/>
+              </div>
+
+              <div class="grid gap-2">
+                <label for="cursor-template-position" class="font-bold">
+                  Initial position
+                </label>
+                <input id="cursor-template-position" name="cursor-template-position" class="p-2 border" />
+              </div>
             </div>
-            <span data-id="active" class="text-purple-800 font-bold uppercase">active</span>
+            <span id="cursor-template-active" class="text-purple-800 font-bold uppercase">active</span>
           </li>
         </template>
       </div>
 
+      <div class="border p-4 shadow-lg grid gap-4">
+        <h2 class="text-2xl mb-0">Actions</h2>
+
+        <dialog id="dialog" class="bg-transparent w-full">
+          <div id="dialog-content" class="transform overflow-hidden rounded-lg bg-white dark:bg-gray-900 p-4 grid gap-4 shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg lg:max-w-xl"></div>
+        </dialog>
+
+        <div class="flex gap-4">
+          <template id="export-modal">
+            <b>Export</b>
+
+            <pre id="export-code" class="overflow-scroll h-64 border p-4"></pre>
+
+            <div class="flex gap-4 justify-end">
+              <button type="button" id="export-copy" class="btn-sm text-white bg-purple-600 hover:bg-purple-700">Copy</button>
+              <button type="button" id="export-cancel" class="btn-sm text-white bg-gray-400 hover:bg-gray-500">Cancel</button>
+            </div>
+          </template>
+
+          <button type="button" id="export" class="justify-self-start btn-sm text-white bg-purple-600 hover:bg-purple-700">
+            Export
+          </button>
+
+          <template id="import-modal">
+            <b>Import</b>
+
+            <form class="grid gap-2" autocomplete="off">
+              <label for="import-input" class="font-bold">Paste animation array here</label>
+              <textarea id="import-input" name="animation-input" class="p-2 border text-black" autocomplete="off" rows="5"></textarea>
+              <p>Copy the entire config object here from the starting <b>{</b> to closing <b>}</b>
+            </form>
+
+            <div class="flex gap-4 justify-end">
+              <button type="button" id="import-import" class="btn-sm text-white bg-purple-600 hover:bg-purple-700">Import</button>
+              <button type="button" id="import-cancel" class="btn-sm text-white bg-gray-400 hover:bg-gray-500">Cancel</button>
+            </div>
+          </template>
+
+          <button type="button" id="import" class="justify-self-start btn-sm text-white bg-purple-600 hover:bg-purple-700">
+            Import
+          </button>
+
+          <template id="confirm-reset-modal">
+            <b>Confirmation</b>
+
+            <p>Are you sure you want to reset the animation. All your progress will be lost!</p>
+
+            <div class="flex gap-4 justify-end">
+              <button type="button" id="reset-confirm" class="btn-sm text-white bg-purple-600 hover:bg-purple-700">Confirm</button>
+              <button type="button" id="reset-cancel" class="btn-sm text-white bg-gray-400 hover:bg-gray-500">Cancel</button>
+            </div>
+          </template>
+
+          <button type="button" id="reset" class="justify-self-start btn-sm text-white bg-red-600 hover:bg-red-700">
+            Reset
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid gap-4 xl:order-1 xl:col-span-3">
       <div class="grid border shadow-lg">
         <h2 class="text-2xl mb-0 p-4">Config</h2>
 
         <form class="grid gap-2" autocomplete="off">
-          <div class="grid gap-2 p-4 border-t border-b">
-            <label for="initialText" class="font-bold">Initial text</label>
-            <input id="initialText" name="initialText" class="p-2 border text-black" autocomplete="off"/>
+          <div class="grid gap-2 p-4 border-t">
+            <label for="initial-text" class="font-bold">Initial text</label>
+            <input id="initial-text" name="initial-text" class="p-2 border text-black" autocomplete="off"/>
             <p>The text the typewriter will initialize with.</p>
           </div>
 
-          <div class="grid gap-2 p-4 border-b">
-            <label for="fixedDelay" class="font-bold">Fixed delay (ms)</label>
-            <input id="fixedDelay" name="fixedDelay" class="p-2 border text-black" autocomplete="off"/>
+          <div class="grid gap-2 p-4 border-t">
+            <div class="flex items-center gap-4">
+              <input id="autoplay" name="autoplay" class="p-2 border text-black" type="checkbox" checked/>
+              <label for="autoplay" class="font-bold">Plays automatically</label>
+            </div>
+
+            <p>
+              Whether or not the animation starts playing as soon as the 
+              Typewriter is initialized. When not checked you must call
+              <a href="/api/core/typewriter/#play" class="underline high">play()</a> to start the animation.
+            </p>
+          </div>
+
+          <div class="grid gap-2 p-4 border-t">
+            <label for="fixed-delay" class="font-bold">Fixed delay (ms)</label>
+            <input id="fixed-delay" name="fixed-delay" class="p-2 border text-black" autocomplete="off"/>
             <p>
               By default the animation follows your typing speed. By entering
               a "fixed delay" the animation will happen at fixed intervals.
@@ -115,6 +201,42 @@ renderData:
 
             <p>
               A fixed delay will feel less "human" and more "robotic".
+            </p>
+          </div>
+
+          <div class="grid gap-2 p-4 border-t">
+            <strong>Repeat animation:</strong>
+            <div class="flex items-center gap-4">
+              <input id="repeat-infinitely" name="repeat" class="p-2 border text-black" value="infinitely" type="radio"/>
+              <label for="repeat-infinitely">Infinitely / forever</label>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <input id="repeat-times" name="repeat" class="p-2 border text-black" value="times" type="radio"/>
+              
+              <div>
+                <input id="repeat-time" name="repeat-time" class="p-2 border  w-12" type="text" value="5" />
+                <label for="repeat-times">times</label>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <input id="repeat-never" name="repeat" class="p-2 border text-black" value="never" type="radio" checked/>
+              <label for="repeat-never">Never / once</label>
+            </div>
+
+            <p>
+              Note: the "Preview" will shown will not repeat, as it interferes to much 
+              with the creation of the animation.
+            </p>
+          </div>
+
+          <div id="repeat-delay-wrapper" class="grid gap-2 p-4 border-t hidden">
+            <label for="repeat-delay" class="font-bold">Repeat delay (ms)</label>
+            <input id="repeat-delay" name="repeat-delay" class="p-2 border text-black" autocomplete="off" value="0"/>
+            <p>
+              The number of milliseconds to wait until the animation starts repeating. 
+              This can be used to linger on the final action a little longer.
             </p>
           </div>
         </form>

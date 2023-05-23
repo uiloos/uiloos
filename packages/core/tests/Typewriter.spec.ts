@@ -20,6 +20,7 @@ import {
   TypewriterCursorSelectionInvalidRangeError,
   typewriterFromSentences,
   TypewriterCursor,
+  TypewriterActionUnknownCursorError,
 } from '../src/Typewriter';
 
 import { licenseChecker } from '../src/license';
@@ -52,9 +53,9 @@ describe('Typewriter', () => {
     return subscriber;
   }
 
-  test("imports", () => {
+  test('imports', () => {
     expect(TypewriterCursor).toBeDefined();
-  })
+  });
 
   describe('constructor', () => {
     describe('errors', () => {
@@ -302,7 +303,77 @@ describe('Typewriter', () => {
         });
       });
 
-      describe('cursor errors', () => {
+      describe('action cursor unknown errors', () => {
+        test('must use known cursor', () => {
+          expect(() => {
+            new Typewriter({
+              text: 'abc',
+              cursors: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  cursor: 1,
+                  key: 'a',
+                  delay: 50,
+                },
+              ],
+            });
+          }).toThrowError(
+            'uiloos > Typewriter > action uses an unknown cursor'
+          );
+
+          expect(() => {
+            new Typewriter({
+              text: 'abc',
+              cursors: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  cursor: 1,
+                  key: 'a',
+                  delay: 50,
+                },
+              ],
+            });
+          }).toThrowError(TypewriterActionUnknownCursorError);
+
+          // Now with -1
+
+          expect(() => {
+            new Typewriter({
+              text: 'abc',
+              cursors: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  cursor: -1,
+                  key: 'a',
+                  delay: 50,
+                },
+              ],
+            });
+          }).toThrowError(
+            'uiloos > Typewriter > action uses an unknown cursor'
+          );
+
+          expect(() => {
+            new Typewriter({
+              text: 'abc',
+              cursors: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  cursor: -1,
+                  key: 'a',
+                  delay: 50,
+                },
+              ],
+            });
+          }).toThrowError(TypewriterActionUnknownCursorError);
+        });
+      });
+
+      describe('cursor position errors', () => {
         test('cannot be less than zero', () => {
           expect(() => {
             new Typewriter({
@@ -712,7 +783,7 @@ describe('Typewriter', () => {
         text: '',
         blinkAfter: 250,
         isPlaying: false,
-        isFinished: true,
+        isFinished: false,
         hasBeenStoppedBefore: false,
         repeat: false,
         repeatDelay: 0,
@@ -736,7 +807,7 @@ describe('Typewriter', () => {
         text: '',
         blinkAfter: 250,
         isPlaying: false,
-        isFinished: true,
+        isFinished: false,
         hasBeenStoppedBefore: false,
         repeat: false,
         repeatDelay: 0,
@@ -766,7 +837,7 @@ describe('Typewriter', () => {
         text: '',
         blinkAfter: 250,
         isPlaying: false,
-        isFinished: true,
+        isFinished: false,
         hasBeenStoppedBefore: false,
         repeat: false,
         repeatDelay: 0,
@@ -1063,7 +1134,82 @@ describe('Typewriter', () => {
         });
       });
 
-      describe('cursor errors', () => {
+      describe('action cursor unknown errors', () => {
+        test('must use known cursor', () => {
+          const typewriter = new Typewriter();
+          const subscriber = autoSubscribe(typewriter);
+
+          expect(() => {
+            typewriter.initialize({
+              text: 'abc',
+              cursors: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  cursor: 1,
+                  key: 'a',
+                  delay: 50,
+                },
+              ],
+            });
+          }).toThrowError(
+            'uiloos > Typewriter > action uses an unknown cursor'
+          );
+
+          expect(() => {
+            typewriter.initialize({
+              text: 'abc',
+              cursors: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  cursor: 1,
+                  key: 'a',
+                  delay: 50,
+                },
+              ],
+            });
+          }).toThrowError(TypewriterActionUnknownCursorError);
+
+          // Now with -1
+
+          expect(() => {
+            typewriter.initialize({
+              text: 'abc',
+              cursors: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  cursor: -1,
+                  key: 'a',
+                  delay: 50,
+                },
+              ],
+            });
+          }).toThrowError(
+            'uiloos > Typewriter > action uses an unknown cursor'
+          );
+
+          expect(() => {
+            typewriter.initialize({
+              text: 'abc',
+              cursors: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  cursor: -1,
+                  key: 'a',
+                  delay: 50,
+                },
+              ],
+            });
+          }).toThrowError(TypewriterActionUnknownCursorError);
+
+          expect(subscriber).toBeCalledTimes(0);
+        });
+      });
+
+      describe('cursor position errors', () => {
         test('cannot be less than zero', () => {
           const typewriter = new Typewriter();
           const subscriber = autoSubscribe(typewriter);
@@ -1418,7 +1564,7 @@ describe('Typewriter', () => {
             text: '',
             blinkAfter: 250,
             isPlaying: false,
-            isFinished: true,
+            isFinished: false,
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
@@ -1506,40 +1652,190 @@ describe('Typewriter', () => {
         expect(typewriter.text).toBe('c');
         assertEvents(subscriber, ['CHANGED', 'INITIALIZED', 'CHANGED']);
       });
+
+      it('should reset finished to false', () => {
+        const typewriter: Typewriter = new Typewriter({
+          blinkAfter: 50,
+          actions: [
+            { type: 'keyboard', key: 'a', delay: 100, cursor: 0 },
+          ],
+        });
+
+        const subscriber = autoSubscribe(typewriter);
+
+        expect(typewriter.isFinished).toBe(false);
+        assertEvents(subscriber, []);
+
+        jest.advanceTimersByTime(100);
+
+        expect(typewriter.isFinished).toBe(true);
+        assertEvents(subscriber, ['FINISHED']);
+
+        // Now re-initialize, should set it to false, even with no 
+        // actions.
+        typewriter.initialize({
+          actions: [],
+        });
+        
+        expect(typewriter.isFinished).toBe(false);
+        assertEvents(subscriber, ['FINISHED', 'INITIALIZED']);
+      });
     });
 
-    it('should start playing automatically when there are actions configured', () => {
-      const typewriter = new Typewriter();
+    describe('autoPlay', () => {
+      it('should start playing automatically when there are actions configured and autoPlay is undefined', () => {
+        const typewriter = new Typewriter();
 
-      typewriter.initialize({
-        actions: [
-          {
-            type: 'keyboard',
-            key: 'a',
-            delay: 100,
-            cursor: 0,
-          },
-          {
-            type: 'keyboard',
-            key: 'b',
-            delay: 100,
-            cursor: 0,
-          },
-          {
-            type: 'keyboard',
-            key: 'c',
-            delay: 100,
-            cursor: 0,
-          },
-        ],
+        typewriter.initialize({
+          actions: [
+            {
+              type: 'keyboard',
+              key: 'a',
+              delay: 100,
+              cursor: 0,
+            },
+            {
+              type: 'keyboard',
+              key: 'b',
+              delay: 100,
+              cursor: 0,
+            },
+            {
+              type: 'keyboard',
+              key: 'c',
+              delay: 100,
+              cursor: 0,
+            },
+          ],
+        });
+
+        // After 100 milliseconds it should now be 'a'
+        jest.advanceTimersByTime(100);
+
+        expect(typewriter.isPlaying).toBe(true);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('a');
       });
 
-      // After 100 milliseconds it should now be 'a'
-      jest.advanceTimersByTime(100);
+      it('should start playing automatically when there are actions configured and autoPlay is true', () => {
+        const typewriter = new Typewriter();
 
-      expect(typewriter.isPlaying).toBe(true);
-      expect(typewriter.cursors[0].isBlinking).toBe(false);
-      expect(typewriter.text).toBe('a');
+        typewriter.initialize({
+          autoPlay: true,
+          actions: [
+            {
+              type: 'keyboard',
+              key: 'a',
+              delay: 100,
+              cursor: 0,
+            },
+            {
+              type: 'keyboard',
+              key: 'b',
+              delay: 100,
+              cursor: 0,
+            },
+            {
+              type: 'keyboard',
+              key: 'c',
+              delay: 100,
+              cursor: 0,
+            },
+          ],
+        });
+
+        // After 100 milliseconds it should now be 'a'
+        jest.advanceTimersByTime(100);
+
+        expect(typewriter.isPlaying).toBe(true);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('a');
+      });
+
+      it('should not start playing automatically when there are actions configured and autoPlay is false', () => {
+        const typewriter = new Typewriter();
+
+        typewriter.initialize({
+          autoPlay: false,
+          actions: [
+            {
+              type: 'keyboard',
+              key: 'a',
+              delay: 100,
+              cursor: 0,
+            },
+            {
+              type: 'keyboard',
+              key: 'b',
+              delay: 100,
+              cursor: 0,
+            },
+            {
+              type: 'keyboard',
+              key: 'c',
+              delay: 100,
+              cursor: 0,
+            },
+          ],
+        });
+
+        // Should not play even after a long time.
+        expect(typewriter.isPlaying).toBe(false);
+        jest.advanceTimersByTime(10000);
+        expect(typewriter.isPlaying).toBe(false);
+
+        // Now activate it.
+        typewriter.play();
+
+        // After 100 milliseconds it should now be 'a'
+        jest.advanceTimersByTime(100);
+
+        expect(typewriter.isPlaying).toBe(true);
+        expect(typewriter.cursors[0].isBlinking).toBe(false);
+        expect(typewriter.text).toBe('a');
+      });
+
+      it('should not start playing automatically when there are no actions configured even when autoPlay is true', () => {
+        const typewriter = new Typewriter();
+
+        typewriter.initialize({
+          autoPlay: true,
+          actions: [],
+        });
+
+        // Should not play even after a long time.
+        expect(typewriter.isPlaying).toBe(false);
+        jest.advanceTimersByTime(10000);
+        expect(typewriter.isPlaying).toBe(false);
+
+        // Now activate it, should have no effect
+        typewriter.play();
+
+        expect(typewriter.isPlaying).toBe(false);
+        jest.advanceTimersByTime(10000);
+        expect(typewriter.isPlaying).toBe(false);
+      });
+
+      it('should not start playing automatically when there are no actions configured and when autoPlay is false', () => {
+        const typewriter = new Typewriter();
+
+        typewriter.initialize({
+          autoPlay: false,
+          actions: [],
+        });
+
+        // Should not play even after a long time.
+        expect(typewriter.isPlaying).toBe(false);
+        jest.advanceTimersByTime(10000);
+        expect(typewriter.isPlaying).toBe(false);
+
+        // Now activate it, should have no effect
+        typewriter.play();
+
+        expect(typewriter.isPlaying).toBe(false);
+        jest.advanceTimersByTime(10000);
+        expect(typewriter.isPlaying).toBe(false);
+      });
     });
   });
 
@@ -5661,8 +5957,8 @@ describe('Typewriter', () => {
                 cursor: 0,
                 selection: {
                   start: 0,
-                  end: 3
-                }
+                  end: 3,
+                },
               },
             ],
             blinkAfter: 50,
@@ -5681,8 +5977,8 @@ describe('Typewriter', () => {
                 cursor: 0,
                 selection: {
                   start: 0,
-                  end: 3
-                }
+                  end: 3,
+                },
               },
             ],
             cursors: [{ position: 0, name: '', isBlinking: true }],
@@ -5709,11 +6005,18 @@ describe('Typewriter', () => {
                   cursor: 0,
                   selection: {
                     start: 0,
-                    end: 3
-                  }
+                    end: 3,
+                  },
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false, selection: { start: 0, end: 3 } }],
+              cursors: [
+                {
+                  position: 0,
+                  name: '',
+                  isBlinking: false,
+                  selection: { start: 0, end: 3 },
+                },
+              ],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -5731,8 +6034,8 @@ describe('Typewriter', () => {
                 cursor: 0,
                 selection: {
                   start: 0,
-                  end: 3
-                }
+                  end: 3,
+                },
               },
               time: new Date(),
               cursor: typewriter.cursors[0],
@@ -10143,8 +10446,8 @@ describe('Typewriter', () => {
                 cursor: 0,
                 selection: {
                   start: 0,
-                  end: 3
-                }
+                  end: 3,
+                },
               },
               {
                 type: 'keyboard',
@@ -10155,7 +10458,9 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 3, name: '', selection: { start: 0, end : 3} }],
+            cursors: [
+              { position: 3, name: '', selection: { start: 0, end: 3 } },
+            ],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -10169,8 +10474,8 @@ describe('Typewriter', () => {
                 cursor: 0,
                 selection: {
                   start: 0,
-                  end: 3
-                }
+                  end: 3,
+                },
               },
               {
                 type: 'keyboard',
@@ -10179,7 +10484,14 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 3, name: '', isBlinking: true, selection: { start: 0, end : 3} }],
+            cursors: [
+              {
+                position: 3,
+                name: '',
+                isBlinking: true,
+                selection: { start: 0, end: 3 },
+              },
+            ],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -10207,8 +10519,8 @@ describe('Typewriter', () => {
                   cursor: 0,
                   selection: {
                     start: 0,
-                    end: 3
-                  }
+                    end: 3,
+                  },
                 },
                 {
                   type: 'keyboard',
@@ -14769,7 +15081,7 @@ describe('Typewriter', () => {
           );
         });
 
-        fit('should alter other cursors positions, when inserting at the start', () => {
+        it('should alter other cursors positions, when inserting at the start', () => {
           const typewriter = new Typewriter({
             actions: [
               {
@@ -19004,15 +19316,35 @@ describe('Typewriter', () => {
       expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(true);
       expect(typewriter.text).toBe('ab');
-      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED', 'FINISHED']);
+      assertEvents(subscriber, [
+        'CHANGED',
+        'STOPPED',
+        'PLAYING',
+        'CHANGED',
+        'FINISHED',
+      ]);
 
       // Trigger blinking
       jest.advanceTimersByTime(200);
-      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED', 'FINISHED', 'BLINKING']);
+      assertEvents(subscriber, [
+        'CHANGED',
+        'STOPPED',
+        'PLAYING',
+        'CHANGED',
+        'FINISHED',
+        'BLINKING',
+      ]);
 
       // Nothing should happen unless play() is called
       jest.advanceTimersByTime(1000);
-      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED', 'FINISHED', 'BLINKING']);
+      assertEvents(subscriber, [
+        'CHANGED',
+        'STOPPED',
+        'PLAYING',
+        'CHANGED',
+        'FINISHED',
+        'BLINKING',
+      ]);
 
       // Call play
       typewriter.play();
@@ -19022,7 +19354,15 @@ describe('Typewriter', () => {
       expect(typewriter.cursors[0].isBlinking).toBe(true);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
-      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED', 'FINISHED', 'BLINKING', 'PLAYING']);
+      assertEvents(subscriber, [
+        'CHANGED',
+        'STOPPED',
+        'PLAYING',
+        'CHANGED',
+        'FINISHED',
+        'BLINKING',
+        'PLAYING',
+      ]);
 
       // After 100 milliseconds it should now be 'a'
       jest.advanceTimersByTime(100);
@@ -19032,7 +19372,16 @@ describe('Typewriter', () => {
       expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
-      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED', 'FINISHED', 'BLINKING', 'PLAYING', 'CHANGED']);
+      assertEvents(subscriber, [
+        'CHANGED',
+        'STOPPED',
+        'PLAYING',
+        'CHANGED',
+        'FINISHED',
+        'BLINKING',
+        'PLAYING',
+        'CHANGED',
+      ]);
 
       // After 100 milliseconds it should now be 'b'
       jest.advanceTimersByTime(100);
@@ -19042,7 +19391,17 @@ describe('Typewriter', () => {
       expect(typewriter.cursors[0].isBlinking).toBe(false);
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('ab');
-      assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED', 'FINISHED', 'BLINKING', 'PLAYING', 'CHANGED', 'FINISHED']);
+      assertEvents(subscriber, [
+        'CHANGED',
+        'STOPPED',
+        'PLAYING',
+        'CHANGED',
+        'FINISHED',
+        'BLINKING',
+        'PLAYING',
+        'CHANGED',
+        'FINISHED',
+      ]);
     });
 
     test('that the autoplay can be stopped and restarted with the original text', () => {
@@ -19498,7 +19857,7 @@ describe('Typewriter', () => {
             key: 'a',
             delay: 100,
             cursor: 0,
-          }
+          },
         ],
         blinkAfter: 50,
       });
@@ -19526,7 +19885,7 @@ describe('Typewriter', () => {
       typewriter.stop();
 
       expect(typewriter.hasBeenStoppedBefore).toBe(false);
-      
+
       assertEvents(subscriber, ['FINISHED']);
     });
   });
@@ -20552,34 +20911,38 @@ describe('Typewriter', () => {
           {
             position: 0,
             name: 'owen',
-            selection: { // joy
+            selection: {
+              // joy
               start: 0,
-              end: 3
-            }
+              end: 3,
+            },
           },
           {
             position: 1,
             name: 'jane',
-            selection: { // o
+            selection: {
+              // o
               start: 1,
-              end: 2
-            }
+              end: 2,
+            },
           },
           {
             position: 2,
             name: 'tosca',
-            selection: { // jo
+            selection: {
+              // jo
               start: 0,
-              end: 2
-            }
+              end: 2,
+            },
           },
           {
             position: 3,
             name: 'maarten',
-            selection: { // joy
+            selection: {
+              // joy
               start: 0,
-              end: 3
-            }
+              end: 3,
+            },
           },
         ],
         actions: [],
@@ -20998,7 +21361,7 @@ function assertState(state: Typewriter, expected: TestState) {
           delay: action.delay,
           cursor: action.cursor,
           position: action.position,
-          selection: action.selection
+          selection: action.selection,
         };
 
         return copy;

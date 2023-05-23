@@ -59,6 +59,8 @@ export type TypewriterCursorConfig = {
    * The range of positions which this cursor has selected.
    *
    * Defaults to undefined, meaning no selection has been made.
+   * 
+   * @since 1.2.0
    */
   selection?: TypewriterCursorSelection;
 };
@@ -142,7 +144,7 @@ export type TypewriterConfig = {
    * 
    * Defaults to `true` meaning that the animation will play instantly.
    * 
-   * TODO: autoPlay test
+   * @since 1.2.0
    */
   autoPlay?: boolean;
 
@@ -154,11 +156,11 @@ export type TypewriterConfig = {
    *  1. When `repeat` is `false` or `1` it will never repeat the 
    *     animation, the animation will run only once.
    *
-   *  2. When `repeat` is `true` it will loop the animation forever.
+   *  2. When `repeat` is `true` it will repeat the animation forever.
    *
    *  3. When `repeat` is a number it will repeat the animation
-   *     for the number of times. If 0 or a negative number is
-   *     provided a error occurs.
+   *     for given number of times. If the number is 0 or a negative 
+   *     number is provided a error occurs.
    *
    * Defaults to `false` meaning that the animation will run once.
    *
@@ -196,7 +198,7 @@ export type TypewriterSubscriber = (
  *
  * @since 1.2.0
  */
-export const typewriterActionTypeBackspace = Symbol();
+export const typewriterActionTypeBackspace = '⌫';
 
 /**
  * Represents the user clearing all text from the `Typewriter` sort
@@ -204,21 +206,21 @@ export const typewriterActionTypeBackspace = Symbol();
  *
  * @since 1.2.0
  */
-export const typewriterActionTypeClearAll = Symbol();
+export const typewriterActionTypeClearAll = '⎚';
 
 /**
  * Represents the user clicking the left arrow key on the keyboard.
  *
  * @since 1.2.0
  */
-export const typewriterActionTypeLeft = Symbol();
+export const typewriterActionTypeLeft = '←';
 
 /**
  * Represents the user clicking the right arrow key on the keyboard.
  *
  * @since 1.2.0
  */
-export const typewriterActionTypeRight = Symbol();
+export const typewriterActionTypeRight = '→';
 
 /**
  * Represents the user selecting text and extending the selection
@@ -226,7 +228,7 @@ export const typewriterActionTypeRight = Symbol();
  *
  * @since 1.2.0
  */
-export const typewriterActionTypeSelectLeft = Symbol();
+export const typewriterActionTypeSelectLeft = '⇧←';
 
 /**
  * Represents the user selecting text and extending the selection
@@ -234,24 +236,7 @@ export const typewriterActionTypeSelectLeft = Symbol();
  *
  * @since 1.2.0
  */
-export const typewriterActionTypeSelectRight = Symbol();
-
-/**
- * Represents which button on the keyboard was pressed. Is either
- * a string or a special type of button such as backspace, arrow
- * left and right, or a specific action such as clearing all
- * text.
- *
- * @since 1.2.0
- */
-export type TypewriterActionTypeKeyPressKey =
-  | string
-  | typeof typewriterActionTypeBackspace
-  | typeof typewriterActionTypeClearAll
-  | typeof typewriterActionTypeLeft
-  | typeof typewriterActionTypeRight
-  | typeof typewriterActionTypeSelectLeft
-  | typeof typewriterActionTypeSelectRight;
+export const typewriterActionTypeSelectRight = '⇧→';
 
 /**
  * The type of action which occurred on the Typewriter, can either
@@ -293,25 +278,26 @@ export type BaseTypewriterAction = {
 };
 
 /**
- * Represents the user clicking somewhere in the text, moving
- * the cursor to the position.
+ * Represents the user pressing a key on the keyboard. 
  *
  * @since 1.2.0
  */
 export type TypewriterActionKeyPress = BaseTypewriterAction & {
   /**
-   * The type signifying it is a mouse click.
+   * The type signifying it is a keyboard click.
    *
    * @since 1.2.0
    */
   type: 'keyboard';
 
   /**
-   * The position the mouse click moves the cursor to.
+   * The string that was typed in, can either be a word or a single
+   * character or a special symbol representing a special key on the
+   * keyboard. For example 
    *
    * @since 1.2.0
    */
-  key: TypewriterActionTypeKeyPressKey;
+  key: string;
 };
 
 /**

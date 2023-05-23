@@ -126,6 +126,8 @@ const data = [
     type: "Docs",
     link: "/docs/view-channel/concepts/#priority"
   },
+  
+  // TODO: typewriter
 
    // Releases
    {

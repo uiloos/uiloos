@@ -15,12 +15,6 @@ import { _History } from '../private/History';
 import { _Observer } from '../private/Observer';
 import {
   TypewriterAction,
-  typewriterActionTypeBackspace,
-  typewriterActionTypeClearAll,
-  typewriterActionTypeLeft,
-  typewriterActionTypeRight,
-  typewriterActionTypeSelectLeft,
-  typewriterActionTypeSelectRight,
   TypewriterChangedEvent,
   TypewriterConfig,
   TypewriterCursorConfig,
@@ -43,6 +37,7 @@ import { TypewriterCursorOutOfBoundsError } from './errors/TypewriterCursorOutOf
 import { TypewriterCursorNotAtSelectionEdgeError } from './errors/TypewriterCursorNotPlacedAtBoundsOfSelectionError';
 import { TypewriterCursorSelectionInvalidRangeError } from './errors/TypewriterCursorSelectionInvalidRangeError';
 import { TypewriterCursorSelectionOutOfBoundsError } from './errors/TypewriterCursorSelectionOutOfBoundsError';
+import { TypewriterActionUnknownCursorError } from './errors/TypewriterActionUnknownCursorError';
 
 // TODO: builders: ascii, marble, fluentapi
 
@@ -53,6 +48,8 @@ import { TypewriterCursorSelectionOutOfBoundsError } from './errors/TypewriterCu
 // TODO: word mode
 
 // TODO: check since 1.2.0
+
+// TODO: check doc strings, seen some wrong things
 
 // CURRENT: create composer, where the user can compose animations by typing an clicking.
 // Perhaps this should even be the primary way of doing things.
@@ -128,11 +125,15 @@ export class Typewriter {
   private _stopped: boolean = false;
 
   /**
-   * Whether or not the `Typewriter` has finished playing
-   * the entire animation.
+   * Whether or not the `Typewriter` has finished playing the entire 
+   * animation.
    *
    * Note: when `repeat` is configured as `true` the animation will
    * never finish.
+   * 
+   * Note: when the `Typewriter` is initialized the `isFinished`
+   * boolean will always be set to `false`, regardless of whether
+   * or not there are any actions.
    *
    * @since 1.2.0
    */
@@ -269,6 +270,7 @@ export class Typewriter {
    * @throws {TypewriterCursorNotAtSelectionEdgeError} when cursor has a selection the cursor must be on edges of the selection
    * @throws {TypewriterCursorSelectionOutOfBoundsError} the start and end of the selection must be in bounds of the text
    * @throws {TypewriterCursorSelectionInvalidRangeError} the start of a selection must on or after the end of a selection
+   * @throws {TypewriterActionUnknownCursorError} actions must use cursors that exist
    * @since 1.2.0
    */
   constructor(
@@ -301,6 +303,7 @@ export class Typewriter {
    * @throws {TypewriterCursorNotAtSelectionEdgeError} when cursor has a selection the cursor must be on edges of the selection
    * @throws {TypewriterCursorSelectionOutOfBoundsError} the start and end of the selection must be in bounds of the text
    * @throws {TypewriterCursorSelectionInvalidRangeError} the start of a selection must on or after the end of a selection
+   * @throws {TypewriterActionUnknownCursorError} actions must use cursors that exist
    * @since 1.2.0
    */
   public initialize(config: TypewriterConfig): void {
@@ -329,19 +332,66 @@ export class Typewriter {
     // Get unicode text length.
     const textLength = Array.from(this.text).length;
 
+    this._originalCursors.length = 0;
+
     if (config.cursors) {
-      config.cursors.forEach((c) => {
+      config.cursors.forEach((cursor) => {  
+        const position = cursor.position;
+  
+        // Consider the text `test` the cursor can be at
+        // before t 0, after t 1, after e 2, after s 3 and after t 4
+        if (position < 0 || position > textLength) {
+          throw new TypewriterCursorOutOfBoundsError();
+        }
+  
+        if (cursor.selection) {
+          const { start, end } = cursor.selection;
+  
+          // Either the start or the end should be on the position of the cursor
+          if (position !== start && position !== end) {
+            throw new TypewriterCursorNotAtSelectionEdgeError();
+          }
+  
+          // Start should be in bounds
+          if (start < 0 || start > textLength) {
+            throw new TypewriterCursorSelectionOutOfBoundsError('start');
+          }
+  
+          // End should be in bounds
+          if (end < 0 || end > textLength) {
+            throw new TypewriterCursorSelectionOutOfBoundsError('end');
+          }
+  
+          // Start needs to be smaller than end otherwise there is no selection.
+          if (start >= end) {
+            throw new TypewriterCursorSelectionInvalidRangeError();
+          }
+        }
+
+        // Store original cursor config for so repeats work.
+        this._originalCursors.push({
+          position: cursor.position,
+          name: cursor.name,
+          selection: cursor.selection
+            ? {
+                start: cursor.selection.start,
+                end: cursor.selection.end,
+              }
+            : undefined,
+        });
+
         this.cursors.push(
           new TypewriterCursor(
             this,
-            c.position,
-            c.name ? c.name : '',
-            c.selection
+            cursor.position,
+            cursor.name ? cursor.name : '',
+            cursor.selection
           )
         );
       });
     } else {
       this.cursors.push(new TypewriterCursor(this, textLength, '', undefined));
+      this._originalCursors.push({ name: '', position: textLength})
     }
 
     if (config.actions) {
@@ -352,7 +402,9 @@ export class Typewriter {
           throw new TypewriterDelayError();
         }
 
-        // TODO: Check if cursor exists before applying action create new error
+        if (this.cursors[action.cursor] === undefined) {
+          throw new TypewriterActionUnknownCursorError();
+        }
 
         this.actions.push(action);
       }
@@ -360,9 +412,8 @@ export class Typewriter {
 
     this._index = 0;
 
-    // TODO: test autoplay disabled
-    this.isPlaying = !!!config.autoPlay && this.actions.length > 0;
-    this.isFinished = !this.isPlaying;
+    this.isPlaying = (config.autoPlay === true || config.autoPlay === undefined) && this.actions.length > 0;
+    this.isFinished = false;
 
     this.blinkAfter = config.blinkAfter !== undefined ? config.blinkAfter : 250;
 
@@ -382,59 +433,6 @@ export class Typewriter {
 
     if (this.repeatDelay < 0) {
       throw new TypewriterRepeatDelayError();
-    }
-
-    this._originalCursors.length = 0;
-
-    // TODO should the checking not happen when the cursor is initialized?
-
-    // Check cursors, and store copy.
-    for (let i = 0; i < this.cursors.length; i++) {
-      const cursor = this.cursors[i];
-
-      // Store original cursors
-      this._originalCursors.push({
-        position: cursor.position,
-        name: cursor.name,
-        selection: cursor.selection
-          ? {
-              start: cursor.selection.start,
-              end: cursor.selection.end,
-            }
-          : undefined,
-      });
-
-      const position = cursor.position;
-
-      // Consider the text `test` the cursor can be at
-      // before t 0, after t 1, after e 2, after s 3 and after t 4
-      if (position < 0 || position > textLength) {
-        throw new TypewriterCursorOutOfBoundsError();
-      }
-
-      if (cursor.selection) {
-        const { start, end } = cursor.selection;
-
-        // Either the start or the end should be on the position of the cursor
-        if (position !== start && position !== end) {
-          throw new TypewriterCursorNotAtSelectionEdgeError();
-        }
-
-        // Start should be in bounds
-        if (start < 0 || start > textLength) {
-          throw new TypewriterCursorSelectionOutOfBoundsError('start');
-        }
-
-        // End should be in bounds
-        if (end < 0 || end > textLength) {
-          throw new TypewriterCursorSelectionOutOfBoundsError('end');
-        }
-
-        // Start needs to be smaller than end otherwise there is no selection.
-        if (start >= end) {
-          throw new TypewriterCursorSelectionInvalidRangeError();
-        }
-      }
     }
 
     this.hasBeenStoppedBefore = false;
@@ -506,8 +504,8 @@ export class Typewriter {
       // This includes hasBeenStoppedBefore.
       this.hasBeenStoppedBefore = false;
       this._resetTandC();
-    } else if (this.isPlaying) {
-      // Do nothing when already playing
+    } else if (this.isPlaying || this.actions.length === 0) {
+      // Do nothing when already playing, or when there are no actions.
       return;
     } else if (this._stopped) {
       this._stopped = false;
@@ -644,7 +642,7 @@ export class Typewriter {
 
       if (action.type === 'keyboard') {
         // Figure out what to do with the text next
-        if (action.key === typewriterActionTypeClearAll) {
+        if (action.key === '⎚') {
           // If it is already empty it is a noOp.
           if (this.text === '') {
             noOp = true;
@@ -657,20 +655,20 @@ export class Typewriter {
               c.selection = undefined;
             });
           }
-        } else if (action.key === typewriterActionTypeLeft) {
+        } else if (action.key === '←') {
           noOp = this._actionLorR(cursor, -1, cursor.selection?.start || 0, 0);
-        } else if (action.key === typewriterActionTypeRight) {
+        } else if (action.key === '→') {
           noOp = this._actionLorR(
             cursor,
             1,
             cursor.selection?.end || 0,
             textArray.length
           );
-        } else if (action.key === typewriterActionTypeSelectLeft) {
+        } else if (action.key === '⇧←') {
           noOp = this._actionSLorR(cursor, -1, 'start', 0);
-        } else if (action.key === typewriterActionTypeSelectRight) {
+        } else if (action.key === '⇧→') {
           noOp = this._actionSLorR(cursor, 1, 'end', textArray.length);
-        } else if (action.key === typewriterActionTypeBackspace) {
+        } else if (action.key === '⌫') {
           // Stores which positions have been removed, so we can
           // update the cursors later.
           const removed = {
