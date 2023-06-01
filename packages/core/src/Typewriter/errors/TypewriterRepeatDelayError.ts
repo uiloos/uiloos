@@ -1,4 +1,4 @@
-import { common } from "./common";
+import { common, name } from "./common";
 
 /**
  * Error which is thrown whenever the configured repeatDelay is less 
@@ -9,6 +9,6 @@ import { common } from "./common";
 export class TypewriterRepeatDelayError extends Error {
   constructor() {
     super(`${common} repeatDelay cannot be a negative number`);
-    this.name = "TypewriterRepeatDelayError";
+    this.name = `${name}RepeatDelayError`;
   }
 }

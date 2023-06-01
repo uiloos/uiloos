@@ -1,8 +1,8 @@
+import { typewriterActionTypeBackspace } from '../keys';
 import {
   TypewriterConfig,
   TypewriterAction,
   TypewriterSubscriber,
-  typewriterActionTypeBackspace,
 } from '../types';
 import { Typewriter } from '../Typewriter';
 
@@ -118,7 +118,7 @@ export function typewriterFromSentences(
     for (let i = 0; i < backspaces; i++) {
       actions.push({
         type: 'keyboard',
-        key: typewriterActionTypeBackspace,
+        text: typewriterActionTypeBackspace,
         delay,
         cursor: 0
       });
@@ -138,7 +138,7 @@ export function typewriterFromSentences(
     for (const missingChar of missingChars) {
       actions.push({
         type: 'keyboard',
-        key: missingChar,
+        text: missingChar,
         delay,
         cursor: 0
       });

@@ -1,4 +1,4 @@
-import { common } from "./common";
+import { common, name } from "./common";
 
 /**
  * Error which is thrown whenever the Typewriter is configured with an 
@@ -9,6 +9,6 @@ import { common } from "./common";
 export class TypewriterActionUnknownCursorError extends Error {
   constructor() {
     super(`${common} action uses an unknown cursor`);
-    this.name = "TypewriterActionUnknownCursorError";
+    this.name = `${name}ActionUnknownCursorError`;
   }
 }

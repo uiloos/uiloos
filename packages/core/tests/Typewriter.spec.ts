@@ -4,17 +4,11 @@ import {
   TypewriterDelayError,
   TypewriterEvent,
   TypewriterEventType,
-  typewriterActionTypeBackspace,
-  typewriterActionTypeClearAll,
   TypewriterRepeatError,
   TypewriterRepeatDelayError,
   TypewriterCursorOutOfBoundsError,
   TypewriterCursorConfig,
-  typewriterActionTypeLeft,
-  typewriterActionTypeRight,
   TypewriterAction,
-  typewriterActionTypeSelectLeft,
-  typewriterActionTypeSelectRight,
   TypewriterCursorNotAtSelectionEdgeError,
   TypewriterCursorSelectionOutOfBoundsError,
   TypewriterCursorSelectionInvalidRangeError,
@@ -22,6 +16,14 @@ import {
   TypewriterCursor,
   TypewriterActionUnknownCursorError,
 } from '../src/Typewriter';
+import {
+  typewriterActionTypeBackspace,
+  typewriterActionTypeClearAll,
+  typewriterActionTypeLeft,
+  typewriterActionTypeRight,
+  typewriterActionTypeSelectLeft,
+  typewriterActionTypeSelectRight,
+} from '../src/Typewriter/keys';
 
 import { licenseChecker } from '../src/license';
 
@@ -92,7 +94,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: -1,
                   cursor: 0,
                 },
@@ -107,7 +109,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: -1,
                   cursor: 0,
                 },
@@ -121,19 +123,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: -1,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: 100,
                   cursor: 0,
                 },
@@ -147,19 +149,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: -1,
                   cursor: 0,
                 },
@@ -174,7 +176,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 0,
                   cursor: 0,
                 },
@@ -189,7 +191,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 0,
                   cursor: 0,
                 },
@@ -203,19 +205,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 0,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: 100,
                   cursor: 0,
                 },
@@ -229,19 +231,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: 0,
                   cursor: 0,
                 },
@@ -313,7 +315,7 @@ describe('Typewriter', () => {
                 {
                   type: 'keyboard',
                   cursor: 1,
-                  key: 'a',
+                  text: 'a',
                   delay: 50,
                 },
               ],
@@ -330,7 +332,7 @@ describe('Typewriter', () => {
                 {
                   type: 'keyboard',
                   cursor: 1,
-                  key: 'a',
+                  text: 'a',
                   delay: 50,
                 },
               ],
@@ -347,7 +349,7 @@ describe('Typewriter', () => {
                 {
                   type: 'keyboard',
                   cursor: -1,
-                  key: 'a',
+                  text: 'a',
                   delay: 50,
                 },
               ],
@@ -364,7 +366,7 @@ describe('Typewriter', () => {
                 {
                   type: 'keyboard',
                   cursor: -1,
-                  key: 'a',
+                  text: 'a',
                   delay: 50,
                 },
               ],
@@ -679,23 +681,23 @@ describe('Typewriter', () => {
         text: 'aap',
         blinkAfter: 1337,
         actions: [
-          { type: 'keyboard', key: 'a', delay: 999, cursor: 0 },
+          { type: 'keyboard', text: 'a', delay: 999, cursor: 0 },
 
-          { type: 'keyboard', key: 'a', delay: 999, cursor: 2 },
+          { type: 'keyboard', text: 'a', delay: 999, cursor: 2 },
 
-          { type: 'keyboard', key: 'a', delay: 999, cursor: 1 },
+          { type: 'keyboard', text: 'a', delay: 999, cursor: 1 },
 
-          { type: 'keyboard', key: 'b', delay: 999, cursor: 0 },
+          { type: 'keyboard', text: 'b', delay: 999, cursor: 0 },
 
-          { type: 'keyboard', key: 'b', delay: 999, cursor: 2 },
+          { type: 'keyboard', text: 'b', delay: 999, cursor: 2 },
 
-          { type: 'keyboard', key: 'b', delay: 999, cursor: 1 },
+          { type: 'keyboard', text: 'b', delay: 999, cursor: 1 },
 
-          { type: 'keyboard', key: 'c', delay: 999, cursor: 0 },
+          { type: 'keyboard', text: 'c', delay: 999, cursor: 0 },
 
-          { type: 'keyboard', key: 'c', delay: 999, cursor: 2 },
+          { type: 'keyboard', text: 'c', delay: 999, cursor: 2 },
 
-          { type: 'keyboard', key: 'c', delay: 999, cursor: 1 },
+          { type: 'keyboard', text: 'c', delay: 999, cursor: 1 },
         ],
         keepHistoryFor: 1,
         repeat: 1337,
@@ -717,23 +719,23 @@ describe('Typewriter', () => {
           }),
         ],
         actions: [
-          { type: 'keyboard', key: 'a', delay: 999, cursor: 0 },
+          { type: 'keyboard', text: 'a', delay: 999, cursor: 0 },
 
-          { type: 'keyboard', key: 'a', delay: 999, cursor: 2 },
+          { type: 'keyboard', text: 'a', delay: 999, cursor: 2 },
 
-          { type: 'keyboard', key: 'a', delay: 999, cursor: 1 },
+          { type: 'keyboard', text: 'a', delay: 999, cursor: 1 },
 
-          { type: 'keyboard', key: 'b', delay: 999, cursor: 0 },
+          { type: 'keyboard', text: 'b', delay: 999, cursor: 0 },
 
-          { type: 'keyboard', key: 'b', delay: 999, cursor: 2 },
+          { type: 'keyboard', text: 'b', delay: 999, cursor: 2 },
 
-          { type: 'keyboard', key: 'b', delay: 999, cursor: 1 },
+          { type: 'keyboard', text: 'b', delay: 999, cursor: 1 },
 
-          { type: 'keyboard', key: 'c', delay: 999, cursor: 0 },
+          { type: 'keyboard', text: 'c', delay: 999, cursor: 0 },
 
-          { type: 'keyboard', key: 'c', delay: 999, cursor: 2 },
+          { type: 'keyboard', text: 'c', delay: 999, cursor: 2 },
 
-          { type: 'keyboard', key: 'c', delay: 999, cursor: 1 },
+          { type: 'keyboard', text: 'c', delay: 999, cursor: 1 },
         ],
         cursors: [
           { position: 0, name: 'Tosca', isBlinking: true },
@@ -901,7 +903,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: -1,
                   cursor: 0,
                 },
@@ -916,7 +918,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: -1,
                   cursor: 0,
                 },
@@ -930,19 +932,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: -1,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: 100,
                   cursor: 0,
                 },
@@ -956,19 +958,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: -1,
                   cursor: 0,
                 },
@@ -988,7 +990,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 0,
                   cursor: 0,
                 },
@@ -1003,7 +1005,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 0,
                   cursor: 0,
                 },
@@ -1017,19 +1019,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 0,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: 100,
                   cursor: 0,
                 },
@@ -1043,19 +1045,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: 0,
                   cursor: 0,
                 },
@@ -1147,7 +1149,7 @@ describe('Typewriter', () => {
                 {
                   type: 'keyboard',
                   cursor: 1,
-                  key: 'a',
+                  text: 'a',
                   delay: 50,
                 },
               ],
@@ -1164,7 +1166,7 @@ describe('Typewriter', () => {
                 {
                   type: 'keyboard',
                   cursor: 1,
-                  key: 'a',
+                  text: 'a',
                   delay: 50,
                 },
               ],
@@ -1181,7 +1183,7 @@ describe('Typewriter', () => {
                 {
                   type: 'keyboard',
                   cursor: -1,
-                  key: 'a',
+                  text: 'a',
                   delay: 50,
                 },
               ],
@@ -1198,7 +1200,7 @@ describe('Typewriter', () => {
                 {
                   type: 'keyboard',
                   cursor: -1,
-                  key: 'a',
+                  text: 'a',
                   delay: 50,
                 },
               ],
@@ -1545,7 +1547,7 @@ describe('Typewriter', () => {
         const typewriter: Typewriter = new Typewriter({
           text: 'aap',
           blinkAfter: 1337,
-          actions: [{ type: 'keyboard', key: '', delay: 999, cursor: 0 }],
+          actions: [{ type: 'keyboard', text: '', delay: 999, cursor: 0 }],
           keepHistoryFor: 1,
         });
 
@@ -1579,9 +1581,9 @@ describe('Typewriter', () => {
       it('should reset the animation timeout', () => {
         const typewriter: Typewriter = new Typewriter({
           actions: [
-            { type: 'keyboard', key: 'a', delay: 100, cursor: 0 },
+            { type: 'keyboard', text: 'a', delay: 100, cursor: 0 },
 
-            { type: 'keyboard', key: 'b', delay: 100, cursor: 0 },
+            { type: 'keyboard', text: 'b', delay: 100, cursor: 0 },
           ],
         });
 
@@ -1605,8 +1607,8 @@ describe('Typewriter', () => {
         const typewriter: Typewriter = new Typewriter({
           blinkAfter: 50,
           actions: [
-            { type: 'keyboard', key: 'a', delay: 100, cursor: 0 },
-            { type: 'keyboard', key: 'b', delay: 100, cursor: 0 },
+            { type: 'keyboard', text: 'a', delay: 100, cursor: 0 },
+            { type: 'keyboard', text: 'b', delay: 100, cursor: 0 },
           ],
         });
 
@@ -1631,8 +1633,8 @@ describe('Typewriter', () => {
         // But then hits it with an initialize
         typewriter.initialize({
           actions: [
-            { type: 'keyboard', key: 'c', delay: 100, cursor: 0 },
-            { type: 'keyboard', key: 'd', delay: 100, cursor: 0 },
+            { type: 'keyboard', text: 'c', delay: 100, cursor: 0 },
+            { type: 'keyboard', text: 'd', delay: 100, cursor: 0 },
           ],
         });
         expect(typewriter.cursors[0].isBlinking).toBe(true);
@@ -1656,9 +1658,7 @@ describe('Typewriter', () => {
       it('should reset finished to false', () => {
         const typewriter: Typewriter = new Typewriter({
           blinkAfter: 50,
-          actions: [
-            { type: 'keyboard', key: 'a', delay: 100, cursor: 0 },
-          ],
+          actions: [{ type: 'keyboard', text: 'a', delay: 100, cursor: 0 }],
         });
 
         const subscriber = autoSubscribe(typewriter);
@@ -1671,12 +1671,12 @@ describe('Typewriter', () => {
         expect(typewriter.isFinished).toBe(true);
         assertEvents(subscriber, ['FINISHED']);
 
-        // Now re-initialize, should set it to false, even with no 
+        // Now re-initialize, should set it to false, even with no
         // actions.
         typewriter.initialize({
           actions: [],
         });
-        
+
         expect(typewriter.isFinished).toBe(false);
         assertEvents(subscriber, ['FINISHED', 'INITIALIZED']);
       });
@@ -1690,19 +1690,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 100,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 100,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 100,
               cursor: 0,
             },
@@ -1725,19 +1725,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 100,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 100,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 100,
               cursor: 0,
             },
@@ -1760,19 +1760,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 100,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 100,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 100,
               cursor: 0,
             },
@@ -1842,353 +1842,706 @@ describe('Typewriter', () => {
   describe('actions', () => {
     describe('without selection', () => {
       describe('inserting', () => {
-        it('should know how to do a basic text animation from start to finish', () => {
-          const typewriter = new Typewriter({
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'a',
-                delay: 100,
-                cursor: 0,
-              },
-              {
-                type: 'keyboard',
-                key: 'b',
-                delay: 200,
-                cursor: 0,
-              },
-              {
-                type: 'keyboard',
-                key: 'c',
-                delay: 300,
-                cursor: 0,
-              },
-            ],
-            blinkAfter: 50,
-          });
-          const subscriber = autoSubscribe(typewriter);
-
-          assertState(typewriter, {
-            history: [],
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'a',
-                delay: 100,
-                cursor: 0,
-              },
-              {
-                type: 'keyboard',
-                key: 'b',
-                delay: 200,
-                cursor: 0,
-              },
-              {
-                type: 'keyboard',
-                key: 'c',
-                delay: 300,
-                cursor: 0,
-              },
-            ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
-            text: '',
-            blinkAfter: 50,
-            isPlaying: true,
-            isFinished: false,
-            hasBeenStoppedBefore: false,
-            repeat: false,
-            repeatDelay: 0,
-          });
-
-          jest.advanceTimersByTime(100);
-
-          assertLastSubscriber(
-            subscriber,
-            {
-              history: [],
+        describe('single letter', () => {
+          it('should know how to do a basic text animation from start to finish', () => {
+            const typewriter = new Typewriter({
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 200,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: 300,
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
-              text: 'a',
+              blinkAfter: 50,
+            });
+            const subscriber = autoSubscribe(typewriter);
+
+            assertState(typewriter, {
+              history: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'a',
+                  delay: 100,
+                  cursor: 0,
+                },
+                {
+                  type: 'keyboard',
+                  text: 'b',
+                  delay: 200,
+                  cursor: 0,
+                },
+                {
+                  type: 'keyboard',
+                  text: 'c',
+                  delay: 300,
+                  cursor: 0,
+                },
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: true }],
+              text: '',
               blinkAfter: 50,
               isPlaying: true,
               isFinished: false,
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
-            },
-            {
-              type: 'CHANGED',
-              action: {
-                type: 'keyboard',
-                key: 'a',
-                delay: 100,
-                cursor: 0,
+            });
+
+            jest.advanceTimersByTime(100);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'a',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    text: 'b',
+                    delay: 200,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    text: 'c',
+                    delay: 300,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [{ position: 1, name: '', isBlinking: false }],
+                text: 'a',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
               },
-              time: new Date(),
-              cursor: typewriter.cursors[0],
-            }
-          );
+              {
+                type: 'CHANGED',
+                action: {
+                  type: 'keyboard',
+                  text: 'a',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
 
-          jest.advanceTimersByTime(200);
+            jest.advanceTimersByTime(200);
 
-          assertLastSubscriber(
-            subscriber,
-            {
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'a',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    text: 'b',
+                    delay: 200,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    text: 'c',
+                    delay: 300,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [{ position: 2, name: '', isBlinking: false }],
+                text: 'ab',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              },
+              {
+                type: 'CHANGED',
+                action: {
+                  type: 'keyboard',
+                  text: 'b',
+                  delay: 200,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+
+            jest.advanceTimersByTime(300);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'a',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    text: 'b',
+                    delay: 200,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    text: 'c',
+                    delay: 300,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [{ position: 3, name: '', isBlinking: false }],
+                text: 'abc',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              },
+              {
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'c',
+                  delay: 300,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+          });
+
+          it('should know how to add a letter in the middle', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'b',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              blinkAfter: 50,
+              text: 'ac',
+              cursors: [{ position: 1, name: '' }],
+            });
+            const subscriber = autoSubscribe(typewriter);
+
+            assertState(typewriter, {
               history: [],
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'b',
                   delay: 100,
                   cursor: 0,
                 },
-                {
-                  type: 'keyboard',
-                  key: 'b',
-                  delay: 200,
-                  cursor: 0,
-                },
-                {
-                  type: 'keyboard',
-                  key: 'c',
-                  delay: 300,
-                  cursor: 0,
-                },
               ],
-              cursors: [{ position: 2, name: '', isBlinking: false }],
-              text: 'ab',
+              cursors: [{ position: 1, name: '', isBlinking: true }],
+              text: 'ac',
               blinkAfter: 50,
               isPlaying: true,
               isFinished: false,
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
-            },
-            {
-              type: 'CHANGED',
-              action: {
-                type: 'keyboard',
-                key: 'b',
-                delay: 200,
-                cursor: 0,
+            });
+
+            jest.advanceTimersByTime(100);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'b',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [{ position: 2, name: '', isBlinking: false }],
+                text: 'abc',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
               },
-              time: new Date(),
-              cursor: typewriter.cursors[0],
-            }
-          );
+              {
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'b',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+          });
 
-          jest.advanceTimersByTime(300);
+          it('should know how to add a letter at the start', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'a',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              blinkAfter: 50,
+              text: 'bc',
+              cursors: [{ position: 0, name: '' }],
+            });
+            const subscriber = autoSubscribe(typewriter);
 
-          assertLastSubscriber(
-            subscriber,
-            {
+            assertState(typewriter, {
               history: [],
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: true }],
+              text: 'bc',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            });
+
+            jest.advanceTimersByTime(100);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'a',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [{ position: 1, name: '', isBlinking: false }],
+                text: 'abc',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              },
+              {
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'a',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+          });
+        });
+
+        describe('word', () => {
+          it('should know how to do a basic text animation from start to finish', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'aap',
                   delay: 100,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'noot',
                   delay: 200,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'mies',
                   delay: 300,
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 3, name: '', isBlinking: false }],
-              text: 'abc',
               blinkAfter: 50,
-              isPlaying: false,
-              isFinished: true,
-              hasBeenStoppedBefore: false,
-              repeat: false,
-              repeatDelay: 0,
-            },
-            {
-              type: 'FINISHED',
-              action: {
-                type: 'keyboard',
-                key: 'c',
-                delay: 300,
-                cursor: 0,
-              },
-              time: new Date(),
-              cursor: typewriter.cursors[0],
-            }
-          );
-        });
+            });
+            const subscriber = autoSubscribe(typewriter);
 
-        it('should know how to add a letter in the middle', () => {
-          const typewriter = new Typewriter({
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'b',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            blinkAfter: 50,
-            text: 'ac',
-            cursors: [{ position: 1, name: '' }],
-          });
-          const subscriber = autoSubscribe(typewriter);
-
-          assertState(typewriter, {
-            history: [],
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'b',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            cursors: [{ position: 1, name: '', isBlinking: true }],
-            text: 'ac',
-            blinkAfter: 50,
-            isPlaying: true,
-            isFinished: false,
-            hasBeenStoppedBefore: false,
-            repeat: false,
-            repeatDelay: 0,
-          });
-
-          jest.advanceTimersByTime(100);
-
-          assertLastSubscriber(
-            subscriber,
-            {
+            assertState(typewriter, {
               history: [],
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'aap',
+                  delay: 100,
+                  cursor: 0,
+                },
+                {
+                  type: 'keyboard',
+                  text: 'noot',
+                  delay: 200,
+                  cursor: 0,
+                },
+                {
+                  type: 'keyboard',
+                  text: 'mies',
+                  delay: 300,
+                  cursor: 0,
+                },
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: true }],
+              text: '',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            });
+
+            jest.advanceTimersByTime(100);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'aap',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    text: 'noot',
+                    delay: 200,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    text: 'mies',
+                    delay: 300,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [{ position: 3, name: '', isBlinking: false }],
+                text: 'aap',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              },
+              {
+                type: 'CHANGED',
+                action: {
+                  type: 'keyboard',
+                  text: 'aap',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+
+            jest.advanceTimersByTime(200);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'aap',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    text: 'noot',
+                    delay: 200,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    text: 'mies',
+                    delay: 300,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [{ position: 7, name: '', isBlinking: false }],
+                text: 'aapnoot',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              },
+              {
+                type: 'CHANGED',
+                action: {
+                  type: 'keyboard',
+                  text: 'noot',
+                  delay: 200,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+
+            jest.advanceTimersByTime(300);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'aap',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    text: 'noot',
+                    delay: 200,
+                    cursor: 0,
+                  },
+                  {
+                    type: 'keyboard',
+                    text: 'mies',
+                    delay: 300,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [{ position: 11, name: '', isBlinking: false }],
+                text: 'aapnootmies',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              },
+              {
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'mies',
+                  delay: 300,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+          });
+
+          it('should know how to add a word in the middle', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'boot',
                   delay: 100,
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 2, name: '', isBlinking: false }],
-              text: 'abc',
               blinkAfter: 50,
-              isPlaying: false,
-              isFinished: true,
-              hasBeenStoppedBefore: false,
-              repeat: false,
-              repeatDelay: 0,
-            },
-            {
-              type: 'FINISHED',
-              action: {
-                type: 'keyboard',
-                key: 'b',
-                delay: 100,
-                cursor: 0,
-              },
-              time: new Date(),
-              cursor: typewriter.cursors[0],
-            }
-          );
-        });
+              text: 'ac',
+              cursors: [{ position: 1, name: '' }],
+            });
+            const subscriber = autoSubscribe(typewriter);
 
-        it('should know how to add a letter at the start', () => {
-          const typewriter = new Typewriter({
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'a',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            blinkAfter: 50,
-            text: 'bc',
-            cursors: [{ position: 0, name: '' }],
-          });
-          const subscriber = autoSubscribe(typewriter);
-
-          assertState(typewriter, {
-            history: [],
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'a',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
-            text: 'bc',
-            blinkAfter: 50,
-            isPlaying: true,
-            isFinished: false,
-            hasBeenStoppedBefore: false,
-            repeat: false,
-            repeatDelay: 0,
-          });
-
-          jest.advanceTimersByTime(100);
-
-          assertLastSubscriber(
-            subscriber,
-            {
+            assertState(typewriter, {
               history: [],
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'boot',
                   delay: 100,
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
-              text: 'abc',
+              cursors: [{ position: 1, name: '', isBlinking: true }],
+              text: 'ac',
               blinkAfter: 50,
-              isPlaying: false,
-              isFinished: true,
+              isPlaying: true,
+              isFinished: false,
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
-            },
-            {
-              type: 'FINISHED',
-              action: {
-                type: 'keyboard',
-                key: 'a',
-                delay: 100,
-                cursor: 0,
+            });
+
+            jest.advanceTimersByTime(100);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'boot',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [{ position: 5, name: '', isBlinking: false }],
+                text: 'abootc',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
               },
-              time: new Date(),
-              cursor: typewriter.cursors[0],
-            }
-          );
+              {
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'boot',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+          });
+
+          it('should know how to add a word at the start', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'aap',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              blinkAfter: 50,
+              text: 'bc',
+              cursors: [{ position: 0, name: '' }],
+            });
+            const subscriber = autoSubscribe(typewriter);
+
+            assertState(typewriter, {
+              history: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'aap',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              cursors: [{ position: 0, name: '', isBlinking: true }],
+              text: 'bc',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            });
+
+            jest.advanceTimersByTime(100);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'aap',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [{ position: 3, name: '', isBlinking: false }],
+                text: 'aapbc',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              },
+              {
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'aap',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+          });
         });
       });
 
@@ -2198,31 +2551,31 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: 'a',
+                text: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'b',
+                text: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'c',
+                text: 'c',
                 delay: 50,
                 cursor: 0,
               },
@@ -2236,31 +2589,31 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: 'a',
+                text: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'b',
+                text: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'c',
+                text: 'c',
                 delay: 50,
                 cursor: 0,
               },
@@ -2284,31 +2637,31 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: 50,
                   cursor: 0,
                 },
@@ -2326,7 +2679,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: 'a',
+                text: 'a',
                 delay: 50,
                 cursor: 0,
               },
@@ -2344,31 +2697,31 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: 50,
                   cursor: 0,
                 },
@@ -2386,7 +2739,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2404,31 +2757,31 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: 50,
                   cursor: 0,
                 },
@@ -2446,7 +2799,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: 'b',
+                text: 'b',
                 delay: 50,
                 cursor: 0,
               },
@@ -2464,31 +2817,31 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: 50,
                   cursor: 0,
                 },
@@ -2506,7 +2859,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2524,31 +2877,31 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'c',
+                  text: 'c',
                   delay: 50,
                   cursor: 0,
                 },
@@ -2566,7 +2919,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'c',
+                text: 'c',
                 delay: 50,
                 cursor: 0,
               },
@@ -2581,7 +2934,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2597,7 +2950,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2621,7 +2974,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -2639,7 +2992,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2654,7 +3007,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2670,7 +3023,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2694,7 +3047,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -2712,7 +3065,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2727,13 +3080,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -2749,13 +3102,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -2783,13 +3136,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -2807,7 +3160,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -2822,7 +3175,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2838,7 +3191,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2862,7 +3215,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -2880,7 +3233,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -2895,31 +3248,31 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😀',
+                text: '😀',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: '😃',
+                text: '😃',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -2933,31 +3286,31 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😀',
+                text: '😀',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: '😃',
+                text: '😃',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -2981,31 +3334,31 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😀',
+                  text: '😀',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😃',
+                  text: '😃',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -3023,7 +3376,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😀',
+                text: '😀',
                 delay: 50,
                 cursor: 0,
               },
@@ -3041,31 +3394,31 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😀',
+                  text: '😀',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😃',
+                  text: '😃',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -3083,7 +3436,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -3101,31 +3454,31 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😀',
+                  text: '😀',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😃',
+                  text: '😃',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -3143,7 +3496,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😃',
+                text: '😃',
                 delay: 50,
                 cursor: 0,
               },
@@ -3161,31 +3514,31 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😀',
+                  text: '😀',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😃',
+                  text: '😃',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -3203,7 +3556,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -3221,31 +3574,31 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😀',
+                  text: '😀',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😃',
+                  text: '😃',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -3263,7 +3616,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -3278,13 +3631,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -3300,13 +3653,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -3330,13 +3683,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -3354,7 +3707,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -3372,13 +3725,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -3396,7 +3749,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -3414,13 +3767,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -3447,19 +3800,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -3475,19 +3828,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -3511,19 +3864,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -3541,7 +3894,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -3559,19 +3912,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -3589,7 +3942,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -3612,19 +3965,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -3653,13 +4006,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -3674,13 +4027,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -3704,13 +4057,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -3728,7 +4081,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -3746,13 +4099,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -3770,7 +4123,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -3785,7 +4138,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -3800,7 +4153,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -3824,7 +4177,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -3842,7 +4195,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -3857,19 +4210,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'b',
+                text: 'b',
                 delay: 50,
                 cursor: 0,
               },
@@ -3884,19 +4237,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'b',
+                text: 'b',
                 delay: 50,
                 cursor: 0,
               },
@@ -3920,19 +4273,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 50,
                   cursor: 0,
                 },
@@ -3950,7 +4303,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -3973,19 +4326,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 50,
                   cursor: 0,
                 },
@@ -4003,7 +4356,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'b',
+                text: 'b',
                 delay: 50,
                 cursor: 0,
               },
@@ -4018,7 +4371,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -4033,7 +4386,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -4057,7 +4410,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4075,7 +4428,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -4090,13 +4443,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -4112,13 +4465,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -4142,13 +4495,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4166,7 +4519,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -4184,13 +4537,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4208,7 +4561,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -4226,13 +4579,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4259,19 +4612,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -4287,19 +4640,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -4323,19 +4676,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4353,7 +4706,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -4371,19 +4724,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4401,7 +4754,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -4424,19 +4777,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4465,7 +4818,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -4481,7 +4834,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -4505,7 +4858,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 100,
                   cursor: 0,
                 },
@@ -4523,7 +4876,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -4538,7 +4891,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -4554,7 +4907,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -4578,7 +4931,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 100,
                   cursor: 0,
                 },
@@ -4596,7 +4949,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -4611,13 +4964,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -4633,13 +4986,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -4667,13 +5020,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -4691,7 +5044,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -4706,7 +5059,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -4722,7 +5075,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -4746,7 +5099,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4764,7 +5117,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -4779,13 +5132,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -4801,13 +5154,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -4831,13 +5184,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4855,7 +5208,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -4873,13 +5226,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4897,7 +5250,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -4915,13 +5268,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -4948,19 +5301,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -4976,19 +5329,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -5012,19 +5365,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -5042,7 +5395,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -5060,19 +5413,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -5090,7 +5443,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -5113,19 +5466,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -5154,7 +5507,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -5170,7 +5523,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -5194,7 +5547,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 100,
                   cursor: 0,
                 },
@@ -5212,7 +5565,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -5227,7 +5580,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -5243,7 +5596,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -5267,7 +5620,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 100,
                   cursor: 0,
                 },
@@ -5285,7 +5638,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -5300,13 +5653,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -5322,13 +5675,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -5356,13 +5709,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -5380,7 +5733,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -5395,7 +5748,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -5411,7 +5764,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -5435,7 +5788,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -5453,7 +5806,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -5468,7 +5821,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -5476,13 +5829,13 @@ describe('Typewriter', () => {
                 // Add artificial move left so move right is not an
                 // ignored final action.
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -5498,19 +5851,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -5534,19 +5887,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -5564,7 +5917,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -5582,19 +5935,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -5612,7 +5965,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -5630,19 +5983,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -5660,7 +6013,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -5678,19 +6031,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -5717,19 +6070,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -5745,19 +6098,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -5781,19 +6134,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -5811,7 +6164,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -5838,19 +6191,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -6054,7 +6407,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6076,7 +6429,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6110,7 +6463,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -6128,7 +6481,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6149,7 +6502,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6171,7 +6524,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6201,7 +6554,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -6243,7 +6596,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -6261,7 +6614,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6282,7 +6635,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6304,7 +6657,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6338,7 +6691,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -6356,7 +6709,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6377,7 +6730,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6399,7 +6752,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6429,7 +6782,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -6471,7 +6824,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -6489,7 +6842,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6510,7 +6863,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6532,7 +6885,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6566,7 +6919,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -6584,7 +6937,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -6672,7 +7025,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -6694,7 +7047,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -6724,7 +7077,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -6748,7 +7101,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -6766,7 +7119,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -6808,7 +7161,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -6841,7 +7194,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -6869,7 +7222,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -6905,7 +7258,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -6935,7 +7288,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -6962,7 +7315,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -7003,7 +7356,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -7019,7 +7372,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -7043,7 +7396,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 100,
                   cursor: 0,
                 },
@@ -7068,7 +7421,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -7083,7 +7436,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -7099,7 +7452,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -7123,7 +7476,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 100,
                   cursor: 0,
                 },
@@ -7148,7 +7501,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -7163,13 +7516,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -7185,13 +7538,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -7219,13 +7572,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -7243,7 +7596,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -7258,7 +7611,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -7274,7 +7627,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -7298,7 +7651,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 100,
                   cursor: 0,
                 },
@@ -7316,7 +7669,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -7331,13 +7684,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -7353,13 +7706,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -7383,13 +7736,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -7407,7 +7760,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -7425,13 +7778,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -7456,7 +7809,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -7474,13 +7827,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -7507,19 +7860,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -7535,19 +7888,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -7571,19 +7924,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -7601,7 +7954,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -7619,19 +7972,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -7656,7 +8009,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -7679,19 +8032,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -7720,7 +8073,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -7736,7 +8089,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -7760,7 +8113,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 100,
                   cursor: 0,
                 },
@@ -7785,7 +8138,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -7800,7 +8153,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -7816,7 +8169,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -7840,7 +8193,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 100,
                   cursor: 0,
                 },
@@ -7865,7 +8218,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -7880,13 +8233,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -7902,13 +8255,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -7936,13 +8289,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -7960,7 +8313,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -7975,7 +8328,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -7991,7 +8344,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -8015,7 +8368,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 100,
                   cursor: 0,
                 },
@@ -8033,7 +8386,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -8048,19 +8401,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -8076,19 +8429,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -8112,19 +8465,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -8142,7 +8495,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -8160,19 +8513,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -8190,7 +8543,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -8208,19 +8561,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -8245,7 +8598,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -8263,19 +8616,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -8302,13 +8655,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -8324,13 +8677,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -8354,13 +8707,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -8378,7 +8731,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -8401,13 +8754,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -8433,59 +8786,29 @@ describe('Typewriter', () => {
 
     describe('with selection', () => {
       describe('inserting', () => {
-        it('should remove selection and insert the letter in place of the selection', () => {
-          const typewriter = new Typewriter({
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'x',
-                delay: 50,
-                cursor: 0,
-              },
-            ],
-            blinkAfter: 50,
-            text: 'this is a nice line',
-            cursors: [{ position: 14, selection: { start: 10, end: 14 } }],
-          });
-          const subscriber = autoSubscribe(typewriter);
+        describe('single letter', () => {
+          it('should remove selection and insert the letter in place of the selection', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+              blinkAfter: 50,
+              text: 'this is a nice line',
+              cursors: [{ position: 14, selection: { start: 10, end: 14 } }],
+            });
+            const subscriber = autoSubscribe(typewriter);
 
-          assertState(typewriter, {
-            history: [],
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'x',
-                delay: 50,
-                cursor: 0,
-              },
-            ],
-            cursors: [
-              {
-                name: '',
-                position: 14,
-                selection: { start: 10, end: 14 },
-                isBlinking: true,
-              },
-            ],
-            text: 'this is a nice line',
-            blinkAfter: 50,
-            isPlaying: true,
-            isFinished: false,
-            hasBeenStoppedBefore: false,
-            repeat: false,
-            repeatDelay: 0,
-          });
-
-          jest.advanceTimersByTime(50);
-
-          assertLastSubscriber(
-            subscriber,
-            {
+            assertState(typewriter, {
               history: [],
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'x',
                   delay: 50,
                   cursor: 0,
                 },
@@ -8493,31 +8816,152 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   name: '',
-                  position: 11,
-                  selection: undefined,
-                  isBlinking: false,
+                  position: 14,
+                  selection: { start: 10, end: 14 },
+                  isBlinking: true,
                 },
               ],
-              text: 'this is a x line',
+              text: 'this is a nice line',
               blinkAfter: 50,
-              isPlaying: false,
-              isFinished: true,
+              isPlaying: true,
+              isFinished: false,
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
-            },
-            {
-              type: 'FINISHED',
-              action: {
-                type: 'keyboard',
-                key: 'x',
-                delay: 50,
-                cursor: 0,
+            });
+
+            jest.advanceTimersByTime(50);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    name: '',
+                    position: 11,
+                    selection: undefined,
+                    isBlinking: false,
+                  },
+                ],
+                text: 'this is a x line',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
               },
-              time: new Date(),
-              cursor: typewriter.cursors[0],
-            }
-          );
+              {
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 50,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+          });
+        });
+
+        describe('word', () => {
+          it('should remove selection and insert the word in place of the selection', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'bad',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+              blinkAfter: 50,
+              text: 'this is a nice line',
+              cursors: [{ position: 14, selection: { start: 10, end: 14 } }],
+            });
+            const subscriber = autoSubscribe(typewriter);
+
+            assertState(typewriter, {
+              history: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'bad',
+                  delay: 50,
+                  cursor: 0,
+                },
+              ],
+              cursors: [
+                {
+                  name: '',
+                  position: 14,
+                  selection: { start: 10, end: 14 },
+                  isBlinking: true,
+                },
+              ],
+              text: 'this is a nice line',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            });
+
+            jest.advanceTimersByTime(50);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'bad',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    name: '',
+                    position: 13,
+                    selection: undefined,
+                    isBlinking: false,
+                  },
+                ],
+                text: 'this is a bad line',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              },
+              {
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'bad',
+                  delay: 50,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+          });
         });
       });
 
@@ -8527,7 +8971,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -8543,7 +8987,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -8574,7 +9018,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -8599,7 +9043,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -8614,7 +9058,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -8630,7 +9074,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -8661,7 +9105,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -8686,7 +9130,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -8701,7 +9145,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -8718,7 +9162,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -8749,7 +9193,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -8774,7 +9218,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -8792,7 +9236,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
@@ -8828,13 +9272,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -8850,13 +9294,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -8887,13 +9331,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -8911,7 +9355,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -8929,13 +9373,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -8953,7 +9397,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -8968,7 +9412,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -8984,7 +9428,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -9015,7 +9459,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -9033,7 +9477,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -9048,19 +9492,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'b',
+                text: 'b',
                 delay: 50,
                 cursor: 0,
               },
@@ -9076,19 +9520,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'b',
+                text: 'b',
                 delay: 50,
                 cursor: 0,
               },
@@ -9119,19 +9563,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 50,
                   cursor: 0,
                 },
@@ -9149,7 +9593,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 50,
                 cursor: 0,
               },
@@ -9172,19 +9616,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'b',
+                  text: 'b',
                   delay: 50,
                   cursor: 0,
                 },
@@ -9202,7 +9646,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'b',
+                text: 'b',
                 delay: 50,
                 cursor: 0,
               },
@@ -9217,13 +9661,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -9240,13 +9684,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -9277,13 +9721,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -9301,7 +9745,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -9319,13 +9763,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -9343,7 +9787,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -9361,13 +9805,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -9401,19 +9845,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -9430,19 +9874,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -9473,19 +9917,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -9503,7 +9947,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -9521,19 +9965,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -9551,7 +9995,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeClearAll,
+                text: typewriterActionTypeClearAll,
                 delay: 50,
                 cursor: 0,
               },
@@ -9574,19 +10018,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeClearAll,
+                  text: typewriterActionTypeClearAll,
                   delay: 50,
                   cursor: 0,
                 },
@@ -9622,7 +10066,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -9640,7 +10084,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -9671,7 +10115,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 100,
                   cursor: 0,
                 },
@@ -9689,7 +10133,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -9704,7 +10148,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -9722,7 +10166,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -9753,7 +10197,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 100,
                   cursor: 0,
                 },
@@ -9771,7 +10215,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -9786,7 +10230,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -9804,7 +10248,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -9835,7 +10279,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -9853,7 +10297,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -9868,7 +10312,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -9887,7 +10331,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -9918,7 +10362,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -9936,7 +10380,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -9954,7 +10398,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -9990,7 +10434,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -10008,7 +10452,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -10039,7 +10483,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 100,
                   cursor: 0,
                 },
@@ -10057,7 +10501,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -10072,7 +10516,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -10090,7 +10534,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -10121,7 +10565,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 100,
                   cursor: 0,
                 },
@@ -10139,7 +10583,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -10154,7 +10598,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -10172,7 +10616,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -10204,7 +10648,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -10222,7 +10666,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -10237,7 +10681,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -10256,7 +10700,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -10287,7 +10731,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -10305,7 +10749,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeRight,
+                text: typewriterActionTypeRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -10323,7 +10767,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeRight,
+                  text: typewriterActionTypeRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -10451,7 +10895,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -10479,7 +10923,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -10524,7 +10968,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -10542,7 +10986,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -10563,7 +11007,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -10587,7 +11031,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -10625,7 +11069,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -10667,7 +11111,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -10685,7 +11129,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -10706,7 +11150,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -10730,7 +11174,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -10767,7 +11211,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -10809,7 +11253,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -10827,7 +11271,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -10848,7 +11292,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -10872,7 +11316,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -10910,7 +11354,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -10952,7 +11396,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -10970,7 +11414,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -10991,7 +11435,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -11015,7 +11459,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -11052,7 +11496,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -11094,7 +11538,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -11112,7 +11556,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -11133,7 +11577,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -11157,7 +11601,7 @@ describe('Typewriter', () => {
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -11195,7 +11639,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -11237,7 +11681,7 @@ describe('Typewriter', () => {
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -11255,7 +11699,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -11270,7 +11714,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -11295,7 +11739,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -11332,7 +11776,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -11356,7 +11800,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -11374,7 +11818,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -11416,7 +11860,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
@@ -11458,7 +11902,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -11476,7 +11920,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -11507,7 +11951,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 100,
                   cursor: 0,
                 },
@@ -11532,7 +11976,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -11547,7 +11991,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -11565,7 +12009,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -11596,7 +12040,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 100,
                   cursor: 0,
                 },
@@ -11621,7 +12065,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -11636,13 +12080,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -11660,13 +12104,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -11701,13 +12145,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -11725,7 +12169,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -11740,7 +12184,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -11758,7 +12202,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -11789,7 +12233,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 100,
                   cursor: 0,
                 },
@@ -11814,7 +12258,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 100,
                 cursor: 0,
               },
@@ -11829,13 +12273,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -11854,13 +12298,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -11891,13 +12335,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -11915,7 +12359,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -11933,13 +12377,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -11964,7 +12408,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectLeft,
+                text: typewriterActionTypeSelectLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -11982,13 +12426,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectLeft,
+                  text: typewriterActionTypeSelectLeft,
                   delay: 50,
                   cursor: 0,
                 },
@@ -12024,7 +12468,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -12042,7 +12486,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -12073,7 +12517,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 100,
                   cursor: 0,
                 },
@@ -12098,7 +12542,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -12113,7 +12557,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -12131,7 +12575,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -12162,7 +12606,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 100,
                   cursor: 0,
                 },
@@ -12187,7 +12631,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -12202,13 +12646,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -12226,13 +12670,13 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -12267,13 +12711,13 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: 'z',
+                  text: 'z',
                   delay: 50,
                   cursor: 0,
                 },
@@ -12291,7 +12735,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: 'z',
+                text: 'z',
                 delay: 50,
                 cursor: 0,
               },
@@ -12306,7 +12750,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -12324,7 +12768,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -12355,7 +12799,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 100,
                   cursor: 0,
                 },
@@ -12380,7 +12824,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 100,
                 cursor: 0,
               },
@@ -12395,19 +12839,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -12426,19 +12870,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -12469,19 +12913,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -12499,7 +12943,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: '😄',
+                text: '😄',
                 delay: 50,
                 cursor: 0,
               },
@@ -12517,19 +12961,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -12547,7 +12991,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeLeft,
+                text: typewriterActionTypeLeft,
                 delay: 50,
                 cursor: 0,
               },
@@ -12565,19 +13009,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -12602,7 +13046,7 @@ describe('Typewriter', () => {
               type: 'CHANGED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeSelectRight,
+                text: typewriterActionTypeSelectRight,
                 delay: 50,
                 cursor: 0,
               },
@@ -12620,19 +13064,19 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: '😄',
+                  text: '😄',
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeLeft,
+                  text: typewriterActionTypeLeft,
                   delay: 50,
                   cursor: 0,
                 },
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeSelectRight,
+                  text: typewriterActionTypeSelectRight,
                   delay: 50,
                   cursor: 0,
                 },
@@ -12670,19 +13114,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'o',
+            text: 'o',
             delay: 100,
             cursor: 2,
           },
           {
             type: 'keyboard',
-            key: 'o',
+            text: 'o',
             delay: 100,
             cursor: 1,
           },
           {
             type: 'keyboard',
-            key: 'e',
+            text: 'e',
             delay: 100,
             cursor: 0,
           },
@@ -12702,19 +13146,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'o',
+            text: 'o',
             delay: 100,
             cursor: 2,
           },
           {
             type: 'keyboard',
-            key: 'o',
+            text: 'o',
             delay: 100,
             cursor: 1,
           },
           {
             type: 'keyboard',
-            key: 'e',
+            text: 'e',
             delay: 100,
             cursor: 0,
           },
@@ -12747,19 +13191,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'o',
+              text: 'o',
               delay: 100,
               cursor: 2,
             },
             {
               type: 'keyboard',
-              key: 'o',
+              text: 'o',
               delay: 100,
               cursor: 1,
             },
             {
               type: 'keyboard',
-              key: 'e',
+              text: 'e',
               delay: 100,
               cursor: 0,
             },
@@ -12796,7 +13240,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'o',
+            text: 'o',
             delay: 100,
             cursor: 2,
           },
@@ -12814,19 +13258,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'o',
+              text: 'o',
               delay: 100,
               cursor: 2,
             },
             {
               type: 'keyboard',
-              key: 'o',
+              text: 'o',
               delay: 100,
               cursor: 1,
             },
             {
               type: 'keyboard',
-              key: 'e',
+              text: 'e',
               delay: 100,
               cursor: 0,
             },
@@ -12863,7 +13307,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'o',
+            text: 'o',
             delay: 100,
             cursor: 1,
           },
@@ -12881,19 +13325,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'o',
+              text: 'o',
               delay: 100,
               cursor: 2,
             },
             {
               type: 'keyboard',
-              key: 'o',
+              text: 'o',
               delay: 100,
               cursor: 1,
             },
             {
               type: 'keyboard',
-              key: 'e',
+              text: 'e',
               delay: 100,
               cursor: 0,
             },
@@ -12930,7 +13374,7 @@ describe('Typewriter', () => {
           type: 'FINISHED',
           action: {
             type: 'keyboard',
-            key: 'e',
+            text: 'e',
             delay: 100,
             cursor: 0,
           },
@@ -12945,19 +13389,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'o',
+            text: 'o',
             delay: 100,
             cursor: 1,
           },
           {
             type: 'keyboard',
-            key: 'w',
+            text: 'w',
             delay: 100,
             cursor: 1,
           },
           {
             type: 'keyboard',
-            key: 'e',
+            text: 'e',
             delay: 100,
             cursor: 0,
           },
@@ -12976,19 +13420,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'o',
+            text: 'o',
             delay: 100,
             cursor: 1,
           },
           {
             type: 'keyboard',
-            key: 'w',
+            text: 'w',
             delay: 100,
             cursor: 1,
           },
           {
             type: 'keyboard',
-            key: 'e',
+            text: 'e',
             delay: 100,
             cursor: 0,
           },
@@ -13020,19 +13464,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'o',
+              text: 'o',
               delay: 100,
               cursor: 1,
             },
             {
               type: 'keyboard',
-              key: 'w',
+              text: 'w',
               delay: 100,
               cursor: 1,
             },
             {
               type: 'keyboard',
-              key: 'e',
+              text: 'e',
               delay: 100,
               cursor: 0,
             },
@@ -13063,7 +13507,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'o',
+            text: 'o',
             delay: 100,
             cursor: 1,
           },
@@ -13081,19 +13525,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'o',
+              text: 'o',
               delay: 100,
               cursor: 1,
             },
             {
               type: 'keyboard',
-              key: 'w',
+              text: 'w',
               delay: 100,
               cursor: 1,
             },
             {
               type: 'keyboard',
-              key: 'e',
+              text: 'e',
               delay: 100,
               cursor: 0,
             },
@@ -13124,7 +13568,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'w',
+            text: 'w',
             delay: 100,
             cursor: 1,
           },
@@ -13142,19 +13586,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'o',
+              text: 'o',
               delay: 100,
               cursor: 1,
             },
             {
               type: 'keyboard',
-              key: 'w',
+              text: 'w',
               delay: 100,
               cursor: 1,
             },
             {
               type: 'keyboard',
-              key: 'e',
+              text: 'e',
               delay: 100,
               cursor: 0,
             },
@@ -13185,7 +13629,7 @@ describe('Typewriter', () => {
           type: 'FINISHED',
           action: {
             type: 'keyboard',
-            key: 'e',
+            text: 'e',
             delay: 100,
             cursor: 0,
           },
@@ -13202,7 +13646,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13226,7 +13670,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13257,7 +13701,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 100,
                   cursor: 0,
                 },
@@ -13312,7 +13756,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13327,7 +13771,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13350,7 +13794,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13381,7 +13825,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 100,
                   cursor: 0,
                 },
@@ -13436,7 +13880,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13451,7 +13895,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13474,7 +13918,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13505,7 +13949,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 100,
                   cursor: 0,
                 },
@@ -13560,7 +14004,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13577,7 +14021,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13606,7 +14050,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13656,7 +14100,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 100,
                   cursor: 0,
                 },
@@ -13705,7 +14149,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13720,7 +14164,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13780,7 +14224,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13878,7 +14322,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 100,
                   cursor: 0,
                 },
@@ -13975,7 +14419,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -13990,7 +14434,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -14019,7 +14463,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -14069,7 +14513,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 100,
                   cursor: 0,
                 },
@@ -14119,7 +14563,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -14136,7 +14580,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -14165,7 +14609,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -14220,7 +14664,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 100,
                   cursor: 0,
                 },
@@ -14269,7 +14713,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -14284,7 +14728,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -14340,7 +14784,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -14443,7 +14887,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 100,
                   cursor: 0,
                 },
@@ -14540,7 +14984,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -14555,7 +14999,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -14585,7 +15029,7 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -14646,7 +15090,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: typewriterActionTypeBackspace,
+                  text: typewriterActionTypeBackspace,
                   delay: 100,
                   cursor: 0,
                 },
@@ -14702,7 +15146,7 @@ describe('Typewriter', () => {
               type: 'FINISHED',
               action: {
                 type: 'keyboard',
-                key: typewriterActionTypeBackspace,
+                text: typewriterActionTypeBackspace,
                 delay: 100,
                 cursor: 0,
               },
@@ -14714,80 +15158,193 @@ describe('Typewriter', () => {
       });
     });
 
-    describe('char is inserted', () => {
-      describe('cursor movement', () => {
-        it('should move cursors that are before the cursor one place forwards, and cursors that lie before or on should stay in position, when inserting at the start', () => {
-          const typewriter = new Typewriter({
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'j',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            blinkAfter: 50,
-            text: 'ohn',
-            cursors: [
-              { position: 0, name: '' },
+    describe('inserting', () => {
+      describe('single letter', () => {
+        describe('cursor movement', () => {
+          it('should move cursors that are before the cursor one place forwards, and cursors that lie before or on should stay in position, when inserting at the start', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'j',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              blinkAfter: 50,
+              text: 'ohn',
+              cursors: [
+                { position: 0, name: '' },
 
-              { position: 0, name: '' },
-              { position: 2, name: '' },
-              { position: 1, name: '' },
-              { position: 3, name: '' },
-            ],
-          });
-          const subscriber = autoSubscribe(typewriter);
+                { position: 0, name: '' },
+                { position: 2, name: '' },
+                { position: 1, name: '' },
+                { position: 3, name: '' },
+              ],
+            });
+            const subscriber = autoSubscribe(typewriter);
 
-          assertState(typewriter, {
-            history: [],
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'j',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            cursors: [
-              { position: 0, name: '', isBlinking: true, selection: undefined },
-              { position: 0, name: '', isBlinking: true, selection: undefined },
-              { position: 2, name: '', isBlinking: true, selection: undefined },
-              { position: 1, name: '', isBlinking: true, selection: undefined },
-              { position: 3, name: '', isBlinking: true, selection: undefined },
-            ],
-            text: 'ohn',
-            blinkAfter: 50,
-            isPlaying: true,
-            isFinished: false,
-            hasBeenStoppedBefore: false,
-            repeat: false,
-            repeatDelay: 0,
-          });
-
-          jest.advanceTimersByTime(100);
-
-          assertLastSubscriber(
-            subscriber,
-            {
+            assertState(typewriter, {
               history: [],
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'j',
+                  text: 'j',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               cursors: [
                 {
-                  position: 1,
+                  position: 0,
                   name: '',
-                  isBlinking: false,
+                  isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 0,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 2,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 1,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 3,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+              ],
+              text: 'ohn',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            });
+
+            jest.advanceTimersByTime(100);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'j',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 1,
+                    name: '',
+                    isBlinking: false,
+                    selection: undefined,
+                  },
+                  {
+                    position: 0,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 3,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 2,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 4,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                ],
+                text: 'john',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              },
+              {
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'j',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+          });
+
+          it('should move cursors that are after or on the cursor one place backwards, and cursors that lie before should stay in position, when inserting at the middle', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              blinkAfter: 50,
+              text: 'john',
+              cursors: [
+                { position: 2, name: '' },
+                { position: 2, name: '' },
+                { position: 3, name: '' },
+                { position: 1, name: '' },
+                { position: 0, name: '' },
+                { position: 4, name: '' },
+              ],
+            });
+            const subscriber = autoSubscribe(typewriter);
+
+            assertState(typewriter, {
+              history: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              cursors: [
+                {
+                  position: 2,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 2,
                   name: '',
                   isBlinking: true,
                   selection: undefined,
@@ -14799,7 +15356,13 @@ describe('Typewriter', () => {
                   selection: undefined,
                 },
                 {
-                  position: 2,
+                  position: 1,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 0,
                   name: '',
                   isBlinking: true,
                   selection: undefined,
@@ -14813,219 +15376,125 @@ describe('Typewriter', () => {
               ],
               text: 'john',
               blinkAfter: 50,
-              isPlaying: false,
-              isFinished: true,
+              isPlaying: true,
+              isFinished: false,
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
-            },
-            {
-              type: 'FINISHED',
-              action: {
-                type: 'keyboard',
-                key: 'j',
-                delay: 100,
-                cursor: 0,
-              },
-              time: new Date(),
-              cursor: typewriter.cursors[0],
-            }
-          );
-        });
+            });
 
-        it('should move cursors that are after or on the cursor one place backwards, and cursors that lie before should stay in position, when inserting at the middle', () => {
-          const typewriter = new Typewriter({
-            actions: [
+            jest.advanceTimersByTime(100);
+
+            assertLastSubscriber(
+              subscriber,
               {
-                type: 'keyboard',
-                key: 'x',
-                delay: 100,
-                cursor: 0,
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 3,
+                    name: '',
+                    isBlinking: false,
+                    selection: undefined,
+                  },
+                  {
+                    position: 2,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 4,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 1,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 0,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 5,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                ],
+                text: 'joxhn',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
               },
-            ],
-            blinkAfter: 50,
-            text: 'john',
-            cursors: [
-              { position: 2, name: '' },
-              { position: 2, name: '' },
-              { position: 3, name: '' },
-              { position: 1, name: '' },
-              { position: 0, name: '' },
-              { position: 4, name: '' },
-            ],
-          });
-          const subscriber = autoSubscribe(typewriter);
-
-          assertState(typewriter, {
-            history: [],
-            actions: [
               {
-                type: 'keyboard',
-                key: 'x',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            cursors: [
-              { position: 2, name: '', isBlinking: true, selection: undefined },
-              { position: 2, name: '', isBlinking: true, selection: undefined },
-              { position: 3, name: '', isBlinking: true, selection: undefined },
-              { position: 1, name: '', isBlinking: true, selection: undefined },
-              { position: 0, name: '', isBlinking: true, selection: undefined },
-              { position: 4, name: '', isBlinking: true, selection: undefined },
-            ],
-            text: 'john',
-            blinkAfter: 50,
-            isPlaying: true,
-            isFinished: false,
-            hasBeenStoppedBefore: false,
-            repeat: false,
-            repeatDelay: 0,
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
           });
 
-          jest.advanceTimersByTime(100);
+          it('should not alter other cursors positions, when inserting at the end', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              blinkAfter: 50,
+              text: 'john',
+              cursors: [
+                { position: 4, name: '' },
+                { position: 2, name: '' },
+                { position: 3, name: '' },
+                { position: 1, name: '' },
+                { position: 0, name: '' },
+                { position: 4, name: '' },
+              ],
+            });
+            const subscriber = autoSubscribe(typewriter);
 
-          assertLastSubscriber(
-            subscriber,
-            {
+            assertState(typewriter, {
               history: [],
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'x',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               cursors: [
-                {
-                  position: 3,
-                  name: '',
-                  isBlinking: false,
-                  selection: undefined,
-                },
-                {
-                  position: 2,
-                  name: '',
-                  isBlinking: true,
-                  selection: undefined,
-                },
                 {
                   position: 4,
                   name: '',
                   isBlinking: true,
-                  selection: undefined,
-                },
-                {
-                  position: 1,
-                  name: '',
-                  isBlinking: true,
-                  selection: undefined,
-                },
-                {
-                  position: 0,
-                  name: '',
-                  isBlinking: true,
-                  selection: undefined,
-                },
-                {
-                  position: 5,
-                  name: '',
-                  isBlinking: true,
-                  selection: undefined,
-                },
-              ],
-              text: 'joxhn',
-              blinkAfter: 50,
-              isPlaying: false,
-              isFinished: true,
-              hasBeenStoppedBefore: false,
-              repeat: false,
-              repeatDelay: 0,
-            },
-            {
-              type: 'FINISHED',
-              action: {
-                type: 'keyboard',
-                key: 'x',
-                delay: 100,
-                cursor: 0,
-              },
-              time: new Date(),
-              cursor: typewriter.cursors[0],
-            }
-          );
-        });
-
-        it('should not alter other cursors positions, when inserting at the end', () => {
-          const typewriter = new Typewriter({
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'x',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            blinkAfter: 50,
-            text: 'john',
-            cursors: [
-              { position: 4, name: '' },
-              { position: 2, name: '' },
-              { position: 3, name: '' },
-              { position: 1, name: '' },
-              { position: 0, name: '' },
-              { position: 4, name: '' },
-            ],
-          });
-          const subscriber = autoSubscribe(typewriter);
-
-          assertState(typewriter, {
-            history: [],
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'x',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            cursors: [
-              { position: 4, name: '', isBlinking: true, selection: undefined },
-              { position: 2, name: '', isBlinking: true, selection: undefined },
-              { position: 3, name: '', isBlinking: true, selection: undefined },
-              { position: 1, name: '', isBlinking: true, selection: undefined },
-              { position: 0, name: '', isBlinking: true, selection: undefined },
-              { position: 4, name: '', isBlinking: true, selection: undefined },
-            ],
-            text: 'john',
-            blinkAfter: 50,
-            isPlaying: true,
-            isFinished: false,
-            hasBeenStoppedBefore: false,
-            repeat: false,
-            repeatDelay: 0,
-          });
-
-          jest.advanceTimersByTime(100);
-
-          assertLastSubscriber(
-            subscriber,
-            {
-              history: [],
-              actions: [
-                {
-                  type: 'keyboard',
-                  key: 'x',
-                  delay: 100,
-                  cursor: 0,
-                },
-              ],
-              cursors: [
-                {
-                  position: 5,
-                  name: '',
-                  isBlinking: false,
                   selection: undefined,
                 },
                 {
@@ -15059,107 +15528,125 @@ describe('Typewriter', () => {
                   selection: undefined,
                 },
               ],
-              text: 'johnx',
+              text: 'john',
               blinkAfter: 50,
-              isPlaying: false,
-              isFinished: true,
+              isPlaying: true,
+              isFinished: false,
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
-            },
-            {
-              type: 'FINISHED',
-              action: {
-                type: 'keyboard',
-                key: 'x',
-                delay: 100,
-                cursor: 0,
-              },
-              time: new Date(),
-              cursor: typewriter.cursors[0],
-            }
-          );
-        });
+            });
 
-        it('should alter other cursors positions, when inserting at the start', () => {
-          const typewriter = new Typewriter({
-            actions: [
+            jest.advanceTimersByTime(100);
+
+            assertLastSubscriber(
+              subscriber,
               {
-                type: 'keyboard',
-                key: 'x',
-                delay: 100,
-                cursor: 0,
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 5,
+                    name: '',
+                    isBlinking: false,
+                    selection: undefined,
+                  },
+                  {
+                    position: 2,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 3,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 1,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 0,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 4,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                ],
+                text: 'johnx',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
               },
-            ],
-            blinkAfter: 50,
-            text: 'john',
-            cursors: [
-              { position: 0, name: '' },
-              { position: 2, name: '' },
-              { position: 3, name: '' },
-              { position: 1, name: '' },
-              { position: 0, name: '' },
-              { position: 4, name: '' },
-            ],
-          });
-          const subscriber = autoSubscribe(typewriter);
-
-          assertState(typewriter, {
-            history: [],
-            actions: [
               {
-                type: 'keyboard',
-                key: 'x',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            cursors: [
-              { position: 0, name: '', isBlinking: true, selection: undefined },
-              { position: 2, name: '', isBlinking: true, selection: undefined },
-              { position: 3, name: '', isBlinking: true, selection: undefined },
-              { position: 1, name: '', isBlinking: true, selection: undefined },
-              { position: 0, name: '', isBlinking: true, selection: undefined },
-              { position: 4, name: '', isBlinking: true, selection: undefined },
-            ],
-            text: 'john',
-            blinkAfter: 50,
-            isPlaying: true,
-            isFinished: false,
-            hasBeenStoppedBefore: false,
-            repeat: false,
-            repeatDelay: 0,
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
           });
 
-          jest.advanceTimersByTime(100);
+          it('should alter other cursors positions, when inserting at the start', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              blinkAfter: 50,
+              text: 'john',
+              cursors: [
+                { position: 0, name: '' },
+                { position: 2, name: '' },
+                { position: 3, name: '' },
+                { position: 1, name: '' },
+                { position: 0, name: '' },
+                { position: 4, name: '' },
+              ],
+            });
+            const subscriber = autoSubscribe(typewriter);
 
-          assertLastSubscriber(
-            subscriber,
-            {
+            assertState(typewriter, {
               history: [],
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'x',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               cursors: [
                 {
-                  position: 1,
-                  name: '',
-                  isBlinking: false,
-                  selection: undefined,
-                },
-                {
-                  position: 3,
-                  name: '',
-                  isBlinking: true,
-                  selection: undefined,
-                },
-                {
-                  position: 4,
+                  position: 0,
                   name: '',
                   isBlinking: true,
                   selection: undefined,
@@ -15171,496 +15658,446 @@ describe('Typewriter', () => {
                   selection: undefined,
                 },
                 {
+                  position: 3,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 1,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+                {
                   position: 0,
                   name: '',
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
-                  position: 5,
+                  position: 4,
                   name: '',
                   isBlinking: true,
                   selection: undefined,
                 },
               ],
-              text: 'xjohn',
+              text: 'john',
               blinkAfter: 50,
-              isPlaying: false,
-              isFinished: true,
+              isPlaying: true,
+              isFinished: false,
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
-            },
-            {
-              type: 'FINISHED',
-              action: {
-                type: 'keyboard',
-                key: 'x',
-                delay: 100,
-                cursor: 0,
+            });
+
+            jest.advanceTimersByTime(100);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 1,
+                    name: '',
+                    isBlinking: false,
+                    selection: undefined,
+                  },
+                  {
+                    position: 3,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 4,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 2,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 0,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 5,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                ],
+                text: 'xjohn',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
               },
-              time: new Date(),
-              cursor: typewriter.cursors[0],
-            }
-          );
+              {
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+          });
         });
-      });
 
-      describe('inserting cursor has no selection', () => {
-        it('should increase or keep selection of other cursors, when inserting at the start', () => {
-          const typewriter = new Typewriter({
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'a',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            blinkAfter: 50,
-            text: 'ap noot mies',
-            cursors: [
-              // The cursor that is going to insert 'a' at the start
-              { position: 0, name: '' },
+        describe('inserting cursor has no selection', () => {
+          it('should increase or keep selection of other cursors, when inserting at the start', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'a',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              blinkAfter: 50,
+              text: 'ap noot mies',
+              cursors: [
+                // The cursor that is going to insert 'a' at the start
+                { position: 0, name: '' },
 
-              // Selects 'a' becomes 'aa', 0 - 2, pos stays 0
-              { position: 0, name: 'a', selection: { start: 0, end: 1 } },
-              // Selects 'ap', becomes 'aap', 0 - 3, pos stays 0
-              { position: 0, name: 'ap', selection: { start: 0, end: 2 } },
-              // Selects 'ap ' becomes 'aap ', 0 - 4, pos stays 0
-              { position: 0, name: 'ap ', selection: { start: 0, end: 3 } },
+                // Selects 'a' becomes 'aa', 0 - 2, pos stays 0
+                { position: 0, name: 'a', selection: { start: 0, end: 1 } },
+                // Selects 'ap', becomes 'aap', 0 - 3, pos stays 0
+                { position: 0, name: 'ap', selection: { start: 0, end: 2 } },
+                // Selects 'ap ' becomes 'aap ', 0 - 4, pos stays 0
+                { position: 0, name: 'ap ', selection: { start: 0, end: 3 } },
 
-              // Selects 'a' becomes 'aa', 0 - 2, pos becomes 2
-              { position: 1, name: 'a', selection: { start: 0, end: 1 } },
-              // Selects 'ap', becomes 'aap', 0 - 3, pos becomes 3
-              { position: 2, name: 'ap', selection: { start: 0, end: 2 } },
-              // Selects 'ap ' becomes 'aap ', 0 - 4, pos becomes 4
-              { position: 3, name: 'ap ', selection: { start: 0, end: 3 } },
+                // Selects 'a' becomes 'aa', 0 - 2, pos becomes 2
+                { position: 1, name: 'a', selection: { start: 0, end: 1 } },
+                // Selects 'ap', becomes 'aap', 0 - 3, pos becomes 3
+                { position: 2, name: 'ap', selection: { start: 0, end: 2 } },
+                // Selects 'ap ' becomes 'aap ', 0 - 4, pos becomes 4
+                { position: 3, name: 'ap ', selection: { start: 0, end: 3 } },
 
-              // Selects 'p', stays 'p', 2 - 3, pos becomes 2
-              { position: 1, name: 'p', selection: { start: 1, end: 2 } },
-              // Selects 'p ', stays 'p ', 2 - 4, pos becomes 2
-              { position: 1, name: 'p ', selection: { start: 1, end: 3 } },
+                // Selects 'p', stays 'p', 2 - 3, pos becomes 2
+                { position: 1, name: 'p', selection: { start: 1, end: 2 } },
+                // Selects 'p ', stays 'p ', 2 - 4, pos becomes 2
+                { position: 1, name: 'p ', selection: { start: 1, end: 3 } },
 
-              // Selects 'p', stays 'p', 2 - 3, pos becomes 3
-              { position: 2, name: 'p', selection: { start: 1, end: 2 } },
-              // Selects 'p ', stays 'p ', 2 - 4, pos becomes 4
-              { position: 3, name: 'p ', selection: { start: 1, end: 3 } },
-            ],
-          });
-          const subscriber = autoSubscribe(typewriter);
+                // Selects 'p', stays 'p', 2 - 3, pos becomes 3
+                { position: 2, name: 'p', selection: { start: 1, end: 2 } },
+                // Selects 'p ', stays 'p ', 2 - 4, pos becomes 4
+                { position: 3, name: 'p ', selection: { start: 1, end: 3 } },
+              ],
+            });
+            const subscriber = autoSubscribe(typewriter);
 
-          assertState(typewriter, {
-            history: [],
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'a',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            cursors: [
-              {
-                position: 0,
-                name: '',
-                selection: undefined,
-                isBlinking: true,
-              },
-              {
-                position: 0,
-                name: 'a',
-                selection: { start: 0, end: 1 },
-                isBlinking: true,
-              },
-              {
-                position: 0,
-                name: 'ap',
-                selection: { start: 0, end: 2 },
-                isBlinking: true,
-              },
-              {
-                position: 0,
-                name: 'ap ',
-                selection: { start: 0, end: 3 },
-                isBlinking: true,
-              },
-              {
-                position: 1,
-                name: 'a',
-                selection: { start: 0, end: 1 },
-                isBlinking: true,
-              },
-              {
-                position: 2,
-                name: 'ap',
-                selection: { start: 0, end: 2 },
-                isBlinking: true,
-              },
-              {
-                position: 3,
-                name: 'ap ',
-                selection: { start: 0, end: 3 },
-                isBlinking: true,
-              },
-              {
-                position: 1,
-                name: 'p',
-                selection: { start: 1, end: 2 },
-                isBlinking: true,
-              },
-              {
-                position: 1,
-                name: 'p ',
-                selection: { start: 1, end: 3 },
-                isBlinking: true,
-              },
-              {
-                position: 2,
-                name: 'p',
-                selection: { start: 1, end: 2 },
-                isBlinking: true,
-              },
-              {
-                position: 3,
-                name: 'p ',
-                selection: { start: 1, end: 3 },
-                isBlinking: true,
-              },
-            ],
-            text: 'ap noot mies',
-            blinkAfter: 50,
-            isPlaying: true,
-            isFinished: false,
-            hasBeenStoppedBefore: false,
-            repeat: false,
-            repeatDelay: 0,
-          });
-
-          jest.advanceTimersByTime(100);
-
-          assertLastSubscriber(
-            subscriber,
-            {
+            assertState(typewriter, {
               history: [],
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'a',
+                  text: 'a',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               cursors: [
                 {
-                  position: 1,
+                  position: 0,
                   name: '',
                   selection: undefined,
-                  isBlinking: false,
+                  isBlinking: true,
                 },
                 {
                   position: 0,
                   name: 'a',
-                  selection: { start: 0, end: 2 },
+                  selection: { start: 0, end: 1 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
                   name: 'ap',
-                  selection: { start: 0, end: 3 },
+                  selection: { start: 0, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
                   name: 'ap ',
-                  selection: { start: 0, end: 4 },
+                  selection: { start: 0, end: 3 },
+                  isBlinking: true,
+                },
+                {
+                  position: 1,
+                  name: 'a',
+                  selection: { start: 0, end: 1 },
                   isBlinking: true,
                 },
                 {
                   position: 2,
-                  name: 'a',
+                  name: 'ap',
                   selection: { start: 0, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'ap',
+                  name: 'ap ',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
-                  position: 4,
-                  name: 'ap ',
-                  selection: { start: 0, end: 4 },
+                  position: 1,
+                  name: 'p',
+                  selection: { start: 1, end: 2 },
+                  isBlinking: true,
+                },
+                {
+                  position: 1,
+                  name: 'p ',
+                  selection: { start: 1, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 2,
                   name: 'p',
-                  selection: { start: 2, end: 3 },
-                  isBlinking: true,
-                },
-                {
-                  position: 2,
-                  name: 'p ',
-                  selection: { start: 2, end: 4 },
+                  selection: { start: 1, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'p',
-                  selection: { start: 2, end: 3 },
-                  isBlinking: true,
-                },
-                {
-                  position: 4,
                   name: 'p ',
-                  selection: { start: 2, end: 4 },
+                  selection: { start: 1, end: 3 },
                   isBlinking: true,
                 },
               ],
-              text: 'aap noot mies',
+              text: 'ap noot mies',
               blinkAfter: 50,
-              isPlaying: false,
-              isFinished: true,
+              isPlaying: true,
+              isFinished: false,
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
-            },
-            {
-              type: 'FINISHED',
-              action: {
-                type: 'keyboard',
-                key: 'a',
-                delay: 100,
-                cursor: 0,
-              },
-              time: new Date(),
-              cursor: typewriter.cursors[0],
-            }
-          );
-        });
+            });
 
-        it('should increase or keep selection of other cursors, when inserting at the middle', () => {
-          const typewriter = new Typewriter({
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'o',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            blinkAfter: 50,
-            text: 'aap not mies',
-            cursors: [
-              // The cursor that is going to add a second 'o' in 'not
-              { position: 6, name: '' },
+            jest.advanceTimersByTime(100);
 
-              // Selects 'aap not mies' becomes 'aap noot mies', 0 - 13, pos becomes 13
+            assertLastSubscriber(
+              subscriber,
               {
-                position: 12,
-                name: 'aap not mies',
-                selection: { start: 0, end: 12 },
-              },
-              // Selects 'aap not mies' becomes 'aap noot mies', 0 - 13, pos stays 0
-              {
-                position: 0,
-                name: 'aap not mies',
-                selection: { start: 0, end: 12 },
-              },
-              // Selects 'aap' stays 'aap', 0 - 3, pos stays 3
-              { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
-              // Selects 'aap' stays 'aap', 0 - 3, pos stays 0
-              { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
-
-              // Selects 'mies' stays 'mies', 9 - 13, pos becomes 13
-              { position: 12, name: 'mies', selection: { start: 8, end: 12 } },
-              // Selects 'mies' stays 'mies', 9 - 13, pos becomes 9
-              { position: 8, name: 'mies', selection: { start: 8, end: 12 } },
-
-              // Selects 'not', becomes 'noot', 4 - 8, pos stays 4
-              { position: 4, name: 'not', selection: { start: 4, end: 7 } },
-              // Selects 'not', becomes 'noot', 4 - 8, pos becomes 8
-              { position: 7, name: 'not', selection: { start: 4, end: 7 } },
-
-              // Selects 'no', stays 'no', 4 - 6, pos stays 4
-              { position: 4, name: 'no', selection: { start: 4, end: 6 } },
-              // Selects 'no', stays 'no', 4 - 6, pos stays 6
-              { position: 6, name: 'no', selection: { start: 4, end: 6 } },
-
-              // Selects 'o', stays 'o', 5 - 6, pos stays 5
-              { position: 5, name: 'o', selection: { start: 5, end: 6 } },
-              // Selects 'o', stays 'o', 5 - 6, pos stays 6
-              { position: 6, name: 'o', selection: { start: 5, end: 6 } },
-
-              // Selects 't', becomes 'ot', 6 - 8, pos stays 6
-              { position: 6, name: 't', selection: { start: 6, end: 7 } },
-              // Selects 't', stays 'ot', 6 - 8, pos becomes 8
-              { position: 7, name: 't', selection: { start: 6, end: 7 } },
-
-              // Selects 't ', becomes 'ot ', 6 - 9, pos stays 6
-              { position: 6, name: 't ', selection: { start: 6, end: 8 } },
-              // Selects 't ', stays 'ot ', 6 - 9, pos becomes 9
-              { position: 8, name: 't ', selection: { start: 6, end: 8 } },
-            ],
-          });
-          const subscriber = autoSubscribe(typewriter);
-
-          assertState(typewriter, {
-            history: [],
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'o',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            cursors: [
-              {
-                position: 6,
-                name: '',
-                selection: undefined,
-                isBlinking: true,
-              },
-              {
-                position: 12,
-                name: 'aap not mies',
-                selection: { start: 0, end: 12 },
-                isBlinking: true,
-              },
-              {
-                position: 0,
-                name: 'aap not mies',
-                selection: { start: 0, end: 12 },
-                isBlinking: true,
-              },
-              {
-                position: 3,
-                name: 'aap',
-                selection: { start: 0, end: 3 },
-                isBlinking: true,
-              },
-              {
-                position: 0,
-                name: 'aap',
-                selection: { start: 0, end: 3 },
-                isBlinking: true,
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'a',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 1,
+                    name: '',
+                    selection: undefined,
+                    isBlinking: false,
+                  },
+                  {
+                    position: 0,
+                    name: 'a',
+                    selection: { start: 0, end: 2 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'ap',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'ap ',
+                    selection: { start: 0, end: 4 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 2,
+                    name: 'a',
+                    selection: { start: 0, end: 2 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'ap',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'ap ',
+                    selection: { start: 0, end: 4 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 2,
+                    name: 'p',
+                    selection: { start: 2, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 2,
+                    name: 'p ',
+                    selection: { start: 2, end: 4 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'p',
+                    selection: { start: 2, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'p ',
+                    selection: { start: 2, end: 4 },
+                    isBlinking: true,
+                  },
+                ],
+                text: 'aap noot mies',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
               },
               {
-                position: 12,
-                name: 'mies',
-                selection: { start: 8, end: 12 },
-                isBlinking: true,
-              },
-              {
-                position: 8,
-                name: 'mies',
-                selection: { start: 8, end: 12 },
-                isBlinking: true,
-              },
-              {
-                position: 4,
-                name: 'not',
-                selection: { start: 4, end: 7 },
-                isBlinking: true,
-              },
-              {
-                position: 7,
-                name: 'not',
-                selection: { start: 4, end: 7 },
-                isBlinking: true,
-              },
-              {
-                position: 4,
-                name: 'no',
-                selection: { start: 4, end: 6 },
-                isBlinking: true,
-              },
-              {
-                position: 6,
-                name: 'no',
-                selection: { start: 4, end: 6 },
-                isBlinking: true,
-              },
-              {
-                position: 5,
-                name: 'o',
-                selection: { start: 5, end: 6 },
-                isBlinking: true,
-              },
-              {
-                position: 6,
-                name: 'o',
-                selection: { start: 5, end: 6 },
-                isBlinking: true,
-              },
-              {
-                position: 6,
-                name: 't',
-                selection: { start: 6, end: 7 },
-                isBlinking: true,
-              },
-              {
-                position: 7,
-                name: 't',
-                selection: { start: 6, end: 7 },
-                isBlinking: true,
-              },
-              {
-                position: 6,
-                name: 't ',
-                selection: { start: 6, end: 8 },
-                isBlinking: true,
-              },
-              {
-                position: 8,
-                name: 't ',
-                selection: { start: 6, end: 8 },
-                isBlinking: true,
-              },
-            ],
-            text: 'aap not mies',
-            blinkAfter: 50,
-            isPlaying: true,
-            isFinished: false,
-            hasBeenStoppedBefore: false,
-            repeat: false,
-            repeatDelay: 0,
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'a',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
           });
 
-          jest.advanceTimersByTime(100);
+          it('should increase or keep selection of other cursors, when inserting at the middle', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'o',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              blinkAfter: 50,
+              text: 'aap not mies',
+              cursors: [
+                // The cursor that is going to add a second 'o' in 'not
+                { position: 6, name: '' },
 
-          assertLastSubscriber(
-            subscriber,
-            {
+                // Selects 'aap not mies' becomes 'aap noot mies', 0 - 13, pos becomes 13
+                {
+                  position: 12,
+                  name: 'aap not mies',
+                  selection: { start: 0, end: 12 },
+                },
+                // Selects 'aap not mies' becomes 'aap noot mies', 0 - 13, pos stays 0
+                {
+                  position: 0,
+                  name: 'aap not mies',
+                  selection: { start: 0, end: 12 },
+                },
+                // Selects 'aap' stays 'aap', 0 - 3, pos stays 3
+                { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
+                // Selects 'aap' stays 'aap', 0 - 3, pos stays 0
+                { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+
+                // Selects 'mies' stays 'mies', 9 - 13, pos becomes 13
+                {
+                  position: 12,
+                  name: 'mies',
+                  selection: { start: 8, end: 12 },
+                },
+                // Selects 'mies' stays 'mies', 9 - 13, pos becomes 9
+                { position: 8, name: 'mies', selection: { start: 8, end: 12 } },
+
+                // Selects 'not', becomes 'noot', 4 - 8, pos stays 4
+                { position: 4, name: 'not', selection: { start: 4, end: 7 } },
+                // Selects 'not', becomes 'noot', 4 - 8, pos becomes 8
+                { position: 7, name: 'not', selection: { start: 4, end: 7 } },
+
+                // Selects 'no', stays 'no', 4 - 6, pos stays 4
+                { position: 4, name: 'no', selection: { start: 4, end: 6 } },
+                // Selects 'no', stays 'no', 4 - 6, pos stays 6
+                { position: 6, name: 'no', selection: { start: 4, end: 6 } },
+
+                // Selects 'o', stays 'o', 5 - 6, pos stays 5
+                { position: 5, name: 'o', selection: { start: 5, end: 6 } },
+                // Selects 'o', stays 'o', 5 - 6, pos stays 6
+                { position: 6, name: 'o', selection: { start: 5, end: 6 } },
+
+                // Selects 't', becomes 'ot', 6 - 8, pos stays 6
+                { position: 6, name: 't', selection: { start: 6, end: 7 } },
+                // Selects 't', stays 'ot', 6 - 8, pos becomes 8
+                { position: 7, name: 't', selection: { start: 6, end: 7 } },
+
+                // Selects 't ', becomes 'ot ', 6 - 9, pos stays 6
+                { position: 6, name: 't ', selection: { start: 6, end: 8 } },
+                // Selects 't ', stays 'ot ', 6 - 9, pos becomes 9
+                { position: 8, name: 't ', selection: { start: 6, end: 8 } },
+              ],
+            });
+            const subscriber = autoSubscribe(typewriter);
+
+            assertState(typewriter, {
               history: [],
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'o',
+                  text: 'o',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               cursors: [
                 {
-                  position: 7,
+                  position: 6,
                   name: '',
                   selection: undefined,
-                  isBlinking: false,
+                  isBlinking: true,
                 },
                 {
-                  position: 13,
+                  position: 12,
                   name: 'aap not mies',
-                  selection: { start: 0, end: 13 },
+                  selection: { start: 0, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
                   name: 'aap not mies',
-                  selection: { start: 0, end: 13 },
+                  selection: { start: 0, end: 12 },
                   isBlinking: true,
                 },
                 {
@@ -15676,27 +16113,27 @@ describe('Typewriter', () => {
                   isBlinking: true,
                 },
                 {
-                  position: 13,
+                  position: 12,
                   name: 'mies',
-                  selection: { start: 9, end: 13 },
-                  isBlinking: true,
-                },
-                {
-                  position: 9,
-                  name: 'mies',
-                  selection: { start: 9, end: 13 },
-                  isBlinking: true,
-                },
-                {
-                  position: 4,
-                  name: 'not',
-                  selection: { start: 4, end: 8 },
+                  selection: { start: 8, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 8,
+                  name: 'mies',
+                  selection: { start: 8, end: 12 },
+                  isBlinking: true,
+                },
+                {
+                  position: 4,
                   name: 'not',
-                  selection: { start: 4, end: 8 },
+                  selection: { start: 4, end: 7 },
+                  isBlinking: true,
+                },
+                {
+                  position: 7,
+                  name: 'not',
+                  selection: { start: 4, end: 7 },
                   isBlinking: true,
                 },
                 {
@@ -15726,182 +16163,234 @@ describe('Typewriter', () => {
                 {
                   position: 6,
                   name: 't',
-                  selection: { start: 6, end: 8 },
+                  selection: { start: 6, end: 7 },
                   isBlinking: true,
                 },
                 {
-                  position: 8,
+                  position: 7,
                   name: 't',
-                  selection: { start: 6, end: 8 },
+                  selection: { start: 6, end: 7 },
                   isBlinking: true,
                 },
                 {
                   position: 6,
                   name: 't ',
-                  selection: { start: 6, end: 9 },
+                  selection: { start: 6, end: 8 },
                   isBlinking: true,
                 },
                 {
-                  position: 9,
+                  position: 8,
                   name: 't ',
-                  selection: { start: 6, end: 9 },
+                  selection: { start: 6, end: 8 },
                   isBlinking: true,
                 },
               ],
-              text: 'aap noot mies',
+              text: 'aap not mies',
               blinkAfter: 50,
-              isPlaying: false,
-              isFinished: true,
+              isPlaying: true,
+              isFinished: false,
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
-            },
-            {
-              type: 'FINISHED',
-              action: {
-                type: 'keyboard',
-                key: 'o',
-                delay: 100,
-                cursor: 0,
-              },
-              time: new Date(),
-              cursor: typewriter.cursors[0],
-            }
-          );
-        });
+            });
 
-        it('keep selection of other cursors, when inserting at the end', () => {
-          const typewriter = new Typewriter({
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'x',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            blinkAfter: 50,
-            text: 'aap noot mies',
-            cursors: [
-              // The cursor that is going to add 'x' to the last position.
-              { position: 13, name: '' },
+            jest.advanceTimersByTime(100);
 
-              // All cursors should not be affected
+            assertLastSubscriber(
+              subscriber,
               {
-                position: 13,
-                name: 'aap noot mies',
-                selection: { start: 0, end: 13 },
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'o',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 7,
+                    name: '',
+                    selection: undefined,
+                    isBlinking: false,
+                  },
+                  {
+                    position: 13,
+                    name: 'aap not mies',
+                    selection: { start: 0, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'aap not mies',
+                    selection: { start: 0, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'aap',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'aap',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 9,
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'not',
+                    selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 8,
+                    name: 'not',
+                    selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'no',
+                    selection: { start: 4, end: 6 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 6,
+                    name: 'no',
+                    selection: { start: 4, end: 6 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 5,
+                    name: 'o',
+                    selection: { start: 5, end: 6 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 6,
+                    name: 'o',
+                    selection: { start: 5, end: 6 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 6,
+                    name: 't',
+                    selection: { start: 6, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 8,
+                    name: 't',
+                    selection: { start: 6, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 6,
+                    name: 't ',
+                    selection: { start: 6, end: 9 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 9,
+                    name: 't ',
+                    selection: { start: 6, end: 9 },
+                    isBlinking: true,
+                  },
+                ],
+                text: 'aap noot mies',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
               },
               {
-                position: 0,
-                name: 'aap noot mies',
-                selection: { start: 0, end: 13 },
-              },
-              { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
-              { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
-              { position: 13, name: 'mies', selection: { start: 9, end: 13 } },
-              { position: 9, name: 'mies', selection: { start: 9, end: 13 } },
-              { position: 4, name: 'noot', selection: { start: 4, end: 8 } },
-              { position: 8, name: 'noot', selection: { start: 4, end: 8 } },
-            ],
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'o',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
           });
-          const subscriber = autoSubscribe(typewriter);
 
-          assertState(typewriter, {
-            history: [],
-            actions: [
-              {
-                type: 'keyboard',
-                key: 'x',
-                delay: 100,
-                cursor: 0,
-              },
-            ],
-            cursors: [
-              {
-                position: 13,
-                name: '',
-                selection: undefined,
-                isBlinking: true,
-              },
-              {
-                position: 13,
-                name: 'aap noot mies',
-                selection: { start: 0, end: 13 },
-                isBlinking: true,
-              },
-              {
-                position: 0,
-                name: 'aap noot mies',
-                selection: { start: 0, end: 13 },
-                isBlinking: true,
-              },
-              {
-                position: 3,
-                name: 'aap',
-                selection: { start: 0, end: 3 },
-                isBlinking: true,
-              },
-              {
-                position: 0,
-                name: 'aap',
-                selection: { start: 0, end: 3 },
-                isBlinking: true,
-              },
-              {
-                position: 13,
-                name: 'mies',
-                selection: { start: 9, end: 13 },
-                isBlinking: true,
-              },
-              {
-                position: 9,
-                name: 'mies',
-                selection: { start: 9, end: 13 },
-                isBlinking: true,
-              },
-              {
-                position: 4,
-                name: 'noot',
-                selection: { start: 4, end: 8 },
-                isBlinking: true,
-              },
-              {
-                position: 8,
-                name: 'noot',
-                selection: { start: 4, end: 8 },
-                isBlinking: true,
-              },
-            ],
-            text: 'aap noot mies',
-            blinkAfter: 50,
-            isPlaying: true,
-            isFinished: false,
-            hasBeenStoppedBefore: false,
-            repeat: false,
-            repeatDelay: 0,
-          });
+          it('keep selection of other cursors, when inserting at the end', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              blinkAfter: 50,
+              text: 'aap noot mies',
+              cursors: [
+                // The cursor that is going to add 'x' to the last position.
+                { position: 13, name: '' },
 
-          jest.advanceTimersByTime(100);
+                // All cursors should not be affected
+                {
+                  position: 13,
+                  name: 'aap noot mies',
+                  selection: { start: 0, end: 13 },
+                },
+                {
+                  position: 0,
+                  name: 'aap noot mies',
+                  selection: { start: 0, end: 13 },
+                },
+                { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
+                { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+                {
+                  position: 13,
+                  name: 'mies',
+                  selection: { start: 9, end: 13 },
+                },
+                { position: 9, name: 'mies', selection: { start: 9, end: 13 } },
+                { position: 4, name: 'noot', selection: { start: 4, end: 8 } },
+                { position: 8, name: 'noot', selection: { start: 4, end: 8 } },
+              ],
+            });
+            const subscriber = autoSubscribe(typewriter);
 
-          assertLastSubscriber(
-            subscriber,
-            {
+            assertState(typewriter, {
               history: [],
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'x',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               cursors: [
                 {
-                  position: 14,
+                  position: 13,
                   name: '',
                   selection: undefined,
-                  isBlinking: false,
+                  isBlinking: true,
                 },
                 {
                   position: 13,
@@ -15952,108 +16441,2312 @@ describe('Typewriter', () => {
                   isBlinking: true,
                 },
               ],
-              text: 'aap noot miesx',
+              text: 'aap noot mies',
               blinkAfter: 50,
-              isPlaying: false,
-              isFinished: true,
+              isPlaying: true,
+              isFinished: false,
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
-            },
-            {
-              type: 'FINISHED',
-              action: {
-                type: 'keyboard',
-                key: 'x',
-                delay: 100,
-                cursor: 0,
+            });
+
+            jest.advanceTimersByTime(100);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 14,
+                    name: '',
+                    selection: undefined,
+                    isBlinking: false,
+                  },
+                  {
+                    position: 13,
+                    name: 'aap noot mies',
+                    selection: { start: 0, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'aap noot mies',
+                    selection: { start: 0, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'aap',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'aap',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 9,
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'noot',
+                    selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 8,
+                    name: 'noot',
+                    selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                ],
+                text: 'aap noot miesx',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
               },
-              time: new Date(),
-              cursor: typewriter.cursors[0],
-            }
-          );
+              {
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+          });
+        });
+
+        describe('inserting cursor has selection', () => {
+          describe('with backward selection', () => {
+            it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+              const typewriter = new Typewriter({
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                blinkAfter: 50,
+                text: 'aap noot mies',
+                cursors: [
+                  // The cursor that is going to insert 'x' at the start, while selecting 'aap'
+                  { position: 0, name: '', selection: { start: 0, end: 3 } },
+
+                  // Selects 'aap' becomes undefined, pos stays 0
+                  {
+                    position: 0,
+                    name: 'aap-0',
+                    selection: { start: 0, end: 3 },
+                  },
+
+                  // Selects 'aap' becomes undefined, pos becomes 0
+                  {
+                    position: 3,
+                    name: 'aap-3',
+                    selection: { start: 0, end: 3 },
+                  },
+
+                  // Selects 'ap' becomes undefined, pos becomes 0
+                  {
+                    position: 1,
+                    name: 'ap-1',
+                    selection: { start: 1, end: 3 },
+                  },
+
+                  // Selects 'ap' becomes undefined, pos becomes 0
+                  {
+                    position: 3,
+                    name: 'ap-3',
+                    selection: { start: 1, end: 3 },
+                  },
+
+                  // Selects 'p' becomes undefined, pos becomes 0
+                  { position: 2, name: 'p-2', selection: { start: 2, end: 3 } },
+
+                  // Selects 'p' becomes undefined, pos becomes 0
+                  { position: 3, name: 'p-3', selection: { start: 2, end: 3 } },
+
+                  // Selects 'aap ' becomes 'x ', 0 - 2 , pos stays 0
+                  {
+                    position: 0,
+                    name: 'aap -0',
+                    selection: { start: 0, end: 4 },
+                  },
+
+                  // Selects 'aap ' becomes 'x ', 0 - 2 , pos becomes 2
+                  {
+                    position: 4,
+                    name: 'aap -4',
+                    selection: { start: 0, end: 4 },
+                  },
+
+                  // Selects ' noot' stays 'x noot', 0 - 6 , pos becomes 1
+                  {
+                    position: 3,
+                    name: ' noot-3',
+                    selection: { start: 3, end: 8 },
+                  },
+                  // Selects ' noot' stays 'x noot', 0 - 6 , pos becomes 6
+                  {
+                    position: 8,
+                    name: ' noot-8',
+                    selection: { start: 3, end: 8 },
+                  },
+
+                  // Selects 'noot' stays 'noot', 2 - 6 , pos becomes 2
+                  {
+                    position: 4,
+                    name: 'noot-4',
+                    selection: { start: 4, end: 8 },
+                  },
+
+                  // Selects 'noot' stays 'noot', 2 - 6 , pos becomes 6
+                  {
+                    position: 8,
+                    name: 'noot-8',
+                    selection: { start: 4, end: 8 },
+                  },
+                ],
+              });
+              const subscriber = autoSubscribe(typewriter);
+
+              assertState(typewriter, {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 0,
+                    name: '',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'aap-0',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'aap-3',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 1,
+                    name: 'ap-1',
+                    selection: { start: 1, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'ap-3',
+                    selection: { start: 1, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 2,
+                    name: 'p-2',
+                    selection: { start: 2, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'p-3',
+                    selection: { start: 2, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'aap -0',
+                    selection: { start: 0, end: 4 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'aap -4',
+                    selection: { start: 0, end: 4 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: ' noot-3',
+                    selection: { start: 3, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 8,
+                    name: ' noot-8',
+                    selection: { start: 3, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'noot-4',
+                    selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 8,
+                    name: 'noot-8',
+                    selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                ],
+                text: 'aap noot mies',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              });
+
+              jest.advanceTimersByTime(100);
+
+              assertLastSubscriber(
+                subscriber,
+                {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'x',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 1,
+                      name: '',
+                      selection: undefined,
+                      isBlinking: false,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'ap-1',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'ap-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'p-2',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'p-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 2 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 2 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: ' noot-3',
+                      selection: { start: 0, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: ' noot-8',
+                      selection: { start: 0, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'noot-4',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'noot-8',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'x noot mies',
+                  blinkAfter: 50,
+                  isPlaying: false,
+                  isFinished: true,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                },
+                {
+                  type: 'FINISHED',
+                  action: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  time: new Date(),
+                  cursor: typewriter.cursors[0],
+                }
+              );
+            });
+
+            it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+              const typewriter = new Typewriter({
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                blinkAfter: 50,
+                text: 'aap noot mies',
+                cursors: [
+                  // The cursor that is going to add 'x', selects the oo's
+                  { position: 5, name: '', selection: { start: 5, end: 7 } },
+                  // Selects 'aap' stays 'aap', 0 - 3
+                  { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
+                  { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+                  // Selects 'noot', becomes 'nxt', 4 - 7
+                  {
+                    position: 8,
+                    name: 'noot',
+                    selection: { start: 4, end: 8 },
+                  },
+                  {
+                    position: 4,
+                    name: 'noot',
+                    selection: { start: 4, end: 8 },
+                  },
+                  // Selects 'mies' stays 'mies', 8 - 12
+                  {
+                    position: 13,
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
+                  },
+                  {
+                    position: 9,
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
+                  },
+                  // Selects 'p noot', becomes 'p nxt', 2 - 7
+                  {
+                    position: 8,
+                    name: 'p noot',
+                    selection: { start: 2, end: 8 },
+                  },
+                  {
+                    position: 2,
+                    name: 'p noot',
+                    selection: { start: 2, end: 8 },
+                  },
+                  // Selects 'ot mi', becomes 'xt mi', 5 - 10
+                  {
+                    position: 11,
+                    name: 'ot mi',
+                    selection: { start: 6, end: 11 },
+                  },
+                  {
+                    position: 6,
+                    name: 'ot mi',
+                    selection: { start: 6, end: 11 },
+                  },
+
+                  // Selects 't mi', becomes 'xt mi', 5 - 10
+                  {
+                    position: 11,
+                    name: 't mi',
+                    selection: { start: 7, end: 11 },
+                  },
+                  {
+                    position: 7,
+                    name: 't mi',
+                    selection: { start: 7, end: 11 },
+                  },
+
+                  // 'p no' is a bit unexpected as you might think the x will be selected but it is not.
+                  // Selects 'p no', becomes 'p n', 2 - 5
+                  {
+                    position: 6,
+                    name: 'p no',
+                    selection: { start: 2, end: 6 },
+                  },
+                  {
+                    position: 2,
+                    name: 'p no',
+                    selection: { start: 2, end: 6 },
+                  },
+
+                  // Selects 'oot m', becomes 'xt m', 5 - 9
+                  {
+                    position: 10,
+                    name: 'oot m',
+                    selection: { start: 5, end: 10 },
+                  },
+                  {
+                    position: 5,
+                    name: 'oot m',
+                    selection: { start: 5, end: 10 },
+                  },
+
+                  // 'p noo' is a bit unexpected as you might think the x will be selected but it is not.
+                  // Selects 'p noo', becomes 'p n', 2 - 5
+                  {
+                    position: 7,
+                    name: 'p noo',
+                    selection: { start: 2, end: 7 },
+                  },
+                  {
+                    position: 2,
+                    name: 'p noo',
+                    selection: { start: 2, end: 7 },
+                  },
+                  // Selects 'aap noot mies', becomes 'aap nxt mies', 0 - 12
+                  {
+                    position: 13,
+                    name: 'aap noot mies',
+                    selection: { start: 0, end: 13 },
+                  },
+                  {
+                    position: 0,
+                    name: 'aap noot mies',
+                    selection: { start: 0, end: 13 },
+                  },
+                  // Selects 'noot mies', becomes 'nxt mies' 4 - 12
+                  {
+                    position: 13,
+                    name: 'noot mies',
+                    selection: { start: 4, end: 13 },
+                  },
+                  {
+                    position: 4,
+                    name: 'noot mies',
+                    selection: { start: 4, end: 13 },
+                  },
+                  // Selects 'oo', becomes undefined
+                  {
+                    position: 7,
+                    name: 'oo',
+                    selection: { start: 5, end: 7 },
+                  },
+                  {
+                    position: 5,
+                    name: 'oo',
+                    selection: { start: 5, end: 7 },
+                  },
+                ],
+              });
+              const subscriber = autoSubscribe(typewriter);
+
+              assertState(typewriter, {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 5,
+                    name: '',
+                    selection: { start: 5, end: 7 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'aap',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'aap',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 8,
+                    name: 'noot',
+                    selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'noot',
+                    selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 9,
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 8,
+                    name: 'p noot',
+                    selection: { start: 2, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 2,
+                    name: 'p noot',
+                    selection: { start: 2, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 11,
+                    name: 'ot mi',
+                    selection: { start: 6, end: 11 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 6,
+                    name: 'ot mi',
+                    selection: { start: 6, end: 11 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 11,
+                    name: 't mi',
+                    selection: { start: 7, end: 11 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 7,
+                    name: 't mi',
+                    selection: { start: 7, end: 11 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 6,
+                    name: 'p no',
+                    selection: { start: 2, end: 6 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 2,
+                    name: 'p no',
+                    selection: { start: 2, end: 6 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 10,
+                    name: 'oot m',
+                    selection: { start: 5, end: 10 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 5,
+                    name: 'oot m',
+                    selection: { start: 5, end: 10 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 7,
+                    name: 'p noo',
+                    selection: { start: 2, end: 7 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 2,
+                    name: 'p noo',
+                    selection: { start: 2, end: 7 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'aap noot mies',
+                    selection: { start: 0, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'aap noot mies',
+                    selection: { start: 0, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'noot mies',
+                    selection: { start: 4, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'noot mies',
+                    selection: { start: 4, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 7,
+                    name: 'oo',
+                    selection: { start: 5, end: 7 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 5,
+                    name: 'oo',
+                    selection: { start: 5, end: 7 },
+                    isBlinking: true,
+                  },
+                ],
+                text: 'aap noot mies',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              });
+
+              jest.advanceTimersByTime(100);
+
+              assertLastSubscriber(
+                subscriber,
+                {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'x',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 6,
+                      name: '',
+                      selection: undefined,
+                      isBlinking: false,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'noot',
+                      selection: { start: 4, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot',
+                      selection: { start: 4, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'mies',
+                      selection: { start: 8, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'mies',
+                      selection: { start: 8, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'p noot',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p noot',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'ot mi',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'ot mi',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 't mi',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 't mi',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'p no',
+                      selection: { start: 2, end: 5 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p no',
+                      selection: { start: 2, end: 5 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'oot m',
+                      selection: { start: 5, end: 9 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oot m',
+                      selection: { start: 5, end: 9 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'p noo',
+                      selection: { start: 2, end: 5 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p noo',
+                      selection: { start: 2, end: 5 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'aap noot mies',
+                      selection: { start: 0, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap noot mies',
+                      selection: { start: 0, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'noot mies',
+                      selection: { start: 4, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot mies',
+                      selection: { start: 4, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oo',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oo',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap nxt mies',
+                  blinkAfter: 50,
+                  isPlaying: false,
+                  isFinished: true,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                },
+                {
+                  type: 'FINISHED',
+                  action: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  time: new Date(),
+                  cursor: typewriter.cursors[0],
+                }
+              );
+            });
+
+            it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+              const typewriter = new Typewriter({
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                blinkAfter: 50,
+                text: 'aap noot mies',
+                cursors: [
+                  // The cursor that is going to hit 'x', on es
+                  { position: 11, name: '', selection: { start: 11, end: 13 } },
+
+                  // Selects 's' becomes undefined, pos 11
+                  {
+                    position: 12,
+                    name: 's',
+                    selection: { start: 12, end: 13 },
+                  },
+                  // Selects 's' becomes undefined, pos 11
+                  {
+                    position: 13,
+                    name: 's',
+                    selection: { start: 12, end: 13 },
+                  },
+
+                  // Selects 'es', becomes undefined pos 11
+                  {
+                    position: 11,
+                    name: 'es',
+                    selection: { start: 11, end: 13 },
+                  },
+                  // Selects 'es', becomes undefined pos 11
+                  {
+                    position: 13,
+                    name: 'es',
+                    selection: { start: 11, end: 13 },
+                  },
+
+                  // Selects 'ies' becomes 'i', 10 - 11 pos 10
+                  {
+                    position: 10,
+                    name: 'ies',
+                    selection: { start: 10, end: 13 },
+                  },
+                  // Selects 'ies' becomes 'i', 10 - 11 pos 11
+                  {
+                    position: 13,
+                    name: 'ies',
+                    selection: { start: 10, end: 13 },
+                  },
+
+                  // Selects 'mie', becomes 'mi', 9 - 11 pos 9
+                  {
+                    position: 9,
+                    name: 'mie',
+                    selection: { start: 9, end: 12 },
+                  },
+                  // Selects 'mie', becomes 'mi', 9 - 11 pos 11
+                  {
+                    position: 12,
+                    name: 'mie',
+                    selection: { start: 9, end: 12 },
+                  },
+
+                  // Selects 'mi', stays 'mi', 9 - 11 pos 9
+                  { position: 9, name: 'mi', selection: { start: 9, end: 11 } },
+                  // Selects 'mi', stays 'mi', 9 - 11 pos 11
+                  {
+                    position: 11,
+                    name: 'mi',
+                    selection: { start: 9, end: 11 },
+                  },
+                ],
+              });
+              const subscriber = autoSubscribe(typewriter);
+
+              assertState(typewriter, {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 11,
+                    name: '',
+                    selection: { start: 11, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 12,
+                    name: 's',
+                    selection: { start: 12, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 's',
+                    selection: { start: 12, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 11,
+                    name: 'es',
+                    selection: { start: 11, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'es',
+                    selection: { start: 11, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 10,
+                    name: 'ies',
+                    selection: { start: 10, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'ies',
+                    selection: { start: 10, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 9,
+                    name: 'mie',
+                    selection: { start: 9, end: 12 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 12,
+                    name: 'mie',
+                    selection: { start: 9, end: 12 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 9,
+                    name: 'mi',
+                    selection: { start: 9, end: 11 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 11,
+                    name: 'mi',
+                    selection: { start: 9, end: 11 },
+                    isBlinking: true,
+                  },
+                ],
+                text: 'aap noot mies',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              });
+
+              jest.advanceTimersByTime(100);
+
+              assertLastSubscriber(
+                subscriber,
+                {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'x',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 12,
+                      name: '',
+                      selection: undefined,
+                      isBlinking: false,
+                    },
+                    {
+                      position: 11,
+                      name: 's',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 's',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'es',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'es',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'ies',
+                      selection: { start: 10, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'ies',
+                      selection: { start: 10, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mie',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'mie',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mi',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'mi',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mix',
+                  blinkAfter: 50,
+                  isPlaying: false,
+                  isFinished: true,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                },
+                {
+                  type: 'FINISHED',
+                  action: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  time: new Date(),
+                  cursor: typewriter.cursors[0],
+                }
+              );
+            });
+          });
+
+          describe('with forward selection', () => {
+            it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+              const typewriter = new Typewriter({
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                blinkAfter: 50,
+                text: 'aap noot mies', // 'x noot mies'
+                cursors: [
+                  // The cursor that is going to insert 'x' at the start, while selecting 'aap'
+                  { position: 3, name: '', selection: { start: 0, end: 3 } },
+
+                  // Selects 'aap' becomes undefined, pos stays 0
+                  {
+                    position: 0,
+                    name: 'aap-0',
+                    selection: { start: 0, end: 3 },
+                  },
+
+                  // Selects 'aap' becomes undefined, pos becomes 0
+                  {
+                    position: 3,
+                    name: 'aap-3',
+                    selection: { start: 0, end: 3 },
+                  },
+
+                  // Selects 'ap' becomes undefined, pos becomes 0
+                  {
+                    position: 1,
+                    name: 'ap-1',
+                    selection: { start: 1, end: 3 },
+                  },
+
+                  // Selects 'ap' becomes undefined, pos becomes 0
+                  {
+                    position: 3,
+                    name: 'ap-3',
+                    selection: { start: 1, end: 3 },
+                  },
+
+                  // Selects 'p' becomes undefined, pos becomes 0
+                  { position: 2, name: 'p-2', selection: { start: 2, end: 3 } },
+
+                  // Selects 'p' becomes undefined, pos becomes 0
+                  { position: 3, name: 'p-3', selection: { start: 2, end: 3 } },
+
+                  // Selects 'aap ' becomes 'x ', 0 - 2 , pos stays 0
+                  {
+                    position: 0,
+                    name: 'aap -0',
+                    selection: { start: 0, end: 4 },
+                  },
+                  // Selects 'aap ' becomes 'x ', 0 - 2 , pos becomes 2
+                  {
+                    position: 4,
+                    name: 'aap -4',
+                    selection: { start: 0, end: 4 },
+                  },
+
+                  // Selects ' noot' becomes 'x noot', 0 - 6 , pos becomes 0
+                  {
+                    position: 3,
+                    name: ' noot-3',
+                    selection: { start: 3, end: 8 },
+                  },
+                  // Selects ' noot' becomes 'x noot', 0 - 6 , pos becomes 6
+                  {
+                    position: 8,
+                    name: ' noot-8',
+                    selection: { start: 3, end: 8 },
+                  },
+
+                  // Selects 'noot' stays 'noot', 2 - 6 , pos becomes 2
+                  {
+                    position: 4,
+                    name: 'noot-4',
+                    selection: { start: 4, end: 8 },
+                  },
+
+                  // Selects 'noot' stays 'noot', 2 - 6 , pos becomes 6
+                  {
+                    position: 8,
+                    name: 'noot-8',
+                    selection: { start: 4, end: 8 },
+                  },
+                ],
+              });
+              const subscriber = autoSubscribe(typewriter);
+
+              assertState(typewriter, {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 3,
+                    name: '',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'aap-0',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'aap-3',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 1,
+                    name: 'ap-1',
+                    selection: { start: 1, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'ap-3',
+                    selection: { start: 1, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 2,
+                    name: 'p-2',
+                    selection: { start: 2, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'p-3',
+                    selection: { start: 2, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'aap -0',
+                    selection: { start: 0, end: 4 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'aap -4',
+                    selection: { start: 0, end: 4 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: ' noot-3',
+                    selection: { start: 3, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 8,
+                    name: ' noot-8',
+                    selection: { start: 3, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'noot-4',
+                    selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 8,
+                    name: 'noot-8',
+                    selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                ],
+                text: 'aap noot mies',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              });
+
+              jest.advanceTimersByTime(100);
+
+              assertLastSubscriber(
+                subscriber,
+                {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'x',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 1,
+                      name: '',
+                      selection: undefined,
+                      isBlinking: false,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'ap-1',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'ap-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'p-2',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'p-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 2 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 2 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: ' noot-3',
+                      selection: { start: 0, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: ' noot-8',
+                      selection: { start: 0, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'noot-4',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'noot-8',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'x noot mies',
+                  blinkAfter: 50,
+                  isPlaying: false,
+                  isFinished: true,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                },
+                {
+                  type: 'FINISHED',
+                  action: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  time: new Date(),
+                  cursor: typewriter.cursors[0],
+                }
+              );
+            });
+
+            it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+              const typewriter = new Typewriter({
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                blinkAfter: 50,
+                text: 'aap noot mies', // 'aap nxt mies'
+                cursors: [
+                  // The cursor that is going to add 'x', selects the oo's
+                  { position: 7, name: '', selection: { start: 5, end: 7 } },
+                  // Selects 'aap' stays 'aap', 0 - 3
+                  { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
+                  { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+                  // Selects 'noot', becomes 'nxt', 4 - 7
+                  {
+                    position: 8,
+                    name: 'noot',
+                    selection: { start: 4, end: 8 },
+                  },
+                  {
+                    position: 4,
+                    name: 'noot',
+                    selection: { start: 4, end: 8 },
+                  },
+                  // Selects 'mies' stays 'mies', 8 - 12
+                  {
+                    position: 13,
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
+                  },
+                  {
+                    position: 9,
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
+                  },
+                  // Selects 'p noot', becomes 'p nxt', 2 - 7
+                  {
+                    position: 8,
+                    name: 'p noot',
+                    selection: { start: 2, end: 8 },
+                  },
+                  {
+                    position: 2,
+                    name: 'p noot',
+                    selection: { start: 2, end: 8 },
+                  },
+
+                  // Selects 'ot mi', becomes 'xt mi', 5 - 10
+                  {
+                    position: 11,
+                    name: 'ot mi',
+                    selection: { start: 6, end: 11 },
+                  },
+                  {
+                    position: 6,
+                    name: 'ot mi',
+                    selection: { start: 6, end: 11 },
+                  },
+
+                  // Selects 't mi', becomes 'xt mi', 5 - 10
+                  {
+                    position: 11,
+                    name: 't mi',
+                    selection: { start: 7, end: 11 },
+                  },
+                  {
+                    position: 7,
+                    name: 't mi',
+                    selection: { start: 7, end: 11 },
+                  },
+
+                  // 'p no' is a bit unexpected as you might think the x will be selected but it is not.
+                  // Selects 'p no', becomes 'p n', 2 - 5
+                  {
+                    position: 6,
+                    name: 'p no',
+                    selection: { start: 2, end: 6 },
+                  },
+                  {
+                    position: 2,
+                    name: 'p no',
+                    selection: { start: 2, end: 6 },
+                  },
+
+                  // Selects 'oot m', becomes 'xt m', 5 - 9
+                  {
+                    position: 10,
+                    name: 'oot m',
+                    selection: { start: 5, end: 10 },
+                  },
+                  {
+                    position: 5,
+                    name: 'oot m',
+                    selection: { start: 5, end: 10 },
+                  },
+
+                  // 'p noo' is a bit unexpected as you might think the x will be selected but it is not.
+                  // Selects 'p noo', becomes 'p n', 2 - 5
+                  {
+                    position: 7,
+                    name: 'p noo',
+                    selection: { start: 2, end: 7 },
+                  },
+                  {
+                    position: 2,
+                    name: 'p noo',
+                    selection: { start: 2, end: 7 },
+                  },
+                  // Selects 'aap noot mies', becomes 'aap nxt mies', 0 - 12
+                  {
+                    position: 13,
+                    name: 'aap noot mies',
+                    selection: { start: 0, end: 13 },
+                  },
+                  {
+                    position: 0,
+                    name: 'aap noot mies',
+                    selection: { start: 0, end: 13 },
+                  },
+                  // Selects 'noot mies', becomes 'nxt mies' 4 - 12
+                  {
+                    position: 13,
+                    name: 'noot mies',
+                    selection: { start: 4, end: 13 },
+                  },
+                  {
+                    position: 4,
+                    name: 'noot mies',
+                    selection: { start: 4, end: 13 },
+                  },
+                  // Selects 'oo', becomes undefined
+                  {
+                    position: 7,
+                    name: 'oo',
+                    selection: { start: 5, end: 7 },
+                  },
+                  {
+                    position: 5,
+                    name: 'oo',
+                    selection: { start: 5, end: 7 },
+                  },
+                ],
+              });
+              const subscriber = autoSubscribe(typewriter);
+
+              assertState(typewriter, {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 7,
+                    name: '',
+                    selection: { start: 5, end: 7 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'aap',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'aap',
+                    selection: { start: 0, end: 3 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 8,
+                    name: 'noot',
+                    selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'noot',
+                    selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 9,
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 8,
+                    name: 'p noot',
+                    selection: { start: 2, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 2,
+                    name: 'p noot',
+                    selection: { start: 2, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 11,
+                    name: 'ot mi',
+                    selection: { start: 6, end: 11 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 6,
+                    name: 'ot mi',
+                    selection: { start: 6, end: 11 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 11,
+                    name: 't mi',
+                    selection: { start: 7, end: 11 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 7,
+                    name: 't mi',
+                    selection: { start: 7, end: 11 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 6,
+                    name: 'p no',
+                    selection: { start: 2, end: 6 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 2,
+                    name: 'p no',
+                    selection: { start: 2, end: 6 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 10,
+                    name: 'oot m',
+                    selection: { start: 5, end: 10 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 5,
+                    name: 'oot m',
+                    selection: { start: 5, end: 10 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 7,
+                    name: 'p noo',
+                    selection: { start: 2, end: 7 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 2,
+                    name: 'p noo',
+                    selection: { start: 2, end: 7 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'aap noot mies',
+                    selection: { start: 0, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'aap noot mies',
+                    selection: { start: 0, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'noot mies',
+                    selection: { start: 4, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'noot mies',
+                    selection: { start: 4, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 7,
+                    name: 'oo',
+                    selection: { start: 5, end: 7 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 5,
+                    name: 'oo',
+                    selection: { start: 5, end: 7 },
+                    isBlinking: true,
+                  },
+                ],
+                text: 'aap noot mies',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              });
+
+              jest.advanceTimersByTime(100);
+
+              assertLastSubscriber(
+                subscriber,
+                {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'x',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 6,
+                      name: '',
+                      selection: undefined,
+                      isBlinking: false,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'noot',
+                      selection: { start: 4, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot',
+                      selection: { start: 4, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'mies',
+                      selection: { start: 8, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'mies',
+                      selection: { start: 8, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'p noot',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p noot',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'ot mi',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'ot mi',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 't mi',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 't mi',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'p no',
+                      selection: { start: 2, end: 5 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p no',
+                      selection: { start: 2, end: 5 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'oot m',
+                      selection: { start: 5, end: 9 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oot m',
+                      selection: { start: 5, end: 9 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'p noo',
+                      selection: { start: 2, end: 5 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p noo',
+                      selection: { start: 2, end: 5 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'aap noot mies',
+                      selection: { start: 0, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap noot mies',
+                      selection: { start: 0, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'noot mies',
+                      selection: { start: 4, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot mies',
+                      selection: { start: 4, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oo',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oo',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap nxt mies',
+                  blinkAfter: 50,
+                  isPlaying: false,
+                  isFinished: true,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                },
+                {
+                  type: 'FINISHED',
+                  action: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  time: new Date(),
+                  cursor: typewriter.cursors[0],
+                }
+              );
+            });
+
+            it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+              const typewriter = new Typewriter({
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                blinkAfter: 50,
+                text: 'aap noot mies',
+                cursors: [
+                  // The cursor that is going to hit 'x', on es
+                  { position: 13, name: '', selection: { start: 11, end: 13 } },
+
+                  // Selects 's' becomes undefined, pos 11
+                  {
+                    position: 12,
+                    name: 's',
+                    selection: { start: 12, end: 13 },
+                  },
+                  // Selects 's' becomes undefined, pos 11
+                  {
+                    position: 13,
+                    name: 's',
+                    selection: { start: 12, end: 13 },
+                  },
+
+                  // Selects 'es', becomes undefined pos 11
+                  {
+                    position: 11,
+                    name: 'es',
+                    selection: { start: 11, end: 13 },
+                  },
+                  // Selects 'es', becomes undefined pos 11
+                  {
+                    position: 13,
+                    name: 'es',
+                    selection: { start: 11, end: 13 },
+                  },
+
+                  // Selects 'ies' becomes 'i', 10 - 11 pos 10
+                  {
+                    position: 10,
+                    name: 'ies',
+                    selection: { start: 10, end: 13 },
+                  },
+                  // Selects 'ies' becomes 'i', 10 - 11 pos 11
+                  {
+                    position: 13,
+                    name: 'ies',
+                    selection: { start: 10, end: 13 },
+                  },
+
+                  // Selects 'mie', becomes 'mi', 9 - 11 pos 9
+                  {
+                    position: 9,
+                    name: 'mie',
+                    selection: { start: 9, end: 12 },
+                  },
+                  // Selects 'mie', becomes 'mi', 9 - 11 pos 11
+                  {
+                    position: 12,
+                    name: 'mie',
+                    selection: { start: 9, end: 12 },
+                  },
+
+                  // Selects 'mi', stays 'mi', 9 - 11 pos 9
+                  { position: 9, name: 'mi', selection: { start: 9, end: 11 } },
+                  // Selects 'mi', stays 'mi', 9 - 11 pos 11
+                  {
+                    position: 11,
+                    name: 'mi',
+                    selection: { start: 9, end: 11 },
+                  },
+                ],
+              });
+              const subscriber = autoSubscribe(typewriter);
+
+              assertState(typewriter, {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 13,
+                    name: '',
+                    selection: { start: 11, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 12,
+                    name: 's',
+                    selection: { start: 12, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 's',
+                    selection: { start: 12, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 11,
+                    name: 'es',
+                    selection: { start: 11, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'es',
+                    selection: { start: 11, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 10,
+                    name: 'ies',
+                    selection: { start: 10, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'ies',
+                    selection: { start: 10, end: 13 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 9,
+                    name: 'mie',
+                    selection: { start: 9, end: 12 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 12,
+                    name: 'mie',
+                    selection: { start: 9, end: 12 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 9,
+                    name: 'mi',
+                    selection: { start: 9, end: 11 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 11,
+                    name: 'mi',
+                    selection: { start: 9, end: 11 },
+                    isBlinking: true,
+                  },
+                ],
+                text: 'aap noot mies',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              });
+
+              jest.advanceTimersByTime(100);
+
+              assertLastSubscriber(
+                subscriber,
+                {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'x',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 12,
+                      name: '',
+                      selection: undefined,
+                      isBlinking: false,
+                    },
+                    {
+                      position: 11,
+                      name: 's',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 's',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'es',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'es',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'ies',
+                      selection: { start: 10, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'ies',
+                      selection: { start: 10, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mie',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'mie',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mi',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'mi',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mix',
+                  blinkAfter: 50,
+                  isPlaying: false,
+                  isFinished: true,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                },
+                {
+                  type: 'FINISHED',
+                  action: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                  time: new Date(),
+                  cursor: typewriter.cursors[0],
+                }
+              );
+            });
+          });
         });
       });
 
-      describe('inserting cursor has selection', () => {
-        describe('with backward selection', () => {
-          it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+      describe('word', () => {
+        describe('cursor movement', () => {
+          it('should move cursors that are before the cursor one place forwards, and cursors that lie before or on should stay in position, when inserting at the start', () => {
             const typewriter = new Typewriter({
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'tall j',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               blinkAfter: 50,
-              text: 'aap noot mies',
+              text: 'ohn',
               cursors: [
-                // The cursor that is going to insert 'x' at the start, while selecting 'aap'
-                { position: 0, name: '', selection: { start: 0, end: 3 } },
+                { position: 0, name: '' },
 
-                // Selects 'aap' becomes undefined, pos stays 0
-                { position: 0, name: 'aap-0', selection: { start: 0, end: 3 } },
-
-                // Selects 'aap' becomes undefined, pos becomes 0
-                { position: 3, name: 'aap-3', selection: { start: 0, end: 3 } },
-
-                // Selects 'ap' becomes undefined, pos becomes 0
-                { position: 1, name: 'ap-1', selection: { start: 1, end: 3 } },
-
-                // Selects 'ap' becomes undefined, pos becomes 0
-                { position: 3, name: 'ap-3', selection: { start: 1, end: 3 } },
-
-                // Selects 'p' becomes undefined, pos becomes 0
-                { position: 2, name: 'p-2', selection: { start: 2, end: 3 } },
-
-                // Selects 'p' becomes undefined, pos becomes 0
-                { position: 3, name: 'p-3', selection: { start: 2, end: 3 } },
-
-                // Selects 'aap ' becomes 'x ', 0 - 2 , pos stays 0
-                {
-                  position: 0,
-                  name: 'aap -0',
-                  selection: { start: 0, end: 4 },
-                },
-
-                // Selects 'aap ' becomes 'x ', 0 - 2 , pos becomes 2
-                {
-                  position: 4,
-                  name: 'aap -4',
-                  selection: { start: 0, end: 4 },
-                },
-
-                // ' noot' in google docs becomes 'x noot' which is very unexpected
-                // I'm ignoring that result.
-
-                // Selects ' noot' stays ' noot', 1 - 6 , pos becomes 1
-                {
-                  position: 3,
-                  name: ' noot-3',
-                  selection: { start: 3, end: 8 },
-                },
-                // Selects ' noot' stays ' noot', 1 - 6 , pos becomes 6
-                {
-                  position: 8,
-                  name: ' noot-8',
-                  selection: { start: 3, end: 8 },
-                },
-
-                // Selects 'noot' stays 'noot', 2 - 6 , pos becomes 2
-                {
-                  position: 4,
-                  name: 'noot-4',
-                  selection: { start: 4, end: 8 },
-                },
-
-                // Selects 'noot' stays 'noot', 2 - 6 , pos becomes 6
-                {
-                  position: 8,
-                  name: 'noot-8',
-                  selection: { start: 4, end: 8 },
-                },
+                { position: 0, name: '' },
+                { position: 2, name: '' },
+                { position: 1, name: '' },
+                { position: 3, name: '' },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -16063,7 +18756,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'tall j',
                   delay: 100,
                   cursor: 0,
                 },
@@ -16072,83 +18765,183 @@ describe('Typewriter', () => {
                 {
                   position: 0,
                   name: '',
-                  selection: { start: 0, end: 3 },
                   isBlinking: true,
+                  selection: undefined,
                 },
                 {
                   position: 0,
-                  name: 'aap-0',
-                  selection: { start: 0, end: 3 },
+                  name: '',
                   isBlinking: true,
+                  selection: undefined,
                 },
                 {
-                  position: 3,
-                  name: 'aap-3',
-                  selection: { start: 0, end: 3 },
+                  position: 2,
+                  name: '',
                   isBlinking: true,
+                  selection: undefined,
                 },
                 {
                   position: 1,
-                  name: 'ap-1',
-                  selection: { start: 1, end: 3 },
+                  name: '',
                   isBlinking: true,
+                  selection: undefined,
                 },
                 {
                   position: 3,
-                  name: 'ap-3',
-                  selection: { start: 1, end: 3 },
+                  name: '',
                   isBlinking: true,
+                  selection: undefined,
+                },
+              ],
+              text: 'ohn',
+              blinkAfter: 50,
+              isPlaying: true,
+              isFinished: false,
+              hasBeenStoppedBefore: false,
+              repeat: false,
+              repeatDelay: 0,
+            });
+
+            jest.advanceTimersByTime(100);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'tall j',
+                    delay: 100,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    position: 6,
+                    name: '',
+                    isBlinking: false,
+                    selection: undefined,
+                  },
+                  {
+                    position: 0,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 8,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 7,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 9,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                ],
+                text: 'tall john',
+                blinkAfter: 50,
+                isPlaying: false,
+                isFinished: true,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+              },
+              {
+                type: 'FINISHED',
+                action: {
+                  type: 'keyboard',
+                  text: 'tall j',
+                  delay: 100,
+                  cursor: 0,
+                },
+                time: new Date(),
+                cursor: typewriter.cursors[0],
+              }
+            );
+          });
+
+          it('should move cursors that are after or on the cursor one place backwards, and cursors that lie before should stay in position, when inserting at the middle', () => {
+            const typewriter = new Typewriter({
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'xox',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              blinkAfter: 50,
+              text: 'john',
+              cursors: [
+                { position: 2, name: '' },
+                { position: 2, name: '' },
+                { position: 3, name: '' },
+                { position: 1, name: '' },
+                { position: 0, name: '' },
+                { position: 4, name: '' },
+              ],
+            });
+            const subscriber = autoSubscribe(typewriter);
+
+            assertState(typewriter, {
+              history: [],
+              actions: [
+                {
+                  type: 'keyboard',
+                  text: 'xox',
+                  delay: 100,
+                  cursor: 0,
+                },
+              ],
+              cursors: [
+                {
+                  position: 2,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
                 },
                 {
                   position: 2,
-                  name: 'p-2',
-                  selection: { start: 2, end: 3 },
+                  name: '',
                   isBlinking: true,
+                  selection: undefined,
                 },
                 {
                   position: 3,
-                  name: 'p-3',
-                  selection: { start: 2, end: 3 },
+                  name: '',
                   isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 1,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
                 },
                 {
                   position: 0,
-                  name: 'aap -0',
-                  selection: { start: 0, end: 4 },
+                  name: '',
                   isBlinking: true,
+                  selection: undefined,
                 },
                 {
                   position: 4,
-                  name: 'aap -4',
-                  selection: { start: 0, end: 4 },
+                  name: '',
                   isBlinking: true,
-                },
-                {
-                  position: 3,
-                  name: ' noot-3',
-                  selection: { start: 3, end: 8 },
-                  isBlinking: true,
-                },
-                {
-                  position: 8,
-                  name: ' noot-8',
-                  selection: { start: 3, end: 8 },
-                  isBlinking: true,
-                },
-                {
-                  position: 4,
-                  name: 'noot-4',
-                  selection: { start: 4, end: 8 },
-                  isBlinking: true,
-                },
-                {
-                  position: 8,
-                  name: 'noot-8',
-                  selection: { start: 4, end: 8 },
-                  isBlinking: true,
+                  selection: undefined,
                 },
               ],
-              text: 'aap noot mies',
+              text: 'john',
               blinkAfter: 50,
               isPlaying: true,
               isFinished: false,
@@ -16166,92 +18959,50 @@ describe('Typewriter', () => {
                 actions: [
                   {
                     type: 'keyboard',
-                    key: 'x',
+                    text: 'xox',
                     delay: 100,
                     cursor: 0,
                   },
                 ],
                 cursors: [
                   {
+                    position: 5,
+                    name: '',
+                    isBlinking: false,
+                    selection: undefined,
+                  },
+                  {
+                    position: 2,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 6,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
                     position: 1,
                     name: '',
+                    isBlinking: true,
                     selection: undefined,
-                    isBlinking: false,
                   },
                   {
                     position: 0,
-                    name: 'aap-0',
+                    name: '',
+                    isBlinking: true,
                     selection: undefined,
-                    isBlinking: true,
                   },
                   {
-                    position: 0,
-                    name: 'aap-3',
+                    position: 7,
+                    name: '',
+                    isBlinking: true,
                     selection: undefined,
-                    isBlinking: true,
-                  },
-                  {
-                    position: 0,
-                    name: 'ap-1',
-                    selection: undefined,
-                    isBlinking: true,
-                  },
-                  {
-                    position: 0,
-                    name: 'ap-3',
-                    selection: undefined,
-                    isBlinking: true,
-                  },
-                  {
-                    position: 0,
-                    name: 'p-2',
-                    selection: undefined,
-                    isBlinking: true,
-                  },
-                  {
-                    position: 0,
-                    name: 'p-3',
-                    selection: undefined,
-                    isBlinking: true,
-                  },
-                  {
-                    position: 0,
-                    name: 'aap -0',
-                    selection: { start: 0, end: 2 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 2,
-                    name: 'aap -4',
-                    selection: { start: 0, end: 2 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 1,
-                    name: ' noot-3',
-                    selection: { start: 1, end: 6 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 6,
-                    name: ' noot-8',
-                    selection: { start: 1, end: 6 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 2,
-                    name: 'noot-4',
-                    selection: { start: 2, end: 6 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 6,
-                    name: 'noot-8',
-                    selection: { start: 2, end: 6 },
-                    isBlinking: true,
                   },
                 ],
-                text: 'x noot mies',
+                text: 'joxoxhn',
                 blinkAfter: 50,
                 isPlaying: false,
                 isFinished: true,
@@ -16263,7 +19014,7 @@ describe('Typewriter', () => {
                 type: 'FINISHED',
                 action: {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'xox',
                   delay: 100,
                   cursor: 0,
                 },
@@ -16273,86 +19024,25 @@ describe('Typewriter', () => {
             );
           });
 
-          it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+          it('should not alter other cursors positions, when inserting at the end', () => {
             const typewriter = new Typewriter({
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'athan',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               blinkAfter: 50,
-              text: 'aap noot mies',
+              text: 'john',
               cursors: [
-                // The cursor that is going to add 'x', selects the oo's
-                { position: 5, name: '', selection: { start: 5, end: 7 } },
-                // Selects 'aap' stays 'aap', 0 - 3
-                { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
-                // Selects 'noot', becomes 'nxt', 4 - 7
-                { position: 4, name: 'noot', selection: { start: 4, end: 8 } },
-                // Selects 'mies' stays 'mies', 8 - 12
-                {
-                  position: 13,
-                  name: 'mies',
-                  selection: { start: 9, end: 13 },
-                },
-                // Selects 'p noot', becomes 'p nxt', 2 - 7
-                {
-                  position: 2,
-                  name: 'p noot',
-                  selection: { start: 2, end: 8 },
-                },
-                // Selects 'ot mi', becomes 'xt mi', 5 - 10
-                {
-                  position: 11,
-                  name: 'ot mi',
-                  selection: { start: 6, end: 11 },
-                },
-
-                // 't mi' in google docs becomes 'xt mi' which is very unexpected
-                // I'm ignoring that result.
-
-                // Selects 't mi', stays 't mi', 6 - 10
-                {
-                  position: 11,
-                  name: 't mi',
-                  selection: { start: 7, end: 11 },
-                },
-
-                // 'p no' is a bit unexpected as you might think the x will be selected but it is not.
-                // Selects 'p no', becomes 'p n', 2 - 5
-                { position: 2, name: 'p no', selection: { start: 2, end: 6 } },
-
-                // Selects 'oot m', becomes 'xt m', 5 - 9
-                {
-                  position: 10,
-                  name: 'oot m',
-                  selection: { start: 5, end: 10 },
-                },
-
-                // 'p noo' is a bit unexpected as you might think the x will be selected but it is not.
-                // Selects 'p noo', becomes 'p n', 2 - 5
-                { position: 7, name: 'p noo', selection: { start: 2, end: 7 } },
-                // Selects 'aap noot mies', becomes 'aap nxt mies', 0 - 12
-                {
-                  position: 13,
-                  name: 'aap noot mies',
-                  selection: { start: 0, end: 13 },
-                },
-                // Selects 'noot mies', becomes 'nxt mies' 4 - 12
-                {
-                  position: 4,
-                  name: 'noot mies',
-                  selection: { start: 4, end: 13 },
-                },
-                // Selects 'oo', becomes undefined
-                {
-                  position: 5,
-                  name: 'oo',
-                  selection: { start: 5, end: 7 },
-                },
+                { position: 4, name: '' },
+                { position: 2, name: '' },
+                { position: 3, name: '' },
+                { position: 1, name: '' },
+                { position: 0, name: '' },
+                { position: 4, name: '' },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -16362,92 +19052,50 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'athan',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               cursors: [
                 {
-                  position: 5,
+                  position: 4,
                   name: '',
-                  selection: { start: 5, end: 7 },
                   isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 2,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
                 },
                 {
                   position: 3,
-                  name: 'aap',
-                  selection: { start: 0, end: 3 },
+                  name: '',
                   isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 1,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
+                },
+                {
+                  position: 0,
+                  name: '',
+                  isBlinking: true,
+                  selection: undefined,
                 },
                 {
                   position: 4,
-                  name: 'noot',
-                  selection: { start: 4, end: 8 },
+                  name: '',
                   isBlinking: true,
-                },
-                {
-                  position: 13,
-                  name: 'mies',
-                  selection: { start: 9, end: 13 },
-                  isBlinking: true,
-                },
-                {
-                  position: 2,
-                  name: 'p noot',
-                  selection: { start: 2, end: 8 },
-                  isBlinking: true,
-                },
-                {
-                  position: 11,
-                  name: 'ot mi',
-                  selection: { start: 6, end: 11 },
-                  isBlinking: true,
-                },
-                {
-                  position: 11,
-                  name: 't mi',
-                  selection: { start: 7, end: 11 },
-                  isBlinking: true,
-                },
-                {
-                  position: 2,
-                  name: 'p no',
-                  selection: { start: 2, end: 6 },
-                  isBlinking: true,
-                },
-                {
-                  position: 10,
-                  name: 'oot m',
-                  selection: { start: 5, end: 10 },
-                  isBlinking: true,
-                },
-                {
-                  position: 7,
-                  name: 'p noo',
-                  selection: { start: 2, end: 7 },
-                  isBlinking: true,
-                },
-                {
-                  position: 13,
-                  name: 'aap noot mies',
-                  selection: { start: 0, end: 13 },
-                  isBlinking: true,
-                },
-                {
-                  position: 4,
-                  name: 'noot mies',
-                  selection: { start: 4, end: 13 },
-                  isBlinking: true,
-                },
-                {
-                  position: 5,
-                  name: 'oo',
-                  selection: { start: 5, end: 7 },
-                  isBlinking: true,
+                  selection: undefined,
                 },
               ],
-              text: 'aap noot mies',
+              text: 'john',
               blinkAfter: 50,
               isPlaying: true,
               isFinished: false,
@@ -16465,92 +19113,50 @@ describe('Typewriter', () => {
                 actions: [
                   {
                     type: 'keyboard',
-                    key: 'x',
+                    text: 'athan',
                     delay: 100,
                     cursor: 0,
                   },
                 ],
                 cursors: [
                   {
-                    position: 6,
+                    position: 9,
                     name: '',
-                    selection: undefined,
                     isBlinking: false,
+                    selection: undefined,
+                  },
+                  {
+                    position: 2,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
                   },
                   {
                     position: 3,
-                    name: 'aap',
-                    selection: { start: 0, end: 3 },
+                    name: '',
                     isBlinking: true,
-                  },
-                  {
-                    position: 4,
-                    name: 'noot',
-                    selection: { start: 4, end: 7 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 12,
-                    name: 'mies',
-                    selection: { start: 8, end: 12 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 2,
-                    name: 'p noot',
-                    selection: { start: 2, end: 7 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 10,
-                    name: 'ot mi',
-                    selection: { start: 5, end: 10 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 10,
-                    name: 't mi',
-                    selection: { start: 6, end: 10 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 2,
-                    name: 'p no',
-                    selection: { start: 2, end: 5 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 9,
-                    name: 'oot m',
-                    selection: { start: 5, end: 9 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 5,
-                    name: 'p noo',
-                    selection: { start: 2, end: 5 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 12,
-                    name: 'aap noot mies',
-                    selection: { start: 0, end: 12 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 4,
-                    name: 'noot mies',
-                    selection: { start: 4, end: 12 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 5,
-                    name: 'oo',
                     selection: undefined,
+                  },
+                  {
+                    position: 1,
+                    name: '',
                     isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 0,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
+                  },
+                  {
+                    position: 4,
+                    name: '',
+                    isBlinking: true,
+                    selection: undefined,
                   },
                 ],
-                text: 'aap nxt mies',
+                text: 'johnathan',
                 blinkAfter: 50,
                 isPlaying: false,
                 isFinished: true,
@@ -16562,7 +19168,7 @@ describe('Typewriter', () => {
                 type: 'FINISHED',
                 action: {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'athan',
                   delay: 100,
                   cursor: 0,
                 },
@@ -16572,54 +19178,25 @@ describe('Typewriter', () => {
             );
           });
 
-          it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+          it('should alter other cursors positions, when inserting at the start', () => {
             const typewriter = new Typewriter({
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'tin ',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               blinkAfter: 50,
-              text: 'aap noot mies',
+              text: 'john',
               cursors: [
-                // The cursor that is going to hit 'x', on es
-                { position: 11, name: '', selection: { start: 11, end: 13 } },
-
-                // Selects 's' becomes undefined, pos 11
-                { position: 12, name: 's', selection: { start: 12, end: 13 } },
-                // Selects 's' becomes undefined, pos 11
-                { position: 13, name: 's', selection: { start: 12, end: 13 } },
-
-                // Selects 'es', becomes undefined pos 11
-                { position: 11, name: 'es', selection: { start: 11, end: 13 } },
-                // Selects 'es', becomes undefined pos 11
-                { position: 13, name: 'es', selection: { start: 11, end: 13 } },
-
-                // Selects 'ies' becomes 'i', 10 - 11 pos 10
-                {
-                  position: 10,
-                  name: 'ies',
-                  selection: { start: 10, end: 13 },
-                },
-                // Selects 'ies' becomes 'i', 10 - 11 pos 11
-                {
-                  position: 13,
-                  name: 'ies',
-                  selection: { start: 10, end: 13 },
-                },
-
-                // Selects 'mie', becomes 'mi', 9 - 11 pos 9
-                { position: 9, name: 'mie', selection: { start: 9, end: 12 } },
-                // Selects 'mie', becomes 'mi', 9 - 11 pos 11
-                { position: 12, name: 'mie', selection: { start: 9, end: 12 } },
-
-                // Selects 'mi', stays 'mi', 9 - 11 pos 9
-                { position: 9, name: 'mi', selection: { start: 9, end: 11 } },
-                // Selects 'mi', stays 'mi', 9 - 11 pos 11
-                { position: 11, name: 'mi', selection: { start: 9, end: 11 } },
+                { position: 0, name: '' },
+                { position: 2, name: '' },
+                { position: 3, name: '' },
+                { position: 1, name: '' },
+                { position: 0, name: '' },
+                { position: 4, name: '' },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -16629,80 +19206,50 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'tin ',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               cursors: [
                 {
-                  position: 11,
+                  position: 0,
                   name: '',
-                  selection: { start: 11, end: 13 },
                   isBlinking: true,
+                  selection: undefined,
                 },
                 {
-                  position: 12,
-                  name: 's',
-                  selection: { start: 12, end: 13 },
+                  position: 2,
+                  name: '',
                   isBlinking: true,
+                  selection: undefined,
                 },
                 {
-                  position: 13,
-                  name: 's',
-                  selection: { start: 12, end: 13 },
+                  position: 3,
+                  name: '',
                   isBlinking: true,
+                  selection: undefined,
                 },
                 {
-                  position: 11,
-                  name: 'es',
-                  selection: { start: 11, end: 13 },
+                  position: 1,
+                  name: '',
                   isBlinking: true,
+                  selection: undefined,
                 },
                 {
-                  position: 13,
-                  name: 'es',
-                  selection: { start: 11, end: 13 },
+                  position: 0,
+                  name: '',
                   isBlinking: true,
+                  selection: undefined,
                 },
                 {
-                  position: 10,
-                  name: 'ies',
-                  selection: { start: 10, end: 13 },
+                  position: 4,
+                  name: '',
                   isBlinking: true,
-                },
-                {
-                  position: 13,
-                  name: 'ies',
-                  selection: { start: 10, end: 13 },
-                  isBlinking: true,
-                },
-                {
-                  position: 9,
-                  name: 'mie',
-                  selection: { start: 9, end: 12 },
-                  isBlinking: true,
-                },
-                {
-                  position: 12,
-                  name: 'mie',
-                  selection: { start: 9, end: 12 },
-                  isBlinking: true,
-                },
-                {
-                  position: 9,
-                  name: 'mi',
-                  selection: { start: 9, end: 11 },
-                  isBlinking: true,
-                },
-                {
-                  position: 11,
-                  name: 'mi',
-                  selection: { start: 9, end: 11 },
-                  isBlinking: true,
+                  selection: undefined,
                 },
               ],
-              text: 'aap noot mies',
+              text: 'john',
               blinkAfter: 50,
               isPlaying: true,
               isFinished: false,
@@ -16720,80 +19267,50 @@ describe('Typewriter', () => {
                 actions: [
                   {
                     type: 'keyboard',
-                    key: 'x',
+                    text: 'tin ',
                     delay: 100,
                     cursor: 0,
                   },
                 ],
                 cursors: [
                   {
-                    position: 12,
+                    position: 4,
                     name: '',
-                    selection: undefined,
                     isBlinking: false,
-                  },
-                  {
-                    position: 11,
-                    name: 's',
                     selection: undefined,
-                    isBlinking: true,
                   },
                   {
-                    position: 11,
-                    name: 's',
+                    position: 6,
+                    name: '',
+                    isBlinking: true,
                     selection: undefined,
-                    isBlinking: true,
                   },
                   {
-                    position: 11,
-                    name: 'es',
+                    position: 7,
+                    name: '',
+                    isBlinking: true,
                     selection: undefined,
-                    isBlinking: true,
                   },
                   {
-                    position: 11,
-                    name: 'es',
+                    position: 5,
+                    name: '',
+                    isBlinking: true,
                     selection: undefined,
-                    isBlinking: true,
                   },
                   {
-                    position: 10,
-                    name: 'ies',
-                    selection: { start: 10, end: 11 },
+                    position: 0,
+                    name: '',
                     isBlinking: true,
+                    selection: undefined,
                   },
                   {
-                    position: 11,
-                    name: 'ies',
-                    selection: { start: 10, end: 11 },
+                    position: 8,
+                    name: '',
                     isBlinking: true,
-                  },
-                  {
-                    position: 9,
-                    name: 'mie',
-                    selection: { start: 9, end: 11 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 11,
-                    name: 'mie',
-                    selection: { start: 9, end: 11 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 9,
-                    name: 'mi',
-                    selection: { start: 9, end: 11 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 11,
-                    name: 'mi',
-                    selection: { start: 9, end: 11 },
-                    isBlinking: true,
+                    selection: undefined,
                   },
                 ],
-                text: 'aap noot mix',
+                text: 'tin john',
                 blinkAfter: 50,
                 isPlaying: false,
                 isFinished: true,
@@ -16805,7 +19322,7 @@ describe('Typewriter', () => {
                 type: 'FINISHED',
                 action: {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'tin ',
                   delay: 100,
                   cursor: 0,
                 },
@@ -16816,84 +19333,46 @@ describe('Typewriter', () => {
           });
         });
 
-        describe('with forward selection', () => {
-          it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+        describe('inserting cursor has no selection', () => {
+          it('should increase or keep selection of other cursors, when inserting at the start', () => {
             const typewriter = new Typewriter({
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'pa',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               blinkAfter: 50,
-              text: 'aap noot mies',
+              text: 'ap noot mies',
               cursors: [
-                // The cursor that is going to insert 'x' at the start, while selecting 'aap'
-                { position: 3, name: '', selection: { start: 0, end: 3 } },
+                // The cursor that is going to insert 'pa' at the start
+                { position: 0, name: '' },
 
-                // Selects 'aap' becomes undefined, pos stays 0
-                { position: 0, name: 'aap-0', selection: { start: 0, end: 3 } },
+                // Selects 'a' becomes 'paa', 0 - 3, pos stays 0
+                { position: 0, name: 'a', selection: { start: 0, end: 1 } },
+                // Selects 'ap', becomes 'paap', 0 - 4, pos stays 0
+                { position: 0, name: 'ap', selection: { start: 0, end: 2 } },
+                // Selects 'ap ' becomes 'paap ', 0 - 5, pos stays 0
+                { position: 0, name: 'ap ', selection: { start: 0, end: 3 } },
 
-                // Selects 'aap' becomes undefined, pos becomes 0
-                { position: 3, name: 'aap-3', selection: { start: 0, end: 3 } },
+                // Selects 'a' becomes 'paa', 0 - 3, pos becomes 3
+                { position: 1, name: 'a', selection: { start: 0, end: 1 } },
+                // Selects 'ap', becomes 'paap', 0 - 4, pos becomes 4
+                { position: 2, name: 'ap', selection: { start: 0, end: 2 } },
+                // Selects 'ap ' becomes 'paap ', 0 - 5, pos becomes 5
+                { position: 3, name: 'ap ', selection: { start: 0, end: 3 } },
 
-                // Selects 'ap' becomes undefined, pos becomes 0
-                { position: 1, name: 'ap-1', selection: { start: 1, end: 3 } },
+                // Selects 'p', stays 'p', 3 - 4, pos becomes 3
+                { position: 1, name: 'p', selection: { start: 1, end: 2 } },
+                // Selects 'p ', stays 'p ', 3 - 5, pos becomes 3
+                { position: 1, name: 'p ', selection: { start: 1, end: 3 } },
 
-                // Selects 'ap' becomes undefined, pos becomes 0
-                { position: 3, name: 'ap-3', selection: { start: 1, end: 3 } },
-
-                // Selects 'p' becomes undefined, pos becomes 0
-                { position: 2, name: 'p-2', selection: { start: 2, end: 3 } },
-
-                // Selects 'p' becomes undefined, pos becomes 0
-                { position: 3, name: 'p-3', selection: { start: 2, end: 3 } },
-
-                // Selects 'aap ' becomes 'x ', 0 - 2 , pos stays 0
-                {
-                  position: 0,
-                  name: 'aap -0',
-                  selection: { start: 0, end: 4 },
-                },
-
-                // Selects 'aap ' becomes 'x ', 0 - 2 , pos becomes 2
-                {
-                  position: 4,
-                  name: 'aap -4',
-                  selection: { start: 0, end: 4 },
-                },
-
-                // ' noot' in google docs becomes 'x noot' which is very unexpected
-                // I'm ignoring that result.
-
-                // Selects ' noot' stays ' noot', 1 - 6 , pos becomes 1
-                {
-                  position: 3,
-                  name: ' noot-3',
-                  selection: { start: 3, end: 8 },
-                },
-                // Selects ' noot' stays ' noot', 1 - 6 , pos becomes 6
-                {
-                  position: 8,
-                  name: ' noot-8',
-                  selection: { start: 3, end: 8 },
-                },
-
-                // Selects 'noot' stays 'noot', 2 - 6 , pos becomes 2
-                {
-                  position: 4,
-                  name: 'noot-4',
-                  selection: { start: 4, end: 8 },
-                },
-
-                // Selects 'noot' stays 'noot', 2 - 6 , pos becomes 6
-                {
-                  position: 8,
-                  name: 'noot-8',
-                  selection: { start: 4, end: 8 },
-                },
+                // Selects 'p', stays 'p', 3 - 4, pos becomes 4
+                { position: 2, name: 'p', selection: { start: 1, end: 2 } },
+                // Selects 'p ', stays 'p ', 3 - 5, pos becomes 5
+                { position: 3, name: 'p ', selection: { start: 1, end: 3 } },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -16903,92 +19382,80 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'pa',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               cursors: [
                 {
-                  position: 3,
+                  position: 0,
                   name: '',
-                  selection: { start: 0, end: 3 },
+                  selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'aap-0',
-                  selection: { start: 0, end: 3 },
+                  name: 'a',
+                  selection: { start: 0, end: 1 },
                   isBlinking: true,
                 },
                 {
-                  position: 3,
-                  name: 'aap-3',
+                  position: 0,
+                  name: 'ap',
+                  selection: { start: 0, end: 2 },
+                  isBlinking: true,
+                },
+                {
+                  position: 0,
+                  name: 'ap ',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 1,
-                  name: 'ap-1',
-                  selection: { start: 1, end: 3 },
+                  name: 'a',
+                  selection: { start: 0, end: 1 },
+                  isBlinking: true,
+                },
+                {
+                  position: 2,
+                  name: 'ap',
+                  selection: { start: 0, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'ap-3',
+                  name: 'ap ',
+                  selection: { start: 0, end: 3 },
+                  isBlinking: true,
+                },
+                {
+                  position: 1,
+                  name: 'p',
+                  selection: { start: 1, end: 2 },
+                  isBlinking: true,
+                },
+                {
+                  position: 1,
+                  name: 'p ',
                   selection: { start: 1, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 2,
-                  name: 'p-2',
-                  selection: { start: 2, end: 3 },
+                  name: 'p',
+                  selection: { start: 1, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'p-3',
-                  selection: { start: 2, end: 3 },
-                  isBlinking: true,
-                },
-                {
-                  position: 0,
-                  name: 'aap -0',
-                  selection: { start: 0, end: 4 },
-                  isBlinking: true,
-                },
-                {
-                  position: 4,
-                  name: 'aap -4',
-                  selection: { start: 0, end: 4 },
-                  isBlinking: true,
-                },
-                {
-                  position: 3,
-                  name: ' noot-3',
-                  selection: { start: 3, end: 8 },
-                  isBlinking: true,
-                },
-                {
-                  position: 8,
-                  name: ' noot-8',
-                  selection: { start: 3, end: 8 },
-                  isBlinking: true,
-                },
-                {
-                  position: 4,
-                  name: 'noot-4',
-                  selection: { start: 4, end: 8 },
-                  isBlinking: true,
-                },
-                {
-                  position: 8,
-                  name: 'noot-8',
-                  selection: { start: 4, end: 8 },
+                  name: 'p ',
+                  selection: { start: 1, end: 3 },
                   isBlinking: true,
                 },
               ],
-              text: 'aap noot mies',
+              text: 'ap noot mies',
               blinkAfter: 50,
               isPlaying: true,
               isFinished: false,
@@ -17006,92 +19473,80 @@ describe('Typewriter', () => {
                 actions: [
                   {
                     type: 'keyboard',
-                    key: 'x',
+                    text: 'pa',
                     delay: 100,
                     cursor: 0,
                   },
                 ],
                 cursors: [
                   {
-                    position: 1,
+                    position: 2,
                     name: '',
                     selection: undefined,
                     isBlinking: false,
                   },
                   {
                     position: 0,
-                    name: 'aap-0',
-                    selection: undefined,
+                    name: 'a',
+                    selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap-3',
-                    selection: undefined,
+                    name: 'ap',
+                    selection: { start: 0, end: 4 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'ap-1',
-                    selection: undefined,
+                    name: 'ap ',
+                    selection: { start: 0, end: 5 },
                     isBlinking: true,
                   },
                   {
-                    position: 0,
-                    name: 'ap-3',
-                    selection: undefined,
+                    position: 3,
+                    name: 'a',
+                    selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
-                    position: 0,
-                    name: 'p-2',
-                    selection: undefined,
+                    position: 4,
+                    name: 'ap',
+                    selection: { start: 0, end: 4 },
                     isBlinking: true,
                   },
                   {
-                    position: 0,
-                    name: 'p-3',
-                    selection: undefined,
+                    position: 5,
+                    name: 'ap ',
+                    selection: { start: 0, end: 5 },
                     isBlinking: true,
                   },
                   {
-                    position: 0,
-                    name: 'aap -0',
-                    selection: { start: 0, end: 2 },
+                    position: 3,
+                    name: 'p',
+                    selection: { start: 3, end: 4 },
                     isBlinking: true,
                   },
                   {
-                    position: 2,
-                    name: 'aap -4',
-                    selection: { start: 0, end: 2 },
+                    position: 3,
+                    name: 'p ',
+                    selection: { start: 3, end: 5 },
                     isBlinking: true,
                   },
                   {
-                    position: 1,
-                    name: ' noot-3',
-                    selection: { start: 1, end: 6 },
+                    position: 4,
+                    name: 'p',
+                    selection: { start: 3, end: 4 },
                     isBlinking: true,
                   },
                   {
-                    position: 6,
-                    name: ' noot-8',
-                    selection: { start: 1, end: 6 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 2,
-                    name: 'noot-4',
-                    selection: { start: 2, end: 6 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 6,
-                    name: 'noot-8',
-                    selection: { start: 2, end: 6 },
+                    position: 5,
+                    name: 'p ',
+                    selection: { start: 3, end: 5 },
                     isBlinking: true,
                   },
                 ],
-                text: 'x noot mies',
+                text: 'paap noot mies',
                 blinkAfter: 50,
                 isPlaying: false,
                 isFinished: true,
@@ -17103,7 +19558,7 @@ describe('Typewriter', () => {
                 type: 'FINISHED',
                 action: {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'pa',
                   delay: 100,
                   cursor: 0,
                 },
@@ -17113,86 +19568,72 @@ describe('Typewriter', () => {
             );
           });
 
-          it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+          it('should increase or keep selection of other cursors, when inserting at the middle', () => {
             const typewriter = new Typewriter({
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'ooo',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               blinkAfter: 50,
-              text: 'aap noot mies',
+              text: 'aap not mies',
               cursors: [
-                // The cursor that is going to add 'x', selects the oo's
-                { position: 7, name: '', selection: { start: 5, end: 7 } },
-                // Selects 'aap' stays 'aap', 0 - 3
+                // The cursor that is going to add 'ooo' in 'not
+                { position: 6, name: '' },
+
+                // Selects 'aap not mies' becomes 'aap noooot mies', 0 - 15, pos becomes 15
+                {
+                  position: 12,
+                  name: 'aap not mies',
+                  selection: { start: 0, end: 12 },
+                },
+                // Selects 'aap not mies' becomes 'aap noooot mies', 0 - 15, pos stays 0
+                {
+                  position: 0,
+                  name: 'aap not mies',
+                  selection: { start: 0, end: 12 },
+                },
+                // Selects 'aap' stays 'aap', 0 - 3, pos stays 3
                 { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
-                // Selects 'noot', becomes 'nxt', 4 - 7
-                { position: 4, name: 'noot', selection: { start: 4, end: 8 } },
-                // Selects 'mies' stays 'mies', 8 - 12
+                // Selects 'aap' stays 'aap', 0 - 3, pos stays 0
+                { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+
+                // Selects 'mies' stays 'mies', 11 - 15, pos becomes 15
                 {
-                  position: 13,
+                  position: 12,
                   name: 'mies',
-                  selection: { start: 9, end: 13 },
+                  selection: { start: 8, end: 12 },
                 },
-                // Selects 'p noot', becomes 'p nxt', 2 - 7
-                {
-                  position: 2,
-                  name: 'p noot',
-                  selection: { start: 2, end: 8 },
-                },
-                // Selects 'ot mi', becomes 'xt mi', 5 - 10
-                {
-                  position: 11,
-                  name: 'ot mi',
-                  selection: { start: 6, end: 11 },
-                },
+                // Selects 'mies' stays 'mies', 11 - 15, pos becomes 11
+                { position: 8, name: 'mies', selection: { start: 8, end: 12 } },
 
-                // 't mi' in google docs becomes 'xt mi' which is very unexpected
-                // I'm ignoring that result.
+                // Selects 'not', becomes 'noooot', 4 - 10 pos stays 4
+                { position: 4, name: 'not', selection: { start: 4, end: 7 } },
+                // Selects 'not', becomes 'noooot', 4 - 10, pos becomes 10
+                { position: 7, name: 'not', selection: { start: 4, end: 7 } },
 
-                // Selects 't mi', stays 't mi', 6 - 10
-                {
-                  position: 11,
-                  name: 't mi',
-                  selection: { start: 7, end: 11 },
-                },
+                // Selects 'no', stays 'no', 4 - 6, pos stays 4
+                { position: 4, name: 'no', selection: { start: 4, end: 6 } },
+                // Selects 'no', stays 'no', 4 - 6, pos stays 6
+                { position: 6, name: 'no', selection: { start: 4, end: 6 } },
 
-                // 'p no' is a bit unexpected as you might think the x will be selected but it is not.
-                // Selects 'p no', becomes 'p n', 2 - 5
-                { position: 2, name: 'p no', selection: { start: 2, end: 6 } },
+                // Selects 'o', stays 'o', 5 - 6, pos stays 5
+                { position: 5, name: 'o', selection: { start: 5, end: 6 } },
+                // Selects 'o', stays 'o', 5 - 6, pos stays 6
+                { position: 6, name: 'o', selection: { start: 5, end: 6 } },
 
-                // Selects 'oot m', becomes 'xt m', 5 - 9
-                {
-                  position: 10,
-                  name: 'oot m',
-                  selection: { start: 5, end: 10 },
-                },
+                // Selects 't', becomes 'ooot', 6 - 10, pos stays 6
+                { position: 6, name: 't', selection: { start: 6, end: 7 } },
+                // Selects 't', stays 'ooot', 6 - 10, pos becomes 10
+                { position: 7, name: 't', selection: { start: 6, end: 7 } },
 
-                // 'p noo' is a bit unexpected as you might think the x will be selected but it is not.
-                // Selects 'p noo', becomes 'p n', 2 - 5
-                { position: 7, name: 'p noo', selection: { start: 2, end: 7 } },
-                // Selects 'aap noot mies', becomes 'aap nxt mies', 0 - 12
-                {
-                  position: 13,
-                  name: 'aap noot mies',
-                  selection: { start: 0, end: 13 },
-                },
-                // Selects 'noot mies', becomes 'nxt mies' 4 - 12
-                {
-                  position: 4,
-                  name: 'noot mies',
-                  selection: { start: 4, end: 13 },
-                },
-                // Selects 'oo', becomes undefined
-                {
-                  position: 5,
-                  name: 'oo',
-                  selection: { start: 5, end: 7 },
-                },
+                // Selects 't ', becomes 'ooot ', 6 - 11, pos stays 6
+                { position: 6, name: 't ', selection: { start: 6, end: 8 } },
+                // Selects 't ', stays 'ooot ', 6 - 11, pos becomes 11
+                { position: 8, name: 't ', selection: { start: 6, end: 8 } },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -17202,16 +19643,28 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'ooo',
                   delay: 100,
                   cursor: 0,
                 },
               ],
               cursors: [
                 {
-                  position: 7,
+                  position: 6,
                   name: '',
-                  selection: { start: 5, end: 7 },
+                  selection: undefined,
+                  isBlinking: true,
+                },
+                {
+                  position: 12,
+                  name: 'aap not mies',
+                  selection: { start: 0, end: 12 },
+                  isBlinking: true,
+                },
+                {
+                  position: 0,
+                  name: 'aap not mies',
+                  selection: { start: 0, end: 12 },
                   isBlinking: true,
                 },
                 {
@@ -17221,73 +19674,85 @@ describe('Typewriter', () => {
                   isBlinking: true,
                 },
                 {
-                  position: 4,
-                  name: 'noot',
-                  selection: { start: 4, end: 8 },
+                  position: 0,
+                  name: 'aap',
+                  selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
-                  position: 13,
+                  position: 12,
                   name: 'mies',
-                  selection: { start: 9, end: 13 },
+                  selection: { start: 8, end: 12 },
                   isBlinking: true,
                 },
                 {
-                  position: 2,
-                  name: 'p noot',
-                  selection: { start: 2, end: 8 },
+                  position: 8,
+                  name: 'mies',
+                  selection: { start: 8, end: 12 },
                   isBlinking: true,
                 },
                 {
-                  position: 11,
-                  name: 'ot mi',
-                  selection: { start: 6, end: 11 },
-                  isBlinking: true,
-                },
-                {
-                  position: 11,
-                  name: 't mi',
-                  selection: { start: 7, end: 11 },
-                  isBlinking: true,
-                },
-                {
-                  position: 2,
-                  name: 'p no',
-                  selection: { start: 2, end: 6 },
-                  isBlinking: true,
-                },
-                {
-                  position: 10,
-                  name: 'oot m',
-                  selection: { start: 5, end: 10 },
+                  position: 4,
+                  name: 'not',
+                  selection: { start: 4, end: 7 },
                   isBlinking: true,
                 },
                 {
                   position: 7,
-                  name: 'p noo',
-                  selection: { start: 2, end: 7 },
-                  isBlinking: true,
-                },
-                {
-                  position: 13,
-                  name: 'aap noot mies',
-                  selection: { start: 0, end: 13 },
+                  name: 'not',
+                  selection: { start: 4, end: 7 },
                   isBlinking: true,
                 },
                 {
                   position: 4,
-                  name: 'noot mies',
-                  selection: { start: 4, end: 13 },
+                  name: 'no',
+                  selection: { start: 4, end: 6 },
+                  isBlinking: true,
+                },
+                {
+                  position: 6,
+                  name: 'no',
+                  selection: { start: 4, end: 6 },
                   isBlinking: true,
                 },
                 {
                   position: 5,
-                  name: 'oo',
-                  selection: { start: 5, end: 7 },
+                  name: 'o',
+                  selection: { start: 5, end: 6 },
+                  isBlinking: true,
+                },
+                {
+                  position: 6,
+                  name: 'o',
+                  selection: { start: 5, end: 6 },
+                  isBlinking: true,
+                },
+                {
+                  position: 6,
+                  name: 't',
+                  selection: { start: 6, end: 7 },
+                  isBlinking: true,
+                },
+                {
+                  position: 7,
+                  name: 't',
+                  selection: { start: 6, end: 7 },
+                  isBlinking: true,
+                },
+                {
+                  position: 6,
+                  name: 't ',
+                  selection: { start: 6, end: 8 },
+                  isBlinking: true,
+                },
+                {
+                  position: 8,
+                  name: 't ',
+                  selection: { start: 6, end: 8 },
                   isBlinking: true,
                 },
               ],
-              text: 'aap noot mies',
+              text: 'aap not mies',
               blinkAfter: 50,
               isPlaying: true,
               isFinished: false,
@@ -17305,17 +19770,29 @@ describe('Typewriter', () => {
                 actions: [
                   {
                     type: 'keyboard',
-                    key: 'x',
+                    text: 'ooo',
                     delay: 100,
                     cursor: 0,
                   },
                 ],
                 cursors: [
                   {
-                    position: 6,
+                    position: 9,
                     name: '',
                     selection: undefined,
                     isBlinking: false,
+                  },
+                  {
+                    position: 15,
+                    name: 'aap not mies',
+                    selection: { start: 0, end: 15 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'aap not mies',
+                    selection: { start: 0, end: 15 },
+                    isBlinking: true,
                   },
                   {
                     position: 3,
@@ -17324,73 +19801,85 @@ describe('Typewriter', () => {
                     isBlinking: true,
                   },
                   {
-                    position: 4,
-                    name: 'noot',
-                    selection: { start: 4, end: 7 },
+                    position: 0,
+                    name: 'aap',
+                    selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
-                    position: 12,
+                    position: 15,
                     name: 'mies',
-                    selection: { start: 8, end: 12 },
+                    selection: { start: 11, end: 15 },
                     isBlinking: true,
                   },
                   {
-                    position: 2,
-                    name: 'p noot',
-                    selection: { start: 2, end: 7 },
+                    position: 11,
+                    name: 'mies',
+                    selection: { start: 11, end: 15 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'not',
+                    selection: { start: 4, end: 10 },
                     isBlinking: true,
                   },
                   {
                     position: 10,
-                    name: 'ot mi',
-                    selection: { start: 5, end: 10 },
+                    name: 'not',
+                    selection: { start: 4, end: 10 },
                     isBlinking: true,
                   },
                   {
-                    position: 10,
-                    name: 't mi',
+                    position: 4,
+                    name: 'no',
+                    selection: { start: 4, end: 6 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 6,
+                    name: 'no',
+                    selection: { start: 4, end: 6 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 5,
+                    name: 'o',
+                    selection: { start: 5, end: 6 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 6,
+                    name: 'o',
+                    selection: { start: 5, end: 6 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 6,
+                    name: 't',
                     selection: { start: 6, end: 10 },
                     isBlinking: true,
                   },
                   {
-                    position: 2,
-                    name: 'p no',
-                    selection: { start: 2, end: 5 },
+                    position: 10,
+                    name: 't',
+                    selection: { start: 6, end: 10 },
                     isBlinking: true,
                   },
                   {
-                    position: 9,
-                    name: 'oot m',
-                    selection: { start: 5, end: 9 },
+                    position: 6,
+                    name: 't ',
+                    selection: { start: 6, end: 11 },
                     isBlinking: true,
                   },
                   {
-                    position: 5,
-                    name: 'p noo',
-                    selection: { start: 2, end: 5 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 12,
-                    name: 'aap noot mies',
-                    selection: { start: 0, end: 12 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 4,
-                    name: 'noot mies',
-                    selection: { start: 4, end: 12 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 5,
-                    name: 'oo',
-                    selection: undefined,
+                    position: 11,
+                    name: 't ',
+                    selection: { start: 6, end: 11 },
                     isBlinking: true,
                   },
                 ],
-                text: 'aap nxt mies',
+                text: 'aap noooot mies',
                 blinkAfter: 50,
                 isPlaying: false,
                 isFinished: true,
@@ -17402,7 +19891,7 @@ describe('Typewriter', () => {
                 type: 'FINISHED',
                 action: {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'ooo',
                   delay: 100,
                   cursor: 0,
                 },
@@ -17412,12 +19901,12 @@ describe('Typewriter', () => {
             );
           });
 
-          it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+          it('keep selection of other cursors, when inserting at the end', () => {
             const typewriter = new Typewriter({
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'xoor',
                   delay: 100,
                   cursor: 0,
                 },
@@ -17425,41 +19914,30 @@ describe('Typewriter', () => {
               blinkAfter: 50,
               text: 'aap noot mies',
               cursors: [
-                // The cursor that is going to hit 'x', on es
-                { position: 13, name: '', selection: { start: 11, end: 13 } },
+                // The cursor that is going to add 'xoor' to the last position.
+                { position: 13, name: '' },
 
-                // Selects 's' becomes undefined, pos 11
-                { position: 12, name: 's', selection: { start: 12, end: 13 } },
-                // Selects 's' becomes undefined, pos 11
-                { position: 13, name: 's', selection: { start: 12, end: 13 } },
-
-                // Selects 'es', becomes undefined pos 11
-                { position: 11, name: 'es', selection: { start: 11, end: 13 } },
-                // Selects 'es', becomes undefined pos 11
-                { position: 13, name: 'es', selection: { start: 11, end: 13 } },
-
-                // Selects 'ies' becomes 'i', 10 - 11 pos 10
-                {
-                  position: 10,
-                  name: 'ies',
-                  selection: { start: 10, end: 13 },
-                },
-                // Selects 'ies' becomes 'i', 10 - 11 pos 11
+                // All cursors should not be affected
                 {
                   position: 13,
-                  name: 'ies',
-                  selection: { start: 10, end: 13 },
+                  name: 'aap noot mies',
+                  selection: { start: 0, end: 13 },
                 },
-
-                // Selects 'mie', becomes 'mi', 9 - 11 pos 9
-                { position: 9, name: 'mie', selection: { start: 9, end: 12 } },
-                // Selects 'mie', becomes 'mi', 9 - 11 pos 11
-                { position: 12, name: 'mie', selection: { start: 9, end: 12 } },
-
-                // Selects 'mi', stays 'mi', 9 - 11 pos 9
-                { position: 9, name: 'mi', selection: { start: 9, end: 11 } },
-                // Selects 'mi', stays 'mi', 9 - 11 pos 11
-                { position: 11, name: 'mi', selection: { start: 9, end: 11 } },
+                {
+                  position: 0,
+                  name: 'aap noot mies',
+                  selection: { start: 0, end: 13 },
+                },
+                { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
+                { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+                {
+                  position: 13,
+                  name: 'mies',
+                  selection: { start: 9, end: 13 },
+                },
+                { position: 9, name: 'mies', selection: { start: 9, end: 13 } },
+                { position: 4, name: 'noot', selection: { start: 4, end: 8 } },
+                { position: 8, name: 'noot', selection: { start: 4, end: 8 } },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -17469,7 +19947,7 @@ describe('Typewriter', () => {
               actions: [
                 {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'xoor',
                   delay: 100,
                   cursor: 0,
                 },
@@ -17478,67 +19956,55 @@ describe('Typewriter', () => {
                 {
                   position: 13,
                   name: '',
-                  selection: { start: 11, end: 13 },
-                  isBlinking: true,
-                },
-                {
-                  position: 12,
-                  name: 's',
-                  selection: { start: 12, end: 13 },
+                  selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 13,
-                  name: 's',
-                  selection: { start: 12, end: 13 },
+                  name: 'aap noot mies',
+                  selection: { start: 0, end: 13 },
                   isBlinking: true,
                 },
                 {
-                  position: 11,
-                  name: 'es',
-                  selection: { start: 11, end: 13 },
+                  position: 0,
+                  name: 'aap noot mies',
+                  selection: { start: 0, end: 13 },
+                  isBlinking: true,
+                },
+                {
+                  position: 3,
+                  name: 'aap',
+                  selection: { start: 0, end: 3 },
+                  isBlinking: true,
+                },
+                {
+                  position: 0,
+                  name: 'aap',
+                  selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 13,
-                  name: 'es',
-                  selection: { start: 11, end: 13 },
-                  isBlinking: true,
-                },
-                {
-                  position: 10,
-                  name: 'ies',
-                  selection: { start: 10, end: 13 },
-                  isBlinking: true,
-                },
-                {
-                  position: 13,
-                  name: 'ies',
-                  selection: { start: 10, end: 13 },
+                  name: 'mies',
+                  selection: { start: 9, end: 13 },
                   isBlinking: true,
                 },
                 {
                   position: 9,
-                  name: 'mie',
-                  selection: { start: 9, end: 12 },
+                  name: 'mies',
+                  selection: { start: 9, end: 13 },
                   isBlinking: true,
                 },
                 {
-                  position: 12,
-                  name: 'mie',
-                  selection: { start: 9, end: 12 },
+                  position: 4,
+                  name: 'noot',
+                  selection: { start: 4, end: 8 },
                   isBlinking: true,
                 },
                 {
-                  position: 9,
-                  name: 'mi',
-                  selection: { start: 9, end: 11 },
-                  isBlinking: true,
-                },
-                {
-                  position: 11,
-                  name: 'mi',
-                  selection: { start: 9, end: 11 },
+                  position: 8,
+                  name: 'noot',
+                  selection: { start: 4, end: 8 },
                   isBlinking: true,
                 },
               ],
@@ -17560,80 +20026,68 @@ describe('Typewriter', () => {
                 actions: [
                   {
                     type: 'keyboard',
-                    key: 'x',
+                    text: 'xoor',
                     delay: 100,
                     cursor: 0,
                   },
                 ],
                 cursors: [
                   {
-                    position: 12,
+                    position: 17,
                     name: '',
                     selection: undefined,
                     isBlinking: false,
                   },
                   {
-                    position: 11,
-                    name: 's',
-                    selection: undefined,
+                    position: 13,
+                    name: 'aap noot mies',
+                    selection: { start: 0, end: 13 },
                     isBlinking: true,
                   },
                   {
-                    position: 11,
-                    name: 's',
-                    selection: undefined,
+                    position: 0,
+                    name: 'aap noot mies',
+                    selection: { start: 0, end: 13 },
                     isBlinking: true,
                   },
                   {
-                    position: 11,
-                    name: 'es',
-                    selection: undefined,
+                    position: 3,
+                    name: 'aap',
+                    selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
-                    position: 11,
-                    name: 'es',
-                    selection: undefined,
+                    position: 0,
+                    name: 'aap',
+                    selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
-                    position: 10,
-                    name: 'ies',
-                    selection: { start: 10, end: 11 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 11,
-                    name: 'ies',
-                    selection: { start: 10, end: 11 },
+                    position: 13,
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 9,
-                    name: 'mie',
-                    selection: { start: 9, end: 11 },
+                    name: 'mies',
+                    selection: { start: 9, end: 13 },
                     isBlinking: true,
                   },
                   {
-                    position: 11,
-                    name: 'mie',
-                    selection: { start: 9, end: 11 },
+                    position: 4,
+                    name: 'noot',
+                    selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                   {
-                    position: 9,
-                    name: 'mi',
-                    selection: { start: 9, end: 11 },
-                    isBlinking: true,
-                  },
-                  {
-                    position: 11,
-                    name: 'mi',
-                    selection: { start: 9, end: 11 },
+                    position: 8,
+                    name: 'noot',
+                    selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                 ],
-                text: 'aap noot mix',
+                text: 'aap noot miesxoor',
                 blinkAfter: 50,
                 isPlaying: false,
                 isFinished: true,
@@ -17645,7 +20099,7 @@ describe('Typewriter', () => {
                 type: 'FINISHED',
                 action: {
                   type: 'keyboard',
-                  key: 'x',
+                  text: 'xoor',
                   delay: 100,
                   cursor: 0,
                 },
@@ -17653,6 +20107,6804 @@ describe('Typewriter', () => {
                 cursor: typewriter.cursors[0],
               }
             );
+          });
+        });
+
+        describe('inserting cursor has selection', () => {
+          describe('with backward selection', () => {
+            describe('inserting more chars than are removed', () => {
+              it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'ploo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'ploo noot mies'
+                  cursors: [
+                    // The cursor that is going to insert 'ploo' at the start, while selecting 'aap'
+                    { position: 0, name: '', selection: { start: 0, end: 3 } },
+
+                    // Selects 'aap' becomes undefined, pos stays 0
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'aap' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'ap' becomes undefined, pos becomes 0
+                    {
+                      position: 1,
+                      name: 'ap-1',
+                      selection: { start: 1, end: 3 },
+                    },
+
+                    // Selects 'ap' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'ap-3',
+                      selection: { start: 1, end: 3 },
+                    },
+
+                    // Selects 'p' becomes undefined, pos becomes 0
+                    {
+                      position: 2,
+                      name: 'p-2',
+                      selection: { start: 2, end: 3 },
+                    },
+
+                    // Selects 'p' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'p-3',
+                      selection: { start: 2, end: 3 },
+                    },
+
+                    // Selects 'aap ' becomes 'ploo ', 0 - 5 , pos stays 0
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 4 },
+                    },
+
+                    // Selects 'aap ' becomes 'ploo ', 0 - 5 , pos becomes 5
+                    {
+                      position: 4,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 4 },
+                    },
+
+                    // Selects ' noot' becomes 'ploo noot', 0 - 9 , pos becomes 0
+                    {
+                      position: 3,
+                      name: ' noot-3',
+                      selection: { start: 3, end: 8 },
+                    },
+                    // Selects ' noot' stays ' noot', 0 - 9 , pos becomes 9
+                    {
+                      position: 8,
+                      name: ' noot-8',
+                      selection: { start: 3, end: 8 },
+                    },
+
+                    // Selects 'noot' stays 'noot', 5 - 9 , pos stays 4
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                    },
+
+                    // Selects 'noot' stays 'noot', 5 - 9 , pos becomes 9
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'ploo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 0,
+                      name: '',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 1,
+                      name: 'ap-1',
+                      selection: { start: 1, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'ap-3',
+                      selection: { start: 1, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p-2',
+                      selection: { start: 2, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'p-3',
+                      selection: { start: 2, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: ' noot-3',
+                      selection: { start: 3, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: ' noot-8',
+                      selection: { start: 3, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'ploo',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 4,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'ap-1',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'ap-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'p-2',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'p-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap -0',
+                        selection: { start: 0, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'aap -4',
+                        selection: { start: 0, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: ' noot-3',
+                        selection: { start: 0, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: ' noot-8',
+                        selection: { start: 0, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'noot-4',
+                        selection: { start: 5, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'noot-8',
+                        selection: { start: 5, end: 9 },
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'ploo noot mies',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'ploo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+
+              it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'ada',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'aap nadat mies'
+                  cursors: [
+                    // The cursor that is going to add 'ada', selects the oo's
+                    { position: 5, name: '', selection: { start: 5, end: 7 } },
+
+                    // Selects 'aap' stays 'aap', 0 - 3
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'noot', becomes 'nadat', 4 - 9
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                    },
+
+                    // Selects 'mies' stays 'mies', 10 - 14
+                    {
+                      position: 13,
+                      name: 'mies-13',
+                      selection: { start: 9, end: 13 },
+                    },
+                    {
+                      position: 9,
+                      name: 'mies-9',
+                      selection: { start: 9, end: 13 },
+                    },
+
+                    // Selects 'p noot', becomes 'p nadat', 2 - 9
+                    {
+                      position: 8,
+                      name: 'p noot-8',
+                      selection: { start: 2, end: 8 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p noot-2',
+                      selection: { start: 2, end: 8 },
+                    },
+
+                    // Selects 'ot mi', becomes 'adat mi', 5 - 12
+                    {
+                      position: 11,
+                      name: 'ot mi-11',
+                      selection: { start: 6, end: 11 },
+                    },
+                    {
+                      position: 6,
+                      name: 'ot mi-6',
+                      selection: { start: 6, end: 11 },
+                    },
+
+                    // Selects 't mi', becomes 'adat mi', 5 - 12
+                    {
+                      position: 11,
+                      name: 't mi-11',
+                      selection: { start: 7, end: 11 },
+                    },
+                    {
+                      position: 7,
+                      name: 't mi-7',
+                      selection: { start: 7, end: 11 },
+                    },
+
+                    // 'p no' is a bit unexpected as you might think the 'ada' will be selected but it is not.
+                    // Selects 'p no', becomes 'p n', 2 - 5
+                    {
+                      position: 6,
+                      name: 'p no-6',
+                      selection: { start: 2, end: 6 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p no-2',
+                      selection: { start: 2, end: 6 },
+                    },
+
+                    // Selects 'oot m', becomes 'adat m', 5 - 11
+                    {
+                      position: 10,
+                      name: 'oot m-10',
+                      selection: { start: 5, end: 10 },
+                    },
+                    {
+                      position: 5,
+                      name: 'oot m-5',
+                      selection: { start: 5, end: 10 },
+                    },
+
+                    // 'p noo' is a bit unexpected as you might think the 'ada' will be selected but it is not.
+                    // Selects 'p noo', becomes 'p n', 2 - 5
+                    {
+                      position: 7,
+                      name: 'p noo-7',
+                      selection: { start: 2, end: 7 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p noo-2',
+                      selection: { start: 2, end: 7 },
+                    },
+
+                    // Selects 'aap noot mies', becomes 'aap nadat mies', 0 - 14
+                    {
+                      position: 13,
+                      name: 'aap noot mies-13',
+                      selection: { start: 0, end: 13 },
+                    },
+                    {
+                      position: 0,
+                      name: 'aap noot mies-0',
+                      selection: { start: 0, end: 13 },
+                    },
+
+                    // Selects 'noot mies', becomes 'nadat mies' 4 - 14
+                    {
+                      position: 13,
+                      name: 'noot mies-13',
+                      selection: { start: 4, end: 13 },
+                    },
+                    {
+                      position: 4,
+                      name: 'noot mies-4',
+                      selection: { start: 4, end: 13 },
+                    },
+
+                    // Selects 'oo', becomes undefined
+                    {
+                      position: 7,
+                      name: 'oo-7',
+                      selection: { start: 5, end: 7 },
+                    },
+                    {
+                      position: 5,
+                      name: 'oo-5',
+                      selection: { start: 5, end: 7 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'ada',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 5,
+                      name: '',
+                      selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'mies-13',
+                      selection: { start: 9, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mies-9',
+                      selection: { start: 9, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'p noot-8',
+                      selection: { start: 2, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p noot-2',
+                      selection: { start: 2, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'ot mi-11',
+                      selection: { start: 6, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'ot mi-6',
+                      selection: { start: 6, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 't mi-11',
+                      selection: { start: 7, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 't mi-7',
+                      selection: { start: 7, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'p no-6',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p no-2',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'oot m-10',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oot m-5',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'p noo-7',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p noo-2',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'aap noot mies-13',
+                      selection: { start: 0, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap noot mies-0',
+                      selection: { start: 0, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'noot mies-13',
+                      selection: { start: 4, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot mies-4',
+                      selection: { start: 4, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'oo-7',
+                      selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oo-5',
+                      selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'ada',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 8,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 3,
+                        name: 'aap-3',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-0',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'noot-8',
+                        selection: { start: 4, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'noot-4',
+                        selection: { start: 4, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 14,
+                        name: 'mies-13',
+                        selection: { start: 10, end: 14 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'mies-9',
+                        selection: { start: 10, end: 14 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'p noot-8',
+                        selection: { start: 2, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p noot-2',
+                        selection: { start: 2, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 12,
+                        name: 'ot mi-11',
+                        selection: { start: 5, end: 12 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'ot mi-6',
+                        selection: { start: 5, end: 12 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 12,
+                        name: 't mi-11',
+                        selection: { start: 5, end: 12 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 't mi-7',
+                        selection: { start: 5, end: 12 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'p no-6',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p no-2',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'oot m-10',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'oot m-5',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'p noo-7',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p noo-2',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 14,
+                        name: 'aap noot mies-13',
+                        selection: { start: 0, end: 14 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap noot mies-0',
+                        selection: { start: 0, end: 14 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 14,
+                        name: 'noot mies-13',
+                        selection: { start: 4, end: 14 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'noot mies-4',
+                        selection: { start: 4, end: 14 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'oo-7',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'oo-5',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'aap nadat mies',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'ada',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+
+              it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xoxo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'aap noot mixoxo'
+                  cursors: [
+                    // The cursor that is going to hit 'xoxo', on es
+                    {
+                      position: 11,
+                      name: '',
+                      selection: { start: 11, end: 13 },
+                    },
+
+                    // Selects 's' becomes undefined, pos 11
+                    {
+                      position: 12,
+                      name: 's-12',
+                      selection: { start: 12, end: 13 },
+                    },
+                    // Selects 's' becomes undefined, pos 11
+                    {
+                      position: 13,
+                      name: 's-13',
+                      selection: { start: 12, end: 13 },
+                    },
+
+                    // Selects 'es', becomes undefined pos 11
+                    {
+                      position: 11,
+                      name: 'es-11',
+                      selection: { start: 11, end: 13 },
+                    },
+                    // Selects 'es', becomes undefined pos 11
+                    {
+                      position: 13,
+                      name: 'es-13',
+                      selection: { start: 11, end: 13 },
+                    },
+
+                    // Selects 'ies' becomes 'i', 10 - 11 pos 10
+                    {
+                      position: 10,
+                      name: 'ies-10',
+                      selection: { start: 10, end: 13 },
+                    },
+                    // Selects 'ies' becomes 'i', 10 - 11 pos 11
+                    {
+                      position: 13,
+                      name: 'ies-13',
+                      selection: { start: 10, end: 13 },
+                    },
+
+                    // Selects 'mie', becomes 'mi', 9 - 11 pos 9
+                    {
+                      position: 9,
+                      name: 'mie-9',
+                      selection: { start: 9, end: 12 },
+                    },
+                    // Selects 'mie', becomes 'mi', 9 - 11 pos 11
+                    {
+                      position: 12,
+                      name: 'mie-12',
+                      selection: { start: 9, end: 12 },
+                    },
+
+                    // Selects 'mi', stays 'mi', 9 - 11 pos 9
+                    {
+                      position: 9,
+                      name: 'mi-9',
+                      selection: { start: 9, end: 11 },
+                    },
+                    // Selects 'mi', stays 'mi', 9 - 11 pos 11
+                    {
+                      position: 11,
+                      name: 'mi-11',
+                      selection: { start: 9, end: 11 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xoxo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 11,
+                      name: '',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 's-12',
+                      selection: { start: 12, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 's-13',
+                      selection: { start: 12, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'es-11',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'es-13',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'ies-10',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'ies-13',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mie-9',
+                      selection: { start: 9, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'mie-12',
+                      selection: { start: 9, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mi-9',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'mi-11',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'xoxo',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 15,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 11,
+                        name: 's-12',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 's-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'es-11',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'es-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'ies-10',
+                        selection: { start: 10, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'ies-13',
+                        selection: { start: 10, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mie-9',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'mie-12',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mi-9',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'mi-11',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'aap noot mixoxo',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'xoxo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+            });
+
+            describe('inserting less chars than are removed', () => {
+              it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xa',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'xa noot mies
+                  cursors: [
+                    // The cursor that is going to insert 'xa' at the start, while selecting 'aap'
+                    { position: 0, name: '', selection: { start: 0, end: 3 } },
+
+                    // Selects 'aap' becomes undefined, pos stays 0
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'aap' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'ap' becomes undefined, pos becomes 0
+                    {
+                      position: 1,
+                      name: 'ap-1',
+                      selection: { start: 1, end: 3 },
+                    },
+
+                    // Selects 'ap' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'ap-3',
+                      selection: { start: 1, end: 3 },
+                    },
+
+                    // Selects 'p' becomes undefined, pos becomes 0
+                    {
+                      position: 2,
+                      name: 'p-2',
+                      selection: { start: 2, end: 3 },
+                    },
+
+                    // Selects 'p' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'p-3',
+                      selection: { start: 2, end: 3 },
+                    },
+
+                    // Selects 'aap ' becomes 'xa ', 0 - 3 , pos stays 0
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 4 },
+                    },
+
+                    // Selects 'aap ' becomes 'xap ', 0 - 3 , pos becomes 3
+                    {
+                      position: 4,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 4 },
+                    },
+
+                    // Selects ' noot' becomes 'xa noot', 0 - 7 , pos becomes 0
+                    {
+                      position: 3,
+                      name: ' noot-3',
+                      selection: { start: 3, end: 8 },
+                    },
+                    // Selects ' noot' becomes 'xa noot', 0 - 7 , pos becomes 7
+                    {
+                      position: 8,
+                      name: ' noot-8',
+                      selection: { start: 3, end: 8 },
+                    },
+
+                    // Selects 'noot' stays 'noot', 3 - 7 , pos becomes 3
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                    },
+
+                    // Selects 'noot' stays 'noot', 3 - 7 , pos becomes 7
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xa',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 0,
+                      name: '',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 1,
+                      name: 'ap-1',
+                      selection: { start: 1, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'ap-3',
+                      selection: { start: 1, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p-2',
+                      selection: { start: 2, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'p-3',
+                      selection: { start: 2, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: ' noot-3',
+                      selection: { start: 3, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: ' noot-8',
+                      selection: { start: 3, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'xa',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 2,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'ap-1',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'ap-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'p-2',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'p-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap -0',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 3,
+                        name: 'aap -4',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: ' noot-3',
+                        selection: { start: 0, end: 7 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 7,
+                        name: ' noot-8',
+                        selection: { start: 0, end: 7 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 3,
+                        name: 'noot-4',
+                        selection: { start: 3, end: 7 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 7,
+                        name: 'noot-8',
+                        selection: { start: 3, end: 7 },
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'xa noot mies',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'xa',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+
+              it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'oo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap nadat mies', // 'aap noot mies'
+                  cursors: [
+                    // The cursor that is going to add 'oo', selects 'ada'
+                    { position: 5, name: '', selection: { start: 5, end: 8 } },
+
+                    // Selects 'aap' stays 'aap', 0 - 3
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                    },
+                    // Selects 'aap' stays 'aap', 0 - 3
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'nadat', becomes 'noot', 4 - 8
+                    {
+                      position: 9,
+                      name: 'nadat-9',
+                      selection: { start: 4, end: 9 },
+                    },
+                    {
+                      position: 4,
+                      name: 'nadat-4',
+                      selection: { start: 4, end: 9 },
+                    },
+
+                    // Selects 'mies' stays 'mies', 9 - 13
+                    {
+                      position: 14,
+                      name: 'mies-14',
+                      selection: { start: 10, end: 14 },
+                    },
+                    {
+                      position: 10,
+                      name: 'mies-10',
+                      selection: { start: 10, end: 14 },
+                    },
+
+                    // Selects 'p nadat', becomes 'p noot', 2 - 8
+                    {
+                      position: 9,
+                      name: 'p nadat-9',
+                      selection: { start: 2, end: 9 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p nadat-2',
+                      selection: { start: 2, end: 9 },
+                    },
+
+                    // Selects 'at mi', becomes 'oot mi', 5 - 11
+                    {
+                      position: 12,
+                      name: 'at mi-12',
+                      selection: { start: 7, end: 12 },
+                    },
+                    {
+                      position: 7,
+                      name: 'at mi-7',
+                      selection: { start: 7, end: 12 },
+                    },
+
+                    // Selects 't mi', becomes 'oot mi', 5 - 11
+                    {
+                      position: 12,
+                      name: 't mi-12',
+                      selection: { start: 8, end: 12 },
+                    },
+                    {
+                      position: 8,
+                      name: 't mi-8',
+                      selection: { start: 8, end: 12 },
+                    },
+
+                    // 'p na' is a bit unexpected as you might think the 'ada' will be selected but it is not.
+                    // Selects 'p na', becomes 'p n', 2 - 5
+                    {
+                      position: 6,
+                      name: 'p na-6',
+                      selection: { start: 2, end: 6 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p na-2',
+                      selection: { start: 2, end: 6 },
+                    },
+
+                    // Selects 'dat m', becomes 'oot m', 5 - 10
+                    {
+                      position: 11,
+                      name: 'dat m-11',
+                      selection: { start: 6, end: 11 },
+                    },
+                    {
+                      position: 6,
+                      name: 'dat m-6',
+                      selection: { start: 6, end: 11 },
+                    },
+
+                    // 'p nad' is a bit unexpected as you might think the 'oo' will be selected but it is not.
+                    // Selects 'p nad', becomes 'p n', 2 - 5
+                    {
+                      position: 7,
+                      name: 'p nad-7',
+                      selection: { start: 2, end: 7 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p nad-2',
+                      selection: { start: 2, end: 7 },
+                    },
+
+                    // Selects 'aap nadat mies', becomes 'aap noot mies', 0 - 13
+                    {
+                      position: 14,
+                      name: 'aap nadat mies-14',
+                      selection: { start: 0, end: 14 },
+                    },
+                    {
+                      position: 0,
+                      name: 'aap nadat mies-0',
+                      selection: { start: 0, end: 14 },
+                    },
+
+                    // Selects 'nadat mies', becomes 'noot mies' 4 - 13
+                    {
+                      position: 14,
+                      name: 'nadat mies-14',
+                      selection: { start: 4, end: 14 },
+                    },
+                    {
+                      position: 4,
+                      name: 'nadat mies-4',
+                      selection: { start: 4, end: 14 },
+                    },
+
+                    // Selects 'ada', becomes undefined, pos 5
+                    {
+                      position: 8,
+                      name: 'ada-8',
+                      selection: { start: 5, end: 8 },
+                    },
+                    {
+                      position: 5,
+                      name: 'ada-5',
+                      selection: { start: 5, end: 8 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'oo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 5,
+                      name: '',
+                      selection: { start: 5, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'nadat-9',
+                      selection: { start: 4, end: 9 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'nadat-4',
+                      selection: { start: 4, end: 9 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 14,
+                      name: 'mies-14',
+                      selection: { start: 10, end: 14 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'mies-10',
+                      selection: { start: 10, end: 14 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'p nadat-9',
+                      selection: { start: 2, end: 9 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p nadat-2',
+                      selection: { start: 2, end: 9 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'at mi-12',
+                      selection: { start: 7, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'at mi-7',
+                      selection: { start: 7, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 't mi-12',
+                      selection: { start: 8, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 't mi-8',
+                      selection: { start: 8, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'p na-6',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p na-2',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'dat m-11',
+                      selection: { start: 6, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'dat m-6',
+                      selection: { start: 6, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'p nad-7',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p nad-2',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 14,
+                      name: 'aap nadat mies-14',
+                      selection: { start: 0, end: 14 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap nadat mies-0',
+                      selection: { start: 0, end: 14 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 14,
+                      name: 'nadat mies-14',
+                      selection: { start: 4, end: 14 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'nadat mies-4',
+                      selection: { start: 4, end: 14 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'ada-8',
+                      selection: { start: 5, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'ada-5',
+                      selection: { start: 5, end: 8 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap nadat mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'oo',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 7,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 3,
+                        name: 'aap-3',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-0',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'nadat-9',
+                        selection: { start: 4, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'nadat-4',
+                        selection: { start: 4, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'mies-14',
+                        selection: { start: 9, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mies-10',
+                        selection: { start: 9, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'p nadat-9',
+                        selection: { start: 2, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p nadat-2',
+                        selection: { start: 2, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'at mi-12',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'at mi-7',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 't mi-12',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 't mi-8',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'p na-6',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p na-2',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'dat m-11',
+                        selection: { start: 5, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'dat m-6',
+                        selection: { start: 5, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'p nad-7',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p nad-2',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'aap nadat mies-14',
+                        selection: { start: 0, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap nadat mies-0',
+                        selection: { start: 0, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'nadat mies-14',
+                        selection: { start: 4, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'nadat mies-4',
+                        selection: { start: 4, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'ada-8',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'ada-5',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'aap noot mies',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'oo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+
+              it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'aap noot mxo'
+                  cursors: [
+                    // The cursor that is going to hit 'xo', on ies
+                    {
+                      position: 10,
+                      name: '',
+                      selection: { start: 10, end: 13 },
+                    },
+
+                    // Selects 's' becomes undefined, pos 10
+                    {
+                      position: 12,
+                      name: 's-12',
+                      selection: { start: 12, end: 13 },
+                    },
+                    {
+                      position: 13,
+                      name: 's-13',
+                      selection: { start: 12, end: 13 },
+                    },
+
+                    // Selects 'es', becomes undefined pos 10
+                    {
+                      position: 11,
+                      name: 'es-11',
+                      selection: { start: 11, end: 13 },
+                    },
+                    {
+                      position: 13,
+                      name: 'es-13',
+                      selection: { start: 11, end: 13 },
+                    },
+
+                    // Selects 'ies' becomes undefined', pos 10
+                    {
+                      position: 10,
+                      name: 'ies-10',
+                      selection: { start: 10, end: 13 },
+                    },
+                    {
+                      position: 13,
+                      name: 'ies-13',
+                      selection: { start: 10, end: 13 },
+                    },
+
+                    // Selects 'mie', becomes 'm', 9 - 10
+                    {
+                      position: 9,
+                      name: 'mie-9',
+                      selection: { start: 9, end: 12 },
+                    },
+                    {
+                      position: 12,
+                      name: 'mie-12',
+                      selection: { start: 9, end: 12 },
+                    },
+
+                    // Selects 'mi', becomes 'm', 9 - 10
+                    {
+                      position: 9,
+                      name: 'mi-9',
+                      selection: { start: 9, end: 11 },
+                    },
+                    {
+                      position: 11,
+                      name: 'mi-11',
+                      selection: { start: 9, end: 11 },
+                    },
+
+                    // Selects 't m', stays 't m', 7 - 10
+                    {
+                      position: 7,
+                      name: 't m-7',
+                      selection: { start: 7, end: 10 },
+                    },
+                    {
+                      position: 10,
+                      name: 't m-10',
+                      selection: { start: 7, end: 10 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 10,
+                      name: '',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 's-12',
+                      selection: { start: 12, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 's-13',
+                      selection: { start: 12, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'es-11',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'es-13',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'ies-10',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'ies-13',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mie-9',
+                      selection: { start: 9, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'mie-12',
+                      selection: { start: 9, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mi-9',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'mi-11',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 't m-7',
+                      selection: { start: 7, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 't m-10',
+                      selection: { start: 7, end: 10 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'xo',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 12,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 10,
+                        name: 's-12',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 's-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'es-11',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'es-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'ies-10',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'ies-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mie-9',
+                        selection: { start: 9, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'mie-12',
+                        selection: { start: 9, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mi-9',
+                        selection: { start: 9, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'mi-11',
+                        selection: { start: 9, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 7,
+                        name: 't m-7',
+                        selection: { start: 7, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 't m-10',
+                        selection: { start: 7, end: 10 },
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'aap noot mxo',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+            });
+
+            describe('inserting the same number of chars that are removed', () => {
+              it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xap',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies',
+                  cursors: [
+                    // The cursor that is going to insert 'xap' at the start, while selecting 'aap'
+                    { position: 0, name: '', selection: { start: 0, end: 3 } },
+
+                    // Selects 'aap' becomes undefined, pos stays 0
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'aap' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'ap' becomes undefined, pos becomes 0
+                    {
+                      position: 1,
+                      name: 'ap-1',
+                      selection: { start: 1, end: 3 },
+                    },
+
+                    // Selects 'ap' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'ap-3',
+                      selection: { start: 1, end: 3 },
+                    },
+
+                    // Selects 'p' becomes undefined, pos becomes 0
+                    {
+                      position: 2,
+                      name: 'p-2',
+                      selection: { start: 2, end: 3 },
+                    },
+
+                    // Selects 'p' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'p-3',
+                      selection: { start: 2, end: 3 },
+                    },
+
+                    // Selects 'aap ' becomes 'xap ', 0 - 4 , pos stays 0
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 4 },
+                    },
+
+                    // Selects 'aap ' becomes 'xap ', 0 - 4 , pos stays 4
+                    {
+                      position: 4,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 4 },
+                    },
+
+                    // Selects ' noot' becomes 'xap noot', 3 - 8 , pos becomes 0
+                    {
+                      position: 3,
+                      name: ' noot-3',
+                      selection: { start: 3, end: 8 },
+                    },
+                    // Selects ' noot' stays 'xap noot', 3 - 8 , pos stays 8
+                    {
+                      position: 8,
+                      name: ' noot-8',
+                      selection: { start: 3, end: 8 },
+                    },
+
+                    // Selects 'noot' stays 'noot', 4 - 8 , pos stays 4
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                    },
+
+                    // Selects 'noot' stays 'noot', 4 - 8 , pos stays 8
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xap',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 0,
+                      name: '',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 1,
+                      name: 'ap-1',
+                      selection: { start: 1, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'ap-3',
+                      selection: { start: 1, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p-2',
+                      selection: { start: 2, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'p-3',
+                      selection: { start: 2, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: ' noot-3',
+                      selection: { start: 3, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: ' noot-8',
+                      selection: { start: 3, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'xap',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 3,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'ap-1',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'ap-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'p-2',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'p-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap -0',
+                        selection: { start: 0, end: 4 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'aap -4',
+                        selection: { start: 0, end: 4 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: ' noot-3',
+                        selection: { start: 0, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: ' noot-8',
+                        selection: { start: 0, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'noot-4',
+                        selection: { start: 4, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'noot-8',
+                        selection: { start: 4, end: 8 },
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'xap noot mies',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'xap',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+
+              it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'ad',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'aap nadt mies'
+                  cursors: [
+                    // The cursor that is going to add 'ad', selects the oo's
+                    { position: 5, name: '', selection: { start: 5, end: 7 } },
+
+                    // Selects 'aap' stays 'aap', 0 - 3
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'noot', becomes 'nadt', 4 - 8
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                    },
+
+                    // Selects 'mies' stays 'mies', 9 - 13
+                    {
+                      position: 13,
+                      name: 'mies-13',
+                      selection: { start: 9, end: 13 },
+                    },
+                    {
+                      position: 9,
+                      name: 'mies-9',
+                      selection: { start: 9, end: 13 },
+                    },
+
+                    // Selects 'p noot', becomes 'p nadt', 2 - 8
+                    {
+                      position: 8,
+                      name: 'p noot-8',
+                      selection: { start: 2, end: 8 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p noot-2',
+                      selection: { start: 2, end: 8 },
+                    },
+
+                    // Selects 'ot mi', becomes 'adt mi', 5 - 11
+                    {
+                      position: 11,
+                      name: 'ot mi-11',
+                      selection: { start: 6, end: 11 },
+                    },
+                    {
+                      position: 6,
+                      name: 'ot mi-6',
+                      selection: { start: 6, end: 11 },
+                    },
+
+                    // 't mi' in google docs becomes 'adt mi' which is very unexpected
+                    // I'm ignoring that result.
+
+                    // Selects 't mi', becomes 'adt mi', 7 - 11
+                    {
+                      position: 11,
+                      name: 't mi-11',
+                      selection: { start: 7, end: 11 },
+                    },
+                    {
+                      position: 7,
+                      name: 't mi-7',
+                      selection: { start: 7, end: 11 },
+                    },
+
+                    // 'p no' is a bit unexpected as you might think the 'a' will be selected but it is not.
+                    // Selects 'p no', becomes 'p n', 2 - 5
+                    {
+                      position: 6,
+                      name: 'p no-6',
+                      selection: { start: 2, end: 6 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p no-2',
+                      selection: { start: 2, end: 6 },
+                    },
+
+                    // Selects 'oot m', becomes 'adt m', 5 - 10
+                    {
+                      position: 10,
+                      name: 'oot m-10',
+                      selection: { start: 5, end: 10 },
+                    },
+                    {
+                      position: 5,
+                      name: 'oot m-5',
+                      selection: { start: 5, end: 10 },
+                    },
+
+                    // 'p noo' is a bit unexpected as you might think the 'a' will be selected but it is not.
+                    // Selects 'p noo', becomes 'p n', 2 - 5
+                    {
+                      position: 7,
+                      name: 'p noo-7',
+                      selection: { start: 2, end: 7 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p noo-2',
+                      selection: { start: 2, end: 7 },
+                    },
+
+                    // Selects 'aap noot mies', becomes 'aap nadt mies', 0 - 13
+                    {
+                      position: 13,
+                      name: 'aap noot mies-13',
+                      selection: { start: 0, end: 13 },
+                    },
+                    {
+                      position: 0,
+                      name: 'aap noot mies-0',
+                      selection: { start: 0, end: 13 },
+                    },
+
+                    // Selects 'noot mies', becomes 'nadt mies' 4 - 13
+                    {
+                      position: 13,
+                      name: 'noot mies-13',
+                      selection: { start: 4, end: 13 },
+                    },
+                    {
+                      position: 4,
+                      name: 'noot mies-4',
+                      selection: { start: 4, end: 13 },
+                    },
+
+                    // Selects 'oo', becomes undefines, pos 5
+                    {
+                      position: 7,
+                      name: 'oo-7',
+                      selection: { start: 5, end: 7 },
+                    },
+                    {
+                      position: 5,
+                      name: 'oo-5',
+                      selection: { start: 5, end: 7 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'ad',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 5,
+                      name: '',
+                      selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'mies-13',
+                      selection: { start: 9, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mies-9',
+                      selection: { start: 9, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'p noot-8',
+                      selection: { start: 2, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p noot-2',
+                      selection: { start: 2, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'ot mi-11',
+                      selection: { start: 6, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'ot mi-6',
+                      selection: { start: 6, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 't mi-11',
+                      selection: { start: 7, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 't mi-7',
+                      selection: { start: 7, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'p no-6',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p no-2',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'oot m-10',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oot m-5',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'p noo-7',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p noo-2',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'aap noot mies-13',
+                      selection: { start: 0, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap noot mies-0',
+                      selection: { start: 0, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'noot mies-13',
+                      selection: { start: 4, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot mies-4',
+                      selection: { start: 4, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'oo-7',
+                      selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oo-5',
+                      selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'ad',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 7,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 3,
+                        name: 'aap-3',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-0',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'noot-8',
+                        selection: { start: 4, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'noot-4',
+                        selection: { start: 4, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'mies-13',
+                        selection: { start: 9, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mies-9',
+                        selection: { start: 9, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'p noot-8',
+                        selection: { start: 2, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p noot-2',
+                        selection: { start: 2, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'ot mi-11',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'ot mi-6',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 't mi-11',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 't mi-7',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'p no-6',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p no-2',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'oot m-10',
+                        selection: { start: 5, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'oot m-5',
+                        selection: { start: 5, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'p noo-7',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p noo-2',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'aap noot mies-13',
+                        selection: { start: 0, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap noot mies-0',
+                        selection: { start: 0, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'noot mies-13',
+                        selection: { start: 4, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'noot mies-4',
+                        selection: { start: 4, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'oo-7',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'oo-5',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'aap nadt mies',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'ad',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+
+              it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'aap noot mixo'
+                  cursors: [
+                    // The cursor that is going to hit 'xo', on es
+                    {
+                      position: 11,
+                      name: '',
+                      selection: { start: 11, end: 13 },
+                    },
+
+                    // Selects 's' becomes undefined, pos 11
+                    {
+                      position: 12,
+                      name: 's-12',
+                      selection: { start: 12, end: 13 },
+                    },
+                    {
+                      position: 13,
+                      name: 's-13',
+                      selection: { start: 12, end: 13 },
+                    },
+
+                    // Selects 'es', becomes undefined pos 11
+                    {
+                      position: 11,
+                      name: 'es-11',
+                      selection: { start: 11, end: 13 },
+                    },
+                    {
+                      position: 13,
+                      name: 'es-13',
+                      selection: { start: 11, end: 13 },
+                    },
+
+                    // Selects 'ies' becomes 'i', 10 - 11
+                    {
+                      position: 10,
+                      name: 'ies-10',
+                      selection: { start: 10, end: 13 },
+                    },
+                    {
+                      position: 13,
+                      name: 'ies-13',
+                      selection: { start: 10, end: 13 },
+                    },
+
+                    // Selects 'mie', becomes 'mi', 9 - 11
+                    {
+                      position: 9,
+                      name: 'mie-9',
+                      selection: { start: 9, end: 12 },
+                    },
+                    {
+                      position: 12,
+                      name: 'mie-12',
+                      selection: { start: 9, end: 12 },
+                    },
+
+                    // Selects 'mi', stays 'mi', 9 - 11
+                    {
+                      position: 9,
+                      name: 'mi-9',
+                      selection: { start: 9, end: 11 },
+                    },
+                    {
+                      position: 11,
+                      name: 'mi-11',
+                      selection: { start: 9, end: 11 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 11,
+                      name: '',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 's-12',
+                      selection: { start: 12, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 's-13',
+                      selection: { start: 12, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'es-11',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'es-13',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'ies-10',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'ies-13',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mie-9',
+                      selection: { start: 9, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'mie-12',
+                      selection: { start: 9, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mi-9',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'mi-11',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'xo',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 13,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 11,
+                        name: 's-12',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 's-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'es-11',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'es-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'ies-10',
+                        selection: { start: 10, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'ies-13',
+                        selection: { start: 10, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mie-9',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'mie-12',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mi-9',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'mi-11',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'aap noot mixo',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+            });
+          });
+
+          describe('with forward selection', () => {
+            describe('inserting more chars than are removed', () => {
+              it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'ploo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'ploo noot mies'
+                  cursors: [
+                    // The cursor that is going to insert 'ploo' at the start, while selecting 'aap'
+                    { position: 3, name: '', selection: { start: 0, end: 3 } },
+
+                    // Selects 'aap' becomes undefined, pos stays 0
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'aap' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'ap' becomes undefined, pos becomes 0
+                    {
+                      position: 1,
+                      name: 'ap-1',
+                      selection: { start: 1, end: 3 },
+                    },
+
+                    // Selects 'ap' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'ap-3',
+                      selection: { start: 1, end: 3 },
+                    },
+
+                    // Selects 'p' becomes undefined, pos becomes 0
+                    {
+                      position: 2,
+                      name: 'p-2',
+                      selection: { start: 2, end: 3 },
+                    },
+
+                    // Selects 'p' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'p-3',
+                      selection: { start: 2, end: 3 },
+                    },
+
+                    // Selects 'aap ' becomes 'ploo ', 0 - 5 , pos stays 0
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 4 },
+                    },
+
+                    // Selects 'aap ' becomes 'ploo ', 0 - 5 , pos becomes 5
+                    {
+                      position: 4,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 4 },
+                    },
+
+                    // Selects ' noot' becomes 'ploo noot', 0 - 9 , pos becomes 0
+                    {
+                      position: 3,
+                      name: ' noot-3',
+                      selection: { start: 3, end: 8 },
+                    },
+                    // Selects ' noot' stays ' noot', 0 - 9 , pos becomes 9
+                    {
+                      position: 8,
+                      name: ' noot-8',
+                      selection: { start: 3, end: 8 },
+                    },
+
+                    // Selects 'noot' stays 'noot', 5 - 9 , pos stays 4
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                    },
+
+                    // Selects 'noot' stays 'noot', 5 - 9 , pos becomes 9
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'ploo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 3,
+                      name: '',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 1,
+                      name: 'ap-1',
+                      selection: { start: 1, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'ap-3',
+                      selection: { start: 1, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p-2',
+                      selection: { start: 2, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'p-3',
+                      selection: { start: 2, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: ' noot-3',
+                      selection: { start: 3, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: ' noot-8',
+                      selection: { start: 3, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'ploo',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 4,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'ap-1',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'ap-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'p-2',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'p-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap -0',
+                        selection: { start: 0, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'aap -4',
+                        selection: { start: 0, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: ' noot-3',
+                        selection: { start: 0, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: ' noot-8',
+                        selection: { start: 0, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'noot-4',
+                        selection: { start: 5, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'noot-8',
+                        selection: { start: 5, end: 9 },
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'ploo noot mies',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'ploo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+
+              it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'ada',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'aap nadat mies'
+                  cursors: [
+                    // The cursor that is going to add 'ada', selects the oo's
+                    { position: 7, name: '', selection: { start: 5, end: 7 } },
+
+                    // Selects 'aap' stays 'aap', 0 - 3
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'noot', becomes 'nadat', 4 - 9
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                    },
+
+                    // Selects 'mies' stays 'mies', 10 - 14
+                    {
+                      position: 13,
+                      name: 'mies-13',
+                      selection: { start: 9, end: 13 },
+                    },
+                    {
+                      position: 9,
+                      name: 'mies-9',
+                      selection: { start: 9, end: 13 },
+                    },
+
+                    // Selects 'p noot', becomes 'p nadat', 2 - 9
+                    {
+                      position: 8,
+                      name: 'p noot-8',
+                      selection: { start: 2, end: 8 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p noot-2',
+                      selection: { start: 2, end: 8 },
+                    },
+
+                    // Selects 'ot mi', becomes 'adat mi', 5 - 12
+                    {
+                      position: 11,
+                      name: 'ot mi-11',
+                      selection: { start: 6, end: 11 },
+                    },
+                    {
+                      position: 6,
+                      name: 'ot mi-6',
+                      selection: { start: 6, end: 11 },
+                    },
+
+                    // Selects 't mi', becomes 'adat mi', 5 - 12
+                    {
+                      position: 11,
+                      name: 't mi-11',
+                      selection: { start: 7, end: 11 },
+                    },
+                    {
+                      position: 7,
+                      name: 't mi-7',
+                      selection: { start: 7, end: 11 },
+                    },
+
+                    // 'p no' is a bit unexpected as you might think the 'ada' will be selected but it is not.
+                    // Selects 'p no', becomes 'p n', 2 - 5
+                    {
+                      position: 6,
+                      name: 'p no-6',
+                      selection: { start: 2, end: 6 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p no-2',
+                      selection: { start: 2, end: 6 },
+                    },
+
+                    // Selects 'oot m', becomes 'adat m', 5 - 11
+                    {
+                      position: 10,
+                      name: 'oot m-10',
+                      selection: { start: 5, end: 10 },
+                    },
+                    {
+                      position: 5,
+                      name: 'oot m-5',
+                      selection: { start: 5, end: 10 },
+                    },
+
+                    // 'p noo' is a bit unexpected as you might think the 'ada' will be selected but it is not.
+                    // Selects 'p noo', becomes 'p n', 2 - 5
+                    {
+                      position: 7,
+                      name: 'p noo-7',
+                      selection: { start: 2, end: 7 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p noo-2',
+                      selection: { start: 2, end: 7 },
+                    },
+
+                    // Selects 'aap noot mies', becomes 'aap nadat mies', 0 - 14
+                    {
+                      position: 13,
+                      name: 'aap noot mies-13',
+                      selection: { start: 0, end: 13 },
+                    },
+                    {
+                      position: 0,
+                      name: 'aap noot mies-0',
+                      selection: { start: 0, end: 13 },
+                    },
+
+                    // Selects 'noot mies', becomes 'nadat mies' 4 - 14
+                    {
+                      position: 13,
+                      name: 'noot mies-13',
+                      selection: { start: 4, end: 13 },
+                    },
+                    {
+                      position: 4,
+                      name: 'noot mies-4',
+                      selection: { start: 4, end: 13 },
+                    },
+
+                    // Selects 'oo', becomes undefined
+                    {
+                      position: 7,
+                      name: 'oo-7',
+                      selection: { start: 5, end: 7 },
+                    },
+                    {
+                      position: 5,
+                      name: 'oo-5',
+                      selection: { start: 5, end: 7 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'ada',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 7,
+                      name: '',
+                      selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'mies-13',
+                      selection: { start: 9, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mies-9',
+                      selection: { start: 9, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'p noot-8',
+                      selection: { start: 2, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p noot-2',
+                      selection: { start: 2, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'ot mi-11',
+                      selection: { start: 6, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'ot mi-6',
+                      selection: { start: 6, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 't mi-11',
+                      selection: { start: 7, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 't mi-7',
+                      selection: { start: 7, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'p no-6',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p no-2',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'oot m-10',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oot m-5',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'p noo-7',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p noo-2',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'aap noot mies-13',
+                      selection: { start: 0, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap noot mies-0',
+                      selection: { start: 0, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'noot mies-13',
+                      selection: { start: 4, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot mies-4',
+                      selection: { start: 4, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'oo-7',
+                      selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oo-5',
+                      selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'ada',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 8,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 3,
+                        name: 'aap-3',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-0',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'noot-8',
+                        selection: { start: 4, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'noot-4',
+                        selection: { start: 4, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 14,
+                        name: 'mies-13',
+                        selection: { start: 10, end: 14 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'mies-9',
+                        selection: { start: 10, end: 14 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'p noot-8',
+                        selection: { start: 2, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p noot-2',
+                        selection: { start: 2, end: 9 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 12,
+                        name: 'ot mi-11',
+                        selection: { start: 5, end: 12 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'ot mi-6',
+                        selection: { start: 5, end: 12 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 12,
+                        name: 't mi-11',
+                        selection: { start: 5, end: 12 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 't mi-7',
+                        selection: { start: 5, end: 12 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'p no-6',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p no-2',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'oot m-10',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'oot m-5',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'p noo-7',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p noo-2',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 14,
+                        name: 'aap noot mies-13',
+                        selection: { start: 0, end: 14 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap noot mies-0',
+                        selection: { start: 0, end: 14 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 14,
+                        name: 'noot mies-13',
+                        selection: { start: 4, end: 14 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'noot mies-4',
+                        selection: { start: 4, end: 14 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'oo-7',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'oo-5',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'aap nadat mies',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'ada',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+
+              it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xoxo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'aap noot mixoxo'
+                  cursors: [
+                    // The cursor that is going to hit 'xoxo', on es
+                    {
+                      position: 13,
+                      name: '',
+                      selection: { start: 11, end: 13 },
+                    },
+
+                    // Selects 's' becomes undefined, pos 11
+                    {
+                      position: 12,
+                      name: 's-12',
+                      selection: { start: 12, end: 13 },
+                    },
+                    // Selects 's' becomes undefined, pos 11
+                    {
+                      position: 13,
+                      name: 's-13',
+                      selection: { start: 12, end: 13 },
+                    },
+
+                    // Selects 'es', becomes undefined pos 11
+                    {
+                      position: 11,
+                      name: 'es-11',
+                      selection: { start: 11, end: 13 },
+                    },
+                    // Selects 'es', becomes undefined pos 11
+                    {
+                      position: 13,
+                      name: 'es-13',
+                      selection: { start: 11, end: 13 },
+                    },
+
+                    // Selects 'ies' becomes 'i', 10 - 11 pos 10
+                    {
+                      position: 10,
+                      name: 'ies-10',
+                      selection: { start: 10, end: 13 },
+                    },
+                    // Selects 'ies' becomes 'i', 10 - 11 pos 11
+                    {
+                      position: 13,
+                      name: 'ies-13',
+                      selection: { start: 10, end: 13 },
+                    },
+
+                    // Selects 'mie', becomes 'mi', 9 - 11 pos 9
+                    {
+                      position: 9,
+                      name: 'mie-9',
+                      selection: { start: 9, end: 12 },
+                    },
+                    // Selects 'mie', becomes 'mi', 9 - 11 pos 11
+                    {
+                      position: 12,
+                      name: 'mie-12',
+                      selection: { start: 9, end: 12 },
+                    },
+
+                    // Selects 'mi', stays 'mi', 9 - 11 pos 9
+                    {
+                      position: 9,
+                      name: 'mi-9',
+                      selection: { start: 9, end: 11 },
+                    },
+                    // Selects 'mi', stays 'mi', 9 - 11 pos 11
+                    {
+                      position: 11,
+                      name: 'mi-11',
+                      selection: { start: 9, end: 11 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xoxo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 13,
+                      name: '',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 's-12',
+                      selection: { start: 12, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 's-13',
+                      selection: { start: 12, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'es-11',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'es-13',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'ies-10',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'ies-13',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mie-9',
+                      selection: { start: 9, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'mie-12',
+                      selection: { start: 9, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mi-9',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'mi-11',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'xoxo',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 15,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 11,
+                        name: 's-12',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 's-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'es-11',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'es-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'ies-10',
+                        selection: { start: 10, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'ies-13',
+                        selection: { start: 10, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mie-9',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'mie-12',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mi-9',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'mi-11',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'aap noot mixoxo',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'xoxo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+            });
+
+            describe('inserting less chars than are removed', () => {
+              it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xa',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'xa noot mies
+                  cursors: [
+                    // The cursor that is going to insert 'xa' at the start, while selecting 'aap'
+                    { position: 3, name: '', selection: { start: 0, end: 3 } },
+
+                    // Selects 'aap' becomes undefined, pos stays 0
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'aap' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'ap' becomes undefined, pos becomes 0
+                    {
+                      position: 1,
+                      name: 'ap-1',
+                      selection: { start: 1, end: 3 },
+                    },
+
+                    // Selects 'ap' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'ap-3',
+                      selection: { start: 1, end: 3 },
+                    },
+
+                    // Selects 'p' becomes undefined, pos becomes 0
+                    {
+                      position: 2,
+                      name: 'p-2',
+                      selection: { start: 2, end: 3 },
+                    },
+
+                    // Selects 'p' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'p-3',
+                      selection: { start: 2, end: 3 },
+                    },
+
+                    // Selects 'aap ' becomes 'xa ', 0 - 3 , pos stays 0
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 4 },
+                    },
+
+                    // Selects 'aap ' becomes 'xap ', 0 - 3 , pos becomes 3
+                    {
+                      position: 4,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 4 },
+                    },
+
+                    // Selects ' noot' becomes 'xa noot', 0 - 7 , pos becomes 0
+                    {
+                      position: 3,
+                      name: ' noot-3',
+                      selection: { start: 3, end: 8 },
+                    },
+                    // Selects ' noot' becomes 'xa noot', 0 - 7 , pos becomes 7
+                    {
+                      position: 8,
+                      name: ' noot-8',
+                      selection: { start: 3, end: 8 },
+                    },
+
+                    // Selects 'noot' stays 'noot', 3 - 7 , pos becomes 3
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                    },
+
+                    // Selects 'noot' stays 'noot', 3 - 7 , pos becomes 7
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xa',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 3,
+                      name: '',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 1,
+                      name: 'ap-1',
+                      selection: { start: 1, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'ap-3',
+                      selection: { start: 1, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p-2',
+                      selection: { start: 2, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'p-3',
+                      selection: { start: 2, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: ' noot-3',
+                      selection: { start: 3, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: ' noot-8',
+                      selection: { start: 3, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'xa',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 2,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'ap-1',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'ap-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'p-2',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'p-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap -0',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 3,
+                        name: 'aap -4',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: ' noot-3',
+                        selection: { start: 0, end: 7 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 7,
+                        name: ' noot-8',
+                        selection: { start: 0, end: 7 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 3,
+                        name: 'noot-4',
+                        selection: { start: 3, end: 7 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 7,
+                        name: 'noot-8',
+                        selection: { start: 3, end: 7 },
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'xa noot mies',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'xa',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+
+              it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'oo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap nadat mies', // 'aap noot mies'
+                  cursors: [
+                    // The cursor that is going to add 'oo', selects 'ada'
+                    { position: 8, name: '', selection: { start: 5, end: 8 } },
+
+                    // Selects 'aap' stays 'aap', 0 - 3
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                    },
+                    // Selects 'aap' stays 'aap', 0 - 3
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'nadat', becomes 'noot', 4 - 8
+                    {
+                      position: 9,
+                      name: 'nadat-9',
+                      selection: { start: 4, end: 9 },
+                    },
+                    {
+                      position: 4,
+                      name: 'nadat-4',
+                      selection: { start: 4, end: 9 },
+                    },
+
+                    // Selects 'mies' stays 'mies', 9 - 13
+                    {
+                      position: 14,
+                      name: 'mies-14',
+                      selection: { start: 10, end: 14 },
+                    },
+                    {
+                      position: 10,
+                      name: 'mies-10',
+                      selection: { start: 10, end: 14 },
+                    },
+
+                    // Selects 'p nadat', becomes 'p noot', 2 - 8
+                    {
+                      position: 9,
+                      name: 'p nadat-9',
+                      selection: { start: 2, end: 9 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p nadat-2',
+                      selection: { start: 2, end: 9 },
+                    },
+
+                    // Selects 'at mi', becomes 'oot mi', 5 - 11
+                    {
+                      position: 12,
+                      name: 'at mi-12',
+                      selection: { start: 7, end: 12 },
+                    },
+                    {
+                      position: 7,
+                      name: 'at mi-7',
+                      selection: { start: 7, end: 12 },
+                    },
+
+                    // Selects 't mi', becomes 'oot mi', 5 - 11
+                    {
+                      position: 12,
+                      name: 't mi-12',
+                      selection: { start: 8, end: 12 },
+                    },
+                    {
+                      position: 8,
+                      name: 't mi-8',
+                      selection: { start: 8, end: 12 },
+                    },
+
+                    // 'p na' is a bit unexpected as you might think the 'ada' will be selected but it is not.
+                    // Selects 'p na', becomes 'p n', 2 - 5
+                    {
+                      position: 6,
+                      name: 'p na-6',
+                      selection: { start: 2, end: 6 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p na-2',
+                      selection: { start: 2, end: 6 },
+                    },
+
+                    // Selects 'dat m', becomes 'oot m', 5 - 10
+                    {
+                      position: 11,
+                      name: 'dat m-11',
+                      selection: { start: 6, end: 11 },
+                    },
+                    {
+                      position: 6,
+                      name: 'dat m-6',
+                      selection: { start: 6, end: 11 },
+                    },
+
+                    // 'p nad' is a bit unexpected as you might think the 'oo' will be selected but it is not.
+                    // Selects 'p nad', becomes 'p n', 2 - 5
+                    {
+                      position: 7,
+                      name: 'p nad-7',
+                      selection: { start: 2, end: 7 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p nad-2',
+                      selection: { start: 2, end: 7 },
+                    },
+
+                    // Selects 'aap nadat mies', becomes 'aap noot mies', 0 - 13
+                    {
+                      position: 14,
+                      name: 'aap nadat mies-14',
+                      selection: { start: 0, end: 14 },
+                    },
+                    {
+                      position: 0,
+                      name: 'aap nadat mies-0',
+                      selection: { start: 0, end: 14 },
+                    },
+
+                    // Selects 'nadat mies', becomes 'noot mies' 4 - 13
+                    {
+                      position: 14,
+                      name: 'nadat mies-14',
+                      selection: { start: 4, end: 14 },
+                    },
+                    {
+                      position: 4,
+                      name: 'nadat mies-4',
+                      selection: { start: 4, end: 14 },
+                    },
+
+                    // Selects 'ada', becomes undefined, pos 5
+                    {
+                      position: 8,
+                      name: 'ada-8',
+                      selection: { start: 5, end: 8 },
+                    },
+                    {
+                      position: 5,
+                      name: 'ada-5',
+                      selection: { start: 5, end: 8 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'oo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 8,
+                      name: '',
+                      selection: { start: 5, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'nadat-9',
+                      selection: { start: 4, end: 9 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'nadat-4',
+                      selection: { start: 4, end: 9 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 14,
+                      name: 'mies-14',
+                      selection: { start: 10, end: 14 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'mies-10',
+                      selection: { start: 10, end: 14 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'p nadat-9',
+                      selection: { start: 2, end: 9 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p nadat-2',
+                      selection: { start: 2, end: 9 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'at mi-12',
+                      selection: { start: 7, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'at mi-7',
+                      selection: { start: 7, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 't mi-12',
+                      selection: { start: 8, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 't mi-8',
+                      selection: { start: 8, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'p na-6',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p na-2',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'dat m-11',
+                      selection: { start: 6, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'dat m-6',
+                      selection: { start: 6, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'p nad-7',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p nad-2',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 14,
+                      name: 'aap nadat mies-14',
+                      selection: { start: 0, end: 14 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap nadat mies-0',
+                      selection: { start: 0, end: 14 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 14,
+                      name: 'nadat mies-14',
+                      selection: { start: 4, end: 14 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'nadat mies-4',
+                      selection: { start: 4, end: 14 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'ada-8',
+                      selection: { start: 5, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'ada-5',
+                      selection: { start: 5, end: 8 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap nadat mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'oo',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 7,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 3,
+                        name: 'aap-3',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-0',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'nadat-9',
+                        selection: { start: 4, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'nadat-4',
+                        selection: { start: 4, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'mies-14',
+                        selection: { start: 9, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mies-10',
+                        selection: { start: 9, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'p nadat-9',
+                        selection: { start: 2, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p nadat-2',
+                        selection: { start: 2, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'at mi-12',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'at mi-7',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 't mi-12',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 't mi-8',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'p na-6',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p na-2',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'dat m-11',
+                        selection: { start: 5, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'dat m-6',
+                        selection: { start: 5, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'p nad-7',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p nad-2',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'aap nadat mies-14',
+                        selection: { start: 0, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap nadat mies-0',
+                        selection: { start: 0, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'nadat mies-14',
+                        selection: { start: 4, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'nadat mies-4',
+                        selection: { start: 4, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'ada-8',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'ada-5',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'aap noot mies',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'oo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+
+              it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'aap noot mxo'
+                  cursors: [
+                    // The cursor that is going to hit 'xo', on ies
+                    {
+                      position: 13,
+                      name: '',
+                      selection: { start: 10, end: 13 },
+                    },
+
+                    // Selects 's' becomes undefined, pos 10
+                    {
+                      position: 12,
+                      name: 's-12',
+                      selection: { start: 12, end: 13 },
+                    },
+                    {
+                      position: 13,
+                      name: 's-13',
+                      selection: { start: 12, end: 13 },
+                    },
+
+                    // Selects 'es', becomes undefined pos 10
+                    {
+                      position: 11,
+                      name: 'es-11',
+                      selection: { start: 11, end: 13 },
+                    },
+                    {
+                      position: 13,
+                      name: 'es-13',
+                      selection: { start: 11, end: 13 },
+                    },
+
+                    // Selects 'ies' becomes undefined', pos 10
+                    {
+                      position: 10,
+                      name: 'ies-10',
+                      selection: { start: 10, end: 13 },
+                    },
+                    {
+                      position: 13,
+                      name: 'ies-13',
+                      selection: { start: 10, end: 13 },
+                    },
+
+                    // Selects 'mie', becomes 'm', 9 - 10
+                    {
+                      position: 9,
+                      name: 'mie-9',
+                      selection: { start: 9, end: 12 },
+                    },
+                    {
+                      position: 12,
+                      name: 'mie-12',
+                      selection: { start: 9, end: 12 },
+                    },
+
+                    // Selects 'mi', becomes 'm', 9 - 10
+                    {
+                      position: 9,
+                      name: 'mi-9',
+                      selection: { start: 9, end: 11 },
+                    },
+                    {
+                      position: 11,
+                      name: 'mi-11',
+                      selection: { start: 9, end: 11 },
+                    },
+
+                    // Selects 't m', stays 't m', 7 - 10
+                    {
+                      position: 7,
+                      name: 't m-7',
+                      selection: { start: 7, end: 10 },
+                    },
+                    {
+                      position: 10,
+                      name: 't m-10',
+                      selection: { start: 7, end: 10 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 13,
+                      name: '',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 's-12',
+                      selection: { start: 12, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 's-13',
+                      selection: { start: 12, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'es-11',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'es-13',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'ies-10',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'ies-13',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mie-9',
+                      selection: { start: 9, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'mie-12',
+                      selection: { start: 9, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mi-9',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'mi-11',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 't m-7',
+                      selection: { start: 7, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 't m-10',
+                      selection: { start: 7, end: 10 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'xo',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 12,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 10,
+                        name: 's-12',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 's-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'es-11',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'es-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'ies-10',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'ies-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mie-9',
+                        selection: { start: 9, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'mie-12',
+                        selection: { start: 9, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mi-9',
+                        selection: { start: 9, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'mi-11',
+                        selection: { start: 9, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 7,
+                        name: 't m-7',
+                        selection: { start: 7, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 't m-10',
+                        selection: { start: 7, end: 10 },
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'aap noot mxo',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+            });
+
+            describe('inserting the same number of chars that are removed', () => {
+              it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xap',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies',
+                  cursors: [
+                    // The cursor that is going to insert 'xap' at the start, while selecting 'aap'
+                    { position: 3, name: '', selection: { start: 0, end: 3 } },
+
+                    // Selects 'aap' becomes undefined, pos stays 0
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'aap' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'ap' becomes undefined, pos becomes 0
+                    {
+                      position: 1,
+                      name: 'ap-1',
+                      selection: { start: 1, end: 3 },
+                    },
+
+                    // Selects 'ap' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'ap-3',
+                      selection: { start: 1, end: 3 },
+                    },
+
+                    // Selects 'p' becomes undefined, pos becomes 0
+                    {
+                      position: 2,
+                      name: 'p-2',
+                      selection: { start: 2, end: 3 },
+                    },
+
+                    // Selects 'p' becomes undefined, pos becomes 0
+                    {
+                      position: 3,
+                      name: 'p-3',
+                      selection: { start: 2, end: 3 },
+                    },
+
+                    // Selects 'aap ' becomes 'xap ', 0 - 4 , pos stays 0
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 4 },
+                    },
+
+                    // Selects 'aap ' becomes 'xap ', 0 - 4 , pos stays 4
+                    {
+                      position: 4,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 4 },
+                    },
+
+                    // Selects ' noot' becomes 'xap noot', 3 - 8 , pos becomes 0
+                    {
+                      position: 3,
+                      name: ' noot-3',
+                      selection: { start: 3, end: 8 },
+                    },
+                    // Selects ' noot' stays 'xap noot', 3 - 8 , pos stays 8
+                    {
+                      position: 8,
+                      name: ' noot-8',
+                      selection: { start: 3, end: 8 },
+                    },
+
+                    // Selects 'noot' stays 'noot', 4 - 8 , pos stays 4
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                    },
+
+                    // Selects 'noot' stays 'noot', 4 - 8 , pos stays 8
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xap',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 3,
+                      name: '',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 1,
+                      name: 'ap-1',
+                      selection: { start: 1, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'ap-3',
+                      selection: { start: 1, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p-2',
+                      selection: { start: 2, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'p-3',
+                      selection: { start: 2, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap -0',
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'aap -4',
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: ' noot-3',
+                      selection: { start: 3, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: ' noot-8',
+                      selection: { start: 3, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'xap',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 3,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'ap-1',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'ap-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'p-2',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'p-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap -0',
+                        selection: { start: 0, end: 4 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'aap -4',
+                        selection: { start: 0, end: 4 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: ' noot-3',
+                        selection: { start: 0, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: ' noot-8',
+                        selection: { start: 0, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'noot-4',
+                        selection: { start: 4, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'noot-8',
+                        selection: { start: 4, end: 8 },
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'xap noot mies',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'xap',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+
+              it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'ad',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'aap nadt mies'
+                  cursors: [
+                    // The cursor that is going to add 'ad', selects the oo's
+                    { position: 7, name: '', selection: { start: 5, end: 7 } },
+
+                    // Selects 'aap' stays 'aap', 0 - 3
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                    },
+
+                    // Selects 'noot', becomes 'nadt', 4 - 8
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                    },
+
+                    // Selects 'mies' stays 'mies', 9 - 13
+                    {
+                      position: 13,
+                      name: 'mies-13',
+                      selection: { start: 9, end: 13 },
+                    },
+                    {
+                      position: 9,
+                      name: 'mies-9',
+                      selection: { start: 9, end: 13 },
+                    },
+
+                    // Selects 'p noot', becomes 'p nadt', 2 - 8
+                    {
+                      position: 8,
+                      name: 'p noot-8',
+                      selection: { start: 2, end: 8 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p noot-2',
+                      selection: { start: 2, end: 8 },
+                    },
+
+                    // Selects 'ot mi', becomes 'adt mi', 5 - 11
+                    {
+                      position: 11,
+                      name: 'ot mi-11',
+                      selection: { start: 6, end: 11 },
+                    },
+                    {
+                      position: 6,
+                      name: 'ot mi-6',
+                      selection: { start: 6, end: 11 },
+                    },
+
+                    // 't mi' in google docs becomes 'adt mi' which is very unexpected
+                    // I'm ignoring that result.
+
+                    // Selects 't mi', becomes 'adt mi', 7 - 11
+                    {
+                      position: 11,
+                      name: 't mi-11',
+                      selection: { start: 7, end: 11 },
+                    },
+                    {
+                      position: 7,
+                      name: 't mi-7',
+                      selection: { start: 7, end: 11 },
+                    },
+
+                    // 'p no' is a bit unexpected as you might think the 'a' will be selected but it is not.
+                    // Selects 'p no', becomes 'p n', 2 - 5
+                    {
+                      position: 6,
+                      name: 'p no-6',
+                      selection: { start: 2, end: 6 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p no-2',
+                      selection: { start: 2, end: 6 },
+                    },
+
+                    // Selects 'oot m', becomes 'adt m', 5 - 10
+                    {
+                      position: 10,
+                      name: 'oot m-10',
+                      selection: { start: 5, end: 10 },
+                    },
+                    {
+                      position: 5,
+                      name: 'oot m-5',
+                      selection: { start: 5, end: 10 },
+                    },
+
+                    // 'p noo' is a bit unexpected as you might think the 'a' will be selected but it is not.
+                    // Selects 'p noo', becomes 'p n', 2 - 5
+                    {
+                      position: 7,
+                      name: 'p noo-7',
+                      selection: { start: 2, end: 7 },
+                    },
+                    {
+                      position: 2,
+                      name: 'p noo-2',
+                      selection: { start: 2, end: 7 },
+                    },
+
+                    // Selects 'aap noot mies', becomes 'aap nadt mies', 0 - 13
+                    {
+                      position: 13,
+                      name: 'aap noot mies-13',
+                      selection: { start: 0, end: 13 },
+                    },
+                    {
+                      position: 0,
+                      name: 'aap noot mies-0',
+                      selection: { start: 0, end: 13 },
+                    },
+
+                    // Selects 'noot mies', becomes 'nadt mies' 4 - 13
+                    {
+                      position: 13,
+                      name: 'noot mies-13',
+                      selection: { start: 4, end: 13 },
+                    },
+                    {
+                      position: 4,
+                      name: 'noot mies-4',
+                      selection: { start: 4, end: 13 },
+                    },
+
+                    // Selects 'oo', becomes undefines, pos 5
+                    {
+                      position: 7,
+                      name: 'oo-7',
+                      selection: { start: 5, end: 7 },
+                    },
+                    {
+                      position: 5,
+                      name: 'oo-5',
+                      selection: { start: 5, end: 7 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'ad',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 7,
+                      name: '',
+                      selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'aap-3',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap-0',
+                      selection: { start: 0, end: 3 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'noot-8',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot-4',
+                      selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'mies-13',
+                      selection: { start: 9, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mies-9',
+                      selection: { start: 9, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'p noot-8',
+                      selection: { start: 2, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p noot-2',
+                      selection: { start: 2, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'ot mi-11',
+                      selection: { start: 6, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'ot mi-6',
+                      selection: { start: 6, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 't mi-11',
+                      selection: { start: 7, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 't mi-7',
+                      selection: { start: 7, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'p no-6',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p no-2',
+                      selection: { start: 2, end: 6 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'oot m-10',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oot m-5',
+                      selection: { start: 5, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'p noo-7',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'p noo-2',
+                      selection: { start: 2, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'aap noot mies-13',
+                      selection: { start: 0, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'aap noot mies-0',
+                      selection: { start: 0, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'noot mies-13',
+                      selection: { start: 4, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'noot mies-4',
+                      selection: { start: 4, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'oo-7',
+                      selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'oo-5',
+                      selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'ad',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 7,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 3,
+                        name: 'aap-3',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap-0',
+                        selection: { start: 0, end: 3 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'noot-8',
+                        selection: { start: 4, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'noot-4',
+                        selection: { start: 4, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'mies-13',
+                        selection: { start: 9, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mies-9',
+                        selection: { start: 9, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'p noot-8',
+                        selection: { start: 2, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p noot-2',
+                        selection: { start: 2, end: 8 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'ot mi-11',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'ot mi-6',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 't mi-11',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 't mi-7',
+                        selection: { start: 5, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'p no-6',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p no-2',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'oot m-10',
+                        selection: { start: 5, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'oot m-5',
+                        selection: { start: 5, end: 10 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'p noo-7',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 2,
+                        name: 'p noo-2',
+                        selection: { start: 2, end: 5 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'aap noot mies-13',
+                        selection: { start: 0, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'aap noot mies-0',
+                        selection: { start: 0, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'noot mies-13',
+                        selection: { start: 4, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'noot mies-4',
+                        selection: { start: 4, end: 13 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'oo-7',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'oo-5',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'aap nadt mies',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'ad',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+
+              it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+                const typewriter = new Typewriter({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'aap noot mies', // 'aap noot mixo'
+                  cursors: [
+                    // The cursor that is going to hit 'xo', on es
+                    {
+                      position: 13,
+                      name: '',
+                      selection: { start: 11, end: 13 },
+                    },
+
+                    // Selects 's' becomes undefined, pos 11
+                    {
+                      position: 12,
+                      name: 's-12',
+                      selection: { start: 12, end: 13 },
+                    },
+                    {
+                      position: 13,
+                      name: 's-13',
+                      selection: { start: 12, end: 13 },
+                    },
+
+                    // Selects 'es', becomes undefined pos 11
+                    {
+                      position: 11,
+                      name: 'es-11',
+                      selection: { start: 11, end: 13 },
+                    },
+                    {
+                      position: 13,
+                      name: 'es-13',
+                      selection: { start: 11, end: 13 },
+                    },
+
+                    // Selects 'ies' becomes 'i', 10 - 11
+                    {
+                      position: 10,
+                      name: 'ies-10',
+                      selection: { start: 10, end: 13 },
+                    },
+                    {
+                      position: 13,
+                      name: 'ies-13',
+                      selection: { start: 10, end: 13 },
+                    },
+
+                    // Selects 'mie', becomes 'mi', 9 - 11
+                    {
+                      position: 9,
+                      name: 'mie-9',
+                      selection: { start: 9, end: 12 },
+                    },
+                    {
+                      position: 12,
+                      name: 'mie-12',
+                      selection: { start: 9, end: 12 },
+                    },
+
+                    // Selects 'mi', stays 'mi', 9 - 11
+                    {
+                      position: 9,
+                      name: 'mi-9',
+                      selection: { start: 9, end: 11 },
+                    },
+                    {
+                      position: 11,
+                      name: 'mi-11',
+                      selection: { start: 9, end: 11 },
+                    },
+                  ],
+                });
+                const subscriber = autoSubscribe(typewriter);
+
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      position: 13,
+                      name: '',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 's-12',
+                      selection: { start: 12, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 's-13',
+                      selection: { start: 12, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'es-11',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'es-13',
+                      selection: { start: 11, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'ies-10',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'ies-13',
+                      selection: { start: 10, end: 13 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mie-9',
+                      selection: { start: 9, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'mie-12',
+                      selection: { start: 9, end: 12 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'mi-9',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'mi-11',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'aap noot mies',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                });
+
+                jest.advanceTimersByTime(100);
+
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'xo',
+                        delay: 100,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        position: 13,
+                        name: '',
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                      {
+                        position: 11,
+                        name: 's-12',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 's-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'es-11',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'es-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'ies-10',
+                        selection: { start: 10, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'ies-13',
+                        selection: { start: 10, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mie-9',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'mie-12',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'mi-9',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'mi-11',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                    ],
+                    text: 'aap noot mixo',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+            });
           });
         });
       });
@@ -17663,7 +26915,7 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: typewriterActionTypeClearAll,
+            text: typewriterActionTypeClearAll,
             delay: 100,
             cursor: 2,
           },
@@ -17683,7 +26935,7 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: typewriterActionTypeClearAll,
+            text: typewriterActionTypeClearAll,
             delay: 100,
             cursor: 2,
           },
@@ -17726,7 +26978,7 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: typewriterActionTypeClearAll,
+              text: typewriterActionTypeClearAll,
               delay: 100,
               cursor: 2,
             },
@@ -17748,7 +27000,7 @@ describe('Typewriter', () => {
           type: 'FINISHED',
           action: {
             type: 'keyboard',
-            key: typewriterActionTypeClearAll,
+            text: typewriterActionTypeClearAll,
             delay: 100,
             cursor: 2,
           },
@@ -17765,19 +27017,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 50,
             cursor: 0,
           },
@@ -17793,19 +27045,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 50,
             cursor: 0,
           },
@@ -17829,19 +27081,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -17859,7 +27111,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 50,
             cursor: 0,
           },
@@ -17877,19 +27129,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -17907,7 +27159,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 50,
             cursor: 0,
           },
@@ -17925,19 +27177,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -17955,7 +27207,7 @@ describe('Typewriter', () => {
           type: 'FINISHED',
           action: {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 50,
             cursor: 0,
           },
@@ -17970,19 +27222,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 50,
             cursor: 0,
           },
@@ -17998,19 +27250,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 50,
             cursor: 0,
           },
@@ -18034,19 +27286,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18064,7 +27316,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 50,
             cursor: 0,
           },
@@ -18082,19 +27334,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18112,7 +27364,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 50,
             cursor: 0,
           },
@@ -18130,19 +27382,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18160,7 +27412,7 @@ describe('Typewriter', () => {
           type: 'FINISHED',
           action: {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 50,
             cursor: 0,
           },
@@ -18175,19 +27427,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 50,
             cursor: 0,
           },
@@ -18204,19 +27456,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 50,
             cursor: 0,
           },
@@ -18241,19 +27493,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: 'a',
+                text: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'b',
+                text: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'c',
+                text: 'c',
                 delay: 50,
                 cursor: 0,
               },
@@ -18271,7 +27523,7 @@ describe('Typewriter', () => {
             type: 'CHANGED',
             action: {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
@@ -18289,19 +27541,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: 'a',
+                text: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'b',
+                text: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'c',
+                text: 'c',
                 delay: 50,
                 cursor: 0,
               },
@@ -18319,7 +27571,7 @@ describe('Typewriter', () => {
             type: 'CHANGED',
             action: {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
@@ -18337,19 +27589,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: 'a',
+                text: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'b',
+                text: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'c',
+                text: 'c',
                 delay: 50,
                 cursor: 0,
               },
@@ -18367,7 +27619,7 @@ describe('Typewriter', () => {
             type: 'CHANGED',
             action: {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18385,19 +27637,19 @@ describe('Typewriter', () => {
             actions: [
               {
                 type: 'keyboard',
-                key: 'a',
+                text: 'a',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'b',
+                text: 'b',
                 delay: 50,
                 cursor: 0,
               },
               {
                 type: 'keyboard',
-                key: 'c',
+                text: 'c',
                 delay: 50,
                 cursor: 0,
               },
@@ -18436,19 +27688,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 50,
             cursor: 0,
           },
@@ -18464,19 +27716,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 50,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 50,
             cursor: 0,
           },
@@ -18502,19 +27754,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18532,7 +27784,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 50,
             cursor: 0,
           },
@@ -18550,19 +27802,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18580,7 +27832,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 50,
             cursor: 0,
           },
@@ -18598,19 +27850,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18628,7 +27880,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 50,
             cursor: 0,
           },
@@ -18646,19 +27898,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18690,19 +27942,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18720,7 +27972,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 50,
             cursor: 0,
           },
@@ -18738,19 +27990,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18768,7 +28020,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 50,
             cursor: 0,
           },
@@ -18786,19 +28038,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18816,7 +28068,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 50,
             cursor: 0,
           },
@@ -18834,19 +28086,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18878,19 +28130,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18908,7 +28160,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 50,
             cursor: 0,
           },
@@ -18926,19 +28178,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -18956,7 +28208,7 @@ describe('Typewriter', () => {
           type: 'CHANGED',
           action: {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 50,
             cursor: 0,
           },
@@ -18974,19 +28226,19 @@ describe('Typewriter', () => {
           actions: [
             {
               type: 'keyboard',
-              key: 'a',
+              text: 'a',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'b',
+              text: 'b',
               delay: 50,
               cursor: 0,
             },
             {
               type: 'keyboard',
-              key: 'c',
+              text: 'c',
               delay: 50,
               cursor: 0,
             },
@@ -19004,7 +28256,7 @@ describe('Typewriter', () => {
           type: 'FINISHED',
           action: {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 50,
             cursor: 0,
           },
@@ -19023,19 +28275,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 100,
             cursor: 0,
           },
@@ -19134,19 +28386,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 100,
             cursor: 0,
           },
@@ -19245,13 +28497,13 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 100,
             cursor: 0,
           },
@@ -19409,19 +28661,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 100,
             cursor: 0,
           },
@@ -19522,13 +28774,13 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 100,
             cursor: 0,
           },
@@ -19649,19 +28901,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 100,
             cursor: 0,
           },
@@ -19697,19 +28949,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 100,
             cursor: 0,
           },
@@ -19745,19 +28997,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 100,
             cursor: 0,
           },
@@ -19813,19 +29065,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 100,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 100,
             cursor: 0,
           },
@@ -19854,7 +29106,7 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 100,
             cursor: 0,
           },
@@ -19896,10 +29148,10 @@ describe('Typewriter', () => {
         blinkAfter: 250, // btw this is the default
         cursors: [{ position: 0 }],
         actions: [
-          { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
-          { type: 'keyboard', key: 'o', delay: 50, cursor: 0 },
-          { type: 'keyboard', key: 'y', delay: 50, cursor: 0 },
-          { type: 'keyboard', key: '!', delay: 50, cursor: 0 },
+          { type: 'keyboard', text: 'j', delay: 50, cursor: 0 },
+          { type: 'keyboard', text: 'o', delay: 50, cursor: 0 },
+          { type: 'keyboard', text: 'y', delay: 50, cursor: 0 },
+          { type: 'keyboard', text: '!', delay: 50, cursor: 0 },
         ],
       });
       const subscriber = autoSubscribe(typewriter);
@@ -19955,10 +29207,10 @@ describe('Typewriter', () => {
           blinkAfter: 50,
           cursors: [{ position: 0 }],
           actions: [
-            { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: 'o', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: 'y', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: '!', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: 'j', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: 'o', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: 'y', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: '!', delay: 50, cursor: 0 },
           ],
         });
         const subscriber = autoSubscribe(typewriter);
@@ -20038,10 +29290,10 @@ describe('Typewriter', () => {
           blinkAfter: 49,
           cursors: [{ position: 0 }],
           actions: [
-            { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: 'o', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: 'y', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: '!', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: 'j', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: 'o', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: 'y', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: '!', delay: 50, cursor: 0 },
           ],
         });
         const subscriber = autoSubscribe(typewriter);
@@ -20120,10 +29372,10 @@ describe('Typewriter', () => {
           blinkAfter: 51,
           cursors: [{ position: 0 }],
           actions: [
-            { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: 'o', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: 'y', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: '!', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: 'j', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: 'o', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: 'y', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: '!', delay: 50, cursor: 0 },
           ],
         });
         const subscriber = autoSubscribe(typewriter);
@@ -20180,10 +29432,10 @@ describe('Typewriter', () => {
           { position: 0, name: 'last' }, // This one does the first and last action
         ],
         actions: [
-          { type: 'keyboard', key: 'a', delay: 50, cursor: 2 },
-          { type: 'keyboard', key: 'b', delay: 50, cursor: 0 },
-          { type: 'keyboard', key: 'c', delay: 50, cursor: 0 },
-          { type: 'keyboard', key: 'd', delay: 50, cursor: 2 },
+          { type: 'keyboard', text: 'a', delay: 50, cursor: 2 },
+          { type: 'keyboard', text: 'b', delay: 50, cursor: 0 },
+          { type: 'keyboard', text: 'c', delay: 50, cursor: 0 },
+          { type: 'keyboard', text: 'd', delay: 50, cursor: 2 },
         ],
       });
       const subscriber = autoSubscribe(typewriter);
@@ -20296,10 +29548,10 @@ describe('Typewriter', () => {
           repeatDelay: 1000,
           cursors: [{ position: 0 }],
           actions: [
-            { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: 'o', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: 'y', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: '!', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: 'j', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: 'o', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: 'y', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: '!', delay: 50, cursor: 0 },
           ],
         });
         const subscriber = autoSubscribe(typewriter);
@@ -20511,8 +29763,8 @@ describe('Typewriter', () => {
           repeatDelay: 50, // The repeatDelay lies before the blinkAfter
           cursors: [{ position: 0 }],
           actions: [
-            { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: '!', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: 'j', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: '!', delay: 50, cursor: 0 },
           ],
         });
         const subscriber = autoSubscribe(typewriter);
@@ -20593,8 +29845,8 @@ describe('Typewriter', () => {
           repeatDelay: 50,
           cursors: [{ position: 0 }, { position: 0 }],
           actions: [
-            { type: 'keyboard', key: 'j', delay: 50, cursor: 0 },
-            { type: 'keyboard', key: '!', delay: 50, cursor: 1 },
+            { type: 'keyboard', text: 'j', delay: 50, cursor: 0 },
+            { type: 'keyboard', text: '!', delay: 50, cursor: 1 },
           ],
         });
         const subscriber = autoSubscribe(typewriter);
@@ -21174,7 +30426,7 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 100,
             cursor: 0,
           },
@@ -21223,7 +30475,7 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 100,
             cursor: 0,
           },
@@ -21264,19 +30516,19 @@ describe('Typewriter', () => {
         actions: [
           {
             type: 'keyboard',
-            key: 'a',
+            text: 'a',
             delay: 10000,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'b',
+            text: 'b',
             delay: 10000,
             cursor: 0,
           },
           {
             type: 'keyboard',
-            key: 'c',
+            text: 'c',
             delay: 10000,
             cursor: 0,
           },
@@ -21351,7 +30603,7 @@ function assertState(state: Typewriter, expected: TestState) {
           type: 'keyboard',
           delay: action.delay,
           cursor: action.cursor,
-          key: action.key,
+          text: action.text,
         };
 
         return copy;

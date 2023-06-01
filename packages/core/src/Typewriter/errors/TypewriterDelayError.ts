@@ -1,4 +1,4 @@
-import { common } from "./common";
+import { common, name } from "./common";
 
 /**
  * Error which is thrown whenever the configured delay for a
@@ -9,6 +9,6 @@ import { common } from "./common";
 export class TypewriterDelayError extends Error {
   constructor() {
     super(`${common} delay cannot be negative or zero`);
-    this.name = "TypewriterDelayError";
+    this.name = `${name}DelayError`;
   }
 }

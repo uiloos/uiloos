@@ -1,4 +1,4 @@
-import { common } from "./common";
+import { common, name } from "./common";
 
 /**
  * Error which is thrown whenever the cursors are placed outside
@@ -9,6 +9,6 @@ import { common } from "./common";
 export class TypewriterCursorOutOfBoundsError extends Error {
   constructor() {
     super(`${common} cursor is out of bounds`);
-    this.name = "TypewriterCursorOutOfBoundsError";
+    this.name = `${name}CursorOutOfBoundsError`;
   }
 }

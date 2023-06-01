@@ -193,52 +193,6 @@ export type TypewriterSubscriber = (
 ) => void;
 
 /**
- * Represents a backspace key for when text needs to be removed
- * from the `Typewriter`.
- *
- * @since 1.2.0
- */
-export const typewriterActionTypeBackspace = '⌫';
-
-/**
- * Represents the user clearing all text from the `Typewriter` sort
- * of a: select all and hit backspace scenario.
- *
- * @since 1.2.0
- */
-export const typewriterActionTypeClearAll = '⎚';
-
-/**
- * Represents the user clicking the left arrow key on the keyboard.
- *
- * @since 1.2.0
- */
-export const typewriterActionTypeLeft = '←';
-
-/**
- * Represents the user clicking the right arrow key on the keyboard.
- *
- * @since 1.2.0
- */
-export const typewriterActionTypeRight = '→';
-
-/**
- * Represents the user selecting text and extending the selection
- * one movement to the left.
- *
- * @since 1.2.0
- */
-export const typewriterActionTypeSelectLeft = '⇧←';
-
-/**
- * Represents the user selecting text and extending the selection
- * one movement to the right.
- *
- * @since 1.2.0
- */
-export const typewriterActionTypeSelectRight = '⇧→';
-
-/**
  * The type of action which occurred on the Typewriter, can either
  * be a keyboard press or a mouse click.
  *
@@ -278,13 +232,13 @@ export type BaseTypewriterAction = {
 };
 
 /**
- * Represents the user pressing a key on the keyboard. 
+ * Represents the user entering text via the keyboard.
  *
  * @since 1.2.0
  */
-export type TypewriterActionKeyPress = BaseTypewriterAction & {
+export type TypewriterActionKeyboard = BaseTypewriterAction & {
   /**
-   * The type signifying it is a keyboard click.
+   * The type signifying it is a keyboard event.
    *
    * @since 1.2.0
    */
@@ -293,11 +247,13 @@ export type TypewriterActionKeyPress = BaseTypewriterAction & {
   /**
    * The string that was typed in, can either be a word or a single
    * character or a special symbol representing a special key on the
-   * keyboard. For example 
+   * keyboard. For example: 
+   * 
+   * TODO special keys
    *
    * @since 1.2.0
    */
-  key: string;
+  text: string;
 };
 
 /**
@@ -306,9 +262,9 @@ export type TypewriterActionKeyPress = BaseTypewriterAction & {
  *
  * @since 1.2.0
  */
-export type TypewriterActionTypeMouseClick = BaseTypewriterAction & {
+export type TypewriterActionMouse = BaseTypewriterAction & {
   /**
-   * The type signifying it is a mouse click.
+   * The type signifying it is a mouse event.
    *
    * @since 1.2.0
    */
@@ -349,8 +305,8 @@ export type TypewriterActionTypeMouseClick = BaseTypewriterAction & {
  * @since 1.2.0
  */
 export type TypewriterAction =
-  | TypewriterActionTypeMouseClick
-  | TypewriterActionKeyPress;
+  | TypewriterActionMouse
+  | TypewriterActionKeyboard;
 
 /**
  * Represents whether the `TypewriterEvent` has changed the text,

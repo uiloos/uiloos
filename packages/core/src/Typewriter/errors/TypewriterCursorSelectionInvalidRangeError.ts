@@ -1,4 +1,4 @@
-import { common } from "./common";
+import { common, name } from "./common";
 
 /**
  * Error which is thrown whenever a cursors selection has a start
@@ -11,6 +11,6 @@ import { common } from "./common";
 export class TypewriterCursorSelectionInvalidRangeError extends Error {
   constructor() {
     super(`${common} cursors selection has an invalid range: start is equal or larger than the end`);
-    this.name = "TypewriterCursorSelectionInvalidRangeError";
+    this.name = `${name}CursorSelectionInvalidRangeError`;
   }
 }

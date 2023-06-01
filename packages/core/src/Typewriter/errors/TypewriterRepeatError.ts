@@ -1,4 +1,4 @@
-import { common } from "./common";
+import { common, name } from "./common";
 
 /**
  * Error which is thrown whenever the configured repeat is zero 
@@ -9,6 +9,6 @@ import { common } from "./common";
 export class TypewriterRepeatError extends Error {
   constructor() {
     super(`${common} repeat cannot be negative or zero`);
-    this.name = "TypewriterRepeatError";
+    this.name = `${name}RepeatError`;
   }
 }

@@ -125,12 +125,12 @@ export class Typewriter {
   private _stopped: boolean = false;
 
   /**
-   * Whether or not the `Typewriter` has finished playing the entire 
+   * Whether or not the `Typewriter` has finished playing the entire
    * animation.
    *
    * Note: when `repeat` is configured as `true` the animation will
    * never finish.
-   * 
+   *
    * Note: when the `Typewriter` is initialized the `isFinished`
    * boolean will always be set to `false`, regardless of whether
    * or not there are any actions.
@@ -335,33 +335,35 @@ export class Typewriter {
     this._originalCursors.length = 0;
 
     if (config.cursors) {
-      config.cursors.forEach((cursor) => {  
+      config.cursors.forEach((cursor) => {
         const position = cursor.position;
-  
+
         // Consider the text `test` the cursor can be at
         // before t 0, after t 1, after e 2, after s 3 and after t 4
         if (position < 0 || position > textLength) {
           throw new TypewriterCursorOutOfBoundsError();
         }
-  
-        if (cursor.selection) {
-          const { start, end } = cursor.selection;
-  
+
+        const selection = cursor.selection;
+
+        if (selection) {
+          const { start, end } = selection;
+
           // Either the start or the end should be on the position of the cursor
           if (position !== start && position !== end) {
             throw new TypewriterCursorNotAtSelectionEdgeError();
           }
-  
+
           // Start should be in bounds
           if (start < 0 || start > textLength) {
             throw new TypewriterCursorSelectionOutOfBoundsError('start');
           }
-  
+
           // End should be in bounds
           if (end < 0 || end > textLength) {
             throw new TypewriterCursorSelectionOutOfBoundsError('end');
           }
-  
+
           // Start needs to be smaller than end otherwise there is no selection.
           if (start >= end) {
             throw new TypewriterCursorSelectionInvalidRangeError();
@@ -372,10 +374,10 @@ export class Typewriter {
         this._originalCursors.push({
           position: cursor.position,
           name: cursor.name,
-          selection: cursor.selection
+          selection: selection
             ? {
-                start: cursor.selection.start,
-                end: cursor.selection.end,
+                start: selection.start,
+                end: selection.end,
               }
             : undefined,
         });
@@ -385,13 +387,13 @@ export class Typewriter {
             this,
             cursor.position,
             cursor.name ? cursor.name : '',
-            cursor.selection
+            selection
           )
         );
       });
     } else {
       this.cursors.push(new TypewriterCursor(this, textLength, '', undefined));
-      this._originalCursors.push({ name: '', position: textLength})
+      this._originalCursors.push({ name: '', position: textLength });
     }
 
     if (config.actions) {
@@ -412,7 +414,9 @@ export class Typewriter {
 
     this._index = 0;
 
-    this.isPlaying = (config.autoPlay === true || config.autoPlay === undefined) && this.actions.length > 0;
+    this.isPlaying =
+      (config.autoPlay === true || config.autoPlay === undefined) &&
+      this.actions.length > 0;
     this.isFinished = false;
 
     this.blinkAfter = config.blinkAfter !== undefined ? config.blinkAfter : 250;
@@ -642,7 +646,7 @@ export class Typewriter {
 
       if (action.type === 'keyboard') {
         // Figure out what to do with the text next
-        if (action.key === '⎚') {
+        if (action.text === '⎚') {
           // If it is already empty it is a noOp.
           if (this.text === '') {
             noOp = true;
@@ -655,20 +659,20 @@ export class Typewriter {
               c.selection = undefined;
             });
           }
-        } else if (action.key === '←') {
+        } else if (action.text === '←') {
           noOp = this._actionLorR(cursor, -1, cursor.selection?.start || 0, 0);
-        } else if (action.key === '→') {
+        } else if (action.text === '→') {
           noOp = this._actionLorR(
             cursor,
             1,
             cursor.selection?.end || 0,
             textArray.length
           );
-        } else if (action.key === '⇧←') {
+        } else if (action.text === '⇧←') {
           noOp = this._actionSLorR(cursor, -1, 'start', 0);
-        } else if (action.key === '⇧→') {
+        } else if (action.text === '⇧→') {
           noOp = this._actionSLorR(cursor, 1, 'end', textArray.length);
-        } else if (action.key === '⌫') {
+        } else if (action.text === '⌫') {
           // Stores which positions have been removed, so we can
           // update the cursors later.
           const removed = {
@@ -711,7 +715,7 @@ export class Typewriter {
 
           if (!noOp) {
             this.cursors.forEach((c) => {
-              const hasOverlap = this._hasOverlap(c, removed);
+              const hasOverlap = this._overlap(c.selection, removed) > 0;
 
               // Move all cursors that are after or on the current cursor
               // to their new positions.
@@ -735,7 +739,8 @@ export class Typewriter {
               // Update the selections of other cursors:
               // If user A selects a text and user B removes letters from the selection
               // the selection shrinks. Can even remove the selection this way!
-              if (c.selection) {
+              const selection = c.selection;
+              if (selection) {
                 /*
                   We are dealing with two sets here, the "removed"
                   of the current cursor, and the "selection" of the other 
@@ -800,7 +805,7 @@ export class Typewriter {
                 // Is there overlap?
                 if (hasOverlap) {
                   // How many positions do selection and remove have in common.
-                  const overlap = this._overlap(c.selection, removed);
+                  const overlap = this._overlap(selection, removed);
 
                   /*
                     Now there are two situations: either the 
@@ -838,32 +843,34 @@ export class Typewriter {
                     0 = do nothing
                     2 = overlap;
                   */
-                  if (c.selection.start <= removed.start) {
-                    c.selection.end -= overlap;
+                  if (selection.start <= removed.start) {
+                    selection.end -= overlap;
                   } else {
-                    c.selection.start -= overlap;
-                    c.selection.end -= removed.no;
+                    selection.start -= overlap;
+                    selection.end -= removed.no;
                   }
 
                   // When start becomes end make it undefined,
                   // this happens when entire selection is removed.
-                  if (c.selection.start === c.selection.end) {
+                  if (selection.start === selection.end) {
                     c.selection = undefined;
                   }
                 } else if (
                   // Is the selection is completely on the right of the removal
-                  removed.start <= c.selection.start &&
-                  removed.end <= c.selection.start
+                  removed.start <= selection.start &&
+                  removed.end <= selection.start
                 ) {
                   // Then remove that many chars from the selection
-                  c.selection.start -= removed.no;
-                  c.selection.end -= removed.no;
+                  selection.start -= removed.no;
+                  selection.end -= removed.no;
                 }
               }
             });
           }
         } else {
           // action is insert char
+
+          const keys = Array.from(action.text);
 
           if (cursor.selection) {
             // When something is selected it will delete the selected
@@ -887,7 +894,7 @@ export class Typewriter {
             };
 
             // Insert the new key at the correct position.
-            textArray.splice(cursor.position, 0, action.key);
+            textArray.splice(cursor.position, 0, ...keys);
 
             this.text = textArray.join('');
 
@@ -896,71 +903,85 @@ export class Typewriter {
                 return;
               }
 
-              if (c.selection) {
+              const selection = c.selection;
+              if (selection) {
                 // If the other cursors selection falls completely inside of the
                 // selection of the current cursor then remove the selection.
                 if (
-                  c.selection.start >= removed.start &&
-                  c.selection.end <= removed.end
+                  selection.start >= removed.start &&
+                  selection.end <= removed.end
                 ) {
                   c.selection = undefined;
                   c.position = removed.start;
                 } else {
-                  const hasOverlap = this._hasOverlap(c, removed);
+                  const hasOverlap = this._overlap(selection, removed) > 0;
 
                   if (hasOverlap) {
+                    const isPosStart = selection.start === c.position;
+
                     // How many positions do selection and remove have in common.
-                    const overlap = this._overlap(c.selection, removed);
+                    const overlap = this._overlap(selection, removed);
 
-                    if (c.selection.start > removed.start) {
-                      c.selection.start -= removed.no - overlap;
+                    if (selection.start > removed.start) {
+                      selection.start -= removed.no - overlap;
+                      selection.start = Math.max(0, selection.start);
                     }
 
-                    if (c.selection.end === removed.end) {
-                      c.selection.end -= removed.no;
-                    } else if (c.selection.end !== removed.start) {
-                      c.selection.end -= removed.no - 1;
+                    // When selection is on the end shrink the selection
+                    if (selection.end === removed.end) {
+                      selection.end -= removed.no;
+                    }
+                    // When selection is one of shrink it as well. TODO: is this just plain old weird!
+                    else if (selection.end === removed.end - 1) {
+                      selection.end -= removed.no - 1;
+                    } else if (selection.end !== removed.start) {
+                      selection.end -= removed.no - keys.length;
                     }
 
-                    c.selection.start = Math.max(0, c.selection.start);
-
-                    // The new position becomes the position that is
-                    // closest to the current position.
-                    const distanceStart = Math.abs(
-                      c.selection.start - c.position
-                    );
-                    const distanceEnd = Math.abs(c.selection.end - c.position);
-
-                    c.position =
-                      distanceStart < distanceEnd
-                        ? c.selection.start
-                        : c.selection.end;
+                    c.position = isPosStart
+                      ? selection.start
+                      : selection.end;
                   } else if (
                     // Is the selection is completely on the right of the removal
-                    removed.start <= c.selection.start &&
-                    removed.end <= c.selection.start
+                    removed.start <= selection.start &&
+                    removed.end <= selection.start
                   ) {
-                    // Minus the char that was added.
-                    const removedNo = removed.no - 1;
+                    const isPosStart = selection.start === c.position;
 
-                    // Minus the char that was added.
-                    c.selection.start -= removedNo;
+                    // Minus the chars that where added.
+                    const removedNo = removed.no - keys.length;
 
-                    // Minus the char that was added.
-                    c.selection.end -= removedNo;
-                    c.position -= removedNo;
+                    // When the removed end is on the left side of the
+                    // selection, the selection grows by the chars
+                    // that were removed.
+                    const leftMost = Math.min(
+                      selection.start,
+                      selection.end
+                    );
+                    if (removed.end === leftMost) {
+                      selection.start = removed.start;
+                    } else {
+                      // Minus the chars that were removed
+                      selection.start -= removedNo;
+                    }
 
-                    c.selection.start = Math.max(0, c.selection.start);
+                    // Minus the chars that are removed.
+                    selection.end -= removedNo;
+                    selection.start = Math.max(0, selection.start);
+
+                    c.position = isPosStart
+                      ? selection.start
+                      : selection.end;
                   }
                 }
               }
             });
 
             // Move the cursor that typed one to the right.
-            cursor.position += 1;
+            cursor.position += keys.length;
           } else {
             // Insert the new key at the correct position.
-            textArray.splice(cursor.position, 0, action.key);
+            textArray.splice(cursor.position, 0, ...keys);
 
             this.text = textArray.join('');
 
@@ -970,27 +991,28 @@ export class Typewriter {
               }
 
               // Update the selections
-              if (c.selection) {
+              const selection = c.selection;
+              if (selection) {
                 // If cursor lies before the insert move the selection right
-                if (cursor.position < c.selection.start) {
-                  c.selection.start += 1;
-                  c.selection.end += 1;
+                if (cursor.position < selection.start) {
+                  selection.start += keys.length;
+                  selection.end += keys.length;
                 }
                 // If cursor lies before end stretch the selections end.
-                else if (cursor.position < c.selection.end) {
-                  c.selection.end += 1;
+                else if (cursor.position < selection.end) {
+                  selection.end += keys.length;
                 }
               }
 
               // If the cursor types before the position of the
-              // other cursor, +1 the other cursors position.
+              // other cursor, + key.length the other cursors position.
               if (cursor.position < c.position) {
-                c.position += 1;
+                c.position += keys.length;
               }
             });
 
             // Move the cursor that typed one to the right.
-            cursor.position += 1;
+            cursor.position += keys.length;
           }
 
           cursor.selection = undefined;
@@ -1132,10 +1154,11 @@ export class Typewriter {
       cursor.name = copy.name ? copy.name : '';
       cursor.position = copy.position;
 
-      if (copy.selection) {
+      const selection = copy.selection;
+      if (selection) {
         cursor.selection = {
-          start: copy.selection.start,
-          end: copy.selection.end,
+          start: selection.start,
+          end: selection.end,
         };
       } else {
         cursor.selection = undefined;
@@ -1143,16 +1166,12 @@ export class Typewriter {
     });
   }
 
-  private _hasOverlap(c: TypewriterCursor, r: Range) {
-    return (
-      c.selection &&
-      ((r.start >= c.selection.start && r.start <= c.selection.end) ||
-        (r.end > c.selection.start && r.end <= c.selection.end))
-    );
-  }
+  private _overlap(s: Range | undefined, r: Range) {
+    if (!s) {
+      return 0;
+    }
 
-  private _overlap(c: Range, r: Range) {
-    return Math.min(c.end, r.end) - Math.max(c.start, r.start);
+    return Math.min(s.end, r.end) - Math.max(s.start, r.start);
   }
 
   private _same(a: Range | undefined, b: Range | undefined) {
@@ -1213,16 +1232,18 @@ export class Typewriter {
     } else {
       // Otherwise the position of the cursor moves to the right
       cursor.position += mod;
-      if (cursor.selection) {
-        // If there is already a selection expand right from the end
-        cursor.selection[which] += mod;
-      } else {
-        // If no selection create a new one
-        cursor.selection = { start: -1, end: -1 };
 
-        cursor.selection[which === 'start' ? 'end' : 'start'] =
-          cursor.position - mod;
-        cursor.selection[which] = cursor.position;
+      const selection = cursor.selection;
+      if (selection) {
+        // If there is already a selection expand right from the end
+        selection[which] += mod;
+      } else {
+        const selection =  { start: -1, end: -1 };
+
+        selection[which === 'start' ? 'end' : 'start'] = cursor.position - mod;
+        selection[which] = cursor.position;
+
+        cursor.selection = selection;
       }
     }
 
@@ -1265,11 +1286,12 @@ export class Typewriter {
 
     const cursorMap: Record<number, TypewriterCursor[]> = {};
 
-    this.cursors.forEach((cursor) => {
-      if (cursorMap[cursor.position]) {
-        cursorMap[cursor.position].push(cursor);
+    this.cursors.forEach((c) => {
+      const pos = c.position;
+      if (cursorMap[pos]) {
+        cursorMap[pos].push(c);
       } else {
-        cursorMap[cursor.position] = [cursor];
+        cursorMap[pos] = [c];
       }
     });
 
@@ -1281,10 +1303,10 @@ export class Typewriter {
         cursors: cursors ? cursors : [],
         character: text[i],
         selected: this.cursors.filter(
-          (cursor) =>
-            cursor.selection &&
-            i >= cursor.selection.start &&
-            i < cursor.selection.end
+          (c) =>
+            c.selection &&
+            i >= c.selection.start &&
+            i < c.selection.end
         ),
       };
     }

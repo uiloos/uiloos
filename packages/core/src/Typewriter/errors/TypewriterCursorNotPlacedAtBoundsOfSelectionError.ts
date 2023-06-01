@@ -1,4 +1,4 @@
-import { common } from "./common";
+import { common, name } from "./common";
 
 /**
  * Error which is thrown whenever the cursor has a selection but the
@@ -10,6 +10,6 @@ import { common } from "./common";
 export class TypewriterCursorNotAtSelectionEdgeError extends Error {
   constructor() {
     super(`${common} cursor is not placed on edges of selection`);
-    this.name = "TypewriterCursorNotAtSelectionEdgeError";
+    this.name = `${name}CursorNotAtSelectionEdgeError`;
   }
 }

@@ -1,4 +1,4 @@
-import { common } from "./common";
+import { common, name } from "./common";
 
 /**
  * Error which is thrown whenever a cursors selection is
@@ -9,6 +9,6 @@ import { common } from "./common";
 export class TypewriterCursorSelectionOutOfBoundsError extends Error {
   constructor(name: "start" | 'end') {
     super(`${common} cursor selection ${name} is out of bounds`);
-    this.name = "TypewriterInvalidCursorSelectionOutOfBoundsError";
+    this.name = `${name}InvalidCursorSelectionOutOfBoundsError`;
   }
 }
