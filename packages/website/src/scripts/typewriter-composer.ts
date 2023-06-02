@@ -3,19 +3,13 @@ import {
   TypewriterCursor,
   TypewriterEvent,
   ViewChannelEvent,
-  typewriterActionTypeSelectLeft,
-} from '@uiloos/core';
-import { typewriterActionTypeBackspace } from '@uiloos/core';
-import { ViewChannel } from '@uiloos/core';
-import { typewriterActionTypeSelectRight } from '@uiloos/core';
-import { typewriterActionTypeLeft } from '@uiloos/core';
-import {
+  ViewChannel,
   ActiveList,
   ActiveListContent,
   Typewriter,
   TypewriterConfig,
-  typewriterActionTypeRight,
   TypewriterAction,
+  TypewriterActionKeyboard,
 } from '@uiloos/core';
 
 const animationEl = document.getElementById('animation') as HTMLDivElement;
@@ -29,7 +23,9 @@ const cursorsEl = document.getElementById('cursors') as HTMLUListElement;
 const addCursorButton = document.getElementById(
   'add-cursor'
 ) as HTMLButtonElement;
-const cursorPositionExplanationEl = document.getElementById('cursors-position-explanation') as HTMLParagraphElement;
+const cursorPositionExplanationEl = document.getElementById(
+  'cursors-position-explanation'
+) as HTMLParagraphElement;
 const maxPositionCursorEl = document.getElementById(
   'max-position-cursor'
 ) as HTMLSpanElement;
@@ -48,15 +44,33 @@ const initialTextInput = document.getElementById(
 const fixedDelayInput = document.getElementById(
   'fixed-delay'
 ) as HTMLInputElement;
-const repeatTimeInput = document.getElementById('repeat-time') as HTMLInputElement;
-const repeatDelayInput = document.getElementById('repeat-delay') as HTMLInputElement;
-const repeatDelayWrapperEl = document.getElementById('repeat-delay-wrapper') as HTMLInputElement;
+const repeatTimeInput = document.getElementById(
+  'repeat-time'
+) as HTMLInputElement;
+const repeatDelayInput = document.getElementById(
+  'repeat-delay'
+) as HTMLInputElement;
+const repeatDelayWrapperEl = document.getElementById(
+  'repeat-delay-wrapper'
+) as HTMLInputElement;
 const autoplayInput = document.getElementById('autoplay') as HTMLInputElement;
 
 const timelineEl = document.getElementById('timeline') as HTMLUListElement;
-const timelineTotalTime = document.getElementById(
+const timelineAddActionEl = document.getElementById(
+  'timeline-add-action'
+) as HTMLLIElement;
+const timelineTotalTimeEl = document.getElementById(
   'timeline-total-time'
 ) as HTMLSpanElement;
+const timelineSelectedActionsEl = document.getElementById(
+  'timeline-selected-actions'
+) as HTMLSpanElement;
+const mergeSelectedButton = document.getElementById(
+  'timeline-merge-selected'
+) as HTMLButtonElement;
+const removeSelectedButton = document.getElementById(
+  'timeline-remove-selected'
+) as HTMLButtonElement;
 
 animationInput.focus();
 
@@ -76,10 +90,10 @@ const colors = [
 // Represents the action which is getting dragged
 let draggedAction: ActiveListContent<TypewriterAction> | null = null;
 
-const actions = new ActiveList<TypewriterAction>();
+const actions = new ActiveList<TypewriterAction>({ maxActivationLimit: false });
 
 let repeatConfig: number | boolean | undefined = false;
-let repeatDelayConfig: number | undefined= 0;
+let repeatDelayConfig: number | undefined = 0;
 let autoplayConfig: boolean | undefined = true;
 
 let config: TypewriterConfig = {
@@ -193,9 +207,9 @@ function cursorsSubscriber(
 ) {
   cursorsEl.innerHTML = '';
 
-  if (event.type === 'INSERTED') {   
+  if (event.type === 'INSERTED') {
     const position = config.text ? config.text.length : 0;
-    
+
     // Technically not allowed but for the composer this works fine.
     typewriter.cursors.push(
       new TypewriterCursor(typewriter, position, event.value, undefined)
@@ -239,7 +253,10 @@ function cursorsSubscriber(
 
       const actualCursor = typewriter.cursors[cursor.index];
       if (actualCursor) {
-        animationInput.setSelectionRange(actualCursor.position, actualCursor.position);
+        animationInput.setSelectionRange(
+          actualCursor.position,
+          actualCursor.position
+        );
         animationInput.style.caretColor = colorForIndex(cursor.index);
       }
 
@@ -248,11 +265,13 @@ function cursorsSubscriber(
       activeEl.remove();
     }
 
-    const nameInput = cursorEl.querySelector('#cursor-template-name') as HTMLInputElement;
+    const nameInput = cursorEl.querySelector(
+      '#cursor-template-name'
+    ) as HTMLInputElement;
     nameInput.value = cursor.value;
     nameInput.onchange = () => {
       const name = nameInput.value;
-      
+
       // Fixes the name next to the input
       if (cursor.isActive) {
         cursorNameEl.textContent = name;
@@ -266,30 +285,31 @@ function cursorsSubscriber(
       cursor.activate();
     };
 
-    const positionInput = cursorEl.querySelector('#cursor-template-position') as HTMLInputElement;
+    const positionInput = cursorEl.querySelector(
+      '#cursor-template-position'
+    ) as HTMLInputElement;
 
     if (positionInput.value === '') {
-      
       // @ts-expect-error cursors is defined
-      positionInput.value = "" + config.cursors[cursor.index].position;
+      positionInput.value = '' + config.cursors[cursor.index].position;
     }
 
     positionInput.onchange = () => {
       let position = parseInt(positionInput.value, 10);
-      
+
       const length = config.text?.length ?? 0;
       if (position > length || isNaN(position)) {
-        positionInput.value = "" + length;
+        positionInput.value = '' + length;
         position = length;
       } else if (position < 0) {
-        positionInput.value = "0"
+        positionInput.value = '0';
         position = 0;
       }
 
       if (config.cursors) {
         config.cursors[cursor.index].position = position;
       }
-      
+
       reInit();
     };
 
@@ -297,7 +317,7 @@ function cursorsSubscriber(
       cursorPositionExplanationEl.hidden = false;
       positionInput.parentElement?.classList.remove('hidden');
     } else {
-      cursorPositionExplanationEl.hidden = true;  
+      cursorPositionExplanationEl.hidden = true;
       positionInput.parentElement?.classList.add('hidden');
     }
 
@@ -307,6 +327,12 @@ function cursorsSubscriber(
 
 function actionsSubscriber() {
   timelineEl.innerHTML = '';
+
+  if (actions.activeContents.length) {
+    timelineSelectedActionsEl.classList.remove('hidden');
+  } else {
+    timelineSelectedActionsEl.classList.add('hidden');
+  }
 
   let total = 0;
   for (const actionContent of actions.contents) {
@@ -328,7 +354,9 @@ function actionsSubscriber() {
     // took the action.
     actionEl.style.setProperty('--cursor-color', colorForIndex(action.cursor));
 
-    const keyEl = actionEl.querySelector('#timeline-item-key') as HTMLInputElement;
+    const keyEl = actionEl.querySelector(
+      '#timeline-item-key'
+    ) as HTMLInputElement;
 
     const positionEl = actionEl.querySelector(
       '#timeline-item-position'
@@ -348,7 +376,7 @@ function actionsSubscriber() {
       ) as HTMLImageElement;
       mouseIcon.remove();
 
-      keyEl.value = action.key === ' ' ? `' '` : action.key;
+      keyEl.value = action.text === ' ' ? `' '` : action.text;
     } else {
       keyEl.remove();
 
@@ -370,13 +398,50 @@ function actionsSubscriber() {
       reInit();
     };
 
+    const addButton = actionEl.querySelector(
+      '#timeline-item-add'
+    ) as HTMLButtonElement;
+
+    addButton.onclick = () => {
+      if (animationInput.disabled) {
+        return;
+      }
+
+      const cursor = cursors.lastActivatedContent?.index ?? 0;
+
+      let delay = calculateDelay();
+
+      const action: TypewriterAction = {
+        type: 'keyboard',
+        cursor,
+        text: ' ',
+        delay,
+      };
+
+      const atIndex = actionContent.index + 1;
+
+      actions.insertAtIndex(action, atIndex);
+
+      typewriter.actions.splice(atIndex, 0, action);
+      typewriter.isFinished = false;
+      typewriter.play();
+
+      reInit();
+    };
+
     if (action.type === 'keyboard') {
       keyEl.onchange = () => {
         console.log(keyEl.value);
 
-        action.key = keyEl.value;
-        
+        action.text = keyEl.value;
+
         reInit();
+      };
+
+      keyEl.onfocus = () => {
+        if (keyEl.value === "' '") {
+          keyEl.value = '';
+        }
       };
     }
 
@@ -417,10 +482,43 @@ function actionsSubscriber() {
       return false;
     };
 
+    if (actionContent.isActive) {
+      actionEl.classList.add('border-purple-400');
+    } else {
+      actionEl.classList.remove('border-purple-400');
+    }
+
+    actionEl.onclick = (event) => {
+      if (event.shiftKey) {
+        actionContent.toggle();
+      }
+    };
+
+    if (actions.activeIndexes.length > 1) {
+      const sortedIndexes = [...actions.activeIndexes].sort((a, b) => a - b);
+
+      let prev = sortedIndexes[0] - 1;
+
+      const sequential = sortedIndexes.every((value) => {
+        prev += 1;
+
+        const action = actions.contents[value].value;
+        return value === prev && action.type === 'keyboard';
+      });
+
+      if (sequential) {
+        mergeSelectedButton.classList.remove('hidden');
+      } else {
+        mergeSelectedButton.classList.add('hidden');
+      }
+    } else {
+      mergeSelectedButton.classList.add('hidden');
+    }
+
     timelineEl.append(actionEl);
   }
 
-  timelineTotalTime.textContent = (total / 1000).toFixed(2);
+  timelineTotalTimeEl.textContent = (total / 1000).toFixed(2);
 }
 
 function modalSubscriber(
@@ -468,10 +566,9 @@ addCursorButton.onclick = () => {
 };
 
 playButton.onclick = () => {
-
   if (actions.isEmpty()) {
     return;
-  } 
+  }
 
   animationInput.disabled = true;
 
@@ -499,20 +596,15 @@ animationInput.onkeydown = (event) => {
   const cursor = cursors.lastActivatedContent?.index ?? 0;
 
   let delay = calculateDelay();
-  const action: TypewriterAction = {
+
+  const action: TypewriterActionKeyboard = {
     type: 'keyboard',
     cursor,
-    key,
+    text: key,
     delay,
   };
 
-  actions.push(action);
-
-  // Technically this is illegal but it should work, what this does is
-  // push and perform the action straight away.
-  typewriter.actions.push(action);
-  typewriter.isFinished = false;
-  typewriter.play();
+  runAction(action);
 };
 
 animationInput.onkeyup = (event) => {
@@ -534,6 +626,7 @@ animationInput.onkeyup = (event) => {
     }
   }
 
+  // Handle special event.
   const key = keyForEvent(event);
 
   if (key) {
@@ -544,7 +637,7 @@ animationInput.onkeyup = (event) => {
     const action: TypewriterAction = {
       type: 'keyboard',
       cursor,
-      key,
+      text: key,
       delay,
     };
 
@@ -564,22 +657,22 @@ function keyForEvent(event: KeyboardEvent): string | false {
   if (shiftPressed) {
     switch (event.key) {
       case 'ArrowRight':
-        return typewriterActionTypeSelectRight;
+        return '⇧→';
 
       case 'ArrowLeft':
-        return typewriterActionTypeSelectLeft;
+        return '⇧←';
     }
   }
 
   switch (event.key) {
     case 'ArrowRight':
-      return typewriterActionTypeRight;
+      return '→';
 
     case 'ArrowLeft':
-      return typewriterActionTypeLeft;
+      return '←';
 
     case 'Backspace':
-      return typewriterActionTypeBackspace;
+      return '⌫';
   }
 
   return false;
@@ -610,13 +703,7 @@ animationInput.onmouseup = () => {
     delay: calculateDelay(),
   };
 
-  actions.push(action);
-
-  // Technically this is illegal but it should work, what this does is
-  // push and perform the action straight away.
-  typewriter.actions.push(action);
-  typewriter.isFinished = false;
-  typewriter.play();
+  runAction(action);
 };
 
 // Fired when the selection changes, either by keyboard or mouse.
@@ -655,13 +742,7 @@ animationInput.onselect = () => {
     delay: calculateDelay(),
   };
 
-  actions.push(action);
-
-  // Technically this is illegal but it should work, what this does is
-  // push and perform the action straight away.
-  typewriter.actions.push(action);
-  typewriter.isFinished = false;
-  typewriter.play();
+  runAction(action);
 };
 
 // Config
@@ -674,7 +755,7 @@ initialTextInput.onchange = () => {
 
   config.text = text;
 
-  maxPositionCursorEl.textContent = "" + text.length;
+  maxPositionCursorEl.textContent = '' + text.length;
 
   config.cursors?.forEach((cursor) => {
     cursor.position = text.length;
@@ -698,7 +779,7 @@ fixedDelayInput.onchange = () => {
 
 document.querySelectorAll('[name="repeat"]').forEach((element) => {
   const input = element as HTMLInputElement;
-  
+
   input.onchange = () => {
     if (input.value === 'infinitely') {
       repeatConfig = true;
@@ -715,7 +796,7 @@ document.querySelectorAll('[name="repeat"]').forEach((element) => {
     }
 
     showHideRepeat();
-  }
+  };
 });
 
 repeatDelayInput.onchange = () => {
@@ -723,7 +804,7 @@ repeatDelayInput.onchange = () => {
 
   if (value < 0 || isNaN(value)) {
     value = 1;
-    repeatDelayInput.value = "1";
+    repeatDelayInput.value = '1';
   }
 
   repeatDelayConfig = value;
@@ -808,7 +889,7 @@ exportButton.onclick = () => {
           copyButton.remove();
         } else {
           config.actions = actions.contents.map((c) => c.value);
-          
+
           config.repeat = repeatConfig;
           config.repeatDelay = repeatDelayConfig;
           config.autoPlay = autoplayConfig;
@@ -848,21 +929,21 @@ importButton.onclick = () => {
     data: {
       template: 'import-modal',
       init: (element) => {
-        const importInput =  element.querySelector(
+        const importInput = element.querySelector(
           '#import-input'
-        ) as HTMLInputElement; 
+        ) as HTMLInputElement;
 
         const importButton = element.querySelector(
           '#import-import'
         ) as HTMLButtonElement;
-        
+
         importButton.onclick = () => {
           const json = JSON.parse(importInput.value) as TypewriterConfig;
 
           config = json;
-        
+
           // Read in thea actual values
-          repeatConfig = config.repeat; 
+          repeatConfig = config.repeat;
           repeatDelayConfig = config.repeatDelay;
           autoplayConfig = config.autoPlay;
 
@@ -874,20 +955,24 @@ importButton.onclick = () => {
           // Set the fixed delay only when all delays are exactly the same.
           if (json.actions) {
             const firstDelay = json.actions[0].delay;
-            const everyDelayTheSame = json.actions.every(a => a.delay === firstDelay);
+            const everyDelayTheSame = json.actions.every(
+              (a) => a.delay === firstDelay
+            );
 
             if (everyDelayTheSame) {
-              fixedDelayInput.value = "" + firstDelay;
+              fixedDelayInput.value = '' + firstDelay;
             }
           }
 
           actions.initialize({ contents: json.actions });
           cursors.initialize({
-            contents: config.cursors ? config.cursors.map(c => c.name ?? '') : [],
+            contents: config.cursors
+              ? config.cursors.map((c) => c.name ?? '')
+              : [],
             activeIndexes: 0,
             isCircular: true,
           });
-        
+
           animationInput.value = '';
 
           reInit();
@@ -904,6 +989,61 @@ importButton.onclick = () => {
       },
     },
   });
+};
+
+timelineAddActionEl.onclick = () => {
+  const cursor = cursors.lastActivatedContent?.index ?? 0;
+
+  let delay = calculateDelay();
+
+  const action: TypewriterAction = {
+    type: 'keyboard',
+    cursor,
+    text: ' ',
+    delay,
+  };
+
+  runAction(action);
+};
+
+removeSelectedButton.onclick = () => {
+  actions.removeByPredicate((item) => item.content.isActive);
+
+  reInit();
+};
+
+mergeSelectedButton.onclick = () => {
+  const sortedIndexes = [...actions.activeIndexes].sort((a, b) => a - b);
+
+  let word = '';
+
+  const toBeRemoved: ActiveListContent<TypewriterAction>[] = [];
+  let lastContent: ActiveListContent<TypewriterAction> | null = null;
+
+  sortedIndexes.forEach((value, index) => {
+    const content = actions.contents[value];
+    const action = content.value as TypewriterActionKeyboard;
+
+    word += action.text;
+
+    if (index === sortedIndexes.length - 1) {
+      action.text = word;
+      lastContent = content;
+    } else {
+      toBeRemoved.push(content);
+    }
+  });
+
+  toBeRemoved.forEach((content) => {
+    content.remove();
+  });
+
+  if (lastContent) {
+    // @ts-expect-error This works as it is set
+    lastContent.deactivate();
+  }
+
+  reInit();
 };
 
 // Utils
@@ -930,12 +1070,12 @@ function reInit() {
   } else if (typeof repeatConfig === 'number') {
     // @ts-expect-error this selects a input typecheckbox
     document.querySelectorAll('[name="repeat"]')[1].checked = true;
-    repeatTimeInput.value = "" + repeatConfig;
+    repeatTimeInput.value = '' + repeatConfig;
   }
 
-  initialTextInput.value = config.text ? "" + config.text : '';
+  initialTextInput.value = config.text ? '' + config.text : '';
   autoplayInput.checked = !!autoplayConfig;
-  repeatDelayInput.value = "" + repeatDelayConfig;
+  repeatDelayInput.value = '' + repeatDelayConfig;
 
   config.actions = actions.contents.map((c) => c.value);
 
@@ -943,18 +1083,30 @@ function reInit() {
 }
 
 function showHideRepeat() {
-  if (repeatConfig === false || repeatConfig === 1 || repeatConfig === undefined) {
+  if (
+    repeatConfig === false ||
+    repeatConfig === 1 ||
+    repeatConfig === undefined
+  ) {
     repeatDelayWrapperEl.classList.add('hidden');
   } else {
     repeatDelayWrapperEl.classList.remove('hidden');
   }
 }
 
+function runAction(action: TypewriterAction) {
+  actions.push(action);
+
+  // Technically this is illegal but it should work, what this does is
+  // push and perform the action straight away.
+  typewriter.actions.push(action);
+  typewriter.isFinished = false;
+  typewriter.play();
+}
+
 /*
   TODO:
-  . word mode
   . Pause
-  . Emoji picker
   . Dark mode
   . Mobile mode
   . Fix safari

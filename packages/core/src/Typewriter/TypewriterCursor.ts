@@ -8,6 +8,9 @@ import { Typewriter } from './Typewriter';
  * are reset, and the previously attached cursors become detached,
  * this means that the positions of the cursors are no longer
  * accurate.
+ * 
+ * You should never instantiate a `TypewriterCursor` directly. It 
+ * should always be given to you by the `Typewriter`.
  *
  * @since 1.2.0
  */
@@ -16,6 +19,9 @@ export class TypewriterCursor {
 
   /**
    * The position of the cursor within the `Typewriter` text.
+   * 
+   * If the cursor also has a `selection`, the `position` will always 
+   * either on the `start` or `end` of the `selection`.
    *
    * Note: when `initialize` is called on a `Typewriter` all cursors
    * become detached, and the position is no longer accurate.
@@ -24,20 +30,35 @@ export class TypewriterCursor {
    */
   public position: number;
 
-  /**
-   * The name associated with the cursor.
-   *
+ /**
+   * The optional name associated with the cursor. Nothing is done 
+   * with the name itself by the Typewriter.
+   * 
+   * You could use the name to:
+   * 
+   *   1. Give the cursor a label in the animation, telling to which
+   *      "user" the cursor belongs.
+   * 
+   *   2. Give the cursor a name to more easily identify the cursor,
+   *      perhaps to give different styling to each individual cursor.
+   *      In this case the name might even be a CSS selector.
+   * 
    * @since 1.2.0
    */
   public name: string;
 
   /**
    * The range of positions which this cursor has selected, or when
-   * it is `undefined signifying no selection.
+   * it is `undefined` signifying no selection.
+   * 
+   * The `position` of a cursors is always either on the `start` or 
+   * `end` of the `selection`.
    *
    * Note: whenever the cursor stops selecting text the selection
-   * will be turned into `undefined`. This means that this is one of
-   * the few objects in uiloos that can change its reference.
+   * will be turned into `undefined`. So be careful not to keep any
+   * references to selections.
+   * 
+   * @since 1.2.0
    */
   public selection?: TypewriterCursorSelection;
 
@@ -46,7 +67,10 @@ export class TypewriterCursor {
    *
    * A cursor does not blink when the user is typing, only when the
    * user has stopped typing then after a little while the cursor
-   * will start blinking.
+   * will start blinking again.
+   * 
+   * The time until the cursors blinks again is the `Typewriter`'s
+   * `blinkAfter` property.
    *
    * @since 1.2.0
    */

@@ -2,7 +2,7 @@ import { common, name } from "./common";
 
 /**
  * Error which is thrown whenever the configured delay for a
- * TypewriterKeystroke is zero or less than zero. 
+ * TypewriterAction is zero or less than zero. 
  * 
  * @since 1.2.0
  */

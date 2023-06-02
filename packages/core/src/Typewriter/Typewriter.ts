@@ -39,17 +39,11 @@ import { TypewriterCursorSelectionInvalidRangeError } from './errors/TypewriterC
 import { TypewriterCursorSelectionOutOfBoundsError } from './errors/TypewriterCursorSelectionOutOfBoundsError';
 import { TypewriterActionUnknownCursorError } from './errors/TypewriterActionUnknownCursorError';
 
-// TODO: builders: ascii, marble, fluentapi
-
-// TODO: build
+// TODO: React, Vue, Angular
 
 // TODO: create docs
 
-// TODO: word mode
-
-// TODO: check since 1.2.0
-
-// TODO: check doc strings, seen some wrong things
+// TODO: create animation for home page.
 
 // CURRENT: create composer, where the user can compose animations by typing an clicking.
 // Perhaps this should even be the primary way of doing things.
@@ -63,7 +57,19 @@ import { TypewriterActionUnknownCursorError } from './errors/TypewriterActionUnk
  * Has support for: multiple cursors, cursor selection, mouse movement,
  * and keyboard movement.
  *
- * TODO bit about fluent api and from array builder.
+ * There are two main ways to create a typewriter animation:
+ * 
+ * 1. By using the `typewriterFromSentences` function, it can create
+ *    single cursor animations from sentences (strings). It does do 
+ *    by comparing and diffing the sentences and generating the 
+ *    required keystrokes to go from one sentence to another.
+ * 
+ * 2. You can use the typewriter composer, a web based tool to 
+ *    generate the animations using your own keyboard. 
+ * 
+ *    It can be found at: 
+ * 
+ *    https://www.uiloos.dev/docs/typewriter/composer/
  *
  * @since 1.2.0
  */
@@ -93,7 +99,16 @@ export class Typewriter {
   public readonly actions: TypewriterAction[] = [];
 
   /**
-   * The current text the `Typewriter` has typed.
+   * The current text of the `Typewriter` which it currently displays.
+   * 
+   * For example if the actions are type in 'a' 3 times then a 
+   * backspace. The `text` would be the following, after each of 
+   * the 4 actions:
+   * 
+   * 1. 'a'
+   * 2. 'aa'
+   * 3. 'aaa'
+   * 4. 'aa'
    *
    * @since 1.2.0
    */
@@ -104,12 +119,26 @@ export class Typewriter {
   private _originalText = '';
 
   /**
-   * Configures how long the delay is until the cursor starts
-   * blinking.
+   * The time it takes until a cursor starts blinking again after 
+   * the cursor was used.
+   * 
+   * A cursor does not blink when it is used until after a certain 
+   * time. So if you keep typing the cursor does not blink, until 
+   * you stop typing for some "predefined amount" of time. 
+   * 
+   * The `blinkAfter` is what represents that 'predefined amount' of 
+   * time, you can also say this is a debounce time.
+   * 
+   * Note: when you set the `blinkAfter` to a number lower or equal to
+   * the `delay` of a `TypewriterAction`, it will negate the debounce.
+   * The effect is that all "CHANGED" events will have a "BLINKING"
+   * event. This might not "visually" affect your animation, but 
+   * will make the `Typewriter` send extra events. If this happens it
+   * is technically as "misconfiguration" on your part, but the 
+   * Typewriter will not throw any errors, since visually nothing
+   * bad happens. 
    *
-   * A cursor does not blink when the user is typing, only when the
-   * user has stopped typing then after a little while the cursor
-   * will start blinking.
+   * Defaults to after `250` milliseconds.
    *
    * @since 1.2.0
    */
@@ -138,20 +167,22 @@ export class Typewriter {
    * @since 1.2.0
    */
   public isFinished: boolean = false;
-
+ 
   /**
    * Whether or not this animation repeats and how often.
    *
    * There are three ways to define `repeat`.
    *
-   *  1. When `repeat` is `false` it will never repeat the animation,
-   *     the animation will run once.
+   *  1. When `repeat` is `false` or `1` it will never repeat the 
+   *     animation, the animation will run only once.
    *
-   *  2. When `repeat` is `true` it will loop the animation forever.
+   *  2. When `repeat` is `true` it will repeat the animation forever.
    *
    *  3. When `repeat` is a number it will repeat the animation
-   *     for the number of times. If 0 or a negative number is
-   *     provided a error occurs.
+   *     for given number of times. If the number is 0 or a negative 
+   *     number is provided a error occurs.
+   *
+   * Defaults to `false` meaning that the animation will run once.
    *
    * @since 1.2.0
    */
@@ -168,8 +199,8 @@ export class Typewriter {
   private _repeated = 0;
 
   /**
-   * Whether or not the Typewriter has been stopped at one
-   * point before.
+   * Whether or not the Typewriter has been stopped at one point 
+   * before.
    *
    * Use case: say you are making an animation which has a stop button
    * to stop the animation. Say you also have another feature: a pause
@@ -213,12 +244,13 @@ export class Typewriter {
   /**
    * Contains the history of the changes in the views array.
    *
-   * Tracks X types of changes:
+   * Tracks 8 types of changes:
    *
    * 1. INITIALIZED: fired when Typewriter is initialized
    *
-   * 2. CHANGED: fired when a change in the text of the typewriter occurred,
-   *    when a cursor moves, or a when aa cursors selection changes.
+   * 2. CHANGED: fired when a change in the text of the typewriter 
+   *    occurred, when a cursor moves, or a when a cursors selection 
+   *    changes.
    *
    * 3. PLAYING: fired when play is called.
    *
@@ -256,9 +288,7 @@ export class Typewriter {
    *
    * You can also optionally provide an subscriber so you can get
    * informed of the changes happening to the Typewriter.
-   *
-   * Will start running the animation automatically.
-   *
+   * 
    * @param {TypewriterConfig} config The initial configuration of the Typewriter.
    * @param {TypewriterSubscriber | undefined} subscriber An optional subscriber which responds to changes in the Typewriter.
    * @throws {TypewriterBlinkAfterError} blinkAfter duration must be a positive number
@@ -290,9 +320,7 @@ export class Typewriter {
    * Initializes the Typewriter based on the config provided.
    * This can effectively reset the Typewriter when called,
    * including the history.
-   *
-   * Will start running the animation automatically.
-   *
+   * 
    * @param {TypewriterConfig} config The new configuration which will override the old one
    * @throws {TypewriterBlinkAfterError} blinkAfter duration must be a positive number
    * @throws {TypewriterDelayError} delay duration must be a positive number
@@ -457,12 +485,11 @@ export class Typewriter {
   }
 
   /**
-   * Subscribe to changes of the Typewriter. The function you
-   * provide will get called whenever changes occur in the
-   * Typewriter.
+   * Subscribe to changes of the Typewriter. The function you provide 
+   * will get called whenever changes occur in the Typewriter.
    *
-   * Returns an unsubscribe function which when called will unsubscribe
-   * from the Typewriter.
+   * Returns an unsubscribe function which when called will 
+   * unsubscribe from the Typewriter.
    *
    * @param {TypewriterSubscriber} subscriber The subscriber which responds to changes in the Typewriter.
    * @returns {UnsubscribeFunction} A function which when called will unsubscribe from the Typewriter.
@@ -487,8 +514,8 @@ export class Typewriter {
 
   /**
    * When the Typewriter is paused or stopped it will start the
-   * animation from that point. If the animation was finished
-   * calling `play()` will restart the animation.
+   * animation from that point. If the animation was finished calling 
+   * `play()` will restart the animation.
    *
    * When there are is no more animations the Typewriter will stop
    * automatically.
@@ -532,11 +559,11 @@ export class Typewriter {
   /**
    * When the Typewriter is playing it will pause the animation, as
    * if the person using the typewriter stops typing, this means that
-   * the cursor will start blinking again.
+   * the cursors will start blinking again.
    *
    * Calling `play()` again will continue the animation.
    *
-   * For example: when the `pause` of the current `TypewriterKeystroke`
+   * For example: when the `pause` of the current `TypewriterAction`
    * is 1 second and the `pause` is called after 0.8 seconds, it will
    * after `play` is called, take 0.2 seconds to go to the next
    * action.
@@ -931,7 +958,7 @@ export class Typewriter {
                     if (selection.end === removed.end) {
                       selection.end -= removed.no;
                     }
-                    // When selection is one of shrink it as well. TODO: is this just plain old weird!
+                    // When selection is off by one shrink it as well.
                     else if (selection.end === removed.end - 1) {
                       selection.end -= removed.no - 1;
                     } else if (selection.end !== removed.start) {

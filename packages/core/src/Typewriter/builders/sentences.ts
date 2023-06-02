@@ -8,6 +8,8 @@ import { Typewriter } from '../Typewriter';
 
 /**
  * The configuration for the `typewriterFromSentences` function.
+ * 
+ * @since 1.2.0
  */
 export type TypewriterFromSentencesConfig = Omit<
   TypewriterConfig,

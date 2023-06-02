@@ -2,8 +2,14 @@ import { Typewriter } from './Typewriter';
 import { TypewriterCursor } from './TypewriterCursor';
 
 /**
- * Represents the selection of a cursor, were the start and 
- * end are positions in the Typewriters text.
+ * Represents the selection of a cursor. A selection has a `start`
+ * and and `end` which are both numbers representing two positions
+ * within a `Typewriter`'s `text` property.
+ * 
+ * The `start` will always lie before the `end`. 
+ * 
+ * The `position` of a cursors is always either on the `start` or 
+ * `end` of the `selection`.
  * 
  * @since 1.2.0
  */
@@ -95,7 +101,7 @@ export type TypewriterConfig = {
   /**
    * The initial text the `Typewriter` starts with.
    *
-   * Defaults to `` meaning that the Typewriter will not have any
+   * Defaults to '' meaning that the Typewriter will not have an
    * initial text.
    *
    * @since 1.2.0
@@ -103,14 +109,15 @@ export type TypewriterConfig = {
   text?: string;
 
   /**
-   * The time it takes until the cursor starts blinking again after 
+   * The time it takes until a cursor starts blinking again after 
    * the cursor was used.
    * 
    * A cursor does not blink when it is used until after a certain 
    * time. So if you keep typing the cursor does not blink, until 
-   * you stop typing for some predefined amount of time. 
+   * you stop typing for some "predefined amount" of time. 
    * 
-   * The `blinkAfter` is what represents that debounce time.
+   * The `blinkAfter` is what represents that 'predefined amount' of 
+   * time, you can also say this is a debounce time.
    * 
    * Note: when you set the `blinkAfter` to a number lower or equal to
    * the `delay` of a `TypewriterAction`, it will negate the debounce.
@@ -142,6 +149,9 @@ export type TypewriterConfig = {
    * When `true` the animation will start playing immediately, when 
    * `false` the animation will start when `play()` is called.
    * 
+   * Note: the animation will only start playing when there are 
+   * actions defined.
+   * 
    * Defaults to `true` meaning that the animation will play instantly.
    * 
    * @since 1.2.0
@@ -169,7 +179,8 @@ export type TypewriterConfig = {
   repeat?: boolean | number;
 
   /**
-   * The time in milliseconds the animation is paused in between repeats.
+   * The time in milliseconds the animation is paused in between 
+   * repeats.
    *
    * Defaults to `0` milliseconds, meaning an almost instant repeat.
    *
@@ -247,9 +258,29 @@ export type TypewriterActionKeyboard = BaseTypewriterAction & {
   /**
    * The string that was typed in, can either be a word or a single
    * character or a special symbol representing a special key on the
-   * keyboard. For example: 
+   * keyboard. There are six special keys:
    * 
-   * TODO special keys
+   * 1. A backspace represented by '⌫'. It will when nothing is 
+   *    selected delete the previous character, and when the cursor 
+   *    does have a selection, remove all characters in the selection.
+   * 
+   * 2. 'Clear all' represented by '⎚', it clear the entire text.
+   * 
+   * 3. The left arrow key represented by '←'. When nothing is 
+   *    selected is will move the cursor one position to the left.
+   *    When a selection is made it will move the cursor to the start
+   *    of the selection. 
+   * 
+   * 4. The right arrow key represented by '→'. When nothing is 
+   *    selected is will move the cursor one position to the right.
+   *    When a selection is made it will move the cursor to the end of 
+   *    the selection. 
+   * 
+   * 5. Select left, represented by ⇧←', when repeated grows the
+   *    selection.
+   * 
+   * 6. Select right, represented by ⇧→', when repeated grows the 
+   *    selection.
    *
    * @since 1.2.0
    */
@@ -288,10 +319,9 @@ export type TypewriterActionMouse = BaseTypewriterAction & {
    * double clicking on a word. In the animation you will see the 
    * selection happen instantly. 
    * 
-   * For first use-case: mouse click selection, it is better to  use 
-   * a keyboard event using `typewriterActionTypeSelectLeft` or 
-   * `typewriterActionTypeSelectRight`. This you animate the selection
-   * growing.
+   * For first use-case: mouse click selection, it is better to use 
+   * a keyboard event using `⇧←` or  `⇧→`. This way you animate the 
+   * selection growing.
    *
    * @since 1.2.0
    */
@@ -325,14 +355,14 @@ export type TypewriterEventType =
   | 'REPEATING';
 
 /**
- * Represents an event which happened in the Typewriter. Based
- * on the `type` you can determine which event occurred.
+ * Represents an event which happened in the Typewriter. Based on the 
+ * `type` you can determine which event occurred.
  *
  * @since 1.2.0
  */
 export type TypewriterBaseEvent = {
   /**
-   * Which event occurred
+   * Which event occurred.
    *
    * @since 1.2.0
    */
@@ -352,8 +382,9 @@ export type TypewriterBaseEvent = {
  * are represented by a `TypewriterPosition`.
  * 
  * `TypewriterPosition` contains the character for that position, 
- * which cursors there are, and the position (index) of the character
- * in the text.
+ * the position (index) of that character, and all cursors currently
+ * on the position. Lastly it will contain all cursors that have 
+ * selected the position.
  * 
  * @since 1.2.0
  */
@@ -512,7 +543,7 @@ export type TypewriterFinishedEvent = TypewriterBaseEvent & {
   action: TypewriterAction;
 
   /**
-   * The cursor triggered the finished event.
+   * The cursor which triggered the finished event.
    *
    * @since 1.2.0
    */
@@ -554,7 +585,7 @@ export type TypewriterRepeatingEvent = TypewriterBaseEvent & {
   type: 'REPEATING';
 
   /**
-   * The cursor triggered the repeating event.
+   * The cursor which triggered the repeating event.
    *
    * @since 1.2.0
    */
@@ -563,7 +594,7 @@ export type TypewriterRepeatingEvent = TypewriterBaseEvent & {
 
 /**
  * A TypewriterEvent represents an event happened in the Typewriter.
- * For example the presented and dismissal of the TypewriterView.
+ * For example changing of the text or finishing the animation.
  *
  * @since 1.2.0
  */

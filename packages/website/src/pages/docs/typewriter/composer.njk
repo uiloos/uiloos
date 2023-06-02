@@ -15,6 +15,13 @@ renderData:
 <section class="mx-auto px-5 sm:px-6 md:pb-20 mt-8">
   <h1>Typewriter Composer</h1>
 
+  <p>
+    To begin composing your "animation" type into the "Input" field. <br> The
+    "Preview" will then show your animation.
+  </p>
+
+  <a href="/docs/typewriter/" class="underline block mb-4">Back to the Typewriter documentation hub.</a>
+
   <div class="grid gap-4 xl:grid-cols-12 items-start">
     <div class="xl:order-2 xl:col-span-9 grid gap-4">
       <div class="border p-4 shadow-lg grid gap-4">
@@ -33,21 +40,38 @@ renderData:
           <label for="animation-input" class="font-bold">Input <span class="font-normal">(<span id="cursor-name">Cursor #1</span> is active)</span></label>
           <input id="animation-input" name="animation-input" class="p-2 border text-black" autocomplete="off"/>
         </form>
-
-        <p>
-          To begin composing your "animation" type into the input.
-        </p>
       </div>
 
       <div class="border p-4 shadow-lg grid gap-4">
         <h2 class="text-2xl mb-0">Timeline</h2>
 
-        <ul id="timeline" class="flex flex-nowrap overflow-auto max-w-7xl gap-4"></ul>
-
         <p>Total time <span id="timeline-total-time">0</span>s</p>
 
+        <ul id="timeline" class="flex flex-nowrap overflow-auto max-w-7xl gap-4">
+          <li id="timeline-add-action" class="min-w-[128px] max-w-[128px] h-44 border p-4 flex flex-col justify-center items-center gap-2 cursor-pointer">
+            <button type="button" class="text-purple-600 hover:text-purple-700 text-4xl" aria-labelledby="add-action">
+              +
+            </button>
+            <p id="add-action" class="text-center">
+              Add action
+            </p>
+          </li>
+        </ul>
+        
+        <div id="timeline-selected-actions" class="flex gap-4 hidden">
+         
+
+          <button type="button" id="timeline-remove-selected" class="justify-self-start btn-sm text-white bg-purple-600 hover:bg-purple-700">
+             Remove selected
+          </button>
+
+           <button type="button" id="timeline-merge-selected" class="justify-self-start btn-sm text-white bg-purple-600 hover:bg-purple-700">
+             Merge selected sequence
+          </button>
+        </div>
+
         <template id="timeline-item-template">
-          <li class="timeline-item min-w-[128px] max-w-[128px] h-44 border p-4 flex flex-col items-center gap-2 cursor-grab" draggable="true">
+          <li class="timeline-item min-w-[128px] max-w-[128px] h-44 border p-4 flex flex-col items-center gap-2 cursor-grab relative" draggable="true">
             <img id="timeline-item-mouse" alt="A mouse action" src="/images/icons/mouse.svg" width="16" height="16"/>
             <img id="timeline-item-keyboard" alt="A keyboard action" src="/images/icons/keyboard.svg" width="24" height="16"/>
             <span id="timeline-item-position" class="font-mono"></span>
@@ -58,6 +82,9 @@ renderData:
             </div>
             <button type="button" id="timeline-item-delete" class="mt-4">
               <img alt="A trash can" src="/images/icons/trash.svg" width="16" height="16"/>
+            </button>
+            <button type="button" id="timeline-item-add" class="absolute -top-2 -right-[21px] flex justify-center items-center rounded-full w-6 h-6 text-gray-400 hover:text-black" title="Add new action in between">
+              +
             </button>
           </li>
         </template>
