@@ -3,7 +3,6 @@
 
 .typewriter {
   position: relative;
-  
   font-size: 32px;
   display: inline-block;
   width: 100%;
@@ -37,20 +36,6 @@
   .blink {
     animation: blink 1s step-start infinite;
   }
-}
-
-.timeline-item:not(:last-of-type)::after {
-  content: "";
-  position: relative;
-  top: -92px;
-  left: 72px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-top: 12px solid transparent;
-  border-bottom: 12px solid transparent;
-  border-left: 16px solid var(--cursor-color);
-  border-right: 0;
 }
 
 @keyframes blink {

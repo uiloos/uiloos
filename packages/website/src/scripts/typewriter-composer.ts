@@ -12,6 +12,8 @@ import {
   TypewriterActionKeyboard,
 } from '@uiloos/core';
 
+let reInitTimeout = -1;
+
 const animationEl = document.getElementById('animation') as HTMLDivElement;
 const animationInput = document.getElementById(
   'animation-input'
@@ -75,7 +77,6 @@ const removeSelectedButton = document.getElementById(
 animationInput.focus();
 
 const colors = [
-  '#000000',
   '#dc2626',
   '#65a30d',
   '#2563eb',
@@ -153,7 +154,9 @@ function typewriterSubscriber(typewriter: Typewriter, event: TypewriterEvent) {
     const actionEl = document.getElementById(`action-${index}`);
 
     if (actionEl) {
-      actionEl.style.borderColor = '#c084fc';
+      const color = actionEl.style.getPropertyValue('--cursor-color');
+
+      actionEl.style.borderColor = color;
     }
   }
 
@@ -199,6 +202,18 @@ function typewriterSubscriber(typewriter: Typewriter, event: TypewriterEvent) {
       letterEl.style.setProperty('--background-color', color + '30'); // 30 = opacity
     }
   }
+
+  let total = 0;
+
+  for (const action of typewriter.actions) {
+    total += action.delay;
+  }
+
+  // Prevents reInit from flashing total time.
+  if (total > 50) {
+    timelineTotalTimeEl.textContent = (total / 1000).toFixed(2);
+  }
+
 }
 
 function cursorsSubscriber(
@@ -334,11 +349,8 @@ function actionsSubscriber() {
     timelineSelectedActionsEl.classList.add('hidden');
   }
 
-  let total = 0;
   for (const actionContent of actions.contents) {
     const action = actionContent.value;
-
-    total += action.delay;
 
     const template = document.getElementById(
       'timeline-item-template'
@@ -373,7 +385,7 @@ function actionsSubscriber() {
 
       const mouseIcon = actionEl.querySelector(
         '#timeline-item-mouse'
-      ) as HTMLImageElement;
+      ) as SVGElement;
       mouseIcon.remove();
 
       keyEl.value = action.text === ' ' ? `' '` : action.text;
@@ -382,7 +394,7 @@ function actionsSubscriber() {
 
       const keyboardIcon = actionEl.querySelector(
         '#timeline-item-keyboard'
-      ) as HTMLImageElement;
+      ) as SVGElement;
       keyboardIcon.remove();
 
       positionEl.textContent = '' + action.position;
@@ -431,8 +443,6 @@ function actionsSubscriber() {
 
     if (action.type === 'keyboard') {
       keyEl.onchange = () => {
-        console.log(keyEl.value);
-
         action.text = keyEl.value;
 
         reInit();
@@ -517,8 +527,6 @@ function actionsSubscriber() {
 
     timelineEl.append(actionEl);
   }
-
-  timelineTotalTimeEl.textContent = (total / 1000).toFixed(2);
 }
 
 function modalSubscriber(
@@ -538,7 +546,7 @@ function modalSubscriber(
     dialogContentEl.append(element);
 
     dialogEl.classList.remove('hidden');
-    dialogEl.classList.add('flex', 'justify-center');
+    dialogEl.classList.add('flex', 'justify-center', 'dark:text-white');
     dialogEl.showModal();
 
     dialogEl.oncancel = () => {
@@ -547,7 +555,7 @@ function modalSubscriber(
   }
 
   if (event.type === 'DISMISSED') {
-    dialogEl.classList.remove('flex', 'justify-center');
+    dialogEl.classList.remove('flex', 'justify-center', 'dark:text-white');
     dialogEl.classList.add('hidden');
     dialogEl.close();
   }
@@ -572,7 +580,7 @@ playButton.onclick = () => {
 
   animationInput.disabled = true;
 
-  reInit();
+  reInit(false);
 };
 
 let shiftPressed = false;
@@ -1052,7 +1060,7 @@ function colorForIndex(index: number): string {
   return colors[index % colors.length];
 }
 
-function reInit() {
+function reInit(fast = true) {
   if (actions.isEmpty()) {
     animationInput.focus();
   } else {
@@ -1077,7 +1085,25 @@ function reInit() {
   autoplayInput.checked = !!autoplayConfig;
   repeatDelayInput.value = '' + repeatDelayConfig;
 
-  config.actions = actions.contents.map((c) => c.value);
+  // When dragging actions "reInit" will be called quickly in 
+  // succession. So we must debounce it.
+  clearTimeout(reInitTimeout);
+
+  if (fast) {
+    const delays = actions.contents.map((c) => c.value.delay);
+
+    config.actions = actions.contents.map((c) => {
+      return { ...c.value, delay: 1 };
+    });
+
+    reInitTimeout = window.setTimeout(() => {
+      config.actions?.forEach((action, index) => {
+        action.delay = delays[index];
+      });
+    }, config.actions.length * 1 + 100);
+  } else {
+    config.actions = actions.contents.map((c) => ({ ...c.value }));
+  }
 
   typewriter.initialize(config);
 }
@@ -1103,16 +1129,3 @@ function runAction(action: TypewriterAction) {
   typewriter.isFinished = false;
   typewriter.play();
 }
-
-/*
-  TODO:
-  . Pause
-  . Dark mode
-  . Mobile mode
-  . Fix safari
-  . Fix firefox
-
-  Bugs:
-
-  . blinking does not always work?
-*/

@@ -13,17 +13,28 @@ renderData:
 <script src="/assets/typewriter-composer.js" defer="true"></script>
 
 <section class="mx-auto px-5 sm:px-6 md:pb-20 mt-8">
-  <h1>Typewriter Composer</h1>
+  <div class="md:text-center grid gap-4 mb-4">
+    <h1>Typewriter Composer</h1>
 
-  <p>
-    To begin composing your "animation" type into the "Input" field. <br> The
-    "Preview" will then show your animation.
-  </p>
+    <p class="md:max-w-xl md:m-auto">
+      To begin composing your "animation" type into the "Input" field. The
+      "Preview" will then show your animation.If you plan to use 
+      multiple cursors, you should add them first.
+    </p>
 
-  <a href="/docs/typewriter/" class="underline block mb-4">Back to the Typewriter documentation hub.</a>
+    <p class="md:max-w-xl md:m-auto">
+      If you plan to use multiple cursors, you should add them first.
+    </p>
 
-  <div class="grid gap-4 xl:grid-cols-12 items-start">
-    <div class="xl:order-2 xl:col-span-9 grid gap-4">
+    <p class="md:max-w-xl md:m-auto">
+      Once you are done you can "export" your animation and begin <a href="/docs/typewriter/tutorial" class="underline">styling it</a>.
+    </p>
+
+    <a href="/docs/typewriter/" class="underline block">Back to the Typewriter documentation hub.</a>
+  </div>
+
+  <div class="grid gap-4 2xl:grid-cols-12 items-start">
+    <div class="2xl:order-2 2xl:col-span-9 grid gap-4">
       <div class="border p-4 shadow-lg grid gap-4">
         <h2 class="text-2xl mb-0">Preview</h2>
         <div id="animation" class="typewriter"></div>
@@ -38,14 +49,22 @@ renderData:
       <div class="border p-4 shadow-lg grid gap-4">
         <form class="grid gap-2" autocomplete="off">
           <label for="animation-input" class="font-bold">Input <span class="font-normal">(<span id="cursor-name">Cursor #1</span> is active)</span></label>
-          <input id="animation-input" name="animation-input" class="p-2 border text-black" autocomplete="off"/>
+          <input id="animation-input" name="animation-input" class="p-2 border text-black dark:text-white dark:bg-gray-900" autocomplete="off"/>
         </form>
+        
+        <p>
+          Whatever you type into the "Input" field will get recorded, this recording is the animation.
+        </p>
+
+        <p>
+          It will record: arrow keys, backspaces, mouse selections, and moving the cursor with the mouse.
+        </p> 
       </div>
 
       <div class="border p-4 shadow-lg grid gap-4">
         <h2 class="text-2xl mb-0">Timeline</h2>
 
-        <p>Total time <span id="timeline-total-time">0</span>s</p>
+        <p class="mb-0">Total time <span id="timeline-total-time">0</span>s</p>
 
         <ul id="timeline" class="flex flex-nowrap overflow-auto max-w-7xl gap-4">
           <li id="timeline-add-action" class="min-w-[128px] max-w-[128px] h-44 border p-4 flex flex-col justify-center items-center gap-2 cursor-pointer">
@@ -59,8 +78,6 @@ renderData:
         </ul>
         
         <div id="timeline-selected-actions" class="flex gap-4 hidden">
-         
-
           <button type="button" id="timeline-remove-selected" class="justify-self-start btn-sm text-white bg-purple-600 hover:bg-purple-700">
              Remove selected
           </button>
@@ -70,20 +87,24 @@ renderData:
           </button>
         </div>
 
+        <p>You can shift-click actions to select multiple actions, 
+        you can then merge actions, or remove actions in bulk.</p>
+
         <template id="timeline-item-template">
           <li class="timeline-item min-w-[128px] max-w-[128px] h-44 border p-4 flex flex-col items-center gap-2 cursor-grab relative" draggable="true">
-            <img id="timeline-item-mouse" alt="A mouse action" src="/images/icons/mouse.svg" width="16" height="16"/>
-            <img id="timeline-item-keyboard" alt="A keyboard action" src="/images/icons/keyboard.svg" width="24" height="16"/>
+            <svg id="timeline-item-mouse" title="A mouse action" class="dark:fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 192H176V0H160C71.6 0 0 71.6 0 160v32zm0 32V352c0 88.4 71.6 160 160 160h64c88.4 0 160-71.6 160-160V224H192 0zm384-32V160C384 71.6 312.4 0 224 0H208V192H384z"/></svg>
+            <svg id="timeline-item-keyboard" title="A keyboard action" class="dark:fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 112c-8.8 0-16 7.2-16 16V384c0 8.8 7.2 16 16 16H512c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H64zM0 128C0 92.7 28.7 64 64 64H512c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM176 320H400c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V336c0-8.8 7.2-16 16-16zm-72-72c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H120c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H120c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16zm64 96c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H200c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H200c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16zm64 96c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H280c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H280c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16zm64 96c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H360c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H360c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16zm64 96c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H440c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H440c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16z"/></svg>
+            
             <span id="timeline-item-position" class="font-mono"></span>
-            <input id="timeline-item-key" class="w-12 text-center"/>
+            <input id="timeline-item-key" class="w-12 text-center dark:text-white dark:bg-gray-900"/>
             <div class="flex">
-              <input id="timeline-item-delay" class="font-mono w-12 text-right"/>
+              <input id="timeline-item-delay" class="font-mono w-12 text-right dark:text-white dark:bg-gray-900"/>
               ms
             </div>
-            <button type="button" id="timeline-item-delete" class="mt-4">
-              <img alt="A trash can" src="/images/icons/trash.svg" width="16" height="16"/>
+            <button type="button" id="timeline-item-delete" class="mt-4 w-4 h-4" title="Delete action">
+              <svg class="dark:fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg>
             </button>
-            <button type="button" id="timeline-item-add" class="absolute -top-2 -right-[21px] flex justify-center items-center rounded-full w-6 h-6 text-gray-400 hover:text-black" title="Add new action in between">
+            <button type="button" id="timeline-item-add" class="absolute -top-2 -right-[21px] flex justify-center items-center rounded-full w-6 h-6 text-gray-400 hover:text-black dark:hover:text-white" title="Add new action in between">
               +
             </button>
           </li>
@@ -91,14 +112,16 @@ renderData:
       </div>
 
       <div class="grid gap-4 border p-4 shadow-lg">
-        <h2 class="text-2xl mb-0">Cursors</h2>
+        <div class="flex justify-between">
+          <h2 class="text-2xl mb-0">Cursors</h2>
 
-        <button type="button" 
-          id="add-cursor" 
-          class="btn-sm text-white bg-purple-600 hover:bg-purple-700 justify-self-end"
-        >
-          + Add cursor
-        </button>
+          <button type="button" 
+            id="add-cursor" 
+            class="btn-sm text-white bg-purple-600 hover:bg-purple-700 justify-self-end"
+          >
+            + Add cursor
+          </button>
+        </div>
 
         <ul id="cursors" class="grid"></ul>
        
@@ -115,11 +138,8 @@ renderData:
           <li class="border p-4 flex items-center justify-between cursor-pointer">
             <div class="flex items-center gap-4">
               <span id="cursor-template-color" class="p-2 rounded-full w-4 h-4 mr-4"></span>
-              <div class="grid gap-2">
-                <label for="cursor-template-name" class="font-bold">
-                  Name
-                </label>
-                <input id="cursor-template-name" name="cursor-template-name" class="p-2 border"/>
+              <div class="flex gap-2">
+                <input id="cursor-template-name" name="cursor-template-name" class="p-2 border 2xl:w-96 dark:text-white dark:bg-gray-900"/>
               </div>
 
               <div class="grid gap-2">
@@ -162,7 +182,7 @@ renderData:
 
             <form class="grid gap-2" autocomplete="off">
               <label for="import-input" class="font-bold">Paste animation array here</label>
-              <textarea id="import-input" name="animation-input" class="p-2 border text-black" autocomplete="off" rows="5"></textarea>
+              <textarea id="import-input" name="animation-input" class="p-2 border text-black dark:text-white dark:bg-gray-900" autocomplete="off" rows="5"></textarea>
               <p>Copy the entire config object here from the starting <b>{</b> to closing <b>}</b>
             </form>
 
@@ -194,20 +214,22 @@ renderData:
       </div>
     </div>
 
-    <div class="grid gap-4 xl:order-1 xl:col-span-3">
+    <div class="grid gap-4 2xl:order-1 2xl:col-span-3 h-full">
       <div class="grid border shadow-lg">
-        <h2 class="text-2xl mb-0 p-4">Config</h2>
+        <h2 class="text-2xl mt-4 px-4">Config</h2>
+
+        <p class="px-4">Configure the Typewriter here first.</p>
 
         <form class="grid gap-2" autocomplete="off">
           <div class="grid gap-2 p-4 border-t">
             <label for="initial-text" class="font-bold">Initial text</label>
-            <input id="initial-text" name="initial-text" class="p-2 border text-black" autocomplete="off"/>
+            <input id="initial-text" name="initial-text" class="p-2 border text-black dark:text-white dark:bg-gray-900" autocomplete="off"/>
             <p>The text the typewriter will initialize with.</p>
           </div>
 
           <div class="grid gap-2 p-4 border-t">
             <div class="flex items-center gap-4">
-              <input id="autoplay" name="autoplay" class="p-2 border text-black" type="checkbox" checked/>
+              <input id="autoplay" name="autoplay" class="p-2 border text-black dark:text-white dark:bg-gray-900" type="checkbox" checked/>
               <label for="autoplay" class="font-bold">Plays automatically</label>
             </div>
 
@@ -220,7 +242,7 @@ renderData:
 
           <div class="grid gap-2 p-4 border-t">
             <label for="fixed-delay" class="font-bold">Fixed delay (ms)</label>
-            <input id="fixed-delay" name="fixed-delay" class="p-2 border text-black" autocomplete="off"/>
+            <input id="fixed-delay" name="fixed-delay" class="p-2 border text-black dark:text-white dark:bg-gray-900" autocomplete="off"/>
             <p>
               By default the animation follows your typing speed. By entering
               a "fixed delay" the animation will happen at fixed intervals.
@@ -242,7 +264,7 @@ renderData:
               <input id="repeat-times" name="repeat" class="p-2 border text-black" value="times" type="radio"/>
               
               <div>
-                <input id="repeat-time" name="repeat-time" class="p-2 border  w-12" type="text" value="5" />
+                <input id="repeat-time" name="repeat-time" class="p-2 border w-12 dark:text-white dark:bg-gray-900" type="text" value="5" />
                 <label for="repeat-times">times</label>
               </div>
             </div>
