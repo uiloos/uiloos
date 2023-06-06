@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { ActiveList, licenseChecker, ViewChannel } from '@uiloos/core';
+import { ActiveList, licenseChecker } from '@uiloos/core';
 import { test, expect } from 'vitest';
 import { defineComponent } from 'vue';
 

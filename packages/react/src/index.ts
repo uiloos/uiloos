@@ -3,4 +3,6 @@ import { useActiveList } from './ActiveList/useActiveList';
 
 import { useViewChannel } from './ViewChannel/useViewChannel';
 
-export { ActiveList, useActiveList, ActiveListProps, useViewChannel };
+import { useTypewriter } from './Typewriter/useTypewriter';
+
+export { ActiveList, useActiveList, ActiveListProps, useViewChannel, useTypewriter };

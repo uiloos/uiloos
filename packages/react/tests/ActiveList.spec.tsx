@@ -5,7 +5,7 @@ import { licenseChecker } from '@uiloos/core';
 
 import {
   ActiveList,
-} from '../src/ActiveList/ActiveList';
+} from '../src';
 
 test('ActiveList component', async () => {
   licenseChecker.activateLicense("fake-100", { logLicenseActivated: false });

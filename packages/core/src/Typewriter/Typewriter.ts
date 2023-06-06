@@ -39,14 +39,7 @@ import { TypewriterCursorSelectionInvalidRangeError } from './errors/TypewriterC
 import { TypewriterCursorSelectionOutOfBoundsError } from './errors/TypewriterCursorSelectionOutOfBoundsError';
 import { TypewriterActionUnknownCursorError } from './errors/TypewriterActionUnknownCursorError';
 
-// TODO: React, Vue, Angular
-
 // TODO: create docs
-
-// TODO: create animation for home page.
-
-// CURRENT: create composer, where the user can compose animations by typing an clicking.
-// Perhaps this should even be the primary way of doing things.
 
 /**
  * A component to create versatile typewriter animations with.

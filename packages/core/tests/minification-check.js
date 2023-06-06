@@ -106,24 +106,23 @@ const typewriter = new uiloosTypewriter.Typewriter({
   actions: [
     {
       type: 'keyboard',
-      key: 'a',
-      delay: 100,
+      text: 'a',
+      delay: 1,
       cursor: 0,
     },
     {
       type: 'keyboard',
-      key: 'b',
-      delay: 200,
+      text: 'b',
+      delay: 1,
       cursor: 0,
     },
     {
       type: 'keyboard',
-      key: 'c',
-      delay: 300,
+      text: 'c',
+      delay: 1,
       cursor: 0,
     },
-  ],
-  blinkAfter: 50,
+  ]
 });
 
 if (typewriter.actions.length !== 3) {
@@ -131,6 +130,10 @@ if (typewriter.actions.length !== 3) {
   process.exit(1);
 }
 
-// TODO minification check for typewriter builders
+if (!uiloosTypewriter.typewriterFromSentences({ sentences: ["A", "B", "C"]})) {
+  console.error('typewriter.typewriterFromSentences should be defined');
+  process.exit(1);
+}
+
 
 console.log("Finished checking minification");

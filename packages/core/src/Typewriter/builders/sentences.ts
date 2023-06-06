@@ -8,12 +8,12 @@ import { Typewriter } from '../Typewriter';
 
 /**
  * The configuration for the `typewriterFromSentences` function.
- * 
+ *
  * @since 1.2.0
  */
-export type TypewriterFromSentencesConfig = Omit<
+export type TypewriterFromSentencesConfig = Pick<
   TypewriterConfig,
-  'actions' | 'cursor'
+  'text' | 'blinkAfter' | 'autoPlay' | 'repeat' | 'repeatDelay' | 'keepHistoryFor'
 > & {
   /**
    * The sentences the Typewriter should animate.
@@ -23,17 +23,26 @@ export type TypewriterFromSentencesConfig = Omit<
   sentences: string[];
 
   /**
-   * The delay in between letters, meaning the speed in which to type.
+   * The delay in between letters, meaning the speed at which to type.
    *
    * Defaults to 50ms
    *
    * @since 1.2.0
    */
   delay?: number;
+
+  /**
+   * The delay in between sentences.
+   *
+   * Defaults to 2000ms
+   *
+   * @since 1.2.0
+   */
+  sentenceDelay?: number;
 };
 
 /**
- * Creates a Typewriter which will type in the provided sentences 
+ * Creates a Typewriter which will type in the provided sentences
  * using a single cursor.
  *
  * Intelligently moves from one sentence to another, only removing
@@ -56,12 +65,15 @@ export function typewriterFromSentences(
   subscriber?: TypewriterSubscriber
 ): Typewriter {
   const delay = config.delay === undefined ? 50 : config.delay;
+  const sentenceDelay =
+    config.sentenceDelay === undefined ? 2000 : config.sentenceDelay;
 
   const actions: TypewriterAction[] = [];
 
   // This will be the text which is manipulated.
   let text: string[] = config.text ? Array.from(config.text) : [];
 
+  let firstSentence = true;
   // Yield each sentence with a slight delay between them.
   for (let sentence of config.sentences) {
     const sentenceArray = Array.from(sentence);
@@ -118,11 +130,14 @@ export function typewriterFromSentences(
 
     // Now apply the number of backspaces
     for (let i = 0; i < backspaces; i++) {
+      // Only add a sentenceDelay when it is not the first sentence.
+      const actualDelay = !firstSentence && i === 0 ? sentenceDelay : delay;
+
       actions.push({
         type: 'keyboard',
         text: typewriterActionTypeBackspace,
-        delay,
-        cursor: 0
+        delay: actualDelay,
+        cursor: 0,
       });
     }
 
@@ -133,7 +148,7 @@ export function typewriterFromSentences(
     // "Maarten".slice(2) -> 'arten';
     const missingChars =
       text.length > 0
-        ? sentenceArray.slice(sentenceArray.length - backspaces)
+        ? sentenceArray.slice(charsInCommonFromStart)
         : sentenceArray;
 
     // Now we must add the missing characters one at a time.
@@ -142,18 +157,22 @@ export function typewriterFromSentences(
         type: 'keyboard',
         text: missingChar,
         delay,
-        cursor: 0
+        cursor: 0,
       });
     }
 
     text = text.concat(missingChars);
+
+    firstSentence = false;
   }
 
   return new Typewriter(
     {
-      text: config.text,
-      blinkAfter: config.blinkAfter,
-      keepHistoryFor: config.keepHistoryFor,
+      // Set the repeat delay to sentence delay this way when,
+      // repeat is `true` it will match the sentence. By placing
+      // the ...config below it can still be overwritten.
+      repeatDelay: sentenceDelay,
+      ...config,
       actions,
     },
     subscriber

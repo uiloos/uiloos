@@ -33,8 +33,6 @@ const config = [
   createEntry('ActiveList', 'active-list'),
   createEntry('ViewChannel', 'view-channel'),
   createEntry('Typewriter', 'typewriter'),
-
-  // TODO typewriter builders
 ];
 
 export default config;

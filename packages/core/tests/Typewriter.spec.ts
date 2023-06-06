@@ -29961,7 +29961,8 @@ describe('Typewriter', () => {
         jest.advanceTimersByTime(50);
         expect(typewriter.text).toBe('I love cats');
 
-        jest.advanceTimersByTime(50);
+        // sentenceDelay kicking in
+        jest.advanceTimersByTime(2000);
         expect(typewriter.text).toBe('I love cat');
 
         jest.advanceTimersByTime(50);
@@ -29984,6 +29985,313 @@ describe('Typewriter', () => {
 
         jest.advanceTimersByTime(50);
         expect(typewriter.text).toBe('I love dogs');
+      });
+
+      it('should work when first sentence is larger than second sentence', () => {
+        const typewriter = typewriterFromSentences({
+          sentences: ['cactus', 'cats'],
+        });
+
+        expect(typewriter.text).toBe('');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('c');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('ca');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cac');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cact');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cactu');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cactus');
+
+        // sentenceDelay kicking in
+        jest.advanceTimersByTime(2000);
+        expect(typewriter.text).toBe('cactu');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cact');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cac');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('ca');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cat');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cats');
+      });
+
+      it('should work when first sentence is smaller than second sentence', () => {
+        const typewriter = typewriterFromSentences({
+          sentences: ['cats', 'cactus'],
+        });
+
+        expect(typewriter.text).toBe('');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('c');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('ca');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cat');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cats');
+
+        // sentenceDelay kicking in
+        jest.advanceTimersByTime(2000);
+        expect(typewriter.text).toBe('cat');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('ca');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cac');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cact');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cactu');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('cactus');
+      });
+
+      it('should work when first sentence has nothing in common with the second sentence', () => {
+        const typewriter = typewriterFromSentences({
+          sentences: ['aap', 'noot'],
+        });
+
+        expect(typewriter.text).toBe('');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('a');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('aa');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('aap');
+
+        // sentenceDelay kicking in
+        jest.advanceTimersByTime(2000);
+        expect(typewriter.text).toBe('aa');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('a');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('n');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('no');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('noo');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('noot');
+      });
+
+      it('should be able to set a custom sentence delay', () => {
+        const typewriter = typewriterFromSentences({
+          sentences: ['I love cats', 'I love dogs'],
+          sentenceDelay: 500,
+        });
+
+        expect(typewriter.text).toBe('');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I ');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I l');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I lo');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I lov');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love ');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love c');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love ca');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love cat');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love cats');
+
+        // custom sentenceDelay kicking in
+        jest.advanceTimersByTime(500);
+        expect(typewriter.text).toBe('I love cat');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love ca');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love c');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love ');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love d');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love do');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love dog');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('I love dogs');
+      });
+
+      it('should when sentenceDelay is not set default sentenceDelay, and repeatDelay to 2000 milliseconds', () => {
+        const typewriter = typewriterFromSentences({
+          sentences: ['a', 'b'],
+          repeat: true
+        });
+
+        expect(typewriter.text).toBe('');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('a')
+        
+        // Push over, this is the sentenceDelay
+        jest.advanceTimersByTime(1999);
+        expect(typewriter.text).toBe('a')
+
+        jest.advanceTimersByTime(1);
+        expect(typewriter.text).toBe('')
+        
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('b');
+
+        jest.advanceTimersByTime(1999);
+        expect(typewriter.text).toBe('b');
+
+        // Push over, this is the repeatDelay
+        jest.advanceTimersByTime(1);
+        expect(typewriter.text).toBe('');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('a')
+
+        jest.advanceTimersByTime(2000);
+        expect(typewriter.text).toBe('')
+        
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('b');
+      });
+
+      it('should set repeatDelay to sentenceDelay when no repeatDelay is configured', () => {
+        const typewriter = typewriterFromSentences({
+          sentences: ['a', 'b'],
+          sentenceDelay: 500,
+          repeat: true
+        });
+
+        expect(typewriter.text).toBe('');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('a')
+        
+        // Push over, this is the sentenceDelay
+        jest.advanceTimersByTime(499);
+        expect(typewriter.text).toBe('a')
+
+        jest.advanceTimersByTime(1);
+        expect(typewriter.text).toBe('')
+        
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('b');
+
+        jest.advanceTimersByTime(499);
+        expect(typewriter.text).toBe('b');
+
+        // Push over, this is the repeatDelay
+        jest.advanceTimersByTime(1);
+        expect(typewriter.text).toBe('');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('a')
+
+        jest.advanceTimersByTime(500);
+        expect(typewriter.text).toBe('')
+        
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('b');
+      });
+
+      it('should allow repeatDelay to differ from sentenceDelay when repeatDelay is explicitly configured', () => {
+        const typewriter = typewriterFromSentences({
+          sentences: ['a', 'b'],
+          sentenceDelay: 500,
+          repeat: true,
+          repeatDelay: 5000
+        });
+
+        expect(typewriter.text).toBe('');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('a')
+        
+        // Push over, this is the sentenceDelay
+        jest.advanceTimersByTime(499);
+        expect(typewriter.text).toBe('a')
+
+        jest.advanceTimersByTime(1);
+        expect(typewriter.text).toBe('')
+        
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('b');
+
+        jest.advanceTimersByTime(4999);
+        expect(typewriter.text).toBe('b');
+
+        // Push over, this is the repeatDelay
+        jest.advanceTimersByTime(1);
+        expect(typewriter.text).toBe('');
+
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('a')
+
+        jest.advanceTimersByTime(500);
+        expect(typewriter.text).toBe('')
+        
+        jest.advanceTimersByTime(50);
+        expect(typewriter.text).toBe('b');
       });
 
       it('should be able to set a custom delay', () => {
@@ -30027,7 +30335,8 @@ describe('Typewriter', () => {
         jest.advanceTimersByTime(100);
         expect(typewriter.text).toBe('I love cats');
 
-        jest.advanceTimersByTime(100);
+        // sentenceDelay kicking in
+        jest.advanceTimersByTime(2000);
         expect(typewriter.text).toBe('I love cat');
 
         jest.advanceTimersByTime(100);
@@ -30083,7 +30392,8 @@ describe('Typewriter', () => {
         jest.advanceTimersByTime(50);
         expect(typewriter.text).toBe('I 😀 cats');
 
-        jest.advanceTimersByTime(50);
+        // sentenceDelay kicking in
+        jest.advanceTimersByTime(2000);
         expect(typewriter.text).toBe('I 😀 cat');
 
         jest.advanceTimersByTime(50);
@@ -30128,6 +30438,7 @@ describe('Typewriter', () => {
 
         expect(typewriter.text).toBe('I love cats');
 
+        // Notice how it does not delay the sentence.
         jest.advanceTimersByTime(50);
         expect(typewriter.text).toBe('I love cat');
 

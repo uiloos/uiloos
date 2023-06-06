@@ -2,8 +2,8 @@ import components from './components';
 
 import ActiveList from './ActiveList/ActiveList';
 import { useActiveList } from './ActiveList/useActiveList';
-
 import { useViewChannel } from './ViewChannel/useViewChannel';
+import { useTypewriter } from './Typewriter/useTypewriter';
 
 /**
  * The uiloos Vue plugin, add it to vue via `app.use()`;
@@ -22,4 +22,4 @@ const uiloosPlugin = {
   },
 };
 
-export { uiloosPlugin, useActiveList, ActiveList, useViewChannel };
+export { uiloosPlugin, useActiveList, ActiveList, useViewChannel, useTypewriter };
