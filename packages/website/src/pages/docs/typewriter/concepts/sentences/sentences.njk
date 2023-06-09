@@ -1,0 +1,41 @@
+<strong>
+  A. Sentences
+</strong>
+
+<p>
+  A simple animation which moves through a set of predefined sentences:
+</p>
+
+<style>
+  {% include "./sentences-example.css" %}
+</style>
+
+{% include "./sentences-example.html" %}
+
+<details>
+  <summary class="mb-4">View code</summary>
+
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 dark:bg-gray-700 px-2 pt-2 pb-4 gap-4">
+      <button class="border font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">JavaScript</button>
+      <button class="border font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">HTML</button>
+      <button class="border font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">CSS</button>
+    </div>
+
+    <div class="example">
+      {% highlight "js" %}
+      {% include "./sentences-example.js" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "html" %}
+      {% include "./sentences-example.html" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "css" %}
+      {% include "./sentences-example.css" %}
+      {% endhighlight %}
+    </div>
+  </div>
+</details>

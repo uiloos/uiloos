@@ -1,12 +1,12 @@
 ---
-title: Examples | Typewriter | Docs | uiloos
+title: Examples | Typewriter | Docs
 layout: layouts/docs.njk
 permalink: /docs/typewriter/examples/
 renderData:
   parent: 'typewriter'
   current: 'typewriter-examples'
-  description: "Shows multiple complete examples on how to use the ViewChannel from uiloos."
-  keywords: "ViewChannel examples, ViewChannel flash messages example, ViewChannel notification center example, ViewChannel modal example, ViewChannel dialog example"
+  description: "Shows multiple complete examples on how to use the Typewriter from uiloos."
+  keywords: "Typewriter example, Typewriter multiple cursors example"
 ---
 
 <article>
@@ -20,7 +20,7 @@ renderData:
 
   <div class="grid lg:grid-cols-2 gap-4">
     {% for example in examples %}
-      {% if example.for === 'ViewChannel' %}
+      {% if example.for === 'Typewriter' %}
         <a 
           class="example-card" 
           href="{{ example.url }}"
@@ -52,4 +52,21 @@ renderData:
       {% endif %}
     {% endfor %}
   </div>
+
+  <a
+    class="card"
+    href="/docs/typewriter/composer/"
+  >
+    <div>
+      <div class="text-normal font-medium mb-1">Composer</div>
+      <div class="text-sm">Use the Typewriter Composer to compose your animation</div>
+    </div>
+    <svg
+      class="w-4 h-4 fill-current text-blue-600 shrink-0 ml-6"
+      viewBox="0 0 16 16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z"></path>
+    </svg>
+  </a>
 </article>

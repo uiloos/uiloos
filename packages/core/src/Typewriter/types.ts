@@ -264,7 +264,7 @@ export type TypewriterActionKeyboard = BaseTypewriterAction & {
    *    selected delete the previous character, and when the cursor 
    *    does have a selection, remove all characters in the selection.
    * 
-   * 2. 'Clear all' represented by '⎚', it clear the entire text.
+   * 2. 'Clear all' represented by '⎚', it clears the entire text.
    * 
    * 3. The left arrow key represented by '←'. When nothing is 
    *    selected is will move the cursor one position to the left.

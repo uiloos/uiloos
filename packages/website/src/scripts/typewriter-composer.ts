@@ -12,8 +12,7 @@ import {
   TypewriterActionKeyboard,
 } from '@uiloos/core';
 
-let reInitTimeout = -1;
-
+// Get reference to all elements
 const animationEl = document.getElementById('animation') as HTMLDivElement;
 const animationInput = document.getElementById(
   'animation-input'
@@ -45,6 +44,9 @@ const initialTextInput = document.getElementById(
 ) as HTMLInputElement;
 const fixedDelayInput = document.getElementById(
   'fixed-delay'
+) as HTMLInputElement;
+const maxDelayInput = document.getElementById(
+  'max-delay'
 ) as HTMLInputElement;
 const repeatTimeInput = document.getElementById(
   'repeat-time'
@@ -87,6 +89,13 @@ const colors = [
   '#4f46e5',
   '#16a34a',
 ];
+
+// Stores the delays for when reInit speeds up the animation,
+// FINISH will restore the events.
+let delays: number[] = [];
+
+let fixedDelay = 0;
+let maxDelay = 150;
 
 // Represents the action which is getting dragged
 let draggedAction: ActiveListContent<TypewriterAction> | null = null;
@@ -139,6 +148,11 @@ function typewriterSubscriber(typewriter: Typewriter, event: TypewriterEvent) {
       );
     }
 
+    config.actions?.forEach((action, index) => {
+      action.delay = delays[index];
+    });
+    delays = [];
+
     animationInput.focus();
   }
 
@@ -166,32 +180,29 @@ function typewriterSubscriber(typewriter: Typewriter, event: TypewriterEvent) {
 
     animationEl.append(letterEl);
 
-    const infoEl = document.createElement('span');
-    infoEl.className = 'info';
-
-    animationEl.append(infoEl);
-
     letterEl.textContent = position.character;
 
-    // Reset the style of the span.
-    letterEl.classList.remove('blink', 'cursor', 'selection');
-    letterEl.style.setProperty('--cursor-color', null);
-
-    infoEl.style.setProperty('--cursor-color', null);
-    infoEl.textContent = '';
-
     for (const cursor of position.cursors.reverse()) {
-      // This span has one or multiple cursors, the last one will win.
+      // If this span has multiple cursors, the last one will win.
 
       const color = colorForIndex(typewriter.cursors.indexOf(cursor));
-      letterEl.classList.add('cursor');
-      letterEl.style.setProperty('--cursor-color', color);
 
+      const cursorEl = document.createElement('span');
+      cursorEl.classList.add('cursor');
+      cursorEl.style.setProperty('--cursor-color', color);
+
+      letterEl.insertAdjacentElement('beforebegin', cursorEl);
+
+      const infoEl = document.createElement('span');
+      infoEl.className = 'info';
       infoEl.style.setProperty('--cursor-color', color);
       infoEl.textContent = cursor.name;
 
-      if (cursor.name === cursors.lastActivated && cursor.isBlinking) {
-        letterEl.classList.add('blink');
+      cursorEl.insertAdjacentElement('afterend', infoEl);
+
+      // Only the last active cursor blinks.
+      if (cursor.isBlinking) {
+        cursorEl.classList.add('blink');
       }
     }
 
@@ -203,17 +214,15 @@ function typewriterSubscriber(typewriter: Typewriter, event: TypewriterEvent) {
     }
   }
 
-  let total = 0;
+  if (delays.length === 0) {
+    let total = 0;
 
-  for (const action of typewriter.actions) {
-    total += action.delay;
-  }
-
-  // Prevents reInit from flashing total time.
-  if (total > 50) {
+    for (const action of typewriter.actions) {
+      total += action.delay;
+    }
+  
     timelineTotalTimeEl.textContent = (total / 1000).toFixed(2);
   }
-
 }
 
 function cursorsSubscriber(
@@ -400,6 +409,15 @@ function actionsSubscriber() {
       positionEl.textContent = '' + action.position;
     }
 
+    const cursorEl = actionEl.querySelector(
+      '#timeline-item-cursor'
+    ) as HTMLSpanElement;
+
+    cursorEl.style.backgroundColor = 'var(--cursor-color)';
+    if (cursors.contents[action.cursor]) {
+      cursorEl.title = cursors.contents[action.cursor].value;
+    }
+
     const deleteButton = actionEl.querySelector(
       '#timeline-item-delete'
     ) as HTMLButtonElement;
@@ -456,7 +474,14 @@ function actionsSubscriber() {
     }
 
     delayEl.onchange = () => {
-      action.delay = parseInt(delayEl.value, 10);
+      let delay = parseInt(delayEl.value, 10);
+
+      if (delay < 0 || isNaN(delay)) {
+        delay = 1;
+      }
+      delayEl.value = "" + delay;
+
+      action.delay = delay;
 
       reInit();
     };
@@ -568,10 +593,12 @@ modalViewChannel.subscribe(modalSubscriber);
 
 cursors.activateFirst();
 
-addCursorButton.onclick = () => {
+addCursorButton.onclick = addCursor;
+
+function addCursor() {
   const cursor = cursors.push(`Cursor #${typewriter.cursors.length + 1}`);
   cursor.activate();
-};
+}
 
 playButton.onclick = () => {
   if (actions.isEmpty()) {
@@ -621,7 +648,7 @@ animationInput.onkeyup = (event) => {
   }
 
   if (shiftPressed) {
-    switch (event.key) {
+    switch (event.code) {
       case 'ArrowUp':
         event.preventDefault();
         cursors.activatePrevious();
@@ -630,6 +657,11 @@ animationInput.onkeyup = (event) => {
       case 'ArrowDown':
         event.preventDefault();
         cursors.activateNext();
+        return false;
+
+      case 'Escape':
+        event.preventDefault();
+        addCursor();
         return false;
     }
   }
@@ -688,15 +720,15 @@ function keyForEvent(event: KeyboardEvent): string | false {
 
 let prevTime = Date.now();
 function calculateDelay(): number {
-  if (fixedDelayInput.value) {
-    return parseInt(fixedDelayInput.value, 10);
+  if (fixedDelay) {
+    return fixedDelay;
   }
 
   const delay = Date.now() - prevTime;
 
   prevTime = Date.now();
 
-  return delay < 1000 ? delay : 50;
+  return delay < maxDelay ? delay : maxDelay;
 }
 
 animationInput.onmouseup = () => {
@@ -777,12 +809,30 @@ initialTextInput.onchange = () => {
 };
 
 fixedDelayInput.onchange = () => {
-  const delay = parseInt(fixedDelayInput.value);
+  let delay = parseInt(fixedDelayInput.value, 10);
+  
+  if (delay < 0 || isNaN(delay)) {
+    delay = 50;
+  }
+  fixedDelayInput.value = "" + delay;
+
+  fixedDelay = delay;
 
   actions.contents.forEach((action) => (action.value.delay = delay));
   actions.activateNext();
 
   reInit();
+};
+
+maxDelayInput.onchange = () => {
+  let delay = parseInt(maxDelayInput.value, 10);
+  
+  if (delay < 0 || isNaN(delay)) {
+    delay = 150;
+  }
+  maxDelayInput.value = "" + delay;
+
+  maxDelay = delay;
 };
 
 document.querySelectorAll('[name="repeat"]').forEach((element) => {
@@ -799,6 +849,7 @@ document.querySelectorAll('[name="repeat"]').forEach((element) => {
       if (value < 0 || isNaN(value)) {
         value = 1;
       }
+      input.value = "" + value;
 
       repeatConfig = value;
     }
@@ -812,8 +863,9 @@ repeatDelayInput.onchange = () => {
 
   if (value < 0 || isNaN(value)) {
     value = 1;
-    repeatDelayInput.value = '1';
   }
+
+  repeatDelayInput.value = '' + value;
 
   repeatDelayConfig = value;
 };
@@ -1085,22 +1137,12 @@ function reInit(fast = true) {
   autoplayInput.checked = !!autoplayConfig;
   repeatDelayInput.value = '' + repeatDelayConfig;
 
-  // When dragging actions "reInit" will be called quickly in 
-  // succession. So we must debounce it.
-  clearTimeout(reInitTimeout);
-
   if (fast) {
-    const delays = actions.contents.map((c) => c.value.delay);
+    delays = actions.contents.map((c) => c.value.delay);
 
     config.actions = actions.contents.map((c) => {
       return { ...c.value, delay: 1 };
     });
-
-    reInitTimeout = window.setTimeout(() => {
-      config.actions?.forEach((action, index) => {
-        action.delay = delays[index];
-      });
-    }, config.actions.length * 1 + 100);
   } else {
     config.actions = actions.contents.map((c) => ({ ...c.value }));
   }

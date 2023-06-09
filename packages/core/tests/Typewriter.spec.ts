@@ -16545,7 +16545,7 @@ describe('Typewriter', () => {
 
         describe('inserting cursor has selection', () => {
           describe('with backward selection', () => {
-            it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+            it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
               const typewriter = new Typewriter({
                 actions: [
                   {
@@ -16556,7 +16556,7 @@ describe('Typewriter', () => {
                   },
                 ],
                 blinkAfter: 50,
-                text: 'aap noot mies',
+                text: 'aap noot mies', // x noot mies
                 cursors: [
                   // The cursor that is going to insert 'x' at the start, while selecting 'aap'
                   { position: 0, name: '', selection: { start: 0, end: 3 } },
@@ -16634,6 +16634,34 @@ describe('Typewriter', () => {
                     position: 8,
                     name: 'noot-8',
                     selection: { start: 4, end: 8 },
+                  },
+
+                  // All selected positions, become 0
+                  {
+                    position: 0,
+                    name: 'position-0',
+                  },
+                  {
+                    position: 1,
+                    name: 'position-1',
+                  },
+                  {
+                    position: 2,
+                    name: 'position-2',
+                  },
+                  {
+                    position: 3,
+                    name: 'position-3',
+                  },
+                  // One after, becomes 2
+                  {
+                    position: 4,
+                    name: 'position-4',
+                  },
+                  // Final position, becomes 11
+                  {
+                    position: 13,
+                    name: 'position-13',
                   },
                 ],
               });
@@ -16726,6 +16754,42 @@ describe('Typewriter', () => {
                     position: 8,
                     name: 'noot-8',
                     selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'position-0',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 1,
+                    name: 'position-1',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 2,
+                    name: 'position-2',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'position-3',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'position-4',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'position-13',
+                    selection: undefined,
                     isBlinking: true,
                   },
                 ],
@@ -16831,6 +16895,42 @@ describe('Typewriter', () => {
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-1',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-2',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      selection: undefined,
+                      name: 'position-13',
+                      isBlinking: true,
+                    },
                   ],
                   text: 'x noot mies',
                   blinkAfter: 50,
@@ -16854,7 +16954,7 @@ describe('Typewriter', () => {
               );
             });
 
-            it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+            it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
               const typewriter = new Typewriter({
                 actions: [
                   {
@@ -16999,6 +17099,40 @@ describe('Typewriter', () => {
                     name: 'oo',
                     selection: { start: 5, end: 7 },
                   },
+
+                  // All selected positions, become 5
+                  {
+                    position: 5,
+                    name: 'position-5',
+                  },
+                  {
+                    position: 6,
+                    name: 'position-6',
+                  },
+                  {
+                    position: 7,
+                    name: 'position-7',
+                  },
+                  // One before, stays 4
+                  {
+                    position: 4,
+                    name: 'position-4',
+                  },
+                  // One after, becomes 7
+                  {
+                    position: 8,
+                    name: 'position-8',
+                  },
+                  // First position, stays 0
+                  {
+                    position: 0,
+                    name: 'position-0',
+                  },
+                  // Final position, becomes 12
+                  {
+                    position: 13,
+                    name: 'position-13',
+                  },
                 ],
               });
               const subscriber = autoSubscribe(typewriter);
@@ -17162,6 +17296,48 @@ describe('Typewriter', () => {
                     position: 5,
                     name: 'oo',
                     selection: { start: 5, end: 7 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 5,
+                    name: 'position-5',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 6,
+                    name: 'position-6',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 7,
+                    name: 'position-7',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'position-4',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 8,
+                    name: 'position-8',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'position-0',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'position-13',
+                    selection: undefined,
                     isBlinking: true,
                   },
                 ],
@@ -17339,6 +17515,48 @@ describe('Typewriter', () => {
                       selection: undefined,
                       isBlinking: true,
                     },
+                    {
+                      position: 5,
+                      name: 'position-5',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'position-6',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'position-7',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'position-8',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'position-13',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
                   ],
                   text: 'aap nxt mies',
                   blinkAfter: 50,
@@ -17362,7 +17580,7 @@ describe('Typewriter', () => {
               );
             });
 
-            it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+            it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
               const typewriter = new Typewriter({
                 actions: [
                   {
@@ -17437,6 +17655,30 @@ describe('Typewriter', () => {
                     position: 11,
                     name: 'mi',
                     selection: { start: 9, end: 11 },
+                  },
+
+                  // All selected positions, become 11
+                  {
+                    position: 11,
+                    name: 'position-11',
+                  },
+                  {
+                    position: 12,
+                    name: 'position-12',
+                  },
+                  {
+                    position: 13,
+                    name: 'position-13',
+                  },
+                  // One before, stays 10
+                  {
+                    position: 10,
+                    name: 'position-10',
+                  },
+                  // First position, stays 0
+                  {
+                    position: 0,
+                    name: 'position-0',
                   },
                 ],
               });
@@ -17517,6 +17759,36 @@ describe('Typewriter', () => {
                     position: 11,
                     name: 'mi',
                     selection: { start: 9, end: 11 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 11,
+                    name: 'position-11',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 12,
+                    name: 'position-12',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'position-13',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 10,
+                    name: 'position-10',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'position-0',
+                    selection: undefined,
                     isBlinking: true,
                   },
                 ],
@@ -17610,6 +17882,36 @@ describe('Typewriter', () => {
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
                     },
+                    {
+                      position: 11,
+                      name: 'position-11',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'position-12',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'position-13',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'position-10',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
                   ],
                   text: 'aap noot mix',
                   blinkAfter: 50,
@@ -17635,7 +17937,7 @@ describe('Typewriter', () => {
           });
 
           describe('with forward selection', () => {
-            it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+            it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
               const typewriter = new Typewriter({
                 actions: [
                   {
@@ -17646,7 +17948,7 @@ describe('Typewriter', () => {
                   },
                 ],
                 blinkAfter: 50,
-                text: 'aap noot mies', // 'x noot mies'
+                text: 'aap noot mies', // x noot mies
                 cursors: [
                   // The cursor that is going to insert 'x' at the start, while selecting 'aap'
                   { position: 3, name: '', selection: { start: 0, end: 3 } },
@@ -17691,6 +17993,7 @@ describe('Typewriter', () => {
                     name: 'aap -0',
                     selection: { start: 0, end: 4 },
                   },
+
                   // Selects 'aap ' becomes 'x ', 0 - 2 , pos becomes 2
                   {
                     position: 4,
@@ -17698,13 +18001,13 @@ describe('Typewriter', () => {
                     selection: { start: 0, end: 4 },
                   },
 
-                  // Selects ' noot' becomes 'x noot', 0 - 6 , pos becomes 0
+                  // Selects ' noot' stays 'x noot', 0 - 6 , pos becomes 1
                   {
                     position: 3,
                     name: ' noot-3',
                     selection: { start: 3, end: 8 },
                   },
-                  // Selects ' noot' becomes 'x noot', 0 - 6 , pos becomes 6
+                  // Selects ' noot' stays 'x noot', 0 - 6 , pos becomes 6
                   {
                     position: 8,
                     name: ' noot-8',
@@ -17723,6 +18026,34 @@ describe('Typewriter', () => {
                     position: 8,
                     name: 'noot-8',
                     selection: { start: 4, end: 8 },
+                  },
+
+                  // All selected positions, become 0
+                  {
+                    position: 0,
+                    name: 'position-0',
+                  },
+                  {
+                    position: 1,
+                    name: 'position-1',
+                  },
+                  {
+                    position: 2,
+                    name: 'position-2',
+                  },
+                  {
+                    position: 3,
+                    name: 'position-3',
+                  },
+                  // One after, becomes 2
+                  {
+                    position: 4,
+                    name: 'position-4',
+                  },
+                  // Final position, becomes 11
+                  {
+                    position: 13,
+                    name: 'position-13',
                   },
                 ],
               });
@@ -17815,6 +18146,42 @@ describe('Typewriter', () => {
                     position: 8,
                     name: 'noot-8',
                     selection: { start: 4, end: 8 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'position-0',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 1,
+                    name: 'position-1',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 2,
+                    name: 'position-2',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 3,
+                    name: 'position-3',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'position-4',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'position-13',
+                    selection: undefined,
                     isBlinking: true,
                   },
                 ],
@@ -17920,6 +18287,42 @@ describe('Typewriter', () => {
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-1',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-2',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      selection: undefined,
+                      name: 'position-13',
+                      isBlinking: true,
+                    },
                   ],
                   text: 'x noot mies',
                   blinkAfter: 50,
@@ -17943,7 +18346,7 @@ describe('Typewriter', () => {
               );
             });
 
-            it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+            it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
               const typewriter = new Typewriter({
                 actions: [
                   {
@@ -17954,7 +18357,7 @@ describe('Typewriter', () => {
                   },
                 ],
                 blinkAfter: 50,
-                text: 'aap noot mies', // 'aap nxt mies'
+                text: 'aap noot mies',
                 cursors: [
                   // The cursor that is going to add 'x', selects the oo's
                   { position: 7, name: '', selection: { start: 5, end: 7 } },
@@ -17994,7 +18397,6 @@ describe('Typewriter', () => {
                     name: 'p noot',
                     selection: { start: 2, end: 8 },
                   },
-
                   // Selects 'ot mi', becomes 'xt mi', 5 - 10
                   {
                     position: 11,
@@ -18088,6 +18490,40 @@ describe('Typewriter', () => {
                     position: 5,
                     name: 'oo',
                     selection: { start: 5, end: 7 },
+                  },
+
+                  // All selected positions, become 5
+                  {
+                    position: 5,
+                    name: 'position-5',
+                  },
+                  {
+                    position: 6,
+                    name: 'position-6',
+                  },
+                  {
+                    position: 7,
+                    name: 'position-7',
+                  },
+                  // One before, stays 4
+                  {
+                    position: 4,
+                    name: 'position-4',
+                  },
+                  // One after, becomes 7
+                  {
+                    position: 8,
+                    name: 'position-8',
+                  },
+                  // First position, stays 0
+                  {
+                    position: 0,
+                    name: 'position-0',
+                  },
+                  // Final position, becomes 12
+                  {
+                    position: 13,
+                    name: 'position-13',
                   },
                 ],
               });
@@ -18252,6 +18688,48 @@ describe('Typewriter', () => {
                     position: 5,
                     name: 'oo',
                     selection: { start: 5, end: 7 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 5,
+                    name: 'position-5',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 6,
+                    name: 'position-6',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 7,
+                    name: 'position-7',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 4,
+                    name: 'position-4',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 8,
+                    name: 'position-8',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'position-0',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'position-13',
+                    selection: undefined,
                     isBlinking: true,
                   },
                 ],
@@ -18429,6 +18907,48 @@ describe('Typewriter', () => {
                       selection: undefined,
                       isBlinking: true,
                     },
+                    {
+                      position: 5,
+                      name: 'position-5',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'position-6',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'position-7',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'position-8',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'position-13',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
                   ],
                   text: 'aap nxt mies',
                   blinkAfter: 50,
@@ -18452,7 +18972,7 @@ describe('Typewriter', () => {
               );
             });
 
-            it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+            it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
               const typewriter = new Typewriter({
                 actions: [
                   {
@@ -18527,6 +19047,30 @@ describe('Typewriter', () => {
                     position: 11,
                     name: 'mi',
                     selection: { start: 9, end: 11 },
+                  },
+
+                  // All selected positions, become 11
+                  {
+                    position: 11,
+                    name: 'position-11',
+                  },
+                  {
+                    position: 12,
+                    name: 'position-12',
+                  },
+                  {
+                    position: 13,
+                    name: 'position-13',
+                  },
+                  // One before, stays 10
+                  {
+                    position: 10,
+                    name: 'position-10',
+                  },
+                  // First position, stays 0
+                  {
+                    position: 0,
+                    name: 'position-0',
                   },
                 ],
               });
@@ -18607,6 +19151,36 @@ describe('Typewriter', () => {
                     position: 11,
                     name: 'mi',
                     selection: { start: 9, end: 11 },
+                    isBlinking: true,
+                  },
+                  {
+                    position: 11,
+                    name: 'position-11',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 12,
+                    name: 'position-12',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 13,
+                    name: 'position-13',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 10,
+                    name: 'position-10',
+                    selection: undefined,
+                    isBlinking: true,
+                  },
+                  {
+                    position: 0,
+                    name: 'position-0',
+                    selection: undefined,
                     isBlinking: true,
                   },
                 ],
@@ -18698,6 +19272,36 @@ describe('Typewriter', () => {
                       position: 11,
                       name: 'mi',
                       selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'position-11',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'position-12',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'position-13',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'position-10',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -20113,7 +20717,7 @@ describe('Typewriter', () => {
         describe('inserting cursor has selection', () => {
           describe('with backward selection', () => {
             describe('inserting more chars than are removed', () => {
-              it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -20211,6 +20815,34 @@ describe('Typewriter', () => {
                       name: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
+
+                    // All selected positions, become 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
+                    {
+                      position: 1,
+                      name: 'position-1',
+                    },
+                    {
+                      position: 2,
+                      name: 'position-2',
+                    },
+                    {
+                      position: 3,
+                      name: 'position-3',
+                    },
+                    // One after, becomes 5
+                    {
+                      position: 4,
+                      name: 'position-4',
+                    },
+                    // Final position, becomes 14
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -20302,6 +20934,42 @@ describe('Typewriter', () => {
                       position: 8,
                       name: 'noot-8',
                       selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 1,
+                      name: 'position-1',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'position-2',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'position-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -20407,6 +21075,42 @@ describe('Typewriter', () => {
                         selection: { start: 5, end: 9 },
                         isBlinking: true,
                       },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-1',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-2',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-4',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 14,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'ploo noot mies',
                     blinkAfter: 50,
@@ -20430,7 +21134,7 @@ describe('Typewriter', () => {
                 );
               });
 
-              it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -20591,6 +21295,40 @@ describe('Typewriter', () => {
                       name: 'oo-5',
                       selection: { start: 5, end: 7 },
                     },
+
+                    // All selected positions, become 5
+                    {
+                      position: 5,
+                      name: 'position-5',
+                    },
+                    {
+                      position: 6,
+                      name: 'position-6',
+                    },
+                    {
+                      position: 7,
+                      name: 'position-7',
+                    },
+                    // One before, stays 4
+                    {
+                      position: 4,
+                      name: 'position-4',
+                    },
+                    // One after, becomes 9
+                    {
+                      position: 8,
+                      name: 'position-8',
+                    },
+                    // First position, stays 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
+                    // Final position, becomes 14
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -20754,6 +21492,48 @@ describe('Typewriter', () => {
                       position: 5,
                       name: 'oo-5',
                       selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'position-5',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'position-6',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'position-7',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'position-8',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -20931,6 +21711,48 @@ describe('Typewriter', () => {
                         selection: undefined,
                         isBlinking: true,
                       },
+                      {
+                        position: 5,
+                        name: 'position-5',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-6',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-7',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'position-4',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'position-8',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 14,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'aap nadat mies',
                     blinkAfter: 50,
@@ -20954,7 +21776,7 @@ describe('Typewriter', () => {
                 );
               });
 
-              it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -21038,6 +21860,29 @@ describe('Typewriter', () => {
                       name: 'mi-11',
                       selection: { start: 9, end: 11 },
                     },
+                    // All selected positions, become 11
+                    {
+                      position: 11,
+                      name: 'position-11',
+                    },
+                    {
+                      position: 12,
+                      name: 'position-12',
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
+                    // One before, stays 10
+                    {
+                      position: 10,
+                      name: 'position-10',
+                    },
+                    // First position, stays 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -21118,6 +21963,36 @@ describe('Typewriter', () => {
                       name: 'mi-11',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'position-11',
+                      selection: undefined,
+                      isBlinking: true
+                    },
+                    {
+                      position: 12,
+                      name: 'position-12',
+                      selection: undefined,
+                      isBlinking: true
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
+                      isBlinking: true
+                    },
+                    {
+                      position: 10,
+                      name: 'position-10',
+                      selection: undefined,
+                      isBlinking: true
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true
                     },
                   ],
                   text: 'aap noot mies',
@@ -21210,6 +22085,36 @@ describe('Typewriter', () => {
                         selection: { start: 9, end: 11 },
                         isBlinking: true,
                       },
+                      {
+                        position: 11,
+                        name: 'position-11',
+                        selection: undefined,
+                        isBlinking: true
+                      },
+                      {
+                        position: 11,
+                        name: 'position-12',
+                        selection: undefined,
+                        isBlinking: true
+                      },
+                      {
+                        position: 11,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true
+                      },
+                      {
+                        position: 10,
+                        name: 'position-10',
+                        selection: undefined,
+                        isBlinking: true
+                      },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true
+                      },
                     ],
                     text: 'aap noot mixoxo',
                     blinkAfter: 50,
@@ -21235,7 +22140,7 @@ describe('Typewriter', () => {
             });
 
             describe('inserting less chars than are removed', () => {
-              it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -21333,6 +22238,33 @@ describe('Typewriter', () => {
                       name: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
+                    // All selected positions, become 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
+                    {
+                      position: 1,
+                      name: 'position-1',
+                    },
+                    {
+                      position: 2,
+                      name: 'position-2',
+                    },
+                    {
+                      position: 3,
+                      name: 'position-3',
+                    },
+                    // One after, becomes 3
+                    {
+                      position: 4,
+                      name: 'position-4',
+                    },
+                    // Final position, becomes 12
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -21424,6 +22356,42 @@ describe('Typewriter', () => {
                       position: 8,
                       name: 'noot-8',
                       selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 1,
+                      name: 'position-1',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'position-2',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'position-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -21529,6 +22497,42 @@ describe('Typewriter', () => {
                         selection: { start: 3, end: 7 },
                         isBlinking: true,
                       },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-1',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-2',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 3,
+                        name: 'position-4',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 12,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'xa noot mies',
                     blinkAfter: 50,
@@ -21552,7 +22556,7 @@ describe('Typewriter', () => {
                 );
               });
 
-              it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -21714,6 +22718,44 @@ describe('Typewriter', () => {
                       name: 'ada-5',
                       selection: { start: 5, end: 8 },
                     },
+
+                    // All selected positions, become 5
+                    {
+                      position: 5,
+                      name: 'position-5',
+                    },
+                    {
+                      position: 6,
+                      name: 'position-6',
+                    },
+                    {
+                      position: 7,
+                      name: 'position-7',
+                    },
+                    {
+                      position: 8,
+                      name: 'position-8',
+                    },
+                    // One before, stays 4
+                    {
+                      position: 4,
+                      name: 'position-4',
+                    },
+                    // One after, becomes 8
+                    {
+                      position: 9,
+                      name: 'position-9',
+                    },
+                    // First position, stays 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
+                    // Final position, becomes 13
+                    {
+                      position: 14,
+                      name: 'position-14',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -21877,6 +22919,54 @@ describe('Typewriter', () => {
                       position: 5,
                       name: 'ada-5',
                       selection: { start: 5, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'position-5',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'position-6',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'position-7',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'position-8',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'position-9',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 14,
+                      name: 'position-14',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -22054,6 +23144,54 @@ describe('Typewriter', () => {
                         selection: undefined,
                         isBlinking: true,
                       },
+                      {
+                        position: 5,
+                        name: 'position-5',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-6',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-7',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-8',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'position-4',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'position-9',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'position-14',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'aap noot mies',
                     blinkAfter: 50,
@@ -22077,7 +23215,7 @@ describe('Typewriter', () => {
                 );
               });
 
-              it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -22167,6 +23305,34 @@ describe('Typewriter', () => {
                       position: 10,
                       name: 't m-10',
                       selection: { start: 7, end: 10 },
+                    },
+
+                    // All selected positions, become 10
+                    {
+                      position: 10,
+                      name: 'position-10',
+                    },
+                    {
+                      position: 11,
+                      name: 'position-11',
+                    },
+                    {
+                      position: 12,
+                      name: 'position-12',
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
+                    // One before, stays 9
+                    {
+                      position: 9,
+                      name: 'position-9',
+                    },
+                    // First position, stays 0
+                    {
+                      position: 0,
+                      name: 'position-0',
                     },
                   ],
                 });
@@ -22259,6 +23425,42 @@ describe('Typewriter', () => {
                       position: 10,
                       name: 't m-10',
                       selection: { start: 7, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'position-10',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'position-11',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'position-12',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'position-9',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -22364,6 +23566,42 @@ describe('Typewriter', () => {
                         selection: { start: 7, end: 10 },
                         isBlinking: true,
                       },
+                      {
+                        position: 10,
+                        name: 'position-10',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'position-11',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'position-12',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'position-9',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'aap noot mxo',
                     blinkAfter: 50,
@@ -22389,7 +23627,7 @@ describe('Typewriter', () => {
             });
 
             describe('inserting the same number of chars that are removed', () => {
-              it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -22487,6 +23725,34 @@ describe('Typewriter', () => {
                       name: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
+
+                    // All selected positions, become 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
+                    {
+                      position: 1,
+                      name: 'position-1',
+                    },
+                    {
+                      position: 2,
+                      name: 'position-2',
+                    },
+                    {
+                      position: 3,
+                      name: 'position-3',
+                    },
+                    // One after, stays 4
+                    {
+                      position: 4,
+                      name: 'position-4',
+                    },
+                    // Final position, stays 13
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -22578,6 +23844,42 @@ describe('Typewriter', () => {
                       position: 8,
                       name: 'noot-8',
                       selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 1,
+                      name: 'position-1',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'position-2',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'position-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -22683,6 +23985,42 @@ describe('Typewriter', () => {
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-1',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-2',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'position-4',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'xap noot mies',
                     blinkAfter: 50,
@@ -22706,7 +24044,7 @@ describe('Typewriter', () => {
                 );
               });
 
-              it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -22870,6 +24208,40 @@ describe('Typewriter', () => {
                       name: 'oo-5',
                       selection: { start: 5, end: 7 },
                     },
+
+                    // All selected positions, become 5
+                    {
+                      position: 5,
+                      name: 'position-5',
+                    },
+                    {
+                      position: 6,
+                      name: 'position-6',
+                    },
+                    {
+                      position: 7,
+                      name: 'position-7',
+                    },
+                    // One before, stays 4
+                    {
+                      position: 4,
+                      name: 'position-4',
+                    },
+                    // One after, stays 8
+                    {
+                      position: 8,
+                      name: 'position-8',
+                    },
+                    // First position, stays 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
+                    // Final position, stays 13
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -23033,6 +24405,48 @@ describe('Typewriter', () => {
                       position: 5,
                       name: 'oo-5',
                       selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'position-5',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'position-6',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'position-7',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'position-8',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -23210,6 +24624,48 @@ describe('Typewriter', () => {
                         selection: undefined,
                         isBlinking: true,
                       },
+                      {
+                        position: 5,
+                        name: 'position-5',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-6',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-7',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'position-4',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'position-8',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'aap nadt mies',
                     blinkAfter: 50,
@@ -23233,7 +24689,7 @@ describe('Typewriter', () => {
                 );
               });
 
-              it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -23311,6 +24767,30 @@ describe('Typewriter', () => {
                       position: 11,
                       name: 'mi-11',
                       selection: { start: 9, end: 11 },
+                    },
+
+                    // All selected positions, become 11
+                    {
+                      position: 11,
+                      name: 'position-11',
+                    },
+                    {
+                      position: 12,
+                      name: 'position-12',
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
+                    // One before, stays 10
+                    {
+                      position: 10,
+                      name: 'position-10',
+                    },
+                    // First position, stays 0
+                    {
+                      position: 0,
+                      name: 'position-0',
                     },
                   ],
                 });
@@ -23391,6 +24871,36 @@ describe('Typewriter', () => {
                       position: 11,
                       name: 'mi-11',
                       selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'position-11',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'position-12',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'position-10',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -23484,6 +24994,36 @@ describe('Typewriter', () => {
                         selection: { start: 9, end: 11 },
                         isBlinking: true,
                       },
+                      {
+                        position: 11,
+                        name: 'position-11',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'position-12',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'position-10',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'aap noot mixo',
                     blinkAfter: 50,
@@ -23511,7 +25051,7 @@ describe('Typewriter', () => {
 
           describe('with forward selection', () => {
             describe('inserting more chars than are removed', () => {
-              it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -23609,6 +25149,34 @@ describe('Typewriter', () => {
                       name: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
+
+                    // All selected positions, become 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
+                    {
+                      position: 1,
+                      name: 'position-1',
+                    },
+                    {
+                      position: 2,
+                      name: 'position-2',
+                    },
+                    {
+                      position: 3,
+                      name: 'position-3',
+                    },
+                    // One after, becomes 5
+                    {
+                      position: 4,
+                      name: 'position-4',
+                    },
+                    // Final position, becomes 14
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -23700,6 +25268,42 @@ describe('Typewriter', () => {
                       position: 8,
                       name: 'noot-8',
                       selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 1,
+                      name: 'position-1',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'position-2',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'position-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -23805,6 +25409,42 @@ describe('Typewriter', () => {
                         selection: { start: 5, end: 9 },
                         isBlinking: true,
                       },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-1',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-2',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-4',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 14,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'ploo noot mies',
                     blinkAfter: 50,
@@ -23828,7 +25468,7 @@ describe('Typewriter', () => {
                 );
               });
 
-              it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -23989,6 +25629,40 @@ describe('Typewriter', () => {
                       name: 'oo-5',
                       selection: { start: 5, end: 7 },
                     },
+
+                    // All selected positions, become 5
+                    {
+                      position: 5,
+                      name: 'position-5',
+                    },
+                    {
+                      position: 6,
+                      name: 'position-6',
+                    },
+                    {
+                      position: 7,
+                      name: 'position-7',
+                    },
+                    // One before, stays 4
+                    {
+                      position: 4,
+                      name: 'position-4',
+                    },
+                    // One after, becomes 9
+                    {
+                      position: 8,
+                      name: 'position-8',
+                    },
+                    // First position, stays 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
+                    // Final position, becomes 14
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -24152,6 +25826,48 @@ describe('Typewriter', () => {
                       position: 5,
                       name: 'oo-5',
                       selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'position-5',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'position-6',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'position-7',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'position-8',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -24329,6 +26045,48 @@ describe('Typewriter', () => {
                         selection: undefined,
                         isBlinking: true,
                       },
+                      {
+                        position: 5,
+                        name: 'position-5',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-6',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-7',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'position-4',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'position-8',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 14,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'aap nadat mies',
                     blinkAfter: 50,
@@ -24352,7 +26110,7 @@ describe('Typewriter', () => {
                 );
               });
 
-              it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -24436,6 +26194,29 @@ describe('Typewriter', () => {
                       name: 'mi-11',
                       selection: { start: 9, end: 11 },
                     },
+                    // All selected positions, become 11
+                    {
+                      position: 11,
+                      name: 'position-11',
+                    },
+                    {
+                      position: 12,
+                      name: 'position-12',
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
+                    // One before, stays 10
+                    {
+                      position: 10,
+                      name: 'position-10',
+                    },
+                    // First position, stays 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -24516,6 +26297,36 @@ describe('Typewriter', () => {
                       name: 'mi-11',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'position-11',
+                      selection: undefined,
+                      isBlinking: true
+                    },
+                    {
+                      position: 12,
+                      name: 'position-12',
+                      selection: undefined,
+                      isBlinking: true
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
+                      isBlinking: true
+                    },
+                    {
+                      position: 10,
+                      name: 'position-10',
+                      selection: undefined,
+                      isBlinking: true
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true
                     },
                   ],
                   text: 'aap noot mies',
@@ -24608,6 +26419,36 @@ describe('Typewriter', () => {
                         selection: { start: 9, end: 11 },
                         isBlinking: true,
                       },
+                      {
+                        position: 11,
+                        name: 'position-11',
+                        selection: undefined,
+                        isBlinking: true
+                      },
+                      {
+                        position: 11,
+                        name: 'position-12',
+                        selection: undefined,
+                        isBlinking: true
+                      },
+                      {
+                        position: 11,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true
+                      },
+                      {
+                        position: 10,
+                        name: 'position-10',
+                        selection: undefined,
+                        isBlinking: true
+                      },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true
+                      },
                     ],
                     text: 'aap noot mixoxo',
                     blinkAfter: 50,
@@ -24633,7 +26474,7 @@ describe('Typewriter', () => {
             });
 
             describe('inserting less chars than are removed', () => {
-              it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -24731,6 +26572,33 @@ describe('Typewriter', () => {
                       name: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
+                    // All selected positions, become 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
+                    {
+                      position: 1,
+                      name: 'position-1',
+                    },
+                    {
+                      position: 2,
+                      name: 'position-2',
+                    },
+                    {
+                      position: 3,
+                      name: 'position-3',
+                    },
+                    // One after, becomes 3
+                    {
+                      position: 4,
+                      name: 'position-4',
+                    },
+                    // Final position, becomes 12
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -24822,6 +26690,42 @@ describe('Typewriter', () => {
                       position: 8,
                       name: 'noot-8',
                       selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 1,
+                      name: 'position-1',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'position-2',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'position-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -24927,6 +26831,42 @@ describe('Typewriter', () => {
                         selection: { start: 3, end: 7 },
                         isBlinking: true,
                       },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-1',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-2',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 3,
+                        name: 'position-4',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 12,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'xa noot mies',
                     blinkAfter: 50,
@@ -24950,7 +26890,7 @@ describe('Typewriter', () => {
                 );
               });
 
-              it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -25112,6 +27052,44 @@ describe('Typewriter', () => {
                       name: 'ada-5',
                       selection: { start: 5, end: 8 },
                     },
+
+                    // All selected positions, become 5
+                    {
+                      position: 5,
+                      name: 'position-5',
+                    },
+                    {
+                      position: 6,
+                      name: 'position-6',
+                    },
+                    {
+                      position: 7,
+                      name: 'position-7',
+                    },
+                    {
+                      position: 8,
+                      name: 'position-8',
+                    },
+                    // One before, stays 4
+                    {
+                      position: 4,
+                      name: 'position-4',
+                    },
+                    // One after, becomes 8
+                    {
+                      position: 9,
+                      name: 'position-9',
+                    },
+                    // First position, stays 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
+                    // Final position, becomes 13
+                    {
+                      position: 14,
+                      name: 'position-14',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -25275,6 +27253,54 @@ describe('Typewriter', () => {
                       position: 5,
                       name: 'ada-5',
                       selection: { start: 5, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'position-5',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'position-6',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'position-7',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'position-8',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'position-9',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 14,
+                      name: 'position-14',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -25452,6 +27478,54 @@ describe('Typewriter', () => {
                         selection: undefined,
                         isBlinking: true,
                       },
+                      {
+                        position: 5,
+                        name: 'position-5',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-6',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-7',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-8',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'position-4',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'position-9',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'position-14',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'aap noot mies',
                     blinkAfter: 50,
@@ -25475,7 +27549,7 @@ describe('Typewriter', () => {
                 );
               });
 
-              it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -25565,6 +27639,34 @@ describe('Typewriter', () => {
                       position: 10,
                       name: 't m-10',
                       selection: { start: 7, end: 10 },
+                    },
+
+                    // All selected positions, become 10
+                    {
+                      position: 10,
+                      name: 'position-10',
+                    },
+                    {
+                      position: 11,
+                      name: 'position-11',
+                    },
+                    {
+                      position: 12,
+                      name: 'position-12',
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
+                    // One before, stays 9
+                    {
+                      position: 9,
+                      name: 'position-9',
+                    },
+                    // First position, stays 0
+                    {
+                      position: 0,
+                      name: 'position-0',
                     },
                   ],
                 });
@@ -25657,6 +27759,42 @@ describe('Typewriter', () => {
                       position: 10,
                       name: 't m-10',
                       selection: { start: 7, end: 10 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'position-10',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'position-11',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'position-12',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      name: 'position-9',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -25762,6 +27900,42 @@ describe('Typewriter', () => {
                         selection: { start: 7, end: 10 },
                         isBlinking: true,
                       },
+                      {
+                        position: 10,
+                        name: 'position-10',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'position-11',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'position-12',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        name: 'position-9',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'aap noot mxo',
                     blinkAfter: 50,
@@ -25787,7 +27961,7 @@ describe('Typewriter', () => {
             });
 
             describe('inserting the same number of chars that are removed', () => {
-              it('should increase, remove or keep selection of other cursors, when inserting at the start', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -25885,6 +28059,34 @@ describe('Typewriter', () => {
                       name: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
+
+                    // All selected positions, become 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
+                    {
+                      position: 1,
+                      name: 'position-1',
+                    },
+                    {
+                      position: 2,
+                      name: 'position-2',
+                    },
+                    {
+                      position: 3,
+                      name: 'position-3',
+                    },
+                    // One after, stays 4
+                    {
+                      position: 4,
+                      name: 'position-4',
+                    },
+                    // Final position, stays 13
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -25976,6 +28178,42 @@ describe('Typewriter', () => {
                       position: 8,
                       name: 'noot-8',
                       selection: { start: 4, end: 8 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 1,
+                      name: 'position-1',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 2,
+                      name: 'position-2',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 3,
+                      name: 'position-3',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -26081,6 +28319,42 @@ describe('Typewriter', () => {
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-1',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-2',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-3',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'position-4',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'xap noot mies',
                     blinkAfter: 50,
@@ -26104,7 +28378,7 @@ describe('Typewriter', () => {
                 );
               });
 
-              it('should increase, remove or keep selection of other cursors, when inserting at the middle', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -26268,6 +28542,40 @@ describe('Typewriter', () => {
                       name: 'oo-5',
                       selection: { start: 5, end: 7 },
                     },
+
+                    // All selected positions, become 5
+                    {
+                      position: 5,
+                      name: 'position-5',
+                    },
+                    {
+                      position: 6,
+                      name: 'position-6',
+                    },
+                    {
+                      position: 7,
+                      name: 'position-7',
+                    },
+                    // One before, stays 4
+                    {
+                      position: 4,
+                      name: 'position-4',
+                    },
+                    // One after, stays 8
+                    {
+                      position: 8,
+                      name: 'position-8',
+                    },
+                    // First position, stays 0
+                    {
+                      position: 0,
+                      name: 'position-0',
+                    },
+                    // Final position, stays 13
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
                   ],
                 });
                 const subscriber = autoSubscribe(typewriter);
@@ -26431,6 +28739,48 @@ describe('Typewriter', () => {
                       position: 5,
                       name: 'oo-5',
                       selection: { start: 5, end: 7 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 5,
+                      name: 'position-5',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 6,
+                      name: 'position-6',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 7,
+                      name: 'position-7',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 4,
+                      name: 'position-4',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 8,
+                      name: 'position-8',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -26608,6 +28958,48 @@ describe('Typewriter', () => {
                         selection: undefined,
                         isBlinking: true,
                       },
+                      {
+                        position: 5,
+                        name: 'position-5',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-6',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 5,
+                        name: 'position-7',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 4,
+                        name: 'position-4',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 8,
+                        name: 'position-8',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 13,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
                     ],
                     text: 'aap nadt mies',
                     blinkAfter: 50,
@@ -26631,7 +29023,7 @@ describe('Typewriter', () => {
                 );
               });
 
-              it('should increase, remove or keep selection of other cursors, when inserting at the end', () => {
+              it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
                 const typewriter = new Typewriter({
                   actions: [
                     {
@@ -26709,6 +29101,30 @@ describe('Typewriter', () => {
                       position: 11,
                       name: 'mi-11',
                       selection: { start: 9, end: 11 },
+                    },
+
+                    // All selected positions, become 11
+                    {
+                      position: 11,
+                      name: 'position-11',
+                    },
+                    {
+                      position: 12,
+                      name: 'position-12',
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                    },
+                    // One before, stays 10
+                    {
+                      position: 10,
+                      name: 'position-10',
+                    },
+                    // First position, stays 0
+                    {
+                      position: 0,
+                      name: 'position-0',
                     },
                   ],
                 });
@@ -26789,6 +29205,36 @@ describe('Typewriter', () => {
                       position: 11,
                       name: 'mi-11',
                       selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      name: 'position-11',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 12,
+                      name: 'position-12',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 13,
+                      name: 'position-13',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      name: 'position-10',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 0,
+                      name: 'position-0',
+                      selection: undefined,
                       isBlinking: true,
                     },
                   ],
@@ -26880,6 +29326,36 @@ describe('Typewriter', () => {
                         position: 11,
                         name: 'mi-11',
                         selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'position-11',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'position-12',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        name: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        name: 'position-10',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 0,
+                        name: 'position-0',
+                        selection: undefined,
                         isBlinking: true,
                       },
                     ],
@@ -30180,21 +32656,21 @@ describe('Typewriter', () => {
       it('should when sentenceDelay is not set default sentenceDelay, and repeatDelay to 2000 milliseconds', () => {
         const typewriter = typewriterFromSentences({
           sentences: ['a', 'b'],
-          repeat: true
+          repeat: true,
         });
 
         expect(typewriter.text).toBe('');
 
         jest.advanceTimersByTime(50);
-        expect(typewriter.text).toBe('a')
-        
+        expect(typewriter.text).toBe('a');
+
         // Push over, this is the sentenceDelay
         jest.advanceTimersByTime(1999);
-        expect(typewriter.text).toBe('a')
+        expect(typewriter.text).toBe('a');
 
         jest.advanceTimersByTime(1);
-        expect(typewriter.text).toBe('')
-        
+        expect(typewriter.text).toBe('');
+
         jest.advanceTimersByTime(50);
         expect(typewriter.text).toBe('b');
 
@@ -30206,11 +32682,11 @@ describe('Typewriter', () => {
         expect(typewriter.text).toBe('');
 
         jest.advanceTimersByTime(50);
-        expect(typewriter.text).toBe('a')
+        expect(typewriter.text).toBe('a');
 
         jest.advanceTimersByTime(2000);
-        expect(typewriter.text).toBe('')
-        
+        expect(typewriter.text).toBe('');
+
         jest.advanceTimersByTime(50);
         expect(typewriter.text).toBe('b');
       });
@@ -30219,21 +32695,21 @@ describe('Typewriter', () => {
         const typewriter = typewriterFromSentences({
           sentences: ['a', 'b'],
           sentenceDelay: 500,
-          repeat: true
+          repeat: true,
         });
 
         expect(typewriter.text).toBe('');
 
         jest.advanceTimersByTime(50);
-        expect(typewriter.text).toBe('a')
-        
+        expect(typewriter.text).toBe('a');
+
         // Push over, this is the sentenceDelay
         jest.advanceTimersByTime(499);
-        expect(typewriter.text).toBe('a')
+        expect(typewriter.text).toBe('a');
 
         jest.advanceTimersByTime(1);
-        expect(typewriter.text).toBe('')
-        
+        expect(typewriter.text).toBe('');
+
         jest.advanceTimersByTime(50);
         expect(typewriter.text).toBe('b');
 
@@ -30245,11 +32721,11 @@ describe('Typewriter', () => {
         expect(typewriter.text).toBe('');
 
         jest.advanceTimersByTime(50);
-        expect(typewriter.text).toBe('a')
+        expect(typewriter.text).toBe('a');
 
         jest.advanceTimersByTime(500);
-        expect(typewriter.text).toBe('')
-        
+        expect(typewriter.text).toBe('');
+
         jest.advanceTimersByTime(50);
         expect(typewriter.text).toBe('b');
       });
@@ -30259,21 +32735,21 @@ describe('Typewriter', () => {
           sentences: ['a', 'b'],
           sentenceDelay: 500,
           repeat: true,
-          repeatDelay: 5000
+          repeatDelay: 5000,
         });
 
         expect(typewriter.text).toBe('');
 
         jest.advanceTimersByTime(50);
-        expect(typewriter.text).toBe('a')
-        
+        expect(typewriter.text).toBe('a');
+
         // Push over, this is the sentenceDelay
         jest.advanceTimersByTime(499);
-        expect(typewriter.text).toBe('a')
+        expect(typewriter.text).toBe('a');
 
         jest.advanceTimersByTime(1);
-        expect(typewriter.text).toBe('')
-        
+        expect(typewriter.text).toBe('');
+
         jest.advanceTimersByTime(50);
         expect(typewriter.text).toBe('b');
 
@@ -30285,11 +32761,11 @@ describe('Typewriter', () => {
         expect(typewriter.text).toBe('');
 
         jest.advanceTimersByTime(50);
-        expect(typewriter.text).toBe('a')
+        expect(typewriter.text).toBe('a');
 
         jest.advanceTimersByTime(500);
-        expect(typewriter.text).toBe('')
-        
+        expect(typewriter.text).toBe('');
+
         jest.advanceTimersByTime(50);
         expect(typewriter.text).toBe('b');
       });

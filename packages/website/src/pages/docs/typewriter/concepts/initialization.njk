@@ -1,0 +1,74 @@
+<details>
+  <summary class="mb-4">Initialization code example</summary>
+
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 dark:bg-gray-700 px-2 pt-2 pb-4 gap-4">
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-500 hover:border-purple-500">JavaScript</button>
+      <button class="border font-bold border-0 border-b-4 hover:text-purple-500 hover:border-purple-500">TypeScript</button>
+    </div>
+
+    <div class="example">
+      {% highlight "javascript" %}
+import { Typewriter } from '@uiloos/core';
+
+const config = {
+  actions: [{
+    type: 'keyboard',
+    cursor: 0,
+    text: 'a',
+    delay: 128
+  },{
+    type: 'keyboard',
+    cursor: 0,
+    text: 'b',
+    delay: 64
+  },{
+    type: 'keyboard',
+    cursor: 0,
+    text: 'c',
+    delay: 32
+  }],
+};
+
+function subscriber(typewriter, event) {
+  console.log(event);
+}
+
+const typewriter = new Typewriter(config, subscriber)
+{% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "typescript" %}
+import { Typewriter, TypewriterEvent } from '@uiloos/core';
+
+const config = {
+  actions: [{
+    type: 'keyboard',
+    cursor: 0,
+    text: 'a',
+    delay: 128
+  },{
+    type: 'keyboard',
+    cursor: 0,
+    text: 'b',
+    delay: 64
+  },{
+    type: 'keyboard',
+    cursor: 0,
+    text: 'c',
+    delay: 32
+  }],
+};
+
+function subscriber(
+  typewriter: Typewriter,
+  event: TypewriterEvent
+) {
+  console.log(event);
+}
+
+const typewriter = new Typewriter(config, subscriber);
+
+{% endhighlight %}
+  </div>
+</details>
