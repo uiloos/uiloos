@@ -31196,6 +31196,205 @@ describe('Typewriter', () => {
       ]);
     });
 
+    test('that the animation can be paused and continued multiple times', () => {
+      const typewriter = new Typewriter<string>({
+        actions: [
+          {
+            type: 'keyboard',
+            text: 'a',
+            delay: 100,
+            cursor: 0,
+          },
+          {
+            type: 'keyboard',
+            text: 'b',
+            delay: 100,
+            cursor: 0,
+          },
+          {
+            type: 'keyboard',
+            text: 'c',
+            delay: 100,
+            cursor: 0,
+          },
+        ],
+        blinkAfter: 10000000,
+      });
+      const subscriber = autoSubscribe(typewriter);
+
+      // Should be empty initially
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('');
+      assertEvents(subscriber, []);
+
+      // After 100 milliseconds it should now be 'a'
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, ['CHANGED']);
+
+      // Now pause it at the half way
+      jest.advanceTimersByTime(50);
+      typewriter.pause();
+
+      expect(typewriter.isPlaying).toBe(false);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, ['CHANGED', 'PAUSED']);
+
+      // Now press play, after 50 milliseconds it should type 'b'
+      typewriter.play();
+      jest.advanceTimersByTime(50);
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('ab');
+      assertEvents(subscriber, ['CHANGED', 'PAUSED', 'PLAYING', 'CHANGED']);
+
+      // Now pause it at the half way
+      jest.advanceTimersByTime(50);
+      typewriter.pause();
+
+      expect(typewriter.isPlaying).toBe(false);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('ab');
+      assertEvents(subscriber, [
+        'CHANGED',
+        'PAUSED',
+        'PLAYING',
+        'CHANGED',
+        'PAUSED',
+      ]);
+
+      // Now press play
+      typewriter.play();
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('ab');
+      assertEvents(subscriber, [
+        'CHANGED',
+        'PAUSED',
+        'PLAYING',
+        'CHANGED',
+        'PAUSED',
+        'PLAYING',
+      ]);
+
+      // after 50 milliseconds it should type 'c'
+      jest.advanceTimersByTime(50);
+
+      expect(typewriter.isPlaying).toBe(false);
+      expect(typewriter.isFinished).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('abc');
+      assertEvents(subscriber, [
+        'CHANGED',
+        'PAUSED',
+        'PLAYING',
+        'CHANGED',
+        'PAUSED',
+        'PLAYING',
+        'FINISHED',
+      ]);
+    });
+
+    test('that the animation can be paused and continued to completion', () => {
+      const typewriter = new Typewriter<string>({
+        actions: [
+          {
+            type: 'keyboard',
+            text: 'a',
+            delay: 100,
+            cursor: 0,
+          },
+          {
+            type: 'keyboard',
+            text: 'b',
+            delay: 100,
+            cursor: 0,
+          },
+          {
+            type: 'keyboard',
+            text: 'c',
+            delay: 100,
+            cursor: 0,
+          },
+          {
+            type: 'keyboard',
+            text: 'd',
+            delay: 100,
+            cursor: 0,
+          },
+        ],
+        blinkAfter: 10000000,
+      });
+      const subscriber = autoSubscribe(typewriter);
+
+      // Should be empty initially
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('');
+      assertEvents(subscriber, []);
+
+      // After 100 milliseconds it should now be 'a'
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, ['CHANGED']);
+
+      // Now pause it at the half way
+      jest.advanceTimersByTime(50);
+      typewriter.pause();
+
+      expect(typewriter.isPlaying).toBe(false);
+      expect(typewriter.text).toBe('a');
+      assertEvents(subscriber, ['CHANGED', 'PAUSED']);
+
+      typewriter.play();
+      jest.advanceTimersByTime(50);
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('ab');
+      assertEvents(subscriber, ['CHANGED', 'PAUSED', 'PLAYING', 'CHANGED']);
+
+      // after 100 milliseconds it should type 'c'
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(true);
+      expect(typewriter.isFinished).toBe(false);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('abc');
+      assertEvents(subscriber, [
+        'CHANGED',
+        'PAUSED',
+        'PLAYING',
+        'CHANGED',
+        'CHANGED',
+      ]);
+
+      // after 100 milliseconds it should type 'd'
+      jest.advanceTimersByTime(100);
+
+      expect(typewriter.isPlaying).toBe(false);
+      expect(typewriter.isFinished).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
+      expect(typewriter.text).toBe('abcd');
+      assertEvents(subscriber, [
+        'CHANGED',
+        'PAUSED',
+        'PLAYING',
+        'CHANGED',
+        'CHANGED',
+        'FINISHED',
+      ]);
+    });
+
     test('that the autoplay can be stopped and restarted', () => {
       const typewriter = new Typewriter<string>({
         actions: [

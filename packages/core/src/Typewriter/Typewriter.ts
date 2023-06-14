@@ -276,7 +276,8 @@ export class Typewriter<T = void> {
    */
   public history: TypewriterEvent<T>[] = this._history._events;
 
-  private _observer: _Observer<Typewriter<T>, TypewriterEvent<T>> = new _Observer();
+  private _observer: _Observer<Typewriter<T>, TypewriterEvent<T>> =
+    new _Observer();
 
   /**
    * Creates an Typewriter based on the TypewriterConfig config.
@@ -415,7 +416,9 @@ export class Typewriter<T = void> {
         );
       });
     } else {
-      this.cursors.push(new TypewriterCursor(this, textLength, undefined, undefined));
+      this.cursors.push(
+        new TypewriterCursor(this, textLength, undefined, undefined)
+      );
       this._originalCursors.push({ data: undefined, position: textLength });
     }
 
@@ -645,6 +648,9 @@ export class Typewriter<T = void> {
     // If paused then calculate remaining time.
     if (this._pauseStarted) {
       delay -= this._pauseStarted.getTime() - this._tickStarted.getTime();
+
+      // Reset '_pauseStarted' so it does not interfere with upcoming actions.
+      this._pauseStarted = null;
     }
 
     // Set when this tick started to calculate resume after pause() call.

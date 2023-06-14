@@ -7,15 +7,8 @@ function subscriber(typewriter) {
 }
 
 const config = {
-  "blinkAfter": 250,
-  "cursors": [
-    {
-      "position": 0,
-      "data": {
-        "name": "Cursor #1"
-      }
-    }
-  ],
+  "repeat": true,
+  "repeatDelay": 10000,
   "actions": [
     {
       "type": "keyboard",
@@ -198,9 +191,6 @@ const config = {
       "delay": 50
     }
   ],
-  "repeat": true,
-  "repeatDelay": 10000,
-  "autoPlay": true
 }
 
 new Typewriter(config, subscriber);

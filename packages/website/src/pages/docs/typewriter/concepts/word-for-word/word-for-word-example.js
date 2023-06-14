@@ -9,15 +9,9 @@ function subscriber(typewriter, event) {
 }
 
 const config = {
-  blinkAfter: 250,
-  cursors: [
-    {
-      position: 0,
-      data: {
-        name: 'Cursor #1',
-      },
-    },
-  ],
+  repeat: true,
+  repeatDelay: 10000,
+  autoPlay: true,
   actions: [
     { type: 'keyboard', cursor: 0, text: 'Twinkle', delay: 500 },
     { type: 'keyboard', cursor: 0, text: 'twinkle', delay: 500 },
@@ -51,10 +45,7 @@ const config = {
     { type: 'keyboard', cursor: 0, text: 'what', delay: 500 },
     { type: 'keyboard', cursor: 0, text: 'you', delay: 500 },
     { type: 'keyboard', cursor: 0, text: 'are!', delay: 500 },
-  ],
-  repeat: true,
-  repeatDelay: 10000,
-  autoPlay: true,
+  ]
 };
 
 new Typewriter(config, subscriber);
