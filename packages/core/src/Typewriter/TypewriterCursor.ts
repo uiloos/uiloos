@@ -14,8 +14,8 @@ import { Typewriter } from './Typewriter';
  *
  * @since 1.2.0
  */
-export class TypewriterCursor {
-  private _typewriter: Typewriter;
+export class TypewriterCursor<T> {
+  private _typewriter: Typewriter<T>;
 
   /**
    * The position of the cursor within the `Typewriter` text.
@@ -30,22 +30,18 @@ export class TypewriterCursor {
    */
   public position: number;
 
- /**
-   * The optional name associated with the cursor. Nothing is done 
-   * with the name itself by the Typewriter.
-   * 
-   * You could use the name to:
-   * 
-   *   1. Give the cursor a label in the animation, telling to which
-   *      "user" the cursor belongs.
-   * 
-   *   2. Give the cursor a name to more easily identify the cursor,
-   *      perhaps to give different styling to each individual cursor.
-   *      In this case the name might even be a CSS selector.
+  /**
+   * The data for the cursor, "data" can be be anything from an 
+   * object, string, array etc etc. The idea is that you can store
+   * any information here you need to render the cursor. For example
+   * you could set the data to an object, containing the "name" and
+   * "color" for that cursor.
+   *
+   * By default the value is `undefined`.
    * 
    * @since 1.2.0
    */
-  public name: string;
+  data?: T;
 
   /**
    * The range of positions which this cursor has selected, or when
@@ -84,15 +80,15 @@ export class TypewriterCursor {
   private _blinkTimeoutId: number | null = null;
 
   constructor(
-    typewriter: Typewriter,
+    typewriter: Typewriter<T>,
     position: number,
-    name: string,
-    selection?: TypewriterCursorSelection
+    data?: T,
+    selection?: TypewriterCursorSelection,
   ) {
     this._typewriter = typewriter;
     this.position = position;
-    this.name = name;
     this.selection = selection;
+    this.data = data;
   }
 
   // Start blinking after the configured _blinkAfter delay
@@ -107,7 +103,7 @@ export class TypewriterCursor {
     this._blinkTimeoutId = window.setTimeout(() => {
       this.isBlinking = true;
 
-      const event: TypewriterBlinkingEvent = {
+      const event: TypewriterBlinkingEvent<T> = {
         type: 'BLINKING',
         time: new Date(),
         cursor: this,

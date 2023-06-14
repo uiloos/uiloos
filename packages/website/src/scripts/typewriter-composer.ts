@@ -106,9 +106,13 @@ let repeatConfig: number | boolean | undefined = false;
 let repeatDelayConfig: number | undefined = 0;
 let autoplayConfig: boolean | undefined = true;
 
-let config: TypewriterConfig = {
+type Data = {
+  name: string;
+}
+
+let config: TypewriterConfig<Data> = {
   blinkAfter: 250,
-  cursors: [{ position: 0, name: 'Cursor #1' }],
+  cursors: [{ position: 0, data: { name: 'Cursor #1' }}],
   actions: [],
   repeat: false,
 };
@@ -126,7 +130,7 @@ type Modal = {
 };
 const modalViewChannel = new ViewChannel<Modal, any>();
 
-function typewriterSubscriber(typewriter: Typewriter, event: TypewriterEvent) {
+function typewriterSubscriber(typewriter: Typewriter<Data>, event: TypewriterEvent<Data>) {
   animationEl.innerHTML = '';
 
   if (event.type === 'FINISHED') {
@@ -196,7 +200,7 @@ function typewriterSubscriber(typewriter: Typewriter, event: TypewriterEvent) {
       const infoEl = document.createElement('span');
       infoEl.className = 'info';
       infoEl.style.setProperty('--cursor-color', color);
-      infoEl.textContent = cursor.name;
+      infoEl.textContent = cursor.data?.name ?? '';
 
       cursorEl.insertAdjacentElement('afterend', infoEl);
 
@@ -234,13 +238,15 @@ function cursorsSubscriber(
   if (event.type === 'INSERTED') {
     const position = config.text ? config.text.length : 0;
 
+    const data: Data = { name: event.value} ;
+
     // Technically not allowed but for the composer this works fine.
     typewriter.cursors.push(
-      new TypewriterCursor(typewriter, position, event.value, undefined)
+      new TypewriterCursor(typewriter, position, data, undefined)
     );
 
     if (config.cursors) {
-      config.cursors.push({ position, name: event.value });
+      config.cursors.push({ position, data });
     }
   }
 
@@ -302,11 +308,18 @@ function cursorsSubscriber(
       }
 
       if (config.cursors) {
-        config.cursors[cursor.index].name = name;
+        const data = config.cursors[cursor.index].data;
+        if (data) {
+          data.name = name;
+        } else {
+          config.cursors[cursor.index].data = {name};
+        }
       }
 
       cursor.value = name;
       cursor.activate();
+
+      reInit();
     };
 
     const positionInput = cursorEl.querySelector(
@@ -910,7 +923,7 @@ resetButton.onclick = async () => {
 
   config = {
     blinkAfter: 250,
-    cursors: [{ position: 0, name: 'Cursor #1' }],
+    cursors: [{ position: 0, data: {name: 'Cursor #1' }}],
     actions: actions.contents.map((c) => c.value),
     repeat: false,
   };
@@ -998,7 +1011,7 @@ importButton.onclick = () => {
         ) as HTMLButtonElement;
 
         importButton.onclick = () => {
-          const json = JSON.parse(importInput.value) as TypewriterConfig;
+          const json = JSON.parse(importInput.value) as TypewriterConfig<Data>;
 
           config = json;
 
@@ -1027,7 +1040,7 @@ importButton.onclick = () => {
           actions.initialize({ contents: json.actions });
           cursors.initialize({
             contents: config.cursors
-              ? config.cursors.map((c) => c.name ?? '')
+              ? config.cursors.map((c) => c.data?.name ?? '')
               : [],
             activeIndexes: 0,
             isCircular: true,

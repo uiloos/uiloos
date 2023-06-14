@@ -11,7 +11,7 @@
   border-color: green;
 }
 
-#sentences-typewriter.blinking { 
+#sentences-typewriter-cursor.blinking { 
   animation: example-blink 0.75s step-start infinite;
 }
 

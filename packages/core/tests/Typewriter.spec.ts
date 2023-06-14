@@ -48,7 +48,7 @@ describe('Typewriter', () => {
     }
   });
 
-  function autoSubscribe(typewriter: Typewriter) {
+  function autoSubscribe(typewriter: Typewriter<any>) {
     const subscriber = jest.fn();
     unsubscribe = typewriter.subscribe(subscriber);
 
@@ -64,25 +64,25 @@ describe('Typewriter', () => {
       describe('blinkAfter errors', () => {
         test('cannot be less than zero', () => {
           expect(() => {
-            new Typewriter({ blinkAfter: -1 });
+            new Typewriter<string>({ blinkAfter: -1 });
           }).toThrowError(
             'uiloos > Typewriter > blinkAfter cannot be negative or zero'
           );
 
           expect(() => {
-            new Typewriter({ blinkAfter: -1 });
+            new Typewriter<string>({ blinkAfter: -1 });
           }).toThrowError(TypewriterBlinkAfterError);
         });
 
         test('cannot be zero', () => {
           expect(() => {
-            new Typewriter({ blinkAfter: 0 });
+            new Typewriter<string>({ blinkAfter: 0 });
           }).toThrowError(
             'uiloos > Typewriter > blinkAfter cannot be negative or zero'
           );
 
           expect(() => {
-            new Typewriter({ blinkAfter: 0 });
+            new Typewriter<string>({ blinkAfter: 0 });
           }).toThrowError(TypewriterBlinkAfterError);
         });
       });
@@ -90,7 +90,7 @@ describe('Typewriter', () => {
       describe('delay errors', () => {
         test('cannot be less than zero', () => {
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -105,7 +105,7 @@ describe('Typewriter', () => {
           );
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -119,7 +119,7 @@ describe('Typewriter', () => {
 
           // Middle of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -145,7 +145,7 @@ describe('Typewriter', () => {
 
           // End of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -172,7 +172,7 @@ describe('Typewriter', () => {
 
         test('cannot be zero', () => {
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -187,7 +187,7 @@ describe('Typewriter', () => {
           );
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -201,7 +201,7 @@ describe('Typewriter', () => {
 
           // Middle of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -227,7 +227,7 @@ describe('Typewriter', () => {
 
           // End of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -256,7 +256,7 @@ describe('Typewriter', () => {
       describe('repeat errors', () => {
         test('cannot be less than zero', () => {
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               repeat: -1,
             });
           }).toThrowError(
@@ -264,7 +264,7 @@ describe('Typewriter', () => {
           );
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               repeat: -1,
             });
           }).toThrowError(TypewriterRepeatError);
@@ -272,7 +272,7 @@ describe('Typewriter', () => {
 
         test('cannot be zero', () => {
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               repeat: 0,
             });
           }).toThrowError(
@@ -280,7 +280,7 @@ describe('Typewriter', () => {
           );
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               repeat: 0,
             });
           }).toThrowError(TypewriterRepeatError);
@@ -290,7 +290,7 @@ describe('Typewriter', () => {
       describe('repeatDelay errors', () => {
         test('cannot be less than zero', () => {
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               repeatDelay: -1,
             });
           }).toThrowError(
@@ -298,7 +298,7 @@ describe('Typewriter', () => {
           );
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               repeatDelay: -1,
             });
           }).toThrowError(TypewriterRepeatDelayError);
@@ -308,7 +308,7 @@ describe('Typewriter', () => {
       describe('action cursor unknown errors', () => {
         test('must use known cursor', () => {
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [],
               actions: [
@@ -325,7 +325,7 @@ describe('Typewriter', () => {
           );
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [],
               actions: [
@@ -342,7 +342,7 @@ describe('Typewriter', () => {
           // Now with -1
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [],
               actions: [
@@ -359,7 +359,7 @@ describe('Typewriter', () => {
           );
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [],
               actions: [
@@ -378,47 +378,47 @@ describe('Typewriter', () => {
       describe('cursor position errors', () => {
         test('cannot be less than zero', () => {
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: -1, name: '' },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                { position: -1, data: undefined },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError('uiloos > Typewriter > cursor is out of bounds');
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: -1, name: '' },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                { position: -1, data: undefined },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorOutOfBoundsError);
 
           // Middle of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 1, name: '' },
-                { position: -1, name: '' },
-                { position: 2, name: '' },
+                { position: 1, data: undefined },
+                { position: -1, data: undefined },
+                { position: 2, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorOutOfBoundsError);
 
           // End of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 2, name: '' },
-                { position: 0, name: '' },
-                { position: -1, name: '' },
+                { position: 2, data: undefined },
+                { position: 0, data: undefined },
+                { position: -1, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorOutOfBoundsError);
@@ -426,47 +426,47 @@ describe('Typewriter', () => {
 
         test('cannot be more than length of text', () => {
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 4, name: '' },
-                { position: 0, name: '' },
-                { position: 1, name: '' },
+                { position: 4, data: undefined },
+                { position: 0, data: undefined },
+                { position: 1, data: undefined },
               ],
             });
           }).toThrowError('uiloos > Typewriter > cursor is out of bounds');
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 4, name: '' },
-                { position: 0, name: '' },
-                { position: 1, name: '' },
+                { position: 4, data: undefined },
+                { position: 0, data: undefined },
+                { position: 1, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorOutOfBoundsError);
 
           // Middle of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 1, name: '' },
-                { position: 4, name: '' },
-                { position: 2, name: '' },
+                { position: 1, data: undefined },
+                { position: 4, data: undefined },
+                { position: 2, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorOutOfBoundsError);
 
           // End of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 2, name: '' },
-                { position: 0, name: '' },
-                { position: 4, name: '' },
+                { position: 2, data: undefined },
+                { position: 0, data: undefined },
+                { position: 4, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorOutOfBoundsError);
@@ -476,12 +476,16 @@ describe('Typewriter', () => {
       describe('selection errors', () => {
         test('cursor must be placed on edges of selection', () => {
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 0, name: '', selection: { start: 2, end: 3 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 0,
+                  data: undefined,
+                  selection: { start: 2, end: 3 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(
@@ -489,36 +493,48 @@ describe('Typewriter', () => {
           );
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 0, name: '', selection: { start: 2, end: 3 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 0,
+                  data: undefined,
+                  selection: { start: 2, end: 3 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorNotAtSelectionEdgeError);
 
           // Middle of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 1, name: '' },
-                { position: 3, name: '', selection: { start: 1, end: 2 } },
-                { position: 2, name: '' },
+                { position: 1, data: undefined },
+                {
+                  position: 3,
+                  data: undefined,
+                  selection: { start: 1, end: 2 },
+                },
+                { position: 2, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorNotAtSelectionEdgeError);
 
           // End of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 2, name: '' },
-                { position: 0, name: '' },
-                { position: 0, name: '', selection: { start: 1, end: 2 } },
+                { position: 2, data: undefined },
+                { position: 0, data: undefined },
+                {
+                  position: 0,
+                  data: undefined,
+                  selection: { start: 1, end: 2 },
+                },
               ],
             });
           }).toThrowError(TypewriterCursorNotAtSelectionEdgeError);
@@ -526,12 +542,16 @@ describe('Typewriter', () => {
 
         test('selection start cannot be less than zero', () => {
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 3, name: '', selection: { start: -1, end: 3 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 3,
+                  data: undefined,
+                  selection: { start: -1, end: 3 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(
@@ -539,36 +559,48 @@ describe('Typewriter', () => {
           );
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 3, name: '', selection: { start: -1, end: 3 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 3,
+                  data: undefined,
+                  selection: { start: -1, end: 3 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionOutOfBoundsError);
 
           // Middle of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 1, name: '' },
-                { position: 3, name: '', selection: { start: -1, end: 3 } },
-                { position: 2, name: '' },
+                { position: 1, data: undefined },
+                {
+                  position: 3,
+                  data: undefined,
+                  selection: { start: -1, end: 3 },
+                },
+                { position: 2, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionOutOfBoundsError);
 
           // End of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 2, name: '' },
-                { position: 0, name: '' },
-                { position: 1, name: '', selection: { start: -1, end: 1 } },
+                { position: 2, data: undefined },
+                { position: 0, data: undefined },
+                {
+                  position: 1,
+                  data: undefined,
+                  selection: { start: -1, end: 1 },
+                },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionOutOfBoundsError);
@@ -576,12 +608,16 @@ describe('Typewriter', () => {
 
         test('selection end cannot be more than length of text', () => {
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 0, name: '', selection: { start: 0, end: 4 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 0,
+                  data: undefined,
+                  selection: { start: 0, end: 4 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(
@@ -589,36 +625,48 @@ describe('Typewriter', () => {
           );
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 0, name: '', selection: { start: 0, end: 4 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 0,
+                  data: undefined,
+                  selection: { start: 0, end: 4 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionOutOfBoundsError);
 
           // Middle of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 1, name: '' },
-                { position: 3, name: '', selection: { start: 3, end: 4 } },
-                { position: 2, name: '' },
+                { position: 1, data: undefined },
+                {
+                  position: 3,
+                  data: undefined,
+                  selection: { start: 3, end: 4 },
+                },
+                { position: 2, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionOutOfBoundsError);
 
           // End of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 2, name: '' },
-                { position: 0, name: '' },
-                { position: 0, name: '', selection: { start: 0, end: 4 } },
+                { position: 2, data: undefined },
+                { position: 0, data: undefined },
+                {
+                  position: 0,
+                  data: undefined,
+                  selection: { start: 0, end: 4 },
+                },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionOutOfBoundsError);
@@ -626,12 +674,16 @@ describe('Typewriter', () => {
 
         test('selection start must be before end', () => {
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 1, name: '', selection: { start: 2, end: 1 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 1,
+                  data: undefined,
+                  selection: { start: 2, end: 1 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(
@@ -639,36 +691,48 @@ describe('Typewriter', () => {
           );
 
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 1, name: '', selection: { start: 2, end: 1 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 1,
+                  data: undefined,
+                  selection: { start: 2, end: 1 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionInvalidRangeError);
 
           // Middle of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 1, name: '' },
-                { position: 1, name: '', selection: { start: 3, end: 1 } },
-                { position: 2, name: '' },
+                { position: 1, data: undefined },
+                {
+                  position: 1,
+                  data: undefined,
+                  selection: { start: 3, end: 1 },
+                },
+                { position: 2, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionInvalidRangeError);
 
           // End of array
           expect(() => {
-            new Typewriter({
+            new Typewriter<string>({
               text: 'abc',
               cursors: [
-                { position: 2, name: '' },
-                { position: 0, name: '' },
-                { position: 2, name: '', selection: { start: 3, end: 2 } },
+                { position: 2, data: undefined },
+                { position: 0, data: undefined },
+                {
+                  position: 2,
+                  data: undefined,
+                  selection: { start: 3, end: 2 },
+                },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionInvalidRangeError);
@@ -677,7 +741,7 @@ describe('Typewriter', () => {
     });
 
     test('with a config it should initialize with configured values', () => {
-      const typewriter: Typewriter = new Typewriter({
+      const typewriter: Typewriter<string> = new Typewriter<string>({
         text: 'aap',
         blinkAfter: 1337,
         actions: [
@@ -703,9 +767,9 @@ describe('Typewriter', () => {
         repeat: 1337,
         repeatDelay: 666,
         cursors: [
-          { position: 0, name: 'Tosca' },
-          { position: 1, name: 'Owen' },
-          { position: 0, name: 'Jane' },
+          { position: 0, data: 'Tosca' },
+          { position: 1, data: 'Owen' },
+          { position: 0, data: 'Jane' },
         ],
       });
 
@@ -738,9 +802,9 @@ describe('Typewriter', () => {
           { type: 'keyboard', text: 'c', delay: 999, cursor: 1 },
         ],
         cursors: [
-          { position: 0, name: 'Tosca', isBlinking: true },
-          { position: 1, name: 'Owen', isBlinking: true },
-          { position: 0, name: 'Jane', isBlinking: true },
+          { position: 0, data: 'Tosca', isBlinking: true },
+          { position: 1, data: 'Owen', isBlinking: true },
+          { position: 0, data: 'Jane', isBlinking: true },
         ],
         text: 'aap',
         blinkAfter: 1337,
@@ -755,7 +819,7 @@ describe('Typewriter', () => {
     });
 
     test('cursor should start at end of text by default', () => {
-      const typewriter: Typewriter = new Typewriter({
+      const typewriter: Typewriter<string> = new Typewriter<string>({
         text: 'aap',
       });
 
@@ -765,15 +829,40 @@ describe('Typewriter', () => {
       expect(typewriter.cursors.length).toBe(1);
       assertCursor(typewriter.cursors[0], {
         position: 3,
-        name: '',
+        data: undefined,
         isBlinking: true,
       });
 
       expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
+    test('cursors can have any data type but can also still be undefined', () => {
+      const typewriter = new Typewriter<{ name: string; color: string }>({
+        text: 'aap',
+        cursors: [
+          {
+            position: 3,
+          },
+          {
+            position: 3,
+            data: {
+              name: 'Owen',
+              color: 'red',
+            },
+          },
+        ],
+      });
+
+      expect(typewriter.cursors.length).toBe(2);
+      expect(typewriter.cursors[0].data).toBe(undefined);
+      expect(typewriter.cursors[1].data).toEqual({
+        name: 'Owen',
+        color: 'red',
+      });
+    });
+
     test('without a config it should be empty', () => {
-      const typewriter: Typewriter = new Typewriter();
+      const typewriter: Typewriter<string> = new Typewriter<string>();
 
       const subscriber = jest.fn();
       unsubscribe = typewriter.subscribe(subscriber);
@@ -781,7 +870,7 @@ describe('Typewriter', () => {
       assertState(typewriter, {
         history: [],
         actions: [],
-        cursors: [{ position: 0, name: '', isBlinking: true }],
+        cursors: [{ position: 0, data: undefined, isBlinking: true }],
         text: '',
         blinkAfter: 250,
         isPlaying: false,
@@ -796,7 +885,7 @@ describe('Typewriter', () => {
 
     test('with initial subscriber', () => {
       const subscriber = jest.fn();
-      const typewriter = new Typewriter({}, subscriber);
+      const typewriter = new Typewriter<string>({}, subscriber);
 
       unsubscribe = () => {
         typewriter.unsubscribe(subscriber);
@@ -805,7 +894,7 @@ describe('Typewriter', () => {
       assertState(typewriter, {
         history: [],
         actions: [],
-        cursors: [{ position: 0, name: '', isBlinking: true }],
+        cursors: [{ position: 0, data: undefined, isBlinking: true }],
         text: '',
         blinkAfter: 250,
         isPlaying: false,
@@ -826,7 +915,7 @@ describe('Typewriter', () => {
 
     test('without config but with initial subscriber', () => {
       const subscriber = jest.fn();
-      const typewriter = new Typewriter(undefined, subscriber);
+      const typewriter = new Typewriter<string>(undefined, subscriber);
 
       unsubscribe = () => {
         typewriter.unsubscribe(subscriber);
@@ -835,7 +924,7 @@ describe('Typewriter', () => {
       assertState(typewriter, {
         history: [],
         actions: [],
-        cursors: [{ position: 0, name: '', isBlinking: true }],
+        cursors: [{ position: 0, data: undefined, isBlinking: true }],
         text: '',
         blinkAfter: 250,
         isPlaying: false,
@@ -859,7 +948,7 @@ describe('Typewriter', () => {
     describe('errors', () => {
       describe('blinkAfter errors', () => {
         test('cannot be less than zero', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
@@ -876,7 +965,7 @@ describe('Typewriter', () => {
         });
 
         test('cannot be zero', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
@@ -895,7 +984,7 @@ describe('Typewriter', () => {
 
       describe('delay errors', () => {
         test('cannot be less than zero', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
@@ -982,7 +1071,7 @@ describe('Typewriter', () => {
         });
 
         test('cannot be zero', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
@@ -1071,7 +1160,7 @@ describe('Typewriter', () => {
 
       describe('repeat errors', () => {
         test('cannot be less than zero', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
@@ -1092,7 +1181,7 @@ describe('Typewriter', () => {
         });
 
         test('cannot be zero', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
@@ -1115,7 +1204,7 @@ describe('Typewriter', () => {
 
       describe('repeatDelay errors', () => {
         test('cannot be less than zero', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
@@ -1138,7 +1227,7 @@ describe('Typewriter', () => {
 
       describe('action cursor unknown errors', () => {
         test('must use known cursor', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
@@ -1213,16 +1302,16 @@ describe('Typewriter', () => {
 
       describe('cursor position errors', () => {
         test('cannot be less than zero', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: -1, name: '' },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                { position: -1, data: undefined },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError('uiloos > Typewriter > cursor is out of bounds');
@@ -1231,9 +1320,9 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: -1, name: '' },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                { position: -1, data: undefined },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorOutOfBoundsError);
@@ -1243,9 +1332,9 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 1, name: '' },
-                { position: -1, name: '' },
-                { position: 2, name: '' },
+                { position: 1, data: undefined },
+                { position: -1, data: undefined },
+                { position: 2, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorOutOfBoundsError);
@@ -1255,9 +1344,9 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 2, name: '' },
-                { position: 0, name: '' },
-                { position: -1, name: '' },
+                { position: 2, data: undefined },
+                { position: 0, data: undefined },
+                { position: -1, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorOutOfBoundsError);
@@ -1266,16 +1355,16 @@ describe('Typewriter', () => {
         });
 
         test('cannot be more than length of text', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 4, name: '' },
-                { position: 0, name: '' },
-                { position: 1, name: '' },
+                { position: 4, data: undefined },
+                { position: 0, data: undefined },
+                { position: 1, data: undefined },
               ],
             });
           }).toThrowError('uiloos > Typewriter > cursor is out of bounds');
@@ -1284,9 +1373,9 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 4, name: '' },
-                { position: 0, name: '' },
-                { position: 1, name: '' },
+                { position: 4, data: undefined },
+                { position: 0, data: undefined },
+                { position: 1, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorOutOfBoundsError);
@@ -1296,9 +1385,9 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 1, name: '' },
-                { position: 4, name: '' },
-                { position: 2, name: '' },
+                { position: 1, data: undefined },
+                { position: 4, data: undefined },
+                { position: 2, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorOutOfBoundsError);
@@ -1308,9 +1397,9 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 2, name: '' },
-                { position: 0, name: '' },
-                { position: 4, name: '' },
+                { position: 2, data: undefined },
+                { position: 0, data: undefined },
+                { position: 4, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorOutOfBoundsError);
@@ -1321,16 +1410,20 @@ describe('Typewriter', () => {
 
       describe('selection errors', () => {
         test('cursor must be placed on edges of selection', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 0, name: '', selection: { start: 2, end: 3 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 0,
+                  data: undefined,
+                  selection: { start: 2, end: 3 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(
@@ -1341,9 +1434,13 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 0, name: '', selection: { start: 2, end: 3 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 0,
+                  data: undefined,
+                  selection: { start: 2, end: 3 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorNotAtSelectionEdgeError);
@@ -1353,9 +1450,13 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 1, name: '' },
-                { position: 3, name: '', selection: { start: 1, end: 2 } },
-                { position: 2, name: '' },
+                { position: 1, data: undefined },
+                {
+                  position: 3,
+                  data: undefined,
+                  selection: { start: 1, end: 2 },
+                },
+                { position: 2, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorNotAtSelectionEdgeError);
@@ -1365,9 +1466,13 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 2, name: '' },
-                { position: 0, name: '' },
-                { position: 0, name: '', selection: { start: 1, end: 2 } },
+                { position: 2, data: undefined },
+                { position: 0, data: undefined },
+                {
+                  position: 0,
+                  data: undefined,
+                  selection: { start: 1, end: 2 },
+                },
               ],
             });
           }).toThrowError(TypewriterCursorNotAtSelectionEdgeError);
@@ -1376,16 +1481,20 @@ describe('Typewriter', () => {
         });
 
         test('selection start cannot be less than zero', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 3, name: '', selection: { start: -1, end: 3 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 3,
+                  data: undefined,
+                  selection: { start: -1, end: 3 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(
@@ -1396,9 +1505,13 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 3, name: '', selection: { start: -1, end: 3 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 3,
+                  data: undefined,
+                  selection: { start: -1, end: 3 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionOutOfBoundsError);
@@ -1408,9 +1521,13 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 1, name: '' },
-                { position: 3, name: '', selection: { start: -1, end: 3 } },
-                { position: 2, name: '' },
+                { position: 1, data: undefined },
+                {
+                  position: 3,
+                  data: undefined,
+                  selection: { start: -1, end: 3 },
+                },
+                { position: 2, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionOutOfBoundsError);
@@ -1420,9 +1537,13 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 2, name: '' },
-                { position: 0, name: '' },
-                { position: 1, name: '', selection: { start: -1, end: 1 } },
+                { position: 2, data: undefined },
+                { position: 0, data: undefined },
+                {
+                  position: 1,
+                  data: undefined,
+                  selection: { start: -1, end: 1 },
+                },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionOutOfBoundsError);
@@ -1431,16 +1552,20 @@ describe('Typewriter', () => {
         });
 
         test('selection end cannot be more than length of text', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 0, name: '', selection: { start: 0, end: 4 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 0,
+                  data: undefined,
+                  selection: { start: 0, end: 4 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(
@@ -1451,9 +1576,13 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 0, name: '', selection: { start: 0, end: 4 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 0,
+                  data: undefined,
+                  selection: { start: 0, end: 4 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionOutOfBoundsError);
@@ -1463,9 +1592,13 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 1, name: '' },
-                { position: 3, name: '', selection: { start: 3, end: 4 } },
-                { position: 2, name: '' },
+                { position: 1, data: undefined },
+                {
+                  position: 3,
+                  data: undefined,
+                  selection: { start: 3, end: 4 },
+                },
+                { position: 2, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionOutOfBoundsError);
@@ -1475,9 +1608,13 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 2, name: '' },
-                { position: 0, name: '' },
-                { position: 0, name: '', selection: { start: 0, end: 4 } },
+                { position: 2, data: undefined },
+                { position: 0, data: undefined },
+                {
+                  position: 0,
+                  data: undefined,
+                  selection: { start: 0, end: 4 },
+                },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionOutOfBoundsError);
@@ -1486,16 +1623,20 @@ describe('Typewriter', () => {
         });
 
         test('selection start must be before end', () => {
-          const typewriter = new Typewriter();
+          const typewriter = new Typewriter<string>();
           const subscriber = autoSubscribe(typewriter);
 
           expect(() => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 1, name: '', selection: { start: 2, end: 1 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 1,
+                  data: undefined,
+                  selection: { start: 2, end: 1 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(
@@ -1506,9 +1647,13 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 1, name: '', selection: { start: 2, end: 1 } },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
+                {
+                  position: 1,
+                  data: undefined,
+                  selection: { start: 2, end: 1 },
+                },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionInvalidRangeError);
@@ -1518,9 +1663,13 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 1, name: '' },
-                { position: 1, name: '', selection: { start: 3, end: 1 } },
-                { position: 2, name: '' },
+                { position: 1, data: undefined },
+                {
+                  position: 1,
+                  data: undefined,
+                  selection: { start: 3, end: 1 },
+                },
+                { position: 2, data: undefined },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionInvalidRangeError);
@@ -1530,9 +1679,13 @@ describe('Typewriter', () => {
             typewriter.initialize({
               text: 'abc',
               cursors: [
-                { position: 2, name: '' },
-                { position: 0, name: '' },
-                { position: 2, name: '', selection: { start: 3, end: 2 } },
+                { position: 2, data: undefined },
+                { position: 0, data: undefined },
+                {
+                  position: 2,
+                  data: undefined,
+                  selection: { start: 3, end: 2 },
+                },
               ],
             });
           }).toThrowError(TypewriterCursorSelectionInvalidRangeError);
@@ -1544,7 +1697,7 @@ describe('Typewriter', () => {
 
     describe('reset behavior', () => {
       test('that initialize can reset the Typewriter', () => {
-        const typewriter: Typewriter = new Typewriter({
+        const typewriter: Typewriter<string> = new Typewriter<string>({
           text: 'aap',
           blinkAfter: 1337,
           actions: [{ type: 'keyboard', text: '', delay: 999, cursor: 0 }],
@@ -1562,7 +1715,7 @@ describe('Typewriter', () => {
           {
             history: [],
             actions: [],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 250,
             isPlaying: false,
@@ -1579,7 +1732,7 @@ describe('Typewriter', () => {
       });
 
       it('should reset the animation timeout', () => {
-        const typewriter: Typewriter = new Typewriter({
+        const typewriter: Typewriter<string> = new Typewriter<string>({
           actions: [
             { type: 'keyboard', text: 'a', delay: 100, cursor: 0 },
 
@@ -1604,7 +1757,7 @@ describe('Typewriter', () => {
       });
 
       it('should reset the blinking timeout', () => {
-        const typewriter: Typewriter = new Typewriter({
+        const typewriter: Typewriter<string> = new Typewriter<string>({
           blinkAfter: 50,
           actions: [
             { type: 'keyboard', text: 'a', delay: 100, cursor: 0 },
@@ -1656,7 +1809,7 @@ describe('Typewriter', () => {
       });
 
       it('should reset finished to false', () => {
-        const typewriter: Typewriter = new Typewriter({
+        const typewriter: Typewriter<string> = new Typewriter<string>({
           blinkAfter: 50,
           actions: [{ type: 'keyboard', text: 'a', delay: 100, cursor: 0 }],
         });
@@ -1684,7 +1837,7 @@ describe('Typewriter', () => {
 
     describe('autoPlay', () => {
       it('should start playing automatically when there are actions configured and autoPlay is undefined', () => {
-        const typewriter = new Typewriter();
+        const typewriter = new Typewriter<string>();
 
         typewriter.initialize({
           actions: [
@@ -1718,7 +1871,7 @@ describe('Typewriter', () => {
       });
 
       it('should start playing automatically when there are actions configured and autoPlay is true', () => {
-        const typewriter = new Typewriter();
+        const typewriter = new Typewriter<string>();
 
         typewriter.initialize({
           autoPlay: true,
@@ -1753,7 +1906,7 @@ describe('Typewriter', () => {
       });
 
       it('should not start playing automatically when there are actions configured and autoPlay is false', () => {
-        const typewriter = new Typewriter();
+        const typewriter = new Typewriter<string>();
 
         typewriter.initialize({
           autoPlay: false,
@@ -1796,7 +1949,7 @@ describe('Typewriter', () => {
       });
 
       it('should not start playing automatically when there are no actions configured even when autoPlay is true', () => {
-        const typewriter = new Typewriter();
+        const typewriter = new Typewriter<string>();
 
         typewriter.initialize({
           autoPlay: true,
@@ -1817,7 +1970,7 @@ describe('Typewriter', () => {
       });
 
       it('should not start playing automatically when there are no actions configured and when autoPlay is false', () => {
-        const typewriter = new Typewriter();
+        const typewriter = new Typewriter<string>();
 
         typewriter.initialize({
           autoPlay: false,
@@ -1844,7 +1997,7 @@ describe('Typewriter', () => {
       describe('inserting', () => {
         describe('single letter', () => {
           it('should know how to do a basic text animation from start to finish', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -1891,7 +2044,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 50,
               isPlaying: true,
@@ -1927,7 +2080,7 @@ describe('Typewriter', () => {
                     cursor: 0,
                   },
                 ],
-                cursors: [{ position: 1, name: '', isBlinking: false }],
+                cursors: [{ position: 1, data: undefined, isBlinking: false }],
                 text: 'a',
                 blinkAfter: 50,
                 isPlaying: true,
@@ -1975,7 +2128,7 @@ describe('Typewriter', () => {
                     cursor: 0,
                   },
                 ],
-                cursors: [{ position: 2, name: '', isBlinking: false }],
+                cursors: [{ position: 2, data: undefined, isBlinking: false }],
                 text: 'ab',
                 blinkAfter: 50,
                 isPlaying: true,
@@ -2023,7 +2176,7 @@ describe('Typewriter', () => {
                     cursor: 0,
                   },
                 ],
-                cursors: [{ position: 3, name: '', isBlinking: false }],
+                cursors: [{ position: 3, data: undefined, isBlinking: false }],
                 text: 'abc',
                 blinkAfter: 50,
                 isPlaying: false,
@@ -2047,7 +2200,7 @@ describe('Typewriter', () => {
           });
 
           it('should know how to add a letter in the middle', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -2058,7 +2211,7 @@ describe('Typewriter', () => {
               ],
               blinkAfter: 50,
               text: 'ac',
-              cursors: [{ position: 1, name: '' }],
+              cursors: [{ position: 1, data: undefined }],
             });
             const subscriber = autoSubscribe(typewriter);
 
@@ -2072,7 +2225,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: true }],
+              cursors: [{ position: 1, data: undefined, isBlinking: true }],
               text: 'ac',
               blinkAfter: 50,
               isPlaying: true,
@@ -2096,7 +2249,7 @@ describe('Typewriter', () => {
                     cursor: 0,
                   },
                 ],
-                cursors: [{ position: 2, name: '', isBlinking: false }],
+                cursors: [{ position: 2, data: undefined, isBlinking: false }],
                 text: 'abc',
                 blinkAfter: 50,
                 isPlaying: false,
@@ -2120,7 +2273,7 @@ describe('Typewriter', () => {
           });
 
           it('should know how to add a letter at the start', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -2131,7 +2284,7 @@ describe('Typewriter', () => {
               ],
               blinkAfter: 50,
               text: 'bc',
-              cursors: [{ position: 0, name: '' }],
+              cursors: [{ position: 0, data: undefined }],
             });
             const subscriber = autoSubscribe(typewriter);
 
@@ -2145,7 +2298,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: 'bc',
               blinkAfter: 50,
               isPlaying: true,
@@ -2169,7 +2322,7 @@ describe('Typewriter', () => {
                     cursor: 0,
                   },
                 ],
-                cursors: [{ position: 1, name: '', isBlinking: false }],
+                cursors: [{ position: 1, data: undefined, isBlinking: false }],
                 text: 'abc',
                 blinkAfter: 50,
                 isPlaying: false,
@@ -2195,7 +2348,7 @@ describe('Typewriter', () => {
 
         describe('word', () => {
           it('should know how to do a basic text animation from start to finish', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -2242,7 +2395,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 50,
               isPlaying: true,
@@ -2278,7 +2431,7 @@ describe('Typewriter', () => {
                     cursor: 0,
                   },
                 ],
-                cursors: [{ position: 3, name: '', isBlinking: false }],
+                cursors: [{ position: 3, data: undefined, isBlinking: false }],
                 text: 'aap',
                 blinkAfter: 50,
                 isPlaying: true,
@@ -2326,7 +2479,7 @@ describe('Typewriter', () => {
                     cursor: 0,
                   },
                 ],
-                cursors: [{ position: 7, name: '', isBlinking: false }],
+                cursors: [{ position: 7, data: undefined, isBlinking: false }],
                 text: 'aapnoot',
                 blinkAfter: 50,
                 isPlaying: true,
@@ -2374,7 +2527,7 @@ describe('Typewriter', () => {
                     cursor: 0,
                   },
                 ],
-                cursors: [{ position: 11, name: '', isBlinking: false }],
+                cursors: [{ position: 11, data: undefined, isBlinking: false }],
                 text: 'aapnootmies',
                 blinkAfter: 50,
                 isPlaying: false,
@@ -2398,7 +2551,7 @@ describe('Typewriter', () => {
           });
 
           it('should know how to add a word in the middle', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -2409,7 +2562,7 @@ describe('Typewriter', () => {
               ],
               blinkAfter: 50,
               text: 'ac',
-              cursors: [{ position: 1, name: '' }],
+              cursors: [{ position: 1, data: undefined }],
             });
             const subscriber = autoSubscribe(typewriter);
 
@@ -2423,7 +2576,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: true }],
+              cursors: [{ position: 1, data: undefined, isBlinking: true }],
               text: 'ac',
               blinkAfter: 50,
               isPlaying: true,
@@ -2447,7 +2600,7 @@ describe('Typewriter', () => {
                     cursor: 0,
                   },
                 ],
-                cursors: [{ position: 5, name: '', isBlinking: false }],
+                cursors: [{ position: 5, data: undefined, isBlinking: false }],
                 text: 'abootc',
                 blinkAfter: 50,
                 isPlaying: false,
@@ -2471,7 +2624,7 @@ describe('Typewriter', () => {
           });
 
           it('should know how to add a word at the start', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -2482,7 +2635,7 @@ describe('Typewriter', () => {
               ],
               blinkAfter: 50,
               text: 'bc',
-              cursors: [{ position: 0, name: '' }],
+              cursors: [{ position: 0, data: undefined }],
             });
             const subscriber = autoSubscribe(typewriter);
 
@@ -2496,7 +2649,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: 'bc',
               blinkAfter: 50,
               isPlaying: true,
@@ -2520,7 +2673,7 @@ describe('Typewriter', () => {
                     cursor: 0,
                   },
                 ],
-                cursors: [{ position: 3, name: '', isBlinking: false }],
+                cursors: [{ position: 3, data: undefined, isBlinking: false }],
                 text: 'aapbc',
                 blinkAfter: 50,
                 isPlaying: false,
@@ -2547,7 +2700,7 @@ describe('Typewriter', () => {
 
       describe('backspace', () => {
         it('should know how to to apply a backspace from the end', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -2618,7 +2771,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 50,
             isPlaying: true,
@@ -2666,7 +2819,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'a',
               blinkAfter: 50,
               isPlaying: true,
@@ -2726,7 +2879,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 50,
               isPlaying: true,
@@ -2786,7 +2939,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'b',
               blinkAfter: 50,
               isPlaying: true,
@@ -2846,7 +2999,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 50,
               isPlaying: true,
@@ -2906,7 +3059,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'c',
               blinkAfter: 50,
               isPlaying: false,
@@ -2930,7 +3083,7 @@ describe('Typewriter', () => {
         });
 
         it('should know how to to apply a backspace from the middle', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -2941,7 +3094,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 2, name: '' }],
+            cursors: [{ position: 2, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -2955,7 +3108,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 2, name: '', isBlinking: true }],
+            cursors: [{ position: 2, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -2979,7 +3132,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'ac',
               blinkAfter: 50,
               isPlaying: false,
@@ -3003,7 +3156,7 @@ describe('Typewriter', () => {
         });
 
         it('should know how to to apply a backspace from index 1', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -3014,7 +3167,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 1, name: '' }],
+            cursors: [{ position: 1, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -3028,7 +3181,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 1, name: '', isBlinking: true }],
+            cursors: [{ position: 1, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -3052,7 +3205,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: 'bc',
               blinkAfter: 50,
               isPlaying: false,
@@ -3076,7 +3229,7 @@ describe('Typewriter', () => {
         });
 
         it('should ignore a backspace from the start and continue the animation', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -3093,7 +3246,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 0, name: '' }],
+            cursors: [{ position: 0, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -3113,7 +3266,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -3147,7 +3300,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'zabc',
               blinkAfter: 50,
               isPlaying: false,
@@ -3171,7 +3324,7 @@ describe('Typewriter', () => {
         });
 
         it('should be able to finish from a backspace from the start which is ignored', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -3182,7 +3335,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 0, name: '' }],
+            cursors: [{ position: 0, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -3196,7 +3349,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -3220,7 +3373,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -3244,7 +3397,7 @@ describe('Typewriter', () => {
         });
 
         it('should know how to to apply a backspace when using unicode chars such as emoji', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -3315,7 +3468,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 50,
             isPlaying: true,
@@ -3363,7 +3516,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😀',
               blinkAfter: 50,
               isPlaying: true,
@@ -3423,7 +3576,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 50,
               isPlaying: true,
@@ -3483,7 +3636,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😃',
               blinkAfter: 50,
               isPlaying: true,
@@ -3543,7 +3696,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 50,
               isPlaying: true,
@@ -3603,7 +3756,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 50,
               isPlaying: false,
@@ -3627,7 +3780,7 @@ describe('Typewriter', () => {
         });
 
         it('should when backspace is the last action start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -3664,7 +3817,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -3694,7 +3847,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -3736,7 +3889,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -3778,7 +3931,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -3796,7 +3949,7 @@ describe('Typewriter', () => {
         });
 
         it('should when backspace is ignored still start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -3845,7 +3998,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -3881,7 +4034,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -3929,7 +4082,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -3982,7 +4135,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -4002,7 +4155,7 @@ describe('Typewriter', () => {
 
       describe('clear all', () => {
         it('should know how to to apply a clear all and continue the animation', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -4038,7 +4191,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 12, name: '', isBlinking: true }],
+            cursors: [{ position: 12, data: undefined, isBlinking: true }],
             text: 'Hello world!',
             blinkAfter: 50,
             isPlaying: true,
@@ -4068,7 +4221,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 50,
               isPlaying: true,
@@ -4110,7 +4263,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 50,
               isPlaying: false,
@@ -4134,7 +4287,7 @@ describe('Typewriter', () => {
         });
 
         it('should know how to to finish on a clear all', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -4158,7 +4311,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 12, name: '', isBlinking: true }],
+            cursors: [{ position: 12, data: undefined, isBlinking: true }],
             text: 'Hello world!',
             blinkAfter: 50,
             isPlaying: true,
@@ -4182,7 +4335,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 50,
               isPlaying: false,
@@ -4206,7 +4359,7 @@ describe('Typewriter', () => {
         });
 
         it('should ignore a clear all when text is already empty', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -4254,7 +4407,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 1, name: '', isBlinking: true }],
+            cursors: [{ position: 1, data: undefined, isBlinking: true }],
             text: 'a',
             blinkAfter: 1000,
             isPlaying: true,
@@ -4290,7 +4443,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -4343,7 +4496,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'b',
               blinkAfter: 1000,
               isPlaying: false,
@@ -4367,7 +4520,7 @@ describe('Typewriter', () => {
         });
 
         it('should still finish on a clear all when text is already empty and ignored', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -4391,7 +4544,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 50,
             isPlaying: true,
@@ -4415,7 +4568,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 50,
               isPlaying: false,
@@ -4439,7 +4592,7 @@ describe('Typewriter', () => {
         });
 
         it('should when clear all is the last action start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -4476,7 +4629,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -4506,7 +4659,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -4548,7 +4701,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -4590,7 +4743,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -4608,7 +4761,7 @@ describe('Typewriter', () => {
         });
 
         it('should when clear all is ignored still start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -4657,7 +4810,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -4693,7 +4846,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -4741,7 +4894,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -4794,7 +4947,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -4814,7 +4967,7 @@ describe('Typewriter', () => {
 
       describe('move left', () => {
         it('should know how to move left from the middle', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -4825,7 +4978,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 1, name: '' }],
+            cursors: [{ position: 1, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -4839,7 +4992,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 1, name: '', isBlinking: true }],
+            cursors: [{ position: 1, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -4863,7 +5016,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -4887,7 +5040,7 @@ describe('Typewriter', () => {
         });
 
         it('should know how to move left from the end', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -4898,7 +5051,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 2, name: '' }],
+            cursors: [{ position: 2, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -4912,7 +5065,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 2, name: '', isBlinking: true }],
+            cursors: [{ position: 2, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -4936,7 +5089,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -4960,7 +5113,7 @@ describe('Typewriter', () => {
         });
 
         it('should ignore a move left from the start and continue the animation', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -4977,7 +5130,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 0, name: '' }],
+            cursors: [{ position: 0, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -4997,7 +5150,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -5031,7 +5184,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'zabc',
               blinkAfter: 50,
               isPlaying: false,
@@ -5055,7 +5208,7 @@ describe('Typewriter', () => {
         });
 
         it('should be able to finish from a move left from the start which is ignored', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -5066,7 +5219,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 0, name: '' }],
+            cursors: [{ position: 0, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -5080,7 +5233,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -5104,7 +5257,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -5128,7 +5281,7 @@ describe('Typewriter', () => {
         });
 
         it('should when move left is the last action start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -5165,7 +5318,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -5195,7 +5348,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -5237,7 +5390,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -5279,7 +5432,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -5297,7 +5450,7 @@ describe('Typewriter', () => {
         });
 
         it('should when move left is ignored still start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -5346,7 +5499,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -5382,7 +5535,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -5430,7 +5583,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -5483,7 +5636,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -5503,7 +5656,7 @@ describe('Typewriter', () => {
 
       describe('move right', () => {
         it('should know how to move right from the start', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -5514,7 +5667,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 0, name: '' }],
+            cursors: [{ position: 0, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -5528,7 +5681,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -5552,7 +5705,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -5576,7 +5729,7 @@ describe('Typewriter', () => {
         });
 
         it('should know how to move right from the middle', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -5587,7 +5740,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 1, name: '' }],
+            cursors: [{ position: 1, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -5601,7 +5754,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 1, name: '', isBlinking: true }],
+            cursors: [{ position: 1, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -5625,7 +5778,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 2, name: '', isBlinking: false }],
+              cursors: [{ position: 2, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -5649,7 +5802,7 @@ describe('Typewriter', () => {
         });
 
         it('should ignore a move right from the end and continue the animation', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -5666,7 +5819,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 3, name: '' }],
+            cursors: [{ position: 3, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -5686,7 +5839,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 3, name: '', isBlinking: true }],
+            cursors: [{ position: 3, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -5720,7 +5873,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 4, name: '', isBlinking: false }],
+              cursors: [{ position: 4, data: undefined, isBlinking: false }],
               text: 'abcz',
               blinkAfter: 50,
               isPlaying: false,
@@ -5744,7 +5897,7 @@ describe('Typewriter', () => {
         });
 
         it('should be able to finish from a move right from the end which is ignored', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -5755,7 +5908,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 3, name: '' }],
+            cursors: [{ position: 3, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -5769,7 +5922,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 3, name: '', isBlinking: true }],
+            cursors: [{ position: 3, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -5793,7 +5946,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 3, name: '', isBlinking: false }],
+              cursors: [{ position: 3, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -5817,7 +5970,7 @@ describe('Typewriter', () => {
         });
 
         it('should when move right is the last action start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -5868,7 +6021,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -5904,7 +6057,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -5952,7 +6105,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -6000,7 +6153,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -6048,7 +6201,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -6066,7 +6219,7 @@ describe('Typewriter', () => {
         });
 
         it('should when move right is ignored still start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -6115,7 +6268,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -6151,7 +6304,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -6208,7 +6361,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -6228,7 +6381,7 @@ describe('Typewriter', () => {
 
       describe('mouse click', () => {
         it('should know to move the cursor to the position clicked', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -6239,7 +6392,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 0, name: '' }],
+            cursors: [{ position: 0, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -6253,7 +6406,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -6277,7 +6430,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -6301,7 +6454,7 @@ describe('Typewriter', () => {
         });
 
         it('should know to select text on mouse clicked', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -6316,7 +6469,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 0, name: '' }],
+            cursors: [{ position: 0, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -6334,7 +6487,7 @@ describe('Typewriter', () => {
                 },
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -6365,7 +6518,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 0, end: 3 },
                 },
@@ -6397,7 +6550,7 @@ describe('Typewriter', () => {
         });
 
         it('should ignore a mouse click on the current position and continue the animation', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -6414,7 +6567,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 3, name: '' }],
+            cursors: [{ position: 3, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -6434,7 +6587,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 3, name: '', isBlinking: true }],
+            cursors: [{ position: 3, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -6468,7 +6621,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 4, name: '', isBlinking: false }],
+              cursors: [{ position: 4, data: undefined, isBlinking: false }],
               text: 'abcz',
               blinkAfter: 50,
               isPlaying: false,
@@ -6492,7 +6645,7 @@ describe('Typewriter', () => {
         });
 
         it('should when a mouse click has a position less than 0 move to 0 instead', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -6509,7 +6662,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 3, name: '' }],
+            cursors: [{ position: 3, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -6529,7 +6682,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 3, name: '', isBlinking: true }],
+            cursors: [{ position: 3, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -6559,7 +6712,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: true,
@@ -6601,7 +6754,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'zabc',
               blinkAfter: 50,
               isPlaying: false,
@@ -6625,7 +6778,7 @@ describe('Typewriter', () => {
         });
 
         it('should when a mouse click has a position less than 0 and the current position is zero ignore the click', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -6642,7 +6795,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 0, name: '' }],
+            cursors: [{ position: 0, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -6662,7 +6815,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -6696,7 +6849,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'zabc',
               blinkAfter: 50,
               isPlaying: false,
@@ -6720,7 +6873,7 @@ describe('Typewriter', () => {
         });
 
         it('should when a mouse click has a position larger than the text move to text length instead', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -6737,7 +6890,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 0, name: '' }],
+            cursors: [{ position: 0, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -6757,7 +6910,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -6787,7 +6940,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 3, name: '', isBlinking: false }],
+              cursors: [{ position: 3, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: true,
@@ -6829,7 +6982,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 4, name: '', isBlinking: false }],
+              cursors: [{ position: 4, data: undefined, isBlinking: false }],
               text: 'abcz',
               blinkAfter: 50,
               isPlaying: false,
@@ -6853,7 +7006,7 @@ describe('Typewriter', () => {
         });
 
         it('should when a mouse click has a position larger than the text and the current position is the text length ignore the click', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -6870,7 +7023,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 3, name: '' }],
+            cursors: [{ position: 3, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -6890,7 +7043,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 3, name: '', isBlinking: true }],
+            cursors: [{ position: 3, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -6924,7 +7077,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 4, name: '', isBlinking: false }],
+              cursors: [{ position: 4, data: undefined, isBlinking: false }],
               text: 'abcz',
               blinkAfter: 50,
               isPlaying: false,
@@ -6948,7 +7101,7 @@ describe('Typewriter', () => {
         });
 
         it('should be able to finish from a mouse click at the end which is ignored', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -6959,7 +7112,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 3, name: '' }],
+            cursors: [{ position: 3, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -6973,7 +7126,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 3, name: '', isBlinking: true }],
+            cursors: [{ position: 3, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -6997,7 +7150,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 3, name: '', isBlinking: false }],
+              cursors: [{ position: 3, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -7021,7 +7174,7 @@ describe('Typewriter', () => {
         });
 
         it('should when a mouse click is the last action start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -7058,7 +7211,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -7088,7 +7241,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -7130,7 +7283,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -7172,7 +7325,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -7190,7 +7343,7 @@ describe('Typewriter', () => {
         });
 
         it('should when a mouse click is ignored still start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -7239,7 +7392,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -7275,7 +7428,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -7332,7 +7485,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -7352,7 +7505,7 @@ describe('Typewriter', () => {
 
       describe('select left', () => {
         it('should know how to create a selection to the left from middle', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -7363,7 +7516,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 1, name: '' }],
+            cursors: [{ position: 1, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -7377,7 +7530,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 1, name: '', isBlinking: true }],
+            cursors: [{ position: 1, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -7404,7 +7557,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 0, end: 1 },
                 },
@@ -7432,7 +7585,7 @@ describe('Typewriter', () => {
         });
 
         it('should know how to create a selection to the left from the end', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -7443,7 +7596,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 3, name: '' }],
+            cursors: [{ position: 3, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -7457,7 +7610,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 3, name: '', isBlinking: true }],
+            cursors: [{ position: 3, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -7484,7 +7637,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 2, end: 3 },
                 },
@@ -7512,7 +7665,7 @@ describe('Typewriter', () => {
         });
 
         it('should ignore create selection when on the start and continue the animation', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -7529,7 +7682,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 0, name: '' }],
+            cursors: [{ position: 0, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -7549,7 +7702,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -7583,7 +7736,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'zabc',
               blinkAfter: 50,
               isPlaying: false,
@@ -7607,7 +7760,7 @@ describe('Typewriter', () => {
         });
 
         it('should be able to finish from a select left from the start which is ignored', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -7618,7 +7771,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 0, name: '' }],
+            cursors: [{ position: 0, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -7632,7 +7785,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -7656,7 +7809,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -7680,7 +7833,7 @@ describe('Typewriter', () => {
         });
 
         it('should when select left is the last action start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -7717,7 +7870,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -7747,7 +7900,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -7792,7 +7945,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 0, end: 1 },
                 },
@@ -7838,7 +7991,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -7856,7 +8009,7 @@ describe('Typewriter', () => {
         });
 
         it('should when select left is ignored still start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -7905,7 +8058,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -7941,7 +8094,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -7992,7 +8145,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 0, end: 1 },
                 },
@@ -8049,7 +8202,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -8069,7 +8222,7 @@ describe('Typewriter', () => {
 
       describe('select right', () => {
         it('should know how to create a selection to the right from middle', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -8080,7 +8233,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 1, name: '' }],
+            cursors: [{ position: 1, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -8094,7 +8247,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 1, name: '', isBlinking: true }],
+            cursors: [{ position: 1, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -8121,7 +8274,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 1, end: 2 },
                 },
@@ -8149,7 +8302,7 @@ describe('Typewriter', () => {
         });
 
         it('should know how to create a selection to the right from the start', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -8160,7 +8313,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 0, name: '' }],
+            cursors: [{ position: 0, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -8174,7 +8327,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -8201,7 +8354,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 0, end: 1 },
                 },
@@ -8229,7 +8382,7 @@ describe('Typewriter', () => {
         });
 
         it('should ignore create selection when on the end and continue the animation', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -8246,7 +8399,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 3, name: '' }],
+            cursors: [{ position: 3, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -8266,7 +8419,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 3, name: '', isBlinking: true }],
+            cursors: [{ position: 3, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -8300,7 +8453,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 4, name: '', isBlinking: false }],
+              cursors: [{ position: 4, data: undefined, isBlinking: false }],
               text: 'abcz',
               blinkAfter: 50,
               isPlaying: false,
@@ -8324,7 +8477,7 @@ describe('Typewriter', () => {
         });
 
         it('should be able to finish from a select right from the end which is ignored', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -8335,7 +8488,7 @@ describe('Typewriter', () => {
             ],
             blinkAfter: 50,
             text: 'abc',
-            cursors: [{ position: 3, name: '' }],
+            cursors: [{ position: 3, data: undefined }],
           });
           const subscriber = autoSubscribe(typewriter);
 
@@ -8349,7 +8502,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 3, name: '', isBlinking: true }],
+            cursors: [{ position: 3, data: undefined, isBlinking: true }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -8373,7 +8526,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 3, name: '', isBlinking: false }],
+              cursors: [{ position: 3, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -8397,7 +8550,7 @@ describe('Typewriter', () => {
         });
 
         it('should when select right is the last action start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -8446,7 +8599,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -8482,7 +8635,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -8530,7 +8683,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -8581,7 +8734,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 0, end: 1 },
                 },
@@ -8633,7 +8786,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -8651,7 +8804,7 @@ describe('Typewriter', () => {
         });
 
         it('should when select right is ignored still start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -8688,7 +8841,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: '', isBlinking: true }],
+            cursors: [{ position: 0, data: undefined, isBlinking: true }],
             text: '',
             blinkAfter: 1000,
             isPlaying: true,
@@ -8718,7 +8871,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -8765,7 +8918,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: true }],
+              cursors: [{ position: 0, data: undefined, isBlinking: true }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -8788,7 +8941,7 @@ describe('Typewriter', () => {
       describe('inserting', () => {
         describe('single letter', () => {
           it('should remove selection and insert the letter in place of the selection', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -8815,7 +8968,7 @@ describe('Typewriter', () => {
               ],
               cursors: [
                 {
-                  name: '',
+                  data: undefined,
                   position: 14,
                   selection: { start: 10, end: 14 },
                   isBlinking: true,
@@ -8846,7 +8999,7 @@ describe('Typewriter', () => {
                 ],
                 cursors: [
                   {
-                    name: '',
+                    data: undefined,
                     position: 11,
                     selection: undefined,
                     isBlinking: false,
@@ -8877,7 +9030,7 @@ describe('Typewriter', () => {
 
         describe('word', () => {
           it('should remove selection and insert the word in place of the selection', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -8904,7 +9057,7 @@ describe('Typewriter', () => {
               ],
               cursors: [
                 {
-                  name: '',
+                  data: undefined,
                   position: 14,
                   selection: { start: 10, end: 14 },
                   isBlinking: true,
@@ -8935,7 +9088,7 @@ describe('Typewriter', () => {
                 ],
                 cursors: [
                   {
-                    name: '',
+                    data: undefined,
                     position: 13,
                     selection: undefined,
                     isBlinking: false,
@@ -8967,7 +9120,7 @@ describe('Typewriter', () => {
 
       describe('backspace', () => {
         it('should know how to to apply a backspace from the start of the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -8996,7 +9149,7 @@ describe('Typewriter', () => {
               {
                 position: 10,
                 selection: { start: 10, end: 14 },
-                name: '',
+                data: undefined,
                 isBlinking: true,
               },
             ],
@@ -9027,7 +9180,7 @@ describe('Typewriter', () => {
                 {
                   position: 10,
                   selection: undefined,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                 },
               ],
@@ -9054,7 +9207,7 @@ describe('Typewriter', () => {
         });
 
         it('should know how to to apply a backspace from the end of the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -9083,7 +9236,7 @@ describe('Typewriter', () => {
               {
                 position: 14,
                 selection: { start: 10, end: 14 },
-                name: '',
+                data: undefined,
                 isBlinking: true,
               },
             ],
@@ -9114,7 +9267,7 @@ describe('Typewriter', () => {
                 {
                   position: 10,
                   selection: undefined,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                 },
               ],
@@ -9141,7 +9294,7 @@ describe('Typewriter', () => {
         });
 
         it('should when backspace from a selection is the last action start repeating', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -9169,7 +9322,7 @@ describe('Typewriter', () => {
             ],
             cursors: [
               {
-                name: '',
+                data: undefined,
                 position: 0,
                 selection: { start: 0, end: 19 },
                 isBlinking: true,
@@ -9202,7 +9355,7 @@ describe('Typewriter', () => {
                 {
                   position: 0,
                   selection: undefined,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                 },
               ],
@@ -9243,7 +9396,7 @@ describe('Typewriter', () => {
               ],
               cursors: [
                 {
-                  name: '',
+                  data: undefined,
                   position: 0,
                   selection: { start: 0, end: 19 },
                   isBlinking: true,
@@ -9268,7 +9421,7 @@ describe('Typewriter', () => {
 
       describe('clear all', () => {
         it('should know how to to apply a clear all and continue the animation', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -9308,7 +9461,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 6,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 6, end: 12 },
               },
@@ -9342,7 +9495,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 50,
               isPlaying: true,
@@ -9384,7 +9537,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 50,
               isPlaying: false,
@@ -9408,7 +9561,7 @@ describe('Typewriter', () => {
         });
 
         it('should know how to to finish on a clear all', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -9436,7 +9589,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 0,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 5 },
               },
@@ -9464,7 +9617,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 50,
               isPlaying: false,
@@ -9488,7 +9641,7 @@ describe('Typewriter', () => {
         });
 
         it('should ignore a clear all when text is already empty', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -9540,7 +9693,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 1,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 1 },
               },
@@ -9580,7 +9733,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -9633,7 +9786,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'b',
               blinkAfter: 1000,
               isPlaying: false,
@@ -9657,7 +9810,7 @@ describe('Typewriter', () => {
         });
 
         it('should when clear all is the last action start repeating, and restore the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -9698,7 +9851,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 5,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 5 },
               },
@@ -9732,7 +9885,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄 world!',
               blinkAfter: 1000,
               isPlaying: true,
@@ -9774,7 +9927,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -9819,7 +9972,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 5,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: { start: 0, end: 5 },
                 },
@@ -9841,7 +9994,7 @@ describe('Typewriter', () => {
         });
 
         it('should when clear all is ignored still start repeating, and restore the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -9894,7 +10047,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 0,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 5 },
               },
@@ -9934,7 +10087,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄 world!',
               blinkAfter: 1000,
               isPlaying: true,
@@ -9982,7 +10135,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '',
               blinkAfter: 1000,
               isPlaying: true,
@@ -10038,7 +10191,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: { start: 0, end: 5 },
                 },
@@ -10062,7 +10215,7 @@ describe('Typewriter', () => {
 
       describe('move left', () => {
         it('should when the cursor is at the start of the selection, stay on the position, and clear the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -10074,7 +10227,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abcd',
             cursors: [
-              { position: 1, name: '', selection: { start: 1, end: 3 } },
+              { position: 1, data: undefined, selection: { start: 1, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -10092,7 +10245,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 1,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 1, end: 3 },
               },
@@ -10120,7 +10273,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'abcd',
               blinkAfter: 50,
               isPlaying: false,
@@ -10144,7 +10297,7 @@ describe('Typewriter', () => {
         });
 
         it('should when the cursor is at the end of the selection, move to the start of the selection, and clear the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -10156,7 +10309,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abcd',
             cursors: [
-              { position: 3, name: '', selection: { start: 1, end: 3 } },
+              { position: 3, data: undefined, selection: { start: 1, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -10174,7 +10327,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 3,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 1, end: 3 },
               },
@@ -10202,7 +10355,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'abcd',
               blinkAfter: 50,
               isPlaying: false,
@@ -10226,7 +10379,7 @@ describe('Typewriter', () => {
         });
 
         it('should not ignore a move left from the start when there is a selection but should clear the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -10238,7 +10391,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 0, name: '', selection: { start: 0, end: 2 } },
+              { position: 0, data: undefined, selection: { start: 0, end: 2 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -10256,7 +10409,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 0,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 2 },
               },
@@ -10284,7 +10437,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -10308,7 +10461,7 @@ describe('Typewriter', () => {
         });
 
         it('should be able to finish from a move left from the start which is ignored, and restore the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -10320,7 +10473,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 0, name: '', selection: { start: 0, end: 1 } },
+              { position: 0, data: undefined, selection: { start: 0, end: 1 } },
             ],
             repeat: true,
           });
@@ -10339,7 +10492,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 0,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 1 },
               },
@@ -10367,7 +10520,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: true,
@@ -10406,7 +10559,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: { start: 0, end: 1 },
                 },
@@ -10430,7 +10583,7 @@ describe('Typewriter', () => {
 
       describe('move right', () => {
         it('should when the cursor is at the end of the selection, stay on the position, and clear the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -10442,7 +10595,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abcd',
             cursors: [
-              { position: 3, name: '', selection: { start: 1, end: 3 } },
+              { position: 3, data: undefined, selection: { start: 1, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -10460,7 +10613,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 3,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 1, end: 3 },
               },
@@ -10488,7 +10641,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 3, name: '', isBlinking: false }],
+              cursors: [{ position: 3, data: undefined, isBlinking: false }],
               text: 'abcd',
               blinkAfter: 50,
               isPlaying: false,
@@ -10512,7 +10665,7 @@ describe('Typewriter', () => {
         });
 
         it('should when the cursor is at the start of the selection, move to the end of the selection, and clear the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -10524,7 +10677,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abcd',
             cursors: [
-              { position: 1, name: '', selection: { start: 1, end: 3 } },
+              { position: 1, data: undefined, selection: { start: 1, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -10542,7 +10695,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 1,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 1, end: 3 },
               },
@@ -10570,7 +10723,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 3, name: '', isBlinking: false }],
+              cursors: [{ position: 3, data: undefined, isBlinking: false }],
               text: 'abcd',
               blinkAfter: 50,
               isPlaying: false,
@@ -10594,7 +10747,7 @@ describe('Typewriter', () => {
         });
 
         it('should not ignore a move right from the end when there is a selection but should clear the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -10606,7 +10759,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 3, name: '', selection: { start: 0, end: 3 } },
+              { position: 3, data: undefined, selection: { start: 0, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -10624,7 +10777,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 3,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 3 },
               },
@@ -10653,7 +10806,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 3, name: '', isBlinking: false }],
+              cursors: [{ position: 3, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -10677,7 +10830,7 @@ describe('Typewriter', () => {
         });
 
         it('should be able to finish from a move right from the end which is ignored, and restore the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -10689,7 +10842,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 3, name: '', selection: { start: 2, end: 3 } },
+              { position: 3, data: undefined, selection: { start: 2, end: 3 } },
             ],
             repeat: true,
           });
@@ -10708,7 +10861,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 3,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 2, end: 3 },
               },
@@ -10736,7 +10889,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 3, name: '', isBlinking: false }],
+              cursors: [{ position: 3, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: true,
@@ -10775,7 +10928,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: { start: 2, end: 3 },
                 },
@@ -10799,7 +10952,7 @@ describe('Typewriter', () => {
 
       describe('mouse click', () => {
         it('should know to move the cursor to the position clicked, and clear the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -10811,7 +10964,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 0, name: '', selection: { start: 0, end: 2 } },
+              { position: 0, data: undefined, selection: { start: 0, end: 2 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -10829,7 +10982,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 0,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 2 },
               },
@@ -10857,7 +11010,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: false,
@@ -10881,7 +11034,7 @@ describe('Typewriter', () => {
         });
 
         it('should ignore selection when selection is already selected and continue the animation.', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -10903,7 +11056,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 3, name: '', selection: { start: 0, end: 3 } },
+              { position: 3, data: undefined, selection: { start: 0, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -10931,7 +11084,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 3,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 3 },
               },
@@ -10973,7 +11126,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'z',
               blinkAfter: 50,
               isPlaying: false,
@@ -10997,7 +11150,7 @@ describe('Typewriter', () => {
         });
 
         it('should not ignore a mouse click on the current position, if there is a selection, clear it', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -11015,7 +11168,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 3, name: '', selection: { start: 0, end: 3 } },
+              { position: 3, data: undefined, selection: { start: 0, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -11039,7 +11192,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 3,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 3 },
               },
@@ -11074,7 +11227,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 3, name: '', isBlinking: false }],
+              cursors: [{ position: 3, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: true,
@@ -11116,7 +11269,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 4, name: '', isBlinking: false }],
+              cursors: [{ position: 4, data: undefined, isBlinking: false }],
               text: 'abcz',
               blinkAfter: 50,
               isPlaying: false,
@@ -11140,7 +11293,7 @@ describe('Typewriter', () => {
         });
 
         it('should when a mouse click has a position less than 0 move to 0 instead, and clear the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -11158,7 +11311,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 3, name: '', selection: { start: 0, end: 3 } },
+              { position: 3, data: undefined, selection: { start: 0, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -11182,7 +11335,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 3,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 3 },
               },
@@ -11216,7 +11369,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: true,
@@ -11258,7 +11411,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'zabc',
               blinkAfter: 50,
               isPlaying: false,
@@ -11282,7 +11435,7 @@ describe('Typewriter', () => {
         });
 
         it('should when a mouse click has a position less than 0 and the current position is zero not ignore the click but clear the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -11300,7 +11453,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 0, name: '', selection: { start: 0, end: 3 } },
+              { position: 0, data: undefined, selection: { start: 0, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -11324,7 +11477,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 0,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 3 },
               },
@@ -11359,7 +11512,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: true,
@@ -11401,7 +11554,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'zabc',
               blinkAfter: 50,
               isPlaying: false,
@@ -11425,7 +11578,7 @@ describe('Typewriter', () => {
         });
 
         it('should when a mouse click has a position larger than the text move to text length instead, and clear the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -11443,7 +11596,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 0, name: '', selection: { start: 0, end: 1 } },
+              { position: 0, data: undefined, selection: { start: 0, end: 1 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -11467,7 +11620,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 0,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 1 },
               },
@@ -11501,7 +11654,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 3, name: '', isBlinking: false }],
+              cursors: [{ position: 3, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: true,
@@ -11543,7 +11696,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 4, name: '', isBlinking: false }],
+              cursors: [{ position: 4, data: undefined, isBlinking: false }],
               text: 'abcz',
               blinkAfter: 50,
               isPlaying: false,
@@ -11567,7 +11720,7 @@ describe('Typewriter', () => {
         });
 
         it('should when a mouse click has a position larger than the text and the current position is the text length not ignore the click but clear the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'mouse',
@@ -11585,7 +11738,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 3, name: '', selection: { start: 2, end: 3 } },
+              { position: 3, data: undefined, selection: { start: 2, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -11609,7 +11762,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 3,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 2, end: 3 },
               },
@@ -11644,7 +11797,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 3, name: '', isBlinking: false }],
+              cursors: [{ position: 3, data: undefined, isBlinking: false }],
               text: 'abc',
               blinkAfter: 50,
               isPlaying: true,
@@ -11686,7 +11839,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 4, name: '', isBlinking: false }],
+              cursors: [{ position: 4, data: undefined, isBlinking: false }],
               text: 'abcz',
               blinkAfter: 50,
               isPlaying: false,
@@ -11710,7 +11863,7 @@ describe('Typewriter', () => {
         });
 
         it('should when a mouse click is the last action start repeating, and restore the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -11729,7 +11882,7 @@ describe('Typewriter', () => {
             blinkAfter: 1000,
             text: 'abc',
             cursors: [
-              { position: 3, name: '', selection: { start: 2, end: 3 } },
+              { position: 3, data: undefined, selection: { start: 2, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -11753,7 +11906,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 3,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 2, end: 3 },
               },
@@ -11787,7 +11940,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 3, name: '', isBlinking: false }],
+              cursors: [{ position: 3, data: undefined, isBlinking: false }],
               text: 'ab😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -11829,7 +11982,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: 'ab😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -11874,7 +12027,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: { start: 2, end: 3 },
                 },
@@ -11898,7 +12051,7 @@ describe('Typewriter', () => {
 
       describe('select expand left', () => {
         it('should know how to expand a selection from the end to the middle', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -11910,7 +12063,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 2, name: '', selection: { start: 2, end: 3 } },
+              { position: 2, data: undefined, selection: { start: 2, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -11928,7 +12081,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 2,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 2, end: 3 },
               },
@@ -11959,7 +12112,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 1, end: 3 },
                 },
@@ -11987,7 +12140,7 @@ describe('Typewriter', () => {
         });
 
         it('should know how to expand a selection from the middle to the start', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -11999,7 +12152,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 1, name: '', selection: { start: 1, end: 2 } },
+              { position: 1, data: undefined, selection: { start: 1, end: 2 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -12017,7 +12170,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 1,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 1, end: 2 },
               },
@@ -12048,7 +12201,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 0, end: 2 },
                 },
@@ -12076,7 +12229,7 @@ describe('Typewriter', () => {
         });
 
         it('should ignore expand selection when on the start and continue the animation', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -12094,7 +12247,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 0, name: '', selection: { start: 0, end: 2 } },
+              { position: 0, data: undefined, selection: { start: 0, end: 2 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -12118,7 +12271,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 0,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 2 },
               },
@@ -12156,7 +12309,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'zc',
               blinkAfter: 50,
               isPlaying: false,
@@ -12180,7 +12333,7 @@ describe('Typewriter', () => {
         });
 
         it('should be able to finish from a expand left from the start which is ignored', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -12192,7 +12345,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 0, name: '', selection: { start: 0, end: 2 } },
+              { position: 0, data: undefined, selection: { start: 0, end: 2 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -12210,7 +12363,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 0,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 2 },
               },
@@ -12241,7 +12394,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 0, end: 2 },
                 },
@@ -12269,7 +12422,7 @@ describe('Typewriter', () => {
         });
 
         it('should when expand left is the last action start repeating, and reset the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -12288,7 +12441,7 @@ describe('Typewriter', () => {
             blinkAfter: 1000,
             text: 'abc',
             cursors: [
-              { position: 0, name: '', selection: { start: 0, end: 3 } },
+              { position: 0, data: undefined, selection: { start: 0, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -12312,7 +12465,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 0,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 3 },
               },
@@ -12346,7 +12499,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -12391,7 +12544,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 0, end: 1 },
                 },
@@ -12440,7 +12593,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: { start: 0, end: 3 },
                 },
@@ -12464,7 +12617,7 @@ describe('Typewriter', () => {
 
       describe('select expand right', () => {
         it('should know how to expand a selection from the start to the middle', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -12476,7 +12629,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 1, name: '', selection: { start: 0, end: 1 } },
+              { position: 1, data: undefined, selection: { start: 0, end: 1 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -12494,7 +12647,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 1,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 1 },
               },
@@ -12525,7 +12678,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 0, end: 2 },
                 },
@@ -12553,7 +12706,7 @@ describe('Typewriter', () => {
         });
 
         it('should know how to expand a selection from the middle to the end', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -12565,7 +12718,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 2, name: '', selection: { start: 1, end: 2 } },
+              { position: 2, data: undefined, selection: { start: 1, end: 2 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -12583,7 +12736,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 2,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 1, end: 2 },
               },
@@ -12614,7 +12767,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 1, end: 3 },
                 },
@@ -12642,7 +12795,7 @@ describe('Typewriter', () => {
         });
 
         it('should ignore expand selection when on the end and continue the animation', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -12660,7 +12813,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 3, name: '', selection: { start: 0, end: 3 } },
+              { position: 3, data: undefined, selection: { start: 0, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -12684,7 +12837,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 3,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 3 },
               },
@@ -12722,7 +12875,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: 'z',
               blinkAfter: 50,
               isPlaying: false,
@@ -12746,7 +12899,7 @@ describe('Typewriter', () => {
         });
 
         it('should be able to finish from a expand right from the end which is ignored', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -12758,7 +12911,7 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'abc',
             cursors: [
-              { position: 3, name: '', selection: { start: 0, end: 3 } },
+              { position: 3, data: undefined, selection: { start: 0, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -12776,7 +12929,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 3,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 3 },
               },
@@ -12807,7 +12960,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 0, end: 3 },
                 },
@@ -12835,7 +12988,7 @@ describe('Typewriter', () => {
         });
 
         it('should when expand right is the last action start repeating, and reset the selection', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -12860,7 +13013,7 @@ describe('Typewriter', () => {
             blinkAfter: 1000,
             text: 'abc',
             cursors: [
-              { position: 0, name: '', selection: { start: 0, end: 3 } },
+              { position: 0, data: undefined, selection: { start: 0, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -12890,7 +13043,7 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 0,
-                name: '',
+                data: undefined,
                 isBlinking: true,
                 selection: { start: 0, end: 3 },
               },
@@ -12930,7 +13083,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 1, name: '', isBlinking: false }],
+              cursors: [{ position: 1, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -12978,7 +13131,7 @@ describe('Typewriter', () => {
                   cursor: 0,
                 },
               ],
-              cursors: [{ position: 0, name: '', isBlinking: false }],
+              cursors: [{ position: 0, data: undefined, isBlinking: false }],
               text: '😄',
               blinkAfter: 1000,
               isPlaying: true,
@@ -13029,7 +13182,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: { start: 0, end: 1 },
                 },
@@ -13084,7 +13237,7 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: { start: 0, end: 3 },
                 },
@@ -13110,7 +13263,7 @@ describe('Typewriter', () => {
 
   describe('multiple cursors', () => {
     it('should know how to do a basic text animation from start to finish', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -13134,9 +13287,9 @@ describe('Typewriter', () => {
         blinkAfter: 50,
         text: 'hllwrld',
         cursors: [
-          { position: 1, name: 'bert' },
-          { position: 3, name: 'annie' },
-          { position: 4, name: 'hank' },
+          { position: 1, data: 'bert' },
+          { position: 3, data: 'annie' },
+          { position: 4, data: 'hank' },
         ],
       });
       const subscriber = autoSubscribe(typewriter);
@@ -13164,14 +13317,14 @@ describe('Typewriter', () => {
           },
         ],
         cursors: [
-          { position: 1, name: 'bert', isBlinking: true, selection: undefined },
+          { position: 1, data: 'bert', isBlinking: true, selection: undefined },
           {
             position: 3,
-            name: 'annie',
+            data: 'annie',
             isBlinking: true,
             selection: undefined,
           },
-          { position: 4, name: 'hank', isBlinking: true, selection: undefined },
+          { position: 4, data: 'hank', isBlinking: true, selection: undefined },
         ],
         text: 'hllwrld',
         blinkAfter: 50,
@@ -13211,19 +13364,19 @@ describe('Typewriter', () => {
           cursors: [
             {
               position: 1,
-              name: 'bert',
+              data: 'bert',
               isBlinking: true,
               selection: undefined,
             },
             {
               position: 3,
-              name: 'annie',
+              data: 'annie',
               isBlinking: true,
               selection: undefined,
             },
             {
               position: 5,
-              name: 'hank',
+              data: 'hank',
               isBlinking: false,
               selection: undefined,
             },
@@ -13278,19 +13431,19 @@ describe('Typewriter', () => {
           cursors: [
             {
               position: 1,
-              name: 'bert',
+              data: 'bert',
               isBlinking: true,
               selection: undefined,
             },
             {
               position: 4,
-              name: 'annie',
+              data: 'annie',
               isBlinking: false,
               selection: undefined,
             },
             {
               position: 6,
-              name: 'hank',
+              data: 'hank',
               isBlinking: true,
               selection: undefined,
             },
@@ -13345,19 +13498,19 @@ describe('Typewriter', () => {
           cursors: [
             {
               position: 2,
-              name: 'bert',
+              data: 'bert',
               isBlinking: false,
               selection: undefined,
             },
             {
               position: 5,
-              name: 'annie',
+              data: 'annie',
               isBlinking: true,
               selection: undefined,
             },
             {
               position: 7,
-              name: 'hank',
+              data: 'hank',
               isBlinking: true,
               selection: undefined,
             },
@@ -13385,7 +13538,7 @@ describe('Typewriter', () => {
     });
 
     it('should work even if one cursor does more animations than other cursors', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -13409,8 +13562,8 @@ describe('Typewriter', () => {
         blinkAfter: 50,
         text: 'hllorld',
         cursors: [
-          { position: 1, name: 'john' },
-          { position: 3, name: 'sally' },
+          { position: 1, data: 'john' },
+          { position: 3, data: 'sally' },
         ],
       });
       const subscriber = autoSubscribe(typewriter);
@@ -13438,10 +13591,10 @@ describe('Typewriter', () => {
           },
         ],
         cursors: [
-          { position: 1, name: 'john', isBlinking: true, selection: undefined },
+          { position: 1, data: 'john', isBlinking: true, selection: undefined },
           {
             position: 3,
-            name: 'sally',
+            data: 'sally',
             isBlinking: true,
             selection: undefined,
           },
@@ -13484,13 +13637,13 @@ describe('Typewriter', () => {
           cursors: [
             {
               position: 1,
-              name: 'john',
+              data: 'john',
               isBlinking: true,
               selection: undefined,
             },
             {
               position: 4,
-              name: 'sally',
+              data: 'sally',
               isBlinking: false,
               selection: undefined,
             },
@@ -13545,13 +13698,13 @@ describe('Typewriter', () => {
           cursors: [
             {
               position: 1,
-              name: 'john',
+              data: 'john',
               isBlinking: true,
               selection: undefined,
             },
             {
               position: 5,
-              name: 'sally',
+              data: 'sally',
               isBlinking: false,
               selection: undefined,
             },
@@ -13606,13 +13759,13 @@ describe('Typewriter', () => {
           cursors: [
             {
               position: 2,
-              name: 'john',
+              data: 'john',
               isBlinking: false,
               selection: undefined,
             },
             {
               position: 6,
-              name: 'sally',
+              data: 'sally',
               isBlinking: true,
               selection: undefined,
             },
@@ -13642,7 +13795,7 @@ describe('Typewriter', () => {
     describe('backspace is pressed', () => {
       describe('cursor movement', () => {
         it('should do nothing (except blink cursor) when removing from the start, when cursor is already on the start', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -13654,13 +13807,13 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'john',
             cursors: [
-              { position: 0, name: '' },
+              { position: 0, data: undefined },
 
-              { position: 2, name: '' },
-              { position: 3, name: '' },
-              { position: 1, name: '' },
-              { position: 0, name: '' },
-              { position: 4, name: '' },
+              { position: 2, data: undefined },
+              { position: 3, data: undefined },
+              { position: 1, data: undefined },
+              { position: 0, data: undefined },
+              { position: 4, data: undefined },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -13676,12 +13829,42 @@ describe('Typewriter', () => {
               },
             ],
             cursors: [
-              { position: 0, name: '', isBlinking: true, selection: undefined },
-              { position: 2, name: '', isBlinking: true, selection: undefined },
-              { position: 3, name: '', isBlinking: true, selection: undefined },
-              { position: 1, name: '', isBlinking: true, selection: undefined },
-              { position: 0, name: '', isBlinking: true, selection: undefined },
-              { position: 4, name: '', isBlinking: true, selection: undefined },
+              {
+                position: 0,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 2,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 3,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 1,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 0,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 4,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
             ],
             text: 'john',
             blinkAfter: 50,
@@ -13709,37 +13892,37 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: undefined,
                 },
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 4,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
@@ -13767,7 +13950,7 @@ describe('Typewriter', () => {
         });
 
         it('should move cursors that are after or on the cursor one place backwards, and cursors that lie before should stay in position, when removing from the middle', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -13779,12 +13962,12 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'john',
             cursors: [
-              { position: 2, name: '' },
-              { position: 2, name: '' },
-              { position: 3, name: '' },
-              { position: 1, name: '' },
-              { position: 0, name: '' },
-              { position: 4, name: '' },
+              { position: 2, data: undefined },
+              { position: 2, data: undefined },
+              { position: 3, data: undefined },
+              { position: 1, data: undefined },
+              { position: 0, data: undefined },
+              { position: 4, data: undefined },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -13800,12 +13983,42 @@ describe('Typewriter', () => {
               },
             ],
             cursors: [
-              { position: 2, name: '', isBlinking: true, selection: undefined },
-              { position: 2, name: '', isBlinking: true, selection: undefined },
-              { position: 3, name: '', isBlinking: true, selection: undefined },
-              { position: 1, name: '', isBlinking: true, selection: undefined },
-              { position: 0, name: '', isBlinking: true, selection: undefined },
-              { position: 4, name: '', isBlinking: true, selection: undefined },
+              {
+                position: 2,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 2,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 3,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 1,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 0,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 4,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
             ],
             text: 'john',
             blinkAfter: 50,
@@ -13833,37 +14046,37 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: undefined,
                 },
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
@@ -13891,7 +14104,7 @@ describe('Typewriter', () => {
         });
 
         it('should move cursors that are after or on the cursor one place backwards, and cursors that lie before should stay in position, when removing from the end', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -13903,12 +14116,12 @@ describe('Typewriter', () => {
             blinkAfter: 50,
             text: 'john',
             cursors: [
-              { position: 4, name: '' },
-              { position: 2, name: '' },
-              { position: 3, name: '' },
-              { position: 1, name: '' },
-              { position: 0, name: '' },
-              { position: 4, name: '' },
+              { position: 4, data: undefined },
+              { position: 2, data: undefined },
+              { position: 3, data: undefined },
+              { position: 1, data: undefined },
+              { position: 0, data: undefined },
+              { position: 4, data: undefined },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -13924,12 +14137,42 @@ describe('Typewriter', () => {
               },
             ],
             cursors: [
-              { position: 4, name: '', isBlinking: true, selection: undefined },
-              { position: 2, name: '', isBlinking: true, selection: undefined },
-              { position: 3, name: '', isBlinking: true, selection: undefined },
-              { position: 1, name: '', isBlinking: true, selection: undefined },
-              { position: 0, name: '', isBlinking: true, selection: undefined },
-              { position: 4, name: '', isBlinking: true, selection: undefined },
+              {
+                position: 4,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 2,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 3,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 1,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 0,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
+              {
+                position: 4,
+                data: undefined,
+                isBlinking: true,
+                selection: undefined,
+              },
             ],
             text: 'john',
             blinkAfter: 50,
@@ -13957,37 +14200,37 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: false,
                   selection: undefined,
                 },
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
@@ -14017,7 +14260,7 @@ describe('Typewriter', () => {
 
       describe('deleting cursor has no selection', () => {
         it('should reduce, remove or keep selection of other cursors, when removing from the start', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -14030,17 +14273,17 @@ describe('Typewriter', () => {
             text: 'aap noot mies',
             cursors: [
               // The cursor that is going to hit backspace, between the first a of aap
-              { position: 1, name: '' },
+              { position: 1, data: undefined },
 
               // Selects 'a' becomes undefined
-              { position: 0, name: 'a', selection: { start: 0, end: 1 } },
+              { position: 0, data: 'a', selection: { start: 0, end: 1 } },
               // Selects 'aa', becomes 'a', 0 - 1
-              { position: 2, name: 'aa', selection: { start: 0, end: 2 } },
+              { position: 2, data: 'aa', selection: { start: 0, end: 2 } },
               // Selects 'aap' becomes 'ap', 0 - 2
-              { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+              { position: 0, data: 'aap', selection: { start: 0, end: 3 } },
 
               // Selects 'ap', stays 'ap', 0 - 2
-              { position: 3, name: 'ap', selection: { start: 1, end: 3 } },
+              { position: 3, data: 'ap', selection: { start: 1, end: 3 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -14056,28 +14299,28 @@ describe('Typewriter', () => {
               },
             ],
             cursors: [
-              { position: 1, name: '', isBlinking: true },
+              { position: 1, data: undefined, isBlinking: true },
               {
                 position: 0,
-                name: 'a',
+                data: 'a',
                 selection: { start: 0, end: 1 },
                 isBlinking: true,
               },
               {
                 position: 2,
-                name: 'aa',
+                data: 'aa',
                 selection: { start: 0, end: 2 },
                 isBlinking: true,
               },
               {
                 position: 0,
-                name: 'aap',
+                data: 'aap',
                 selection: { start: 0, end: 3 },
                 isBlinking: true,
               },
               {
                 position: 3,
-                name: 'ap',
+                data: 'ap',
                 selection: { start: 1, end: 3 },
                 isBlinking: true,
               },
@@ -14108,31 +14351,31 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   selection: undefined,
                   isBlinking: false,
                 },
                 {
                   position: 0,
-                  name: 'a',
+                  data: 'a',
                   selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 1,
-                  name: 'aa',
+                  data: 'aa',
                   selection: { start: 0, end: 1 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'aap',
+                  data: 'aap',
                   selection: { start: 0, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 2,
-                  name: 'ap',
+                  data: 'ap',
                   selection: { start: 0, end: 2 },
                   isBlinking: true,
                 },
@@ -14160,7 +14403,7 @@ describe('Typewriter', () => {
         });
 
         it('should reduce, remove or keep selection of other cursors, when removing from the middle', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -14173,46 +14416,46 @@ describe('Typewriter', () => {
             text: 'aap noot mies',
             cursors: [
               // The cursor that is going to hit backspace, between the oo's
-              { position: 6, name: '' },
+              { position: 6, data: undefined },
 
               {
                 position: 13,
-                name: 'aap noot mies',
+                data: 'aap noot mies',
                 selection: { start: 0, end: 13 },
               },
               // Selects 'aap' stays 'aap', 0 - 3
-              { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
+              { position: 3, data: 'aap', selection: { start: 0, end: 3 } },
               // Selects 'noot', becomes 'not', 4 - 7
-              { position: 4, name: 'noot', selection: { start: 4, end: 8 } },
+              { position: 4, data: 'noot', selection: { start: 4, end: 8 } },
               // Selects 'mies' stays 'mies', 8 - 12
-              { position: 13, name: 'mies', selection: { start: 9, end: 13 } },
+              { position: 13, data: 'mies', selection: { start: 9, end: 13 } },
 
               // Selects 'p noot', becomes 'p not', 2 - 6
-              { position: 2, name: 'p noo', selection: { start: 2, end: 7 } },
+              { position: 2, data: 'p noo', selection: { start: 2, end: 7 } },
               // Selects 'ot mi', stays 'ot mi', 5 - 10
-              { position: 11, name: 'ot mi', selection: { start: 6, end: 11 } },
+              { position: 11, data: 'ot mi', selection: { start: 6, end: 11 } },
               // Selects 'p no', becomes 'p n', 2 - 5
-              { position: 2, name: 'p no', selection: { start: 2, end: 6 } },
+              { position: 2, data: 'p no', selection: { start: 2, end: 6 } },
               // Selects 'oot m', becomes 'ot m', 5 - 9
-              { position: 10, name: 'oot m', selection: { start: 5, end: 10 } },
+              { position: 10, data: 'oot m', selection: { start: 5, end: 10 } },
               // Selects 'aap noot mies', becomes 'aap not mies', 0 - 12
 
               // Selects 'aap n' stays 'aap n', 0 - 5
-              { position: 5, name: 'aap n', selection: { start: 0, end: 5 } },
+              { position: 5, data: 'aap n', selection: { start: 0, end: 5 } },
               // Selects 't mies' stays 't mies', 6 - 12
-              { position: 7, name: 't mies', selection: { start: 7, end: 13 } },
+              { position: 7, data: 't mies', selection: { start: 7, end: 13 } },
 
               // Selects 'oo', becomes 'o', 5 - 6
               {
                 position: 5,
-                name: 'oo',
+                data: 'oo',
                 selection: { start: 5, end: 7 },
               },
 
               // Selects 'o', becomes undefined
               {
                 position: 6,
-                name: 'o',
+                data: 'o',
                 selection: { start: 5, end: 6 },
               },
             ],
@@ -14230,76 +14473,81 @@ describe('Typewriter', () => {
               },
             ],
             cursors: [
-              { position: 6, name: '', selection: undefined, isBlinking: true },
+              {
+                position: 6,
+                data: undefined,
+                selection: undefined,
+                isBlinking: true,
+              },
               {
                 position: 13,
-                name: 'aap noot mies',
+                data: 'aap noot mies',
                 selection: { start: 0, end: 13 },
                 isBlinking: true,
               },
               {
                 position: 3,
-                name: 'aap',
+                data: 'aap',
                 selection: { start: 0, end: 3 },
                 isBlinking: true,
               },
               {
                 position: 4,
-                name: 'noot',
+                data: 'noot',
                 selection: { start: 4, end: 8 },
                 isBlinking: true,
               },
               {
                 position: 13,
-                name: 'mies',
+                data: 'mies',
                 selection: { start: 9, end: 13 },
                 isBlinking: true,
               },
               {
                 position: 2,
-                name: 'p noo',
+                data: 'p noo',
                 selection: { start: 2, end: 7 },
                 isBlinking: true,
               },
               {
                 position: 11,
-                name: 'ot mi',
+                data: 'ot mi',
                 selection: { start: 6, end: 11 },
                 isBlinking: true,
               },
               {
                 position: 2,
-                name: 'p no',
+                data: 'p no',
                 selection: { start: 2, end: 6 },
                 isBlinking: true,
               },
               {
                 position: 10,
-                name: 'oot m',
+                data: 'oot m',
                 selection: { start: 5, end: 10 },
                 isBlinking: true,
               },
               {
                 position: 5,
-                name: 'aap n',
+                data: 'aap n',
                 selection: { start: 0, end: 5 },
                 isBlinking: true,
               },
               {
                 position: 7,
-                name: 't mies',
+                data: 't mies',
                 selection: { start: 7, end: 13 },
                 isBlinking: true,
               },
               {
                 position: 5,
-                name: 'oo',
+                data: 'oo',
                 selection: { start: 5, end: 7 },
                 isBlinking: true,
               },
               {
                 position: 6,
-                name: 'o',
+                data: 'o',
                 selection: { start: 5, end: 6 },
                 isBlinking: true,
               },
@@ -14330,79 +14578,79 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 5,
-                  name: '',
+                  data: undefined,
                   selection: undefined,
                   isBlinking: false,
                 },
                 {
                   position: 12,
-                  name: 'aap noot mies',
+                  data: 'aap noot mies',
                   selection: { start: 0, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'aap',
+                  data: 'aap',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 4,
-                  name: 'noot',
+                  data: 'noot',
                   selection: { start: 4, end: 7 },
                   isBlinking: true,
                 },
                 {
                   position: 12,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 8, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 2,
-                  name: 'p noo',
+                  data: 'p noo',
                   selection: { start: 2, end: 6 },
                   isBlinking: true,
                 },
                 {
                   position: 10,
-                  name: 'ot mi',
+                  data: 'ot mi',
                   selection: { start: 5, end: 10 },
                   isBlinking: true,
                 },
                 {
                   position: 2,
-                  name: 'p no',
+                  data: 'p no',
                   selection: { start: 2, end: 5 },
                   isBlinking: true,
                 },
                 {
                   position: 9,
-                  name: 'oot m',
+                  data: 'oot m',
                   selection: { start: 5, end: 9 },
                   isBlinking: true,
                 },
                 {
                   position: 5,
-                  name: 'aap n',
+                  data: 'aap n',
                   selection: { start: 0, end: 5 },
                   isBlinking: true,
                 },
                 {
                   position: 6,
-                  name: 't mies',
+                  data: 't mies',
                   selection: { start: 6, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 5,
-                  name: 'oo',
+                  data: 'oo',
                   selection: { start: 5, end: 6 },
                   isBlinking: true,
                 },
                 {
                   position: 5,
-                  name: 'o',
+                  data: 'o',
                   selection: undefined,
                   isBlinking: true,
                 },
@@ -14430,7 +14678,7 @@ describe('Typewriter', () => {
         });
 
         it('should reduce, remove or keep selection of other cursors, when removing from the end', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -14443,17 +14691,17 @@ describe('Typewriter', () => {
             text: 'aap noot mies',
             cursors: [
               // The cursor that is going to hit backspace, on the last position
-              { position: 13, name: '' },
+              { position: 13, data: undefined },
 
               // Selects 's' becomes undefined
-              { position: 12, name: 's', selection: { start: 12, end: 13 } },
+              { position: 12, data: 's', selection: { start: 12, end: 13 } },
               // Selects 'es', becomes 'e', 11 - 12
-              { position: 13, name: 'es', selection: { start: 11, end: 13 } },
+              { position: 13, data: 'es', selection: { start: 11, end: 13 } },
               // Selects 'ies' becomes 'ie', 10 - 12
-              { position: 10, name: 'ies', selection: { start: 10, end: 13 } },
+              { position: 10, data: 'ies', selection: { start: 10, end: 13 } },
 
               // Selects 'mie', stays 'mie', 9 - 12
-              { position: 9, name: 'mie', selection: { start: 9, end: 12 } },
+              { position: 9, data: 'mie', selection: { start: 9, end: 12 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -14469,28 +14717,28 @@ describe('Typewriter', () => {
               },
             ],
             cursors: [
-              { position: 13, name: '', isBlinking: true },
+              { position: 13, data: undefined, isBlinking: true },
               {
                 position: 12,
-                name: 's',
+                data: 's',
                 selection: { start: 12, end: 13 },
                 isBlinking: true,
               },
               {
                 position: 13,
-                name: 'es',
+                data: 'es',
                 selection: { start: 11, end: 13 },
                 isBlinking: true,
               },
               {
                 position: 10,
-                name: 'ies',
+                data: 'ies',
                 selection: { start: 10, end: 13 },
                 isBlinking: true,
               },
               {
                 position: 9,
-                name: 'mie',
+                data: 'mie',
                 selection: { start: 9, end: 12 },
                 isBlinking: true,
               },
@@ -14522,31 +14770,31 @@ describe('Typewriter', () => {
                 // The cursor that is going to hit backspace, on the last position
                 {
                   position: 12,
-                  name: '',
+                  data: undefined,
                   selection: undefined,
                   isBlinking: false,
                 },
                 {
                   position: 12,
-                  name: 's',
+                  data: 's',
                   selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 12,
-                  name: 'es',
+                  data: 'es',
                   selection: { start: 11, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 10,
-                  name: 'ies',
+                  data: 'ies',
                   selection: { start: 10, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 9,
-                  name: 'mie',
+                  data: 'mie',
                   selection: { start: 9, end: 12 },
                   isBlinking: true,
                 },
@@ -14576,7 +14824,7 @@ describe('Typewriter', () => {
 
       describe('deleting cursor has selection', () => {
         it('should reduce, remove or keep selection of other cursors, when removing from the start', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -14589,17 +14837,17 @@ describe('Typewriter', () => {
             text: 'aap noot mies',
             cursors: [
               // The cursor that is going to hit backspace, selects the aa's
-              { position: 0, name: '', selection: { start: 0, end: 2 } },
+              { position: 0, data: undefined, selection: { start: 0, end: 2 } },
 
               // Selects 'a' becomes undefined
-              { position: 0, name: 'a', selection: { start: 0, end: 1 } },
+              { position: 0, data: 'a', selection: { start: 0, end: 1 } },
               // Selects 'aa', becomes undefined
-              { position: 2, name: 'aa', selection: { start: 0, end: 2 } },
+              { position: 2, data: 'aa', selection: { start: 0, end: 2 } },
               // Selects 'aap' becomes 'p', 0 - 1
-              { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+              { position: 0, data: 'aap', selection: { start: 0, end: 3 } },
 
               // Selects 'p n', stays 'p n', 0 - 3
-              { position: 5, name: 'p n', selection: { start: 2, end: 5 } },
+              { position: 5, data: 'p n', selection: { start: 2, end: 5 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -14617,31 +14865,31 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 0,
-                name: '',
+                data: undefined,
                 selection: { start: 0, end: 2 },
                 isBlinking: true,
               },
               {
                 position: 0,
-                name: 'a',
+                data: 'a',
                 selection: { start: 0, end: 1 },
                 isBlinking: true,
               },
               {
                 position: 2,
-                name: 'aa',
+                data: 'aa',
                 selection: { start: 0, end: 2 },
                 isBlinking: true,
               },
               {
                 position: 0,
-                name: 'aap',
+                data: 'aap',
                 selection: { start: 0, end: 3 },
                 isBlinking: true,
               },
               {
                 position: 5,
-                name: 'p n',
+                data: 'p n',
                 selection: { start: 2, end: 5 },
                 isBlinking: true,
               },
@@ -14672,31 +14920,31 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   selection: undefined,
                   isBlinking: false,
                 },
                 {
                   position: 0,
-                  name: 'a',
+                  data: 'a',
                   selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'aa',
+                  data: 'aa',
                   selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'aap',
+                  data: 'aap',
                   selection: { start: 0, end: 1 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'p n',
+                  data: 'p n',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
@@ -14724,7 +14972,7 @@ describe('Typewriter', () => {
         });
 
         it('should reduce, remove or keep selection of other cursors, when removing from the middle', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -14737,42 +14985,42 @@ describe('Typewriter', () => {
             text: 'aap noot mies',
             cursors: [
               // The cursor that is going to hit backspace, selects the oo's
-              { position: 5, name: '', selection: { start: 5, end: 7 } },
+              { position: 5, data: undefined, selection: { start: 5, end: 7 } },
               // Selects 'aap' stays 'aap', 0 - 3
-              { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
+              { position: 3, data: 'aap', selection: { start: 0, end: 3 } },
               // Selects 'noot', becomes 'nt', 4 - 6
-              { position: 4, name: 'noot', selection: { start: 4, end: 8 } },
+              { position: 4, data: 'noot', selection: { start: 4, end: 8 } },
               // Selects 'mies' stays 'mies', 7 - 11
-              { position: 13, name: 'mies', selection: { start: 9, end: 13 } },
+              { position: 13, data: 'mies', selection: { start: 9, end: 13 } },
               // Selects 'p noot', becomes 'p nt', 2 - 6
-              { position: 2, name: 'p noot', selection: { start: 2, end: 8 } },
+              { position: 2, data: 'p noot', selection: { start: 2, end: 8 } },
               // Selects 'ot mi', becomes 't mi', 5 - 9
-              { position: 11, name: 'ot mi', selection: { start: 6, end: 11 } },
+              { position: 11, data: 'ot mi', selection: { start: 6, end: 11 } },
               // Selects 't mi', stays 't mi', 5 - 9
-              { position: 11, name: 't mi', selection: { start: 7, end: 11 } },
+              { position: 11, data: 't mi', selection: { start: 7, end: 11 } },
               // Selects 'p no', becomes 'p n', 2 - 5
-              { position: 2, name: 'p no', selection: { start: 2, end: 6 } },
+              { position: 2, data: 'p no', selection: { start: 2, end: 6 } },
               // Selects 'oot m', becomes 't m', 5 - 8
-              { position: 10, name: 'oot m', selection: { start: 5, end: 10 } },
+              { position: 10, data: 'oot m', selection: { start: 5, end: 10 } },
               // Selects 'p noo', becomes 'p n', 2 - 5
-              { position: 7, name: 'p noo', selection: { start: 2, end: 7 } },
+              { position: 7, data: 'p noo', selection: { start: 2, end: 7 } },
               // Selects 'oot m', becomes 't m', 5 - 8
               // Selects 'aap noot mies', becomes 'aap nt mies', 0 - 11
               {
                 position: 13,
-                name: 'aap noot mies',
+                data: 'aap noot mies',
                 selection: { start: 0, end: 13 },
               },
               // Selects 'noot mies', becomes 'nt mies' 4 - 11
               {
                 position: 4,
-                name: 'noot mies',
+                data: 'noot mies',
                 selection: { start: 4, end: 13 },
               },
               // Selects 'oo', becomes undefined
               {
                 position: 5,
-                name: 'oo',
+                data: 'oo',
                 selection: { start: 5, end: 7 },
               },
             ],
@@ -14792,79 +15040,79 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 5,
-                name: '',
+                data: undefined,
                 selection: { start: 5, end: 7 },
                 isBlinking: true,
               },
               {
                 position: 3,
-                name: 'aap',
+                data: 'aap',
                 selection: { start: 0, end: 3 },
                 isBlinking: true,
               },
               {
                 position: 4,
-                name: 'noot',
+                data: 'noot',
                 selection: { start: 4, end: 8 },
                 isBlinking: true,
               },
               {
                 position: 13,
-                name: 'mies',
+                data: 'mies',
                 selection: { start: 9, end: 13 },
                 isBlinking: true,
               },
               {
                 position: 2,
-                name: 'p noot',
+                data: 'p noot',
                 selection: { start: 2, end: 8 },
                 isBlinking: true,
               },
               {
                 position: 11,
-                name: 'ot mi',
+                data: 'ot mi',
                 selection: { start: 6, end: 11 },
                 isBlinking: true,
               },
               {
                 position: 11,
-                name: 't mi',
+                data: 't mi',
                 selection: { start: 7, end: 11 },
                 isBlinking: true,
               },
               {
                 position: 2,
-                name: 'p no',
+                data: 'p no',
                 selection: { start: 2, end: 6 },
                 isBlinking: true,
               },
               {
                 position: 10,
-                name: 'oot m',
+                data: 'oot m',
                 selection: { start: 5, end: 10 },
                 isBlinking: true,
               },
               {
                 position: 7,
-                name: 'p noo',
+                data: 'p noo',
                 selection: { start: 2, end: 7 },
                 isBlinking: true,
               },
               {
                 position: 13,
-                name: 'aap noot mies',
+                data: 'aap noot mies',
                 selection: { start: 0, end: 13 },
                 isBlinking: true,
               },
               {
                 position: 4,
-                name: 'noot mies',
+                data: 'noot mies',
                 selection: { start: 4, end: 13 },
                 isBlinking: true,
               },
               {
                 position: 5,
-                name: 'oo',
+                data: 'oo',
                 selection: { start: 5, end: 7 },
                 isBlinking: true,
               },
@@ -14895,79 +15143,79 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 5,
-                  name: '',
+                  data: undefined,
                   selection: undefined,
                   isBlinking: false,
                 },
                 {
                   position: 3,
-                  name: 'aap',
+                  data: 'aap',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 4,
-                  name: 'noot',
+                  data: 'noot',
                   selection: { start: 4, end: 6 },
                   isBlinking: true,
                 },
                 {
                   position: 11,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 7, end: 11 },
                   isBlinking: true,
                 },
                 {
                   position: 2,
-                  name: 'p noot',
+                  data: 'p noot',
                   selection: { start: 2, end: 6 },
                   isBlinking: true,
                 },
                 {
                   position: 9,
-                  name: 'ot mi',
+                  data: 'ot mi',
                   selection: { start: 5, end: 9 },
                   isBlinking: true,
                 },
                 {
                   position: 9,
-                  name: 't mi',
+                  data: 't mi',
                   selection: { start: 5, end: 9 },
                   isBlinking: true,
                 },
                 {
                   position: 2,
-                  name: 'p no',
+                  data: 'p no',
                   selection: { start: 2, end: 5 },
                   isBlinking: true,
                 },
                 {
                   position: 8,
-                  name: 'oot m',
+                  data: 'oot m',
                   selection: { start: 5, end: 8 },
                   isBlinking: true,
                 },
                 {
                   position: 5,
-                  name: 'p noo',
+                  data: 'p noo',
                   selection: { start: 2, end: 5 },
                   isBlinking: true,
                 },
                 {
                   position: 11,
-                  name: 'aap noot mies',
+                  data: 'aap noot mies',
                   selection: { start: 0, end: 11 },
                   isBlinking: true,
                 },
                 {
                   position: 4,
-                  name: 'noot mies',
+                  data: 'noot mies',
                   selection: { start: 4, end: 11 },
                   isBlinking: true,
                 },
                 {
                   position: 5,
-                  name: 'oo',
+                  data: 'oo',
                   selection: undefined,
                   isBlinking: true,
                 },
@@ -14995,7 +15243,7 @@ describe('Typewriter', () => {
         });
 
         it('should reduce, remove or keep selection of other cursors, when removing from the end', () => {
-          const typewriter = new Typewriter({
+          const typewriter = new Typewriter<string>({
             actions: [
               {
                 type: 'keyboard',
@@ -15008,18 +15256,22 @@ describe('Typewriter', () => {
             text: 'aap noot mies',
             cursors: [
               // The cursor that is going to hit backspace, on es
-              { position: 11, name: '', selection: { start: 11, end: 13 } },
+              {
+                position: 11,
+                data: undefined,
+                selection: { start: 11, end: 13 },
+              },
 
               // Selects 's' becomes undefined
-              { position: 12, name: 's', selection: { start: 12, end: 13 } },
+              { position: 12, data: 's', selection: { start: 12, end: 13 } },
               // Selects 'es', becomes undefined
-              { position: 13, name: 'es', selection: { start: 11, end: 13 } },
+              { position: 13, data: 'es', selection: { start: 11, end: 13 } },
               // Selects 'ies' becomes 'i', 10 - 11
-              { position: 10, name: 'ies', selection: { start: 10, end: 13 } },
+              { position: 10, data: 'ies', selection: { start: 10, end: 13 } },
               // Selects 'mie', becomes 'mi', 9 - 11
-              { position: 9, name: 'mie', selection: { start: 9, end: 12 } },
+              { position: 9, data: 'mie', selection: { start: 9, end: 12 } },
               // Selects 'mi', stays 'mi', 9 - 11
-              { position: 9, name: 'mi', selection: { start: 9, end: 11 } },
+              { position: 9, data: 'mi', selection: { start: 9, end: 11 } },
             ],
           });
           const subscriber = autoSubscribe(typewriter);
@@ -15037,37 +15289,37 @@ describe('Typewriter', () => {
             cursors: [
               {
                 position: 11,
-                name: '',
+                data: undefined,
                 selection: { start: 11, end: 13 },
                 isBlinking: true,
               },
               {
                 position: 12,
-                name: 's',
+                data: 's',
                 selection: { start: 12, end: 13 },
                 isBlinking: true,
               },
               {
                 position: 13,
-                name: 'es',
+                data: 'es',
                 selection: { start: 11, end: 13 },
                 isBlinking: true,
               },
               {
                 position: 10,
-                name: 'ies',
+                data: 'ies',
                 selection: { start: 10, end: 13 },
                 isBlinking: true,
               },
               {
                 position: 9,
-                name: 'mie',
+                data: 'mie',
                 selection: { start: 9, end: 12 },
                 isBlinking: true,
               },
               {
                 position: 9,
-                name: 'mi',
+                data: 'mi',
                 selection: { start: 9, end: 11 },
                 isBlinking: true,
               },
@@ -15099,37 +15351,37 @@ describe('Typewriter', () => {
                 // The cursor that is going to hit backspace, on es
                 {
                   position: 11,
-                  name: '',
+                  data: undefined,
                   selection: undefined,
                   isBlinking: false,
                 },
                 {
                   position: 11,
-                  name: 's',
+                  data: 's',
                   selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 11,
-                  name: 'es',
+                  data: 'es',
                   selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 10,
-                  name: 'ies',
+                  data: 'ies',
                   selection: { start: 10, end: 11 },
                   isBlinking: true,
                 },
                 {
                   position: 9,
-                  name: 'mie',
+                  data: 'mie',
                   selection: { start: 9, end: 11 },
                   isBlinking: true,
                 },
                 {
                   position: 9,
-                  name: 'mi',
+                  data: 'mi',
                   selection: { start: 9, end: 11 },
                   isBlinking: true,
                 },
@@ -15162,7 +15414,7 @@ describe('Typewriter', () => {
       describe('single letter', () => {
         describe('cursor movement', () => {
           it('should move cursors that are before the cursor one place forwards, and cursors that lie before or on should stay in position, when inserting at the start', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -15174,12 +15426,12 @@ describe('Typewriter', () => {
               blinkAfter: 50,
               text: 'ohn',
               cursors: [
-                { position: 0, name: '' },
+                { position: 0, data: undefined },
 
-                { position: 0, name: '' },
-                { position: 2, name: '' },
-                { position: 1, name: '' },
-                { position: 3, name: '' },
+                { position: 0, data: undefined },
+                { position: 2, data: undefined },
+                { position: 1, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -15197,31 +15449,31 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
@@ -15252,31 +15504,31 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 1,
-                    name: '',
+                    data: undefined,
                     isBlinking: false,
                     selection: undefined,
                   },
                   {
                     position: 0,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 3,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 2,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 4,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
@@ -15304,7 +15556,7 @@ describe('Typewriter', () => {
           });
 
           it('should move cursors that are after or on the cursor one place backwards, and cursors that lie before should stay in position, when inserting at the middle', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -15316,12 +15568,12 @@ describe('Typewriter', () => {
               blinkAfter: 50,
               text: 'john',
               cursors: [
-                { position: 2, name: '' },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
-                { position: 1, name: '' },
-                { position: 0, name: '' },
-                { position: 4, name: '' },
+                { position: 2, data: undefined },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
+                { position: 1, data: undefined },
+                { position: 0, data: undefined },
+                { position: 4, data: undefined },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -15339,37 +15591,37 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 4,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
@@ -15400,37 +15652,37 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 3,
-                    name: '',
+                    data: undefined,
                     isBlinking: false,
                     selection: undefined,
                   },
                   {
                     position: 2,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 4,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 1,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 0,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 5,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
@@ -15458,7 +15710,7 @@ describe('Typewriter', () => {
           });
 
           it('should not alter other cursors positions, when inserting at the end', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -15470,12 +15722,12 @@ describe('Typewriter', () => {
               blinkAfter: 50,
               text: 'john',
               cursors: [
-                { position: 4, name: '' },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
-                { position: 1, name: '' },
-                { position: 0, name: '' },
-                { position: 4, name: '' },
+                { position: 4, data: undefined },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
+                { position: 1, data: undefined },
+                { position: 0, data: undefined },
+                { position: 4, data: undefined },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -15493,37 +15745,37 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 4,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 4,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
@@ -15554,37 +15806,37 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 5,
-                    name: '',
+                    data: undefined,
                     isBlinking: false,
                     selection: undefined,
                   },
                   {
                     position: 2,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 3,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 1,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 0,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 4,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
@@ -15612,7 +15864,7 @@ describe('Typewriter', () => {
           });
 
           it('should alter other cursors positions, when inserting at the start', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -15624,12 +15876,12 @@ describe('Typewriter', () => {
               blinkAfter: 50,
               text: 'john',
               cursors: [
-                { position: 0, name: '' },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
-                { position: 1, name: '' },
-                { position: 0, name: '' },
-                { position: 4, name: '' },
+                { position: 0, data: undefined },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
+                { position: 1, data: undefined },
+                { position: 0, data: undefined },
+                { position: 4, data: undefined },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -15647,37 +15899,37 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 4,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
@@ -15708,37 +15960,37 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 1,
-                    name: '',
+                    data: undefined,
                     isBlinking: false,
                     selection: undefined,
                   },
                   {
                     position: 3,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 4,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 2,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 0,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 5,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
@@ -15768,7 +16020,7 @@ describe('Typewriter', () => {
 
         describe('inserting cursor has no selection', () => {
           it('should increase or keep selection of other cursors, when inserting at the start', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -15781,31 +16033,31 @@ describe('Typewriter', () => {
               text: 'ap noot mies',
               cursors: [
                 // The cursor that is going to insert 'a' at the start
-                { position: 0, name: '' },
+                { position: 0, data: undefined },
 
                 // Selects 'a' becomes 'aa', 0 - 2, pos stays 0
-                { position: 0, name: 'a', selection: { start: 0, end: 1 } },
+                { position: 0, data: 'a', selection: { start: 0, end: 1 } },
                 // Selects 'ap', becomes 'aap', 0 - 3, pos stays 0
-                { position: 0, name: 'ap', selection: { start: 0, end: 2 } },
+                { position: 0, data: 'ap', selection: { start: 0, end: 2 } },
                 // Selects 'ap ' becomes 'aap ', 0 - 4, pos stays 0
-                { position: 0, name: 'ap ', selection: { start: 0, end: 3 } },
+                { position: 0, data: 'ap ', selection: { start: 0, end: 3 } },
 
                 // Selects 'a' becomes 'aa', 0 - 2, pos becomes 2
-                { position: 1, name: 'a', selection: { start: 0, end: 1 } },
+                { position: 1, data: 'a', selection: { start: 0, end: 1 } },
                 // Selects 'ap', becomes 'aap', 0 - 3, pos becomes 3
-                { position: 2, name: 'ap', selection: { start: 0, end: 2 } },
+                { position: 2, data: 'ap', selection: { start: 0, end: 2 } },
                 // Selects 'ap ' becomes 'aap ', 0 - 4, pos becomes 4
-                { position: 3, name: 'ap ', selection: { start: 0, end: 3 } },
+                { position: 3, data: 'ap ', selection: { start: 0, end: 3 } },
 
                 // Selects 'p', stays 'p', 2 - 3, pos becomes 2
-                { position: 1, name: 'p', selection: { start: 1, end: 2 } },
+                { position: 1, data: 'p', selection: { start: 1, end: 2 } },
                 // Selects 'p ', stays 'p ', 2 - 4, pos becomes 2
-                { position: 1, name: 'p ', selection: { start: 1, end: 3 } },
+                { position: 1, data: 'p ', selection: { start: 1, end: 3 } },
 
                 // Selects 'p', stays 'p', 2 - 3, pos becomes 3
-                { position: 2, name: 'p', selection: { start: 1, end: 2 } },
+                { position: 2, data: 'p', selection: { start: 1, end: 2 } },
                 // Selects 'p ', stays 'p ', 2 - 4, pos becomes 4
-                { position: 3, name: 'p ', selection: { start: 1, end: 3 } },
+                { position: 3, data: 'p ', selection: { start: 1, end: 3 } },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -15823,67 +16075,67 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'a',
+                  data: 'a',
                   selection: { start: 0, end: 1 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'ap',
+                  data: 'ap',
                   selection: { start: 0, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'ap ',
+                  data: 'ap ',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 1,
-                  name: 'a',
+                  data: 'a',
                   selection: { start: 0, end: 1 },
                   isBlinking: true,
                 },
                 {
                   position: 2,
-                  name: 'ap',
+                  data: 'ap',
                   selection: { start: 0, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'ap ',
+                  data: 'ap ',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 1,
-                  name: 'p',
+                  data: 'p',
                   selection: { start: 1, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 1,
-                  name: 'p ',
+                  data: 'p ',
                   selection: { start: 1, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 2,
-                  name: 'p',
+                  data: 'p',
                   selection: { start: 1, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'p ',
+                  data: 'p ',
                   selection: { start: 1, end: 3 },
                   isBlinking: true,
                 },
@@ -15914,67 +16166,67 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 1,
-                    name: '',
+                    data: undefined,
                     selection: undefined,
                     isBlinking: false,
                   },
                   {
                     position: 0,
-                    name: 'a',
+                    data: 'a',
                     selection: { start: 0, end: 2 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'ap',
+                    data: 'ap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'ap ',
+                    data: 'ap ',
                     selection: { start: 0, end: 4 },
                     isBlinking: true,
                   },
                   {
                     position: 2,
-                    name: 'a',
+                    data: 'a',
                     selection: { start: 0, end: 2 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'ap',
+                    data: 'ap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'ap ',
+                    data: 'ap ',
                     selection: { start: 0, end: 4 },
                     isBlinking: true,
                   },
                   {
                     position: 2,
-                    name: 'p',
+                    data: 'p',
                     selection: { start: 2, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 2,
-                    name: 'p ',
+                    data: 'p ',
                     selection: { start: 2, end: 4 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'p',
+                    data: 'p',
                     selection: { start: 2, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'p ',
+                    data: 'p ',
                     selection: { start: 2, end: 4 },
                     isBlinking: true,
                   },
@@ -16002,7 +16254,7 @@ describe('Typewriter', () => {
           });
 
           it('should increase or keep selection of other cursors, when inserting at the middle', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -16015,58 +16267,58 @@ describe('Typewriter', () => {
               text: 'aap not mies',
               cursors: [
                 // The cursor that is going to add a second 'o' in 'not
-                { position: 6, name: '' },
+                { position: 6, data: undefined },
 
                 // Selects 'aap not mies' becomes 'aap noot mies', 0 - 13, pos becomes 13
                 {
                   position: 12,
-                  name: 'aap not mies',
+                  data: 'aap not mies',
                   selection: { start: 0, end: 12 },
                 },
                 // Selects 'aap not mies' becomes 'aap noot mies', 0 - 13, pos stays 0
                 {
                   position: 0,
-                  name: 'aap not mies',
+                  data: 'aap not mies',
                   selection: { start: 0, end: 12 },
                 },
                 // Selects 'aap' stays 'aap', 0 - 3, pos stays 3
-                { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
+                { position: 3, data: 'aap', selection: { start: 0, end: 3 } },
                 // Selects 'aap' stays 'aap', 0 - 3, pos stays 0
-                { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+                { position: 0, data: 'aap', selection: { start: 0, end: 3 } },
 
                 // Selects 'mies' stays 'mies', 9 - 13, pos becomes 13
                 {
                   position: 12,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 8, end: 12 },
                 },
                 // Selects 'mies' stays 'mies', 9 - 13, pos becomes 9
-                { position: 8, name: 'mies', selection: { start: 8, end: 12 } },
+                { position: 8, data: 'mies', selection: { start: 8, end: 12 } },
 
                 // Selects 'not', becomes 'noot', 4 - 8, pos stays 4
-                { position: 4, name: 'not', selection: { start: 4, end: 7 } },
+                { position: 4, data: 'not', selection: { start: 4, end: 7 } },
                 // Selects 'not', becomes 'noot', 4 - 8, pos becomes 8
-                { position: 7, name: 'not', selection: { start: 4, end: 7 } },
+                { position: 7, data: 'not', selection: { start: 4, end: 7 } },
 
                 // Selects 'no', stays 'no', 4 - 6, pos stays 4
-                { position: 4, name: 'no', selection: { start: 4, end: 6 } },
+                { position: 4, data: 'no', selection: { start: 4, end: 6 } },
                 // Selects 'no', stays 'no', 4 - 6, pos stays 6
-                { position: 6, name: 'no', selection: { start: 4, end: 6 } },
+                { position: 6, data: 'no', selection: { start: 4, end: 6 } },
 
                 // Selects 'o', stays 'o', 5 - 6, pos stays 5
-                { position: 5, name: 'o', selection: { start: 5, end: 6 } },
+                { position: 5, data: 'o', selection: { start: 5, end: 6 } },
                 // Selects 'o', stays 'o', 5 - 6, pos stays 6
-                { position: 6, name: 'o', selection: { start: 5, end: 6 } },
+                { position: 6, data: 'o', selection: { start: 5, end: 6 } },
 
                 // Selects 't', becomes 'ot', 6 - 8, pos stays 6
-                { position: 6, name: 't', selection: { start: 6, end: 7 } },
+                { position: 6, data: 't', selection: { start: 6, end: 7 } },
                 // Selects 't', stays 'ot', 6 - 8, pos becomes 8
-                { position: 7, name: 't', selection: { start: 6, end: 7 } },
+                { position: 7, data: 't', selection: { start: 6, end: 7 } },
 
                 // Selects 't ', becomes 'ot ', 6 - 9, pos stays 6
-                { position: 6, name: 't ', selection: { start: 6, end: 8 } },
+                { position: 6, data: 't ', selection: { start: 6, end: 8 } },
                 // Selects 't ', stays 'ot ', 6 - 9, pos becomes 9
-                { position: 8, name: 't ', selection: { start: 6, end: 8 } },
+                { position: 8, data: 't ', selection: { start: 6, end: 8 } },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -16084,103 +16336,103 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 6,
-                  name: '',
+                  data: undefined,
                   selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 12,
-                  name: 'aap not mies',
+                  data: 'aap not mies',
                   selection: { start: 0, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'aap not mies',
+                  data: 'aap not mies',
                   selection: { start: 0, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'aap',
+                  data: 'aap',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'aap',
+                  data: 'aap',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 12,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 8, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 8,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 8, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 4,
-                  name: 'not',
+                  data: 'not',
                   selection: { start: 4, end: 7 },
                   isBlinking: true,
                 },
                 {
                   position: 7,
-                  name: 'not',
+                  data: 'not',
                   selection: { start: 4, end: 7 },
                   isBlinking: true,
                 },
                 {
                   position: 4,
-                  name: 'no',
+                  data: 'no',
                   selection: { start: 4, end: 6 },
                   isBlinking: true,
                 },
                 {
                   position: 6,
-                  name: 'no',
+                  data: 'no',
                   selection: { start: 4, end: 6 },
                   isBlinking: true,
                 },
                 {
                   position: 5,
-                  name: 'o',
+                  data: 'o',
                   selection: { start: 5, end: 6 },
                   isBlinking: true,
                 },
                 {
                   position: 6,
-                  name: 'o',
+                  data: 'o',
                   selection: { start: 5, end: 6 },
                   isBlinking: true,
                 },
                 {
                   position: 6,
-                  name: 't',
+                  data: 't',
                   selection: { start: 6, end: 7 },
                   isBlinking: true,
                 },
                 {
                   position: 7,
-                  name: 't',
+                  data: 't',
                   selection: { start: 6, end: 7 },
                   isBlinking: true,
                 },
                 {
                   position: 6,
-                  name: 't ',
+                  data: 't ',
                   selection: { start: 6, end: 8 },
                   isBlinking: true,
                 },
                 {
                   position: 8,
-                  name: 't ',
+                  data: 't ',
                   selection: { start: 6, end: 8 },
                   isBlinking: true,
                 },
@@ -16211,103 +16463,103 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 7,
-                    name: '',
+                    data: undefined,
                     selection: undefined,
                     isBlinking: false,
                   },
                   {
                     position: 13,
-                    name: 'aap not mies',
+                    data: 'aap not mies',
                     selection: { start: 0, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap not mies',
+                    data: 'aap not mies',
                     selection: { start: 0, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'aap',
+                    data: 'aap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap',
+                    data: 'aap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 9,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'not',
+                    data: 'not',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: 'not',
+                    data: 'not',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'no',
+                    data: 'no',
                     selection: { start: 4, end: 6 },
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 'no',
+                    data: 'no',
                     selection: { start: 4, end: 6 },
                     isBlinking: true,
                   },
                   {
                     position: 5,
-                    name: 'o',
+                    data: 'o',
                     selection: { start: 5, end: 6 },
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 'o',
+                    data: 'o',
                     selection: { start: 5, end: 6 },
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 't',
+                    data: 't',
                     selection: { start: 6, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: 't',
+                    data: 't',
                     selection: { start: 6, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 't ',
+                    data: 't ',
                     selection: { start: 6, end: 9 },
                     isBlinking: true,
                   },
                   {
                     position: 9,
-                    name: 't ',
+                    data: 't ',
                     selection: { start: 6, end: 9 },
                     isBlinking: true,
                   },
@@ -16335,7 +16587,7 @@ describe('Typewriter', () => {
           });
 
           it('keep selection of other cursors, when inserting at the end', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -16348,29 +16600,29 @@ describe('Typewriter', () => {
               text: 'aap noot mies',
               cursors: [
                 // The cursor that is going to add 'x' to the last position.
-                { position: 13, name: '' },
+                { position: 13, data: undefined },
 
                 // All cursors should not be affected
                 {
                   position: 13,
-                  name: 'aap noot mies',
+                  data: 'aap noot mies',
                   selection: { start: 0, end: 13 },
                 },
                 {
                   position: 0,
-                  name: 'aap noot mies',
+                  data: 'aap noot mies',
                   selection: { start: 0, end: 13 },
                 },
-                { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
-                { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+                { position: 3, data: 'aap', selection: { start: 0, end: 3 } },
+                { position: 0, data: 'aap', selection: { start: 0, end: 3 } },
                 {
                   position: 13,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 9, end: 13 },
                 },
-                { position: 9, name: 'mies', selection: { start: 9, end: 13 } },
-                { position: 4, name: 'noot', selection: { start: 4, end: 8 } },
-                { position: 8, name: 'noot', selection: { start: 4, end: 8 } },
+                { position: 9, data: 'mies', selection: { start: 9, end: 13 } },
+                { position: 4, data: 'noot', selection: { start: 4, end: 8 } },
+                { position: 8, data: 'noot', selection: { start: 4, end: 8 } },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -16388,55 +16640,55 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 13,
-                  name: '',
+                  data: undefined,
                   selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 13,
-                  name: 'aap noot mies',
+                  data: 'aap noot mies',
                   selection: { start: 0, end: 13 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'aap noot mies',
+                  data: 'aap noot mies',
                   selection: { start: 0, end: 13 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'aap',
+                  data: 'aap',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'aap',
+                  data: 'aap',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 13,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 9, end: 13 },
                   isBlinking: true,
                 },
                 {
                   position: 9,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 9, end: 13 },
                   isBlinking: true,
                 },
                 {
                   position: 4,
-                  name: 'noot',
+                  data: 'noot',
                   selection: { start: 4, end: 8 },
                   isBlinking: true,
                 },
                 {
                   position: 8,
-                  name: 'noot',
+                  data: 'noot',
                   selection: { start: 4, end: 8 },
                   isBlinking: true,
                 },
@@ -16467,55 +16719,55 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 14,
-                    name: '',
+                    data: undefined,
                     selection: undefined,
                     isBlinking: false,
                   },
                   {
                     position: 13,
-                    name: 'aap noot mies',
+                    data: 'aap noot mies',
                     selection: { start: 0, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap noot mies',
+                    data: 'aap noot mies',
                     selection: { start: 0, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'aap',
+                    data: 'aap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap',
+                    data: 'aap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 9,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'noot',
+                    data: 'noot',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: 'noot',
+                    data: 'noot',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
@@ -16546,7 +16798,7 @@ describe('Typewriter', () => {
         describe('inserting cursor has selection', () => {
           describe('with backward selection', () => {
             it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
-              const typewriter = new Typewriter({
+              const typewriter = new Typewriter<string>({
                 actions: [
                   {
                     type: 'keyboard',
@@ -16559,109 +16811,113 @@ describe('Typewriter', () => {
                 text: 'aap noot mies', // x noot mies
                 cursors: [
                   // The cursor that is going to insert 'x' at the start, while selecting 'aap'
-                  { position: 0, name: '', selection: { start: 0, end: 3 } },
+                  {
+                    position: 0,
+                    data: undefined,
+                    selection: { start: 0, end: 3 },
+                  },
 
                   // Selects 'aap' becomes undefined, pos stays 0
                   {
                     position: 0,
-                    name: 'aap-0',
+                    data: 'aap-0',
                     selection: { start: 0, end: 3 },
                   },
 
                   // Selects 'aap' becomes undefined, pos becomes 0
                   {
                     position: 3,
-                    name: 'aap-3',
+                    data: 'aap-3',
                     selection: { start: 0, end: 3 },
                   },
 
                   // Selects 'ap' becomes undefined, pos becomes 0
                   {
                     position: 1,
-                    name: 'ap-1',
+                    data: 'ap-1',
                     selection: { start: 1, end: 3 },
                   },
 
                   // Selects 'ap' becomes undefined, pos becomes 0
                   {
                     position: 3,
-                    name: 'ap-3',
+                    data: 'ap-3',
                     selection: { start: 1, end: 3 },
                   },
 
                   // Selects 'p' becomes undefined, pos becomes 0
-                  { position: 2, name: 'p-2', selection: { start: 2, end: 3 } },
+                  { position: 2, data: 'p-2', selection: { start: 2, end: 3 } },
 
                   // Selects 'p' becomes undefined, pos becomes 0
-                  { position: 3, name: 'p-3', selection: { start: 2, end: 3 } },
+                  { position: 3, data: 'p-3', selection: { start: 2, end: 3 } },
 
                   // Selects 'aap ' becomes 'x ', 0 - 2 , pos stays 0
                   {
                     position: 0,
-                    name: 'aap -0',
+                    data: 'aap -0',
                     selection: { start: 0, end: 4 },
                   },
 
                   // Selects 'aap ' becomes 'x ', 0 - 2 , pos becomes 2
                   {
                     position: 4,
-                    name: 'aap -4',
+                    data: 'aap -4',
                     selection: { start: 0, end: 4 },
                   },
 
                   // Selects ' noot' stays 'x noot', 0 - 6 , pos becomes 1
                   {
                     position: 3,
-                    name: ' noot-3',
+                    data: ' noot-3',
                     selection: { start: 3, end: 8 },
                   },
                   // Selects ' noot' stays 'x noot', 0 - 6 , pos becomes 6
                   {
                     position: 8,
-                    name: ' noot-8',
+                    data: ' noot-8',
                     selection: { start: 3, end: 8 },
                   },
 
                   // Selects 'noot' stays 'noot', 2 - 6 , pos becomes 2
                   {
                     position: 4,
-                    name: 'noot-4',
+                    data: 'noot-4',
                     selection: { start: 4, end: 8 },
                   },
 
                   // Selects 'noot' stays 'noot', 2 - 6 , pos becomes 6
                   {
                     position: 8,
-                    name: 'noot-8',
+                    data: 'noot-8',
                     selection: { start: 4, end: 8 },
                   },
 
                   // All selected positions, become 0
                   {
                     position: 0,
-                    name: 'position-0',
+                    data: 'position-0',
                   },
                   {
                     position: 1,
-                    name: 'position-1',
+                    data: 'position-1',
                   },
                   {
                     position: 2,
-                    name: 'position-2',
+                    data: 'position-2',
                   },
                   {
                     position: 3,
-                    name: 'position-3',
+                    data: 'position-3',
                   },
                   // One after, becomes 2
                   {
                     position: 4,
-                    name: 'position-4',
+                    data: 'position-4',
                   },
                   // Final position, becomes 11
                   {
                     position: 13,
-                    name: 'position-13',
+                    data: 'position-13',
                   },
                 ],
               });
@@ -16680,115 +16936,115 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 0,
-                    name: '',
+                    data: undefined,
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap-0',
+                    data: 'aap-0',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'aap-3',
+                    data: 'aap-3',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 1,
-                    name: 'ap-1',
+                    data: 'ap-1',
                     selection: { start: 1, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'ap-3',
+                    data: 'ap-3',
                     selection: { start: 1, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 2,
-                    name: 'p-2',
+                    data: 'p-2',
                     selection: { start: 2, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'p-3',
+                    data: 'p-3',
                     selection: { start: 2, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap -0',
+                    data: 'aap -0',
                     selection: { start: 0, end: 4 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'aap -4',
+                    data: 'aap -4',
                     selection: { start: 0, end: 4 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: ' noot-3',
+                    data: ' noot-3',
                     selection: { start: 3, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: ' noot-8',
+                    data: ' noot-8',
                     selection: { start: 3, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'noot-4',
+                    data: 'noot-4',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: 'noot-8',
+                    data: 'noot-8',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'position-0',
+                    data: 'position-0',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 1,
-                    name: 'position-1',
+                    data: 'position-1',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 2,
-                    name: 'position-2',
+                    data: 'position-2',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'position-3',
+                    data: 'position-3',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'position-4',
+                    data: 'position-4',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'position-13',
+                    data: 'position-13',
                     selection: undefined,
                     isBlinking: true,
                   },
@@ -16819,116 +17075,116 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 1,
-                      name: '',
+                      data: undefined,
                       selection: undefined,
                       isBlinking: false,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 2 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 2 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 0, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 0, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-1',
+                      data: 'position-1',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-2',
+                      data: 'position-2',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-3',
+                      data: 'position-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 11,
                       selection: undefined,
-                      name: 'position-13',
+                      data: 'position-13',
                       isBlinking: true,
                     },
                   ],
@@ -16955,7 +17211,7 @@ describe('Typewriter', () => {
             });
 
             it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
-              const typewriter = new Typewriter({
+              const typewriter = new Typewriter<string>({
                 actions: [
                   {
                     type: 'keyboard',
@@ -16968,64 +17224,68 @@ describe('Typewriter', () => {
                 text: 'aap noot mies',
                 cursors: [
                   // The cursor that is going to add 'x', selects the oo's
-                  { position: 5, name: '', selection: { start: 5, end: 7 } },
+                  {
+                    position: 5,
+                    data: undefined,
+                    selection: { start: 5, end: 7 },
+                  },
                   // Selects 'aap' stays 'aap', 0 - 3
-                  { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
-                  { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+                  { position: 3, data: 'aap', selection: { start: 0, end: 3 } },
+                  { position: 0, data: 'aap', selection: { start: 0, end: 3 } },
                   // Selects 'noot', becomes 'nxt', 4 - 7
                   {
                     position: 8,
-                    name: 'noot',
+                    data: 'noot',
                     selection: { start: 4, end: 8 },
                   },
                   {
                     position: 4,
-                    name: 'noot',
+                    data: 'noot',
                     selection: { start: 4, end: 8 },
                   },
                   // Selects 'mies' stays 'mies', 8 - 12
                   {
                     position: 13,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                   },
                   {
                     position: 9,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                   },
                   // Selects 'p noot', becomes 'p nxt', 2 - 7
                   {
                     position: 8,
-                    name: 'p noot',
+                    data: 'p noot',
                     selection: { start: 2, end: 8 },
                   },
                   {
                     position: 2,
-                    name: 'p noot',
+                    data: 'p noot',
                     selection: { start: 2, end: 8 },
                   },
                   // Selects 'ot mi', becomes 'xt mi', 5 - 10
                   {
                     position: 11,
-                    name: 'ot mi',
+                    data: 'ot mi',
                     selection: { start: 6, end: 11 },
                   },
                   {
                     position: 6,
-                    name: 'ot mi',
+                    data: 'ot mi',
                     selection: { start: 6, end: 11 },
                   },
 
                   // Selects 't mi', becomes 'xt mi', 5 - 10
                   {
                     position: 11,
-                    name: 't mi',
+                    data: 't mi',
                     selection: { start: 7, end: 11 },
                   },
                   {
                     position: 7,
-                    name: 't mi',
+                    data: 't mi',
                     selection: { start: 7, end: 11 },
                   },
 
@@ -17033,24 +17293,24 @@ describe('Typewriter', () => {
                   // Selects 'p no', becomes 'p n', 2 - 5
                   {
                     position: 6,
-                    name: 'p no',
+                    data: 'p no',
                     selection: { start: 2, end: 6 },
                   },
                   {
                     position: 2,
-                    name: 'p no',
+                    data: 'p no',
                     selection: { start: 2, end: 6 },
                   },
 
                   // Selects 'oot m', becomes 'xt m', 5 - 9
                   {
                     position: 10,
-                    name: 'oot m',
+                    data: 'oot m',
                     selection: { start: 5, end: 10 },
                   },
                   {
                     position: 5,
-                    name: 'oot m',
+                    data: 'oot m',
                     selection: { start: 5, end: 10 },
                   },
 
@@ -17058,80 +17318,80 @@ describe('Typewriter', () => {
                   // Selects 'p noo', becomes 'p n', 2 - 5
                   {
                     position: 7,
-                    name: 'p noo',
+                    data: 'p noo',
                     selection: { start: 2, end: 7 },
                   },
                   {
                     position: 2,
-                    name: 'p noo',
+                    data: 'p noo',
                     selection: { start: 2, end: 7 },
                   },
                   // Selects 'aap noot mies', becomes 'aap nxt mies', 0 - 12
                   {
                     position: 13,
-                    name: 'aap noot mies',
+                    data: 'aap noot mies',
                     selection: { start: 0, end: 13 },
                   },
                   {
                     position: 0,
-                    name: 'aap noot mies',
+                    data: 'aap noot mies',
                     selection: { start: 0, end: 13 },
                   },
                   // Selects 'noot mies', becomes 'nxt mies' 4 - 12
                   {
                     position: 13,
-                    name: 'noot mies',
+                    data: 'noot mies',
                     selection: { start: 4, end: 13 },
                   },
                   {
                     position: 4,
-                    name: 'noot mies',
+                    data: 'noot mies',
                     selection: { start: 4, end: 13 },
                   },
                   // Selects 'oo', becomes undefined
                   {
                     position: 7,
-                    name: 'oo',
+                    data: 'oo',
                     selection: { start: 5, end: 7 },
                   },
                   {
                     position: 5,
-                    name: 'oo',
+                    data: 'oo',
                     selection: { start: 5, end: 7 },
                   },
 
                   // All selected positions, become 5
                   {
                     position: 5,
-                    name: 'position-5',
+                    data: 'position-5',
                   },
                   {
                     position: 6,
-                    name: 'position-6',
+                    data: 'position-6',
                   },
                   {
                     position: 7,
-                    name: 'position-7',
+                    data: 'position-7',
                   },
                   // One before, stays 4
                   {
                     position: 4,
-                    name: 'position-4',
+                    data: 'position-4',
                   },
                   // One after, becomes 7
                   {
                     position: 8,
-                    name: 'position-8',
+                    data: 'position-8',
                   },
                   // First position, stays 0
                   {
                     position: 0,
-                    name: 'position-0',
+                    data: 'position-0',
                   },
                   // Final position, becomes 12
                   {
                     position: 13,
-                    name: 'position-13',
+                    data: 'position-13',
                   },
                 ],
               });
@@ -17150,193 +17410,193 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 5,
-                    name: '',
+                    data: undefined,
                     selection: { start: 5, end: 7 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'aap',
+                    data: 'aap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap',
+                    data: 'aap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: 'noot',
+                    data: 'noot',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'noot',
+                    data: 'noot',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 9,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: 'p noot',
+                    data: 'p noot',
                     selection: { start: 2, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 2,
-                    name: 'p noot',
+                    data: 'p noot',
                     selection: { start: 2, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 11,
-                    name: 'ot mi',
+                    data: 'ot mi',
                     selection: { start: 6, end: 11 },
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 'ot mi',
+                    data: 'ot mi',
                     selection: { start: 6, end: 11 },
                     isBlinking: true,
                   },
                   {
                     position: 11,
-                    name: 't mi',
+                    data: 't mi',
                     selection: { start: 7, end: 11 },
                     isBlinking: true,
                   },
                   {
                     position: 7,
-                    name: 't mi',
+                    data: 't mi',
                     selection: { start: 7, end: 11 },
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 'p no',
+                    data: 'p no',
                     selection: { start: 2, end: 6 },
                     isBlinking: true,
                   },
                   {
                     position: 2,
-                    name: 'p no',
+                    data: 'p no',
                     selection: { start: 2, end: 6 },
                     isBlinking: true,
                   },
                   {
                     position: 10,
-                    name: 'oot m',
+                    data: 'oot m',
                     selection: { start: 5, end: 10 },
                     isBlinking: true,
                   },
                   {
                     position: 5,
-                    name: 'oot m',
+                    data: 'oot m',
                     selection: { start: 5, end: 10 },
                     isBlinking: true,
                   },
                   {
                     position: 7,
-                    name: 'p noo',
+                    data: 'p noo',
                     selection: { start: 2, end: 7 },
                     isBlinking: true,
                   },
                   {
                     position: 2,
-                    name: 'p noo',
+                    data: 'p noo',
                     selection: { start: 2, end: 7 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'aap noot mies',
+                    data: 'aap noot mies',
                     selection: { start: 0, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap noot mies',
+                    data: 'aap noot mies',
                     selection: { start: 0, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'noot mies',
+                    data: 'noot mies',
                     selection: { start: 4, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'noot mies',
+                    data: 'noot mies',
                     selection: { start: 4, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 7,
-                    name: 'oo',
+                    data: 'oo',
                     selection: { start: 5, end: 7 },
                     isBlinking: true,
                   },
                   {
                     position: 5,
-                    name: 'oo',
+                    data: 'oo',
                     selection: { start: 5, end: 7 },
                     isBlinking: true,
                   },
                   {
                     position: 5,
-                    name: 'position-5',
+                    data: 'position-5',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 'position-6',
+                    data: 'position-6',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 7,
-                    name: 'position-7',
+                    data: 'position-7',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'position-4',
+                    data: 'position-4',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: 'position-8',
+                    data: 'position-8',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'position-0',
+                    data: 'position-0',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'position-13',
+                    data: 'position-13',
                     selection: undefined,
                     isBlinking: true,
                   },
@@ -17367,193 +17627,193 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 6,
-                      name: '',
+                      data: undefined,
                       selection: undefined,
                       isBlinking: false,
                     },
                     {
                       position: 3,
-                      name: 'aap',
+                      data: 'aap',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap',
+                      data: 'aap',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'noot',
+                      data: 'noot',
                       selection: { start: 4, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot',
+                      data: 'noot',
                       selection: { start: 4, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'mies',
+                      data: 'mies',
                       selection: { start: 8, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'mies',
+                      data: 'mies',
                       selection: { start: 8, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'p noot',
+                      data: 'p noot',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p noot',
+                      data: 'p noot',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'ot mi',
+                      data: 'ot mi',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'ot mi',
+                      data: 'ot mi',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 't mi',
+                      data: 't mi',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 't mi',
+                      data: 't mi',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'p no',
+                      data: 'p no',
                       selection: { start: 2, end: 5 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p no',
+                      data: 'p no',
                       selection: { start: 2, end: 5 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'oot m',
+                      data: 'oot m',
                       selection: { start: 5, end: 9 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oot m',
+                      data: 'oot m',
                       selection: { start: 5, end: 9 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'p noo',
+                      data: 'p noo',
                       selection: { start: 2, end: 5 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p noo',
+                      data: 'p noo',
                       selection: { start: 2, end: 5 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'aap noot mies',
+                      data: 'aap noot mies',
                       selection: { start: 0, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap noot mies',
+                      data: 'aap noot mies',
                       selection: { start: 0, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'noot mies',
+                      data: 'noot mies',
                       selection: { start: 4, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot mies',
+                      data: 'noot mies',
                       selection: { start: 4, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oo',
+                      data: 'oo',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oo',
+                      data: 'oo',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'position-6',
+                      data: 'position-6',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'position-7',
+                      data: 'position-7',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'position-8',
+                      data: 'position-8',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -17581,7 +17841,7 @@ describe('Typewriter', () => {
             });
 
             it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
-              const typewriter = new Typewriter({
+              const typewriter = new Typewriter<string>({
                 actions: [
                   {
                     type: 'keyboard',
@@ -17594,91 +17854,95 @@ describe('Typewriter', () => {
                 text: 'aap noot mies',
                 cursors: [
                   // The cursor that is going to hit 'x', on es
-                  { position: 11, name: '', selection: { start: 11, end: 13 } },
+                  {
+                    position: 11,
+                    data: undefined,
+                    selection: { start: 11, end: 13 },
+                  },
 
                   // Selects 's' becomes undefined, pos 11
                   {
                     position: 12,
-                    name: 's',
+                    data: 's',
                     selection: { start: 12, end: 13 },
                   },
                   // Selects 's' becomes undefined, pos 11
                   {
                     position: 13,
-                    name: 's',
+                    data: 's',
                     selection: { start: 12, end: 13 },
                   },
 
                   // Selects 'es', becomes undefined pos 11
                   {
                     position: 11,
-                    name: 'es',
+                    data: 'es',
                     selection: { start: 11, end: 13 },
                   },
                   // Selects 'es', becomes undefined pos 11
                   {
                     position: 13,
-                    name: 'es',
+                    data: 'es',
                     selection: { start: 11, end: 13 },
                   },
 
                   // Selects 'ies' becomes 'i', 10 - 11 pos 10
                   {
                     position: 10,
-                    name: 'ies',
+                    data: 'ies',
                     selection: { start: 10, end: 13 },
                   },
                   // Selects 'ies' becomes 'i', 10 - 11 pos 11
                   {
                     position: 13,
-                    name: 'ies',
+                    data: 'ies',
                     selection: { start: 10, end: 13 },
                   },
 
                   // Selects 'mie', becomes 'mi', 9 - 11 pos 9
                   {
                     position: 9,
-                    name: 'mie',
+                    data: 'mie',
                     selection: { start: 9, end: 12 },
                   },
                   // Selects 'mie', becomes 'mi', 9 - 11 pos 11
                   {
                     position: 12,
-                    name: 'mie',
+                    data: 'mie',
                     selection: { start: 9, end: 12 },
                   },
 
                   // Selects 'mi', stays 'mi', 9 - 11 pos 9
-                  { position: 9, name: 'mi', selection: { start: 9, end: 11 } },
+                  { position: 9, data: 'mi', selection: { start: 9, end: 11 } },
                   // Selects 'mi', stays 'mi', 9 - 11 pos 11
                   {
                     position: 11,
-                    name: 'mi',
+                    data: 'mi',
                     selection: { start: 9, end: 11 },
                   },
 
                   // All selected positions, become 11
                   {
                     position: 11,
-                    name: 'position-11',
+                    data: 'position-11',
                   },
                   {
                     position: 12,
-                    name: 'position-12',
+                    data: 'position-12',
                   },
                   {
                     position: 13,
-                    name: 'position-13',
+                    data: 'position-13',
                   },
                   // One before, stays 10
                   {
                     position: 10,
-                    name: 'position-10',
+                    data: 'position-10',
                   },
                   // First position, stays 0
                   {
                     position: 0,
-                    name: 'position-0',
+                    data: 'position-0',
                   },
                 ],
               });
@@ -17697,97 +17961,97 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 11,
-                    name: '',
+                    data: undefined,
                     selection: { start: 11, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 12,
-                    name: 's',
+                    data: 's',
                     selection: { start: 12, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 's',
+                    data: 's',
                     selection: { start: 12, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 11,
-                    name: 'es',
+                    data: 'es',
                     selection: { start: 11, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'es',
+                    data: 'es',
                     selection: { start: 11, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 10,
-                    name: 'ies',
+                    data: 'ies',
                     selection: { start: 10, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'ies',
+                    data: 'ies',
                     selection: { start: 10, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 9,
-                    name: 'mie',
+                    data: 'mie',
                     selection: { start: 9, end: 12 },
                     isBlinking: true,
                   },
                   {
                     position: 12,
-                    name: 'mie',
+                    data: 'mie',
                     selection: { start: 9, end: 12 },
                     isBlinking: true,
                   },
                   {
                     position: 9,
-                    name: 'mi',
+                    data: 'mi',
                     selection: { start: 9, end: 11 },
                     isBlinking: true,
                   },
                   {
                     position: 11,
-                    name: 'mi',
+                    data: 'mi',
                     selection: { start: 9, end: 11 },
                     isBlinking: true,
                   },
                   {
                     position: 11,
-                    name: 'position-11',
+                    data: 'position-11',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 12,
-                    name: 'position-12',
+                    data: 'position-12',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'position-13',
+                    data: 'position-13',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 10,
-                    name: 'position-10',
+                    data: 'position-10',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'position-0',
+                    data: 'position-0',
                     selection: undefined,
                     isBlinking: true,
                   },
@@ -17818,97 +18082,97 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 12,
-                      name: '',
+                      data: undefined,
                       selection: undefined,
                       isBlinking: false,
                     },
                     {
                       position: 11,
-                      name: 's',
+                      data: 's',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 's',
+                      data: 's',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'es',
+                      data: 'es',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'es',
-                      selection: undefined,
-                      isBlinking: true,
-                    },
-                    {
-                      position: 10,
-                      name: 'ies',
-                      selection: { start: 10, end: 11 },
-                      isBlinking: true,
-                    },
-                    {
-                      position: 11,
-                      name: 'ies',
-                      selection: { start: 10, end: 11 },
-                      isBlinking: true,
-                    },
-                    {
-                      position: 9,
-                      name: 'mie',
-                      selection: { start: 9, end: 11 },
-                      isBlinking: true,
-                    },
-                    {
-                      position: 11,
-                      name: 'mie',
-                      selection: { start: 9, end: 11 },
-                      isBlinking: true,
-                    },
-                    {
-                      position: 9,
-                      name: 'mi',
-                      selection: { start: 9, end: 11 },
-                      isBlinking: true,
-                    },
-                    {
-                      position: 11,
-                      name: 'mi',
-                      selection: { start: 9, end: 11 },
-                      isBlinking: true,
-                    },
-                    {
-                      position: 11,
-                      name: 'position-11',
-                      selection: undefined,
-                      isBlinking: true,
-                    },
-                    {
-                      position: 11,
-                      name: 'position-12',
-                      selection: undefined,
-                      isBlinking: true,
-                    },
-                    {
-                      position: 11,
-                      name: 'position-13',
+                      data: 'es',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'ies',
+                      selection: { start: 10, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      data: 'ies',
+                      selection: { start: 10, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      data: 'mie',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      data: 'mie',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      data: 'mi',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      data: 'mi',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      data: 'position-11',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      data: 'position-12',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      data: 'position-13',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      data: 'position-10',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -17938,7 +18202,7 @@ describe('Typewriter', () => {
 
           describe('with forward selection', () => {
             it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
-              const typewriter = new Typewriter({
+              const typewriter = new Typewriter<string>({
                 actions: [
                   {
                     type: 'keyboard',
@@ -17951,109 +18215,113 @@ describe('Typewriter', () => {
                 text: 'aap noot mies', // x noot mies
                 cursors: [
                   // The cursor that is going to insert 'x' at the start, while selecting 'aap'
-                  { position: 3, name: '', selection: { start: 0, end: 3 } },
+                  {
+                    position: 3,
+                    data: undefined,
+                    selection: { start: 0, end: 3 },
+                  },
 
                   // Selects 'aap' becomes undefined, pos stays 0
                   {
                     position: 0,
-                    name: 'aap-0',
+                    data: 'aap-0',
                     selection: { start: 0, end: 3 },
                   },
 
                   // Selects 'aap' becomes undefined, pos becomes 0
                   {
                     position: 3,
-                    name: 'aap-3',
+                    data: 'aap-3',
                     selection: { start: 0, end: 3 },
                   },
 
                   // Selects 'ap' becomes undefined, pos becomes 0
                   {
                     position: 1,
-                    name: 'ap-1',
+                    data: 'ap-1',
                     selection: { start: 1, end: 3 },
                   },
 
                   // Selects 'ap' becomes undefined, pos becomes 0
                   {
                     position: 3,
-                    name: 'ap-3',
+                    data: 'ap-3',
                     selection: { start: 1, end: 3 },
                   },
 
                   // Selects 'p' becomes undefined, pos becomes 0
-                  { position: 2, name: 'p-2', selection: { start: 2, end: 3 } },
+                  { position: 2, data: 'p-2', selection: { start: 2, end: 3 } },
 
                   // Selects 'p' becomes undefined, pos becomes 0
-                  { position: 3, name: 'p-3', selection: { start: 2, end: 3 } },
+                  { position: 3, data: 'p-3', selection: { start: 2, end: 3 } },
 
                   // Selects 'aap ' becomes 'x ', 0 - 2 , pos stays 0
                   {
                     position: 0,
-                    name: 'aap -0',
+                    data: 'aap -0',
                     selection: { start: 0, end: 4 },
                   },
 
                   // Selects 'aap ' becomes 'x ', 0 - 2 , pos becomes 2
                   {
                     position: 4,
-                    name: 'aap -4',
+                    data: 'aap -4',
                     selection: { start: 0, end: 4 },
                   },
 
                   // Selects ' noot' stays 'x noot', 0 - 6 , pos becomes 1
                   {
                     position: 3,
-                    name: ' noot-3',
+                    data: ' noot-3',
                     selection: { start: 3, end: 8 },
                   },
                   // Selects ' noot' stays 'x noot', 0 - 6 , pos becomes 6
                   {
                     position: 8,
-                    name: ' noot-8',
+                    data: ' noot-8',
                     selection: { start: 3, end: 8 },
                   },
 
                   // Selects 'noot' stays 'noot', 2 - 6 , pos becomes 2
                   {
                     position: 4,
-                    name: 'noot-4',
+                    data: 'noot-4',
                     selection: { start: 4, end: 8 },
                   },
 
                   // Selects 'noot' stays 'noot', 2 - 6 , pos becomes 6
                   {
                     position: 8,
-                    name: 'noot-8',
+                    data: 'noot-8',
                     selection: { start: 4, end: 8 },
                   },
 
                   // All selected positions, become 0
                   {
                     position: 0,
-                    name: 'position-0',
+                    data: 'position-0',
                   },
                   {
                     position: 1,
-                    name: 'position-1',
+                    data: 'position-1',
                   },
                   {
                     position: 2,
-                    name: 'position-2',
+                    data: 'position-2',
                   },
                   {
                     position: 3,
-                    name: 'position-3',
+                    data: 'position-3',
                   },
                   // One after, becomes 2
                   {
                     position: 4,
-                    name: 'position-4',
+                    data: 'position-4',
                   },
                   // Final position, becomes 11
                   {
                     position: 13,
-                    name: 'position-13',
+                    data: 'position-13',
                   },
                 ],
               });
@@ -18072,115 +18340,115 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 3,
-                    name: '',
+                    data: undefined,
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap-0',
+                    data: 'aap-0',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'aap-3',
+                    data: 'aap-3',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 1,
-                    name: 'ap-1',
+                    data: 'ap-1',
                     selection: { start: 1, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'ap-3',
+                    data: 'ap-3',
                     selection: { start: 1, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 2,
-                    name: 'p-2',
+                    data: 'p-2',
                     selection: { start: 2, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'p-3',
+                    data: 'p-3',
                     selection: { start: 2, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap -0',
+                    data: 'aap -0',
                     selection: { start: 0, end: 4 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'aap -4',
+                    data: 'aap -4',
                     selection: { start: 0, end: 4 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: ' noot-3',
+                    data: ' noot-3',
                     selection: { start: 3, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: ' noot-8',
+                    data: ' noot-8',
                     selection: { start: 3, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'noot-4',
+                    data: 'noot-4',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: 'noot-8',
+                    data: 'noot-8',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'position-0',
+                    data: 'position-0',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 1,
-                    name: 'position-1',
+                    data: 'position-1',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 2,
-                    name: 'position-2',
+                    data: 'position-2',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'position-3',
+                    data: 'position-3',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'position-4',
+                    data: 'position-4',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'position-13',
+                    data: 'position-13',
                     selection: undefined,
                     isBlinking: true,
                   },
@@ -18211,116 +18479,116 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 1,
-                      name: '',
+                      data: undefined,
                       selection: undefined,
                       isBlinking: false,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 2 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 2 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 0, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 0, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-1',
+                      data: 'position-1',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-2',
+                      data: 'position-2',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-3',
+                      data: 'position-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 11,
                       selection: undefined,
-                      name: 'position-13',
+                      data: 'position-13',
                       isBlinking: true,
                     },
                   ],
@@ -18347,7 +18615,7 @@ describe('Typewriter', () => {
             });
 
             it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
-              const typewriter = new Typewriter({
+              const typewriter = new Typewriter<string>({
                 actions: [
                   {
                     type: 'keyboard',
@@ -18360,64 +18628,68 @@ describe('Typewriter', () => {
                 text: 'aap noot mies',
                 cursors: [
                   // The cursor that is going to add 'x', selects the oo's
-                  { position: 7, name: '', selection: { start: 5, end: 7 } },
+                  {
+                    position: 7,
+                    data: undefined,
+                    selection: { start: 5, end: 7 },
+                  },
                   // Selects 'aap' stays 'aap', 0 - 3
-                  { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
-                  { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+                  { position: 3, data: 'aap', selection: { start: 0, end: 3 } },
+                  { position: 0, data: 'aap', selection: { start: 0, end: 3 } },
                   // Selects 'noot', becomes 'nxt', 4 - 7
                   {
                     position: 8,
-                    name: 'noot',
+                    data: 'noot',
                     selection: { start: 4, end: 8 },
                   },
                   {
                     position: 4,
-                    name: 'noot',
+                    data: 'noot',
                     selection: { start: 4, end: 8 },
                   },
                   // Selects 'mies' stays 'mies', 8 - 12
                   {
                     position: 13,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                   },
                   {
                     position: 9,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                   },
                   // Selects 'p noot', becomes 'p nxt', 2 - 7
                   {
                     position: 8,
-                    name: 'p noot',
+                    data: 'p noot',
                     selection: { start: 2, end: 8 },
                   },
                   {
                     position: 2,
-                    name: 'p noot',
+                    data: 'p noot',
                     selection: { start: 2, end: 8 },
                   },
                   // Selects 'ot mi', becomes 'xt mi', 5 - 10
                   {
                     position: 11,
-                    name: 'ot mi',
+                    data: 'ot mi',
                     selection: { start: 6, end: 11 },
                   },
                   {
                     position: 6,
-                    name: 'ot mi',
+                    data: 'ot mi',
                     selection: { start: 6, end: 11 },
                   },
 
                   // Selects 't mi', becomes 'xt mi', 5 - 10
                   {
                     position: 11,
-                    name: 't mi',
+                    data: 't mi',
                     selection: { start: 7, end: 11 },
                   },
                   {
                     position: 7,
-                    name: 't mi',
+                    data: 't mi',
                     selection: { start: 7, end: 11 },
                   },
 
@@ -18425,24 +18697,24 @@ describe('Typewriter', () => {
                   // Selects 'p no', becomes 'p n', 2 - 5
                   {
                     position: 6,
-                    name: 'p no',
+                    data: 'p no',
                     selection: { start: 2, end: 6 },
                   },
                   {
                     position: 2,
-                    name: 'p no',
+                    data: 'p no',
                     selection: { start: 2, end: 6 },
                   },
 
                   // Selects 'oot m', becomes 'xt m', 5 - 9
                   {
                     position: 10,
-                    name: 'oot m',
+                    data: 'oot m',
                     selection: { start: 5, end: 10 },
                   },
                   {
                     position: 5,
-                    name: 'oot m',
+                    data: 'oot m',
                     selection: { start: 5, end: 10 },
                   },
 
@@ -18450,80 +18722,80 @@ describe('Typewriter', () => {
                   // Selects 'p noo', becomes 'p n', 2 - 5
                   {
                     position: 7,
-                    name: 'p noo',
+                    data: 'p noo',
                     selection: { start: 2, end: 7 },
                   },
                   {
                     position: 2,
-                    name: 'p noo',
+                    data: 'p noo',
                     selection: { start: 2, end: 7 },
                   },
                   // Selects 'aap noot mies', becomes 'aap nxt mies', 0 - 12
                   {
                     position: 13,
-                    name: 'aap noot mies',
+                    data: 'aap noot mies',
                     selection: { start: 0, end: 13 },
                   },
                   {
                     position: 0,
-                    name: 'aap noot mies',
+                    data: 'aap noot mies',
                     selection: { start: 0, end: 13 },
                   },
                   // Selects 'noot mies', becomes 'nxt mies' 4 - 12
                   {
                     position: 13,
-                    name: 'noot mies',
+                    data: 'noot mies',
                     selection: { start: 4, end: 13 },
                   },
                   {
                     position: 4,
-                    name: 'noot mies',
+                    data: 'noot mies',
                     selection: { start: 4, end: 13 },
                   },
                   // Selects 'oo', becomes undefined
                   {
                     position: 7,
-                    name: 'oo',
+                    data: 'oo',
                     selection: { start: 5, end: 7 },
                   },
                   {
                     position: 5,
-                    name: 'oo',
+                    data: 'oo',
                     selection: { start: 5, end: 7 },
                   },
 
                   // All selected positions, become 5
                   {
                     position: 5,
-                    name: 'position-5',
+                    data: 'position-5',
                   },
                   {
                     position: 6,
-                    name: 'position-6',
+                    data: 'position-6',
                   },
                   {
                     position: 7,
-                    name: 'position-7',
+                    data: 'position-7',
                   },
                   // One before, stays 4
                   {
                     position: 4,
-                    name: 'position-4',
+                    data: 'position-4',
                   },
                   // One after, becomes 7
                   {
                     position: 8,
-                    name: 'position-8',
+                    data: 'position-8',
                   },
                   // First position, stays 0
                   {
                     position: 0,
-                    name: 'position-0',
+                    data: 'position-0',
                   },
                   // Final position, becomes 12
                   {
                     position: 13,
-                    name: 'position-13',
+                    data: 'position-13',
                   },
                 ],
               });
@@ -18542,193 +18814,193 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 7,
-                    name: '',
+                    data: undefined,
                     selection: { start: 5, end: 7 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'aap',
+                    data: 'aap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap',
+                    data: 'aap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: 'noot',
+                    data: 'noot',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'noot',
+                    data: 'noot',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 9,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: 'p noot',
+                    data: 'p noot',
                     selection: { start: 2, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 2,
-                    name: 'p noot',
+                    data: 'p noot',
                     selection: { start: 2, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 11,
-                    name: 'ot mi',
+                    data: 'ot mi',
                     selection: { start: 6, end: 11 },
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 'ot mi',
+                    data: 'ot mi',
                     selection: { start: 6, end: 11 },
                     isBlinking: true,
                   },
                   {
                     position: 11,
-                    name: 't mi',
+                    data: 't mi',
                     selection: { start: 7, end: 11 },
                     isBlinking: true,
                   },
                   {
                     position: 7,
-                    name: 't mi',
+                    data: 't mi',
                     selection: { start: 7, end: 11 },
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 'p no',
+                    data: 'p no',
                     selection: { start: 2, end: 6 },
                     isBlinking: true,
                   },
                   {
                     position: 2,
-                    name: 'p no',
+                    data: 'p no',
                     selection: { start: 2, end: 6 },
                     isBlinking: true,
                   },
                   {
                     position: 10,
-                    name: 'oot m',
+                    data: 'oot m',
                     selection: { start: 5, end: 10 },
                     isBlinking: true,
                   },
                   {
                     position: 5,
-                    name: 'oot m',
+                    data: 'oot m',
                     selection: { start: 5, end: 10 },
                     isBlinking: true,
                   },
                   {
                     position: 7,
-                    name: 'p noo',
+                    data: 'p noo',
                     selection: { start: 2, end: 7 },
                     isBlinking: true,
                   },
                   {
                     position: 2,
-                    name: 'p noo',
+                    data: 'p noo',
                     selection: { start: 2, end: 7 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'aap noot mies',
+                    data: 'aap noot mies',
                     selection: { start: 0, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap noot mies',
+                    data: 'aap noot mies',
                     selection: { start: 0, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'noot mies',
+                    data: 'noot mies',
                     selection: { start: 4, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'noot mies',
+                    data: 'noot mies',
                     selection: { start: 4, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 7,
-                    name: 'oo',
+                    data: 'oo',
                     selection: { start: 5, end: 7 },
                     isBlinking: true,
                   },
                   {
                     position: 5,
-                    name: 'oo',
+                    data: 'oo',
                     selection: { start: 5, end: 7 },
                     isBlinking: true,
                   },
                   {
                     position: 5,
-                    name: 'position-5',
+                    data: 'position-5',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 'position-6',
+                    data: 'position-6',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 7,
-                    name: 'position-7',
+                    data: 'position-7',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'position-4',
+                    data: 'position-4',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: 'position-8',
+                    data: 'position-8',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'position-0',
+                    data: 'position-0',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'position-13',
+                    data: 'position-13',
                     selection: undefined,
                     isBlinking: true,
                   },
@@ -18759,193 +19031,193 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 6,
-                      name: '',
+                      data: undefined,
                       selection: undefined,
                       isBlinking: false,
                     },
                     {
                       position: 3,
-                      name: 'aap',
+                      data: 'aap',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap',
+                      data: 'aap',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'noot',
+                      data: 'noot',
                       selection: { start: 4, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot',
+                      data: 'noot',
                       selection: { start: 4, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'mies',
+                      data: 'mies',
                       selection: { start: 8, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'mies',
+                      data: 'mies',
                       selection: { start: 8, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'p noot',
+                      data: 'p noot',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p noot',
+                      data: 'p noot',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'ot mi',
+                      data: 'ot mi',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'ot mi',
+                      data: 'ot mi',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 't mi',
+                      data: 't mi',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 't mi',
+                      data: 't mi',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'p no',
+                      data: 'p no',
                       selection: { start: 2, end: 5 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p no',
+                      data: 'p no',
                       selection: { start: 2, end: 5 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'oot m',
+                      data: 'oot m',
                       selection: { start: 5, end: 9 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oot m',
+                      data: 'oot m',
                       selection: { start: 5, end: 9 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'p noo',
+                      data: 'p noo',
                       selection: { start: 2, end: 5 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p noo',
+                      data: 'p noo',
                       selection: { start: 2, end: 5 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'aap noot mies',
+                      data: 'aap noot mies',
                       selection: { start: 0, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap noot mies',
+                      data: 'aap noot mies',
                       selection: { start: 0, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'noot mies',
+                      data: 'noot mies',
                       selection: { start: 4, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot mies',
+                      data: 'noot mies',
                       selection: { start: 4, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oo',
+                      data: 'oo',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oo',
+                      data: 'oo',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'position-6',
+                      data: 'position-6',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'position-7',
+                      data: 'position-7',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'position-8',
+                      data: 'position-8',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -18973,7 +19245,7 @@ describe('Typewriter', () => {
             });
 
             it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
-              const typewriter = new Typewriter({
+              const typewriter = new Typewriter<string>({
                 actions: [
                   {
                     type: 'keyboard',
@@ -18986,91 +19258,95 @@ describe('Typewriter', () => {
                 text: 'aap noot mies',
                 cursors: [
                   // The cursor that is going to hit 'x', on es
-                  { position: 13, name: '', selection: { start: 11, end: 13 } },
+                  {
+                    position: 13,
+                    data: undefined,
+                    selection: { start: 11, end: 13 },
+                  },
 
                   // Selects 's' becomes undefined, pos 11
                   {
                     position: 12,
-                    name: 's',
+                    data: 's',
                     selection: { start: 12, end: 13 },
                   },
                   // Selects 's' becomes undefined, pos 11
                   {
                     position: 13,
-                    name: 's',
+                    data: 's',
                     selection: { start: 12, end: 13 },
                   },
 
                   // Selects 'es', becomes undefined pos 11
                   {
                     position: 11,
-                    name: 'es',
+                    data: 'es',
                     selection: { start: 11, end: 13 },
                   },
                   // Selects 'es', becomes undefined pos 11
                   {
                     position: 13,
-                    name: 'es',
+                    data: 'es',
                     selection: { start: 11, end: 13 },
                   },
 
                   // Selects 'ies' becomes 'i', 10 - 11 pos 10
                   {
                     position: 10,
-                    name: 'ies',
+                    data: 'ies',
                     selection: { start: 10, end: 13 },
                   },
                   // Selects 'ies' becomes 'i', 10 - 11 pos 11
                   {
                     position: 13,
-                    name: 'ies',
+                    data: 'ies',
                     selection: { start: 10, end: 13 },
                   },
 
                   // Selects 'mie', becomes 'mi', 9 - 11 pos 9
                   {
                     position: 9,
-                    name: 'mie',
+                    data: 'mie',
                     selection: { start: 9, end: 12 },
                   },
                   // Selects 'mie', becomes 'mi', 9 - 11 pos 11
                   {
                     position: 12,
-                    name: 'mie',
+                    data: 'mie',
                     selection: { start: 9, end: 12 },
                   },
 
                   // Selects 'mi', stays 'mi', 9 - 11 pos 9
-                  { position: 9, name: 'mi', selection: { start: 9, end: 11 } },
+                  { position: 9, data: 'mi', selection: { start: 9, end: 11 } },
                   // Selects 'mi', stays 'mi', 9 - 11 pos 11
                   {
                     position: 11,
-                    name: 'mi',
+                    data: 'mi',
                     selection: { start: 9, end: 11 },
                   },
 
                   // All selected positions, become 11
                   {
                     position: 11,
-                    name: 'position-11',
+                    data: 'position-11',
                   },
                   {
                     position: 12,
-                    name: 'position-12',
+                    data: 'position-12',
                   },
                   {
                     position: 13,
-                    name: 'position-13',
+                    data: 'position-13',
                   },
                   // One before, stays 10
                   {
                     position: 10,
-                    name: 'position-10',
+                    data: 'position-10',
                   },
                   // First position, stays 0
                   {
                     position: 0,
-                    name: 'position-0',
+                    data: 'position-0',
                   },
                 ],
               });
@@ -19089,97 +19365,97 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 13,
-                    name: '',
+                    data: undefined,
                     selection: { start: 11, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 12,
-                    name: 's',
+                    data: 's',
                     selection: { start: 12, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 's',
+                    data: 's',
                     selection: { start: 12, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 11,
-                    name: 'es',
+                    data: 'es',
                     selection: { start: 11, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'es',
+                    data: 'es',
                     selection: { start: 11, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 10,
-                    name: 'ies',
+                    data: 'ies',
                     selection: { start: 10, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'ies',
+                    data: 'ies',
                     selection: { start: 10, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 9,
-                    name: 'mie',
+                    data: 'mie',
                     selection: { start: 9, end: 12 },
                     isBlinking: true,
                   },
                   {
                     position: 12,
-                    name: 'mie',
+                    data: 'mie',
                     selection: { start: 9, end: 12 },
                     isBlinking: true,
                   },
                   {
                     position: 9,
-                    name: 'mi',
+                    data: 'mi',
                     selection: { start: 9, end: 11 },
                     isBlinking: true,
                   },
                   {
                     position: 11,
-                    name: 'mi',
+                    data: 'mi',
                     selection: { start: 9, end: 11 },
                     isBlinking: true,
                   },
                   {
                     position: 11,
-                    name: 'position-11',
+                    data: 'position-11',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 12,
-                    name: 'position-12',
+                    data: 'position-12',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'position-13',
+                    data: 'position-13',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 10,
-                    name: 'position-10',
+                    data: 'position-10',
                     selection: undefined,
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'position-0',
+                    data: 'position-0',
                     selection: undefined,
                     isBlinking: true,
                   },
@@ -19210,97 +19486,97 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 12,
-                      name: '',
+                      data: undefined,
                       selection: undefined,
                       isBlinking: false,
                     },
                     {
                       position: 11,
-                      name: 's',
+                      data: 's',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 's',
+                      data: 's',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'es',
+                      data: 'es',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'es',
-                      selection: undefined,
-                      isBlinking: true,
-                    },
-                    {
-                      position: 10,
-                      name: 'ies',
-                      selection: { start: 10, end: 11 },
-                      isBlinking: true,
-                    },
-                    {
-                      position: 11,
-                      name: 'ies',
-                      selection: { start: 10, end: 11 },
-                      isBlinking: true,
-                    },
-                    {
-                      position: 9,
-                      name: 'mie',
-                      selection: { start: 9, end: 11 },
-                      isBlinking: true,
-                    },
-                    {
-                      position: 11,
-                      name: 'mie',
-                      selection: { start: 9, end: 11 },
-                      isBlinking: true,
-                    },
-                    {
-                      position: 9,
-                      name: 'mi',
-                      selection: { start: 9, end: 11 },
-                      isBlinking: true,
-                    },
-                    {
-                      position: 11,
-                      name: 'mi',
-                      selection: { start: 9, end: 11 },
-                      isBlinking: true,
-                    },
-                    {
-                      position: 11,
-                      name: 'position-11',
-                      selection: undefined,
-                      isBlinking: true,
-                    },
-                    {
-                      position: 11,
-                      name: 'position-12',
-                      selection: undefined,
-                      isBlinking: true,
-                    },
-                    {
-                      position: 11,
-                      name: 'position-13',
+                      data: 'es',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'ies',
+                      selection: { start: 10, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      data: 'ies',
+                      selection: { start: 10, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      data: 'mie',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      data: 'mie',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 9,
+                      data: 'mi',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      data: 'mi',
+                      selection: { start: 9, end: 11 },
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      data: 'position-11',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      data: 'position-12',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 11,
+                      data: 'position-13',
+                      selection: undefined,
+                      isBlinking: true,
+                    },
+                    {
+                      position: 10,
+                      data: 'position-10',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -19333,7 +19609,7 @@ describe('Typewriter', () => {
       describe('word', () => {
         describe('cursor movement', () => {
           it('should move cursors that are before the cursor one place forwards, and cursors that lie before or on should stay in position, when inserting at the start', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -19345,12 +19621,12 @@ describe('Typewriter', () => {
               blinkAfter: 50,
               text: 'ohn',
               cursors: [
-                { position: 0, name: '' },
+                { position: 0, data: undefined },
 
-                { position: 0, name: '' },
-                { position: 2, name: '' },
-                { position: 1, name: '' },
-                { position: 3, name: '' },
+                { position: 0, data: undefined },
+                { position: 2, data: undefined },
+                { position: 1, data: undefined },
+                { position: 3, data: undefined },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -19368,31 +19644,31 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
@@ -19423,31 +19699,31 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 6,
-                    name: '',
+                    data: undefined,
                     isBlinking: false,
                     selection: undefined,
                   },
                   {
                     position: 0,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 8,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 7,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 9,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
@@ -19475,7 +19751,7 @@ describe('Typewriter', () => {
           });
 
           it('should move cursors that are after or on the cursor one place backwards, and cursors that lie before should stay in position, when inserting at the middle', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -19487,12 +19763,12 @@ describe('Typewriter', () => {
               blinkAfter: 50,
               text: 'john',
               cursors: [
-                { position: 2, name: '' },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
-                { position: 1, name: '' },
-                { position: 0, name: '' },
-                { position: 4, name: '' },
+                { position: 2, data: undefined },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
+                { position: 1, data: undefined },
+                { position: 0, data: undefined },
+                { position: 4, data: undefined },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -19510,37 +19786,37 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 4,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
@@ -19571,37 +19847,37 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 5,
-                    name: '',
+                    data: undefined,
                     isBlinking: false,
                     selection: undefined,
                   },
                   {
                     position: 2,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 6,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 1,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 0,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 7,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
@@ -19629,7 +19905,7 @@ describe('Typewriter', () => {
           });
 
           it('should not alter other cursors positions, when inserting at the end', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -19641,12 +19917,12 @@ describe('Typewriter', () => {
               blinkAfter: 50,
               text: 'john',
               cursors: [
-                { position: 4, name: '' },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
-                { position: 1, name: '' },
-                { position: 0, name: '' },
-                { position: 4, name: '' },
+                { position: 4, data: undefined },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
+                { position: 1, data: undefined },
+                { position: 0, data: undefined },
+                { position: 4, data: undefined },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -19664,37 +19940,37 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 4,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 4,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
@@ -19725,37 +20001,37 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 9,
-                    name: '',
+                    data: undefined,
                     isBlinking: false,
                     selection: undefined,
                   },
                   {
                     position: 2,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 3,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 1,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 0,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 4,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
@@ -19783,7 +20059,7 @@ describe('Typewriter', () => {
           });
 
           it('should alter other cursors positions, when inserting at the start', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -19795,12 +20071,12 @@ describe('Typewriter', () => {
               blinkAfter: 50,
               text: 'john',
               cursors: [
-                { position: 0, name: '' },
-                { position: 2, name: '' },
-                { position: 3, name: '' },
-                { position: 1, name: '' },
-                { position: 0, name: '' },
-                { position: 4, name: '' },
+                { position: 0, data: undefined },
+                { position: 2, data: undefined },
+                { position: 3, data: undefined },
+                { position: 1, data: undefined },
+                { position: 0, data: undefined },
+                { position: 4, data: undefined },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -19818,37 +20094,37 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 2,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 3,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 1,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
                 {
                   position: 4,
-                  name: '',
+                  data: undefined,
                   isBlinking: true,
                   selection: undefined,
                 },
@@ -19879,37 +20155,37 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 4,
-                    name: '',
+                    data: undefined,
                     isBlinking: false,
                     selection: undefined,
                   },
                   {
                     position: 6,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 7,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 5,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 0,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
                   {
                     position: 8,
-                    name: '',
+                    data: undefined,
                     isBlinking: true,
                     selection: undefined,
                   },
@@ -19939,7 +20215,7 @@ describe('Typewriter', () => {
 
         describe('inserting cursor has no selection', () => {
           it('should increase or keep selection of other cursors, when inserting at the start', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -19952,31 +20228,31 @@ describe('Typewriter', () => {
               text: 'ap noot mies',
               cursors: [
                 // The cursor that is going to insert 'pa' at the start
-                { position: 0, name: '' },
+                { position: 0, data: undefined },
 
                 // Selects 'a' becomes 'paa', 0 - 3, pos stays 0
-                { position: 0, name: 'a', selection: { start: 0, end: 1 } },
+                { position: 0, data: 'a', selection: { start: 0, end: 1 } },
                 // Selects 'ap', becomes 'paap', 0 - 4, pos stays 0
-                { position: 0, name: 'ap', selection: { start: 0, end: 2 } },
+                { position: 0, data: 'ap', selection: { start: 0, end: 2 } },
                 // Selects 'ap ' becomes 'paap ', 0 - 5, pos stays 0
-                { position: 0, name: 'ap ', selection: { start: 0, end: 3 } },
+                { position: 0, data: 'ap ', selection: { start: 0, end: 3 } },
 
                 // Selects 'a' becomes 'paa', 0 - 3, pos becomes 3
-                { position: 1, name: 'a', selection: { start: 0, end: 1 } },
+                { position: 1, data: 'a', selection: { start: 0, end: 1 } },
                 // Selects 'ap', becomes 'paap', 0 - 4, pos becomes 4
-                { position: 2, name: 'ap', selection: { start: 0, end: 2 } },
+                { position: 2, data: 'ap', selection: { start: 0, end: 2 } },
                 // Selects 'ap ' becomes 'paap ', 0 - 5, pos becomes 5
-                { position: 3, name: 'ap ', selection: { start: 0, end: 3 } },
+                { position: 3, data: 'ap ', selection: { start: 0, end: 3 } },
 
                 // Selects 'p', stays 'p', 3 - 4, pos becomes 3
-                { position: 1, name: 'p', selection: { start: 1, end: 2 } },
+                { position: 1, data: 'p', selection: { start: 1, end: 2 } },
                 // Selects 'p ', stays 'p ', 3 - 5, pos becomes 3
-                { position: 1, name: 'p ', selection: { start: 1, end: 3 } },
+                { position: 1, data: 'p ', selection: { start: 1, end: 3 } },
 
                 // Selects 'p', stays 'p', 3 - 4, pos becomes 4
-                { position: 2, name: 'p', selection: { start: 1, end: 2 } },
+                { position: 2, data: 'p', selection: { start: 1, end: 2 } },
                 // Selects 'p ', stays 'p ', 3 - 5, pos becomes 5
-                { position: 3, name: 'p ', selection: { start: 1, end: 3 } },
+                { position: 3, data: 'p ', selection: { start: 1, end: 3 } },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -19994,67 +20270,67 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 0,
-                  name: '',
+                  data: undefined,
                   selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'a',
+                  data: 'a',
                   selection: { start: 0, end: 1 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'ap',
+                  data: 'ap',
                   selection: { start: 0, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'ap ',
+                  data: 'ap ',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 1,
-                  name: 'a',
+                  data: 'a',
                   selection: { start: 0, end: 1 },
                   isBlinking: true,
                 },
                 {
                   position: 2,
-                  name: 'ap',
+                  data: 'ap',
                   selection: { start: 0, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'ap ',
+                  data: 'ap ',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 1,
-                  name: 'p',
+                  data: 'p',
                   selection: { start: 1, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 1,
-                  name: 'p ',
+                  data: 'p ',
                   selection: { start: 1, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 2,
-                  name: 'p',
+                  data: 'p',
                   selection: { start: 1, end: 2 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'p ',
+                  data: 'p ',
                   selection: { start: 1, end: 3 },
                   isBlinking: true,
                 },
@@ -20085,67 +20361,67 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 2,
-                    name: '',
+                    data: undefined,
                     selection: undefined,
                     isBlinking: false,
                   },
                   {
                     position: 0,
-                    name: 'a',
+                    data: 'a',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'ap',
+                    data: 'ap',
                     selection: { start: 0, end: 4 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'ap ',
+                    data: 'ap ',
                     selection: { start: 0, end: 5 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'a',
+                    data: 'a',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'ap',
+                    data: 'ap',
                     selection: { start: 0, end: 4 },
                     isBlinking: true,
                   },
                   {
                     position: 5,
-                    name: 'ap ',
+                    data: 'ap ',
                     selection: { start: 0, end: 5 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'p',
+                    data: 'p',
                     selection: { start: 3, end: 4 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'p ',
+                    data: 'p ',
                     selection: { start: 3, end: 5 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'p',
+                    data: 'p',
                     selection: { start: 3, end: 4 },
                     isBlinking: true,
                   },
                   {
                     position: 5,
-                    name: 'p ',
+                    data: 'p ',
                     selection: { start: 3, end: 5 },
                     isBlinking: true,
                   },
@@ -20173,7 +20449,7 @@ describe('Typewriter', () => {
           });
 
           it('should increase or keep selection of other cursors, when inserting at the middle', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -20186,58 +20462,58 @@ describe('Typewriter', () => {
               text: 'aap not mies',
               cursors: [
                 // The cursor that is going to add 'ooo' in 'not
-                { position: 6, name: '' },
+                { position: 6, data: undefined },
 
                 // Selects 'aap not mies' becomes 'aap noooot mies', 0 - 15, pos becomes 15
                 {
                   position: 12,
-                  name: 'aap not mies',
+                  data: 'aap not mies',
                   selection: { start: 0, end: 12 },
                 },
                 // Selects 'aap not mies' becomes 'aap noooot mies', 0 - 15, pos stays 0
                 {
                   position: 0,
-                  name: 'aap not mies',
+                  data: 'aap not mies',
                   selection: { start: 0, end: 12 },
                 },
                 // Selects 'aap' stays 'aap', 0 - 3, pos stays 3
-                { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
+                { position: 3, data: 'aap', selection: { start: 0, end: 3 } },
                 // Selects 'aap' stays 'aap', 0 - 3, pos stays 0
-                { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+                { position: 0, data: 'aap', selection: { start: 0, end: 3 } },
 
                 // Selects 'mies' stays 'mies', 11 - 15, pos becomes 15
                 {
                   position: 12,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 8, end: 12 },
                 },
                 // Selects 'mies' stays 'mies', 11 - 15, pos becomes 11
-                { position: 8, name: 'mies', selection: { start: 8, end: 12 } },
+                { position: 8, data: 'mies', selection: { start: 8, end: 12 } },
 
                 // Selects 'not', becomes 'noooot', 4 - 10 pos stays 4
-                { position: 4, name: 'not', selection: { start: 4, end: 7 } },
+                { position: 4, data: 'not', selection: { start: 4, end: 7 } },
                 // Selects 'not', becomes 'noooot', 4 - 10, pos becomes 10
-                { position: 7, name: 'not', selection: { start: 4, end: 7 } },
+                { position: 7, data: 'not', selection: { start: 4, end: 7 } },
 
                 // Selects 'no', stays 'no', 4 - 6, pos stays 4
-                { position: 4, name: 'no', selection: { start: 4, end: 6 } },
+                { position: 4, data: 'no', selection: { start: 4, end: 6 } },
                 // Selects 'no', stays 'no', 4 - 6, pos stays 6
-                { position: 6, name: 'no', selection: { start: 4, end: 6 } },
+                { position: 6, data: 'no', selection: { start: 4, end: 6 } },
 
                 // Selects 'o', stays 'o', 5 - 6, pos stays 5
-                { position: 5, name: 'o', selection: { start: 5, end: 6 } },
+                { position: 5, data: 'o', selection: { start: 5, end: 6 } },
                 // Selects 'o', stays 'o', 5 - 6, pos stays 6
-                { position: 6, name: 'o', selection: { start: 5, end: 6 } },
+                { position: 6, data: 'o', selection: { start: 5, end: 6 } },
 
                 // Selects 't', becomes 'ooot', 6 - 10, pos stays 6
-                { position: 6, name: 't', selection: { start: 6, end: 7 } },
+                { position: 6, data: 't', selection: { start: 6, end: 7 } },
                 // Selects 't', stays 'ooot', 6 - 10, pos becomes 10
-                { position: 7, name: 't', selection: { start: 6, end: 7 } },
+                { position: 7, data: 't', selection: { start: 6, end: 7 } },
 
                 // Selects 't ', becomes 'ooot ', 6 - 11, pos stays 6
-                { position: 6, name: 't ', selection: { start: 6, end: 8 } },
+                { position: 6, data: 't ', selection: { start: 6, end: 8 } },
                 // Selects 't ', stays 'ooot ', 6 - 11, pos becomes 11
-                { position: 8, name: 't ', selection: { start: 6, end: 8 } },
+                { position: 8, data: 't ', selection: { start: 6, end: 8 } },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -20255,103 +20531,103 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 6,
-                  name: '',
+                  data: undefined,
                   selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 12,
-                  name: 'aap not mies',
+                  data: 'aap not mies',
                   selection: { start: 0, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'aap not mies',
+                  data: 'aap not mies',
                   selection: { start: 0, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'aap',
+                  data: 'aap',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'aap',
+                  data: 'aap',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 12,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 8, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 8,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 8, end: 12 },
                   isBlinking: true,
                 },
                 {
                   position: 4,
-                  name: 'not',
+                  data: 'not',
                   selection: { start: 4, end: 7 },
                   isBlinking: true,
                 },
                 {
                   position: 7,
-                  name: 'not',
+                  data: 'not',
                   selection: { start: 4, end: 7 },
                   isBlinking: true,
                 },
                 {
                   position: 4,
-                  name: 'no',
+                  data: 'no',
                   selection: { start: 4, end: 6 },
                   isBlinking: true,
                 },
                 {
                   position: 6,
-                  name: 'no',
+                  data: 'no',
                   selection: { start: 4, end: 6 },
                   isBlinking: true,
                 },
                 {
                   position: 5,
-                  name: 'o',
+                  data: 'o',
                   selection: { start: 5, end: 6 },
                   isBlinking: true,
                 },
                 {
                   position: 6,
-                  name: 'o',
+                  data: 'o',
                   selection: { start: 5, end: 6 },
                   isBlinking: true,
                 },
                 {
                   position: 6,
-                  name: 't',
+                  data: 't',
                   selection: { start: 6, end: 7 },
                   isBlinking: true,
                 },
                 {
                   position: 7,
-                  name: 't',
+                  data: 't',
                   selection: { start: 6, end: 7 },
                   isBlinking: true,
                 },
                 {
                   position: 6,
-                  name: 't ',
+                  data: 't ',
                   selection: { start: 6, end: 8 },
                   isBlinking: true,
                 },
                 {
                   position: 8,
-                  name: 't ',
+                  data: 't ',
                   selection: { start: 6, end: 8 },
                   isBlinking: true,
                 },
@@ -20382,103 +20658,103 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 9,
-                    name: '',
+                    data: undefined,
                     selection: undefined,
                     isBlinking: false,
                   },
                   {
                     position: 15,
-                    name: 'aap not mies',
+                    data: 'aap not mies',
                     selection: { start: 0, end: 15 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap not mies',
+                    data: 'aap not mies',
                     selection: { start: 0, end: 15 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'aap',
+                    data: 'aap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap',
+                    data: 'aap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 15,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 11, end: 15 },
                     isBlinking: true,
                   },
                   {
                     position: 11,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 11, end: 15 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'not',
+                    data: 'not',
                     selection: { start: 4, end: 10 },
                     isBlinking: true,
                   },
                   {
                     position: 10,
-                    name: 'not',
+                    data: 'not',
                     selection: { start: 4, end: 10 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'no',
+                    data: 'no',
                     selection: { start: 4, end: 6 },
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 'no',
+                    data: 'no',
                     selection: { start: 4, end: 6 },
                     isBlinking: true,
                   },
                   {
                     position: 5,
-                    name: 'o',
+                    data: 'o',
                     selection: { start: 5, end: 6 },
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 'o',
+                    data: 'o',
                     selection: { start: 5, end: 6 },
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 't',
+                    data: 't',
                     selection: { start: 6, end: 10 },
                     isBlinking: true,
                   },
                   {
                     position: 10,
-                    name: 't',
+                    data: 't',
                     selection: { start: 6, end: 10 },
                     isBlinking: true,
                   },
                   {
                     position: 6,
-                    name: 't ',
+                    data: 't ',
                     selection: { start: 6, end: 11 },
                     isBlinking: true,
                   },
                   {
                     position: 11,
-                    name: 't ',
+                    data: 't ',
                     selection: { start: 6, end: 11 },
                     isBlinking: true,
                   },
@@ -20506,7 +20782,7 @@ describe('Typewriter', () => {
           });
 
           it('keep selection of other cursors, when inserting at the end', () => {
-            const typewriter = new Typewriter({
+            const typewriter = new Typewriter<string>({
               actions: [
                 {
                   type: 'keyboard',
@@ -20519,29 +20795,29 @@ describe('Typewriter', () => {
               text: 'aap noot mies',
               cursors: [
                 // The cursor that is going to add 'xoor' to the last position.
-                { position: 13, name: '' },
+                { position: 13, data: undefined },
 
                 // All cursors should not be affected
                 {
                   position: 13,
-                  name: 'aap noot mies',
+                  data: 'aap noot mies',
                   selection: { start: 0, end: 13 },
                 },
                 {
                   position: 0,
-                  name: 'aap noot mies',
+                  data: 'aap noot mies',
                   selection: { start: 0, end: 13 },
                 },
-                { position: 3, name: 'aap', selection: { start: 0, end: 3 } },
-                { position: 0, name: 'aap', selection: { start: 0, end: 3 } },
+                { position: 3, data: 'aap', selection: { start: 0, end: 3 } },
+                { position: 0, data: 'aap', selection: { start: 0, end: 3 } },
                 {
                   position: 13,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 9, end: 13 },
                 },
-                { position: 9, name: 'mies', selection: { start: 9, end: 13 } },
-                { position: 4, name: 'noot', selection: { start: 4, end: 8 } },
-                { position: 8, name: 'noot', selection: { start: 4, end: 8 } },
+                { position: 9, data: 'mies', selection: { start: 9, end: 13 } },
+                { position: 4, data: 'noot', selection: { start: 4, end: 8 } },
+                { position: 8, data: 'noot', selection: { start: 4, end: 8 } },
               ],
             });
             const subscriber = autoSubscribe(typewriter);
@@ -20559,55 +20835,55 @@ describe('Typewriter', () => {
               cursors: [
                 {
                   position: 13,
-                  name: '',
+                  data: undefined,
                   selection: undefined,
                   isBlinking: true,
                 },
                 {
                   position: 13,
-                  name: 'aap noot mies',
+                  data: 'aap noot mies',
                   selection: { start: 0, end: 13 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'aap noot mies',
+                  data: 'aap noot mies',
                   selection: { start: 0, end: 13 },
                   isBlinking: true,
                 },
                 {
                   position: 3,
-                  name: 'aap',
+                  data: 'aap',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 0,
-                  name: 'aap',
+                  data: 'aap',
                   selection: { start: 0, end: 3 },
                   isBlinking: true,
                 },
                 {
                   position: 13,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 9, end: 13 },
                   isBlinking: true,
                 },
                 {
                   position: 9,
-                  name: 'mies',
+                  data: 'mies',
                   selection: { start: 9, end: 13 },
                   isBlinking: true,
                 },
                 {
                   position: 4,
-                  name: 'noot',
+                  data: 'noot',
                   selection: { start: 4, end: 8 },
                   isBlinking: true,
                 },
                 {
                   position: 8,
-                  name: 'noot',
+                  data: 'noot',
                   selection: { start: 4, end: 8 },
                   isBlinking: true,
                 },
@@ -20638,55 +20914,55 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     position: 17,
-                    name: '',
+                    data: undefined,
                     selection: undefined,
                     isBlinking: false,
                   },
                   {
                     position: 13,
-                    name: 'aap noot mies',
+                    data: 'aap noot mies',
                     selection: { start: 0, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap noot mies',
+                    data: 'aap noot mies',
                     selection: { start: 0, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 3,
-                    name: 'aap',
+                    data: 'aap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 0,
-                    name: 'aap',
+                    data: 'aap',
                     selection: { start: 0, end: 3 },
                     isBlinking: true,
                   },
                   {
                     position: 13,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 9,
-                    name: 'mies',
+                    data: 'mies',
                     selection: { start: 9, end: 13 },
                     isBlinking: true,
                   },
                   {
                     position: 4,
-                    name: 'noot',
+                    data: 'noot',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
                   {
                     position: 8,
-                    name: 'noot',
+                    data: 'noot',
                     selection: { start: 4, end: 8 },
                     isBlinking: true,
                   },
@@ -20718,7 +20994,7 @@ describe('Typewriter', () => {
           describe('with backward selection', () => {
             describe('inserting more chars than are removed', () => {
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -20731,117 +21007,121 @@ describe('Typewriter', () => {
                   text: 'aap noot mies', // 'ploo noot mies'
                   cursors: [
                     // The cursor that is going to insert 'ploo' at the start, while selecting 'aap'
-                    { position: 0, name: '', selection: { start: 0, end: 3 } },
+                    {
+                      position: 0,
+                      data: undefined,
+                      selection: { start: 0, end: 3 },
+                    },
 
                     // Selects 'aap' becomes undefined, pos stays 0
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'aap' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'ap' becomes undefined, pos becomes 0
                     {
                       position: 1,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: { start: 1, end: 3 },
                     },
 
                     // Selects 'ap' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: { start: 1, end: 3 },
                     },
 
                     // Selects 'p' becomes undefined, pos becomes 0
                     {
                       position: 2,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: { start: 2, end: 3 },
                     },
 
                     // Selects 'p' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: { start: 2, end: 3 },
                     },
 
                     // Selects 'aap ' becomes 'ploo ', 0 - 5 , pos stays 0
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 4 },
                     },
 
                     // Selects 'aap ' becomes 'ploo ', 0 - 5 , pos becomes 5
                     {
                       position: 4,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 4 },
                     },
 
                     // Selects ' noot' becomes 'ploo noot', 0 - 9 , pos becomes 0
                     {
                       position: 3,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 3, end: 8 },
                     },
                     // Selects ' noot' stays ' noot', 0 - 9 , pos becomes 9
                     {
                       position: 8,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 3, end: 8 },
                     },
 
                     // Selects 'noot' stays 'noot', 5 - 9 , pos stays 4
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                     },
 
                     // Selects 'noot' stays 'noot', 5 - 9 , pos becomes 9
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
 
                     // All selected positions, become 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                     {
                       position: 1,
-                      name: 'position-1',
+                      data: 'position-1',
                     },
                     {
                       position: 2,
-                      name: 'position-2',
+                      data: 'position-2',
                     },
                     {
                       position: 3,
-                      name: 'position-3',
+                      data: 'position-3',
                     },
                     // One after, becomes 5
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                     },
                     // Final position, becomes 14
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                   ],
                 });
@@ -20860,115 +21140,115 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 0,
-                      name: '',
+                      data: undefined,
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 1,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: { start: 1, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: { start: 1, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: { start: 2, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: { start: 2, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 4 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 4 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 3, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 3, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 1,
-                      name: 'position-1',
+                      data: 'position-1',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'position-2',
+                      data: 'position-2',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'position-3',
+                      data: 'position-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -20999,115 +21279,115 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 4,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 0,
-                        name: 'aap-0',
+                        data: 'aap-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap-3',
+                        data: 'aap-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'ap-1',
+                        data: 'ap-1',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'ap-3',
+                        data: 'ap-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'p-2',
+                        data: 'p-2',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'p-3',
+                        data: 'p-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap -0',
+                        data: 'aap -0',
                         selection: { start: 0, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'aap -4',
+                        data: 'aap -4',
                         selection: { start: 0, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: ' noot-3',
+                        data: ' noot-3',
                         selection: { start: 0, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: ' noot-8',
+                        data: ' noot-8',
                         selection: { start: 0, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'noot-4',
+                        data: 'noot-4',
                         selection: { start: 5, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'noot-8',
+                        data: 'noot-8',
                         selection: { start: 5, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-1',
+                        data: 'position-1',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-2',
+                        data: 'position-2',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-3',
+                        data: 'position-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-4',
+                        data: 'position-4',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 14,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -21135,7 +21415,7 @@ describe('Typewriter', () => {
               });
 
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -21148,77 +21428,81 @@ describe('Typewriter', () => {
                   text: 'aap noot mies', // 'aap nadat mies'
                   cursors: [
                     // The cursor that is going to add 'ada', selects the oo's
-                    { position: 5, name: '', selection: { start: 5, end: 7 } },
+                    {
+                      position: 5,
+                      data: undefined,
+                      selection: { start: 5, end: 7 },
+                    },
 
                     // Selects 'aap' stays 'aap', 0 - 3
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'noot', becomes 'nadat', 4 - 9
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                     },
 
                     // Selects 'mies' stays 'mies', 10 - 14
                     {
                       position: 13,
-                      name: 'mies-13',
+                      data: 'mies-13',
                       selection: { start: 9, end: 13 },
                     },
                     {
                       position: 9,
-                      name: 'mies-9',
+                      data: 'mies-9',
                       selection: { start: 9, end: 13 },
                     },
 
                     // Selects 'p noot', becomes 'p nadat', 2 - 9
                     {
                       position: 8,
-                      name: 'p noot-8',
+                      data: 'p noot-8',
                       selection: { start: 2, end: 8 },
                     },
                     {
                       position: 2,
-                      name: 'p noot-2',
+                      data: 'p noot-2',
                       selection: { start: 2, end: 8 },
                     },
 
                     // Selects 'ot mi', becomes 'adat mi', 5 - 12
                     {
                       position: 11,
-                      name: 'ot mi-11',
+                      data: 'ot mi-11',
                       selection: { start: 6, end: 11 },
                     },
                     {
                       position: 6,
-                      name: 'ot mi-6',
+                      data: 'ot mi-6',
                       selection: { start: 6, end: 11 },
                     },
 
                     // Selects 't mi', becomes 'adat mi', 5 - 12
                     {
                       position: 11,
-                      name: 't mi-11',
+                      data: 't mi-11',
                       selection: { start: 7, end: 11 },
                     },
                     {
                       position: 7,
-                      name: 't mi-7',
+                      data: 't mi-7',
                       selection: { start: 7, end: 11 },
                     },
 
@@ -21226,24 +21510,24 @@ describe('Typewriter', () => {
                     // Selects 'p no', becomes 'p n', 2 - 5
                     {
                       position: 6,
-                      name: 'p no-6',
+                      data: 'p no-6',
                       selection: { start: 2, end: 6 },
                     },
                     {
                       position: 2,
-                      name: 'p no-2',
+                      data: 'p no-2',
                       selection: { start: 2, end: 6 },
                     },
 
                     // Selects 'oot m', becomes 'adat m', 5 - 11
                     {
                       position: 10,
-                      name: 'oot m-10',
+                      data: 'oot m-10',
                       selection: { start: 5, end: 10 },
                     },
                     {
                       position: 5,
-                      name: 'oot m-5',
+                      data: 'oot m-5',
                       selection: { start: 5, end: 10 },
                     },
 
@@ -21251,83 +21535,83 @@ describe('Typewriter', () => {
                     // Selects 'p noo', becomes 'p n', 2 - 5
                     {
                       position: 7,
-                      name: 'p noo-7',
+                      data: 'p noo-7',
                       selection: { start: 2, end: 7 },
                     },
                     {
                       position: 2,
-                      name: 'p noo-2',
+                      data: 'p noo-2',
                       selection: { start: 2, end: 7 },
                     },
 
                     // Selects 'aap noot mies', becomes 'aap nadat mies', 0 - 14
                     {
                       position: 13,
-                      name: 'aap noot mies-13',
+                      data: 'aap noot mies-13',
                       selection: { start: 0, end: 13 },
                     },
                     {
                       position: 0,
-                      name: 'aap noot mies-0',
+                      data: 'aap noot mies-0',
                       selection: { start: 0, end: 13 },
                     },
 
                     // Selects 'noot mies', becomes 'nadat mies' 4 - 14
                     {
                       position: 13,
-                      name: 'noot mies-13',
+                      data: 'noot mies-13',
                       selection: { start: 4, end: 13 },
                     },
                     {
                       position: 4,
-                      name: 'noot mies-4',
+                      data: 'noot mies-4',
                       selection: { start: 4, end: 13 },
                     },
 
                     // Selects 'oo', becomes undefined
                     {
                       position: 7,
-                      name: 'oo-7',
+                      data: 'oo-7',
                       selection: { start: 5, end: 7 },
                     },
                     {
                       position: 5,
-                      name: 'oo-5',
+                      data: 'oo-5',
                       selection: { start: 5, end: 7 },
                     },
 
                     // All selected positions, become 5
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                     },
                     {
                       position: 6,
-                      name: 'position-6',
+                      data: 'position-6',
                     },
                     {
                       position: 7,
-                      name: 'position-7',
+                      data: 'position-7',
                     },
                     // One before, stays 4
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                     },
                     // One after, becomes 9
                     {
                       position: 8,
-                      name: 'position-8',
+                      data: 'position-8',
                     },
                     // First position, stays 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                     // Final position, becomes 14
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                   ],
                 });
@@ -21346,193 +21630,193 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 5,
-                      name: '',
+                      data: undefined,
                       selection: { start: 5, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'mies-13',
+                      data: 'mies-13',
                       selection: { start: 9, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mies-9',
+                      data: 'mies-9',
                       selection: { start: 9, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'p noot-8',
+                      data: 'p noot-8',
                       selection: { start: 2, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p noot-2',
+                      data: 'p noot-2',
                       selection: { start: 2, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'ot mi-11',
+                      data: 'ot mi-11',
                       selection: { start: 6, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'ot mi-6',
+                      data: 'ot mi-6',
                       selection: { start: 6, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 't mi-11',
+                      data: 't mi-11',
                       selection: { start: 7, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 't mi-7',
+                      data: 't mi-7',
                       selection: { start: 7, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'p no-6',
+                      data: 'p no-6',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p no-2',
+                      data: 'p no-2',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'oot m-10',
+                      data: 'oot m-10',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oot m-5',
+                      data: 'oot m-5',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'p noo-7',
+                      data: 'p noo-7',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p noo-2',
+                      data: 'p noo-2',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'aap noot mies-13',
+                      data: 'aap noot mies-13',
                       selection: { start: 0, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap noot mies-0',
+                      data: 'aap noot mies-0',
                       selection: { start: 0, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'noot mies-13',
+                      data: 'noot mies-13',
                       selection: { start: 4, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot mies-4',
+                      data: 'noot mies-4',
                       selection: { start: 4, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'oo-7',
+                      data: 'oo-7',
                       selection: { start: 5, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oo-5',
+                      data: 'oo-5',
                       selection: { start: 5, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'position-6',
+                      data: 'position-6',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'position-7',
+                      data: 'position-7',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'position-8',
+                      data: 'position-8',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -21563,193 +21847,193 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 8,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 3,
-                        name: 'aap-3',
+                        data: 'aap-3',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap-0',
+                        data: 'aap-0',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'noot-8',
+                        data: 'noot-8',
                         selection: { start: 4, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'noot-4',
+                        data: 'noot-4',
                         selection: { start: 4, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 14,
-                        name: 'mies-13',
+                        data: 'mies-13',
                         selection: { start: 10, end: 14 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'mies-9',
+                        data: 'mies-9',
                         selection: { start: 10, end: 14 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'p noot-8',
+                        data: 'p noot-8',
                         selection: { start: 2, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p noot-2',
+                        data: 'p noot-2',
                         selection: { start: 2, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 12,
-                        name: 'ot mi-11',
+                        data: 'ot mi-11',
                         selection: { start: 5, end: 12 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'ot mi-6',
+                        data: 'ot mi-6',
                         selection: { start: 5, end: 12 },
                         isBlinking: true,
                       },
                       {
                         position: 12,
-                        name: 't mi-11',
+                        data: 't mi-11',
                         selection: { start: 5, end: 12 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 't mi-7',
+                        data: 't mi-7',
                         selection: { start: 5, end: 12 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'p no-6',
+                        data: 'p no-6',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p no-2',
+                        data: 'p no-2',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'oot m-10',
+                        data: 'oot m-10',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'oot m-5',
+                        data: 'oot m-5',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'p noo-7',
+                        data: 'p noo-7',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p noo-2',
+                        data: 'p noo-2',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 14,
-                        name: 'aap noot mies-13',
+                        data: 'aap noot mies-13',
                         selection: { start: 0, end: 14 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap noot mies-0',
+                        data: 'aap noot mies-0',
                         selection: { start: 0, end: 14 },
                         isBlinking: true,
                       },
                       {
                         position: 14,
-                        name: 'noot mies-13',
+                        data: 'noot mies-13',
                         selection: { start: 4, end: 14 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'noot mies-4',
+                        data: 'noot mies-4',
                         selection: { start: 4, end: 14 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'oo-7',
+                        data: 'oo-7',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'oo-5',
+                        data: 'oo-5',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-5',
+                        data: 'position-5',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-6',
+                        data: 'position-6',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-7',
+                        data: 'position-7',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'position-4',
+                        data: 'position-4',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'position-8',
+                        data: 'position-8',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 14,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -21777,7 +22061,7 @@ describe('Typewriter', () => {
               });
 
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -21792,96 +22076,96 @@ describe('Typewriter', () => {
                     // The cursor that is going to hit 'xoxo', on es
                     {
                       position: 11,
-                      name: '',
+                      data: undefined,
                       selection: { start: 11, end: 13 },
                     },
 
                     // Selects 's' becomes undefined, pos 11
                     {
                       position: 12,
-                      name: 's-12',
+                      data: 's-12',
                       selection: { start: 12, end: 13 },
                     },
                     // Selects 's' becomes undefined, pos 11
                     {
                       position: 13,
-                      name: 's-13',
+                      data: 's-13',
                       selection: { start: 12, end: 13 },
                     },
 
                     // Selects 'es', becomes undefined pos 11
                     {
                       position: 11,
-                      name: 'es-11',
+                      data: 'es-11',
                       selection: { start: 11, end: 13 },
                     },
                     // Selects 'es', becomes undefined pos 11
                     {
                       position: 13,
-                      name: 'es-13',
+                      data: 'es-13',
                       selection: { start: 11, end: 13 },
                     },
 
                     // Selects 'ies' becomes 'i', 10 - 11 pos 10
                     {
                       position: 10,
-                      name: 'ies-10',
+                      data: 'ies-10',
                       selection: { start: 10, end: 13 },
                     },
                     // Selects 'ies' becomes 'i', 10 - 11 pos 11
                     {
                       position: 13,
-                      name: 'ies-13',
+                      data: 'ies-13',
                       selection: { start: 10, end: 13 },
                     },
 
                     // Selects 'mie', becomes 'mi', 9 - 11 pos 9
                     {
                       position: 9,
-                      name: 'mie-9',
+                      data: 'mie-9',
                       selection: { start: 9, end: 12 },
                     },
                     // Selects 'mie', becomes 'mi', 9 - 11 pos 11
                     {
                       position: 12,
-                      name: 'mie-12',
+                      data: 'mie-12',
                       selection: { start: 9, end: 12 },
                     },
 
                     // Selects 'mi', stays 'mi', 9 - 11 pos 9
                     {
                       position: 9,
-                      name: 'mi-9',
+                      data: 'mi-9',
                       selection: { start: 9, end: 11 },
                     },
                     // Selects 'mi', stays 'mi', 9 - 11 pos 11
                     {
                       position: 11,
-                      name: 'mi-11',
+                      data: 'mi-11',
                       selection: { start: 9, end: 11 },
                     },
                     // All selected positions, become 11
                     {
                       position: 11,
-                      name: 'position-11',
+                      data: 'position-11',
                     },
                     {
                       position: 12,
-                      name: 'position-12',
+                      data: 'position-12',
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                     // One before, stays 10
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'position-10',
                     },
                     // First position, stays 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                   ],
                 });
@@ -21900,99 +22184,99 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 11,
-                      name: '',
+                      data: undefined,
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 's-12',
+                      data: 's-12',
                       selection: { start: 12, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 's-13',
+                      data: 's-13',
                       selection: { start: 12, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'es-11',
+                      data: 'es-11',
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'es-13',
+                      data: 'es-13',
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'ies-10',
+                      data: 'ies-10',
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'ies-13',
+                      data: 'ies-13',
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mie-9',
+                      data: 'mie-9',
                       selection: { start: 9, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'mie-12',
+                      data: 'mie-12',
                       selection: { start: 9, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mi-9',
+                      data: 'mi-9',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'mi-11',
+                      data: 'mi-11',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'position-11',
+                      data: 'position-11',
                       selection: undefined,
-                      isBlinking: true
+                      isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'position-12',
+                      data: 'position-12',
                       selection: undefined,
-                      isBlinking: true
+                      isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
-                      isBlinking: true
+                      isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'position-10',
                       selection: undefined,
-                      isBlinking: true
+                      isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
-                      isBlinking: true
+                      isBlinking: true,
                     },
                   ],
                   text: 'aap noot mies',
@@ -22021,99 +22305,99 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 15,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 11,
-                        name: 's-12',
+                        data: 's-12',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 's-13',
+                        data: 's-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'es-11',
+                        data: 'es-11',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'es-13',
+                        data: 'es-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'ies-10',
+                        data: 'ies-10',
                         selection: { start: 10, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'ies-13',
+                        data: 'ies-13',
                         selection: { start: 10, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'mie-9',
+                        data: 'mie-9',
                         selection: { start: 9, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'mie-12',
+                        data: 'mie-12',
                         selection: { start: 9, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'mi-9',
+                        data: 'mi-9',
                         selection: { start: 9, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'mi-11',
+                        data: 'mi-11',
                         selection: { start: 9, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'position-11',
+                        data: 'position-11',
                         selection: undefined,
-                        isBlinking: true
+                        isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'position-12',
+                        data: 'position-12',
                         selection: undefined,
-                        isBlinking: true
+                        isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
-                        isBlinking: true
+                        isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'position-10',
+                        data: 'position-10',
                         selection: undefined,
-                        isBlinking: true
+                        isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
-                        isBlinking: true
+                        isBlinking: true,
                       },
                     ],
                     text: 'aap noot mixoxo',
@@ -22141,7 +22425,7 @@ describe('Typewriter', () => {
 
             describe('inserting less chars than are removed', () => {
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -22154,116 +22438,120 @@ describe('Typewriter', () => {
                   text: 'aap noot mies', // 'xa noot mies
                   cursors: [
                     // The cursor that is going to insert 'xa' at the start, while selecting 'aap'
-                    { position: 0, name: '', selection: { start: 0, end: 3 } },
+                    {
+                      position: 0,
+                      data: undefined,
+                      selection: { start: 0, end: 3 },
+                    },
 
                     // Selects 'aap' becomes undefined, pos stays 0
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'aap' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'ap' becomes undefined, pos becomes 0
                     {
                       position: 1,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: { start: 1, end: 3 },
                     },
 
                     // Selects 'ap' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: { start: 1, end: 3 },
                     },
 
                     // Selects 'p' becomes undefined, pos becomes 0
                     {
                       position: 2,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: { start: 2, end: 3 },
                     },
 
                     // Selects 'p' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: { start: 2, end: 3 },
                     },
 
                     // Selects 'aap ' becomes 'xa ', 0 - 3 , pos stays 0
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 4 },
                     },
 
                     // Selects 'aap ' becomes 'xap ', 0 - 3 , pos becomes 3
                     {
                       position: 4,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 4 },
                     },
 
                     // Selects ' noot' becomes 'xa noot', 0 - 7 , pos becomes 0
                     {
                       position: 3,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 3, end: 8 },
                     },
                     // Selects ' noot' becomes 'xa noot', 0 - 7 , pos becomes 7
                     {
                       position: 8,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 3, end: 8 },
                     },
 
                     // Selects 'noot' stays 'noot', 3 - 7 , pos becomes 3
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                     },
 
                     // Selects 'noot' stays 'noot', 3 - 7 , pos becomes 7
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
                     // All selected positions, become 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                     {
                       position: 1,
-                      name: 'position-1',
+                      data: 'position-1',
                     },
                     {
                       position: 2,
-                      name: 'position-2',
+                      data: 'position-2',
                     },
                     {
                       position: 3,
-                      name: 'position-3',
+                      data: 'position-3',
                     },
                     // One after, becomes 3
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                     },
                     // Final position, becomes 12
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                   ],
                 });
@@ -22282,115 +22570,115 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 0,
-                      name: '',
+                      data: undefined,
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 1,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: { start: 1, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: { start: 1, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: { start: 2, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: { start: 2, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 4 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 4 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 3, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 3, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 1,
-                      name: 'position-1',
+                      data: 'position-1',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'position-2',
+                      data: 'position-2',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'position-3',
+                      data: 'position-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -22421,115 +22709,115 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 2,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 0,
-                        name: 'aap-0',
+                        data: 'aap-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap-3',
+                        data: 'aap-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'ap-1',
+                        data: 'ap-1',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'ap-3',
+                        data: 'ap-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'p-2',
+                        data: 'p-2',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'p-3',
+                        data: 'p-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap -0',
+                        data: 'aap -0',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 3,
-                        name: 'aap -4',
+                        data: 'aap -4',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: ' noot-3',
+                        data: ' noot-3',
                         selection: { start: 0, end: 7 },
                         isBlinking: true,
                       },
                       {
                         position: 7,
-                        name: ' noot-8',
+                        data: ' noot-8',
                         selection: { start: 0, end: 7 },
                         isBlinking: true,
                       },
                       {
                         position: 3,
-                        name: 'noot-4',
+                        data: 'noot-4',
                         selection: { start: 3, end: 7 },
                         isBlinking: true,
                       },
                       {
                         position: 7,
-                        name: 'noot-8',
+                        data: 'noot-8',
                         selection: { start: 3, end: 7 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-1',
+                        data: 'position-1',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-2',
+                        data: 'position-2',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-3',
+                        data: 'position-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 3,
-                        name: 'position-4',
+                        data: 'position-4',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 12,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -22557,7 +22845,7 @@ describe('Typewriter', () => {
               });
 
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -22570,78 +22858,82 @@ describe('Typewriter', () => {
                   text: 'aap nadat mies', // 'aap noot mies'
                   cursors: [
                     // The cursor that is going to add 'oo', selects 'ada'
-                    { position: 5, name: '', selection: { start: 5, end: 8 } },
+                    {
+                      position: 5,
+                      data: undefined,
+                      selection: { start: 5, end: 8 },
+                    },
 
                     // Selects 'aap' stays 'aap', 0 - 3
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                     },
                     // Selects 'aap' stays 'aap', 0 - 3
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'nadat', becomes 'noot', 4 - 8
                     {
                       position: 9,
-                      name: 'nadat-9',
+                      data: 'nadat-9',
                       selection: { start: 4, end: 9 },
                     },
                     {
                       position: 4,
-                      name: 'nadat-4',
+                      data: 'nadat-4',
                       selection: { start: 4, end: 9 },
                     },
 
                     // Selects 'mies' stays 'mies', 9 - 13
                     {
                       position: 14,
-                      name: 'mies-14',
+                      data: 'mies-14',
                       selection: { start: 10, end: 14 },
                     },
                     {
                       position: 10,
-                      name: 'mies-10',
+                      data: 'mies-10',
                       selection: { start: 10, end: 14 },
                     },
 
                     // Selects 'p nadat', becomes 'p noot', 2 - 8
                     {
                       position: 9,
-                      name: 'p nadat-9',
+                      data: 'p nadat-9',
                       selection: { start: 2, end: 9 },
                     },
                     {
                       position: 2,
-                      name: 'p nadat-2',
+                      data: 'p nadat-2',
                       selection: { start: 2, end: 9 },
                     },
 
                     // Selects 'at mi', becomes 'oot mi', 5 - 11
                     {
                       position: 12,
-                      name: 'at mi-12',
+                      data: 'at mi-12',
                       selection: { start: 7, end: 12 },
                     },
                     {
                       position: 7,
-                      name: 'at mi-7',
+                      data: 'at mi-7',
                       selection: { start: 7, end: 12 },
                     },
 
                     // Selects 't mi', becomes 'oot mi', 5 - 11
                     {
                       position: 12,
-                      name: 't mi-12',
+                      data: 't mi-12',
                       selection: { start: 8, end: 12 },
                     },
                     {
                       position: 8,
-                      name: 't mi-8',
+                      data: 't mi-8',
                       selection: { start: 8, end: 12 },
                     },
 
@@ -22649,24 +22941,24 @@ describe('Typewriter', () => {
                     // Selects 'p na', becomes 'p n', 2 - 5
                     {
                       position: 6,
-                      name: 'p na-6',
+                      data: 'p na-6',
                       selection: { start: 2, end: 6 },
                     },
                     {
                       position: 2,
-                      name: 'p na-2',
+                      data: 'p na-2',
                       selection: { start: 2, end: 6 },
                     },
 
                     // Selects 'dat m', becomes 'oot m', 5 - 10
                     {
                       position: 11,
-                      name: 'dat m-11',
+                      data: 'dat m-11',
                       selection: { start: 6, end: 11 },
                     },
                     {
                       position: 6,
-                      name: 'dat m-6',
+                      data: 'dat m-6',
                       selection: { start: 6, end: 11 },
                     },
 
@@ -22674,87 +22966,87 @@ describe('Typewriter', () => {
                     // Selects 'p nad', becomes 'p n', 2 - 5
                     {
                       position: 7,
-                      name: 'p nad-7',
+                      data: 'p nad-7',
                       selection: { start: 2, end: 7 },
                     },
                     {
                       position: 2,
-                      name: 'p nad-2',
+                      data: 'p nad-2',
                       selection: { start: 2, end: 7 },
                     },
 
                     // Selects 'aap nadat mies', becomes 'aap noot mies', 0 - 13
                     {
                       position: 14,
-                      name: 'aap nadat mies-14',
+                      data: 'aap nadat mies-14',
                       selection: { start: 0, end: 14 },
                     },
                     {
                       position: 0,
-                      name: 'aap nadat mies-0',
+                      data: 'aap nadat mies-0',
                       selection: { start: 0, end: 14 },
                     },
 
                     // Selects 'nadat mies', becomes 'noot mies' 4 - 13
                     {
                       position: 14,
-                      name: 'nadat mies-14',
+                      data: 'nadat mies-14',
                       selection: { start: 4, end: 14 },
                     },
                     {
                       position: 4,
-                      name: 'nadat mies-4',
+                      data: 'nadat mies-4',
                       selection: { start: 4, end: 14 },
                     },
 
                     // Selects 'ada', becomes undefined, pos 5
                     {
                       position: 8,
-                      name: 'ada-8',
+                      data: 'ada-8',
                       selection: { start: 5, end: 8 },
                     },
                     {
                       position: 5,
-                      name: 'ada-5',
+                      data: 'ada-5',
                       selection: { start: 5, end: 8 },
                     },
 
                     // All selected positions, become 5
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                     },
                     {
                       position: 6,
-                      name: 'position-6',
+                      data: 'position-6',
                     },
                     {
                       position: 7,
-                      name: 'position-7',
+                      data: 'position-7',
                     },
                     {
                       position: 8,
-                      name: 'position-8',
+                      data: 'position-8',
                     },
                     // One before, stays 4
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                     },
                     // One after, becomes 8
                     {
                       position: 9,
-                      name: 'position-9',
+                      data: 'position-9',
                     },
                     // First position, stays 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                     // Final position, becomes 13
                     {
                       position: 14,
-                      name: 'position-14',
+                      data: 'position-14',
                     },
                   ],
                 });
@@ -22773,199 +23065,199 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 5,
-                      name: '',
+                      data: undefined,
                       selection: { start: 5, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'nadat-9',
+                      data: 'nadat-9',
                       selection: { start: 4, end: 9 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'nadat-4',
+                      data: 'nadat-4',
                       selection: { start: 4, end: 9 },
                       isBlinking: true,
                     },
                     {
                       position: 14,
-                      name: 'mies-14',
+                      data: 'mies-14',
                       selection: { start: 10, end: 14 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'mies-10',
+                      data: 'mies-10',
                       selection: { start: 10, end: 14 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'p nadat-9',
+                      data: 'p nadat-9',
                       selection: { start: 2, end: 9 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p nadat-2',
+                      data: 'p nadat-2',
                       selection: { start: 2, end: 9 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'at mi-12',
+                      data: 'at mi-12',
                       selection: { start: 7, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'at mi-7',
+                      data: 'at mi-7',
                       selection: { start: 7, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 't mi-12',
+                      data: 't mi-12',
                       selection: { start: 8, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 't mi-8',
+                      data: 't mi-8',
                       selection: { start: 8, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'p na-6',
+                      data: 'p na-6',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p na-2',
+                      data: 'p na-2',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'dat m-11',
+                      data: 'dat m-11',
                       selection: { start: 6, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'dat m-6',
+                      data: 'dat m-6',
                       selection: { start: 6, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'p nad-7',
+                      data: 'p nad-7',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p nad-2',
+                      data: 'p nad-2',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 14,
-                      name: 'aap nadat mies-14',
+                      data: 'aap nadat mies-14',
                       selection: { start: 0, end: 14 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap nadat mies-0',
+                      data: 'aap nadat mies-0',
                       selection: { start: 0, end: 14 },
                       isBlinking: true,
                     },
                     {
                       position: 14,
-                      name: 'nadat mies-14',
+                      data: 'nadat mies-14',
                       selection: { start: 4, end: 14 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'nadat mies-4',
+                      data: 'nadat mies-4',
                       selection: { start: 4, end: 14 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'ada-8',
+                      data: 'ada-8',
                       selection: { start: 5, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'ada-5',
+                      data: 'ada-5',
                       selection: { start: 5, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'position-6',
+                      data: 'position-6',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'position-7',
+                      data: 'position-7',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'position-8',
+                      data: 'position-8',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'position-9',
+                      data: 'position-9',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 14,
-                      name: 'position-14',
+                      data: 'position-14',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -22996,199 +23288,199 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 7,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 3,
-                        name: 'aap-3',
+                        data: 'aap-3',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap-0',
+                        data: 'aap-0',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'nadat-9',
+                        data: 'nadat-9',
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'nadat-4',
+                        data: 'nadat-4',
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'mies-14',
+                        data: 'mies-14',
                         selection: { start: 9, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'mies-10',
+                        data: 'mies-10',
                         selection: { start: 9, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'p nadat-9',
+                        data: 'p nadat-9',
                         selection: { start: 2, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p nadat-2',
+                        data: 'p nadat-2',
                         selection: { start: 2, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'at mi-12',
+                        data: 'at mi-12',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'at mi-7',
+                        data: 'at mi-7',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 't mi-12',
+                        data: 't mi-12',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 't mi-8',
+                        data: 't mi-8',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'p na-6',
+                        data: 'p na-6',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p na-2',
+                        data: 'p na-2',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'dat m-11',
+                        data: 'dat m-11',
                         selection: { start: 5, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'dat m-6',
+                        data: 'dat m-6',
                         selection: { start: 5, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'p nad-7',
+                        data: 'p nad-7',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p nad-2',
+                        data: 'p nad-2',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'aap nadat mies-14',
+                        data: 'aap nadat mies-14',
                         selection: { start: 0, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap nadat mies-0',
+                        data: 'aap nadat mies-0',
                         selection: { start: 0, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'nadat mies-14',
+                        data: 'nadat mies-14',
                         selection: { start: 4, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'nadat mies-4',
+                        data: 'nadat mies-4',
                         selection: { start: 4, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'ada-8',
+                        data: 'ada-8',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'ada-5',
+                        data: 'ada-5',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-5',
+                        data: 'position-5',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-6',
+                        data: 'position-6',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-7',
+                        data: 'position-7',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-8',
+                        data: 'position-8',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'position-4',
+                        data: 'position-4',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'position-9',
+                        data: 'position-9',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'position-14',
+                        data: 'position-14',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -23216,7 +23508,7 @@ describe('Typewriter', () => {
               });
 
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -23231,108 +23523,108 @@ describe('Typewriter', () => {
                     // The cursor that is going to hit 'xo', on ies
                     {
                       position: 10,
-                      name: '',
+                      data: undefined,
                       selection: { start: 10, end: 13 },
                     },
 
                     // Selects 's' becomes undefined, pos 10
                     {
                       position: 12,
-                      name: 's-12',
+                      data: 's-12',
                       selection: { start: 12, end: 13 },
                     },
                     {
                       position: 13,
-                      name: 's-13',
+                      data: 's-13',
                       selection: { start: 12, end: 13 },
                     },
 
                     // Selects 'es', becomes undefined pos 10
                     {
                       position: 11,
-                      name: 'es-11',
+                      data: 'es-11',
                       selection: { start: 11, end: 13 },
                     },
                     {
                       position: 13,
-                      name: 'es-13',
+                      data: 'es-13',
                       selection: { start: 11, end: 13 },
                     },
 
                     // Selects 'ies' becomes undefined', pos 10
                     {
                       position: 10,
-                      name: 'ies-10',
+                      data: 'ies-10',
                       selection: { start: 10, end: 13 },
                     },
                     {
                       position: 13,
-                      name: 'ies-13',
+                      data: 'ies-13',
                       selection: { start: 10, end: 13 },
                     },
 
                     // Selects 'mie', becomes 'm', 9 - 10
                     {
                       position: 9,
-                      name: 'mie-9',
+                      data: 'mie-9',
                       selection: { start: 9, end: 12 },
                     },
                     {
                       position: 12,
-                      name: 'mie-12',
+                      data: 'mie-12',
                       selection: { start: 9, end: 12 },
                     },
 
                     // Selects 'mi', becomes 'm', 9 - 10
                     {
                       position: 9,
-                      name: 'mi-9',
+                      data: 'mi-9',
                       selection: { start: 9, end: 11 },
                     },
                     {
                       position: 11,
-                      name: 'mi-11',
+                      data: 'mi-11',
                       selection: { start: 9, end: 11 },
                     },
 
                     // Selects 't m', stays 't m', 7 - 10
                     {
                       position: 7,
-                      name: 't m-7',
+                      data: 't m-7',
                       selection: { start: 7, end: 10 },
                     },
                     {
                       position: 10,
-                      name: 't m-10',
+                      data: 't m-10',
                       selection: { start: 7, end: 10 },
                     },
 
                     // All selected positions, become 10
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'position-10',
                     },
                     {
                       position: 11,
-                      name: 'position-11',
+                      data: 'position-11',
                     },
                     {
                       position: 12,
-                      name: 'position-12',
+                      data: 'position-12',
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                     // One before, stays 9
                     {
                       position: 9,
-                      name: 'position-9',
+                      data: 'position-9',
                     },
                     // First position, stays 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                   ],
                 });
@@ -23351,115 +23643,115 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 10,
-                      name: '',
+                      data: undefined,
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 's-12',
+                      data: 's-12',
                       selection: { start: 12, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 's-13',
+                      data: 's-13',
                       selection: { start: 12, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'es-11',
+                      data: 'es-11',
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'es-13',
+                      data: 'es-13',
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'ies-10',
+                      data: 'ies-10',
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'ies-13',
+                      data: 'ies-13',
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mie-9',
+                      data: 'mie-9',
                       selection: { start: 9, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'mie-12',
+                      data: 'mie-12',
                       selection: { start: 9, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mi-9',
+                      data: 'mi-9',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'mi-11',
+                      data: 'mi-11',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 't m-7',
+                      data: 't m-7',
                       selection: { start: 7, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 't m-10',
+                      data: 't m-10',
                       selection: { start: 7, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'position-10',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'position-11',
+                      data: 'position-11',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'position-12',
+                      data: 'position-12',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'position-9',
+                      data: 'position-9',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -23490,115 +23782,115 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 12,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 10,
-                        name: 's-12',
+                        data: 's-12',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 's-13',
+                        data: 's-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'es-11',
+                        data: 'es-11',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'es-13',
+                        data: 'es-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'ies-10',
+                        data: 'ies-10',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'ies-13',
+                        data: 'ies-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'mie-9',
+                        data: 'mie-9',
                         selection: { start: 9, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'mie-12',
+                        data: 'mie-12',
                         selection: { start: 9, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'mi-9',
+                        data: 'mi-9',
                         selection: { start: 9, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'mi-11',
+                        data: 'mi-11',
                         selection: { start: 9, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 7,
-                        name: 't m-7',
+                        data: 't m-7',
                         selection: { start: 7, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 't m-10',
+                        data: 't m-10',
                         selection: { start: 7, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'position-10',
+                        data: 'position-10',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'position-11',
+                        data: 'position-11',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'position-12',
+                        data: 'position-12',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'position-9',
+                        data: 'position-9',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -23628,7 +23920,7 @@ describe('Typewriter', () => {
 
             describe('inserting the same number of chars that are removed', () => {
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -23641,117 +23933,121 @@ describe('Typewriter', () => {
                   text: 'aap noot mies',
                   cursors: [
                     // The cursor that is going to insert 'xap' at the start, while selecting 'aap'
-                    { position: 0, name: '', selection: { start: 0, end: 3 } },
+                    {
+                      position: 0,
+                      data: undefined,
+                      selection: { start: 0, end: 3 },
+                    },
 
                     // Selects 'aap' becomes undefined, pos stays 0
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'aap' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'ap' becomes undefined, pos becomes 0
                     {
                       position: 1,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: { start: 1, end: 3 },
                     },
 
                     // Selects 'ap' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: { start: 1, end: 3 },
                     },
 
                     // Selects 'p' becomes undefined, pos becomes 0
                     {
                       position: 2,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: { start: 2, end: 3 },
                     },
 
                     // Selects 'p' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: { start: 2, end: 3 },
                     },
 
                     // Selects 'aap ' becomes 'xap ', 0 - 4 , pos stays 0
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 4 },
                     },
 
                     // Selects 'aap ' becomes 'xap ', 0 - 4 , pos stays 4
                     {
                       position: 4,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 4 },
                     },
 
                     // Selects ' noot' becomes 'xap noot', 3 - 8 , pos becomes 0
                     {
                       position: 3,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 3, end: 8 },
                     },
                     // Selects ' noot' stays 'xap noot', 3 - 8 , pos stays 8
                     {
                       position: 8,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 3, end: 8 },
                     },
 
                     // Selects 'noot' stays 'noot', 4 - 8 , pos stays 4
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                     },
 
                     // Selects 'noot' stays 'noot', 4 - 8 , pos stays 8
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
 
                     // All selected positions, become 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                     {
                       position: 1,
-                      name: 'position-1',
+                      data: 'position-1',
                     },
                     {
                       position: 2,
-                      name: 'position-2',
+                      data: 'position-2',
                     },
                     {
                       position: 3,
-                      name: 'position-3',
+                      data: 'position-3',
                     },
                     // One after, stays 4
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                     },
                     // Final position, stays 13
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                   ],
                 });
@@ -23770,115 +24066,115 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 0,
-                      name: '',
+                      data: undefined,
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 1,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: { start: 1, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: { start: 1, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: { start: 2, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: { start: 2, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 4 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 4 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 3, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 3, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 1,
-                      name: 'position-1',
+                      data: 'position-1',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'position-2',
+                      data: 'position-2',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'position-3',
+                      data: 'position-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -23909,115 +24205,115 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 3,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 0,
-                        name: 'aap-0',
+                        data: 'aap-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap-3',
+                        data: 'aap-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'ap-1',
+                        data: 'ap-1',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'ap-3',
+                        data: 'ap-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'p-2',
+                        data: 'p-2',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'p-3',
+                        data: 'p-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap -0',
+                        data: 'aap -0',
                         selection: { start: 0, end: 4 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'aap -4',
+                        data: 'aap -4',
                         selection: { start: 0, end: 4 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: ' noot-3',
+                        data: ' noot-3',
                         selection: { start: 0, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: ' noot-8',
+                        data: ' noot-8',
                         selection: { start: 0, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'noot-4',
+                        data: 'noot-4',
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'noot-8',
+                        data: 'noot-8',
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-1',
+                        data: 'position-1',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-2',
+                        data: 'position-2',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-3',
+                        data: 'position-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'position-4',
+                        data: 'position-4',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -24045,7 +24341,7 @@ describe('Typewriter', () => {
               });
 
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -24058,65 +24354,69 @@ describe('Typewriter', () => {
                   text: 'aap noot mies', // 'aap nadt mies'
                   cursors: [
                     // The cursor that is going to add 'ad', selects the oo's
-                    { position: 5, name: '', selection: { start: 5, end: 7 } },
+                    {
+                      position: 5,
+                      data: undefined,
+                      selection: { start: 5, end: 7 },
+                    },
 
                     // Selects 'aap' stays 'aap', 0 - 3
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'noot', becomes 'nadt', 4 - 8
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                     },
 
                     // Selects 'mies' stays 'mies', 9 - 13
                     {
                       position: 13,
-                      name: 'mies-13',
+                      data: 'mies-13',
                       selection: { start: 9, end: 13 },
                     },
                     {
                       position: 9,
-                      name: 'mies-9',
+                      data: 'mies-9',
                       selection: { start: 9, end: 13 },
                     },
 
                     // Selects 'p noot', becomes 'p nadt', 2 - 8
                     {
                       position: 8,
-                      name: 'p noot-8',
+                      data: 'p noot-8',
                       selection: { start: 2, end: 8 },
                     },
                     {
                       position: 2,
-                      name: 'p noot-2',
+                      data: 'p noot-2',
                       selection: { start: 2, end: 8 },
                     },
 
                     // Selects 'ot mi', becomes 'adt mi', 5 - 11
                     {
                       position: 11,
-                      name: 'ot mi-11',
+                      data: 'ot mi-11',
                       selection: { start: 6, end: 11 },
                     },
                     {
                       position: 6,
-                      name: 'ot mi-6',
+                      data: 'ot mi-6',
                       selection: { start: 6, end: 11 },
                     },
 
@@ -24126,12 +24426,12 @@ describe('Typewriter', () => {
                     // Selects 't mi', becomes 'adt mi', 7 - 11
                     {
                       position: 11,
-                      name: 't mi-11',
+                      data: 't mi-11',
                       selection: { start: 7, end: 11 },
                     },
                     {
                       position: 7,
-                      name: 't mi-7',
+                      data: 't mi-7',
                       selection: { start: 7, end: 11 },
                     },
 
@@ -24139,24 +24439,24 @@ describe('Typewriter', () => {
                     // Selects 'p no', becomes 'p n', 2 - 5
                     {
                       position: 6,
-                      name: 'p no-6',
+                      data: 'p no-6',
                       selection: { start: 2, end: 6 },
                     },
                     {
                       position: 2,
-                      name: 'p no-2',
+                      data: 'p no-2',
                       selection: { start: 2, end: 6 },
                     },
 
                     // Selects 'oot m', becomes 'adt m', 5 - 10
                     {
                       position: 10,
-                      name: 'oot m-10',
+                      data: 'oot m-10',
                       selection: { start: 5, end: 10 },
                     },
                     {
                       position: 5,
-                      name: 'oot m-5',
+                      data: 'oot m-5',
                       selection: { start: 5, end: 10 },
                     },
 
@@ -24164,83 +24464,83 @@ describe('Typewriter', () => {
                     // Selects 'p noo', becomes 'p n', 2 - 5
                     {
                       position: 7,
-                      name: 'p noo-7',
+                      data: 'p noo-7',
                       selection: { start: 2, end: 7 },
                     },
                     {
                       position: 2,
-                      name: 'p noo-2',
+                      data: 'p noo-2',
                       selection: { start: 2, end: 7 },
                     },
 
                     // Selects 'aap noot mies', becomes 'aap nadt mies', 0 - 13
                     {
                       position: 13,
-                      name: 'aap noot mies-13',
+                      data: 'aap noot mies-13',
                       selection: { start: 0, end: 13 },
                     },
                     {
                       position: 0,
-                      name: 'aap noot mies-0',
+                      data: 'aap noot mies-0',
                       selection: { start: 0, end: 13 },
                     },
 
                     // Selects 'noot mies', becomes 'nadt mies' 4 - 13
                     {
                       position: 13,
-                      name: 'noot mies-13',
+                      data: 'noot mies-13',
                       selection: { start: 4, end: 13 },
                     },
                     {
                       position: 4,
-                      name: 'noot mies-4',
+                      data: 'noot mies-4',
                       selection: { start: 4, end: 13 },
                     },
 
                     // Selects 'oo', becomes undefines, pos 5
                     {
                       position: 7,
-                      name: 'oo-7',
+                      data: 'oo-7',
                       selection: { start: 5, end: 7 },
                     },
                     {
                       position: 5,
-                      name: 'oo-5',
+                      data: 'oo-5',
                       selection: { start: 5, end: 7 },
                     },
 
                     // All selected positions, become 5
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                     },
                     {
                       position: 6,
-                      name: 'position-6',
+                      data: 'position-6',
                     },
                     {
                       position: 7,
-                      name: 'position-7',
+                      data: 'position-7',
                     },
                     // One before, stays 4
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                     },
                     // One after, stays 8
                     {
                       position: 8,
-                      name: 'position-8',
+                      data: 'position-8',
                     },
                     // First position, stays 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                     // Final position, stays 13
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                   ],
                 });
@@ -24259,193 +24559,193 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 5,
-                      name: '',
+                      data: undefined,
                       selection: { start: 5, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'mies-13',
+                      data: 'mies-13',
                       selection: { start: 9, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mies-9',
+                      data: 'mies-9',
                       selection: { start: 9, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'p noot-8',
+                      data: 'p noot-8',
                       selection: { start: 2, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p noot-2',
+                      data: 'p noot-2',
                       selection: { start: 2, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'ot mi-11',
+                      data: 'ot mi-11',
                       selection: { start: 6, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'ot mi-6',
+                      data: 'ot mi-6',
                       selection: { start: 6, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 't mi-11',
+                      data: 't mi-11',
                       selection: { start: 7, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 't mi-7',
+                      data: 't mi-7',
                       selection: { start: 7, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'p no-6',
+                      data: 'p no-6',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p no-2',
+                      data: 'p no-2',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'oot m-10',
+                      data: 'oot m-10',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oot m-5',
+                      data: 'oot m-5',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'p noo-7',
+                      data: 'p noo-7',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p noo-2',
+                      data: 'p noo-2',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'aap noot mies-13',
+                      data: 'aap noot mies-13',
                       selection: { start: 0, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap noot mies-0',
+                      data: 'aap noot mies-0',
                       selection: { start: 0, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'noot mies-13',
+                      data: 'noot mies-13',
                       selection: { start: 4, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot mies-4',
+                      data: 'noot mies-4',
                       selection: { start: 4, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'oo-7',
+                      data: 'oo-7',
                       selection: { start: 5, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oo-5',
+                      data: 'oo-5',
                       selection: { start: 5, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'position-6',
+                      data: 'position-6',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'position-7',
+                      data: 'position-7',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'position-8',
+                      data: 'position-8',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -24476,193 +24776,193 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 7,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 3,
-                        name: 'aap-3',
+                        data: 'aap-3',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap-0',
+                        data: 'aap-0',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'noot-8',
+                        data: 'noot-8',
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'noot-4',
+                        data: 'noot-4',
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'mies-13',
+                        data: 'mies-13',
                         selection: { start: 9, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'mies-9',
+                        data: 'mies-9',
                         selection: { start: 9, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'p noot-8',
+                        data: 'p noot-8',
                         selection: { start: 2, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p noot-2',
+                        data: 'p noot-2',
                         selection: { start: 2, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'ot mi-11',
+                        data: 'ot mi-11',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'ot mi-6',
+                        data: 'ot mi-6',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 't mi-11',
+                        data: 't mi-11',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 't mi-7',
+                        data: 't mi-7',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'p no-6',
+                        data: 'p no-6',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p no-2',
+                        data: 'p no-2',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'oot m-10',
+                        data: 'oot m-10',
                         selection: { start: 5, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'oot m-5',
+                        data: 'oot m-5',
                         selection: { start: 5, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'p noo-7',
+                        data: 'p noo-7',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p noo-2',
+                        data: 'p noo-2',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'aap noot mies-13',
+                        data: 'aap noot mies-13',
                         selection: { start: 0, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap noot mies-0',
+                        data: 'aap noot mies-0',
                         selection: { start: 0, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'noot mies-13',
+                        data: 'noot mies-13',
                         selection: { start: 4, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'noot mies-4',
+                        data: 'noot mies-4',
                         selection: { start: 4, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'oo-7',
+                        data: 'oo-7',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'oo-5',
+                        data: 'oo-5',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-5',
+                        data: 'position-5',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-6',
+                        data: 'position-6',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-7',
+                        data: 'position-7',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'position-4',
+                        data: 'position-4',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'position-8',
+                        data: 'position-8',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -24690,7 +24990,7 @@ describe('Typewriter', () => {
               });
 
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -24705,92 +25005,92 @@ describe('Typewriter', () => {
                     // The cursor that is going to hit 'xo', on es
                     {
                       position: 11,
-                      name: '',
+                      data: undefined,
                       selection: { start: 11, end: 13 },
                     },
 
                     // Selects 's' becomes undefined, pos 11
                     {
                       position: 12,
-                      name: 's-12',
+                      data: 's-12',
                       selection: { start: 12, end: 13 },
                     },
                     {
                       position: 13,
-                      name: 's-13',
+                      data: 's-13',
                       selection: { start: 12, end: 13 },
                     },
 
                     // Selects 'es', becomes undefined pos 11
                     {
                       position: 11,
-                      name: 'es-11',
+                      data: 'es-11',
                       selection: { start: 11, end: 13 },
                     },
                     {
                       position: 13,
-                      name: 'es-13',
+                      data: 'es-13',
                       selection: { start: 11, end: 13 },
                     },
 
                     // Selects 'ies' becomes 'i', 10 - 11
                     {
                       position: 10,
-                      name: 'ies-10',
+                      data: 'ies-10',
                       selection: { start: 10, end: 13 },
                     },
                     {
                       position: 13,
-                      name: 'ies-13',
+                      data: 'ies-13',
                       selection: { start: 10, end: 13 },
                     },
 
                     // Selects 'mie', becomes 'mi', 9 - 11
                     {
                       position: 9,
-                      name: 'mie-9',
+                      data: 'mie-9',
                       selection: { start: 9, end: 12 },
                     },
                     {
                       position: 12,
-                      name: 'mie-12',
+                      data: 'mie-12',
                       selection: { start: 9, end: 12 },
                     },
 
                     // Selects 'mi', stays 'mi', 9 - 11
                     {
                       position: 9,
-                      name: 'mi-9',
+                      data: 'mi-9',
                       selection: { start: 9, end: 11 },
                     },
                     {
                       position: 11,
-                      name: 'mi-11',
+                      data: 'mi-11',
                       selection: { start: 9, end: 11 },
                     },
 
                     // All selected positions, become 11
                     {
                       position: 11,
-                      name: 'position-11',
+                      data: 'position-11',
                     },
                     {
                       position: 12,
-                      name: 'position-12',
+                      data: 'position-12',
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                     // One before, stays 10
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'position-10',
                     },
                     // First position, stays 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                   ],
                 });
@@ -24809,97 +25109,97 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 11,
-                      name: '',
+                      data: undefined,
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 's-12',
+                      data: 's-12',
                       selection: { start: 12, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 's-13',
+                      data: 's-13',
                       selection: { start: 12, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'es-11',
+                      data: 'es-11',
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'es-13',
+                      data: 'es-13',
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'ies-10',
+                      data: 'ies-10',
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'ies-13',
+                      data: 'ies-13',
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mie-9',
+                      data: 'mie-9',
                       selection: { start: 9, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'mie-12',
+                      data: 'mie-12',
                       selection: { start: 9, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mi-9',
+                      data: 'mi-9',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'mi-11',
+                      data: 'mi-11',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'position-11',
+                      data: 'position-11',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'position-12',
+                      data: 'position-12',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'position-10',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -24930,97 +25230,97 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 13,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 11,
-                        name: 's-12',
+                        data: 's-12',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 's-13',
+                        data: 's-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'es-11',
+                        data: 'es-11',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'es-13',
-                        selection: undefined,
-                        isBlinking: true,
-                      },
-                      {
-                        position: 10,
-                        name: 'ies-10',
-                        selection: { start: 10, end: 11 },
-                        isBlinking: true,
-                      },
-                      {
-                        position: 11,
-                        name: 'ies-13',
-                        selection: { start: 10, end: 11 },
-                        isBlinking: true,
-                      },
-                      {
-                        position: 9,
-                        name: 'mie-9',
-                        selection: { start: 9, end: 11 },
-                        isBlinking: true,
-                      },
-                      {
-                        position: 11,
-                        name: 'mie-12',
-                        selection: { start: 9, end: 11 },
-                        isBlinking: true,
-                      },
-                      {
-                        position: 9,
-                        name: 'mi-9',
-                        selection: { start: 9, end: 11 },
-                        isBlinking: true,
-                      },
-                      {
-                        position: 11,
-                        name: 'mi-11',
-                        selection: { start: 9, end: 11 },
-                        isBlinking: true,
-                      },
-                      {
-                        position: 11,
-                        name: 'position-11',
-                        selection: undefined,
-                        isBlinking: true,
-                      },
-                      {
-                        position: 11,
-                        name: 'position-12',
-                        selection: undefined,
-                        isBlinking: true,
-                      },
-                      {
-                        position: 11,
-                        name: 'position-13',
+                        data: 'es-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'position-10',
+                        data: 'ies-10',
+                        selection: { start: 10, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        data: 'ies-13',
+                        selection: { start: 10, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        data: 'mie-9',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        data: 'mie-12',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        data: 'mi-9',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        data: 'mi-11',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        data: 'position-11',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        data: 'position-12',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        data: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        data: 'position-10',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -25052,7 +25352,7 @@ describe('Typewriter', () => {
           describe('with forward selection', () => {
             describe('inserting more chars than are removed', () => {
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -25065,117 +25365,121 @@ describe('Typewriter', () => {
                   text: 'aap noot mies', // 'ploo noot mies'
                   cursors: [
                     // The cursor that is going to insert 'ploo' at the start, while selecting 'aap'
-                    { position: 3, name: '', selection: { start: 0, end: 3 } },
+                    {
+                      position: 3,
+                      data: undefined,
+                      selection: { start: 0, end: 3 },
+                    },
 
                     // Selects 'aap' becomes undefined, pos stays 0
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'aap' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'ap' becomes undefined, pos becomes 0
                     {
                       position: 1,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: { start: 1, end: 3 },
                     },
 
                     // Selects 'ap' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: { start: 1, end: 3 },
                     },
 
                     // Selects 'p' becomes undefined, pos becomes 0
                     {
                       position: 2,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: { start: 2, end: 3 },
                     },
 
                     // Selects 'p' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: { start: 2, end: 3 },
                     },
 
                     // Selects 'aap ' becomes 'ploo ', 0 - 5 , pos stays 0
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 4 },
                     },
 
                     // Selects 'aap ' becomes 'ploo ', 0 - 5 , pos becomes 5
                     {
                       position: 4,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 4 },
                     },
 
                     // Selects ' noot' becomes 'ploo noot', 0 - 9 , pos becomes 0
                     {
                       position: 3,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 3, end: 8 },
                     },
                     // Selects ' noot' stays ' noot', 0 - 9 , pos becomes 9
                     {
                       position: 8,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 3, end: 8 },
                     },
 
                     // Selects 'noot' stays 'noot', 5 - 9 , pos stays 4
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                     },
 
                     // Selects 'noot' stays 'noot', 5 - 9 , pos becomes 9
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
 
                     // All selected positions, become 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                     {
                       position: 1,
-                      name: 'position-1',
+                      data: 'position-1',
                     },
                     {
                       position: 2,
-                      name: 'position-2',
+                      data: 'position-2',
                     },
                     {
                       position: 3,
-                      name: 'position-3',
+                      data: 'position-3',
                     },
                     // One after, becomes 5
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                     },
                     // Final position, becomes 14
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                   ],
                 });
@@ -25194,115 +25498,115 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 3,
-                      name: '',
+                      data: undefined,
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 1,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: { start: 1, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: { start: 1, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: { start: 2, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: { start: 2, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 4 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 4 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 3, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 3, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 1,
-                      name: 'position-1',
+                      data: 'position-1',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'position-2',
+                      data: 'position-2',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'position-3',
+                      data: 'position-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -25333,115 +25637,115 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 4,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 0,
-                        name: 'aap-0',
+                        data: 'aap-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap-3',
+                        data: 'aap-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'ap-1',
+                        data: 'ap-1',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'ap-3',
+                        data: 'ap-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'p-2',
+                        data: 'p-2',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'p-3',
+                        data: 'p-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap -0',
+                        data: 'aap -0',
                         selection: { start: 0, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'aap -4',
+                        data: 'aap -4',
                         selection: { start: 0, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: ' noot-3',
+                        data: ' noot-3',
                         selection: { start: 0, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: ' noot-8',
+                        data: ' noot-8',
                         selection: { start: 0, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'noot-4',
+                        data: 'noot-4',
                         selection: { start: 5, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'noot-8',
+                        data: 'noot-8',
                         selection: { start: 5, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-1',
+                        data: 'position-1',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-2',
+                        data: 'position-2',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-3',
+                        data: 'position-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-4',
+                        data: 'position-4',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 14,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -25469,7 +25773,7 @@ describe('Typewriter', () => {
               });
 
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -25482,77 +25786,81 @@ describe('Typewriter', () => {
                   text: 'aap noot mies', // 'aap nadat mies'
                   cursors: [
                     // The cursor that is going to add 'ada', selects the oo's
-                    { position: 7, name: '', selection: { start: 5, end: 7 } },
+                    {
+                      position: 7,
+                      data: undefined,
+                      selection: { start: 5, end: 7 },
+                    },
 
                     // Selects 'aap' stays 'aap', 0 - 3
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'noot', becomes 'nadat', 4 - 9
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                     },
 
                     // Selects 'mies' stays 'mies', 10 - 14
                     {
                       position: 13,
-                      name: 'mies-13',
+                      data: 'mies-13',
                       selection: { start: 9, end: 13 },
                     },
                     {
                       position: 9,
-                      name: 'mies-9',
+                      data: 'mies-9',
                       selection: { start: 9, end: 13 },
                     },
 
                     // Selects 'p noot', becomes 'p nadat', 2 - 9
                     {
                       position: 8,
-                      name: 'p noot-8',
+                      data: 'p noot-8',
                       selection: { start: 2, end: 8 },
                     },
                     {
                       position: 2,
-                      name: 'p noot-2',
+                      data: 'p noot-2',
                       selection: { start: 2, end: 8 },
                     },
 
                     // Selects 'ot mi', becomes 'adat mi', 5 - 12
                     {
                       position: 11,
-                      name: 'ot mi-11',
+                      data: 'ot mi-11',
                       selection: { start: 6, end: 11 },
                     },
                     {
                       position: 6,
-                      name: 'ot mi-6',
+                      data: 'ot mi-6',
                       selection: { start: 6, end: 11 },
                     },
 
                     // Selects 't mi', becomes 'adat mi', 5 - 12
                     {
                       position: 11,
-                      name: 't mi-11',
+                      data: 't mi-11',
                       selection: { start: 7, end: 11 },
                     },
                     {
                       position: 7,
-                      name: 't mi-7',
+                      data: 't mi-7',
                       selection: { start: 7, end: 11 },
                     },
 
@@ -25560,24 +25868,24 @@ describe('Typewriter', () => {
                     // Selects 'p no', becomes 'p n', 2 - 5
                     {
                       position: 6,
-                      name: 'p no-6',
+                      data: 'p no-6',
                       selection: { start: 2, end: 6 },
                     },
                     {
                       position: 2,
-                      name: 'p no-2',
+                      data: 'p no-2',
                       selection: { start: 2, end: 6 },
                     },
 
                     // Selects 'oot m', becomes 'adat m', 5 - 11
                     {
                       position: 10,
-                      name: 'oot m-10',
+                      data: 'oot m-10',
                       selection: { start: 5, end: 10 },
                     },
                     {
                       position: 5,
-                      name: 'oot m-5',
+                      data: 'oot m-5',
                       selection: { start: 5, end: 10 },
                     },
 
@@ -25585,83 +25893,83 @@ describe('Typewriter', () => {
                     // Selects 'p noo', becomes 'p n', 2 - 5
                     {
                       position: 7,
-                      name: 'p noo-7',
+                      data: 'p noo-7',
                       selection: { start: 2, end: 7 },
                     },
                     {
                       position: 2,
-                      name: 'p noo-2',
+                      data: 'p noo-2',
                       selection: { start: 2, end: 7 },
                     },
 
                     // Selects 'aap noot mies', becomes 'aap nadat mies', 0 - 14
                     {
                       position: 13,
-                      name: 'aap noot mies-13',
+                      data: 'aap noot mies-13',
                       selection: { start: 0, end: 13 },
                     },
                     {
                       position: 0,
-                      name: 'aap noot mies-0',
+                      data: 'aap noot mies-0',
                       selection: { start: 0, end: 13 },
                     },
 
                     // Selects 'noot mies', becomes 'nadat mies' 4 - 14
                     {
                       position: 13,
-                      name: 'noot mies-13',
+                      data: 'noot mies-13',
                       selection: { start: 4, end: 13 },
                     },
                     {
                       position: 4,
-                      name: 'noot mies-4',
+                      data: 'noot mies-4',
                       selection: { start: 4, end: 13 },
                     },
 
                     // Selects 'oo', becomes undefined
                     {
                       position: 7,
-                      name: 'oo-7',
+                      data: 'oo-7',
                       selection: { start: 5, end: 7 },
                     },
                     {
                       position: 5,
-                      name: 'oo-5',
+                      data: 'oo-5',
                       selection: { start: 5, end: 7 },
                     },
 
                     // All selected positions, become 5
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                     },
                     {
                       position: 6,
-                      name: 'position-6',
+                      data: 'position-6',
                     },
                     {
                       position: 7,
-                      name: 'position-7',
+                      data: 'position-7',
                     },
                     // One before, stays 4
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                     },
                     // One after, becomes 9
                     {
                       position: 8,
-                      name: 'position-8',
+                      data: 'position-8',
                     },
                     // First position, stays 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                     // Final position, becomes 14
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                   ],
                 });
@@ -25680,193 +25988,193 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 7,
-                      name: '',
+                      data: undefined,
                       selection: { start: 5, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'mies-13',
+                      data: 'mies-13',
                       selection: { start: 9, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mies-9',
+                      data: 'mies-9',
                       selection: { start: 9, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'p noot-8',
+                      data: 'p noot-8',
                       selection: { start: 2, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p noot-2',
+                      data: 'p noot-2',
                       selection: { start: 2, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'ot mi-11',
+                      data: 'ot mi-11',
                       selection: { start: 6, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'ot mi-6',
+                      data: 'ot mi-6',
                       selection: { start: 6, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 't mi-11',
+                      data: 't mi-11',
                       selection: { start: 7, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 't mi-7',
+                      data: 't mi-7',
                       selection: { start: 7, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'p no-6',
+                      data: 'p no-6',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p no-2',
+                      data: 'p no-2',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'oot m-10',
+                      data: 'oot m-10',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oot m-5',
+                      data: 'oot m-5',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'p noo-7',
+                      data: 'p noo-7',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p noo-2',
+                      data: 'p noo-2',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'aap noot mies-13',
+                      data: 'aap noot mies-13',
                       selection: { start: 0, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap noot mies-0',
+                      data: 'aap noot mies-0',
                       selection: { start: 0, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'noot mies-13',
+                      data: 'noot mies-13',
                       selection: { start: 4, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot mies-4',
+                      data: 'noot mies-4',
                       selection: { start: 4, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'oo-7',
+                      data: 'oo-7',
                       selection: { start: 5, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oo-5',
+                      data: 'oo-5',
                       selection: { start: 5, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'position-6',
+                      data: 'position-6',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'position-7',
+                      data: 'position-7',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'position-8',
+                      data: 'position-8',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -25897,193 +26205,193 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 8,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 3,
-                        name: 'aap-3',
+                        data: 'aap-3',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap-0',
+                        data: 'aap-0',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'noot-8',
+                        data: 'noot-8',
                         selection: { start: 4, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'noot-4',
+                        data: 'noot-4',
                         selection: { start: 4, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 14,
-                        name: 'mies-13',
+                        data: 'mies-13',
                         selection: { start: 10, end: 14 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'mies-9',
+                        data: 'mies-9',
                         selection: { start: 10, end: 14 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'p noot-8',
+                        data: 'p noot-8',
                         selection: { start: 2, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p noot-2',
+                        data: 'p noot-2',
                         selection: { start: 2, end: 9 },
                         isBlinking: true,
                       },
                       {
                         position: 12,
-                        name: 'ot mi-11',
+                        data: 'ot mi-11',
                         selection: { start: 5, end: 12 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'ot mi-6',
+                        data: 'ot mi-6',
                         selection: { start: 5, end: 12 },
                         isBlinking: true,
                       },
                       {
                         position: 12,
-                        name: 't mi-11',
+                        data: 't mi-11',
                         selection: { start: 5, end: 12 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 't mi-7',
+                        data: 't mi-7',
                         selection: { start: 5, end: 12 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'p no-6',
+                        data: 'p no-6',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p no-2',
+                        data: 'p no-2',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'oot m-10',
+                        data: 'oot m-10',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'oot m-5',
+                        data: 'oot m-5',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'p noo-7',
+                        data: 'p noo-7',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p noo-2',
+                        data: 'p noo-2',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 14,
-                        name: 'aap noot mies-13',
+                        data: 'aap noot mies-13',
                         selection: { start: 0, end: 14 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap noot mies-0',
+                        data: 'aap noot mies-0',
                         selection: { start: 0, end: 14 },
                         isBlinking: true,
                       },
                       {
                         position: 14,
-                        name: 'noot mies-13',
+                        data: 'noot mies-13',
                         selection: { start: 4, end: 14 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'noot mies-4',
+                        data: 'noot mies-4',
                         selection: { start: 4, end: 14 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'oo-7',
+                        data: 'oo-7',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'oo-5',
+                        data: 'oo-5',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-5',
+                        data: 'position-5',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-6',
+                        data: 'position-6',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-7',
+                        data: 'position-7',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'position-4',
+                        data: 'position-4',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'position-8',
+                        data: 'position-8',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 14,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -26111,7 +26419,7 @@ describe('Typewriter', () => {
               });
 
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -26126,96 +26434,96 @@ describe('Typewriter', () => {
                     // The cursor that is going to hit 'xoxo', on es
                     {
                       position: 13,
-                      name: '',
+                      data: undefined,
                       selection: { start: 11, end: 13 },
                     },
 
                     // Selects 's' becomes undefined, pos 11
                     {
                       position: 12,
-                      name: 's-12',
+                      data: 's-12',
                       selection: { start: 12, end: 13 },
                     },
                     // Selects 's' becomes undefined, pos 11
                     {
                       position: 13,
-                      name: 's-13',
+                      data: 's-13',
                       selection: { start: 12, end: 13 },
                     },
 
                     // Selects 'es', becomes undefined pos 11
                     {
                       position: 11,
-                      name: 'es-11',
+                      data: 'es-11',
                       selection: { start: 11, end: 13 },
                     },
                     // Selects 'es', becomes undefined pos 11
                     {
                       position: 13,
-                      name: 'es-13',
+                      data: 'es-13',
                       selection: { start: 11, end: 13 },
                     },
 
                     // Selects 'ies' becomes 'i', 10 - 11 pos 10
                     {
                       position: 10,
-                      name: 'ies-10',
+                      data: 'ies-10',
                       selection: { start: 10, end: 13 },
                     },
                     // Selects 'ies' becomes 'i', 10 - 11 pos 11
                     {
                       position: 13,
-                      name: 'ies-13',
+                      data: 'ies-13',
                       selection: { start: 10, end: 13 },
                     },
 
                     // Selects 'mie', becomes 'mi', 9 - 11 pos 9
                     {
                       position: 9,
-                      name: 'mie-9',
+                      data: 'mie-9',
                       selection: { start: 9, end: 12 },
                     },
                     // Selects 'mie', becomes 'mi', 9 - 11 pos 11
                     {
                       position: 12,
-                      name: 'mie-12',
+                      data: 'mie-12',
                       selection: { start: 9, end: 12 },
                     },
 
                     // Selects 'mi', stays 'mi', 9 - 11 pos 9
                     {
                       position: 9,
-                      name: 'mi-9',
+                      data: 'mi-9',
                       selection: { start: 9, end: 11 },
                     },
                     // Selects 'mi', stays 'mi', 9 - 11 pos 11
                     {
                       position: 11,
-                      name: 'mi-11',
+                      data: 'mi-11',
                       selection: { start: 9, end: 11 },
                     },
                     // All selected positions, become 11
                     {
                       position: 11,
-                      name: 'position-11',
+                      data: 'position-11',
                     },
                     {
                       position: 12,
-                      name: 'position-12',
+                      data: 'position-12',
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                     // One before, stays 10
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'position-10',
                     },
                     // First position, stays 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                   ],
                 });
@@ -26234,99 +26542,99 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 13,
-                      name: '',
+                      data: undefined,
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 's-12',
+                      data: 's-12',
                       selection: { start: 12, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 's-13',
+                      data: 's-13',
                       selection: { start: 12, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'es-11',
+                      data: 'es-11',
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'es-13',
+                      data: 'es-13',
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'ies-10',
+                      data: 'ies-10',
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'ies-13',
+                      data: 'ies-13',
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mie-9',
+                      data: 'mie-9',
                       selection: { start: 9, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'mie-12',
+                      data: 'mie-12',
                       selection: { start: 9, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mi-9',
+                      data: 'mi-9',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'mi-11',
+                      data: 'mi-11',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'position-11',
+                      data: 'position-11',
                       selection: undefined,
-                      isBlinking: true
+                      isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'position-12',
+                      data: 'position-12',
                       selection: undefined,
-                      isBlinking: true
+                      isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
-                      isBlinking: true
+                      isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'position-10',
                       selection: undefined,
-                      isBlinking: true
+                      isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
-                      isBlinking: true
+                      isBlinking: true,
                     },
                   ],
                   text: 'aap noot mies',
@@ -26355,99 +26663,99 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 15,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 11,
-                        name: 's-12',
+                        data: 's-12',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 's-13',
+                        data: 's-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'es-11',
+                        data: 'es-11',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'es-13',
+                        data: 'es-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'ies-10',
+                        data: 'ies-10',
                         selection: { start: 10, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'ies-13',
+                        data: 'ies-13',
                         selection: { start: 10, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'mie-9',
+                        data: 'mie-9',
                         selection: { start: 9, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'mie-12',
+                        data: 'mie-12',
                         selection: { start: 9, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'mi-9',
+                        data: 'mi-9',
                         selection: { start: 9, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'mi-11',
+                        data: 'mi-11',
                         selection: { start: 9, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'position-11',
+                        data: 'position-11',
                         selection: undefined,
-                        isBlinking: true
+                        isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'position-12',
+                        data: 'position-12',
                         selection: undefined,
-                        isBlinking: true
+                        isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
-                        isBlinking: true
+                        isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'position-10',
+                        data: 'position-10',
                         selection: undefined,
-                        isBlinking: true
+                        isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
-                        isBlinking: true
+                        isBlinking: true,
                       },
                     ],
                     text: 'aap noot mixoxo',
@@ -26475,7 +26783,7 @@ describe('Typewriter', () => {
 
             describe('inserting less chars than are removed', () => {
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -26488,116 +26796,120 @@ describe('Typewriter', () => {
                   text: 'aap noot mies', // 'xa noot mies
                   cursors: [
                     // The cursor that is going to insert 'xa' at the start, while selecting 'aap'
-                    { position: 3, name: '', selection: { start: 0, end: 3 } },
+                    {
+                      position: 3,
+                      data: undefined,
+                      selection: { start: 0, end: 3 },
+                    },
 
                     // Selects 'aap' becomes undefined, pos stays 0
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'aap' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'ap' becomes undefined, pos becomes 0
                     {
                       position: 1,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: { start: 1, end: 3 },
                     },
 
                     // Selects 'ap' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: { start: 1, end: 3 },
                     },
 
                     // Selects 'p' becomes undefined, pos becomes 0
                     {
                       position: 2,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: { start: 2, end: 3 },
                     },
 
                     // Selects 'p' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: { start: 2, end: 3 },
                     },
 
                     // Selects 'aap ' becomes 'xa ', 0 - 3 , pos stays 0
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 4 },
                     },
 
                     // Selects 'aap ' becomes 'xap ', 0 - 3 , pos becomes 3
                     {
                       position: 4,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 4 },
                     },
 
                     // Selects ' noot' becomes 'xa noot', 0 - 7 , pos becomes 0
                     {
                       position: 3,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 3, end: 8 },
                     },
                     // Selects ' noot' becomes 'xa noot', 0 - 7 , pos becomes 7
                     {
                       position: 8,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 3, end: 8 },
                     },
 
                     // Selects 'noot' stays 'noot', 3 - 7 , pos becomes 3
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                     },
 
                     // Selects 'noot' stays 'noot', 3 - 7 , pos becomes 7
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
                     // All selected positions, become 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                     {
                       position: 1,
-                      name: 'position-1',
+                      data: 'position-1',
                     },
                     {
                       position: 2,
-                      name: 'position-2',
+                      data: 'position-2',
                     },
                     {
                       position: 3,
-                      name: 'position-3',
+                      data: 'position-3',
                     },
                     // One after, becomes 3
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                     },
                     // Final position, becomes 12
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                   ],
                 });
@@ -26616,115 +26928,115 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 3,
-                      name: '',
+                      data: undefined,
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 1,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: { start: 1, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: { start: 1, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: { start: 2, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: { start: 2, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 4 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 4 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 3, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 3, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 1,
-                      name: 'position-1',
+                      data: 'position-1',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'position-2',
+                      data: 'position-2',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'position-3',
+                      data: 'position-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -26755,115 +27067,115 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 2,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 0,
-                        name: 'aap-0',
+                        data: 'aap-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap-3',
+                        data: 'aap-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'ap-1',
+                        data: 'ap-1',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'ap-3',
+                        data: 'ap-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'p-2',
+                        data: 'p-2',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'p-3',
+                        data: 'p-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap -0',
+                        data: 'aap -0',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 3,
-                        name: 'aap -4',
+                        data: 'aap -4',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: ' noot-3',
+                        data: ' noot-3',
                         selection: { start: 0, end: 7 },
                         isBlinking: true,
                       },
                       {
                         position: 7,
-                        name: ' noot-8',
+                        data: ' noot-8',
                         selection: { start: 0, end: 7 },
                         isBlinking: true,
                       },
                       {
                         position: 3,
-                        name: 'noot-4',
+                        data: 'noot-4',
                         selection: { start: 3, end: 7 },
                         isBlinking: true,
                       },
                       {
                         position: 7,
-                        name: 'noot-8',
+                        data: 'noot-8',
                         selection: { start: 3, end: 7 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-1',
+                        data: 'position-1',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-2',
+                        data: 'position-2',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-3',
+                        data: 'position-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 3,
-                        name: 'position-4',
+                        data: 'position-4',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 12,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -26891,7 +27203,7 @@ describe('Typewriter', () => {
               });
 
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -26904,78 +27216,82 @@ describe('Typewriter', () => {
                   text: 'aap nadat mies', // 'aap noot mies'
                   cursors: [
                     // The cursor that is going to add 'oo', selects 'ada'
-                    { position: 8, name: '', selection: { start: 5, end: 8 } },
+                    {
+                      position: 8,
+                      data: undefined,
+                      selection: { start: 5, end: 8 },
+                    },
 
                     // Selects 'aap' stays 'aap', 0 - 3
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                     },
                     // Selects 'aap' stays 'aap', 0 - 3
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'nadat', becomes 'noot', 4 - 8
                     {
                       position: 9,
-                      name: 'nadat-9',
+                      data: 'nadat-9',
                       selection: { start: 4, end: 9 },
                     },
                     {
                       position: 4,
-                      name: 'nadat-4',
+                      data: 'nadat-4',
                       selection: { start: 4, end: 9 },
                     },
 
                     // Selects 'mies' stays 'mies', 9 - 13
                     {
                       position: 14,
-                      name: 'mies-14',
+                      data: 'mies-14',
                       selection: { start: 10, end: 14 },
                     },
                     {
                       position: 10,
-                      name: 'mies-10',
+                      data: 'mies-10',
                       selection: { start: 10, end: 14 },
                     },
 
                     // Selects 'p nadat', becomes 'p noot', 2 - 8
                     {
                       position: 9,
-                      name: 'p nadat-9',
+                      data: 'p nadat-9',
                       selection: { start: 2, end: 9 },
                     },
                     {
                       position: 2,
-                      name: 'p nadat-2',
+                      data: 'p nadat-2',
                       selection: { start: 2, end: 9 },
                     },
 
                     // Selects 'at mi', becomes 'oot mi', 5 - 11
                     {
                       position: 12,
-                      name: 'at mi-12',
+                      data: 'at mi-12',
                       selection: { start: 7, end: 12 },
                     },
                     {
                       position: 7,
-                      name: 'at mi-7',
+                      data: 'at mi-7',
                       selection: { start: 7, end: 12 },
                     },
 
                     // Selects 't mi', becomes 'oot mi', 5 - 11
                     {
                       position: 12,
-                      name: 't mi-12',
+                      data: 't mi-12',
                       selection: { start: 8, end: 12 },
                     },
                     {
                       position: 8,
-                      name: 't mi-8',
+                      data: 't mi-8',
                       selection: { start: 8, end: 12 },
                     },
 
@@ -26983,24 +27299,24 @@ describe('Typewriter', () => {
                     // Selects 'p na', becomes 'p n', 2 - 5
                     {
                       position: 6,
-                      name: 'p na-6',
+                      data: 'p na-6',
                       selection: { start: 2, end: 6 },
                     },
                     {
                       position: 2,
-                      name: 'p na-2',
+                      data: 'p na-2',
                       selection: { start: 2, end: 6 },
                     },
 
                     // Selects 'dat m', becomes 'oot m', 5 - 10
                     {
                       position: 11,
-                      name: 'dat m-11',
+                      data: 'dat m-11',
                       selection: { start: 6, end: 11 },
                     },
                     {
                       position: 6,
-                      name: 'dat m-6',
+                      data: 'dat m-6',
                       selection: { start: 6, end: 11 },
                     },
 
@@ -27008,87 +27324,87 @@ describe('Typewriter', () => {
                     // Selects 'p nad', becomes 'p n', 2 - 5
                     {
                       position: 7,
-                      name: 'p nad-7',
+                      data: 'p nad-7',
                       selection: { start: 2, end: 7 },
                     },
                     {
                       position: 2,
-                      name: 'p nad-2',
+                      data: 'p nad-2',
                       selection: { start: 2, end: 7 },
                     },
 
                     // Selects 'aap nadat mies', becomes 'aap noot mies', 0 - 13
                     {
                       position: 14,
-                      name: 'aap nadat mies-14',
+                      data: 'aap nadat mies-14',
                       selection: { start: 0, end: 14 },
                     },
                     {
                       position: 0,
-                      name: 'aap nadat mies-0',
+                      data: 'aap nadat mies-0',
                       selection: { start: 0, end: 14 },
                     },
 
                     // Selects 'nadat mies', becomes 'noot mies' 4 - 13
                     {
                       position: 14,
-                      name: 'nadat mies-14',
+                      data: 'nadat mies-14',
                       selection: { start: 4, end: 14 },
                     },
                     {
                       position: 4,
-                      name: 'nadat mies-4',
+                      data: 'nadat mies-4',
                       selection: { start: 4, end: 14 },
                     },
 
                     // Selects 'ada', becomes undefined, pos 5
                     {
                       position: 8,
-                      name: 'ada-8',
+                      data: 'ada-8',
                       selection: { start: 5, end: 8 },
                     },
                     {
                       position: 5,
-                      name: 'ada-5',
+                      data: 'ada-5',
                       selection: { start: 5, end: 8 },
                     },
 
                     // All selected positions, become 5
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                     },
                     {
                       position: 6,
-                      name: 'position-6',
+                      data: 'position-6',
                     },
                     {
                       position: 7,
-                      name: 'position-7',
+                      data: 'position-7',
                     },
                     {
                       position: 8,
-                      name: 'position-8',
+                      data: 'position-8',
                     },
                     // One before, stays 4
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                     },
                     // One after, becomes 8
                     {
                       position: 9,
-                      name: 'position-9',
+                      data: 'position-9',
                     },
                     // First position, stays 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                     // Final position, becomes 13
                     {
                       position: 14,
-                      name: 'position-14',
+                      data: 'position-14',
                     },
                   ],
                 });
@@ -27107,199 +27423,199 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 8,
-                      name: '',
+                      data: undefined,
                       selection: { start: 5, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'nadat-9',
+                      data: 'nadat-9',
                       selection: { start: 4, end: 9 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'nadat-4',
+                      data: 'nadat-4',
                       selection: { start: 4, end: 9 },
                       isBlinking: true,
                     },
                     {
                       position: 14,
-                      name: 'mies-14',
+                      data: 'mies-14',
                       selection: { start: 10, end: 14 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'mies-10',
+                      data: 'mies-10',
                       selection: { start: 10, end: 14 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'p nadat-9',
+                      data: 'p nadat-9',
                       selection: { start: 2, end: 9 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p nadat-2',
+                      data: 'p nadat-2',
                       selection: { start: 2, end: 9 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'at mi-12',
+                      data: 'at mi-12',
                       selection: { start: 7, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'at mi-7',
+                      data: 'at mi-7',
                       selection: { start: 7, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 't mi-12',
+                      data: 't mi-12',
                       selection: { start: 8, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 't mi-8',
+                      data: 't mi-8',
                       selection: { start: 8, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'p na-6',
+                      data: 'p na-6',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p na-2',
+                      data: 'p na-2',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'dat m-11',
+                      data: 'dat m-11',
                       selection: { start: 6, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'dat m-6',
+                      data: 'dat m-6',
                       selection: { start: 6, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'p nad-7',
+                      data: 'p nad-7',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p nad-2',
+                      data: 'p nad-2',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 14,
-                      name: 'aap nadat mies-14',
+                      data: 'aap nadat mies-14',
                       selection: { start: 0, end: 14 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap nadat mies-0',
+                      data: 'aap nadat mies-0',
                       selection: { start: 0, end: 14 },
                       isBlinking: true,
                     },
                     {
                       position: 14,
-                      name: 'nadat mies-14',
+                      data: 'nadat mies-14',
                       selection: { start: 4, end: 14 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'nadat mies-4',
+                      data: 'nadat mies-4',
                       selection: { start: 4, end: 14 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'ada-8',
+                      data: 'ada-8',
                       selection: { start: 5, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'ada-5',
+                      data: 'ada-5',
                       selection: { start: 5, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'position-6',
+                      data: 'position-6',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'position-7',
+                      data: 'position-7',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'position-8',
+                      data: 'position-8',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'position-9',
+                      data: 'position-9',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 14,
-                      name: 'position-14',
+                      data: 'position-14',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -27330,199 +27646,199 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 7,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 3,
-                        name: 'aap-3',
+                        data: 'aap-3',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap-0',
+                        data: 'aap-0',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'nadat-9',
+                        data: 'nadat-9',
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'nadat-4',
+                        data: 'nadat-4',
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'mies-14',
+                        data: 'mies-14',
                         selection: { start: 9, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'mies-10',
+                        data: 'mies-10',
                         selection: { start: 9, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'p nadat-9',
+                        data: 'p nadat-9',
                         selection: { start: 2, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p nadat-2',
+                        data: 'p nadat-2',
                         selection: { start: 2, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'at mi-12',
+                        data: 'at mi-12',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'at mi-7',
+                        data: 'at mi-7',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 't mi-12',
+                        data: 't mi-12',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 't mi-8',
+                        data: 't mi-8',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'p na-6',
+                        data: 'p na-6',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p na-2',
+                        data: 'p na-2',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'dat m-11',
+                        data: 'dat m-11',
                         selection: { start: 5, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'dat m-6',
+                        data: 'dat m-6',
                         selection: { start: 5, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'p nad-7',
+                        data: 'p nad-7',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p nad-2',
+                        data: 'p nad-2',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'aap nadat mies-14',
+                        data: 'aap nadat mies-14',
                         selection: { start: 0, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap nadat mies-0',
+                        data: 'aap nadat mies-0',
                         selection: { start: 0, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'nadat mies-14',
+                        data: 'nadat mies-14',
                         selection: { start: 4, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'nadat mies-4',
+                        data: 'nadat mies-4',
                         selection: { start: 4, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'ada-8',
+                        data: 'ada-8',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'ada-5',
+                        data: 'ada-5',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-5',
+                        data: 'position-5',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-6',
+                        data: 'position-6',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-7',
+                        data: 'position-7',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-8',
+                        data: 'position-8',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'position-4',
+                        data: 'position-4',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'position-9',
+                        data: 'position-9',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'position-14',
+                        data: 'position-14',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -27550,7 +27866,7 @@ describe('Typewriter', () => {
               });
 
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -27565,108 +27881,108 @@ describe('Typewriter', () => {
                     // The cursor that is going to hit 'xo', on ies
                     {
                       position: 13,
-                      name: '',
+                      data: undefined,
                       selection: { start: 10, end: 13 },
                     },
 
                     // Selects 's' becomes undefined, pos 10
                     {
                       position: 12,
-                      name: 's-12',
+                      data: 's-12',
                       selection: { start: 12, end: 13 },
                     },
                     {
                       position: 13,
-                      name: 's-13',
+                      data: 's-13',
                       selection: { start: 12, end: 13 },
                     },
 
                     // Selects 'es', becomes undefined pos 10
                     {
                       position: 11,
-                      name: 'es-11',
+                      data: 'es-11',
                       selection: { start: 11, end: 13 },
                     },
                     {
                       position: 13,
-                      name: 'es-13',
+                      data: 'es-13',
                       selection: { start: 11, end: 13 },
                     },
 
                     // Selects 'ies' becomes undefined', pos 10
                     {
                       position: 10,
-                      name: 'ies-10',
+                      data: 'ies-10',
                       selection: { start: 10, end: 13 },
                     },
                     {
                       position: 13,
-                      name: 'ies-13',
+                      data: 'ies-13',
                       selection: { start: 10, end: 13 },
                     },
 
                     // Selects 'mie', becomes 'm', 9 - 10
                     {
                       position: 9,
-                      name: 'mie-9',
+                      data: 'mie-9',
                       selection: { start: 9, end: 12 },
                     },
                     {
                       position: 12,
-                      name: 'mie-12',
+                      data: 'mie-12',
                       selection: { start: 9, end: 12 },
                     },
 
                     // Selects 'mi', becomes 'm', 9 - 10
                     {
                       position: 9,
-                      name: 'mi-9',
+                      data: 'mi-9',
                       selection: { start: 9, end: 11 },
                     },
                     {
                       position: 11,
-                      name: 'mi-11',
+                      data: 'mi-11',
                       selection: { start: 9, end: 11 },
                     },
 
                     // Selects 't m', stays 't m', 7 - 10
                     {
                       position: 7,
-                      name: 't m-7',
+                      data: 't m-7',
                       selection: { start: 7, end: 10 },
                     },
                     {
                       position: 10,
-                      name: 't m-10',
+                      data: 't m-10',
                       selection: { start: 7, end: 10 },
                     },
 
                     // All selected positions, become 10
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'position-10',
                     },
                     {
                       position: 11,
-                      name: 'position-11',
+                      data: 'position-11',
                     },
                     {
                       position: 12,
-                      name: 'position-12',
+                      data: 'position-12',
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                     // One before, stays 9
                     {
                       position: 9,
-                      name: 'position-9',
+                      data: 'position-9',
                     },
                     // First position, stays 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                   ],
                 });
@@ -27685,115 +28001,115 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 13,
-                      name: '',
+                      data: undefined,
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 's-12',
+                      data: 's-12',
                       selection: { start: 12, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 's-13',
+                      data: 's-13',
                       selection: { start: 12, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'es-11',
+                      data: 'es-11',
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'es-13',
+                      data: 'es-13',
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'ies-10',
+                      data: 'ies-10',
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'ies-13',
+                      data: 'ies-13',
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mie-9',
+                      data: 'mie-9',
                       selection: { start: 9, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'mie-12',
+                      data: 'mie-12',
                       selection: { start: 9, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mi-9',
+                      data: 'mi-9',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'mi-11',
+                      data: 'mi-11',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 't m-7',
+                      data: 't m-7',
                       selection: { start: 7, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 't m-10',
+                      data: 't m-10',
                       selection: { start: 7, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'position-10',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'position-11',
+                      data: 'position-11',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'position-12',
+                      data: 'position-12',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'position-9',
+                      data: 'position-9',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -27824,115 +28140,115 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 12,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 10,
-                        name: 's-12',
+                        data: 's-12',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 's-13',
+                        data: 's-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'es-11',
+                        data: 'es-11',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'es-13',
+                        data: 'es-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'ies-10',
+                        data: 'ies-10',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'ies-13',
+                        data: 'ies-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'mie-9',
+                        data: 'mie-9',
                         selection: { start: 9, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'mie-12',
+                        data: 'mie-12',
                         selection: { start: 9, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'mi-9',
+                        data: 'mi-9',
                         selection: { start: 9, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'mi-11',
+                        data: 'mi-11',
                         selection: { start: 9, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 7,
-                        name: 't m-7',
+                        data: 't m-7',
                         selection: { start: 7, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 't m-10',
+                        data: 't m-10',
                         selection: { start: 7, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'position-10',
+                        data: 'position-10',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'position-11',
+                        data: 'position-11',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'position-12',
+                        data: 'position-12',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'position-9',
+                        data: 'position-9',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -27962,7 +28278,7 @@ describe('Typewriter', () => {
 
             describe('inserting the same number of chars that are removed', () => {
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the start', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -27975,117 +28291,121 @@ describe('Typewriter', () => {
                   text: 'aap noot mies',
                   cursors: [
                     // The cursor that is going to insert 'xap' at the start, while selecting 'aap'
-                    { position: 3, name: '', selection: { start: 0, end: 3 } },
+                    {
+                      position: 3,
+                      data: undefined,
+                      selection: { start: 0, end: 3 },
+                    },
 
                     // Selects 'aap' becomes undefined, pos stays 0
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'aap' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'ap' becomes undefined, pos becomes 0
                     {
                       position: 1,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: { start: 1, end: 3 },
                     },
 
                     // Selects 'ap' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: { start: 1, end: 3 },
                     },
 
                     // Selects 'p' becomes undefined, pos becomes 0
                     {
                       position: 2,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: { start: 2, end: 3 },
                     },
 
                     // Selects 'p' becomes undefined, pos becomes 0
                     {
                       position: 3,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: { start: 2, end: 3 },
                     },
 
                     // Selects 'aap ' becomes 'xap ', 0 - 4 , pos stays 0
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 4 },
                     },
 
                     // Selects 'aap ' becomes 'xap ', 0 - 4 , pos stays 4
                     {
                       position: 4,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 4 },
                     },
 
                     // Selects ' noot' becomes 'xap noot', 3 - 8 , pos becomes 0
                     {
                       position: 3,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 3, end: 8 },
                     },
                     // Selects ' noot' stays 'xap noot', 3 - 8 , pos stays 8
                     {
                       position: 8,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 3, end: 8 },
                     },
 
                     // Selects 'noot' stays 'noot', 4 - 8 , pos stays 4
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                     },
 
                     // Selects 'noot' stays 'noot', 4 - 8 , pos stays 8
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
 
                     // All selected positions, become 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                     {
                       position: 1,
-                      name: 'position-1',
+                      data: 'position-1',
                     },
                     {
                       position: 2,
-                      name: 'position-2',
+                      data: 'position-2',
                     },
                     {
                       position: 3,
-                      name: 'position-3',
+                      data: 'position-3',
                     },
                     // One after, stays 4
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                     },
                     // Final position, stays 13
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                   ],
                 });
@@ -28104,115 +28424,115 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 3,
-                      name: '',
+                      data: undefined,
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 1,
-                      name: 'ap-1',
+                      data: 'ap-1',
                       selection: { start: 1, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'ap-3',
+                      data: 'ap-3',
                       selection: { start: 1, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p-2',
+                      data: 'p-2',
                       selection: { start: 2, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'p-3',
+                      data: 'p-3',
                       selection: { start: 2, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap -0',
+                      data: 'aap -0',
                       selection: { start: 0, end: 4 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'aap -4',
+                      data: 'aap -4',
                       selection: { start: 0, end: 4 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: ' noot-3',
+                      data: ' noot-3',
                       selection: { start: 3, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: ' noot-8',
+                      data: ' noot-8',
                       selection: { start: 3, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 1,
-                      name: 'position-1',
+                      data: 'position-1',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'position-2',
+                      data: 'position-2',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'position-3',
+                      data: 'position-3',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -28243,115 +28563,115 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 3,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 0,
-                        name: 'aap-0',
+                        data: 'aap-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap-3',
+                        data: 'aap-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'ap-1',
+                        data: 'ap-1',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'ap-3',
+                        data: 'ap-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'p-2',
+                        data: 'p-2',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'p-3',
+                        data: 'p-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap -0',
+                        data: 'aap -0',
                         selection: { start: 0, end: 4 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'aap -4',
+                        data: 'aap -4',
                         selection: { start: 0, end: 4 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: ' noot-3',
+                        data: ' noot-3',
                         selection: { start: 0, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: ' noot-8',
+                        data: ' noot-8',
                         selection: { start: 0, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'noot-4',
+                        data: 'noot-4',
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'noot-8',
+                        data: 'noot-8',
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-1',
+                        data: 'position-1',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-2',
+                        data: 'position-2',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-3',
+                        data: 'position-3',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'position-4',
+                        data: 'position-4',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -28379,7 +28699,7 @@ describe('Typewriter', () => {
               });
 
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the middle', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -28392,65 +28712,69 @@ describe('Typewriter', () => {
                   text: 'aap noot mies', // 'aap nadt mies'
                   cursors: [
                     // The cursor that is going to add 'ad', selects the oo's
-                    { position: 7, name: '', selection: { start: 5, end: 7 } },
+                    {
+                      position: 7,
+                      data: undefined,
+                      selection: { start: 5, end: 7 },
+                    },
 
                     // Selects 'aap' stays 'aap', 0 - 3
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                     },
 
                     // Selects 'noot', becomes 'nadt', 4 - 8
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                     },
 
                     // Selects 'mies' stays 'mies', 9 - 13
                     {
                       position: 13,
-                      name: 'mies-13',
+                      data: 'mies-13',
                       selection: { start: 9, end: 13 },
                     },
                     {
                       position: 9,
-                      name: 'mies-9',
+                      data: 'mies-9',
                       selection: { start: 9, end: 13 },
                     },
 
                     // Selects 'p noot', becomes 'p nadt', 2 - 8
                     {
                       position: 8,
-                      name: 'p noot-8',
+                      data: 'p noot-8',
                       selection: { start: 2, end: 8 },
                     },
                     {
                       position: 2,
-                      name: 'p noot-2',
+                      data: 'p noot-2',
                       selection: { start: 2, end: 8 },
                     },
 
                     // Selects 'ot mi', becomes 'adt mi', 5 - 11
                     {
                       position: 11,
-                      name: 'ot mi-11',
+                      data: 'ot mi-11',
                       selection: { start: 6, end: 11 },
                     },
                     {
                       position: 6,
-                      name: 'ot mi-6',
+                      data: 'ot mi-6',
                       selection: { start: 6, end: 11 },
                     },
 
@@ -28460,12 +28784,12 @@ describe('Typewriter', () => {
                     // Selects 't mi', becomes 'adt mi', 7 - 11
                     {
                       position: 11,
-                      name: 't mi-11',
+                      data: 't mi-11',
                       selection: { start: 7, end: 11 },
                     },
                     {
                       position: 7,
-                      name: 't mi-7',
+                      data: 't mi-7',
                       selection: { start: 7, end: 11 },
                     },
 
@@ -28473,24 +28797,24 @@ describe('Typewriter', () => {
                     // Selects 'p no', becomes 'p n', 2 - 5
                     {
                       position: 6,
-                      name: 'p no-6',
+                      data: 'p no-6',
                       selection: { start: 2, end: 6 },
                     },
                     {
                       position: 2,
-                      name: 'p no-2',
+                      data: 'p no-2',
                       selection: { start: 2, end: 6 },
                     },
 
                     // Selects 'oot m', becomes 'adt m', 5 - 10
                     {
                       position: 10,
-                      name: 'oot m-10',
+                      data: 'oot m-10',
                       selection: { start: 5, end: 10 },
                     },
                     {
                       position: 5,
-                      name: 'oot m-5',
+                      data: 'oot m-5',
                       selection: { start: 5, end: 10 },
                     },
 
@@ -28498,83 +28822,83 @@ describe('Typewriter', () => {
                     // Selects 'p noo', becomes 'p n', 2 - 5
                     {
                       position: 7,
-                      name: 'p noo-7',
+                      data: 'p noo-7',
                       selection: { start: 2, end: 7 },
                     },
                     {
                       position: 2,
-                      name: 'p noo-2',
+                      data: 'p noo-2',
                       selection: { start: 2, end: 7 },
                     },
 
                     // Selects 'aap noot mies', becomes 'aap nadt mies', 0 - 13
                     {
                       position: 13,
-                      name: 'aap noot mies-13',
+                      data: 'aap noot mies-13',
                       selection: { start: 0, end: 13 },
                     },
                     {
                       position: 0,
-                      name: 'aap noot mies-0',
+                      data: 'aap noot mies-0',
                       selection: { start: 0, end: 13 },
                     },
 
                     // Selects 'noot mies', becomes 'nadt mies' 4 - 13
                     {
                       position: 13,
-                      name: 'noot mies-13',
+                      data: 'noot mies-13',
                       selection: { start: 4, end: 13 },
                     },
                     {
                       position: 4,
-                      name: 'noot mies-4',
+                      data: 'noot mies-4',
                       selection: { start: 4, end: 13 },
                     },
 
                     // Selects 'oo', becomes undefines, pos 5
                     {
                       position: 7,
-                      name: 'oo-7',
+                      data: 'oo-7',
                       selection: { start: 5, end: 7 },
                     },
                     {
                       position: 5,
-                      name: 'oo-5',
+                      data: 'oo-5',
                       selection: { start: 5, end: 7 },
                     },
 
                     // All selected positions, become 5
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                     },
                     {
                       position: 6,
-                      name: 'position-6',
+                      data: 'position-6',
                     },
                     {
                       position: 7,
-                      name: 'position-7',
+                      data: 'position-7',
                     },
                     // One before, stays 4
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                     },
                     // One after, stays 8
                     {
                       position: 8,
-                      name: 'position-8',
+                      data: 'position-8',
                     },
                     // First position, stays 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                     // Final position, stays 13
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                   ],
                 });
@@ -28593,193 +28917,193 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 7,
-                      name: '',
+                      data: undefined,
                       selection: { start: 5, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 3,
-                      name: 'aap-3',
+                      data: 'aap-3',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap-0',
+                      data: 'aap-0',
                       selection: { start: 0, end: 3 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'noot-8',
+                      data: 'noot-8',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot-4',
+                      data: 'noot-4',
                       selection: { start: 4, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'mies-13',
+                      data: 'mies-13',
                       selection: { start: 9, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mies-9',
+                      data: 'mies-9',
                       selection: { start: 9, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'p noot-8',
+                      data: 'p noot-8',
                       selection: { start: 2, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p noot-2',
+                      data: 'p noot-2',
                       selection: { start: 2, end: 8 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'ot mi-11',
+                      data: 'ot mi-11',
                       selection: { start: 6, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'ot mi-6',
+                      data: 'ot mi-6',
                       selection: { start: 6, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 't mi-11',
+                      data: 't mi-11',
                       selection: { start: 7, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 't mi-7',
+                      data: 't mi-7',
                       selection: { start: 7, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'p no-6',
+                      data: 'p no-6',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p no-2',
+                      data: 'p no-2',
                       selection: { start: 2, end: 6 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'oot m-10',
+                      data: 'oot m-10',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oot m-5',
+                      data: 'oot m-5',
                       selection: { start: 5, end: 10 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'p noo-7',
+                      data: 'p noo-7',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 2,
-                      name: 'p noo-2',
+                      data: 'p noo-2',
                       selection: { start: 2, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'aap noot mies-13',
+                      data: 'aap noot mies-13',
                       selection: { start: 0, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'aap noot mies-0',
+                      data: 'aap noot mies-0',
                       selection: { start: 0, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'noot mies-13',
+                      data: 'noot mies-13',
                       selection: { start: 4, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'noot mies-4',
+                      data: 'noot mies-4',
                       selection: { start: 4, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'oo-7',
+                      data: 'oo-7',
                       selection: { start: 5, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'oo-5',
+                      data: 'oo-5',
                       selection: { start: 5, end: 7 },
                       isBlinking: true,
                     },
                     {
                       position: 5,
-                      name: 'position-5',
+                      data: 'position-5',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 6,
-                      name: 'position-6',
+                      data: 'position-6',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 7,
-                      name: 'position-7',
+                      data: 'position-7',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 4,
-                      name: 'position-4',
+                      data: 'position-4',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 8,
-                      name: 'position-8',
+                      data: 'position-8',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -28810,193 +29134,193 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 7,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 3,
-                        name: 'aap-3',
+                        data: 'aap-3',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap-0',
+                        data: 'aap-0',
                         selection: { start: 0, end: 3 },
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'noot-8',
+                        data: 'noot-8',
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'noot-4',
+                        data: 'noot-4',
                         selection: { start: 4, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'mies-13',
+                        data: 'mies-13',
                         selection: { start: 9, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 9,
-                        name: 'mies-9',
+                        data: 'mies-9',
                         selection: { start: 9, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'p noot-8',
+                        data: 'p noot-8',
                         selection: { start: 2, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p noot-2',
+                        data: 'p noot-2',
                         selection: { start: 2, end: 8 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'ot mi-11',
+                        data: 'ot mi-11',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'ot mi-6',
+                        data: 'ot mi-6',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 't mi-11',
+                        data: 't mi-11',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 't mi-7',
+                        data: 't mi-7',
                         selection: { start: 5, end: 11 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'p no-6',
+                        data: 'p no-6',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p no-2',
+                        data: 'p no-2',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'oot m-10',
+                        data: 'oot m-10',
                         selection: { start: 5, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'oot m-5',
+                        data: 'oot m-5',
                         selection: { start: 5, end: 10 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'p noo-7',
+                        data: 'p noo-7',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 2,
-                        name: 'p noo-2',
+                        data: 'p noo-2',
                         selection: { start: 2, end: 5 },
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'aap noot mies-13',
+                        data: 'aap noot mies-13',
                         selection: { start: 0, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'aap noot mies-0',
+                        data: 'aap noot mies-0',
                         selection: { start: 0, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'noot mies-13',
+                        data: 'noot mies-13',
                         selection: { start: 4, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'noot mies-4',
+                        data: 'noot mies-4',
                         selection: { start: 4, end: 13 },
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'oo-7',
+                        data: 'oo-7',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'oo-5',
+                        data: 'oo-5',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-5',
+                        data: 'position-5',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-6',
+                        data: 'position-6',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 5,
-                        name: 'position-7',
+                        data: 'position-7',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 4,
-                        name: 'position-4',
+                        data: 'position-4',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 8,
-                        name: 'position-8',
+                        data: 'position-8',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 13,
-                        name: 'position-13',
+                        data: 'position-13',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -29024,7 +29348,7 @@ describe('Typewriter', () => {
               });
 
               it('should increase, remove or keep selection of other cursors, and update positions, when inserting at the end', () => {
-                const typewriter = new Typewriter({
+                const typewriter = new Typewriter<string>({
                   actions: [
                     {
                       type: 'keyboard',
@@ -29039,92 +29363,92 @@ describe('Typewriter', () => {
                     // The cursor that is going to hit 'xo', on es
                     {
                       position: 13,
-                      name: '',
+                      data: undefined,
                       selection: { start: 11, end: 13 },
                     },
 
                     // Selects 's' becomes undefined, pos 11
                     {
                       position: 12,
-                      name: 's-12',
+                      data: 's-12',
                       selection: { start: 12, end: 13 },
                     },
                     {
                       position: 13,
-                      name: 's-13',
+                      data: 's-13',
                       selection: { start: 12, end: 13 },
                     },
 
                     // Selects 'es', becomes undefined pos 11
                     {
                       position: 11,
-                      name: 'es-11',
+                      data: 'es-11',
                       selection: { start: 11, end: 13 },
                     },
                     {
                       position: 13,
-                      name: 'es-13',
+                      data: 'es-13',
                       selection: { start: 11, end: 13 },
                     },
 
                     // Selects 'ies' becomes 'i', 10 - 11
                     {
                       position: 10,
-                      name: 'ies-10',
+                      data: 'ies-10',
                       selection: { start: 10, end: 13 },
                     },
                     {
                       position: 13,
-                      name: 'ies-13',
+                      data: 'ies-13',
                       selection: { start: 10, end: 13 },
                     },
 
                     // Selects 'mie', becomes 'mi', 9 - 11
                     {
                       position: 9,
-                      name: 'mie-9',
+                      data: 'mie-9',
                       selection: { start: 9, end: 12 },
                     },
                     {
                       position: 12,
-                      name: 'mie-12',
+                      data: 'mie-12',
                       selection: { start: 9, end: 12 },
                     },
 
                     // Selects 'mi', stays 'mi', 9 - 11
                     {
                       position: 9,
-                      name: 'mi-9',
+                      data: 'mi-9',
                       selection: { start: 9, end: 11 },
                     },
                     {
                       position: 11,
-                      name: 'mi-11',
+                      data: 'mi-11',
                       selection: { start: 9, end: 11 },
                     },
 
                     // All selected positions, become 11
                     {
                       position: 11,
-                      name: 'position-11',
+                      data: 'position-11',
                     },
                     {
                       position: 12,
-                      name: 'position-12',
+                      data: 'position-12',
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                     },
                     // One before, stays 10
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'position-10',
                     },
                     // First position, stays 0
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                     },
                   ],
                 });
@@ -29143,97 +29467,97 @@ describe('Typewriter', () => {
                   cursors: [
                     {
                       position: 13,
-                      name: '',
+                      data: undefined,
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 's-12',
+                      data: 's-12',
                       selection: { start: 12, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 's-13',
+                      data: 's-13',
                       selection: { start: 12, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'es-11',
+                      data: 'es-11',
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'es-13',
+                      data: 'es-13',
                       selection: { start: 11, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'ies-10',
+                      data: 'ies-10',
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'ies-13',
+                      data: 'ies-13',
                       selection: { start: 10, end: 13 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mie-9',
+                      data: 'mie-9',
                       selection: { start: 9, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'mie-12',
+                      data: 'mie-12',
                       selection: { start: 9, end: 12 },
                       isBlinking: true,
                     },
                     {
                       position: 9,
-                      name: 'mi-9',
+                      data: 'mi-9',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'mi-11',
+                      data: 'mi-11',
                       selection: { start: 9, end: 11 },
                       isBlinking: true,
                     },
                     {
                       position: 11,
-                      name: 'position-11',
+                      data: 'position-11',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 12,
-                      name: 'position-12',
+                      data: 'position-12',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 13,
-                      name: 'position-13',
+                      data: 'position-13',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 10,
-                      name: 'position-10',
+                      data: 'position-10',
                       selection: undefined,
                       isBlinking: true,
                     },
                     {
                       position: 0,
-                      name: 'position-0',
+                      data: 'position-0',
                       selection: undefined,
                       isBlinking: true,
                     },
@@ -29264,97 +29588,97 @@ describe('Typewriter', () => {
                     cursors: [
                       {
                         position: 13,
-                        name: '',
+                        data: undefined,
                         selection: undefined,
                         isBlinking: false,
                       },
                       {
                         position: 11,
-                        name: 's-12',
+                        data: 's-12',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 's-13',
+                        data: 's-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'es-11',
+                        data: 'es-11',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 11,
-                        name: 'es-13',
-                        selection: undefined,
-                        isBlinking: true,
-                      },
-                      {
-                        position: 10,
-                        name: 'ies-10',
-                        selection: { start: 10, end: 11 },
-                        isBlinking: true,
-                      },
-                      {
-                        position: 11,
-                        name: 'ies-13',
-                        selection: { start: 10, end: 11 },
-                        isBlinking: true,
-                      },
-                      {
-                        position: 9,
-                        name: 'mie-9',
-                        selection: { start: 9, end: 11 },
-                        isBlinking: true,
-                      },
-                      {
-                        position: 11,
-                        name: 'mie-12',
-                        selection: { start: 9, end: 11 },
-                        isBlinking: true,
-                      },
-                      {
-                        position: 9,
-                        name: 'mi-9',
-                        selection: { start: 9, end: 11 },
-                        isBlinking: true,
-                      },
-                      {
-                        position: 11,
-                        name: 'mi-11',
-                        selection: { start: 9, end: 11 },
-                        isBlinking: true,
-                      },
-                      {
-                        position: 11,
-                        name: 'position-11',
-                        selection: undefined,
-                        isBlinking: true,
-                      },
-                      {
-                        position: 11,
-                        name: 'position-12',
-                        selection: undefined,
-                        isBlinking: true,
-                      },
-                      {
-                        position: 11,
-                        name: 'position-13',
+                        data: 'es-13',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 10,
-                        name: 'position-10',
+                        data: 'ies-10',
+                        selection: { start: 10, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        data: 'ies-13',
+                        selection: { start: 10, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        data: 'mie-9',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        data: 'mie-12',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 9,
+                        data: 'mi-9',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        data: 'mi-11',
+                        selection: { start: 9, end: 11 },
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        data: 'position-11',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        data: 'position-12',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 11,
+                        data: 'position-13',
+                        selection: undefined,
+                        isBlinking: true,
+                      },
+                      {
+                        position: 10,
+                        data: 'position-10',
                         selection: undefined,
                         isBlinking: true,
                       },
                       {
                         position: 0,
-                        name: 'position-0',
+                        data: 'position-0',
                         selection: undefined,
                         isBlinking: true,
                       },
@@ -29387,7 +29711,7 @@ describe('Typewriter', () => {
     });
 
     it('should set all cursors to index 0 when a clear all is performed, and remove all selections', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -29399,9 +29723,9 @@ describe('Typewriter', () => {
         blinkAfter: 50,
         text: 'hllwrld',
         cursors: [
-          { position: 0, name: '', selection: { start: 0, end: 6 } },
-          { position: 4, name: '', selection: { start: 3, end: 4 } },
-          { position: 5, name: '', selection: { start: 5, end: 7 } },
+          { position: 0, data: undefined, selection: { start: 0, end: 6 } },
+          { position: 4, data: undefined, selection: { start: 3, end: 4 } },
+          { position: 5, data: undefined, selection: { start: 5, end: 7 } },
         ],
       });
       const subscriber = autoSubscribe(typewriter);
@@ -29419,19 +29743,19 @@ describe('Typewriter', () => {
         cursors: [
           {
             position: 0,
-            name: '',
+            data: undefined,
             selection: { start: 0, end: 6 },
             isBlinking: true,
           },
           {
             position: 4,
-            name: '',
+            data: undefined,
             selection: { start: 3, end: 4 },
             isBlinking: true,
           },
           {
             position: 5,
-            name: '',
+            data: undefined,
             selection: { start: 5, end: 7 },
             isBlinking: true,
           },
@@ -29460,9 +29784,24 @@ describe('Typewriter', () => {
             },
           ],
           cursors: [
-            { position: 0, name: '', selection: undefined, isBlinking: true },
-            { position: 0, name: '', selection: undefined, isBlinking: true },
-            { position: 0, name: '', selection: undefined, isBlinking: false },
+            {
+              position: 0,
+              data: undefined,
+              selection: undefined,
+              isBlinking: true,
+            },
+            {
+              position: 0,
+              data: undefined,
+              selection: undefined,
+              isBlinking: true,
+            },
+            {
+              position: 0,
+              data: undefined,
+              selection: undefined,
+              isBlinking: false,
+            },
           ],
           text: '',
           blinkAfter: 50,
@@ -29489,7 +29828,7 @@ describe('Typewriter', () => {
 
   describe('repeat', () => {
     it('should when repeat is false run the animation only once', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -29538,7 +29877,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
         ],
-        cursors: [{ position: 0, name: '', isBlinking: true }],
+        cursors: [{ position: 0, data: undefined, isBlinking: true }],
         text: '',
         blinkAfter: 50,
         isPlaying: true,
@@ -29574,7 +29913,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 1, name: '', isBlinking: false }],
+          cursors: [{ position: 1, data: undefined, isBlinking: false }],
           text: 'a',
           blinkAfter: 50,
           isPlaying: true,
@@ -29622,7 +29961,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 2, name: '', isBlinking: false }],
+          cursors: [{ position: 2, data: undefined, isBlinking: false }],
           text: 'ab',
           blinkAfter: 50,
           isPlaying: true,
@@ -29670,7 +30009,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 3, name: '', isBlinking: false }],
+          cursors: [{ position: 3, data: undefined, isBlinking: false }],
           text: 'abc',
           blinkAfter: 50,
           isPlaying: false,
@@ -29694,7 +30033,7 @@ describe('Typewriter', () => {
     });
 
     it('should when repeat is 1 run the animation only once', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -29743,7 +30082,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
         ],
-        cursors: [{ position: 0, name: '', isBlinking: true }],
+        cursors: [{ position: 0, data: undefined, isBlinking: true }],
         text: '',
         blinkAfter: 50,
         isPlaying: true,
@@ -29779,7 +30118,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 1, name: '', isBlinking: false }],
+          cursors: [{ position: 1, data: undefined, isBlinking: false }],
           text: 'a',
           blinkAfter: 50,
           isPlaying: true,
@@ -29827,7 +30166,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 2, name: '', isBlinking: false }],
+          cursors: [{ position: 2, data: undefined, isBlinking: false }],
           text: 'ab',
           blinkAfter: 50,
           isPlaying: true,
@@ -29875,7 +30214,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 3, name: '', isBlinking: false }],
+          cursors: [{ position: 3, data: undefined, isBlinking: false }],
           text: 'abc',
           blinkAfter: 50,
           isPlaying: false,
@@ -29899,7 +30238,7 @@ describe('Typewriter', () => {
     });
 
     it('should when repeat is true run the animation indefinitely', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -29923,7 +30262,7 @@ describe('Typewriter', () => {
         blinkAfter: 50,
         repeat: true,
         repeatDelay: 1,
-        cursors: [{ position: 0, name: 'Owen' }],
+        cursors: [{ position: 0, data: 'Owen' }],
       });
       const subscriber = autoSubscribe(typewriter);
 
@@ -29949,7 +30288,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
         ],
-        cursors: [{ position: 0, name: 'Owen', isBlinking: true }],
+        cursors: [{ position: 0, data: 'Owen', isBlinking: true }],
         text: '',
         blinkAfter: 50,
         isPlaying: true,
@@ -29986,7 +30325,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 1, name: 'Owen', isBlinking: false }],
+            cursors: [{ position: 1, data: 'Owen', isBlinking: false }],
             text: 'a',
             blinkAfter: 50,
             isPlaying: true,
@@ -30034,7 +30373,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 2, name: 'Owen', isBlinking: false }],
+            cursors: [{ position: 2, data: 'Owen', isBlinking: false }],
             text: 'ab',
             blinkAfter: 50,
             isPlaying: true,
@@ -30082,7 +30421,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 3, name: 'Owen', isBlinking: false }],
+            cursors: [{ position: 3, data: 'Owen', isBlinking: false }],
             text: 'abc',
             blinkAfter: 50,
             isPlaying: true,
@@ -30130,7 +30469,7 @@ describe('Typewriter', () => {
                 cursor: 0,
               },
             ],
-            cursors: [{ position: 0, name: 'Owen', isBlinking: true }],
+            cursors: [{ position: 0, data: 'Owen', isBlinking: true }],
             text: '',
             blinkAfter: 50,
             isPlaying: true,
@@ -30160,7 +30499,7 @@ describe('Typewriter', () => {
     });
 
     it('should when repeat is a number repeat that number amount of times, and then finish', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -30209,7 +30548,7 @@ describe('Typewriter', () => {
             cursor: 0,
           },
         ],
-        cursors: [{ position: 1, name: '', isBlinking: true }],
+        cursors: [{ position: 1, data: undefined, isBlinking: true }],
         text: 'z',
         blinkAfter: 50,
         isPlaying: true,
@@ -30247,7 +30586,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 2, name: '', isBlinking: false }],
+          cursors: [{ position: 2, data: undefined, isBlinking: false }],
           text: 'za',
           blinkAfter: 50,
           isPlaying: true,
@@ -30295,7 +30634,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 3, name: '', isBlinking: false }],
+          cursors: [{ position: 3, data: undefined, isBlinking: false }],
           text: 'zab',
           blinkAfter: 50,
           isPlaying: true,
@@ -30343,7 +30682,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 4, name: '', isBlinking: false }],
+          cursors: [{ position: 4, data: undefined, isBlinking: false }],
           text: 'zabc',
           blinkAfter: 50,
           isPlaying: true,
@@ -30391,7 +30730,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 1, name: '', isBlinking: true }],
+          cursors: [{ position: 1, data: undefined, isBlinking: true }],
           text: 'z',
           blinkAfter: 50,
           isPlaying: true,
@@ -30435,7 +30774,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 2, name: '', isBlinking: false }],
+          cursors: [{ position: 2, data: undefined, isBlinking: false }],
           text: 'za',
           blinkAfter: 50,
           isPlaying: true,
@@ -30483,7 +30822,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 3, name: '', isBlinking: false }],
+          cursors: [{ position: 3, data: undefined, isBlinking: false }],
           text: 'zab',
           blinkAfter: 50,
           isPlaying: true,
@@ -30531,7 +30870,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 4, name: '', isBlinking: false }],
+          cursors: [{ position: 4, data: undefined, isBlinking: false }],
           text: 'zabc',
           blinkAfter: 50,
           isPlaying: true,
@@ -30579,7 +30918,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 1, name: '', isBlinking: true }],
+          cursors: [{ position: 1, data: undefined, isBlinking: true }],
           text: 'z',
           blinkAfter: 50,
           isPlaying: true,
@@ -30623,7 +30962,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 2, name: '', isBlinking: false }],
+          cursors: [{ position: 2, data: undefined, isBlinking: false }],
           text: 'za',
           blinkAfter: 50,
           isPlaying: true,
@@ -30671,7 +31010,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 3, name: '', isBlinking: false }],
+          cursors: [{ position: 3, data: undefined, isBlinking: false }],
           text: 'zab',
           blinkAfter: 50,
           isPlaying: true,
@@ -30719,7 +31058,7 @@ describe('Typewriter', () => {
               cursor: 0,
             },
           ],
-          cursors: [{ position: 4, name: '', isBlinking: false }],
+          cursors: [{ position: 4, data: undefined, isBlinking: false }],
           text: 'zabc',
           blinkAfter: 50,
           isPlaying: false,
@@ -30747,7 +31086,7 @@ describe('Typewriter', () => {
 
   describe('play & pause and stop', () => {
     test('that the animation can be paused and continued', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -30858,7 +31197,7 @@ describe('Typewriter', () => {
     });
 
     test('that the autoplay can be stopped and restarted', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -30969,7 +31308,7 @@ describe('Typewriter', () => {
     });
 
     test('that calling play when finished restarts the animation', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -31133,7 +31472,7 @@ describe('Typewriter', () => {
     });
 
     test('that the autoplay can be stopped and restarted with the original text', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -31246,7 +31585,7 @@ describe('Typewriter', () => {
     });
 
     test('that the autoplay can be stopped and restarted when animation repeats', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -31373,7 +31712,7 @@ describe('Typewriter', () => {
     });
 
     test('that it is possible to pause first then stop', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -31421,7 +31760,7 @@ describe('Typewriter', () => {
     });
 
     test('that it is not possible to pause when already paused', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -31469,7 +31808,7 @@ describe('Typewriter', () => {
     });
 
     test('that it is not possible to stop when already stopped', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -31518,7 +31857,7 @@ describe('Typewriter', () => {
     });
 
     test('that it is not possible to stop when never playing', () => {
-      const typewriter = new Typewriter();
+      const typewriter = new Typewriter<string>();
       const subscriber = autoSubscribe(typewriter);
 
       // Should be empty initially
@@ -31537,7 +31876,7 @@ describe('Typewriter', () => {
     });
 
     test('that it is not possible to play when already playing', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -31578,7 +31917,7 @@ describe('Typewriter', () => {
     });
 
     test('that it is not possible to stop when already finished', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -31620,7 +31959,7 @@ describe('Typewriter', () => {
 
   describe('blinking', () => {
     it('should not blink a cursor when the user is typing until after the blinkAfter, and debounce the blinking whenever an event occurs', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         blinkAfter: 250, // btw this is the default
         cursors: [{ position: 0 }],
         actions: [
@@ -31679,7 +32018,7 @@ describe('Typewriter', () => {
         // In this test we kind of misconfigure the Typewriter by
         // setting the blinkAfter equal to the delay.
 
-        const typewriter = new Typewriter({
+        const typewriter = new Typewriter<string>({
           blinkAfter: 50,
           cursors: [{ position: 0 }],
           actions: [
@@ -31762,7 +32101,7 @@ describe('Typewriter', () => {
         // In this test we kind of misconfigure the Typewriter by
         // setting the blinkAfter one less than the delay.
 
-        const typewriter = new Typewriter({
+        const typewriter = new Typewriter<string>({
           blinkAfter: 49,
           cursors: [{ position: 0 }],
           actions: [
@@ -31844,7 +32183,7 @@ describe('Typewriter', () => {
       it('should work even if a blinkAfter is one more than the delay', () => {
         // This one is not a misconfiguration, but it is cutting it close :P
 
-        const typewriter = new Typewriter({
+        const typewriter = new Typewriter<string>({
           blinkAfter: 51,
           cursors: [{ position: 0 }],
           actions: [
@@ -31900,12 +32239,12 @@ describe('Typewriter', () => {
     });
 
     it('should blink multiple cursors independently', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         blinkAfter: 100,
         cursors: [
-          { position: 0, name: 'first' },
-          { position: 0, name: 'middle' }, // This one should always blink
-          { position: 0, name: 'last' }, // This one does the first and last action
+          { position: 0, data: 'first' },
+          { position: 0, data: 'middle' }, // This one should always blink
+          { position: 0, data: 'last' }, // This one does the first and last action
         ],
         actions: [
           { type: 'keyboard', text: 'a', delay: 50, cursor: 2 },
@@ -32018,7 +32357,7 @@ describe('Typewriter', () => {
 
     describe('effects of repeating on blinking', () => {
       it('should still start blinking during the repeatDelay', () => {
-        const typewriter = new Typewriter({
+        const typewriter = new Typewriter<string>({
           blinkAfter: 100,
           repeat: 2,
           repeatDelay: 1000,
@@ -32233,7 +32572,7 @@ describe('Typewriter', () => {
       });
 
       it('should when repeating reset the cursor and ignore blinks from the previous iterations', () => {
-        const typewriter = new Typewriter({
+        const typewriter = new Typewriter<string>({
           blinkAfter: 51,
           repeat: true,
           repeatDelay: 50, // The repeatDelay lies before the blinkAfter
@@ -32315,7 +32654,7 @@ describe('Typewriter', () => {
         // Timeline: 0 50 100 150 200 250 300
         //  Actions:   j   !   R   j   !   R
         //    Blink:            0   1
-        const typewriter = new Typewriter({
+        const typewriter = new Typewriter<string>({
           blinkAfter: 101,
           repeat: true,
           repeatDelay: 50,
@@ -32944,12 +33283,12 @@ describe('Typewriter', () => {
 
   describe('iterator', () => {
     it('the Typewriter should be iterable and return all positions, selections and cursors', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         text: 'joy',
         cursors: [
           {
             position: 0,
-            name: 'owen',
+            data: 'owen',
             selection: {
               // joy
               start: 0,
@@ -32958,7 +33297,7 @@ describe('Typewriter', () => {
           },
           {
             position: 1,
-            name: 'jane',
+            data: 'jane',
             selection: {
               // o
               start: 1,
@@ -32967,7 +33306,7 @@ describe('Typewriter', () => {
           },
           {
             position: 2,
-            name: 'tosca',
+            data: 'tosca',
             selection: {
               // jo
               start: 0,
@@ -32976,7 +33315,7 @@ describe('Typewriter', () => {
           },
           {
             position: 3,
-            name: 'maarten',
+            data: 'maarten',
             selection: {
               // joy
               start: 0,
@@ -32993,33 +33332,33 @@ describe('Typewriter', () => {
       expect(result0.done).toBe(false);
       expect(result0.value.position).toBe(0);
       expect(result0.value.selected.length).toBe(3);
-      expect(result0.value.selected[0].name).toBe('owen');
-      expect(result0.value.selected[1].name).toBe('tosca');
-      expect(result0.value.selected[2].name).toBe('maarten');
+      expect(result0.value.selected[0].data).toBe('owen');
+      expect(result0.value.selected[1].data).toBe('tosca');
+      expect(result0.value.selected[2].data).toBe('maarten');
       expect(result0.value.cursors.length).toBe(1);
-      expect(result0.value.cursors[0].name).toBe('owen');
+      expect(result0.value.cursors[0].data).toBe('owen');
       expect(result0.value.character).toBe('j');
 
       const result1 = iterator.next();
       expect(result1.done).toBe(false);
       expect(result1.value.position).toBe(1);
       expect(result1.value.selected.length).toBe(4);
-      expect(result1.value.selected[0].name).toBe('owen');
-      expect(result1.value.selected[1].name).toBe('jane');
-      expect(result1.value.selected[2].name).toBe('tosca');
-      expect(result1.value.selected[3].name).toBe('maarten');
+      expect(result1.value.selected[0].data).toBe('owen');
+      expect(result1.value.selected[1].data).toBe('jane');
+      expect(result1.value.selected[2].data).toBe('tosca');
+      expect(result1.value.selected[3].data).toBe('maarten');
       expect(result1.value.cursors.length).toBe(1);
-      expect(result1.value.cursors[0].name).toBe('jane');
+      expect(result1.value.cursors[0].data).toBe('jane');
       expect(result1.value.character).toBe('o');
 
       const result2 = iterator.next();
       expect(result2.done).toBe(false);
       expect(result2.value.position).toBe(2);
       expect(result2.value.selected.length).toBe(2);
-      expect(result2.value.selected[0].name).toBe('owen');
-      expect(result2.value.selected[1].name).toBe('maarten');
+      expect(result2.value.selected[0].data).toBe('owen');
+      expect(result2.value.selected[1].data).toBe('maarten');
       expect(result2.value.cursors.length).toBe(1);
-      expect(result2.value.cursors[0].name).toBe('tosca');
+      expect(result2.value.cursors[0].data).toBe('tosca');
       expect(result2.value.character).toBe('y');
 
       const result3 = iterator.next();
@@ -33027,7 +33366,7 @@ describe('Typewriter', () => {
       expect(result3.value.position).toBe(3);
       expect(result3.value.selected.length).toBe(0);
       expect(result3.value.cursors.length).toBe(1);
-      expect(result3.value.cursors[0].name).toBe('maarten');
+      expect(result3.value.cursors[0].data).toBe('maarten');
       expect(result3.value.character).toBe('');
 
       const result4 = iterator.next();
@@ -33036,44 +33375,44 @@ describe('Typewriter', () => {
     });
 
     it('it should work when there are multiple cursor on each position', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         text: 'joy',
         cursors: [
           {
             position: 0,
-            name: 'owen',
+            data: 'owen',
           },
           {
             position: 0,
-            name: 'tessa',
+            data: 'tessa',
           },
           {
             position: 1,
-            name: 'jane',
+            data: 'jane',
           },
           {
             position: 1,
-            name: 'sam',
+            data: 'sam',
           },
           {
             position: 2,
-            name: 'tosca',
+            data: 'tosca',
           },
           {
             position: 2,
-            name: 'carla',
+            data: 'carla',
           },
           {
             position: 3,
-            name: 'leen',
+            data: 'leen',
           },
           {
             position: 3,
-            name: 'maarten',
+            data: 'maarten',
           },
           {
             position: 3,
-            name: 'arie',
+            data: 'arie',
           },
         ],
         actions: [],
@@ -33086,8 +33425,8 @@ describe('Typewriter', () => {
       expect(result0.value.position).toBe(0);
       expect(result0.value.selected.length).toBe(0);
       expect(result0.value.cursors.length).toBe(2);
-      expect(result0.value.cursors[0].name).toBe('owen');
-      expect(result0.value.cursors[1].name).toBe('tessa');
+      expect(result0.value.cursors[0].data).toBe('owen');
+      expect(result0.value.cursors[1].data).toBe('tessa');
       expect(result0.value.character).toBe('j');
 
       const result1 = iterator.next();
@@ -33095,8 +33434,8 @@ describe('Typewriter', () => {
       expect(result1.value.position).toBe(1);
       expect(result1.value.selected.length).toBe(0);
       expect(result1.value.cursors.length).toBe(2);
-      expect(result1.value.cursors[0].name).toBe('jane');
-      expect(result1.value.cursors[1].name).toBe('sam');
+      expect(result1.value.cursors[0].data).toBe('jane');
+      expect(result1.value.cursors[1].data).toBe('sam');
       expect(result1.value.character).toBe('o');
 
       const result2 = iterator.next();
@@ -33104,8 +33443,8 @@ describe('Typewriter', () => {
       expect(result2.value.position).toBe(2);
       expect(result2.value.selected.length).toBe(0);
       expect(result2.value.cursors.length).toBe(2);
-      expect(result2.value.cursors[0].name).toBe('tosca');
-      expect(result2.value.cursors[1].name).toBe('carla');
+      expect(result2.value.cursors[0].data).toBe('tosca');
+      expect(result2.value.cursors[1].data).toBe('carla');
       expect(result2.value.character).toBe('y');
 
       const result3 = iterator.next();
@@ -33113,9 +33452,9 @@ describe('Typewriter', () => {
       expect(result3.value.position).toBe(3);
       expect(result3.value.selected.length).toBe(0);
       expect(result3.value.cursors.length).toBe(3);
-      expect(result3.value.cursors[0].name).toBe('leen');
-      expect(result3.value.cursors[1].name).toBe('maarten');
-      expect(result3.value.cursors[2].name).toBe('arie');
+      expect(result3.value.cursors[0].data).toBe('leen');
+      expect(result3.value.cursors[1].data).toBe('maarten');
+      expect(result3.value.cursors[2].data).toBe('arie');
       expect(result3.value.character).toBe('');
 
       const result4 = iterator.next();
@@ -33124,7 +33463,7 @@ describe('Typewriter', () => {
     });
 
     it('the iterator should work when there is just one cursor at the end', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         text: 'joy',
         actions: [],
       });
@@ -33157,7 +33496,7 @@ describe('Typewriter', () => {
       expect(result3.value.position).toBe(3);
       expect(result3.value.selected.length).toBe(0);
       expect(result3.value.cursors.length).toBe(1);
-      expect(result3.value.cursors[0].name).toBe('');
+      expect(result3.value.cursors[0].data).toBe(undefined);
       expect(result3.value.character).toBe('');
 
       const result4 = iterator.next();
@@ -33166,11 +33505,11 @@ describe('Typewriter', () => {
     });
 
     it('the iterator should work when there is no cursor at the end', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         cursors: [
           {
             position: 2,
-            name: 'tosca',
+            data: 'tosca',
           },
         ],
         text: 'joy',
@@ -33198,7 +33537,7 @@ describe('Typewriter', () => {
       expect(result2.value.position).toBe(2);
       expect(result2.value.selected.length).toBe(0);
       expect(result2.value.cursors.length).toBe(1);
-      expect(result2.value.cursors[0].name).toBe('tosca');
+      expect(result2.value.cursors[0].data).toBe('tosca');
       expect(result2.value.character).toBe('y');
 
       const result3 = iterator.next();
@@ -33209,7 +33548,7 @@ describe('Typewriter', () => {
 
   describe('history', () => {
     test('that a history is kept for a maximum number of events', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -33258,7 +33597,7 @@ describe('Typewriter', () => {
     });
 
     test('that initialize resets the history', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -33299,7 +33638,7 @@ describe('Typewriter', () => {
 
   describe('subscribers', () => {
     test('multiple subscribers', () => {
-      const typewriter = new Typewriter({
+      const typewriter = new Typewriter<string>({
         actions: [
           {
             type: 'keyboard',
@@ -33354,13 +33693,13 @@ describe('Typewriter', () => {
   });
 });
 
-type TestCursor = TypewriterCursorConfig & {
+type TestCursor = TypewriterCursorConfig<string | undefined> & {
   isBlinking: boolean;
-  name: string;
+  data: string | undefined;
 };
 
 type TestState = Pick<
-  Typewriter,
+  Typewriter<string | undefined>,
   | 'text'
   | 'history'
   | 'blinkAfter'
@@ -33374,7 +33713,7 @@ type TestState = Pick<
   cursors: TestCursor[];
 };
 
-function assertState(state: Typewriter, expected: TestState) {
+function assertState(state: Typewriter<any>, expected: TestState) {
   const callAsTestState: TestState = {
     history: state.history,
     text: state.text,
@@ -33409,7 +33748,7 @@ function assertState(state: Typewriter, expected: TestState) {
     cursors: state.cursors.map((cursor) => {
       const copy: TestCursor = {
         position: cursor.position,
-        name: cursor.name,
+        data: cursor.data,
         isBlinking: cursor.isBlinking,
         selection: cursor.selection
           ? {
@@ -33426,10 +33765,10 @@ function assertState(state: Typewriter, expected: TestState) {
   expect(callAsTestState).toEqual(expected);
 }
 
-function assertCursor(cursor: TypewriterCursor, expected: TestCursor) {
+function assertCursor(cursor: TypewriterCursor<any>, expected: TestCursor) {
   const testState: TestCursor = {
     position: cursor.position,
-    name: cursor.name,
+    data: cursor.data,
     isBlinking: cursor.isBlinking,
   };
 
@@ -33437,13 +33776,13 @@ function assertCursor(cursor: TypewriterCursor, expected: TestCursor) {
 }
 
 function assertLastSubscriber(
-  subscriber: jest.Mock<Typewriter, any>,
+  subscriber: jest.Mock<Typewriter<string | undefined>, any>,
   expectedState: TestState,
-  expectedEvent: TypewriterEvent
+  expectedEvent: TypewriterEvent<string>
 ) {
   const lastCall = subscriber.mock.calls[subscriber.mock.calls.length - 1];
-  const state: Typewriter = lastCall[0];
-  const event: TypewriterEvent = lastCall[1];
+  const state: Typewriter<string | undefined> = lastCall[0];
+  const event: TypewriterEvent<string> = lastCall[1];
 
   assertState(state, expectedState);
 
@@ -33459,11 +33798,11 @@ function assertLastSubscriber(
 }
 
 function assertEvents(
-  subscriber: jest.Mock<Typewriter, any>,
+  subscriber: jest.Mock<Typewriter<string>, any>,
   expectedEvents: TypewriterEventType[]
 ) {
   const events: TypewriterEventType[] = subscriber.mock.calls.map((call) => {
-    const event: TypewriterEvent = call[1];
+    const event: TypewriterEvent<string> = call[1];
     return event.type;
   });
 

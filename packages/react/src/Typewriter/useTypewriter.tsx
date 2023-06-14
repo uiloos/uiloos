@@ -18,11 +18,11 @@ import {
  * 
  * @since 1.2.0
  */
-export function useTypewriter(
-  config: TypewriterConfig
-): Typewriter {
+export function useTypewriter<T>(
+  config: TypewriterConfig<T>
+): Typewriter<T> {
   const [_counter, setCounter] = useState(0);
-  const [typewriter] = useState(() => new Typewriter(config));
+  const [typewriter] = useState(() => new Typewriter<T>(config));
 
   useEffect(() => {
     const unsubscribe = typewriter.subscribe(() => {

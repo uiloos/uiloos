@@ -8,11 +8,12 @@
     "clean:site": "rm -rf _site",
     "serve:webpack": "webpack --mode development --watch",
     "serve:eleventy": "ELEVENTY_ENV=development eleventy --serve --config=./eleventy.config.js",
-    "start": "npm-run-all clean:site --parallel serve:*",
+    "start": "npm-run-all generate-search-data  clean:site --parallel serve:*",
     "build-docs:webpack": "webpack --mode production",
     "build-docs:eleventy": "ELEVENTY_ENV=production eleventy --config=./eleventy.config.js",
     "build-docs": "NODE_ENV=production run-s clean:site build-docs:*",
     "build": "echo ignoring build for website package",
+    "generate-search-data": "node ./generate-search-data.js",
     "apigen:pre": "rm -rf src/_data/api",
     "apigen:post": "rm -rf src/search && mkdir src/search && node ./generate-search-data.js"
   },

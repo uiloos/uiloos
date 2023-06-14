@@ -2,14 +2,7 @@ import { Typewriter } from '@uiloos/core';
 
 const typewriterEl = document.getElementById('multicursor-typewriter');
 
-const colors = {
-  Michael: '#3b82f6',
-  Jim: '#ef4444',
-  Pam: '#22c55e',
-  Dwight: '#d946ef',
-};
-
-function subscriber(typewriter, event) {
+function subscriber(typewriter) {
   typewriterEl.innerHTML = '';
 
   for (const position of typewriter) {
@@ -23,7 +16,7 @@ function subscriber(typewriter, event) {
     for (const cursor of position.cursors.reverse()) {
       // If this span has multiple cursors, the last one will win.
 
-      const color = colors[cursor.name];
+      const color = cursor.data.color;
 
       const cursorEl = document.createElement('span');
       cursorEl.classList.add('cursor');
@@ -34,7 +27,7 @@ function subscriber(typewriter, event) {
       const infoEl = document.createElement('span');
       infoEl.className = 'info';
       infoEl.style.setProperty('--cursor-color', color);
-      infoEl.textContent = cursor.name;
+      infoEl.textContent = cursor.data.name;
 
       cursorEl.insertAdjacentElement('afterend', infoEl);
 
@@ -45,8 +38,7 @@ function subscriber(typewriter, event) {
 
     for (const cursor of position.selected.reverse()) {
       // This span has one or multiple cursors, the last one will win.
-
-      const color = colors[cursor.name];
+      const color = cursor.data.color;
       letterEl.style.setProperty('--background-color', color + '30'); // 30 = opacity
     }
   }
@@ -54,24 +46,36 @@ function subscriber(typewriter, event) {
 
 const config = {
   blinkAfter: 250,
-  repeat: false,
-  repeatDelay: 5000,
+  repeat: true,
+  repeatDelay: 10000,
   cursors: [
     {
       position: 0,
-      name: 'Jim',
+      data: {
+        name: 'Jim',
+        color: '#ef4444',
+      }
     },
     {
       position: 0,
-      name: 'Dwight',
+      data: {
+        name: 'Dwight',
+        color: '#d946ef',
+      }
     },
     {
       position: 0,
-      name: 'Pam',
+      data: {
+        name: 'Pam',
+        color: '#22c55e',
+      }
     },
     {
       position: 0,
-      name: 'Michael',
+      data: {
+        name: 'Michael',
+        color: '#3b82f6',
+      }
     },
   ],
   actions: [

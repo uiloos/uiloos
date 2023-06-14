@@ -34,7 +34,7 @@ export type TypewriterCursorSelection = {
  *
  * @since 1.2.0
  */
-export type TypewriterCursorConfig = {
+export type TypewriterCursorConfig<T> = {
   /**
    * The position of the cursor within the `Typewriter` text.
    *
@@ -43,23 +43,17 @@ export type TypewriterCursorConfig = {
   position: number;
 
   /**
-   * The optional name associated with the cursor. Nothing is done 
-   * with the name itself by the Typewriter.
-   * 
-   * You could use the name to:
-   * 
-   *   1. Give the cursor a label in the animation, telling to which
-   *      "user" the cursor belongs.
-   * 
-   *   2. Give the cursor a name to more easily identify the cursor,
-   *      perhaps to give different styling to each individual cursor.
-   *      In this case the name might even be a CSS selector.
+   * The data for the cursor, "data" can be be anything from an 
+   * object, string, array etc etc. The idea is that you can store
+   * any information here you need to render the cursor. For example
+   * you could set the data to an object, containing the "name" and
+   * "color" for that cursor.
    *
-   * Defaults to an empty string when not provided.
-   *
+   * By default the value is `undefined`.
+   * 
    * @since 1.2.0
    */
-  name?: string;
+  data?: T;
 
   /**
    * The range of positions which this cursor has selected.
@@ -76,7 +70,7 @@ export type TypewriterCursorConfig = {
  *
  * @since 1.2.0
  */
-export type TypewriterConfig = {
+export type TypewriterConfig<T> = {
   /**
    * The cursors the `Typewriter` is going to have.
    *
@@ -85,7 +79,7 @@ export type TypewriterConfig = {
    *
    * @since 1.2.0
    */
-  cursors?: TypewriterCursorConfig[];
+  cursors?: TypewriterCursorConfig<T>[];
 
   /**
    * The actions this `Typewriter` is set to enter. Each stroke
@@ -193,14 +187,14 @@ export type TypewriterConfig = {
  * The subscriber which is informed of all state changes the
  * Typewriter goes through.
  *
- * @param {Typewriter} typewriter The Typewriter which had changes.
+ * @param {Typewriter<T>} typewriter The Typewriter which had changes.
  * @param {TypewriterEvent<T>} event The event that occurred.
  *
  * @since 1.2.0
  */
-export type TypewriterSubscriber = (
-  typewriter: Typewriter,
-  event: TypewriterEvent
+export type TypewriterSubscriber<T> = (
+  typewriter: Typewriter<T>,
+  event: TypewriterEvent<T>
 ) => void;
 
 /**
@@ -388,7 +382,7 @@ export type TypewriterBaseEvent = {
  * 
  * @since 1.2.0
  */
-export type TypewriterPosition = {
+export type TypewriterPosition<T> = {
   /**
    * The position of the 'character' in the text.
    * 
@@ -414,14 +408,14 @@ export type TypewriterPosition = {
    * 
    * @since 1.2.0
    */
-  cursors: TypewriterCursor[];
+  cursors: TypewriterCursor<T>[];
 
   /**
    * The cursors that have selected this position.
    * 
    * @since 1.2.0
    */
-  selected: TypewriterCursor[];
+  selected: TypewriterCursor<T>[];
 }
 
 /**
@@ -447,7 +441,7 @@ export type TypewriterInitializedEvent = TypewriterBaseEvent & {
  *
  * @since 1.2.0
  */
-export type TypewriterChangedEvent = TypewriterBaseEvent & {
+export type TypewriterChangedEvent<T> = TypewriterBaseEvent & {
   /**
    * Which type occurred
    *
@@ -468,7 +462,7 @@ export type TypewriterChangedEvent = TypewriterBaseEvent & {
    *
    * @since 1.2.0
    */
-  cursor: TypewriterCursor;
+  cursor: TypewriterCursor<T>;
 };
 
 /**
@@ -526,7 +520,7 @@ export type TypewriterStoppedEvent = TypewriterBaseEvent & {
  *
  * @since 1.2.0
  */
-export type TypewriterFinishedEvent = TypewriterBaseEvent & {
+export type TypewriterFinishedEvent<T> = TypewriterBaseEvent & {
   /**
    * Which type occurred
    *
@@ -547,7 +541,7 @@ export type TypewriterFinishedEvent = TypewriterBaseEvent & {
    *
    * @since 1.2.0
    */
-  cursor: TypewriterCursor;
+  cursor: TypewriterCursor<T>;
 };
 
 /**
@@ -555,7 +549,7 @@ export type TypewriterFinishedEvent = TypewriterBaseEvent & {
  *
  * @since 1.2.0
  */
-export type TypewriterBlinkingEvent = TypewriterBaseEvent & {
+export type TypewriterBlinkingEvent<T> = TypewriterBaseEvent & {
   /**
    * Which type occurred
    *
@@ -568,7 +562,7 @@ export type TypewriterBlinkingEvent = TypewriterBaseEvent & {
    *
    * @since 1.2.0
    */
-  cursor: TypewriterCursor;
+  cursor: TypewriterCursor<T>;
 };
 
 /**
@@ -576,7 +570,7 @@ export type TypewriterBlinkingEvent = TypewriterBaseEvent & {
  *
  * @since 1.2.0
  */
-export type TypewriterRepeatingEvent = TypewriterBaseEvent & {
+export type TypewriterRepeatingEvent<T> = TypewriterBaseEvent & {
   /**
    * Which type occurred
    *
@@ -589,7 +583,7 @@ export type TypewriterRepeatingEvent = TypewriterBaseEvent & {
    *
    * @since 1.2.0
    */
-  cursor: TypewriterCursor;
+  cursor: TypewriterCursor<T>;
 };
 
 /**
@@ -598,12 +592,12 @@ export type TypewriterRepeatingEvent = TypewriterBaseEvent & {
  *
  * @since 1.2.0
  */
-export type TypewriterEvent =
+export type TypewriterEvent<T> =
   | TypewriterInitializedEvent
-  | TypewriterChangedEvent
+  | TypewriterChangedEvent<T>
   | TypewriterPlayingEvent
   | TypewriterPausedEvent
   | TypewriterStoppedEvent
-  | TypewriterFinishedEvent
-  | TypewriterBlinkingEvent
-  | TypewriterRepeatingEvent;
+  | TypewriterFinishedEvent<T>
+  | TypewriterBlinkingEvent<T>
+  | TypewriterRepeatingEvent<T>;

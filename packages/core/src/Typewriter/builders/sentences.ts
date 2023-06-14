@@ -12,7 +12,7 @@ import { Typewriter } from '../Typewriter';
  * @since 1.2.0
  */
 export type TypewriterFromSentencesConfig = Pick<
-  TypewriterConfig,
+  TypewriterConfig<void>,
   'text' | 'blinkAfter' | 'autoPlay' | 'repeat' | 'repeatDelay' | 'keepHistoryFor'
 > & {
   /**
@@ -57,13 +57,13 @@ export type TypewriterFromSentencesConfig = Pick<
  *
  * @param {TypewriterFromSentencesConfig} config The configuration of the Typewriter.
  * @param {TypewriterSubscriber | undefined} subscriber An optional subscriber which responds to changes in the Typewriter.
- * @returns {Typewriter} a configured typewriter
+ * @returns {Typewriter<void>} a configured typewriter
  * @since 1.2.0
  */
 export function typewriterFromSentences(
   config: TypewriterFromSentencesConfig,
-  subscriber?: TypewriterSubscriber
-): Typewriter {
+  subscriber?: TypewriterSubscriber<void>
+): Typewriter<void> {
   const delay = config.delay === undefined ? 50 : config.delay;
   const sentenceDelay =
     config.sentenceDelay === undefined ? 2000 : config.sentenceDelay;
@@ -166,7 +166,7 @@ export function typewriterFromSentences(
     firstSentence = false;
   }
 
-  return new Typewriter(
+  return new Typewriter<void>(
     {
       // Set the repeat delay to sentence delay this way when,
       // repeat is `true` it will match the sentence. By placing

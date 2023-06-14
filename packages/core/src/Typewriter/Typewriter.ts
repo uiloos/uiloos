@@ -68,17 +68,17 @@ import { TypewriterActionUnknownCursorError } from './errors/TypewriterActionUnk
  *
  * @since 1.2.0
  */
-export class Typewriter {
+export class Typewriter<T = void> {
   /**
    * The cursors the `Typewriter` has.
    *
    * @since 1.2.0
    */
-  public readonly cursors: TypewriterCursor[] = [];
+  public readonly cursors: TypewriterCursor<T>[] = [];
 
   // Keeps track of the original text provided by the config, needed
   // for stop() / play() based restart and repeat.
-  private readonly _originalCursors: TypewriterCursorConfig[] = [];
+  private readonly _originalCursors: TypewriterCursorConfig<T>[] = [];
 
   /**
    * The actions which the `Typewriter` is going to perform.
@@ -234,7 +234,7 @@ export class Typewriter {
   */
   private _pauseStarted: Date | null = null;
 
-  private _history: _History<TypewriterEvent> = new _History();
+  private _history: _History<TypewriterEvent<T>> = new _History();
 
   /**
    * Contains the history of the changes in the views array.
@@ -274,9 +274,9 @@ export class Typewriter {
    *
    * @since 1.2.0
    */
-  public history: TypewriterEvent[] = this._history._events;
+  public history: TypewriterEvent<T>[] = this._history._events;
 
-  private _observer: _Observer<Typewriter, TypewriterEvent> = new _Observer();
+  private _observer: _Observer<Typewriter<T>, TypewriterEvent<T>> = new _Observer();
 
   /**
    * Creates an Typewriter based on the TypewriterConfig config.
@@ -284,8 +284,8 @@ export class Typewriter {
    * You can also optionally provide an subscriber so you can get
    * informed of the changes happening to the Typewriter.
    *
-   * @param {TypewriterConfig} config The initial configuration of the Typewriter.
-   * @param {TypewriterSubscriber | undefined} subscriber An optional subscriber which responds to changes in the Typewriter.
+   * @param {TypewriterConfig<T>} config The initial configuration of the Typewriter.
+   * @param {TypewriterSubscriber<T> | undefined} subscriber An optional subscriber which responds to changes in the Typewriter.
    * @throws {TypewriterBlinkAfterError} blinkAfter duration must be a positive number
    * @throws {TypewriterDelayError} delay duration must be a positive number
    * @throws {TypewriterRepeatError} repeat must be a positive number
@@ -299,8 +299,8 @@ export class Typewriter {
    * @since 1.2.0
    */
   constructor(
-    config: TypewriterConfig = {},
-    subscriber?: TypewriterSubscriber
+    config: TypewriterConfig<T> = {},
+    subscriber?: TypewriterSubscriber<T>
   ) {
     uiloosLicenseChecker.licenseChecker._checkLicense();
 
@@ -316,7 +316,7 @@ export class Typewriter {
    * This can effectively reset the Typewriter when called,
    * including the history.
    *
-   * @param {TypewriterConfig} config The new configuration which will override the old one
+   * @param {TypewriterConfig<T>} config The new configuration which will override the old one
    * @throws {TypewriterBlinkAfterError} blinkAfter duration must be a positive number
    * @throws {TypewriterDelayError} delay duration must be a positive number
    * @throws {TypewriterRepeatError} repeat must be a positive number
@@ -329,7 +329,7 @@ export class Typewriter {
    * @throws {TypewriterActionUnknownCursorError} actions must use cursors that exist
    * @since 1.2.0
    */
-  public initialize(config: TypewriterConfig): void {
+  public initialize(config: TypewriterConfig<T>): void {
     // Clear the timers of the current active animation first, for when
     // the initialize is called mid animation, otherwise it will start
     // blinking cursors and doing animations.
@@ -396,7 +396,7 @@ export class Typewriter {
         // Store original cursor config for so repeats work.
         this._originalCursors.push({
           position: cursor.position,
-          name: cursor.name,
+          data: cursor.data,
           selection: selection
             ? {
                 start: selection.start,
@@ -406,17 +406,17 @@ export class Typewriter {
         });
 
         this.cursors.push(
-          new TypewriterCursor(
+          new TypewriterCursor<T>(
             this,
             cursor.position,
-            cursor.name ? cursor.name : '',
+            cursor.data ? cursor.data : undefined,
             selection
           )
         );
       });
     } else {
-      this.cursors.push(new TypewriterCursor(this, textLength, '', undefined));
-      this._originalCursors.push({ name: '', position: textLength });
+      this.cursors.push(new TypewriterCursor(this, textLength, undefined, undefined));
+      this._originalCursors.push({ data: undefined, position: textLength });
     }
 
     if (config.actions) {
@@ -486,12 +486,12 @@ export class Typewriter {
    * Returns an unsubscribe function which when called will
    * unsubscribe from the Typewriter.
    *
-   * @param {TypewriterSubscriber} subscriber The subscriber which responds to changes in the Typewriter.
+   * @param {TypewriterSubscriber<T>} subscriber The subscriber which responds to changes in the Typewriter.
    * @returns {UnsubscribeFunction} A function which when called will unsubscribe from the Typewriter.
    *
    * @since 1.2.0
    */
-  public subscribe(subscriber: TypewriterSubscriber): UnsubscribeFunction {
+  public subscribe(subscriber: TypewriterSubscriber<T>): UnsubscribeFunction {
     return this._observer._subscribe(subscriber);
   }
 
@@ -499,11 +499,11 @@ export class Typewriter {
    * Unsubscribe the subscriber so it no longer receives changes / updates
    * of the state changes of the Typewriter.
    *
-   * @param {TypewriterSubscriber} subscriber The subscriber which you want to unsubscribe.
+   * @param {TypewriterSubscriber<T>} subscriber The subscriber which you want to unsubscribe.
    *
    * @since 1.2.0
    */
-  public unsubscribe(subscriber: TypewriterSubscriber): void {
+  public unsubscribe(subscriber: TypewriterSubscriber<T>): void {
     this._observer._unsubscribe(subscriber);
   }
 
@@ -1090,7 +1090,7 @@ export class Typewriter {
           this.isFinished = true;
           this.isPlaying = false;
 
-          const event: TypewriterFinishedEvent = {
+          const event: TypewriterFinishedEvent<T> = {
             type: 'FINISHED',
             action,
             time: new Date(),
@@ -1102,7 +1102,7 @@ export class Typewriter {
           this._repeated += 1;
 
           if (!noOp) {
-            const event: TypewriterChangedEvent = {
+            const event: TypewriterChangedEvent<T> = {
               type: 'CHANGED',
               action,
               time: new Date(),
@@ -1127,7 +1127,7 @@ export class Typewriter {
               c.isBlinking = true;
             });
 
-            const event: TypewriterRepeatingEvent = {
+            const event: TypewriterRepeatingEvent<T> = {
               type: 'REPEATING',
               time: new Date(),
               cursor,
@@ -1140,7 +1140,7 @@ export class Typewriter {
         }
       } else {
         if (!noOp) {
-          const event: TypewriterChangedEvent = {
+          const event: TypewriterChangedEvent<T> = {
             type: 'CHANGED',
             action,
             time: new Date(),
@@ -1175,9 +1175,9 @@ export class Typewriter {
     // Copy the cursor here otherwise it will be mutated on the
     // second repeat.
     this._originalCursors.forEach((copy, index) => {
-      const cursor = this.cursors[index] as TypewriterCursor;
+      const cursor = this.cursors[index] as TypewriterCursor<T>;
 
-      cursor.name = copy.name ? copy.name : '';
+      cursor.data = copy.data ? copy.data : undefined;
       cursor.position = copy.position;
 
       const selection = copy.selection;
@@ -1216,7 +1216,7 @@ export class Typewriter {
 
   // handles left and right cursor movement, returns whether it is a no op or not.
   private _actionLorR(
-    cursor: TypewriterCursor,
+    cursor: TypewriterCursor<T>,
     mod: number,
     select: number,
     stop: number
@@ -1245,7 +1245,7 @@ export class Typewriter {
 
   // handles left and right shift cursor movement, returns whether it is a no op or not.
   private _actionSLorR(
-    cursor: TypewriterCursor,
+    cursor: TypewriterCursor<T>,
     mod: number,
     which: 'start' | 'end',
     stop: number
@@ -1276,7 +1276,7 @@ export class Typewriter {
     return false;
   }
 
-  public _inform(event: TypewriterEvent): void {
+  public _inform(event: TypewriterEvent<T>): void {
     this._history._push(event);
 
     this._observer._inform(this, event);
@@ -1303,14 +1303,14 @@ export class Typewriter {
    * from the number of iterations you get from iterating over the
    * Typewriter!
    *
-   * @returns {Iterator<TypewriterPosition>} an iterator which yields TypewriterCursor and strings.
+   * @returns {Iterator<TypewriterPosition<T>>} an iterator which yields TypewriterCursor and strings.
    * @since 1.2.0
    */
-  *[Symbol.iterator](): Iterator<TypewriterPosition> {
+  *[Symbol.iterator](): Iterator<TypewriterPosition<T>> {
     // Transform to array which respects unicode.
     const text = Array.from(this.text);
 
-    const cursorMap: Record<number, TypewriterCursor[]> = {};
+    const cursorMap: Record<number, TypewriterCursor<T>[]> = {};
 
     this.cursors.forEach((c) => {
       const pos = c.position;

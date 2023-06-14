@@ -14,15 +14,15 @@ import {
  * changes, when a change is detected it makes sure that the component
  * using the composable is re-rendered.
  * 
- * @param {TypewriterConfig} config The initial configuration of the Typewriter.
+ * @param {TypewriterConfig<T>} config The initial configuration of the Typewriter.
  * @returns An instance of the Typewriter from @uiloos/core
  * 
  * @since 1.2.0
  */
 export function useTypewriter<T>(
-  config: TypewriterConfig
-): Ref<TypewriterConfig> {
-  const typewriter = shallowRef(new TypewriterCore(config)) as unknown as Ref<TypewriterCore>;
+  config: TypewriterConfig<T>
+): Ref<TypewriterConfig<T>> {
+  const typewriter = shallowRef(new TypewriterCore(config)) as unknown as Ref<TypewriterCore<T>>;
 
   let subscriber: UnsubscribeFunction;
 

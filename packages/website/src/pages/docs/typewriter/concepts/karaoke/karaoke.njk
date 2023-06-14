@@ -1,0 +1,41 @@
+<strong>
+  E. Karaoke
+</strong>
+
+<p>
+  This animates a sentence like a karaoke machine:
+</p>
+
+<style>
+  {% include "./karaoke-example.css" %}
+</style>
+
+{% include "./karaoke-example.html" %}
+
+<details>
+  <summary class="mb-4">View code</summary>
+
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 dark:bg-gray-700 px-2 pt-2 pb-4 gap-4">
+      <button class="border font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">JavaScript</button>
+      <button class="border font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">HTML</button>
+      <button class="border font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">CSS</button>
+    </div>
+
+    <div class="example">
+      {% highlight "js" %}
+      {% include "./karaoke-example.js" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "html" %}
+      {% include "./karaoke-example.html" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "css" %}
+      {% include "./karaoke-example.css" %}
+      {% endhighlight %}
+    </div>
+  </div>
+</details>
