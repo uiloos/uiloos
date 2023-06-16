@@ -31478,7 +31478,7 @@ describe('Typewriter', () => {
 
       expect(typewriter.isPlaying).toBe(true);
       expect(typewriter.cursors[0].isBlinking).toBe(true);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'STOPPED', 'PLAYING']);
 
@@ -31495,7 +31495,7 @@ describe('Typewriter', () => {
 
       expect(typewriter.isPlaying).toBe(true);
       expect(typewriter.cursors[0].isBlinking).toBe(false);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, [
         'CHANGED',
@@ -31543,8 +31543,7 @@ describe('Typewriter', () => {
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED']);
 
-      // Stop the animation so we can test if the 'hasBeenStoppedBefore'
-      // will be reset after play() is called when FINISHED.
+      // Add in a stop for good measure
       typewriter.stop();
 
       expect(typewriter.isPlaying).toBe(false);
@@ -31554,13 +31553,13 @@ describe('Typewriter', () => {
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'STOPPED']);
 
-      // Now trigger the play an run the animation to finished.
+      // Now trigger the play and run the animation to finished.
       typewriter.play();
 
       expect(typewriter.isPlaying).toBe(true);
       expect(typewriter.isFinished).toBe(false);
       expect(typewriter.cursors[0].isBlinking).toBe(true);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING']);
 
@@ -31570,7 +31569,7 @@ describe('Typewriter', () => {
       expect(typewriter.isPlaying).toBe(true);
       expect(typewriter.isFinished).toBe(false);
       expect(typewriter.cursors[0].isBlinking).toBe(false);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED']);
 
@@ -31580,7 +31579,7 @@ describe('Typewriter', () => {
       expect(typewriter.isPlaying).toBe(false);
       expect(typewriter.isFinished).toBe(true);
       expect(typewriter.cursors[0].isBlinking).toBe(false);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('ab');
       assertEvents(subscriber, [
         'CHANGED',
@@ -31754,7 +31753,7 @@ describe('Typewriter', () => {
 
       expect(typewriter.isPlaying).toBe(true);
       expect(typewriter.cursors[0].isBlinking).toBe(true);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('z');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'STOPPED', 'PLAYING']);
 
@@ -31763,7 +31762,7 @@ describe('Typewriter', () => {
 
       expect(typewriter.isPlaying).toBe(true);
       expect(typewriter.cursors[0].isBlinking).toBe(true);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('z');
       assertEvents(subscriber, ['CHANGED', 'BLINKING', 'STOPPED', 'PLAYING']);
 
@@ -31772,7 +31771,7 @@ describe('Typewriter', () => {
 
       expect(typewriter.isPlaying).toBe(true);
       expect(typewriter.cursors[0].isBlinking).toBe(false);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('za');
       assertEvents(subscriber, [
         'CHANGED',
@@ -31834,7 +31833,7 @@ describe('Typewriter', () => {
 
       expect(typewriter.isPlaying).toBe(true);
       expect(typewriter.cursors[0].isBlinking).toBe(true);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING']);
 
@@ -31842,7 +31841,7 @@ describe('Typewriter', () => {
 
       expect(typewriter.isPlaying).toBe(true);
       expect(typewriter.cursors[0].isBlinking).toBe(false);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, ['CHANGED', 'STOPPED', 'PLAYING', 'CHANGED']);
 
@@ -31850,7 +31849,7 @@ describe('Typewriter', () => {
 
       expect(typewriter.isPlaying).toBe(true);
       expect(typewriter.cursors[0].isBlinking).toBe(false);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('ab');
       assertEvents(subscriber, [
         'CHANGED',
@@ -31865,7 +31864,7 @@ describe('Typewriter', () => {
 
       expect(typewriter.isPlaying).toBe(true);
       expect(typewriter.cursors[0].isBlinking).toBe(true);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('');
       assertEvents(subscriber, [
         'CHANGED',
@@ -31880,7 +31879,7 @@ describe('Typewriter', () => {
 
       expect(typewriter.isPlaying).toBe(true);
       expect(typewriter.cursors[0].isBlinking).toBe(false);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('a');
       assertEvents(subscriber, [
         'CHANGED',
@@ -31896,7 +31895,7 @@ describe('Typewriter', () => {
 
       expect(typewriter.isPlaying).toBe(false);
       expect(typewriter.cursors[0].isBlinking).toBe(false);
-      expect(typewriter.hasBeenStoppedBefore).toBe(true);
+      expect(typewriter.hasBeenStoppedBefore).toBe(false);
       expect(typewriter.text).toBe('ab');
       assertEvents(subscriber, [
         'CHANGED',

@@ -195,7 +195,16 @@ export class Typewriter<T = void> {
 
   /**
    * Whether or not the Typewriter has been stopped at one point
-   * before.
+   * before during the current animation.
+   * 
+   * The `hasBeenStoppedBefore` is tied to the lifecycle of an 
+   * animation, and reflects if the current animation has been 
+   * stopped before or not.
+   * 
+   * Whenever a new animation starts the `hasBeenStoppedBefore`
+   * resets to `false`. An animation starts whenever `play()` is 
+   * called, or through autoPlay, and lasts until there are no 
+   * more actions, or `stop()` is called.
    *
    * Use case: say you are making an animation which has a stop button
    * to stop the animation. Say you also have another feature: a pause
@@ -207,6 +216,11 @@ export class Typewriter<T = void> {
    *
    * To fix this problem you should on the mouse over not call
    * `play()` whenever `hasBeenStoppedBefore` is `true`.
+   * 
+   * `hasBeenStoppedBefore` is tied to the animation cycle so a user 
+   * clicks on the stop button, and then on the play button, the 
+   * hover on pause will work again. The hover now works only because
+   * `hasBeenStoppedBefore` is now false.
    *
    * @since 1.2.0
    */
@@ -528,19 +542,19 @@ export class Typewriter<T = void> {
    */
   public play(): void {
     // If the typewriter is finished restart the animation.
-    if (this.isFinished) {
+    if (this.isFinished || this._stopped) {
       this._init();
-      // This includes hasBeenStoppedBefore.
+
+      // Reset stopped.
+      this._stopped = false;
+      // And also the hasBeenStoppedBefore.
       this.hasBeenStoppedBefore = false;
+
       this._resetTandC();
     } else if (this.isPlaying || this.actions.length === 0) {
       // Do nothing when already playing, or when there are no actions.
       return;
-    } else if (this._stopped) {
-      this._stopped = false;
-
-      this._resetTandC();
-    }
+    } 
 
     this.isPlaying = true;
 
