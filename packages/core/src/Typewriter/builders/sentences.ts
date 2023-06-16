@@ -1,20 +1,17 @@
 import { typewriterActionTypeBackspace } from '../keys';
 import {
-  TypewriterConfig,
   TypewriterAction,
   TypewriterSubscriber,
 } from '../types';
 import { Typewriter } from '../Typewriter';
 
+// MANUALLY SYNCHED WITH `TypewriterConfig` SO DOCS RENDER BETTER.
 /**
  * The configuration for the `typewriterFromSentences` function.
  *
  * @since 1.2.0
  */
-export type TypewriterFromSentencesConfig = Pick<
-  TypewriterConfig<void>,
-  'text' | 'blinkAfter' | 'autoPlay' | 'repeat' | 'repeatDelay' | 'keepHistoryFor'
-> & {
+export type TypewriterFromSentencesConfig = {
   /**
    * The sentences the Typewriter should animate.
    *
@@ -39,6 +36,96 @@ export type TypewriterFromSentencesConfig = Pick<
    * @since 1.2.0
    */
   sentenceDelay?: number;
+
+  /**
+   * The initial text the `Typewriter` starts with.
+   *
+   * Defaults to '' meaning that the Typewriter will not have an
+   * initial text.
+   *
+   * @since 1.2.0
+   */
+  text?: string;
+
+  /**
+   * The time it takes until a cursor starts blinking again after
+   * the cursor was used.
+   *
+   * A cursor does not blink when it is used until after a certain
+   * time. So if you keep typing the cursor does not blink, until
+   * you stop typing for some "predefined amount" of time.
+   *
+   * The `blinkAfter` is what represents that 'predefined amount' of
+   * time, you can also say this is a debounce time.
+   *
+   * Note: when you set the `blinkAfter` to a number lower or equal to
+   * the `delay` of a `TypewriterAction`, it will negate the debounce.
+   * The effect is that all "CHANGED" events will have a "BLINKING"
+   * event. This might not "visually" affect your animation, but
+   * will make the `Typewriter` send extra events. If this happens it
+   * is technically as "misconfiguration" on your part, but the
+   * Typewriter will not throw any errors, since visually nothing
+   * bad happens.
+   *
+   * Defaults to after `250` milliseconds.
+   *
+   * @since 1.2.0
+   */
+  blinkAfter?: number;
+
+  /**
+   * For how many items the `history` may contain in the `Typewriter`.
+   *
+   * Defaults to `0` meaning that it will not track history.
+   *
+   * @since 1.2.0
+   */
+  keepHistoryFor?: number;
+
+  /**
+   * Whether or not the animation will immediately start playing.
+   *
+   * When `true` the animation will start playing immediately, when
+   * `false` the animation will start when `play()` is called.
+   *
+   * Note: the animation will only start playing when there are
+   * actions defined.
+   *
+   * Defaults to `true` meaning that the animation will play instantly.
+   *
+   * @since 1.2.0
+   */
+  autoPlay?: boolean;
+
+  /**
+   * Whether or not this animation repeats and how often.
+   *
+   * There are three ways to define `repeat`.
+   *
+   *  1. When `repeat` is `false` or `1` it will never repeat the
+   *     animation, the animation will run only once.
+   *
+   *  2. When `repeat` is `true` it will repeat the animation forever.
+   *
+   *  3. When `repeat` is a number it will repeat the animation
+   *     for given number of times. If the number is 0 or a negative
+   *     number is provided a error occurs.
+   *
+   * Defaults to `false` meaning that the animation will run once.
+   *
+   * @since 1.2.0
+   */
+  repeat?: boolean | number;
+
+  /**
+   * The time in milliseconds the animation is paused in between
+   * repeats.
+   *
+   * Defaults to `0` milliseconds, meaning an almost instant repeat.
+   *
+   * @since 1.2.0
+   */
+  repeatDelay?: number;
 };
 
 /**

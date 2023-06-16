@@ -2,27 +2,30 @@ import { onMounted, onUnmounted, Ref, shallowRef, triggerRef } from 'vue';
 
 import {
   Typewriter,
-  TypewriterConfig,
+  typewriterFromSentences,
+  TypewriterFromSentencesConfig,
   UnsubscribeFunction
 } from '@uiloos/core';
 
 /**
- * A composable which returns an Typewriter from @uiloos/core 
- * which is configured by the config parameter. 
+ * A composable which returns a Typewriter from @uiloos/core which
+ * is configured using `typewriterFromSentences`. Meaning returns 
+ * a Typewriter which will type in the provided sentences using a 
+ * single cursor.
  * 
  * What the composable does is register itself to the Typewriter for 
  * changes, when a change is detected it makes sure that the component
  * using the composable is re-rendered.
  * 
- * @param {TypewriterConfig<T>} config The initial configuration of the Typewriter.
+ * @param {TypewriterFromSentencesConfig} config The initial configuration of the Typewriter.
  * @returns An instance of the Typewriter from @uiloos/core
  * 
  * @since 1.2.0
  */
-export function useTypewriter<T>(
-  config: TypewriterConfig<T>
-): Ref<Typewriter<T>> {
-  const typewriter = shallowRef(new Typewriter(config)) as unknown as Ref<Typewriter<T>>;
+export function useTypewriterFromSentences(
+  config: TypewriterFromSentencesConfig
+): Ref<Typewriter> {
+  const typewriter = shallowRef(typewriterFromSentences(config)) as unknown as Ref<Typewriter>;
 
   let subscriber: UnsubscribeFunction;
 

@@ -4,10 +4,11 @@ import ActiveList from './ActiveList/ActiveList';
 import { useActiveList } from './ActiveList/useActiveList';
 import { useViewChannel } from './ViewChannel/useViewChannel';
 import { useTypewriter } from './Typewriter/useTypewriter';
+import { useTypewriterFromSentences } from './Typewriter/useTypewriterFromSentences';
 
 /**
  * The uiloos Vue plugin, add it to vue via `app.use()`;
- * 
+ *
  * @since 1.0.0
  */
 const uiloosPlugin = {
@@ -22,4 +23,11 @@ const uiloosPlugin = {
   },
 };
 
-export { uiloosPlugin, useActiveList, ActiveList, useViewChannel, useTypewriter };
+export {
+  uiloosPlugin,
+  useActiveList,
+  ActiveList,
+  useViewChannel,
+  useTypewriter,
+  useTypewriterFromSentences,
+};

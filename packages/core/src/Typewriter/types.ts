@@ -65,6 +65,7 @@ export type TypewriterCursorConfig<T> = {
   selection?: TypewriterCursorSelection;
 };
 
+// MANUALLY UPDATE TypewriterFromSentencesConfig WHEN CHANGING TypewriterConfig
 /**
  * Configures the initial state of the `Typewriter`.
  *
