@@ -15,14 +15,15 @@
     "build": "echo ignoring build for website package",
     "generate-search-data": "node ./generate-search-data.js",
     "apigen:pre": "rm -rf src/_data/api",
-    "apigen:post": "rm -rf src/search && mkdir src/search && node ./generate-search-data.js"
+    "apigen:post": "rm -rf src/search && mkdir src/search && node ./generate-search-data.js",
+    "tsc": "tsc --version && tsc --noEmit"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "alpinejs": "3.10.2",
-    "@uiloos/core": "^1.0.0"
+    "@uiloos/core": "^1.1.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "1.0.1",
