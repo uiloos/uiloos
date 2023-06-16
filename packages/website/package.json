@@ -23,7 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "alpinejs": "3.10.2",
-    "@uiloos/core": "^1.1.0"
+    "@uiloos/core": "^1.2.0-alpha.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "1.0.1",
