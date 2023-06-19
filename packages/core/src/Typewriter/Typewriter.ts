@@ -94,6 +94,15 @@ export class Typewriter<T = void> {
   public readonly actions: TypewriterAction[] = [];
 
   /**
+   * The last action that was performed by the Typewriter.
+   * 
+   * Note: `lastPerformedAction` is not affected by repeats. 
+   *
+   * @since 1.2.0
+   */
+  public lastPerformedAction: TypewriterAction | null = null;
+
+  /**
    * The current text of the `Typewriter` which it currently displays.
    *
    * For example if the actions are type in 'a' 3 times then a
@@ -394,12 +403,12 @@ export class Typewriter<T = void> {
 
           // Start should be in bounds
           if (start < 0 || start > textLength) {
-            throw new TypewriterCursorSelectionOutOfBoundsError('start');
+            throw new TypewriterCursorSelectionOutOfBoundsError(_START);
           }
 
           // End should be in bounds
           if (end < 0 || end > textLength) {
-            throw new TypewriterCursorSelectionOutOfBoundsError('end');
+            throw new TypewriterCursorSelectionOutOfBoundsError(_END);
           }
 
           // Start needs to be smaller than end otherwise there is no selection.
@@ -686,7 +695,8 @@ export class Typewriter<T = void> {
       // Whether or not this particular action is a no op.
       let noOp = false;
 
-      if (action.type === 'keyboard') {
+      // If type === 'keyboard' using 'mouse' because it is a smaller string!
+      if (action.type !== 'mouse') {
         // Figure out what to do with the text next
         if (action.text === '⎚') {
           // If it is already empty it is a noOp.
@@ -711,9 +721,9 @@ export class Typewriter<T = void> {
             textArray.length
           );
         } else if (action.text === '⇧←') {
-          noOp = this._actionSLorR(cursor, -1, 'start', 0);
+          noOp = this._actionSLorR(cursor, -1, _START, 0);
         } else if (action.text === '⇧→') {
-          noOp = this._actionSLorR(cursor, 1, 'end', textArray.length);
+          noOp = this._actionSLorR(cursor, 1, _END, textArray.length);
         } else if (action.text === '⌫') {
           // Stores which positions have been removed, so we can
           // update the cursors later.
@@ -1117,20 +1127,13 @@ export class Typewriter<T = void> {
             cursor,
           };
 
+          this.lastPerformedAction = action;
+
           this._inform(event);
         } else {
           this._repeated += 1;
 
-          if (!noOp) {
-            const event: TypewriterChangedEvent<T> = {
-              type: 'CHANGED',
-              action,
-              time: new Date(),
-              cursor,
-            };
-
-            this._inform(event);
-          }
+          this._change(noOp, action, cursor);
 
           this._animationTimeoutId = window.setTimeout(() => {
             this._index = 0;
@@ -1159,17 +1162,8 @@ export class Typewriter<T = void> {
           }, this.repeatDelay);
         }
       } else {
-        if (!noOp) {
-          const event: TypewriterChangedEvent<T> = {
-            type: 'CHANGED',
-            action,
-            time: new Date(),
-            cursor,
-          };
-
-          this._inform(event);
-        }
-
+        this._change(noOp, action, cursor);
+        
         this._tick();
       }
     }, delay);
@@ -1286,7 +1280,7 @@ export class Typewriter<T = void> {
       } else {
         const selection = { start: -1, end: -1 };
 
-        selection[which === 'start' ? 'end' : 'start'] = cursor.position - mod;
+        selection[which === _START ? _END : _START] = cursor.position - mod;
         selection[which] = cursor.position;
 
         cursor.selection = selection;
@@ -1294,6 +1288,24 @@ export class Typewriter<T = void> {
     }
 
     return false;
+  }
+
+  // Handles sending a changed event when the event is not a no-op.
+  private _change(noOp: boolean, action: TypewriterAction, cursor: TypewriterCursor<T>) {
+    if (noOp) {
+      return;
+    }
+
+    const event: TypewriterChangedEvent<T> = {
+      type: 'CHANGED',
+      action,
+      time: new Date(),
+      cursor,
+    };
+
+    this.lastPerformedAction = action;
+
+    this._inform(event);
   }
 
   public _inform(event: TypewriterEvent<T>): void {
@@ -1365,6 +1377,9 @@ export class Typewriter<T = void> {
     }
   }
 }
+
+const _START = 'start';
+const _END = 'end';
 
 type Range = { start: number; end: number };
 

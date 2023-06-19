@@ -221,7 +221,7 @@ export function typewriterFromSentences(
       const actualDelay = !firstSentence && i === 0 ? sentenceDelay : delay;
 
       actions.push({
-        type: 'keyboard',
+        type: _KEYBOARD,
         text: typewriterActionTypeBackspace,
         delay: actualDelay,
         cursor: 0,
@@ -241,7 +241,7 @@ export function typewriterFromSentences(
     // Now we must add the missing characters one at a time.
     for (const missingChar of missingChars) {
       actions.push({
-        type: 'keyboard',
+        type: _KEYBOARD,
         text: missingChar,
         delay,
         cursor: 0,
@@ -265,3 +265,5 @@ export function typewriterFromSentences(
     subscriber
   );
 }
+
+const _KEYBOARD = 'keyboard'

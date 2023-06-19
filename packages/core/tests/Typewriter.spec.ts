@@ -813,6 +813,7 @@ describe('Typewriter', () => {
         hasBeenStoppedBefore: false,
         repeat: 1337,
         repeatDelay: 666,
+        lastPerformedAction: null,
       });
 
       expect(subscriber).toHaveBeenCalledTimes(0);
@@ -878,6 +879,7 @@ describe('Typewriter', () => {
         hasBeenStoppedBefore: false,
         repeat: false,
         repeatDelay: 0,
+        lastPerformedAction: null,
       });
 
       expect(subscriber).toHaveBeenCalledTimes(0);
@@ -902,6 +904,7 @@ describe('Typewriter', () => {
         hasBeenStoppedBefore: false,
         repeat: false,
         repeatDelay: 0,
+        lastPerformedAction: null,
       });
 
       expect(subscriber).toHaveBeenCalledTimes(1);
@@ -932,6 +935,7 @@ describe('Typewriter', () => {
         hasBeenStoppedBefore: false,
         repeat: false,
         repeatDelay: 0,
+        lastPerformedAction: null,
       });
 
       expect(subscriber).toHaveBeenCalledTimes(1);
@@ -1723,6 +1727,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           },
           {
             type: 'INITIALIZED',
@@ -1996,7 +2001,7 @@ describe('Typewriter', () => {
     describe('without selection', () => {
       describe('inserting', () => {
         describe('single letter', () => {
-          it('should know how to do a basic text animation from start to finish', () => {
+          it('should know how to add a letter at the end', () => {
             const typewriter = new Typewriter<string>({
               actions: [
                 {
@@ -2052,6 +2057,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -2088,6 +2094,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'a',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'CHANGED',
@@ -2136,6 +2148,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'b',
+                  delay: 200,
+                  cursor: 0,
+                },
               },
               {
                 type: 'CHANGED',
@@ -2184,6 +2202,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'c',
+                  delay: 300,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -2233,6 +2257,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -2257,6 +2282,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'b',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -2306,6 +2337,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -2330,6 +2362,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'a',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -2347,7 +2385,7 @@ describe('Typewriter', () => {
         });
 
         describe('word', () => {
-          it('should know how to do a basic text animation from start to finish', () => {
+          it('should know how to add a word at the middle', () => {
             const typewriter = new Typewriter<string>({
               actions: [
                 {
@@ -2403,6 +2441,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -2439,6 +2478,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'aap',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'CHANGED',
@@ -2487,6 +2532,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'noot',
+                  delay: 200,
+                  cursor: 0,
+                },
               },
               {
                 type: 'CHANGED',
@@ -2535,6 +2586,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'mies',
+                  delay: 300,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -2584,6 +2641,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -2608,6 +2666,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'boot',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -2657,6 +2721,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -2681,6 +2746,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'aap',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -2779,6 +2850,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -2827,6 +2899,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'a',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -2887,6 +2965,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -2947,6 +3031,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'b',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -3007,6 +3097,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -3067,6 +3163,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'c',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -3116,6 +3218,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -3140,6 +3243,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -3189,6 +3298,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -3213,6 +3323,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -3274,6 +3390,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It should ignore the action
@@ -3308,6 +3425,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -3357,6 +3480,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -3381,6 +3505,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -3476,6 +3606,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -3524,6 +3655,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😀',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -3584,6 +3721,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -3644,6 +3787,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😃',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -3704,6 +3853,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -3764,6 +3919,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -3825,6 +3986,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -3855,6 +4017,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -3897,6 +4065,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -3939,6 +4113,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -4006,6 +4186,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -4042,6 +4223,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -4090,6 +4277,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -4143,6 +4336,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -4199,6 +4398,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -4229,6 +4429,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -4271,6 +4477,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -4319,6 +4531,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -4343,6 +4556,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -4415,6 +4634,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -4451,6 +4671,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -4504,6 +4730,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'b',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -4552,6 +4784,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -4576,6 +4809,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -4637,6 +4876,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -4667,6 +4907,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -4709,6 +4955,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -4751,6 +5003,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -4818,6 +5076,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -4854,6 +5113,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -4902,6 +5167,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -4955,6 +5226,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -5000,6 +5277,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -5024,6 +5302,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -5073,6 +5357,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -5097,6 +5382,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -5158,6 +5449,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It should ignore the action
@@ -5192,6 +5484,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -5241,6 +5539,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -5265,6 +5564,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -5326,6 +5631,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -5356,6 +5662,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -5398,6 +5710,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -5440,6 +5758,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -5507,6 +5831,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -5543,6 +5868,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -5591,6 +5922,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -5644,6 +5981,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -5689,6 +6032,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -5713,6 +6057,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeRight,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -5762,6 +6112,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -5786,6 +6137,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeRight,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -5847,6 +6204,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It should ignore the action
@@ -5881,6 +6239,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -5930,6 +6294,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -5954,6 +6319,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeRight,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -6029,6 +6400,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -6065,6 +6437,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -6113,6 +6491,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -6161,6 +6545,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeRight,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -6209,6 +6599,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeRight,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -6276,6 +6672,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -6312,6 +6709,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -6369,6 +6772,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -6414,6 +6823,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -6438,6 +6848,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: 1,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -6495,6 +6911,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -6530,6 +6947,16 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: 0,
+                delay: 100,
+                cursor: 0,
+                selection: {
+                  start: 0,
+                  end: 3,
+                },
+              },
             },
             {
               type: 'FINISHED',
@@ -6595,6 +7022,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It should ignore the action
@@ -6629,6 +7057,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -6690,6 +7124,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -6720,6 +7155,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: -1,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -6762,6 +7203,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -6823,6 +7270,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It should ignore the action
@@ -6857,6 +7305,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -6918,6 +7372,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -6948,6 +7403,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: 4,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -6990,6 +7451,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -7051,6 +7518,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It should ignore the action
@@ -7085,6 +7553,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -7134,6 +7608,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -7158,6 +7633,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: 3,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -7219,6 +7700,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -7249,6 +7731,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -7291,6 +7779,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: 0,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -7333,6 +7827,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: 0,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -7400,6 +7900,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -7436,6 +7937,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -7493,6 +8000,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -7538,6 +8051,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -7569,6 +8083,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectLeft,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -7618,6 +8138,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -7649,6 +8170,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectLeft,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -7710,6 +8237,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It should ignore the action
@@ -7744,6 +8272,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -7793,6 +8327,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -7817,6 +8352,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectLeft,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -7878,6 +8419,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -7908,6 +8450,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -7957,6 +8505,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -7999,6 +8553,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -8066,6 +8626,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -8102,6 +8663,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -8157,6 +8724,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -8210,6 +8783,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -8255,6 +8834,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -8286,6 +8866,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectRight,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -8335,6 +8921,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -8366,6 +8953,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectRight,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -8427,6 +9020,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It should ignore the action
@@ -8461,6 +9055,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -8510,6 +9110,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -8534,6 +9135,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectRight,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -8607,6 +9214,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -8643,6 +9251,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -8691,6 +9305,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -8746,6 +9366,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectRight,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -8794,6 +9420,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectRight,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -8849,6 +9481,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -8879,6 +9512,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -8926,6 +9565,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -8940,54 +9585,24 @@ describe('Typewriter', () => {
     describe('with selection', () => {
       describe('inserting', () => {
         describe('single letter', () => {
-          it('should remove selection and insert the letter in place of the selection', () => {
-            const typewriter = new Typewriter<string>({
-              actions: [
-                {
-                  type: 'keyboard',
-                  text: 'x',
-                  delay: 50,
-                  cursor: 0,
-                },
-              ],
-              blinkAfter: 50,
-              text: 'this is a nice line',
-              cursors: [{ position: 14, selection: { start: 10, end: 14 } }],
-            });
-            const subscriber = autoSubscribe(typewriter);
+          describe('forward selection', () => {
+            it('should remove selection and insert the letter in place of the selection, when inserting at the middle', () => {
+              const typewriter = new Typewriter<string>({
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+                blinkAfter: 50,
+                text: 'this is a nice line',
+                cursors: [{ position: 10, selection: { start: 10, end: 14 } }],
+              });
+              const subscriber = autoSubscribe(typewriter);
 
-            assertState(typewriter, {
-              history: [],
-              actions: [
-                {
-                  type: 'keyboard',
-                  text: 'x',
-                  delay: 50,
-                  cursor: 0,
-                },
-              ],
-              cursors: [
-                {
-                  data: undefined,
-                  position: 14,
-                  selection: { start: 10, end: 14 },
-                  isBlinking: true,
-                },
-              ],
-              text: 'this is a nice line',
-              blinkAfter: 50,
-              isPlaying: true,
-              isFinished: false,
-              hasBeenStoppedBefore: false,
-              repeat: false,
-              repeatDelay: 0,
-            });
-
-            jest.advanceTimersByTime(50);
-
-            assertLastSubscriber(
-              subscriber,
-              {
+              assertState(typewriter, {
                 history: [],
                 actions: [
                   {
@@ -9000,88 +9615,93 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     data: undefined,
-                    position: 11,
-                    selection: undefined,
-                    isBlinking: false,
+                    position: 10,
+                    selection: { start: 10, end: 14 },
+                    isBlinking: true,
                   },
                 ],
-                text: 'this is a x line',
+                text: 'this is a nice line',
                 blinkAfter: 50,
-                isPlaying: false,
-                isFinished: true,
+                isPlaying: true,
+                isFinished: false,
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
-              },
-              {
-                type: 'FINISHED',
-                action: {
-                  type: 'keyboard',
-                  text: 'x',
-                  delay: 50,
-                  cursor: 0,
-                },
-                time: new Date(),
-                cursor: typewriter.cursors[0],
-              }
-            );
-          });
-        });
+                lastPerformedAction: null,
+              });
 
-        describe('word', () => {
-          it('should remove selection and insert the word in place of the selection', () => {
-            const typewriter = new Typewriter<string>({
-              actions: [
-                {
-                  type: 'keyboard',
-                  text: 'bad',
-                  delay: 50,
-                  cursor: 0,
-                },
-              ],
-              blinkAfter: 50,
-              text: 'this is a nice line',
-              cursors: [{ position: 14, selection: { start: 10, end: 14 } }],
-            });
-            const subscriber = autoSubscribe(typewriter);
+              jest.advanceTimersByTime(50);
 
-            assertState(typewriter, {
-              history: [],
-              actions: [
+              assertLastSubscriber(
+                subscriber,
                 {
-                  type: 'keyboard',
-                  text: 'bad',
-                  delay: 50,
-                  cursor: 0,
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'x',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 11,
+                      selection: undefined,
+                      isBlinking: false,
+                    },
+                  ],
+                  text: 'this is a x line',
+                  blinkAfter: 50,
+                  isPlaying: false,
+                  isFinished: true,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
                 },
-              ],
-              cursors: [
                 {
-                  data: undefined,
-                  position: 14,
-                  selection: { start: 10, end: 14 },
-                  isBlinking: true,
-                },
-              ],
-              text: 'this is a nice line',
-              blinkAfter: 50,
-              isPlaying: true,
-              isFinished: false,
-              hasBeenStoppedBefore: false,
-              repeat: false,
-              repeatDelay: 0,
+                  type: 'FINISHED',
+                  action: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  time: new Date(),
+                  cursor: typewriter.cursors[0],
+                }
+              );
             });
 
-            jest.advanceTimersByTime(50);
+            it('should remove selection and insert the letter in place of the selection, when inserting at the start', () => {
+              const typewriter = new Typewriter<string>({
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+                blinkAfter: 50,
+                text: 'this is a nice line',
+                cursors: [{ position: 0, selection: { start: 0, end: 4 } }],
+              });
+              const subscriber = autoSubscribe(typewriter);
 
-            assertLastSubscriber(
-              subscriber,
-              {
+              assertState(typewriter, {
                 history: [],
                 actions: [
                   {
                     type: 'keyboard',
-                    text: 'bad',
+                    text: 'x',
                     delay: 50,
                     cursor: 0,
                   },
@@ -9089,31 +9709,2158 @@ describe('Typewriter', () => {
                 cursors: [
                   {
                     data: undefined,
-                    position: 13,
-                    selection: undefined,
-                    isBlinking: false,
+                    position: 0,
+                    selection: { start: 0, end: 4 },
+                    isBlinking: true,
                   },
                 ],
-                text: 'this is a bad line',
+                text: 'this is a nice line',
                 blinkAfter: 50,
-                isPlaying: false,
-                isFinished: true,
+                isPlaying: true,
+                isFinished: false,
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
-              },
-              {
-                type: 'FINISHED',
-                action: {
-                  type: 'keyboard',
-                  text: 'bad',
-                  delay: 50,
-                  cursor: 0,
+                lastPerformedAction: null,
+              });
+
+              jest.advanceTimersByTime(50);
+
+              assertLastSubscriber(
+                subscriber,
+                {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'x',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 1,
+                      selection: undefined,
+                      isBlinking: false,
+                    },
+                  ],
+                  text: 'x is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: false,
+                  isFinished: true,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
                 },
-                time: new Date(),
-                cursor: typewriter.cursors[0],
-              }
-            );
+                {
+                  type: 'FINISHED',
+                  action: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  time: new Date(),
+                  cursor: typewriter.cursors[0],
+                }
+              );
+            });
+
+            it('should remove selection and insert the letter in place of the selection, when inserting at the end', () => {
+              const typewriter = new Typewriter<string>({
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+                blinkAfter: 50,
+                text: 'this is a nice line',
+                cursors: [{ position: 15, selection: { start: 15, end: 19 } }],
+              });
+              const subscriber = autoSubscribe(typewriter);
+
+              assertState(typewriter, {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    data: undefined,
+                    position: 15,
+                    selection: { start: 15, end: 19 },
+                    isBlinking: true,
+                  },
+                ],
+                text: 'this is a nice line',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+                lastPerformedAction: null,
+              });
+
+              jest.advanceTimersByTime(50);
+
+              assertLastSubscriber(
+                subscriber,
+                {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'x',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 16,
+                      selection: undefined,
+                      isBlinking: false,
+                    },
+                  ],
+                  text: 'this is a nice x',
+                  blinkAfter: 50,
+                  isPlaying: false,
+                  isFinished: true,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                },
+                {
+                  type: 'FINISHED',
+                  action: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  time: new Date(),
+                  cursor: typewriter.cursors[0],
+                }
+              );
+            });
+          });
+
+          describe('backwards selection', () => {
+            it('should remove selection and insert the letter in place of the selection, when inserting at the middle', () => {
+              const typewriter = new Typewriter<string>({
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+                blinkAfter: 50,
+                text: 'this is a nice line',
+                cursors: [{ position: 14, selection: { start: 10, end: 14 } }],
+              });
+              const subscriber = autoSubscribe(typewriter);
+
+              assertState(typewriter, {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    data: undefined,
+                    position: 14,
+                    selection: { start: 10, end: 14 },
+                    isBlinking: true,
+                  },
+                ],
+                text: 'this is a nice line',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+                lastPerformedAction: null,
+              });
+
+              jest.advanceTimersByTime(50);
+
+              assertLastSubscriber(
+                subscriber,
+                {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'x',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 11,
+                      selection: undefined,
+                      isBlinking: false,
+                    },
+                  ],
+                  text: 'this is a x line',
+                  blinkAfter: 50,
+                  isPlaying: false,
+                  isFinished: true,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                },
+                {
+                  type: 'FINISHED',
+                  action: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  time: new Date(),
+                  cursor: typewriter.cursors[0],
+                }
+              );
+            });
+
+            it('should remove selection and insert the letter in place of the selection, when inserting at the start', () => {
+              const typewriter = new Typewriter<string>({
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+                blinkAfter: 50,
+                text: 'this is a nice line',
+                cursors: [{ position: 4, selection: { start: 0, end: 4 } }],
+              });
+              const subscriber = autoSubscribe(typewriter);
+
+              assertState(typewriter, {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    data: undefined,
+                    position: 4,
+                    selection: { start: 0, end: 4 },
+                    isBlinking: true,
+                  },
+                ],
+                text: 'this is a nice line',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+                lastPerformedAction: null,
+              });
+
+              jest.advanceTimersByTime(50);
+
+              assertLastSubscriber(
+                subscriber,
+                {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'x',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 1,
+                      selection: undefined,
+                      isBlinking: false,
+                    },
+                  ],
+                  text: 'x is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: false,
+                  isFinished: true,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                },
+                {
+                  type: 'FINISHED',
+                  action: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  time: new Date(),
+                  cursor: typewriter.cursors[0],
+                }
+              );
+            });
+
+            it('should remove selection and insert the letter in place of the selection, when inserting at the end', () => {
+              const typewriter = new Typewriter<string>({
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+                blinkAfter: 50,
+                text: 'this is a nice line',
+                cursors: [{ position: 19, selection: { start: 15, end: 19 } }],
+              });
+              const subscriber = autoSubscribe(typewriter);
+
+              assertState(typewriter, {
+                history: [],
+                actions: [
+                  {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                ],
+                cursors: [
+                  {
+                    data: undefined,
+                    position: 19,
+                    selection: { start: 15, end: 19 },
+                    isBlinking: true,
+                  },
+                ],
+                text: 'this is a nice line',
+                blinkAfter: 50,
+                isPlaying: true,
+                isFinished: false,
+                hasBeenStoppedBefore: false,
+                repeat: false,
+                repeatDelay: 0,
+                lastPerformedAction: null,
+              });
+
+              jest.advanceTimersByTime(50);
+
+              assertLastSubscriber(
+                subscriber,
+                {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'x',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 16,
+                      selection: undefined,
+                      isBlinking: false,
+                    },
+                  ],
+                  text: 'this is a nice x',
+                  blinkAfter: 50,
+                  isPlaying: false,
+                  isFinished: true,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                },
+                {
+                  type: 'FINISHED',
+                  action: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 50,
+                    cursor: 0,
+                  },
+                  time: new Date(),
+                  cursor: typewriter.cursors[0],
+                }
+              );
+            });
+          });
+        });
+
+        describe('word', () => {
+          describe('forward selection', () => {
+            describe('inserting more chars than are removed', () => {
+              it('should remove selection and insert the word in place of the selection, when inserting at the middle', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 14, selection: { start: 10, end: 14 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 14,
+                      selection: { start: 10, end: 14 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'badguy',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 16,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'this is a badguy line',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+  
+              it('should remove selection and insert the word in place of the selection, when inserting at the start', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 4, selection: { start: 0, end: 4 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 4,
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'badguy',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 6,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'badguy is a nice line',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+  
+              it('should remove selection and insert the word in place of the selection, when inserting at the end', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 19, selection: { start: 15, end: 19 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 19,
+                      selection: { start: 15, end: 19 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'badguy',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 21,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'this is a nice badguy',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+            });
+
+            describe("inserting less chars than are removed", ()  => {
+              it('should remove selection and insert the word in place of the selection, when inserting at the middle', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 14, selection: { start: 10, end: 14 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 14,
+                      selection: { start: 10, end: 14 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'bad',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 13,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'this is a bad line',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+  
+              it('should remove selection and insert the word in place of the selection, when inserting at the start', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 4, selection: { start: 0, end: 4 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 4,
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'bad',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 3,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'bad is a nice line',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+  
+              it('should remove selection and insert the word in place of the selection, when inserting at the end', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 19, selection: { start: 15, end: 19 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 19,
+                      selection: { start: 15, end: 19 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'bad',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 18,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'this is a nice bad',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+            }); 
+            
+            describe('inserting the same number of chars that are removed', () => {
+              it('should remove selection and insert the word in place of the selection, when inserting at the middle', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 14, selection: { start: 10, end: 14 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 14,
+                      selection: { start: 10, end: 14 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'badd',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 14,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'this is a badd line',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+  
+              it('should remove selection and insert the word in place of the selection, when inserting at the start', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 4, selection: { start: 0, end: 4 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 4,
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'badd',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 4,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'badd is a nice line',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+  
+              it('should remove selection and insert the word in place of the selection, when inserting at the end', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 19, selection: { start: 15, end: 19 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 19,
+                      selection: { start: 15, end: 19 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'badd',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 19,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'this is a nice badd',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+            });
+          });
+
+          describe('backwards selection', () => {
+            describe('inserting more chars than are removed', () => {
+              it('should remove selection and insert the word in place of the selection, when inserting at the middle', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 10, selection: { start: 10, end: 14 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 10,
+                      selection: { start: 10, end: 14 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'badguy',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 16,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'this is a badguy line',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+  
+              it('should remove selection and insert the word in place of the selection, when inserting at the start', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 0, selection: { start: 0, end: 4 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 0,
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'badguy',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 6,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'badguy is a nice line',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+  
+              it('should remove selection and insert the word in place of the selection, when inserting at the end', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 15, selection: { start: 15, end: 19 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 15,
+                      selection: { start: 15, end: 19 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'badguy',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 21,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'this is a nice badguy',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'badguy',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+            });
+
+            describe("inserting less chars than are removed", ()  => {
+              it('should remove selection and insert the word in place of the selection, when inserting at the middle', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 10, selection: { start: 10, end: 14 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 10,
+                      selection: { start: 10, end: 14 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'bad',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 13,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'this is a bad line',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+  
+              it('should remove selection and insert the word in place of the selection, when inserting at the start', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 0, selection: { start: 0, end: 4 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 0,
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'bad',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 3,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'bad is a nice line',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+  
+              it('should remove selection and insert the word in place of the selection, when inserting at the end', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 15, selection: { start: 15, end: 19 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 15,
+                      selection: { start: 15, end: 19 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'bad',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 18,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'this is a nice bad',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'bad',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+            }); 
+            
+            describe('inserting the same number of chars that are removed', () => {
+              it('should remove selection and insert the word in place of the selection, when inserting at the middle', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 10, selection: { start: 10, end: 14 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 10,
+                      selection: { start: 10, end: 14 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'badd',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 14,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'this is a badd line',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+  
+              it('should remove selection and insert the word in place of the selection, when inserting at the start', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 0, selection: { start: 0, end: 4 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 0,
+                      selection: { start: 0, end: 4 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'badd',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 4,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'badd is a nice line',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+  
+              it('should remove selection and insert the word in place of the selection, when inserting at the end', () => {
+                const typewriter = new Typewriter<string>({
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  blinkAfter: 50,
+                  text: 'this is a nice line',
+                  cursors: [{ position: 15, selection: { start: 15, end: 19 } }],
+                });
+                const subscriber = autoSubscribe(typewriter);
+  
+                assertState(typewriter, {
+                  history: [],
+                  actions: [
+                    {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  ],
+                  cursors: [
+                    {
+                      data: undefined,
+                      position: 15,
+                      selection: { start: 15, end: 19 },
+                      isBlinking: true,
+                    },
+                  ],
+                  text: 'this is a nice line',
+                  blinkAfter: 50,
+                  isPlaying: true,
+                  isFinished: false,
+                  hasBeenStoppedBefore: false,
+                  repeat: false,
+                  repeatDelay: 0,
+                  lastPerformedAction: null,
+                });
+  
+                jest.advanceTimersByTime(50);
+  
+                assertLastSubscriber(
+                  subscriber,
+                  {
+                    history: [],
+                    actions: [
+                      {
+                        type: 'keyboard',
+                        text: 'badd',
+                        delay: 50,
+                        cursor: 0,
+                      },
+                    ],
+                    cursors: [
+                      {
+                        data: undefined,
+                        position: 19,
+                        selection: undefined,
+                        isBlinking: false,
+                      },
+                    ],
+                    text: 'this is a nice badd',
+                    blinkAfter: 50,
+                    isPlaying: false,
+                    isFinished: true,
+                    hasBeenStoppedBefore: false,
+                    repeat: false,
+                    repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                  },
+                  {
+                    type: 'FINISHED',
+                    action: {
+                      type: 'keyboard',
+                      text: 'badd',
+                      delay: 50,
+                      cursor: 0,
+                    },
+                    time: new Date(),
+                    cursor: typewriter.cursors[0],
+                  }
+                );
+              });
+            });
           });
         });
       });
@@ -9160,6 +11907,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -9191,6 +11939,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -9247,6 +12001,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -9278,6 +12033,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -9335,6 +12096,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: 2,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -9366,6 +12128,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: 2,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -9409,6 +12177,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: 2,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -9473,6 +12247,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -9503,6 +12278,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -9545,6 +12326,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -9601,6 +12388,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -9625,6 +12413,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -9705,6 +12499,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -9741,6 +12536,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -9794,6 +12595,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'b',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -9863,6 +12670,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -9893,6 +12701,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -9935,6 +12749,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -9984,6 +12804,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -10059,6 +12885,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -10095,6 +12922,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -10143,6 +12976,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -10203,6 +13042,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeClearAll,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -10257,6 +13102,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -10281,6 +13127,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -10339,6 +13191,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -10363,6 +13216,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -10421,6 +13280,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -10445,6 +13305,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -10504,6 +13370,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -10528,6 +13395,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -10571,6 +13444,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -10625,6 +13504,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -10649,6 +13529,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeRight,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -10707,6 +13593,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -10731,6 +13618,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeRight,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -10789,6 +13682,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It not should ignore the action when there is a selection
@@ -10814,6 +13708,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeRight,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -10873,6 +13773,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -10897,6 +13798,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeRight,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -10940,6 +13847,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeRight,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -10994,6 +13907,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -11018,6 +13932,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: 1,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -11096,6 +14016,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It should ignore the action
@@ -11134,6 +14055,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -11204,6 +14131,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It should not ignore the action if there is a selection
@@ -11235,6 +14163,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: 3,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -11277,6 +14211,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -11347,6 +14287,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -11377,6 +14318,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: -1,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -11419,6 +14366,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -11489,6 +14442,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It not should ignore the action but clear the selection
@@ -11520,6 +14474,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: -1,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -11562,6 +14522,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -11632,6 +14598,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -11662,6 +14629,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: 4,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -11704,6 +14677,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -11774,6 +14753,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It should not ignore the action but reset the selection
@@ -11805,6 +14785,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: 4,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -11847,6 +14833,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -11918,6 +14910,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -11948,6 +14941,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -11990,6 +14989,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: 0,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -12039,6 +15044,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'mouse',
+                position: 0,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -12093,6 +15104,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -12124,6 +15136,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectLeft,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -12182,6 +15200,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -12213,6 +15232,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectLeft,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -12283,6 +15308,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It should ignore the action
@@ -12317,6 +15343,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -12375,6 +15407,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -12406,6 +15439,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectLeft,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -12477,6 +15516,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -12507,6 +15547,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -12556,6 +15602,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -12605,6 +15657,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -12659,6 +15717,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -12690,6 +15749,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectRight,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -12748,6 +15813,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -12779,6 +15845,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectRight,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -12849,6 +15921,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           // It should ignore the action
@@ -12883,6 +15956,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: 'z',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -12941,6 +16020,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -12972,6 +16052,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectRight,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -13055,6 +16141,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(50);
@@ -13091,6 +16178,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: '😄',
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -13139,6 +16232,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeLeft,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -13194,6 +16293,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectRight,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'CHANGED',
@@ -13249,6 +16354,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: true,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeSelectRight,
+                delay: 50,
+                cursor: 0,
+              },
             },
             {
               type: 'REPEATING',
@@ -13333,6 +16444,7 @@ describe('Typewriter', () => {
         hasBeenStoppedBefore: false,
         repeat: false,
         repeatDelay: 0,
+        lastPerformedAction: null,
       });
 
       jest.advanceTimersByTime(100);
@@ -13388,6 +16500,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: false,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'o',
+            delay: 100,
+            cursor: 2,
+          },
         },
         {
           type: 'CHANGED',
@@ -13455,6 +16573,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: false,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'o',
+            delay: 100,
+            cursor: 1,
+          },
         },
         {
           type: 'CHANGED',
@@ -13522,6 +16646,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: false,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'e',
+            delay: 100,
+            cursor: 0,
+          },
         },
         {
           type: 'FINISHED',
@@ -13606,6 +16736,7 @@ describe('Typewriter', () => {
         hasBeenStoppedBefore: false,
         repeat: false,
         repeatDelay: 0,
+        lastPerformedAction: null,
       });
 
       jest.advanceTimersByTime(100);
@@ -13655,6 +16786,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: false,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'o',
+            delay: 100,
+            cursor: 1,
+          },
         },
         {
           type: 'CHANGED',
@@ -13716,6 +16853,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: false,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'w',
+            delay: 100,
+            cursor: 1,
+          },
         },
         {
           type: 'CHANGED',
@@ -13777,6 +16920,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: false,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'e',
+            delay: 100,
+            cursor: 0,
+          },
         },
         {
           type: 'FINISHED',
@@ -13788,6 +16937,128 @@ describe('Typewriter', () => {
           },
           time: new Date(),
           cursor: typewriter.cursors[0],
+        }
+      );
+    });
+
+    it('should set all cursors to index 0 when a clear all is performed, and remove all selections', () => {
+      const typewriter = new Typewriter<string>({
+        actions: [
+          {
+            type: 'keyboard',
+            text: typewriterActionTypeClearAll,
+            delay: 100,
+            cursor: 2,
+          },
+        ],
+        blinkAfter: 50,
+        text: 'hllwrld',
+        cursors: [
+          { position: 0, data: undefined, selection: { start: 0, end: 6 } },
+          { position: 4, data: undefined, selection: { start: 3, end: 4 } },
+          { position: 5, data: undefined, selection: { start: 5, end: 7 } },
+        ],
+      });
+      const subscriber = autoSubscribe(typewriter);
+
+      assertState(typewriter, {
+        history: [],
+        actions: [
+          {
+            type: 'keyboard',
+            text: typewriterActionTypeClearAll,
+            delay: 100,
+            cursor: 2,
+          },
+        ],
+        cursors: [
+          {
+            position: 0,
+            data: undefined,
+            selection: { start: 0, end: 6 },
+            isBlinking: true,
+          },
+          {
+            position: 4,
+            data: undefined,
+            selection: { start: 3, end: 4 },
+            isBlinking: true,
+          },
+          {
+            position: 5,
+            data: undefined,
+            selection: { start: 5, end: 7 },
+            isBlinking: true,
+          },
+        ],
+        text: 'hllwrld',
+        blinkAfter: 50,
+        isPlaying: true,
+        isFinished: false,
+        hasBeenStoppedBefore: false,
+        repeat: false,
+        repeatDelay: 0,
+        lastPerformedAction: null,
+      });
+
+      jest.advanceTimersByTime(100);
+
+      assertLastSubscriber(
+        subscriber,
+        {
+          history: [],
+          actions: [
+            {
+              type: 'keyboard',
+              text: typewriterActionTypeClearAll,
+              delay: 100,
+              cursor: 2,
+            },
+          ],
+          cursors: [
+            {
+              position: 0,
+              data: undefined,
+              selection: undefined,
+              isBlinking: true,
+            },
+            {
+              position: 0,
+              data: undefined,
+              selection: undefined,
+              isBlinking: true,
+            },
+            {
+              position: 0,
+              data: undefined,
+              selection: undefined,
+              isBlinking: false,
+            },
+          ],
+          text: '',
+          blinkAfter: 50,
+          isPlaying: false,
+          isFinished: true,
+          hasBeenStoppedBefore: false,
+          repeat: false,
+          repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: typewriterActionTypeClearAll,
+            delay: 100,
+            cursor: 2,
+          },
+        },
+        {
+          type: 'FINISHED',
+          action: {
+            type: 'keyboard',
+            text: typewriterActionTypeClearAll,
+            delay: 100,
+            cursor: 2,
+          },
+          time: new Date(),
+          cursor: typewriter.cursors[2],
         }
       );
     });
@@ -13873,6 +17144,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -13934,6 +17206,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -14027,6 +17305,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -14088,6 +17367,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -14181,6 +17466,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -14242,6 +17528,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -14332,6 +17624,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -14387,6 +17680,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -14559,6 +17858,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -14662,6 +17962,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -14750,6 +18056,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -14806,6 +18113,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -14901,6 +18214,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -14956,6 +18270,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -15124,6 +18444,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -15227,6 +18548,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -15331,6 +18658,7 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: false,
             repeatDelay: 0,
+            lastPerformedAction: null,
           });
 
           jest.advanceTimersByTime(100);
@@ -15393,6 +18721,12 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: {
+                type: 'keyboard',
+                text: typewriterActionTypeBackspace,
+                delay: 100,
+                cursor: 0,
+              },
             },
             {
               type: 'FINISHED',
@@ -15485,6 +18819,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -15540,6 +18875,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'j',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -15633,6 +18974,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -15694,6 +19036,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -15787,6 +19135,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -15848,6 +19197,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -15941,6 +19296,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -16002,6 +19358,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -16147,6 +19509,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -16238,6 +19601,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'a',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -16444,6 +19813,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -16571,6 +19941,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'o',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -16700,6 +20076,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -16779,6 +20156,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'x',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -17056,6 +20439,7 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: null,
               });
 
               jest.advanceTimersByTime(100);
@@ -17195,6 +20579,12 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
                 },
                 {
                   type: 'FINISHED',
@@ -17608,6 +20998,7 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: null,
               });
 
               jest.advanceTimersByTime(100);
@@ -17825,6 +21216,12 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
                 },
                 {
                   type: 'FINISHED',
@@ -18063,6 +21460,7 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: null,
               });
 
               jest.advanceTimersByTime(100);
@@ -18184,6 +21582,12 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
                 },
                 {
                   type: 'FINISHED',
@@ -18460,6 +21864,7 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: null,
               });
 
               jest.advanceTimersByTime(100);
@@ -18599,6 +22004,12 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
                 },
                 {
                   type: 'FINISHED',
@@ -19012,6 +22423,7 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: null,
               });
 
               jest.advanceTimersByTime(100);
@@ -19229,6 +22641,12 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
                 },
                 {
                   type: 'FINISHED',
@@ -19467,6 +22885,7 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: null,
               });
 
               jest.advanceTimersByTime(100);
@@ -19588,6 +23007,12 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: {
+                    type: 'keyboard',
+                    text: 'x',
+                    delay: 100,
+                    cursor: 0,
+                  },
                 },
                 {
                   type: 'FINISHED',
@@ -19680,6 +23105,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -19735,6 +23161,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'tall j',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -19828,6 +23260,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -19889,6 +23322,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'xox',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -19982,6 +23421,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -20043,6 +23483,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'athan',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -20136,6 +23582,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -20197,6 +23644,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'tin ',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -20342,6 +23795,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -20433,6 +23887,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'pa',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -20639,6 +24099,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -20766,6 +24227,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'ooo',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -20895,6 +24362,7 @@ describe('Typewriter', () => {
               hasBeenStoppedBefore: false,
               repeat: false,
               repeatDelay: 0,
+              lastPerformedAction: null,
             });
 
             jest.advanceTimersByTime(100);
@@ -20974,6 +24442,12 @@ describe('Typewriter', () => {
                 hasBeenStoppedBefore: false,
                 repeat: false,
                 repeatDelay: 0,
+                lastPerformedAction: {
+                  type: 'keyboard',
+                  text: 'xoor',
+                  delay: 100,
+                  cursor: 0,
+                },
               },
               {
                 type: 'FINISHED',
@@ -21260,6 +24734,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -21399,6 +24874,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'ploo',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -21828,6 +25309,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -22045,6 +25527,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'ada',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -22286,6 +25774,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -22407,6 +25896,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'xoxo',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -22690,6 +26185,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -22829,6 +26325,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'xa',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -23269,6 +26771,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -23492,6 +26995,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'oo',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -23763,6 +27272,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -23902,6 +27412,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -24186,6 +27702,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -24325,6 +27842,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'xap',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -24757,6 +28280,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -24974,6 +28498,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'ad',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -25211,6 +28741,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -25332,6 +28863,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -25618,6 +29155,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -25757,6 +29295,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'ploo',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -26186,6 +29730,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -26403,6 +29948,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'ada',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -26644,6 +30195,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -26765,6 +30317,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'xoxo',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -27048,6 +30606,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -27187,6 +30746,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'xa',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -27627,6 +31192,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -27850,6 +31416,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'oo',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -28121,6 +31693,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -28260,6 +31833,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -28544,6 +32123,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -28683,6 +32263,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'xap',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -29115,6 +32701,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -29332,6 +32919,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'ad',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -29569,6 +33162,7 @@ describe('Typewriter', () => {
                   hasBeenStoppedBefore: false,
                   repeat: false,
                   repeatDelay: 0,
+                  lastPerformedAction: null,
                 });
 
                 jest.advanceTimersByTime(100);
@@ -29690,6 +33284,12 @@ describe('Typewriter', () => {
                     hasBeenStoppedBefore: false,
                     repeat: false,
                     repeatDelay: 0,
+                    lastPerformedAction: {
+                      type: 'keyboard',
+                      text: 'xo',
+                      delay: 100,
+                      cursor: 0,
+                    },
                   },
                   {
                     type: 'FINISHED',
@@ -29708,121 +33308,6 @@ describe('Typewriter', () => {
           });
         });
       });
-    });
-
-    it('should set all cursors to index 0 when a clear all is performed, and remove all selections', () => {
-      const typewriter = new Typewriter<string>({
-        actions: [
-          {
-            type: 'keyboard',
-            text: typewriterActionTypeClearAll,
-            delay: 100,
-            cursor: 2,
-          },
-        ],
-        blinkAfter: 50,
-        text: 'hllwrld',
-        cursors: [
-          { position: 0, data: undefined, selection: { start: 0, end: 6 } },
-          { position: 4, data: undefined, selection: { start: 3, end: 4 } },
-          { position: 5, data: undefined, selection: { start: 5, end: 7 } },
-        ],
-      });
-      const subscriber = autoSubscribe(typewriter);
-
-      assertState(typewriter, {
-        history: [],
-        actions: [
-          {
-            type: 'keyboard',
-            text: typewriterActionTypeClearAll,
-            delay: 100,
-            cursor: 2,
-          },
-        ],
-        cursors: [
-          {
-            position: 0,
-            data: undefined,
-            selection: { start: 0, end: 6 },
-            isBlinking: true,
-          },
-          {
-            position: 4,
-            data: undefined,
-            selection: { start: 3, end: 4 },
-            isBlinking: true,
-          },
-          {
-            position: 5,
-            data: undefined,
-            selection: { start: 5, end: 7 },
-            isBlinking: true,
-          },
-        ],
-        text: 'hllwrld',
-        blinkAfter: 50,
-        isPlaying: true,
-        isFinished: false,
-        hasBeenStoppedBefore: false,
-        repeat: false,
-        repeatDelay: 0,
-      });
-
-      jest.advanceTimersByTime(100);
-
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          actions: [
-            {
-              type: 'keyboard',
-              text: typewriterActionTypeClearAll,
-              delay: 100,
-              cursor: 2,
-            },
-          ],
-          cursors: [
-            {
-              position: 0,
-              data: undefined,
-              selection: undefined,
-              isBlinking: true,
-            },
-            {
-              position: 0,
-              data: undefined,
-              selection: undefined,
-              isBlinking: true,
-            },
-            {
-              position: 0,
-              data: undefined,
-              selection: undefined,
-              isBlinking: false,
-            },
-          ],
-          text: '',
-          blinkAfter: 50,
-          isPlaying: false,
-          isFinished: true,
-          hasBeenStoppedBefore: false,
-          repeat: false,
-          repeatDelay: 0,
-        },
-        {
-          type: 'FINISHED',
-          action: {
-            type: 'keyboard',
-            text: typewriterActionTypeClearAll,
-            delay: 100,
-            cursor: 2,
-          },
-          time: new Date(),
-          cursor: typewriter.cursors[2],
-        }
-      );
     });
   });
 
@@ -29885,6 +33370,7 @@ describe('Typewriter', () => {
         hasBeenStoppedBefore: false,
         repeat: false,
         repeatDelay: 0,
+        lastPerformedAction: null,
       });
 
       jest.advanceTimersByTime(50);
@@ -29921,6 +33407,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: false,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'a',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'CHANGED',
@@ -29969,6 +33461,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: false,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'b',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'CHANGED',
@@ -30017,6 +33515,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: false,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'c',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'FINISHED',
@@ -30090,6 +33594,7 @@ describe('Typewriter', () => {
         hasBeenStoppedBefore: false,
         repeat: 1,
         repeatDelay: 0,
+        lastPerformedAction: null,
       });
 
       jest.advanceTimersByTime(50);
@@ -30126,6 +33631,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 1,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'a',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'CHANGED',
@@ -30174,6 +33685,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 1,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'b',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'CHANGED',
@@ -30222,6 +33739,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 1,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'c',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'FINISHED',
@@ -30296,6 +33819,7 @@ describe('Typewriter', () => {
         hasBeenStoppedBefore: false,
         repeat: true,
         repeatDelay: 1,
+        lastPerformedAction: null,
       });
 
       function checkIteration() {
@@ -30333,6 +33857,12 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 1,
+            lastPerformedAction: {
+              type: 'keyboard',
+              text: 'a',
+              delay: 50,
+              cursor: 0,
+            },
           },
           {
             type: 'CHANGED',
@@ -30381,6 +33911,12 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 1,
+            lastPerformedAction: {
+              type: 'keyboard',
+              text: 'b',
+              delay: 50,
+              cursor: 0,
+            },
           },
           {
             type: 'CHANGED',
@@ -30429,6 +33965,12 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 1,
+            lastPerformedAction: {
+              type: 'keyboard',
+              text: 'c',
+              delay: 50,
+              cursor: 0,
+            },
           },
           {
             type: 'CHANGED',
@@ -30477,6 +34019,12 @@ describe('Typewriter', () => {
             hasBeenStoppedBefore: false,
             repeat: true,
             repeatDelay: 1,
+            lastPerformedAction: {
+              type: 'keyboard',
+              text: 'c',
+              delay: 50,
+              cursor: 0,
+            },
           },
           {
             type: 'REPEATING',
@@ -30556,6 +34104,7 @@ describe('Typewriter', () => {
         hasBeenStoppedBefore: false,
         repeat: 3,
         repeatDelay: 0,
+        lastPerformedAction: null,
       });
 
       // First iteration
@@ -30594,6 +34143,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 3,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'a',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'CHANGED',
@@ -30642,6 +34197,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 3,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'b',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'CHANGED',
@@ -30690,6 +34251,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 3,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'c',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'CHANGED',
@@ -30738,6 +34305,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 3,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'c',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'REPEATING',
@@ -30782,6 +34355,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 3,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'a',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'CHANGED',
@@ -30830,6 +34409,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 3,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'b',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'CHANGED',
@@ -30878,6 +34463,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 3,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'c',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'CHANGED',
@@ -30926,6 +34517,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 3,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'c',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'REPEATING',
@@ -30970,6 +34567,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 3,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'a',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'CHANGED',
@@ -31018,6 +34621,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 3,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'b',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'CHANGED',
@@ -31066,6 +34675,12 @@ describe('Typewriter', () => {
           hasBeenStoppedBefore: false,
           repeat: 3,
           repeatDelay: 0,
+          lastPerformedAction: {
+            type: 'keyboard',
+            text: 'c',
+            delay: 50,
+            cursor: 0,
+          },
         },
         {
           type: 'FINISHED',
@@ -33905,6 +37520,7 @@ type TestState = Pick<
   | 'isFinished'
   | 'hasBeenStoppedBefore'
   | 'actions'
+  | 'lastPerformedAction'
   | 'repeat'
   | 'repeatDelay'
 > & {
@@ -33921,6 +37537,7 @@ function assertState(state: Typewriter<any>, expected: TestState) {
     repeat: state.repeat,
     repeatDelay: state.repeatDelay,
     hasBeenStoppedBefore: state.hasBeenStoppedBefore,
+    lastPerformedAction: state.lastPerformedAction,
     actions: state.actions.map((action) => {
       if (action.type === 'keyboard') {
         const copy: TypewriterAction = {

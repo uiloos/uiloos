@@ -9,6 +9,6 @@ import { common, name } from "./common";
 export class TypewriterBlinkAfterError extends Error {
   constructor() {
     super(`${common} blinkAfter cannot be negative or zero`);
-    this.name = "TypewriterBlinkAfterError";
+    this.name = `${name}BlinkAfterError`;
   }
 }
