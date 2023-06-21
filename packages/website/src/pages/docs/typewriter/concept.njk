@@ -72,7 +72,6 @@ renderData:
     {% include './concepts/word-by-word/word-by-word.njk' %}
     {% include './concepts/word-for-word/word-for-word.njk' %}
     {% include './concepts/karaoke/karaoke.njk' %}
-    {# TODO: word through sentence youtube like #}
   </section>
 
   <section>
@@ -166,6 +165,12 @@ renderData:
           <span class="high">hasBeenStoppedBefore</span> tracks if the animation was ever stopped during this animation cycle.
           It will reset when the animation is repeated. See <a href="/docs/typewriter/concepts/#repeat" class="underline">8. Repeat</a> 
           for more information.
+        </p>
+      </li>
+
+       <li class="ml-8 mb-4">
+        <p>
+          <span class="high">lastPerformedAction</span> the last <a href="/api/core/typewriteraction" class="high underline">TypewriterAction</a> which was performed.
         </p>
       </li>
     </ol>

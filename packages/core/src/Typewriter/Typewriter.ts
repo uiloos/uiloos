@@ -39,10 +39,6 @@ import { TypewriterCursorSelectionInvalidRangeError } from './errors/TypewriterC
 import { TypewriterCursorSelectionOutOfBoundsError } from './errors/TypewriterCursorSelectionOutOfBoundsError';
 import { TypewriterActionUnknownCursorError } from './errors/TypewriterActionUnknownCursorError';
 
-// TODO: Generic DATA T for cursors.
-
-// TODO: create docs
-
 /**
  * A component to create versatile typewriter animations with.
  *

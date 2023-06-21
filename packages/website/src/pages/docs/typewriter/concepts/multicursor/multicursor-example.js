@@ -6,35 +6,35 @@ function subscriber(typewriter) {
   typewriterEl.innerHTML = '';
 
   for (const position of typewriter) {
+    // If there are multiple cursors, the last one will be on top
+    for (const cursor of position.cursors.reverse()) {
+      const color = cursor.data.color;
+
+      const cursorEl = document.createElement("span");
+      cursorEl.classList.add("cursor");
+      cursorEl.style.setProperty("--cursor-color", color);
+
+      if (cursor.isBlinking) {
+        cursorEl.classList.add("blink");
+      }
+
+      typewriterEl.append(cursorEl);
+
+      const infoEl = document.createElement("span");
+      infoEl.className = "info";
+      infoEl.style.setProperty("--cursor-color", color);
+      infoEl.textContent = cursor.data.name;
+
+      typewriterEl.append(infoEl);
+    }
+
+
     const letterEl = document.createElement('span');
     letterEl.className = 'letter';
+    letterEl.textContent = position.character;
 
     typewriterEl.append(letterEl);
 
-    letterEl.textContent = position.character;
-
-    for (const cursor of position.cursors.reverse()) {
-      // If this span has multiple cursors, the last one will win.
-
-      const color = cursor.data.color;
-
-      const cursorEl = document.createElement('span');
-      cursorEl.classList.add('cursor');
-      cursorEl.style.setProperty('--cursor-color', color);
-
-      letterEl.insertAdjacentElement('beforebegin', cursorEl);
-
-      const infoEl = document.createElement('span');
-      infoEl.className = 'info';
-      infoEl.style.setProperty('--cursor-color', color);
-      infoEl.textContent = cursor.data.name;
-
-      cursorEl.insertAdjacentElement('afterend', infoEl);
-
-      if (cursor.isBlinking) {
-        cursorEl.classList.add('blink');
-      }
-    }
 
     for (const cursor of position.selected.reverse()) {
       // This span has one or multiple cursors, the last one will win.

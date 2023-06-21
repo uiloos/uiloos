@@ -1,0 +1,574 @@
+---
+title: Multi cursor | Tutorials | Typewriter | Docs
+layout: layouts/docs.njk
+permalink: /docs/typewriter/tutorials/multi-cursor/
+renderData:
+  parent: 'typewriter'
+  current: 'typewriter-tutorial'
+  description: "Tutorial which teaches you how to create a multi-cursor typewriter"
+  keywords: "Typewriter multi cursor tutorial"
+---
+
+<article>
+  <h1>Styling a multi cursor Typewriter tutorial</h1>
+
+  <nav class="2xl:fixed 2xl:top-24 2xl:right-2 2xl:w-[270px]" role="doc-toc">
+    <em>Table of contents</em>
+    <ol class="list-decimal m-2 mb-4">
+       <li class="ml-8">
+        <a href="#introduction" class="text-purple-600 underline">Introduction</a>
+      </li>
+      <li class="ml-8">
+        <a href="#files-overview" class="text-purple-600 underline">Files overview</a>
+      </li>
+      <li class="ml-8">
+        <a href="#laying-the-foundation" class="text-purple-600 underline">Laying the foundation</a>
+      </li>
+      <li class="ml-8">
+        <a href="#styling-the-typewriter" class="text-purple-600 underline">Styling the typewriter</a>
+      </li>
+      <li class="ml-8">
+        <a href="#adding-info-boxes" class="text-purple-600 underline">Adding info boxes</a>
+      </li>
+      <li class="ml-8">
+        <a href="#a-splash-of-color" class="text-purple-600 underline">A splash of color</a>
+      </li>
+      <li class="ml-8">
+        <a href="#handling-selections" class="text-purple-600 underline">Handling selections</a>
+      </li>
+      <li class="ml-8">
+        <a href="#further-reading" class="text-purple-600 underline">Further reading</a>
+      </li>
+    </ol>
+  </nav>
+
+  <section>
+    <h2 id="introduction" ><a href="#introduction">1. Introduction</a></h2>
+
+    <p>
+      We are going to style a <a href="/api/core/typewriter/" class="underline high">Typewriter</a> animation with 
+      a multiple cursors, and selections.
+    </p>
+
+    <p>
+      The biggest difference between supporting multiple cursors and single cursors, is the fact 
+      that the cursor is perhaps not always at the end of a sentence. We therefore need to do 
+      a little bit more work to get the animation going.
+    </p>
+
+    <p>
+      To get started with the tutorial open and fork this 
+      <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/s/typewriter-multi-cursor-tutorial-ff4q2c?file=/main.js" class="underline text-purple-600">sandbox</a>.
+      By using the sandbox you do not have to worry to much about setting
+      up an entire development environment.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="files-overview" ><a href="#files-overview">2. Files overview</a></h2>
+
+    <p>
+      In the sandbox you will see a couple of files, but these are the ones we are interested in:
+    </p>
+
+    <ol class="list-disc m-2 mb-4">
+      <li class="ml-8 mb-4">
+        <span class="high">index.html</span> contains the HTML for the two typewriters.
+
+        It includes "uiloos" via the UNPKG cdn.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">main.js</span> it contains a preconfigured multi cursor typewriter
+        which is not working yet, and is unstyled.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">main.css</span> a CSS file which is loaded in 
+        the <span class="high">index.html</span>. We will style the multi cursor animation here.
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="laying-the-foundation"><a href="#a-basic-animation">3. Laying the foundation</a></h2>
+
+    <p>
+      In the "index.html" file you will see a <span class="high">div</span> with the 
+      id <span class="high">typewriter</span>. This element will contain our 
+      entire animation.
+    </p>
+
+    <p>
+      When using multiple cursors the best approach is to iterate over each 
+      position in the <span class="high">Typewriter</span>, and render each 
+      position separately. 
+    </p>
+
+    <p>
+      So what are "positions" exactly? Take the string "foo" it has
+      3 positions: "f", "o" and "o". Basically every character in 
+      the Typewriter's text is a position.
+    </p>
+
+    <p>
+      Each position is represented by a <a href="/api/core/typewriterposition/" class="underline high">TypewriterPosition</a>,
+      it contains the "character" at the position, the cursors at the position, 
+      and which cursors are selecting the position.
+    </p>
+
+    <p>
+      So our goal is to loop over these positions, render the character, cursors and 
+      wether or not the position is selected. We also want to render the name 
+      of the cursor so we know which "user" is typing what.
+    </p>
+
+    <p>
+      Lets begin by rendering the characters:
+    </p>
+
+    <p>
+      To do this open the "main.js" file and change the "subscriber" function to:
+    </p>
+
+{% highlight "js" %}
+function subscriber(typewriter) {
+  typewriterEl.innerHTML = "";
+
+  for (const position of typewriter) {
+    const letterEl = document.createElement("span");
+    letterEl.className = "letter";
+    letterEl.textContent = position.character;
+
+    typewriterEl.append(letterEl);
+  }
+}
+{% endhighlight %}
+
+    <p>
+      What happens here is that our "subscriber" now listens to each event of the Typewriter.
+    </p>
+
+    <p>
+      For each event it clears the <span class="high">typewriter</span> element by setting
+      the <span class="high">innerHTML</span> to <span class="high">""</span>.
+    </p>
+
+    <p>
+      It then iterates over each position by iterating over the <span class="high">typewriter</span> itself,
+      and adding a <span class="high">span</span> with the CSS class <span class="high">letter</span>.
+    </p>
+
+    <p>
+      You should see the following animation, which only shows textual changes:
+    </p>
+
+    <img class="mb-8" src="/images/typewriter-tutorial/multicursor-basic.gif" alt="A simple basic animation showing a text being typed in letter by letter" />
+
+  </section>
+
+  <section>
+    <h2 id="styling-the-typewriter" ><a href="#styling-the-typewriter">4. Styling the typewriter</a></h2>
+
+    <p>
+     Now that we can see the "characters" / "letters" appearing it will be nice to show 
+     the cursors that typed them:
+    </p>
+
+    <p>
+      Open the file name named "main.js" and and update the "subscriber" function:
+    </p>
+
+{% highlight "js" %}
+function subscriber(typewriter) {
+  typewriterEl.innerHTML = "";
+
+  for (const position of typewriter) {
+    // By reversing we prioritize the last cursor by rendering it on top. 
+    for (const cursor of position.cursors.reverse()) {
+      const cursorEl = document.createElement("span");
+      cursorEl.classList.add("cursor");
+
+      if (cursor.isBlinking) {
+        cursorEl.classList.add("blinking");
+      }
+
+      typewriterEl.append(cursorEl);
+    }
+
+    const letterEl = document.createElement("span");
+    letterEl.className = "letter";
+    letterEl.textContent = position.character;
+
+    typewriterEl.append(letterEl);
+  }
+}
+{% endhighlight %}
+
+    <p>
+      Now each cursor is rendered at the correct position. Each cursor is represented by 
+      a <span class="high">span</span> with the CSS class <span class="high">cursor</span>.
+    </p>
+
+    <p>
+      Also note that cursors are rendered before the letters! This is how a text editor
+      would render this as well.
+    </p>
+
+    <p>
+      To style the cursors and typewriter a little, open the file name named "main.css" and add the following:
+    </p>
+
+{% highlight "css" %}
+#typewriter {
+  position: relative;
+  font-size: 32px;
+}
+
+#typewriter .cursor {
+  position: absolute;
+  width: 2px;
+  height: 32px;
+  margin-left: -1px;
+  margin-top: 4px;
+  background-color: black;
+}
+
+#typewriter .blinking {
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  from,
+  to {
+    background-color: transparent;
+  }
+  50% {
+    background-color: black;
+  }
+}
+{% endhighlight %}
+
+    <p>
+      First look at the resulting animation before we continue and unpack the CSS:
+    </p>
+
+    <img class="mb-8" src="/images/typewriter-tutorial/multicursor-with-cursors.gif" alt="A styled typewriter animation showing multiple cursors" />
+
+    <p>
+      The trickiest bit in the CSS is the way we are positioning the cursor so it does not affect the text.
+    </p>
+
+    <p>
+      To understand the problem we are trying to solve <b>temporarily</b> change 
+      the <span class="high">#typewriter .cursor</span> rule to:
+    </p>
+
+{% highlight "css" %}
+#typewriter .cursor {
+  display: inline-block;
+  width: 2px;
+  height: 32px;
+  background-color: black;
+}
+{% endhighlight %}
+
+    <p>
+      As you can see animation becomes glitchy because the cursor now takes 
+      up space in between the letters. The letters also move around when the cursor
+      moves. This is not how a cursor should behave.
+    </p>
+
+    <p>
+      Now change the <span class="high">#typewriter .cursor</span> back to what it was.
+    </p>
+
+    <p>
+      So how did we get the cursor not to affect the text:
+    </p>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        We gave the <span class="high">.cursor</span> a <span class="high">position: absolute;</span>
+        So it goes outside of the normal flow. This way it does not take up any "space" from the letters.
+      </li>
+      <li class="ml-8 mb-4">
+        By making the <span class="high">#typewriter</span>'s position <span class="high">relative</span>
+        the cursor becomes absolute relative to the <span class="high">#typewriter</span> instead of the 
+        window.
+      </li>
+      <li class="ml-8 mb-4">
+        By setting the <span class="high">width</span> of the <span class="high">.cursor</span> we make it visible.
+      </li>
+      <li class="ml-8 mb-4">
+        By setting the  <span class="high">height</span> of the <span class="high">.cursor</span> to the <span class="high">font-size</span>
+        we make sure the cursors has the right height.
+      </li>
+      <li class="ml-8 mb-4">
+        By setting the margins of the <span class="high">.cursor</span> we move it relatively to where it is rendered normally,
+        which looks better.
+      </li>
+    </ol>
+
+  </section>
+
+  <section>
+    <h2 id="adding-info-boxes" ><a href="#adding-info-boxes">5. Adding info boxes</a></h2>
+
+    <p>
+      Currently there is no way of seeing which cursor / user is typing.
+    </p>
+
+    <p>
+      A cursor can contain <span class="high">data</span>, in which you can put anything you want. 
+    </p>
+
+    <p>
+      In our case in the <span class="high">config</span> variable you can see that 
+      we set a <span class="high">name</span> and a <span class="high">color</span>.
+    </p>
+
+    <p>
+      Lets add an info box above each cursor, showing the name of the user.
+    </p>
+
+    <p>
+      In "main.js" in change the "subscriber" to:
+    </p>
+
+{% highlight "js" %}
+function subscriber(typewriter) {
+  typewriterEl.innerHTML = "";
+
+  for (const position of typewriter) {
+    for (const cursor of position.cursors.reverse()) {
+      const cursorEl = document.createElement("span");
+      cursorEl.classList.add("cursor");
+
+      if (cursor.isBlinking) {
+        cursorEl.classList.add("blinking");
+      }
+
+      typewriterEl.append(cursorEl);
+
+      const infoEl = document.createElement("span");
+      infoEl.className = "info";
+      infoEl.textContent = cursor.data.name;
+
+      typewriterEl.append(infoEl);
+    }
+
+    const letterEl = document.createElement("span");
+    letterEl.className = "letter";
+    letterEl.textContent = position.character;
+
+    typewriterEl.append(letterEl);
+  }
+}
+{% endhighlight %}
+
+    <p>
+      This will add a <span class="high">info</span> span element after each cursor, containing
+      the name of the cursor.
+    </p>
+
+    <p>
+      Next in the "main.css" give a little style to the info box by appending:
+    </p>
+
+{% highlight "css" %}
+#typewriter .info {
+  position: absolute;
+  margin-top: -20px;
+  margin-left: -1px;
+  padding: 4px;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  background-color: black;
+  color: white;
+}
+{% endhighlight %}
+
+    <p>
+      This lands us at the following animation:
+    </p>
+
+    <img class="mb-8" src="/images/typewriter-tutorial/multicursor-infoboxes.gif" alt="A styled typewriter animation showing multiple cursors and info boxes in black and white" />
+
+  </section>
+
+  <section>
+    <h2 id="a-splash-of-color" ><a href="#a-splash-of-color">6. A splash of color</a></h2>
+
+    <p>It has been a pretty black and white affair so far, lets add a splash of color.</p>
+
+    <p>
+      The technique I've chosen is to set CSS variables from inside of JavaScript. Alternatively you 
+      could also set the "style" directly.
+    </p>
+
+    <p>
+      The color comes from the <span class="high">data</span> of the cursor. Lets start by setting
+      some CSS variables from within "main.js".
+    </p>
+
+    <p>
+      Replace the "subscriber"'s cursor loop with the following code:
+    </p>
+
+{% highlight "js" %}
+for (const cursor of position.cursors.reverse()) {
+  const color = cursor.data.color;
+
+  const cursorEl = document.createElement("span");
+  cursorEl.classList.add("cursor");
+  cursorEl.style.setProperty("--cursor-color", color);
+
+  if (cursor.isBlinking) {
+    cursorEl.classList.add("blinking");
+  }
+
+  typewriterEl.append(cursorEl);
+
+  const infoEl = document.createElement("span");
+  infoEl.className = "info";
+  infoEl.style.setProperty("--cursor-color", color);
+  infoEl.textContent = cursor.data.name;
+
+  typewriterEl.append(infoEl);
+}
+{% endhighlight %}
+
+    <p>
+      In the "main.css" change the <span class="high">background-color</span> of 
+      the info span, cursor span, and blink animation:
+    </p>
+
+{% highlight "css" %}
+#typewriter .cursor {
+  position: absolute;
+  /* Abbreviated for brevity */
+  background-color: var(--cursor-color);
+}
+
+@keyframes blink {
+  from,
+  to {
+    background-color: transparent;
+  }
+  50% {
+    background-color: var(--cursor-color);
+  }
+}
+
+#typewriter .info {
+  position: absolute;
+  /* Abbreviated for brevity */
+  background-color: var(--cursor-color);
+  color: white;
+}
+{% endhighlight %}
+
+    <p>
+      You should now see some color:
+    </p>
+
+    <img class="mb-8" src="/images/typewriter-tutorial/multicursor-in-color.gif" alt="A styled typewriter animation showing multiple cursors and info boxes in color" />
+  </section>
+
+  <section>
+    <h2 id="handling-selections" ><a href="#handling-selections">7. Handling selections</a></h2>
+
+    <p>
+      The last thing on our list is handling selections, when a cursor selects text with the mouse
+      the background of the letters should become the color of the cursor.
+    </p>
+
+    <p>
+      We achieve this by giving a selected the <span class="high">letter</span> span,
+      CSS variable for the background color. We will call this CSS variable: <br/>
+      <span class="high">--background-color</span>
+    </p>
+
+    <p>
+      Change the "subscriber" in "main.js" to:
+    </p>
+
+{% highlight "js" %}
+function subscriber(typewriter) {
+  typewriterEl.innerHTML = "";
+
+  for (const position of typewriter) {
+    for (const cursor of position.cursors.reverse()) {
+      // Abbreviated for brevity still the same
+    }
+
+    const letterEl = document.createElement("span");
+    letterEl.className = "letter";
+    letterEl.textContent = position.character;
+
+    for (const cursor of position.selected.reverse()) {
+      // If there are multiple cursors, the last one will win.
+      const color = cursor.data.color;
+      letterEl.style.setProperty("--background-color", color + "30"); // 30 = opacity
+    }
+
+    typewriterEl.append(letterEl);
+  }
+}
+{% endhighlight %}
+
+    <p>Then append the following to "main.css": </p>
+
+{% highlight "css" %}
+#typewriter .letter {
+  background-color: var(--background-color);
+  padding: 0;
+}
+{% endhighlight %}
+
+    <p>This results in the final animation in which the text "three" gets selected:<p>
+
+    <img class="mb-8" src="/images/typewriter-tutorial/multicursor-finished.gif" alt="A  styled typewriter animation showing multiple cursors and info boxes in color, and which also shows selections." />
+
+    <p>
+      Protip: for selections it looks nice if the cursor selects it for a while, this 
+      gives the user (viewing the animation) time to see the "selection".
+    </p>
+
+    <p>
+       To achieve this I set the delay to 2 seconds in the "config" in the "main.js" 
+       in the action that comes after the "mouse" action.
+    </p>
+
+    <p>
+      For reference here is the <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/s/typewriter-multi-cursor-tutorial-finished-98ty2n?file=/main.js" class="underline text-purple-600">full code</a>.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="further-reading" ><a href="#further-reading">8. Further reading</a></h2>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        Read through the API of the <a href="/api/core/typewriter/" class="underline high">Typewriter</a>.
+      </li>
+      <li class="ml-8 mb-4">
+        Take a look at some <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/s/typewriter-react-psp7gx" class="underline text-purple-600">React typewriter animations</a> and notice the lack of a subscriber callback, 
+        because React handles the DOM manipulation.
+      </li>
+    </ol>
+  </section>
+
+  <a 
+    class="card" 
+    href="/docs/typewriter/usage-with-frameworks/"
+  >
+    <div>
+      <div class="text-normal font-medium mb-1">Usage with Frameworks</div>
+      <div class="text-sm">Learn how to use the Typewriter in combination with frameworks such as Angular and Vue.</div>
+    </div>
+    <svg class="w-4 h-4 fill-current text-blue-600 shrink-0 ml-6" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z"></path>
+    </svg>
+  </a>
+</article>
