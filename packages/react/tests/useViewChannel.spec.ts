@@ -2,11 +2,10 @@ import {
   licenseChecker,
   ViewChannel as ViewChannelCore,
   ViewChannel,
-  ViewChannelView,
 } from '@uiloos/core';
 import { renderHook, act } from '@testing-library/react';
 
-import { useViewChannel } from '../src/ViewChannel/useViewChannel';
+import { useViewChannel } from '../src';
 
 test('useActiveList hook', () => {
   licenseChecker.activateLicense('fake-100', { logLicenseActivated: false });

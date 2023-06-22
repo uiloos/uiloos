@@ -3,7 +3,7 @@ import { renderHook, act } from '@testing-library/react';
 
 import {
   useActiveList,
-} from '../src/ActiveList/useActiveList';
+} from '../src';
 
 test('useActiveList hook', () => {
   licenseChecker.activateLicense("fake-100", { logLicenseActivated: false });

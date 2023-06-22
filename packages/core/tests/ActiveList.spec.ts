@@ -22037,7 +22037,36 @@ describe('ActiveList', () => {
       ]);
     });
 
-    test('that the autoPlay can be stopped and continued', () => {
+    test('that it is possible to pause when never playing', () => {
+      jest.useFakeTimers();
+
+      const { activeList, subscriber } = setup({
+        isCircular: false,
+        activeIndexes: 0,
+      });
+
+      // It should start with 'a' and not be playing
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        duration: 0,
+        hasBeenStoppedBefore: false,
+      });
+      expect(subscriber).toBeCalledTimes(0);
+
+      // Should do nothing
+      activeList.pause();
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        duration: 0,
+        hasBeenStoppedBefore: false,
+      });
+      assertEvents(subscriber, []);
+    });
+
+    test('that the autoPlay can be stopped and restarted', () => {
       jest.useFakeTimers();
 
       const { activeList, subscriber } = setup({
@@ -22078,7 +22107,7 @@ describe('ActiveList', () => {
       });
       assertEvents(subscriber, ['ACTIVATED']);
 
-      // Now pause it at the half way, this should be forgotten
+      // Now stop it at the half way, this should be forgotten
       // because stop is not the same as pause.
       activeList.stop();
 
@@ -22203,6 +22232,35 @@ describe('ActiveList', () => {
         duration: 0,
       });
       assertEvents(subscriber, ['AUTO_PLAY_STOPPED']);
+    });
+
+    test('that it is not possible to stop when never playing', () => {
+      jest.useFakeTimers();
+
+      const { activeList, subscriber } = setup({
+        isCircular: false,
+        activeIndexes: 0,
+      });
+
+      // It should start with 'a' and be stopped
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        duration: 0,
+        hasBeenStoppedBefore: false,
+      });
+      expect(subscriber).toBeCalledTimes(0);
+
+      // Should do nothing
+      activeList.stop();
+
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 0,
+      });
+      assertEvents(subscriber, []);
     });
 
     test('that it is possible to pause first then stop', () => {
