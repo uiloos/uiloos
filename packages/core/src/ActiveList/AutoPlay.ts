@@ -93,7 +93,7 @@ export class _AutoPlay<T> {
       // the call to `cancelTimer` which is triggered by the following chain:
       // `next->activateByIndex->onActiveIndexChanged->play->cancelTimer`
       // does not need to call window.clearTimeout. This is just a
-      // very minor performance boost. On other reason to do this
+      // very minor performance boost. One other reason to do this
       // is that when debugging this code, it is slightly easier to
       // follow due to the `_autoPlayTimeoutId` getting cleaned up,
       // otherwise it looks like the timeout is still in progress.

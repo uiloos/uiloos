@@ -100,7 +100,7 @@ export class _AutoDismiss<T, R> {
         );
       }
 
-      // This is just a very minor performance boost. On other reason
+      // This is just a very minor performance boost. One other reason
       // to do this is that when debugging this code, it is slightly
       // easier to follow due to the `_autoDismissTimeoutId` getting
       // cleaned up, otherwise it looks like the timeout is still in

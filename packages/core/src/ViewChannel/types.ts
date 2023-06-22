@@ -167,7 +167,7 @@ export type ViewChannelViewConfig<T, R> = {
  * The subscriber which is informed of all state changes the
  * ViewChannel goes through.
  *
- * @param {ViewChannel<T, C>} viewChannel The ViewChannel which had changes.
+ * @param {ViewChannel<T, R>} viewChannel The ViewChannel which had changes.
  * @param {ViewChannelEvent<T>} event The event that occurred.
  * 
  * @since 1.0.0
