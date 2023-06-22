@@ -13,6 +13,11 @@ console.log("Checking minification");
 const vm = require('vm');
 const fs = require('fs');
 
+// We are using node set setTimout and clearTimeout on window
+window = {};
+window.setTimeout = setTimeout;
+window.clearTimeout = clearTimeout;
+
 function load(file) {
   const licenseFile = fs.readFileSync(file);
   const script = new vm.Script(licenseFile);
@@ -59,6 +64,17 @@ if (activeList.lastActivated !== 'b') {
 
 load('dist/uiloos-view-channel-VERSION.min.js');
 
+if (!uiloosViewChannel) {
+  console.error('uiloosViewChannel is not defined');
+  process.exit(1);
+}
+
+
+if (!uiloosViewChannel.ViewChannel) {
+  console.error('uiloosViewChannel.ViewChannel is not defined');
+  process.exit(1);
+}
+
 const viewChannel = new uiloosViewChannel.ViewChannel();
 viewChannel.present({
   data: "a",
@@ -84,5 +100,40 @@ if (c !== "c" || b !== "b" || a !== "a") {
   console.error('viewChannel.views values are incorrect');
   process.exit(1);
 }
+
+load('dist/uiloos-typewriter-VERSION.min.js');
+const typewriter = new uiloosTypewriter.Typewriter({
+  actions: [
+    {
+      type: 'keyboard',
+      text: 'a',
+      delay: 1,
+      cursor: 0,
+    },
+    {
+      type: 'keyboard',
+      text: 'b',
+      delay: 1,
+      cursor: 0,
+    },
+    {
+      type: 'keyboard',
+      text: 'c',
+      delay: 1,
+      cursor: 0,
+    },
+  ]
+});
+
+if (typewriter.actions.length !== 3) {
+  console.error('typewriter.actions.length should be 3');
+  process.exit(1);
+}
+
+if (!uiloosTypewriter.typewriterFromSentences({ sentences: ["A", "B", "C"]})) {
+  console.error('typewriter.typewriterFromSentences should be defined');
+  process.exit(1);
+}
+
 
 console.log("Finished checking minification");

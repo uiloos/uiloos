@@ -1,0 +1,41 @@
+<strong>
+  C. Word by word
+</strong>
+
+<p>
+  This animation animates word by word, instead of character by character:
+</p>
+
+<style>
+  {% include "./word-by-word-example.css" %}
+</style>
+
+{% include "./word-by-word-example.html" %}
+
+<details>
+  <summary class="mb-4">View code</summary>
+
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 dark:bg-gray-700 px-2 pt-2 pb-4 gap-4">
+      <button class="border font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">JavaScript</button>
+      <button class="border font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">HTML</button>
+      <button class="border font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">CSS</button>
+    </div>
+
+    <div class="example">
+      {% highlight "js" %}
+      {% include "./word-by-word-example.js" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "html" %}
+      {% include "./word-by-word-example.html" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "css" %}
+      {% include "./word-by-word-example.css" %}
+      {% endhighlight %}
+    </div>
+  </div>
+</details>

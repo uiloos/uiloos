@@ -30,60 +30,9 @@ const config = [
       }),
     ],
   },
-  {
-    input: 'src/ActiveList/index.ts',
-    output: {
-      file: `dist/uiloos-active-list-VERSION.min.js`,
-      format: 'iife',
-      name: 'uiloosActiveList',
-      plugins: [
-        terser({
-          mangle: {
-            properties: {
-              regex: /^_|_$/, // It is safe to rename variables with underscores
-            },
-          },
-        }),
-      ],
-    },
-    plugins: [
-      uiloosMinificationStart(),
-      external(),
-      resolve(),
-      commonjs(),
-      typescript({
-        tsconfig: './tsconfig.json',
-      }),
-      uiloosMinificationEnd(),
-    ],
-  },
-  {
-    input: 'src/ViewChannel/index.ts',
-    output: {
-      file: `dist/uiloos-view-channel-VERSION.min.js`,
-      format: 'iife',
-      name: 'uiloosViewChannel',
-      plugins: [
-        terser({
-          mangle: {
-            properties: {
-              regex: /^_|_$/, // It is safe to rename variables with underscores
-            },
-          },
-        }),
-      ],
-    },
-    plugins: [
-      uiloosMinificationStart(),
-      external(),
-      resolve(),
-      commonjs(),
-      typescript({
-        tsconfig: './tsconfig.json',
-      }),
-      uiloosMinificationEnd(),
-    ],
-  }
+  createEntry('ActiveList', 'active-list'),
+  createEntry('ViewChannel', 'view-channel'),
+  createEntry('Typewriter', 'typewriter'),
 ];
 
 export default config;
@@ -158,4 +107,34 @@ function uiloosMinificationEnd() {
       console.log("\n\nIgnore any `Cannot find name 'uiloosLicenseChecker'` messages, this is expected!\n");
     },
   };
+}
+
+function createEntry(name, filename) {
+  return {
+    input: `src/${name}/index.ts`,
+    output: {
+      file: `dist/uiloos-${filename}-VERSION.min.js`,
+      format: 'iife',
+      name: `uiloos${name}`,
+      plugins: [
+        terser({
+          mangle: {
+            properties: {
+              regex: /^_|_$/, // It is safe to rename variables with underscores
+            },
+          },
+        }),
+      ],
+    },
+    plugins: [
+      uiloosMinificationStart(),
+      external(),
+      resolve(),
+      commonjs(),
+      typescript({
+        tsconfig: './tsconfig.json',
+      }),
+      uiloosMinificationEnd(),
+    ]
+  }
 }

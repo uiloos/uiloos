@@ -1,0 +1,62 @@
+
+// Note: --cursor-color, and --background-color are set from JavaScript
+
+.typewriter {
+  position: relative;
+  font-size: 32px;
+  display: inline-block;
+  width: 100%;
+  min-height: 32px;
+  margin-bottom: 8px;
+  word-wrap: break-word;
+  overflow: auto;
+
+  .info {
+    position: absolute;
+    display: none;
+    margin-top: -10px;
+    margin-left: -1px;
+    padding: 4px;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    background-color: var(--cursor-color);
+    color: white;
+  }
+
+  .cursor:hover + .info {
+    display: inline;
+  }
+  .cursor::after:hover + .info {
+    display: inline;
+  }
+
+  .letter {
+    background-color: var(--background-color);
+    padding: 0;
+  }
+
+  .cursor {
+    position: absolute;
+    display: inline-block;
+    width: 2px;
+    background-color: var(--cursor-color);
+    height: 32px;
+    margin-left: -1px;
+    margin-top: 6px;
+  }
+
+  .blink {
+    animation: composer-blink 1s step-start infinite;
+  }
+}
+
+@keyframes composer-blink {
+  from,
+  to {
+    background-color: transparent;
+  }
+  50% {
+    background-color: var(--cursor-color);
+  }
+}

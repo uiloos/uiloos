@@ -1,0 +1,43 @@
+<strong>
+  B. Multiple cursors
+</strong>
+
+<p>
+  A more complex animation showing of how multiple cursors can work
+  together. The animation praises a fictional collaboration product,
+  called "collab".
+</p>
+
+<style>
+  {% include "./multicursor-example.css" %}
+</style>
+
+{% include "./multicursor-example.html" %}
+
+<details>
+  <summary class="mb-4">View code</summary>
+
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 dark:bg-gray-700 px-2 pt-2 pb-4 gap-4">
+      <button class="border font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">JavaScript</button>
+      <button class="border font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">HTML</button>
+      <button class="border font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">CSS</button>
+    </div>
+
+    <div class="example">
+      {% highlight "js" %}
+      {% include "./multicursor-example.js" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "html" %}
+      {% include "./multicursor-example.html" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "css" %}
+      {% include "./multicursor-example.css" %}
+      {% endhighlight %}
+    </div>
+  </div>
+</details>

@@ -1,0 +1,26 @@
+#sentences-typewriter {
+  font-family: monospace;
+  font-size: 26px;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+#sentences-typewriter-cursor {
+  border-right-width: 4px; 
+  border-right-style: solid;
+  border-color: green;
+}
+
+#sentences-typewriter-cursor.blinking { 
+  animation: example-blink 0.75s step-start infinite;
+}
+
+@keyframes example-blink {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: green;
+  }
+}

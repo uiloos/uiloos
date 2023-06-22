@@ -12,3 +12,29 @@
     background-position: left bottom;
   }
 }
+
+#home-typewriter {
+  font-family: monospace;
+  font-size: 32px;
+  display: inline-block;
+}
+
+#home-typewriter-cursor {
+  border-right-width: 4px; 
+  border-right-style: solid;
+  border-color: rgb(126 34 206 / var(--tw-border-opacity));
+}
+
+#home-typewriter-cursor.blinking { 
+  animation: blink 0.75s step-start infinite;
+}
+
+@keyframes blink {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: rgb(126 34 206 / var(--tw-border-opacity));
+  }
+}

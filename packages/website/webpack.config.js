@@ -3,10 +3,10 @@ const glob = require('glob');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const entry = glob.sync('./src/scripts/*').reduce((entries, entry) => {
-  const entryName = path.parse(entry).name
-  entries[entryName] = entry
+  const entryName = path.parse(entry).name;
+  entries[entryName] = entry;
 
-  return entries
+  return entries;
 }, {});
 
 module.exports = {
@@ -34,6 +34,14 @@ module.exports = {
             options: {
               sourceMap: false,
             },
+          },
+        ],
+      },
+      {
+        test: /\.ts$/,
+        use: [
+          {
+            loader: 'ts-loader',
           },
         ],
       },

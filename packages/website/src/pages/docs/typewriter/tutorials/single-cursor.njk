@@ -1,0 +1,352 @@
+---
+title: Single cursor | Tutorials | Typewriter | Docs
+layout: layouts/docs.njk
+permalink: /docs/typewriter/tutorials/single-cursor/
+renderData:
+  parent: 'typewriter'
+  current: 'typewriter-tutorial'
+  description: "Tutorial which teaches you how to create a single cursor typewriter"
+  keywords: "Typewriter single cursor tutorial"
+---
+
+<article>
+  <h1>Styling a single cursor Typewriter tutorial</h1>
+
+  <nav class="2xl:fixed 2xl:top-24 2xl:right-2 2xl:w-[270px]" role="doc-toc">
+    <em>Table of contents</em>
+    <ol class="list-decimal m-2 mb-4">
+       <li class="ml-8">
+        <a href="#introduction" class="text-purple-600 underline">Introduction</a>
+      </li>
+      <li class="ml-8">
+        <a href="#files-overview" class="text-purple-600 underline">Files overview</a>
+      </li>
+      <li class="ml-8">
+        <a href="#a-basic-animation" class="text-purple-600 underline">A basic animation</a>
+      </li>
+      <li class="ml-8">
+        <a href="#styling-the-typewriter" class="text-purple-600 underline">Styling the typewriter</a>
+      </li>
+      <li class="ml-8">
+        <a href="#adding-the-cursor" class="text-purple-600 underline">Adding the cursor</a>
+      </li>
+      <li class="ml-8">
+        <a href="#blinking-the-cursor" class="text-purple-600 underline">Blinking the cursor</a>
+      </li>
+      <li class="ml-8">
+        <a href="#further-reading" class="text-purple-600 underline">Further reading</a>
+      </li>
+    </ol>
+  </nav>
+
+  <section>
+    <h2 id="introduction" ><a href="#introduction">1. Introduction</a></h2>
+
+    <p>
+      We are going to style a <a href="/api/core/typewriter/" class="underline high">Typewriter</a> animation with 
+      a single cursor typewriter.
+    </p>
+
+    <p>
+      To get started with the tutorial open and fork this 
+      <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/s/typewriter-single-cursor-tutorial-7xgtpr?file=/main.js" class="underline text-purple-600">sandbox</a>.
+      By using the sandbox you do not have to worry to much about setting
+      up an entire development environment.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="files-overview" ><a href="#files-overview">2. Files overview</a></h2>
+
+    <p>
+      In the sandbox you will see a couple of files, but these are the ones we are interested in:
+    </p>
+
+    <ol class="list-disc m-2 mb-4">
+      <li class="ml-8 mb-4">
+        <span class="high">index.html</span> contains the HTML for the two typewriters.
+
+        It includes "uiloos" via the UNPKG cdn.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">main.js</span> it contains a preconfigured single cursor typewriter
+        which is not working yet, and is unstyled.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">main.css</span> a CSS file which is loaded in 
+        the <span class="high">index.html</span>. We will style the singlecursor animation here.
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="a-basic-animation" ><a href="#a-basic-animation">3. A basic animation</a></h2>
+
+    <p>
+      In the "index.html" file you will see a <span class="high">div</span> with the 
+      id <span class="high">typewriter-text</span>, it is this element to which 
+      we want to hook up our animation.
+    </p>
+
+    <p>
+      To do this open the "main.js" file and change the subscriber function to:
+    </p>
+
+{% highlight "js" %}
+function subscriber(typewriter) {
+  typewriterEl.textContent = typewriter.text;
+}
+{% endhighlight %}
+
+    <p>
+      The <span class="high">subscriber</span> function is given as the second 
+      argument to the <a href="/api/core/typewriterfromsentences" class="high underline">typewriterFromSentences</a>
+      function. This makes it a "subscriber" to the "Typewriter".
+    </p>
+
+    <p>
+      A "subscriber" is informed of each <a href="/api/core/typewriterevent" class="high underline">TypewriterEvent</a>.
+      It receives the <a href="/api/core/typewriter" class="high underline">Typewriter</a> as the first parameter.
+    </p>
+
+    <p>
+      What our "subscriber" does: for each event that occurs set the text of 
+      the <span class="high">typewriterEl</span> to whatever 
+      the text of the <span class="high">typewriter</span> is.
+    </p>
+
+    <p>
+      You should see a basic animation:
+    </p>
+
+    <img class="mb-8" src="/images/typewriter-tutorial/singlecursor-unstyled.gif" alt="A simple unstyled animation looping over matrix quotes" />
+
+    <p>
+      Not much to look at but it is a start.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="styling-the-typewriter" ><a href="#styling-the-typewriter">4. Styling the Typewriter</a></h2>
+
+    <p>
+      By now you must realize that the typewriter contains quotes from the film franchise:
+      "the Matrix". So lets give it a more matrix like feel.
+    </p>
+
+    <p>
+      Open the file name named "main.css" and add the following:
+    </p>
+
+{% highlight "css" %}
+#typewriter {
+  padding-top: 75px;
+  padding-left: 16px;
+  height: 150px;
+  margin-bottom: 16px;
+
+  font-family: monospace;
+  font-size: 26px;
+  color: #15803d;
+  background-color: rgb(0, 16, 0);
+}
+{% endhighlight %}
+
+    <p>
+      This gives the animation a blackish green background, which resembles the style of the film.
+      It also makes the font monospaced, the font depends on the operating system. Of course you 
+      could set it to a specific font instead.
+    </p>
+
+    <p>
+      Now the animation appears like this:
+    </p>
+
+    <img class="mb-8" src="/images/typewriter-tutorial/singlecursor-styled.gif" alt="A styled animation looping over matrix quotes" />
+
+    <p>
+      Now it feels closer to the style of the film.
+    </p>
+
+  </section>
+
+  <section>
+    <h2 id="adding-the-cursor" ><a href="#adding-a-cursor">5. Adding the cursor</a></h2>
+
+    <p>
+      The one thing still missing is a cursor, this is the defining feature of a typewriter animation.
+    </p>
+
+    <p>
+      When you have only have a single cursor all we need to do is add a HTML element at the end of 
+      the text which represents the cursor. 
+    </p>
+
+    <p>
+      The technique we are using is making the "subscriber" add an HTML element at 
+      the end of the text using <span class="high">document.createElement</span>. Alternatively
+      you could also place the cursor inside of the "index.html" file. There is almost always more than
+      one way to achieve the same results.
+    </p>
+
+    <p>
+      Open the main.js file and change the "subscriber" function to:
+    </p>
+
+{% highlight "js" %}
+function subscriber(typewriter) {
+  typewriterEl.textContent = typewriter.text;
+
+  const cursorEl = document.createElement("span");
+  cursorEl.id = "typewriter-cursor";
+  typewriterEl.append(cursorEl);
+}
+{% endhighlight %}
+
+    <p>
+      This ensures that a <span class="high">span</span> is added after the text, which 
+      has the CSS class <span class="high">typewriter-cursor</span>.
+    </p>
+
+    <p>
+      To style said CSS class open the "main.css" file and add the following:
+    </p>
+
+{% highlight "css" %}
+#typewriter-cursor {
+  margin-left: 2px;
+  border-right-width: 4px;
+  border-right-style: solid;
+  border-color: #15803d;
+}
+{% endhighlight %}
+
+    <p>We should now have a cursor:</p>
+
+    <img class="mb-8" src="/images/typewriter-tutorial/singlecursor-with-cursor.gif" alt="A styled animation looping over matrix quotes showing a cursor" />
+
+  </section>
+
+  <section>
+    <h2 id="blinking-the-cursor" ><a href="#blinking-the-cursor">6. Blinking the cursor</a></h2>
+
+    <p>
+      The animation feels incomplete, maybe it is hard to put your finger on it, but the animations
+      feels unnatural. The reason for this is that the cursor does not blink like a normal cursor does.
+    </p>
+
+    <p>
+      Blinking in cursors works like this: when the user is typing the cursor is solid. 
+      When the user stops typing the cursor will start blinking, but only after a period
+      of inactivity.
+    </p>
+
+    <p>
+      Luckily for us the logic for when a cursor is blinking or not, is incorporated into the 
+      Typewriter, so we do not need to worry about the specifics. 
+    </p>
+
+    <p>
+      What we are going to do is add a "blinking" CSS class to the cursors span element, when the 
+      Typewriter tells us the cursor is blinking.
+    </p>
+
+    <p>
+      Open the main.js file and change the "subscriber" for the last time:
+    </p>
+
+{% highlight "js" %}
+function subscriber(typewriter) {
+  typewriterEl.textContent = typewriter.text;
+
+  const cursorEl = document.createElement("span");
+  cursorEl.id = "typewriter-cursor";
+  if (typewriter.cursors[0].isBlinking) {
+    cursorEl.classList.add("blinking");
+  }
+  typewriterEl.append(cursorEl);
+}
+{% endhighlight %}
+
+    <p class="note">
+      The typewriter will always have 1 or more cursors. Which is why you can 
+      use <span class="high">cursors[0]</span> without worrying about it being
+      <span class="high">undefined</span>
+    </p>
+
+    <p>
+      The CSS class is not set. Now to make the cursor actually blink, 
+      open the "main.css" file and add the following:
+    </p>
+
+{% highlight "css" %}
+#typewriter-cursor.blinking {
+  animation: blink 0.75s step-start infinite;
+}
+
+@keyframes blink {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #15803d;
+  }
+}
+{% endhighlight %} 
+
+    <p>
+      This sets an infinitely running animation, which alternates the 
+      cursors background between transparent and green. 
+    </p>
+
+    <p>
+      The <span class="high">step-start</span> makes the transition quite
+      abrupt between the two states. You could also set it 
+      to <span class="high">ease-in</span> or <span class="high">linear</span> to get 
+      different effects.
+    </p>
+
+    <p>
+      The final result shows a blinking cursor when a sentence is finished:
+    </p>
+
+    <img class="mb-8" src="/images/typewriter-tutorial/singlecursor-blinking.gif" alt="A styled animation looping over matrix quotes showing a blinking cursor" />
+
+    <p>
+      For reference here is the <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/s/typewriter-single-cursor-tutorial-finished-nrwn9w?file=/main.js" class="underline text-purple-600">full code</a>.
+    </p>
+
+  </section>
+
+  <section>
+    <h2 id="further-reading" ><a href="#further-reading">7. Further reading</a></h2>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        Read through the API of the <a href="/api/core/typewriter/" class="underline high">Typewriter</a>.
+      </li>
+      <li class="ml-8 mb-4">
+        Now that you have mastered a single cursor animation, perhaps you want 
+        to check out a <a href="/docs/typewriter/tutorials/multi-cursor/" class="underline">tutorial for a multi cursor animation</a>.
+      </li>
+      <li class="ml-8 mb-4">
+        Take a look at some <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/s/typewriter-react-psp7gx" class="underline text-purple-600">React typewriter animations</a> and notice the lack of a subscriber callback, 
+        because React handles the DOM manipulation.
+      </li>
+    </ol>
+  </section>
+
+  <a 
+    class="card" 
+    href="/docs/typewriter/usage-with-frameworks/"
+  >
+    <div>
+      <div class="text-normal font-medium mb-1">Usage with Frameworks</div>
+      <div class="text-sm">Learn how to use the Typewriter in combination with frameworks such as Angular and Vue.</div>
+    </div>
+    <svg class="w-4 h-4 fill-current text-blue-600 shrink-0 ml-6" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z"></path>
+    </svg>
+  </a>
+</article>

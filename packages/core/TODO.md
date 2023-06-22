@@ -6,3 +6,4 @@
 4. sort operations
 5. update operation?
 6. isCircular representation of the content for carousel
+

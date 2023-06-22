@@ -1,0 +1,15 @@
+#karaoke-typewriter {
+  position: relative;
+  text-align: left; 
+  font-weight: bold;
+  font-size: 32px;
+}
+
+#karaoke-typewriter-regular {
+  color: #94a3b8;
+}
+
+#karaoke-typewriter-highlight {
+  position: absolute;
+  color: #5b21b6;
+}

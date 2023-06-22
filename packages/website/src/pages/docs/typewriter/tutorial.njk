@@ -1,0 +1,66 @@
+---
+title: Tutorials | Typewriter | Docs
+layout: layouts/docs.njk
+permalink: /docs/typewriter/tutorials/
+renderData:
+  parent: 'typewriter'
+  current: 'typewriter-tutorial'
+  description: "Lists the tutorials for the Typwriter component."
+  keywords: "Typewriter tutorials"
+---
+
+<article>
+  <h1>Typewriter Tutorials</h1>
+
+  <p>
+    Below are tutorials showing you how to use the Typewriter.
+  </p>
+
+  <div class="grid lg:grid-cols-2 gap-4">
+    {% for tutorial in tutorials %}
+      {% if tutorial.for === 'Typewriter' %}
+        <a 
+          class="example-card" 
+          href="{{ tutorial.url }}"
+        >
+          <div class="flex flex-col h-full">
+            <div class="text-normal font-medium mb-4">{{ tutorial.text }}</div>
+            <div class="grow mb-4">{{ tutorial.description | safe }}</div>
+            <div class="justify-self-end flex items-center gap-4 text-sm">
+              {% for tag in tutorial.tags %}
+                {% if tag === 'JavaScript' %}
+                  <img src="/images/frameworks/vanilla.svg" class="w-12 h-12 p-1" loading="lazy" alt="JavaScript logo" /> 
+                {% elif tag === 'React' %}
+                  <img src="/images/frameworks/react.svg" class="w-12 h-12 p-1" loading="lazy" alt="React logo" />
+                {% elif tag === 'Vue' %}
+                  <img src="/images/frameworks/vue.svg" class="w-12 h-12 p-1" loading="lazy" alt="Vue logo" />
+                {% elif tag === 'Angular' %}
+                  <img src="/images/frameworks/angular.svg" class="w-12 h-12 p-1" loading="lazy" alt="Angular logo" />
+                {% elif tag === 'Svelte' %}
+                  <img src="/images/frameworks/svelte.svg" class="w-12 h-12 p-1" loading="lazy" alt="Svelte logo" />
+                {% else %}
+                  <span class="text-center text-white font-bold py-1 px-3 rounded-full bg-purple-500">
+                    {{ tag }}
+                  </span>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <a 
+    class="card" 
+    href="/docs/typewriter/usage-with-frameworks/"
+  >
+    <div>
+      <div class="text-normal font-medium mb-1">Usage with Frameworks</div>
+      <div class="text-sm">Learn how to use the Typewriter in combination with frameworks such as Angular and Vue.</div>
+    </div>
+    <svg class="w-4 h-4 fill-current text-blue-600 shrink-0 ml-6" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z"></path>
+    </svg>
+  </a>
+</article>

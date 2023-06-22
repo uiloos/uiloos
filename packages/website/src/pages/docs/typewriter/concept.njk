@@ -1,0 +1,657 @@
+---
+title: Concepts | Typewriter | Docs
+layout: layouts/docs.njk
+permalink: /docs/typewriter/concepts/
+renderData:
+  parent: 'typewriter'
+  current: 'typewriter-concepts'
+  description: "Provides a conceptual overview of the Typewriter component from the uiloos library. A Typewriter can be used to create text based animations, it supports multiple cursors, selection and mouse movements."
+  keywords: "Typewriter concept, Typewriter overview, Typewriter use-cases, multiple cursors, typewriter effect"
+---
+
+<script src="/assets/typewriter-concepts.js" defer="true"></script>
+
+<article>
+  <h1>Typewriter Concepts</h1>
+
+  <nav class="2xl:fixed 2xl:top-24 2xl:right-2 2xl:w-[270px]" role="doc-toc">
+    <em>Table of contents</em>
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8">
+        <a href="#overview" class="text-purple-600 underline">Overview</a>
+      </li>
+      <li class="ml-8">
+        <a href="#initialization" class="text-purple-600 underline">Initialization</a>
+      </li>
+      <li class="ml-8">
+        <a href="#live-properties" class="text-purple-600 underline">Live properties</a>
+      </li>
+      <li class="ml-8">
+        <a href="#creating-animations" class="text-purple-600 underline">Creating animations</a>
+      </li>
+      <li class="ml-8">
+        <a href="#actions" class="text-purple-600 underline">Actions</a>
+      </li>
+      <li class="ml-8">
+        <a href="#autoplay" class="text-purple-600 underline">AutoPlay</a>
+      </li>
+      <li class="ml-8">
+        <a href="#repeat" class="text-purple-600 underline">Repeat</a>
+      </li>
+      <li class="ml-8">
+        <a href="#iterator" class="text-purple-600 underline">Iterator</a>
+      </li>
+      <li class="ml-8">
+        <a href="#history" class="text-purple-600 underline">History</a>
+      </li>
+    </ol>
+  </nav>
+
+  <section>
+    <h2 id="overview" >
+      <a href="#overview">1. Overview</a>
+    </h2>
+
+    <p>
+      With the <a href="/api/core/typewriter/" class="underline high">Typewriter</a> 
+      you can create text based animations, which mimic a user typing in text.
+      The Typewriter supports: multiple cursors, selection, arrow movement, backspace
+      and mouse movements. 
+    </p>
+
+    <p>
+      The Typewriters cursors, represented by the <a href="/api/core/typewritercursor/" class="underline high">TypewriterCursor</a> class, 
+      behave like cursors in a text editor. The Typewriter tries to mimic / simulate real 
+      life as much as possible.
+    </p>
+
+    <p>Here are some example animations:</p>
+
+    {% include './concepts/sentences/sentences.njk' %}
+    {% include './concepts/multicursor/multicursor.njk' %}
+    {% include './concepts/word-by-word/word-by-word.njk' %}
+    {% include './concepts/word-for-word/word-for-word.njk' %}
+    {% include './concepts/karaoke/karaoke.njk' %}
+  </section>
+
+  <section>
+    <h2 id="initialization" >
+      <a href="#initialization">2. Initialization</a>
+    </h2>
+
+    <p>
+      A Typewriter can be initialized by calling the <a href="/api/core/typewriter/#constructor" class="high underline">constructor</a>.
+      The constructor takes two arguments the <a href="/api/core/typewriterconfig/" class="high underline">config</a>
+      and an optional <a href="/api/core/typewritersubscriber/" class="high underline">subscriber</a>
+    </p>
+
+    <p>
+      The <a href="/api/core/typewriterconfig/" class="high underline">config</a>
+      allows you to tell the Typewriter how many history items it should 
+      track, see <a href="/docs/typewriter/concepts/#history" class="underline">8. History</a> 
+        for more information.
+    </p>
+
+    <p>
+      The second argument is an optional <a href="/api/core/typewritersubscriber/" class="high underline">subscriber</a>,
+      the subscriber is a callback function, allowing you to observe changes 
+      of the Typewriter. When using vanilla JavaScript the callback is the place
+      to perform any DOM manipulations. The callback receives the <a href="/api/core/typewriterevent/" class="high underline">event</a>
+      that occurred so you can act on it.
+    </p>
+
+    <p>
+      When using reactive frameworks such as React, Vue, Angular or Svelte etc etc. 
+      The subscriber is not necessary since your framework of choice will do the 
+      heavy lifting of syncing the state of the Typewriter with the DOM. 
+      For more information see <a href="/docs/typewriter/usage-with-frameworks/" class="underline">"Usage with Framework"</a>
+    </p>
+
+    {% include './concepts/initialization.njk' %}
+  </section>
+
+  <section>
+    <h2 id="live-properties" >
+      <a href="#live-properties">3. Live properties</a>
+    </h2>
+
+    <p>
+      The Typewriter tracks the status of itself in "live" properties. 
+      These live properties will sync automatically whenever you perform an 
+      action (call a method) of the Typewriter, such as play / pause 
+      or stop.
+    </p>
+
+    <p>
+      In other words: each time you call a method to alter the Typewriter,
+      all "live" properties will have been updated to reflect the current 
+      status. 
+    </p>
+
+    <p>Since the Typewriter is an animation it will also update all properties
+      whenever the animation performs an action / frame.
+    </p>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        <p>
+          <span class="high">text</span> which is the current text the 
+          typewriter animation should display. Each part of the animation,
+          called an action, will cause the text to change.
+        </p>
+
+        <p>
+          You are supposed to take the <span class="high">text</span> and put
+          it inside of a DOM element such as a <span class="high">p</span>, or
+          a <span class="high">span</span>.
+        </p>
+      </li>
+
+      <li class="ml-8 mb-4">
+        <p>
+          <span class="high">isPlaying</span> tracks whether the animation
+          is currently playing. 
+        </p>
+      </li>
+
+      <li class="ml-8 mb-4">
+        <p>
+          <span class="high">isFinished</span> tracks if the `Typewriter` has finished playing the entire animation.
+        </p>
+      </li>
+
+      <li class="ml-8 mb-4">
+        <p>
+          <span class="high">hasBeenStoppedBefore</span> tracks if the animation was ever stopped during this animation cycle.
+          It will reset when the animation is repeated. See <a href="/docs/typewriter/concepts/#repeat" class="underline">8. Repeat</a> 
+          for more information.
+        </p>
+      </li>
+
+       <li class="ml-8 mb-4">
+        <p>
+          <span class="high">lastPerformedAction</span> the last <a href="/api/core/typewriteraction" class="high underline">TypewriterAction</a> which was performed.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="creating-animations" >
+      <a href="#creating-animations">4. Creating animations</a>
+    </h2>
+
+    <p>
+      There are 3 ways to create animations:
+    </p>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        <p>
+          By using the <a href="/docs/typewriter/composer" class="underline">Typewriter Composer</a>.
+          The composer is a visual editor which allows you to create animations, by using your own keyboard and mouse
+          and by acting out the animation.
+        </p>
+
+        <p>
+          It is the <b>preferred</b> way to create animations.
+        </p>
+      </li>
+
+      <li class="ml-8 mb-4">
+        <p>
+          If you only want a simple Typewriter with a single cursor, which enters
+          a bunch of predefined sentences, you can use the <a href="/api/core/typewriterFromSentences" class="high underline">typewriterFromSentences</a>.
+        </p>
+
+        <p>
+          It is a <span class="high">function</span> which creates a <span class="high">Typewriter</span> from an 
+          array of strings.
+        </p>
+      </li>
+
+      <li class="ml-8 mb-4">
+        By <b>manually</b> configuring the <a href="/api/core/typewriterconfig/#actions" class="high underline">actions</a> within the config.  
+        This method is rather time consuming, and using the composer is recommended.
+        See <a href="/docs/typewriter/concepts/#actions" class="underline">5. Actions</a> 
+        for more information.
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="actions">
+      <a href="#actions">5. Actions</a>
+    </h2>
+
+    <p class="note">
+      This section explains how the "actions" of a Typewriter work, so you 
+      can create the animations manually. If you plan on using the <a href="/docs/typewriter/composer" class="underline">Typewriter Composer</a> you 
+      can skip this section safely. 
+    </p>
+
+    <p>
+      The Typewriter will base the animations on the given <a href="/api/core/typewriterconfig/#actions" class="high underline">actions</a>
+      array from the config. The actions array is in fact the animation itself.
+    </p>
+
+    <p>
+      Within the actions array each item should
+      conform to the <a href="/api/core/typewriteraction" class="high underline">TypewriterAction</a> type.
+    </p>
+
+    <p>
+      An action is one of two things: a <a href="/api/core/typewriteractionkeyboard" class="high underline">TypewriterActionKeyboard</a> or a
+      <a href="/api/core/typewriteractionmouse" class="high underline">TypewriterActionMouse</a>. 
+      Respectively Representing keyboard clicks and mouse movements.
+    </p>
+
+    <p>
+      Lets take the following definition for example:
+    </p>
+
+    {% highlight "javascript" %}
+const actions = [{
+  type: 'keyboard',
+  cursor: 0,
+  text: 'a',
+  delay: 50
+}, {
+  type: 'keyboard',
+  cursor: 0,
+  text: 'b',
+  delay: 50
+}, {
+  type: 'keyboard',
+  cursor: 0,
+  text: 'c',
+  delay: 50
+}, {
+  type: 'mouse',
+  cursor: 1,
+  position: 0,
+  selection: { start: 0, end: 3},
+  delay: 1000
+}, {
+  type: 'keyboard',
+  cursor: 1,
+  text: '⌫',
+  delay: 50
+}, {
+  type: 'keyboard',
+  cursor: 1,
+  text: 'xyz',
+  delay: 50
+}];
+    {% endhighlight %}
+
+    <p>
+      In the animation above, the letters "a", "b" and "c" will by 
+      typed by the first cursor, each letter will be entered after a 50 second delay.
+    </p>
+
+    <p>
+      Then a second cursor comes along after one second and selects the entire text.
+      Then it presses "backspace" removing the text. Finally the 
+      second cursor will type in "xyz" instantaneously, as a single word.
+    </p>
+
+    <p>
+      Hopefully the above actions are relatively intuitive, but lets
+      clarify some of it:
+    </p>
+
+    <h3>5.1 Understanding the mental model</h3>
+
+    <p>
+      The Typewriter simulates a text editor, and it is important to understand
+      the model when creating animations manually.
+    </p
+
+    <p>
+      The biggest difference between a text editor and the Typewriter is that it only works in one dimension.
+      There are no "columns" / "multiple lines", there is only one "line", and
+      you can move to the left or right, but not up and down.
+    </p>
+
+    <p>
+      One way to look at the <span class="high">actions</span> array is that 
+      it a recording of one or multiple cursors acting in the same text editor.
+      What the Typewriter  does is play this recording, resulting in an animation.
+    </p>
+
+    <p>
+      The animation will always be the same given the same actions array. 
+      In other words: the Typewriter is deterministic (and not random). 
+      This guarantees that everyone sees the same animation every time.
+    </p>
+
+    <p>
+      Because the animation must be deterministic, all actions need to happen sequentially. 
+      So unlike in real life, it is therefore not possible to have multiple cursors perform 
+      an action at the exact same time. 
+    </p>
+
+    <p>
+      Another important part is understanding that an action can affect 
+      one or more cursors <a href="/api/core/typewritercursor/#position" class="high underline">position</a> 
+      and <a href="/api/core/typewritercursor/#selection" class="high underline">selection</a>.
+    </p>
+
+    <p>
+      When a cursors types a letter that cursors position is increased by one,
+      as well as all cursors on the right or the typing cursor. If a cursor types into another cursors selection, the selection will grow.
+      If a cursors clears all text, every cursors position is set to 0. The list goes on and on.
+    </p>
+
+    <p class="note">
+      The behaviors were "divined" by experimenting in "google docs" and "vscode".
+    </p>
+
+    <h3>5.2 Special keys</h3>
+
+    <p>
+      There are 6 types of special keys, which when used as the <span class="high">text</span> of a
+      <a href="/api/core/typewriteractionkeyboard" class="high underline">TypewriterActionKeyboard</a> will
+      perform a special action:
+    </p>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        <p>
+          <span class="high">'⌫'</span> represents a backspace. It will when nothing is 
+            selected delete the previous character, and when the cursor 
+            does have a selection, remove all characters in the selection.
+          </p>
+      </li>
+
+      <li class="ml-8 mb-4">
+        <p>
+          <span class="high">'⎚'</span>' represents 'Clear all', it clears the entire text.
+          </p>
+      </li>
+
+      <li class="ml-8 mb-4">
+        <p>
+          <span class="high">'←'</span> represents the left arrow key. When nothing is 
+              selected is will move the cursor one position to the left.
+              When a selection is made it will move the cursor to the start
+              of the selection. 
+          </p>
+      </li>
+
+      <li class="ml-8 mb-4">
+        <p>
+          <span class="high">'→'</span> represents the right arrow key. When nothing is 
+            selected is will move the cursor one position to the right.
+            When a selection is made it will move the cursor to the end of 
+            the selection. 
+          </p>
+      </li>
+
+      <li class="ml-8 mb-4">
+        <p>
+          <span class="high">'⇧←'</span> represents select left, when repeated grows the
+            selection.
+          </p>
+      </li>
+
+      <li class="ml-8 mb-4">
+        <p>
+          <span class="high">'⇧→'</span> represents select right, when repeated grows the 
+            selection.
+          </p>
+      </li>
+    </ol>
+
+    <h3>5.3 Whole words vs single characters</h3>
+
+    <p>
+      The <span class="high">text</span> of a <a href="/api/core/typewriteractionkeyboard" class="high underline">TypewriterActionKeyboard</a> 
+      can be any string. This allows a cursor to type in a complete word or sentence in 
+      one action.
+    </p>
+
+    <h3>5.4. Selections</h3>
+
+    <p>
+      A cursors can make selections via actions in two ways, the first is using a <a href="/api/core/typewriteractionmouse" class="high underline">TypewriterActionMouse</a> with 
+      a <span class="high">selection</span> value.
+    </p>
+
+    <p>
+      The second is using the special keys: <span class="high">'⇧←'</span> or <span class="high">'⇧→'</span> 
+      as the <span class="high">text</span> for for a <a href="/api/core/typewriteractionkeyboard" class="high underline">TypewriterActionKeyboard</a>.
+    </p>
+
+    <p>
+      A selection is represented by a <a href="/api/core/typewritercursorselection" class="high underline">TypewriterCursorSelection</a> object, which
+      has two properties both numbers: <span class="high">start</span> and <span class="high">end</span>.
+    </p>
+
+    <p>
+      A cursors selection vanishes whenever an actions is performed which is are not 
+      <span class="high">'⇧←'</span> or <span class="high">'⇧→'</span>.
+    </p>
+
+    <p>
+      What happens with the selection is dependant on the next action. It will be removed
+      when "backspace" is pressed next, when a text is entered it will replace the
+      selection etc etc.
+    </p>
+
+    <h3>5.5 Cursors</h3>
+
+    <p>
+      Within a <a href="/api/core/typewriteraction" class="high underline">TypewriterAction</a> the 
+      <span class="high">cursor</span> property is always a <span class="high">number</span>. 
+      The number being an index within the <a href="/api/core/typewriterconfig/#cursors" class="high underline">cursors</a> array
+      of the TypewriterConfig object.
+    </p>
+
+    <p class="note">
+      All cursors must be defined ahead of time when configuring the Typewriter.
+      You cannot add cursors after the fact.
+    </p>
+
+    <h3>5.6 Validity</h3>
+
+    <p>
+      When a Typewriter is initialized with an actions array, it is very
+      aggressively checked whether or not the animation is valid or not.
+    </p>
+
+    <p>
+      For example you are not allowed to make selections which are out of the bounds
+      of the text, or set a selection and not have the cursors position 
+      be either the start or the end of that selection.
+    </p>
+
+    <p>
+      Check the <a href="/api/core/#Typewriter" class="high underline">API</a> for TypewriterXXXError for types of errors.
+    </p>
+
+    <h3>5.7 Unicode / Emoji</h3>
+
+    <p>
+      The Typewriter supports unicode / emoji by treating all unicode
+      symbols as a single character.
+    </p>
+
+    <p>
+      For example if you want to move over an emoji character you can 
+      simply use the special key <span class="high">→</span>, and the 
+      cursor will hop over the emoji.
+    </p>
+
+    <p>
+      There is however one note: when the <span class="high">text</span> of
+      a Typewriter contains an emoji the <span class="high">text.length</span> can be a bit 
+      deceiving.
+    </p>
+
+    <p>
+      Let me explain: in JavaScript executing <span class="high">'👨‍👩‍👧‍👦'.length</span> results in <span class="high">11</span>,
+      and not <span class="high">1</span>. The reason for this is because
+      JavaScript is answering the question: "how many code units are in the string",
+      and not "how many characters are in the string".
+    </p>
+
+    <p>
+      So keep this in mind when using emoji / unicode and you are good to go.
+    </p>
+  </section>
+</section>
+
+<section>
+  <h2 id="autoplay">
+    <a href="#autoplay">6. AutoPlay</a>
+  </h2>
+
+  <p>
+      A Typewriter will by default play the animation automatically, if 
+      there are actions.
+    </p>
+
+  <p>
+      It can however can be <a href="/api/core/typewriterconfig/#autoPlay" class="high underline">configured</a> to 
+      only start playing when the <a href="/api/core/typewriter/#play" class="high underline">play()</a> method is 
+      called by setting <span class="high">autoPlay</span> to <span class="high">false</span>.
+    </p>
+
+  <p>
+      The Typewriter can be paused via <span class="high">pause()</span> and then
+      resumed again via <span class="high">play()</span>. When resumed it will take
+      into account the duration that had already passed. For example: if the animation
+      runs for 1000 milliseconds, and the user pauses after 800 milliseconds, when resumed the
+      animation will run for another 200 milliseconds. This is because
+      there was 200 milliseconds remaining for the animation.
+    </p>
+
+  <p>
+      The Typewriter can also be stopped via <span class="high">stop()</span>. The
+      difference between <span class="high">stop()</span> and 
+      <span class="high">pause()</span>, is that when
+      <span class="high">play()</span> is called after 
+      <span class="high">stop()</span> the animation is restarted. 
+      For example: if the animation runs for 500 milliseconds, and the user stops after 
+      250 milliseconds, when play is called, the animation will continue 
+      for 1000 milliseconds. This is because the animation is reset 
+      and not remembered.
+    </p>
+</section>
+
+<section>
+  <h2 id="repeat">
+    <a href="#repeat">7. Repeat</a>
+  </h2>
+
+  <p>
+      The Typewriter will by default run the configured animation
+      a single time. But this can be configured via <a href="/api/core/typewriterconfig/#repeat" class="high underline">repeat</a> to 
+      repeat a specific number of times, or indefinitely / forever.
+    </p>
+
+  <p>
+      Setting <span class="high">repeat</span> to <span class="high">true</span>
+      makes it repeat forever. Setting it to a <span class="high">number</span>
+      makes it repeat for that amount of times.
+    </p>
+
+  <p>
+      By default the Typewriter will start repeating the animation straight away.
+      It is possible to change this by setting the <a href="/api/core/typewriterconfig/#repeatDelay" class="high underline">repeatDelay</a>
+      to a number in milliseconds. This way the Typewriter will show the final 
+      state of the previous iteration a little longer.
+    </p>
+
+  <p>
+      When using repeat in combination with <a href="/api/core/typewriterFromSentences" class="high underline">typewriterFromSentences</a> it
+      is advised to configure the initial <a href="/api/core/typewriterconfig/#text" class="high underline">text</a> to 
+      be the last sentence. This way there is a fluid transition between 
+      the last
+  </section>
+
+  <section>
+    <h2 id="iterator">
+      <a href="#iterator">8. Iterator</a>
+    </h2>
+
+    <p>
+      The Typewriter instance is an <span class="high">Iterator</span> meaning, you
+      can use the Typewriter in a <span class="high">for-of</span> loop.
+    </p>
+
+    <p>
+      When you iterate over the Typewriter you iterate over all "positions" inside
+      of the <span class="high">text</span>. A position is represented by a type called
+      <a class="high underline" href="/api/core/typewriterposition">TypewriterPosition</a>.
+    </p>
+
+    <p>
+      A TypewriterPosition knows which <a class="high underline" href="/api/core/typewriterposition#character">character</a> is on that position,
+      all <a class="high underline" href="/api/core/typewriterposition#cursors">cursors</a> that are on that position, and all cursors which 
+      have <a class="high underline" href="/api/core/typewriterposition#selected">selected</a> that position.
+    </p>
+
+    <p>
+      This is especially handy when working with multiple cursors, and selections.
+      Because this allows you to visualize not only the "character" at that position,
+      but also all cursors and selections.
+    </p>
+
+    <p>
+      See the <a class="underline" href="/docs/typewriter/tutorial/">tutorial</a> to
+      see the iterator in action.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="history" >
+      <a href="#history">9. History</a>
+    </h2>
+
+    <p>
+      The Typewriter can keep track of all
+      <a href="/api/core/typewriterevent/" class="high underline">events</a> that
+      occurred, by default is it
+      <a href="/api/core/typewriterconfig/#keepHistoryFor" class="high underline"
+        >configured</a
+      >
+      not to keep any history.
+    </p>
+
+    <p>
+      When you set
+      <a href="/api/core/typewriterconfig/#keepHistoryFor" class="high underline"
+        >keepHistoryFor</a
+      >
+      to a number, the Typewriter will make sure the
+      <span class="high">history</span>
+      array will never exceed that size.
+    </p>
+
+    <p>
+      If the size is exceeded the oldest event is removed to make place for the new
+      event. This is based on the first in first out principle.
+    </p>
+  </section>
+
+  <a
+    class="card"
+    href="/docs/typewriter/tutorial/"
+  >
+    <div>
+      <div class="text-normal font-medium mb-1">Tutorial</div>
+      <div class="text-sm">Learn how to style a Typewriter</div>
+    </div>
+    <svg
+      class="w-4 h-4 fill-current text-blue-600 shrink-0 ml-6"
+      viewBox="0 0 16 16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z"></path>
+    </svg>
+  </a>
+
+</article>

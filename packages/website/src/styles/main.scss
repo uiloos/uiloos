@@ -5,6 +5,7 @@
 @import 'additional-styles/utility-patterns.scss';
 @import 'additional-styles/theme.scss';
 @import 'additional-styles/prism.scss';
+@import 'additional-styles/typewriter-composer.scss';
 
 @tailwind utilities;
 
@@ -24,3 +25,6 @@
 
 @import 'additional-styles/home.scss';
 
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.4);
+}

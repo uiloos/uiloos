@@ -32,8 +32,12 @@
     "@angular/animations": "14.1.3",
     "@angular/cli": "14.1.3",
     "@angular/common": "14.1.3",
+    "@angular/compiler": "14.1.3",
+    "@angular/compiler-cli": "14.1.3",
     "@angular/core": "14.1.3",
+    "@angular/platform-browser": "14.1.3",
     "@angular/platform-browser-dynamic": "14.1.3",
+    "@angular/router": "14.1.3",
     "@testing-library/angular": "12.1.2",
     "@types/estree": "1.0.0",
     "@types/jasmine": "4.0.3",
@@ -50,7 +54,7 @@
     "typescript": "4.7.4"
   },
   "scripts": {
-    "before-publish": "cp ../../README.MD ./ && cp ../../LICENSE.MD dist && rm dist/package.json",
+    "before-publish": "cp ../../README.MD ./ && cp ../../LICENSE.MD dist && rm -f dist/package.json",
     "clean": "rm -rf node_modules && rm -rf coverage && rm -f package-lock.json && rm -rf dist",
     "test": "ng test --code-coverage=true --watch=false",
     "start": "ng test --code-coverage=true",

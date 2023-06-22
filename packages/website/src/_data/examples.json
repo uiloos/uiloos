@@ -92,5 +92,37 @@
     "url": "https://codesandbox.io/s/viewchannel-angular-xpd5h6?file=/src/app/app.component.ts",
     "tags": ["Angular"],
     "for": "ViewChannel"
+  },
+  {
+    "id": 9,
+    "text": "Typewriter usage in vanilla JavaScript",
+    "description": "Shows a couple of typewriter animations using vanilla JavaScript",
+    "url": "https://codesandbox.io/s/typewriter-vanilla-8xjcwz",
+    "tags": ["JavaScript"],
+    "for": "Typewriter"
+  },
+  {
+    "id": 10,
+    "text": "Typewriter usage in Vue",
+    "description": "Demonstrates how to use the `useTypewriter` and 'useTypewriterFromSentences' composables to create animations",
+    "url": "https://codesandbox.io/s/typewriter-vue-pmksm4",
+    "tags": ["Vue"],
+    "for": "Typewriter"
+  },
+  {
+    "id": 11,
+    "text": "Typewriter usage in React",
+    "description": "Demonstrates how to use the `useTypewriter` and 'useTypewriterFromSentences' hooks to create animations",
+    "url": "https://codesandbox.io/s/typewriter-react-psp7gx",
+    "tags": ["React"],
+    "for": "Typewriter"
+  },
+  {
+    "id": 12,
+    "text": "Typewriter usage in Angular",
+    "description": "Shows how create animations by combining the Typewriter class and angular @Components",
+    "url": "https://codesandbox.io/s/typewriter-angular-zktywz",
+    "tags": ["Angular"],
+    "for": "Typewriter"
   }
 ]

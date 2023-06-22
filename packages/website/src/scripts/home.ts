@@ -1,18 +1,31 @@
-import { ActiveList } from '@uiloos/core';
+import {
+  ActiveList,
+  ActiveListConfig,
+  typewriterFromSentences,
+} from '@uiloos/core';
 
 document.addEventListener('DOMContentLoaded', function () {
+  initCarousel();
+  initTypewriter();
+});
+
+function initCarousel() {
   const carouselCurrentActive = document.getElementById(
     'carousel-current-active'
-  );
+  ) as HTMLLIElement;
 
-  const previousButton = document.getElementById('carousel-prev');
-  const nextButton = document.getElementById('carousel-next');
+  const previousButton = document.getElementById(
+    'carousel-prev'
+  ) as HTMLButtonElement;
+  const nextButton = document.getElementById(
+    'carousel-next'
+  ) as HTMLButtonElement;
 
   const slides = [0, 1, 2, 3, 4];
 
-  let previouslyActive = 0;
+  let previouslyActive: number | null = 0;
 
-  const config = {
+  const config: ActiveListConfig<number> = {
     contents: slides,
     activeIndexes: 0,
     autoPlay: { duration: 3000, stopsOnUserInteraction: true },
@@ -27,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     ) {
       const button = document.getElementById(
         `carousel-button-${carousel.lastActivated}`
-      );
+      ) as HTMLButtonElement;
 
       if (carousel.autoPlay.isPlaying) {
         button.style.animationPlayState = 'running';
@@ -38,12 +51,16 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    if (event.type === 'COOLDOWN_ENDED' || event.type === 'COOLDOWN_STARTED' || event.type === 'AUTO_PLAY_STOPPED') {
+    if (
+      event.type === 'COOLDOWN_ENDED' ||
+      event.type === 'COOLDOWN_STARTED' ||
+      event.type === 'AUTO_PLAY_STOPPED'
+    ) {
       return;
     }
 
     if (!carousel.isCircular) {
-      if (carousel.lastActivatedContent.isFirst) {
+      if (carousel.lastActivatedContent?.isFirst) {
         previousButton.classList.add('opacity-50', 'cursor-not-allowed');
         previousButton.ariaDisabled = 'true';
       } else {
@@ -51,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
         previousButton.ariaDisabled = 'false';
       }
 
-      if (carousel.lastActivatedContent.isLast) {
+      if (carousel.lastActivatedContent?.isLast) {
         nextButton.classList.add('opacity-50', 'cursor-not-allowed');
         nextButton.ariaDisabled = 'true';
       } else {
@@ -63,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (event.type === 'INITIALIZED') {
       const button = document.getElementById(
         `carousel-button-${carousel.lastActivated}`
-      );
+      ) as HTMLButtonElement;
 
       button.classList.add('bg-purple-800', 'carousel-button-animation');
       button.style.animation = `progress ${carousel.autoPlay.duration}ms linear`;
@@ -72,11 +89,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     carousel.contents.forEach((content) => {
-      const slide = document.getElementById(`carousel-slide-${content.value}`);
+      const slide = document.getElementById(
+        `carousel-slide-${content.value}`
+      ) as HTMLLIElement;
 
       const button = document.getElementById(
         `carousel-button-${content.value}`
-      );
+      ) as HTMLButtonElement;
 
       slide.className = 'absolute';
 
@@ -109,7 +128,9 @@ document.addEventListener('DOMContentLoaded', function () {
         button.classList.remove('bg-gray-600');
         button.style.animation = `progress ${carousel.autoPlay.duration}ms linear`;
 
-        button.lastElementChild.classList.remove('hidden');
+        if (button.lastElementChild) {
+          button.lastElementChild.classList.remove('hidden');
+        }
       } else if (content.value === previouslyActive) {
         slide.classList.add('visible');
         slide.ariaHidden = 'true';
@@ -142,11 +163,13 @@ document.addEventListener('DOMContentLoaded', function () {
         button.classList.remove('carousel-button-animation');
         button.style.animation = '';
 
-        button.lastElementChild.classList.add('hidden');
+        if (button.lastElementChild) {
+          button.lastElementChild.classList.remove('hidden');
+        }
       }
     });
 
-    carouselCurrentActive.textContent = carousel.lastActivatedIndex + 1;
+    carouselCurrentActive.textContent = '' + carousel.lastActivatedIndex + 1;
 
     previouslyActive = carousel.lastActivated;
     return;
@@ -160,53 +183,103 @@ document.addEventListener('DOMContentLoaded', function () {
     carousel.activatePrevious();
   };
 
-  document.getElementById('carousel-stop').onclick = () => {
+  const stopButton = document.getElementById(
+    'carousel-stop'
+  ) as HTMLButtonElement;
+  stopButton.onclick = () => {
     carousel.stop();
   };
 
   slides.forEach((slide) => {
     const link = document.getElementById(`carousel-button-${slide}`);
-    link.onclick = () => {
-      carousel.activate(slide);
-    };
+    if (link) {
+      link.onclick = () => {
+        carousel.activate(slide);
+      };
+    }
   });
 
-  document.getElementById('carousel').addEventListener('mouseenter', () => {
+  const carouselEl = document.getElementById('carousel') as HTMLDivElement;
+
+  carouselEl.addEventListener('mouseenter', () => {
     carousel.pause();
   });
 
-  document.getElementById('carousel').addEventListener('mouseleave', () => {
+  carouselEl.addEventListener('mouseleave', () => {
     if (!carousel.autoPlay.hasBeenStoppedBefore) {
       carousel.play();
     }
   });
 
-  document
-    .getElementById('carousel-duration')
-    .addEventListener('change', (event) => {
-      const duration = parseInt(event.target.value, 10);
+  const durationSelect = document.getElementById(
+    'carousel-duration'
+  ) as HTMLSelectElement;
 
-      config.autoPlay.duration = duration;
-      config.activeIndexes = [...carousel.activeIndexes];
+  durationSelect.onchange = (event) => {
+    // @ts-expect-error Is always a value
+    const duration = parseInt(event.target.value, 10);
 
-      carousel.initialize(config);
-    });
+    // @ts-expect-error It has an autoplay
+    config.autoPlay.duration = duration;
+    config.activeIndexes = [...carousel.activeIndexes];
 
-  document
-    .getElementById('carousel-is-circular')
-    .addEventListener('change', (event) => {
-      config.isCircular = event.target.value === 'true';
-      config.activeIndexes = [...carousel.activeIndexes];
+    carousel.initialize(config);
+  };
 
-      carousel.initialize(config);
-    });
+  const isCircularSelect = document.getElementById(
+    'carousel-is-circular'
+  ) as HTMLSelectElement;
 
-  document
-    .getElementById('carousel-stops-on-user-interaction')
-    .addEventListener('change', (event) => {
-      config.autoPlay.stopsOnUserInteraction = event.target.value === 'true';
-      config.activeIndexes = [...carousel.activeIndexes];
+  isCircularSelect.onchange = (event) => {
+    // @ts-expect-error either "true" or "false"
+    config.isCircular = event.target.value === 'true';
+    config.activeIndexes = [...carousel.activeIndexes];
 
-      carousel.initialize(config);
-    });
-});
+    carousel.initialize(config);
+  };
+
+  const stopsOnUserInteractionSelect = document.getElementById(
+    'carousel-duration'
+  ) as HTMLSelectElement;
+
+  stopsOnUserInteractionSelect.onchange = (event) => {
+    // @ts-expect-error either "true" or "false"
+    config.autoPlay.stopsOnUserInteraction = event.target.value === 'true';
+    config.activeIndexes = [...carousel.activeIndexes];
+
+    carousel.initialize(config);
+  };
+}
+
+function initTypewriter() {
+  const typewriterEl = document.getElementById(
+    'home-typewriter'
+  ) as HTMLHeadingElement;
+
+  typewriterFromSentences(
+    {
+      sentences: [
+        'With uiloos you can build self playing carousels',
+        "With uiloos you can build sortable lists",
+        "With uiloos you can build awaitable modals and dialogs",
+        "With uiloos you can build pauseable flash messages",
+        "With uiloos you can build notification centers with priority messages",
+        'With uiloos you can build whimsical typewriter animations',
+      ],
+      repeat: true,
+      repeatDelay: 2000,
+      text: 'With uiloos you can build whimsical typewriter animations',
+    },
+    (typewriter) => {
+      typewriterEl.textContent = typewriter.text;
+
+      const cursorEl = document.createElement('span');
+      cursorEl.id = 'home-typewriter-cursor';
+      cursorEl.className = 'border-purple-700';
+      if (typewriter.cursors[0].isBlinking) {
+        cursorEl.classList.add('blinking');
+      }
+      typewriterEl.append(cursorEl);
+    }
+  );
+}
