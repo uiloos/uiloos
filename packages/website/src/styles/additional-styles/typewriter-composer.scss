@@ -8,6 +8,8 @@
   width: 100%;
   min-height: 32px;
   margin-bottom: 8px;
+  word-wrap: break-word;
+  overflow: auto;
 
   .info {
     position: absolute;

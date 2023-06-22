@@ -45,9 +45,7 @@ const initialTextInput = document.getElementById(
 const fixedDelayInput = document.getElementById(
   'fixed-delay'
 ) as HTMLInputElement;
-const maxDelayInput = document.getElementById(
-  'max-delay'
-) as HTMLInputElement;
+const maxDelayInput = document.getElementById('max-delay') as HTMLInputElement;
 const repeatTimeInput = document.getElementById(
   'repeat-time'
 ) as HTMLInputElement;
@@ -108,11 +106,11 @@ let autoplayConfig: boolean | undefined = true;
 
 type Data = {
   name: string;
-}
+};
 
 let config: TypewriterConfig<Data> = {
   blinkAfter: 250,
-  cursors: [{ position: 0, data: { name: 'Cursor #1' }}],
+  cursors: [{ position: 0, data: { name: 'Cursor #1' } }],
   actions: [],
   repeat: false,
 };
@@ -130,7 +128,10 @@ type Modal = {
 };
 const modalViewChannel = new ViewChannel<Modal, any>();
 
-function typewriterSubscriber(typewriter: Typewriter<Data>, event: TypewriterEvent<Data>) {
+function typewriterSubscriber(
+  typewriter: Typewriter<Data>,
+  event: TypewriterEvent<Data>
+) {
   animationEl.innerHTML = '';
 
   if (event.type === 'FINISHED') {
@@ -163,13 +164,13 @@ function typewriterSubscriber(typewriter: Typewriter<Data>, event: TypewriterEve
   if ('action' in event) {
     for (const actionEl of document.querySelectorAll('.timeline-item')) {
       if (actionEl instanceof HTMLLIElement) {
-        actionEl.style.borderColor = 'rgb(234, 234, 234)';
+        actionEl.style.borderColor = '';
       }
     }
+    // @ts-expect-error Allow me to access the ID
+    const id = event.action.__id;
 
-    const index = typewriter.actions.indexOf(event.action);
-
-    const actionEl = document.getElementById(`action-${index}`);
+    const actionEl = document.getElementById(`action-${id}`);
 
     if (actionEl) {
       const color = actionEl.style.getPropertyValue('--cursor-color');
@@ -224,7 +225,7 @@ function typewriterSubscriber(typewriter: Typewriter<Data>, event: TypewriterEve
     for (const action of typewriter.actions) {
       total += action.delay;
     }
-  
+
     timelineTotalTimeEl.textContent = (total / 1000).toFixed(2);
   }
 }
@@ -238,7 +239,7 @@ function cursorsSubscriber(
   if (event.type === 'INSERTED') {
     const position = config.text ? config.text.length : 0;
 
-    const data: Data = { name: event.value} ;
+    const data: Data = { name: event.value };
 
     // Technically not allowed but for the composer this works fine.
     typewriter.cursors.push(
@@ -312,7 +313,7 @@ function cursorsSubscriber(
         if (data) {
           data.name = name;
         } else {
-          config.cursors[cursor.index].data = {name};
+          config.cursors[cursor.index].data = { name };
         }
       }
 
@@ -362,17 +363,74 @@ function cursorsSubscriber(
   }
 }
 
-function actionsSubscriber() {
-  timelineEl.innerHTML = '';
+function actionsSubscriber(
+  actions: ActiveList<TypewriterAction>,
+  event: ActiveListEvent<TypewriterAction>
+) {
+  if (event.type === 'INITIALIZED') {
+    for (const item of actions.contents) {
+      const actionEl = createAction(actions.contents.length, item.value);
 
-  if (actions.activeContents.length) {
-    timelineSelectedActionsEl.classList.remove('hidden');
-  } else {
-    timelineSelectedActionsEl.classList.add('hidden');
+      timelineEl.append(actionEl);
+    }
+  } else if (event.type === 'INSERTED') {
+    const actionEl = createAction(event.index, event.value);
+
+    timelineEl.insertBefore(actionEl, timelineEl.children[event.index] ?? null);
+  } else if (event.type === 'REMOVED') {
+    // @ts-expect-error Allow me to access the ID
+    const id = event.value.__id;
+
+    const actionEl = document.getElementById(`action-${id}`);
+    actionEl?.remove();
+  } else if (event.type === 'REMOVED_MULTIPLE') {
+    for (const action of event.values) {
+      // @ts-expect-error Allow me to access the ID
+      const id = action.__id;
+
+      const actionEl = document.getElementById(`action-${id}`);
+      actionEl?.remove();
+    }
+  } else if (event.type === 'MOVED') {
+    // @ts-expect-error Allow me to access the ID
+    const id = event.value.__id;
+
+    const actionEl = document.getElementById(`action-${id}`);
+
+    if (actionEl) {
+      actionEl.remove();
+
+      timelineEl.insertBefore(
+        actionEl,
+        timelineEl.children[event.index.to] ?? null
+      );
+    }
+  } else if (event.type === 'ACTIVATED') {
+    // @ts-expect-error Allow me to access the ID
+    const id = event.value.__id;
+
+    const actionEl = document.getElementById(`action-${id}`);
+
+    if (actionEl) {
+      // Remove the active "cursor color" since selected trumps it.
+      actionEl.style.borderColor = '';
+      actionEl.classList.add('border-purple-400');
+    }
+
+    checkSequential();
+  } else if (event.type === 'DEACTIVATED') {
+    // @ts-expect-error Allow me to access the ID
+    const id = event.value.__id;
+
+    const actionEl = document.getElementById(`action-${id}`);
+
+    actionEl?.classList.remove('border-purple-400');
+
+    checkSequential();
   }
 
-  for (const actionContent of actions.contents) {
-    const action = actionContent.value;
+  function createAction(index: number, action: TypewriterAction) {
+    const actionContent = actions.contents[index];
 
     const template = document.getElementById(
       'timeline-item-template'
@@ -382,7 +440,9 @@ function actionsSubscriber() {
       true
     ) as HTMLLIElement;
 
-    actionEl.id = `action-${actionContent.index}`;
+    // @ts-expect-error Allow me to access the ID
+    const id = action.__id;
+    actionEl.id = `action-${id}`;
 
     // Set the color of the arrow so it is visible which cursor
     // took the action.
@@ -492,7 +552,7 @@ function actionsSubscriber() {
       if (delay < 0 || isNaN(delay)) {
         delay = 1;
       }
-      delayEl.value = "" + delay;
+      delayEl.value = '' + delay;
 
       action.delay = delay;
 
@@ -518,23 +578,20 @@ function actionsSubscriber() {
       }
 
       if (draggedAction) {
-        if (draggedAction.value.cursor === actionContent.value.cursor) {
+        if (
+          draggedAction.value.cursor === actionContent.value.cursor &&
+          draggedAction.index !== actionContent.index
+        ) {
           draggedAction.moveToIndex(actionContent.index);
-          reInit();
         }
       }
       return false;
     };
 
     actionEl.ondrop = () => {
+      reInit();
       return false;
     };
-
-    if (actionContent.isActive) {
-      actionEl.classList.add('border-purple-400');
-    } else {
-      actionEl.classList.remove('border-purple-400');
-    }
 
     actionEl.onclick = (event) => {
       if (event.shiftKey) {
@@ -542,6 +599,10 @@ function actionsSubscriber() {
       }
     };
 
+    return actionEl;
+  }
+
+  function checkSequential() {
     if (actions.activeIndexes.length > 1) {
       const sortedIndexes = [...actions.activeIndexes].sort((a, b) => a - b);
 
@@ -562,8 +623,18 @@ function actionsSubscriber() {
     } else {
       mergeSelectedButton.classList.add('hidden');
     }
+  }
 
-    timelineEl.append(actionEl);
+  if (actions.contents.length) {
+    timelineAddActionEl.classList.add('hidden');
+  } else {
+    timelineAddActionEl.classList.remove('hidden');
+  }
+
+  if (actions.activeContents.length) {
+    timelineSelectedActionsEl.classList.remove('hidden');
+  } else {
+    timelineSelectedActionsEl.classList.add('hidden');
   }
 }
 
@@ -650,6 +721,8 @@ animationInput.onkeydown = (event) => {
     cursor,
     text: key,
     delay,
+    // @ts-expect-error Allow me to generate an ID
+    __id: generateActionId(),
   };
 
   runAction(action);
@@ -692,6 +765,8 @@ animationInput.onkeyup = (event) => {
       cursor,
       text: key,
       delay,
+      // @ts-expect-error Allow me to generate an ID
+      __id: generateActionId(),
     };
 
     actions.push(action);
@@ -754,6 +829,8 @@ animationInput.onmouseup = () => {
     cursor,
     position,
     delay: calculateDelay(),
+    // @ts-expect-error Allow me to generate an ID
+    __id: generateActionId(),
   };
 
   runAction(action);
@@ -793,6 +870,8 @@ animationInput.onselect = () => {
     position: end,
     selection: { start, end },
     delay: calculateDelay(),
+    // @ts-expect-error Allow me to generate an ID
+    __id: generateActionId(),
   };
 
   runAction(action);
@@ -823,11 +902,11 @@ initialTextInput.onchange = () => {
 
 fixedDelayInput.onchange = () => {
   let delay = parseInt(fixedDelayInput.value, 10);
-  
+
   if (delay < 0 || isNaN(delay)) {
     delay = 50;
   }
-  fixedDelayInput.value = "" + delay;
+  fixedDelayInput.value = '' + delay;
 
   fixedDelay = delay;
 
@@ -839,11 +918,11 @@ fixedDelayInput.onchange = () => {
 
 maxDelayInput.onchange = () => {
   let delay = parseInt(maxDelayInput.value, 10);
-  
+
   if (delay < 0 || isNaN(delay)) {
     delay = 150;
   }
-  maxDelayInput.value = "" + delay;
+  maxDelayInput.value = '' + delay;
 
   maxDelay = delay;
 };
@@ -862,7 +941,7 @@ document.querySelectorAll('[name="repeat"]').forEach((element) => {
       if (value < 0 || isNaN(value)) {
         value = 1;
       }
-      input.value = "" + value;
+      input.value = '' + value;
 
       repeatConfig = value;
     }
@@ -923,7 +1002,7 @@ resetButton.onclick = async () => {
 
   config = {
     blinkAfter: 250,
-    cursors: [{ position: 0, data: {name: 'Cursor #1' }}],
+    cursors: [{ position: 0, data: { name: 'Cursor #1' } }],
     actions: actions.contents.map((c) => c.value),
     repeat: false,
   };
@@ -961,17 +1040,47 @@ exportButton.onclick = () => {
           codeEl.remove();
           copyButton.remove();
         } else {
-          config.actions = actions.contents.map((c) => c.value);
+          config.actions = actions.contents.map((c) => ({
+            ...c.value,
+            __id: undefined,
+          }));
 
           config.repeat = repeatConfig;
           config.repeatDelay = repeatDelayConfig;
           config.autoPlay = autoplayConfig;
 
+          // Remove all defaults from the config
+          if (config.blinkAfter === 250) {
+            config.blinkAfter = undefined;
+          }
+          if (config.repeat === false) {
+            config.repeat = undefined;
+          }
+          if (config.repeatDelay === 0) {
+            config.repeatDelay = undefined;
+          }
+          if (config.autoPlay === true) {
+            config.autoPlay = undefined;
+          }
+
           const code = JSON.stringify(config, null, 2);
 
+          // After stringify reset so the preview animation works.
           config.repeat = false;
           config.repeatDelay = undefined;
           config.autoPlay = undefined;
+          if (config.blinkAfter === undefined) {
+            config.blinkAfter = 250;
+          }
+          if (config.repeat === undefined) {
+            config.repeat = false;
+          }
+          if (config.repeatDelay === undefined) {
+            config.repeatDelay = 0;
+          }
+          if (config.autoPlay === undefined) {
+            config.autoPlay = true;
+          }
 
           codeEl.textContent = code;
 
@@ -1016,13 +1125,13 @@ importButton.onclick = () => {
           config = json;
 
           // Read in thea actual values
-          repeatConfig = config.repeat;
-          repeatDelayConfig = config.repeatDelay;
-          autoplayConfig = config.autoPlay;
+          repeatConfig = config.repeat ?? false;
+          repeatDelayConfig = config.repeatDelay ?? 0;
+          autoplayConfig = config.autoPlay ?? true;
 
           // Set correctly for "preview";
           config.repeat = false;
-          config.repeatDelay = undefined;
+          config.repeatDelay = 0;
           config.autoPlay = undefined;
 
           // Set the fixed delay only when all delays are exactly the same.
@@ -1037,7 +1146,14 @@ importButton.onclick = () => {
             }
           }
 
-          actions.initialize({ contents: json.actions });
+          const contents = json.actions
+            ? json.actions.map((action) => ({
+                ...action,
+                __id: generateActionId(),
+              }))
+            : [];
+
+          actions.initialize({ contents });
           cursors.initialize({
             contents: config.cursors
               ? config.cursors.map((c) => c.data?.name ?? '')
@@ -1074,6 +1190,8 @@ timelineAddActionEl.onclick = () => {
     cursor,
     text: ' ',
     delay,
+    // @ts-expect-error Allow me to generate an ID
+    __id: generateActionId(),
   };
 
   runAction(action);
@@ -1150,9 +1268,12 @@ function reInit(fast = true) {
   autoplayInput.checked = !!autoplayConfig;
   repeatDelayInput.value = '' + repeatDelayConfig;
 
-  if (fast) {
-    delays = actions.contents.map((c) => c.value.delay);
+  // Always calculate the delays because the typewriter always
+  // restores them, since it has no way of knowing if this was
+  // a fast run.
+  delays = actions.contents.map((c) => c.value.delay);
 
+  if (fast) {
     config.actions = actions.contents.map((c) => {
       return { ...c.value, delay: 1 };
     });
@@ -1183,4 +1304,11 @@ function runAction(action: TypewriterAction) {
   typewriter.actions.push(action);
   typewriter.isFinished = false;
   typewriter.play();
+}
+
+let actionId = 0;
+
+function generateActionId() {
+  actionId += 1;
+  return actionId;
 }
