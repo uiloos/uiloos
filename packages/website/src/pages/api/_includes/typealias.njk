@@ -43,6 +43,35 @@
 {% macro displayProperties(properties, sinceRoot) %}
   <h2 class="mt-4">Properties</h2>
 
+  <nav 
+    class="hidden 2xl:block 2xl:absolute 2xl:top-[80px] 2xl:right-2 2xl:w-[270px]" 
+    role="doc-toc"
+    data-no-highlight="true"
+  >
+    {% set foundProp = false %}
+    {% for item in properties %}
+      {% if not foundProp and not item.flags.isPrivate and item.kindString === 'Property' and not item.name.startsWith('_') %}
+        
+        <strong>Properties</strong>
+        {% set foundProp = true %}
+        <ol class="mb-4">
+          {% for item in properties %}
+            {% if not item.flags.isPrivate and item.kindString === 'Property' and not item.name.startsWith('_') %}
+              <li>
+                <a 
+                  href="#{{item.name.toLowerCase()}}" 
+                  class="text-purple-600 underline block text-ellipsis overflow-hidden"
+                >
+                  {{item.name}}
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ol>
+      {% endif %}
+    {% endfor %}
+  </nav>
+
   {% for type in properties %}
     <div class="border px-2 pt-4 mb-4">
       <h3 class="font-mono" id="{{type.name.toLowerCase()}}">
