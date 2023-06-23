@@ -124,7 +124,7 @@ const data = [
     type: 'Docs',
   },
   {
-    name: 'ActiveList Concepts priority',
+    name: 'ViewChannel Concepts priority',
     description: 'Learn the concepts behind the ViewChannels priority',
     type: 'Docs',
     link: '/docs/view-channel/concepts/#priority',
