@@ -45,8 +45,8 @@
 
   {% for type in properties %}
     <div class="border px-2 pt-4 mb-4">
-      <h3 class="font-mono" id="{{type.name}}">
-        <a href="#{{type.name}}">{{type.name}}</a>
+      <h3 class="font-mono" id="{{type.name.toLowerCase()}}">
+        <a href="#{{type.name.toLowerCase()}}">{{type.name}}</a>
         {% if type.flags.isOptional %}
           <span class="text-sm italic">Optional</span>
         {% else %}

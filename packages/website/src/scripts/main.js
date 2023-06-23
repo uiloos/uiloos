@@ -173,6 +173,10 @@ searchInput.onkeyup = (event) => {
       </a>
     `;
 
+    // Edgecase: when a user searches clicks on a link he is already
+    // on the modal should still close.
+    liEl.onclick = toggleSearch;
+
     searchModalResults.append(liEl);
   });
 };

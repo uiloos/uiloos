@@ -21,7 +21,7 @@
   <h2 id="props"><a href="#props">Props</a></h2>
   {% for item in def.type.typeArguments[0].declaration.children %}
     <div class="border px-2 pt-4 mb-4">
-      <h3 class="font-mono" id="{{item.name}}"><a href="#{{item.name}}">{{item.name}}</a></h3>
+      <h3 class="font-mono" id="{{item.name.toLowerCase()}}"><a href="#{{item.name.toLowerCase()}}">{{item.name}}</a></h3>
 
       <p class="mb-4 font-mono">
         {% for subitem in item.type.declaration.children %}
