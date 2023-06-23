@@ -1,12 +1,15 @@
 import {
   ActiveList,
   ActiveListConfig,
+  ViewChannel,
+  ViewChannelEvent,
   typewriterFromSentences,
 } from '@uiloos/core';
 
 document.addEventListener('DOMContentLoaded', function () {
   initCarousel();
   initTypewriter();
+  initViewChannel();
 });
 
 function initCarousel() {
@@ -260,10 +263,10 @@ function initTypewriter() {
     {
       sentences: [
         'With uiloos you can build self playing carousels',
-        "With uiloos you can build sortable lists",
-        "With uiloos you can build awaitable modals and dialogs",
-        "With uiloos you can build pauseable flash messages",
-        "With uiloos you can build notification centers with priority messages",
+        'With uiloos you can build sortable lists',
+        'With uiloos you can build awaitable modals and dialogs',
+        'With uiloos you can build pauseable flash messages',
+        'With uiloos you can build notification centers with priority messages',
         'With uiloos you can build whimsical typewriter animations',
       ],
       repeat: true,
@@ -282,4 +285,244 @@ function initTypewriter() {
       typewriterEl.append(cursorEl);
     }
   );
+}
+
+type FlashMessageType = 'info' | 'success' | 'error' | 'warning';
+
+type FlashMessage = {
+  id: number;
+  type: FlashMessageType;
+  text: string;
+};
+
+function initViewChannel() {
+  const prioritySelect = document.getElementById(
+    'flashmessage-priority'
+  ) as HTMLSelectElement;
+
+  const durationSelect = document.getElementById(
+    'flashmessage-duration'
+  ) as HTMLSelectElement;
+
+  const flashMessageChannel = new ViewChannel<FlashMessage>({}, subscriber);
+
+  const ANIMATION_DURATION = 200;
+
+  document.documentElement.style.setProperty(
+    '--flash-message-animation-duration',
+    `${ANIMATION_DURATION}ms`
+  );
+
+  function subscriber(
+    viewChannel: ViewChannel<FlashMessage>,
+    event: ViewChannelEvent<FlashMessage, void>
+  ) {
+    const flashMessagesContainerEl = document.getElementById(
+      'flash-messages-container'
+    ) as HTMLDivElement;
+
+    if (event.type === 'PRESENTED') {
+      const view = event.view;
+      const flashMessage = view.data;
+
+      const zIndex = viewChannel.views.length - view.index;
+
+      const flashMessageEl = document.createElement('div');
+      flashMessageEl.id = `${flashMessage.id}`;
+
+      flashMessageEl.className = `
+        flash-message flash-message-${flashMessage.type}
+      `;
+      flashMessageEl.style.zIndex = `${zIndex}`;
+
+      flashMessageEl.onclick = () => view.dismiss();
+      flashMessageEl.onmouseover = () => view.pause();
+      flashMessageEl.onmouseleave = () => view.play();
+
+      flashMessageEl.innerHTML = `
+        <div class="flash-message-row">
+          <div class="flash-message-content">
+            <span class="flash-message-icon">
+              ${typeToSymbol(flashMessage.type)}
+            </span>
+            <p>${flashMessage.text}</p>
+          </div>
+          <span class="flash-message-close">𐄂</span>
+        </div>
+  
+        <div 
+          id="${flashMessage.id}-progress" 
+          class="
+            flash-message-progress 
+            flash-message-progress-${flashMessage.type}
+          "
+        ></div>
+      `;
+
+      // Insert before the current item holding the
+      // index, if that index does not exist provide
+      // `null` so it is appended to the list.
+      flashMessagesContainerEl.insertBefore(
+        flashMessageEl,
+        flashMessagesContainerEl.children[view.index] ?? null
+      );
+
+      const progressEl = document.getElementById(
+        `${flashMessage.id}-progress`
+      ) as HTMLDivElement;
+
+      progressEl.style.animation = `
+        progress ${view.autoDismiss.duration}ms ease-out
+      `;
+
+      return;
+    }
+
+    if (event.type === 'DISMISSED') {
+      const view = event.view;
+      const flash = view.data;
+
+      const flashMessageEl = document.getElementById(
+        `${flash.id}`
+      ) as HTMLDivElement;
+
+      flashMessageEl.classList.add('flash-message-exit');
+
+      flashMessageEl.onanimationend = (event) => {
+        if (event.animationName === 'slide-out') {
+          flashMessageEl.remove();
+        }
+      };
+
+      return;
+    }
+
+    if (event.type === 'AUTO_DISMISS_PLAYING') {
+      const progressEl = document.getElementById(
+        `${event.view.data.id}-progress`
+      ) as HTMLDivElement;
+      progressEl.style.animationPlayState = 'running';
+
+      return;
+    }
+
+    if (event.type === 'AUTO_DISMISS_PAUSED') {
+      const progressEl = document.getElementById(
+        `${event.view.data.id}-progress`
+      ) as HTMLDivElement;
+      progressEl.style.animationPlayState = 'paused';
+
+      return;
+    }
+  }
+
+  function infoFlashMessage(text: string) {
+    flashMessageChannel.present({
+      data: {
+        id: Math.random(),
+        text,
+        type: 'info',
+      },
+      priority: parseInt(prioritySelect.value, 10),
+      autoDismiss: {
+        duration: parseInt(durationSelect.value, 10),
+        result: undefined,
+      },
+    });
+  }
+
+  function warningFlashMessage(text: string) {
+    flashMessageChannel.present({
+      data: {
+        id: Math.random(),
+        text,
+        type: 'warning',
+      },
+      priority: 3,
+      autoDismiss: {
+        duration: 3000,
+        result: undefined,
+      },
+    });
+  }
+
+  function errorFlashMessage(text: string) {
+    flashMessageChannel.present({
+      data: {
+        id: Math.random(),
+        text,
+        type: 'error',
+      },
+      priority: 2,
+      autoDismiss: {
+        duration: 5000,
+        result: undefined,
+      },
+    });
+  }
+
+  function successFlashMessage(text: string) {
+    flashMessageChannel.present({
+      data: {
+        id: Math.random(),
+        text,
+        type: 'success',
+      },
+      priority: 4,
+      autoDismiss: {
+        duration: 2000,
+        result: undefined,
+      },
+    });
+  }
+
+  // UTILS
+
+  function typeToSymbol(type: FlashMessageType): string {
+    switch (type) {
+      case 'info':
+        return 'ⓘ';
+
+      case 'warning':
+        return '⚠';
+
+      case 'error':
+        return '☠';
+
+      case 'success':
+        return '✓';
+
+      default:
+        return 'unknown';
+    }
+  }
+
+  // Button events
+
+  const infoButton = document.getElementById('flashInfo') as HTMLButtonElement;
+  const successButton = document.getElementById(
+    'flashSuccess'
+  ) as HTMLButtonElement;
+  const warningButton = document.getElementById(
+    'flashWarning'
+  ) as HTMLButtonElement;
+  const errorButton = document.getElementById(
+    'flashError'
+  ) as HTMLButtonElement;
+
+  infoButton.onclick = () => {
+    infoFlashMessage('An info message');
+  };
+
+  successButton.onclick = () => {
+    successFlashMessage('A success message');
+  };
+
+  warningButton.onclick = () => {
+    warningFlashMessage('A warning message');
+  };
+
+  errorButton.onclick = () => {
+    errorFlashMessage('An error message');
+  };
 }

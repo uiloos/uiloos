@@ -55,7 +55,13 @@ function subscriber(viewChannel, event) {
       ></div>
     `;
 
-    flashMessagesContainerEl.append(flashMessageEl);
+    // Insert before the current item holding the 
+    // index, if that index does not exist provide
+    // `null` so it is appended to the list.
+    flashMessagesContainerEl.insertBefore(
+      flashMessageEl,
+      flashMessagesContainerEl.children[view.index] ?? null
+    );
 
     const progressEl = document
       .getElementById(`${flashMessage.id}-progress`);

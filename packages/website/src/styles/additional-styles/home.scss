@@ -38,3 +38,157 @@
     border-color: rgb(126 34 206 / var(--tw-border-opacity));
   }
 }
+
+:root {
+  /* Set by the javascript */
+  --flash-message-animation-duration: 0ms;
+}
+
+.flash-messages {
+  position: fixed;
+  top: 100px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 3;
+}
+
+.flash-messages-container {
+  display: grid;
+  gap: 16px;
+  padding: 0 10px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 800px;
+}
+
+.flash-message {
+  will-change: transform, opacity;
+  animation: slide-in var(--flash-message-animation-duration) ease-out;
+
+  padding: 8px;
+
+  font-size: 22px;
+
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  font-family: "Inter", sans-serif;
+}
+
+.flash-message-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flash-message-info {
+  color: white;
+  background-color: #3b82f6;
+}
+
+.flash-message-warning {
+  color: white;
+  background-color: #eab308;
+}
+
+.flash-message-error {
+  color: white;
+  background-color: #ef4444;
+}
+
+.flash-message-success {
+  color: white;
+  background-color: #22c55e;
+}
+
+.flash-message-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flash-message-content p {
+  margin: 0;
+}
+
+.flash-message-icon {
+  font-size: 38px;
+}
+
+.flash-message-close {
+  font-size: 32px;
+  margin-right: 32px;
+  margin-top: -5px;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translate3d(0, -100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
+}
+
+.flash-message-exit {
+  animation: slide-out var(--flash-message-animation-duration) ease-out;
+}
+
+.flash-message-progress {
+  will-change: animation, background-position;
+  position: relative;
+  top: 8px;
+  left: -8px;
+  height: 4px;
+  width: calc(100% + 16px);
+
+  background-position: right bottom;
+}
+
+.flash-message-progress-info {
+  background: linear-gradient(to right, #3b82f6 50%, #063b91 50%);
+  background-size: 200% 100%;
+}
+
+.flash-message-progress-warning {
+  background: linear-gradient(to right, #eab308 50%, #755904 50%);
+  background-size: 200% 100%;
+}
+
+.flash-message-progress-error {
+  background: linear-gradient(to right, #ef4444 50%, #8d0c0c 50%);
+  background-size: 200% 100%;
+}
+
+.flash-message-progress-success {
+  background: linear-gradient(to right, #22c55e 50%, #10622f 50%);
+  background-size: 200% 100%;
+}
+
+@keyframes progress {
+  from {
+    background-position: right bottom;
+  }
+  to {
+    background-position: left bottom;
+  }
+}

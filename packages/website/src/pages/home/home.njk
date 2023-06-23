@@ -60,305 +60,425 @@ renderData:
     </p>
   </div>
 
-  <div class="grid gap-6 lg:grid-cols-2">
-    <!-- Code panel -->
-    <div class="shadow-xl text-left font-mono bg-gray-800 text-white p-4 text-sm sm:text-lg overflow-scroll">
-      <div class="flex">
-        <span class="text-purple-400 mr-2">const</span> 
-        <span class="text-red-400 mr-2">carousel</span> 
-        <span class="mr-2">=</span> 
-        <span class="text-blue-300 mr-2">new</span> 
-        <span class="text-blue-500">ActiveList</span> 
-        <span class="text-blue-500">(</span> 
-      </div>
-
-      <span class="ml-4">{</span> 
-
-      <div class="ml-8 flex">
-        <span class="text-white">contents:</span>
-        <div class="ml-2"> 
-          <span class="text-blue-500">[</span>
-          <span class="text-orange-400">1,</span>
-          <span class="text-orange-400">2,</span>
-          <span class="text-orange-400">3,</span>
-          <span class="text-orange-400">4,</span>
-          <span class="text-orange-400">5</span>
-          <span class="text-blue-500">]</span>
-        </div>
-
-        <span>,</span>
-      </div>
-
-      <div class="ml-8 flex">
-        <span class="text-white">activeIndexes:</span>
-        <div class="ml-2"> 
-          <span class="text-blue-500">[</span>
-          <span class="text-orange-400">0</span>
-          <span class="text-blue-500">]</span>
-        </div>
-
-        <span>,</span>
-      </div>
-
-      <div class="ml-8 flex flex-col">
-        <span>autoPlay: <span class="text-blue-500">{</span></span>
-
-        <div>
-          <div class="ml-8 flex">
-            <span class="text-white">duration</span>
-            <span class="text-white">:</span>
-            <div class="ml-2 flex">
-              <select id="carousel-duration" class="text-orange-400 bg-white-700 bg-[center_left_3.5rem] pl-1 pr-9 h-6 p-0 border-none">
-                <option value="1000">1000</option>
-                <option value="2000">2000</option>
-                <option value="3000" selected>3000</option>
-                <option value="4000">4000</option>
-                <option value="5000">5000</option>
-              </select>
-              <span>,</span>
-            </div>
-          </div>
-
-            <div class="ml-8 flex">
-            <span class="text-white">stopsOnUserInteraction:</span>
-            <div class="ml-2 flex">
-              <select id="carousel-stops-on-user-interaction" class="text-orange-400 bg-white-700 bg-[center_left_3.5rem] pl-1 pr-6 h-6 p-0 border-none">
-                <option value="true" selected>true</option>
-                <option value="false">false</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
+  <div class="grid">
+    <div class="grid gap-6 lg:grid-cols-2 pb-8 border-b border-gray-200">
+      <!-- Code panel -->
+      <div class="shadow-xl text-left font-mono bg-gray-800 text-white p-4 text-sm sm:text-lg overflow-scroll">
         <div class="flex">
-          <span class="text-blue-500">}</span>
+          <span class="text-purple-400 mr-2">const</span> 
+          <span class="text-red-400 mr-2">carousel</span> 
+          <span class="mr-2">=</span> 
+          <span class="text-blue-300 mr-2">new</span> 
+          <span class="text-blue-500">ActiveList</span> 
+          <span class="text-blue-500">(</span> 
+        </div>
+
+        <span class="ml-4">{</span> 
+
+        <div class="ml-8 flex">
+          <span class="text-white">contents:</span>
+          <div class="ml-2"> 
+            <span class="text-blue-500">[</span>
+            <span class="text-orange-400">1,</span>
+            <span class="text-orange-400">2,</span>
+            <span class="text-orange-400">3,</span>
+            <span class="text-orange-400">4,</span>
+            <span class="text-orange-400">5</span>
+            <span class="text-blue-500">]</span>
+          </div>
+
           <span>,</span>
         </div>
-      </div>
 
-      <div class="ml-8 flex">
-        <span class="text-white">isCircular:</span>
-        <div class="ml-2 flex">
-          <select id="carousel-is-circular" class="text-orange-400 bg-white-700 bg-[center_left_3.5rem] pl-1 pr-6 h-6 p-0 border-none">
-            <option value="true" selected>true</option>
-            <option value="false">false</option>
-          </select>
-          ,
+        <div class="ml-8 flex">
+          <span class="text-white">activeIndexes:</span>
+          <div class="ml-2"> 
+            <span class="text-blue-500">[</span>
+            <span class="text-orange-400">0</span>
+            <span class="text-blue-500">]</span>
+          </div>
+
+          <span>,</span>
         </div>
-      </div>
 
-      <div class="ml-8 flex">
-        <span class="text-white">cooldown:</span>
-        <span class="ml-2 text-orange-400">500</span>
-      </div>
-      
-      <div class="flex ml-4">
-        }
-        <span class="hidden lg:inline">,</span>
-      </div>
+        <div class="ml-8 flex flex-col">
+          <span>autoPlay: <span class="text-blue-500">{</span></span>
 
-      <div class="flex">
-        <span class="inline lg:hidden text-blue-500">)</span>
-        <span class="inline lg:hidden">;</span>
-      </div>
+          <div>
+            <div class="ml-8 flex">
+              <span class="text-white">duration</span>
+              <span class="text-white">:</span>
+              <div class="ml-2 flex">
+                <select id="carousel-duration" class="text-black bg-white-700 bg-[center_left_3.5rem] pl-1 pr-9 h-6 p-0 border-none">
+                  <option value="1000">1000</option>
+                  <option value="2000">2000</option>
+                  <option value="3000" selected>3000</option>
+                  <option value="4000">4000</option>
+                  <option value="5000">5000</option>
+                </select>
+                <span>,</span>
+              </div>
+            </div>
 
-      <div class="ml-4 hidden lg:block">
+              <div class="ml-8 flex">
+              <span class="text-white">stopsOnUserInteraction:</span>
+              <div class="ml-2 flex">
+                <select id="carousel-stops-on-user-interaction" class="text-black bg-white-700 bg-[center_left_3.5rem] pl-1 pr-6 h-6 p-0 border-none">
+                  <option value="true" selected>true</option>
+                  <option value="false">false</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex">
+            <span class="text-blue-500">}</span>
+            <span>,</span>
+          </div>
+        </div>
+
+        <div class="ml-8 flex">
+          <span class="text-white">isCircular:</span>
+          <div class="ml-2 flex">
+            <select id="carousel-is-circular" class="text-black bg-white-700 bg-[center_left_3.5rem] pl-1 pr-6 h-6 p-0 border-none">
+              <option value="true" selected>true</option>
+              <option value="false">false</option>
+            </select>
+            ,
+          </div>
+        </div>
+
+        <div class="ml-8 flex">
+          <span class="text-white">cooldown:</span>
+          <span class="ml-2 text-orange-400">500</span>
+        </div>
+        
+        <div class="flex ml-4">
+          }
+          <span class="hidden lg:inline">,</span>
+        </div>
+
         <div class="flex">
-          (
-          <span class="text-orange-400">carousel</span>
-          <span class="mr-1">,</span> 
-          <span class="text-orange-400">event</span>
-          <span class="mr-1">)</span> 
-          <span class="text-purple-400 mr-1">=></span> 
-          {
+          <span class="inline lg:hidden text-blue-500">)</span>
+          <span class="inline lg:hidden">;</span>
         </div>
-        <div class="ml-4 text-green-400">
-          <div>/*</div>
-          <div class="ml-4 mb-4">
-            This is a callback function which informs you of changes
-            inside of the ActiveList. In vanilla JavaScript you 
-            manipulate the DOM here or re-render the DOM.
+
+        <div class="ml-4 hidden lg:block">
+          <div class="flex">
+            (
+            <span class="text-orange-400">carousel</span>
+            <span class="mr-1">,</span> 
+            <span class="text-orange-400">event</span>
+            <span class="mr-1">)</span> 
+            <span class="text-purple-400 mr-1">=></span> 
+            {
           </div>
-          <div class="ml-4">
-            When using a framework such as Vue, React or Angular,
-            you will not need this callback because the framework 
-            will handle the DOM manipulation for you.
+          <div class="ml-4 text-green-400">
+            <div>/*</div>
+            <div class="ml-4 mb-4">
+              This is a callback function which informs you of changes
+              inside of the ActiveList. In vanilla JavaScript you 
+              manipulate the DOM here or re-render the DOM.
+            </div>
+            <div class="ml-4">
+              When using a framework such as Vue, React or Angular,
+              you will not need this callback because the framework 
+              will handle the DOM manipulation for you.
+            </div>
+            <div>*/</div>
           </div>
-          <div>*/</div>
+          }
         </div>
-        }
+        <div class="flex">
+          <span class="hidden lg:inline text-blue-500">)</span>
+          <span class="hidden lg:inline">;</span>
+        </div>
       </div>
-      <div class="flex">
-        <span class="hidden lg:inline text-blue-500">)</span>
-        <span class="hidden lg:inline">;</span>
+
+      <!-- Carousel -->
+      <div id="carousel" class="relative shadow-xl overflow-hidden text-white bg-purple-800 h-[35rem] sm:h-[40rem] md:h-[42rem] lg:h-[47rem]">
+        <!-- Slides -->
+        <ul>
+          <li
+            id="carousel-slide-0"
+            class="visible absolute"
+          >
+            <picture>
+              <source type="image/avif" srcset="/images/owls/snow.avif">
+              <img width="1920" height="1280" src="/images/owls/snow.jpg" alt="image of a snow owl" />
+            </picture>
+            <article class="p-4">
+              <h3 class="font-bold">Snow owl</h3>
+              <p>
+                The snowy owl (Bubo scandiacus), also known as the polar owl, 
+                the white owl and the Arctic owl, is a large, white owl of the true owl family. 
+                Snowy owls are native to the Arctic regions.
+              </p>
+
+              <p>Photo by <a href="https://unsplash.com/@dkphotos" target="_blank" rel="noopener noreferrer" class="underline">Doug Kelley</a></p>
+            </article>
+          </li>
+          <li
+            id="carousel-slide-1"
+            class="invisible absolute"
+            aria-hidden="true"
+          >
+            <picture>
+              <source type="image/avif" srcset="/images/owls/tawny.avif">
+              <img width="1920" height="1280" src="/images/owls/tawny.jpg" alt="image of a snow owl" />
+            </picture>
+            <article class="p-4">
+              <h3 class="font-bold">Tawny owl</h3>
+              <p>
+                The tawny owl (also called the brown owl; Strix aluco) is commonly found in woodlands 
+                across much of Eurasia and North Africa, and has 11 recognized subspecies. 
+              </p>
+              <p>Photo by <a href="https://unsplash.com/@kai_wenzel" target="_blank" rel="noopener noreferrer" class="underline">Kai Wenzel</a></p>
+            </article>
+          </li>
+          <li
+            id="carousel-slide-2"
+            class="invisible absolute"
+            aria-hidden="true"
+          >
+            <picture>
+              <source type="image/avif" srcset="/images/owls/barn.avif">
+              <img width="1920" height="1280" src="/images/owls/barn.jpg" alt="image of a barn owl" />
+            </picture>
+            <article class="p-4">
+              <h3 class="font-bold">Barn owl</h3>
+              <p>
+                The barn owl (Tyto alba) is the most widely distributed species of owl in the world and 
+                one of the most widespread of all species of birds, being found almost everywhere in the
+                world. 
+              </p>
+              <p>Photo by <a href="https://unsplash.com/@picsbyjameslee" target="_blank" rel="noopener noreferrer" class="underline">James Lee</a></p>
+            </article>
+          </li>
+          <li
+            id="carousel-slide-3"
+            class="invisible absolute"
+            aria-hidden="true"
+          >
+            <picture>
+              <source type="image/avif" srcset="/images/owls/burrowing.avif">
+              <img width="1920" height="1280" src="/images/owls/burrowing.jpg" alt="image of a burrowing owl" />
+            </picture>
+            <article class="p-4">
+              <h3 class="font-bold">Burrowing owl</h3>
+              <p>
+                The burrowing owl (Athene cunicularia) is a small, long-legged owl. 
+                Burrowing owls nest and roost in burrows, such as 
+                those excavated by prairie dogs.  
+              </p>
+              <p>Photo by <a href="https://unsplash.com/@rayhennessy" target="_blank" rel="noopener noreferrer" class="underline">Ray Hennessy</a></p>
+            </article>
+          </li>
+          <li
+            id="carousel-slide-4"
+            class="invisible absolute"
+            aria-hidden="true"
+          >
+            <picture>
+              <source type="image/avif" srcset="/images/owls/hawk.avif">
+              <img width="1920" height="1280" src="/images/owls/hawk.jpg" alt="image of a northern hawk-owl" />
+            </picture>
+            <article class="p-4 bg-purple-800">
+              <h3 class="font-bold ">Northern hawk-owl</h3>
+              <p>
+                The northern hawk-owl or northern hawk owl (Surnia ulula) is a medium-sized true owl of 
+                the northern latitudes. It is one of the few owls that is neither nocturnal 
+                nor crepuscular.
+                
+              </p>
+              <p>Photo by <a href="https://unsplash.com/@erik_karits" target="_blank" rel="noopener noreferrer" class="underline">Erik Karits</a></p>
+            </article>
+          </li>
+        </ul>
+
+        <!-- Progress -->
+        <div class="absolute top-2 w-full">
+          <ul class="flex justify-center gap-2">
+            <li>
+              <button id="carousel-stop" class="visually-hidden">
+                Stop Animation
+              </button>
+            </li>
+            <li>
+              <button id="carousel-button-0" class="w-10 h-1 carousel-button-animation">
+                <span class="visually-hidden">Snow owl</span>
+                <span class="visually-hidden">(Current Item)</span>
+              </button>
+            </li>
+            <li>
+              <button id="carousel-button-1" class="w-10 h-1 bg-gray-600">
+                <span class="visually-hidden">Tawny owl</span>
+                <span class="visually-hidden">(Current Item)</span>
+              </button>
+            </li>
+            <li>
+              <button id="carousel-button-2" class="w-10 h-1 bg-gray-600">
+                <span class="visually-hidden">Barn owl</span>
+                <span class="visually-hidden">(Current Item)</span>
+              </button>
+            </li>
+            <li>
+              <button id="carousel-button-3" class="w-10 h-1 bg-gray-600">
+                <span class="visually-hidden">Burrowing owl</span>
+                <span class="visually-hidden">(Current Item)</span>
+              </button>
+            </li>
+            <li>
+              <button id="carousel-button-4" class="w-10 h-1 bg-gray-600">
+                <span class="visually-hidden">Northern hawk-owl</span>
+                <span class="visually-hidden">(Current Item)</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Controls -->
+        <div class="absolute top-32 sm:top-64 w-full">
+          <div class="flex justify-between">
+            <button 
+              id="carousel-prev"
+              type="button" 
+              class="text-purple-800 hover:text-purple-600 transition duration-500 text-8xl"
+            >
+              ‹
+            </button>
+          
+            <button 
+              id="carousel-next" 
+              type="button" 
+              class="text-purple-800 hover:text-purple-600 transition duration-500 text-8xl"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+
+        <div aria-live="polite" aria-atomic="true" class="invisible h-1">
+          Owl <span id="carousel-current-active">1</span> of 5
+        </div>
       </div>
     </div>
 
-    <!-- Carousel -->
-    <div id="carousel" class="relative shadow-xl overflow-hidden text-white bg-purple-800 h-[35rem] sm:h-[40rem] md:h-[42rem] lg:h-[47rem]">
-      <!-- Slides -->
-      <ul>
-        <li
-          id="carousel-slide-0"
-          class="visible absolute"
-        >
-          <picture>
-            <source type="image/avif" srcset="/images/owls/snow.avif">
-            <img width="1920" height="1280" src="/images/owls/snow.jpg" alt="image of a snow owl" />
-          </picture>
-          <article class="p-4">
-            <h3 class="font-bold">Snow owl</h3>
-            <p>
-              The snowy owl (Bubo scandiacus), also known as the polar owl, 
-              the white owl and the Arctic owl, is a large, white owl of the true owl family. 
-              Snowy owls are native to the Arctic regions.
-            </p>
+    <!-- ViewChannel example -->
+    <div class="grid gap-6 lg:grid-cols-2 py-8 border-b border-gray-200"> 
+      <!-- Flash messages -->
+      <div>
+        <div class="flash-messages">
+          <div 
+            id="flash-messages-container" 
+            class="flash-messages-container"
+            role="status"
+            aria-live="polite"
+          ></div>
+        </div>
 
-            <p>Photo by <a href="https://unsplash.com/@dkphotos" target="_blank" rel="noopener noreferrer" class="underline">Doug Kelley</a></p>
-          </article>
-        </li>
-        <li
-          id="carousel-slide-1"
-          class="invisible absolute"
-          aria-hidden="true"
-        >
-          <picture>
-            <source type="image/avif" srcset="/images/owls/tawny.avif">
-             <img width="1920" height="1280" src="/images/owls/tawny.jpg" alt="image of a snow owl" />
-          </picture>
-          <article class="p-4">
-            <h3 class="font-bold">Tawny owl</h3>
-            <p>
-              The tawny owl (also called the brown owl; Strix aluco) is commonly found in woodlands 
-              across much of Eurasia and North Africa, and has 11 recognized subspecies. 
-            </p>
-            <p>Photo by <a href="https://unsplash.com/@kai_wenzel" target="_blank" rel="noopener noreferrer" class="underline">Kai Wenzel</a></p>
-          </article>
-        </li>
-        <li
-          id="carousel-slide-2"
-          class="invisible absolute"
-          aria-hidden="true"
-        >
-          <picture>
-            <source type="image/avif" srcset="/images/owls/barn.avif">
-             <img width="1920" height="1280" src="/images/owls/barn.jpg" alt="image of a barn owl" />
-          </picture>
-          <article class="p-4">
-            <h3 class="font-bold">Barn owl</h3>
-            <p>
-              The barn owl (Tyto alba) is the most widely distributed species of owl in the world and 
-              one of the most widespread of all species of birds, being found almost everywhere in the
-              world. 
-            </p>
-            <p>Photo by <a href="https://unsplash.com/@picsbyjameslee" target="_blank" rel="noopener noreferrer" class="underline">James Lee</a></p>
-          </article>
-        </li>
-        <li
-          id="carousel-slide-3"
-          class="invisible absolute"
-          aria-hidden="true"
-        >
-          <picture>
-            <source type="image/avif" srcset="/images/owls/burrowing.avif">
-            <img width="1920" height="1280" src="/images/owls/burrowing.jpg" alt="image of a burrowing owl" />
-          </picture>
-          <article class="p-4">
-            <h3 class="font-bold">Burrowing owl</h3>
-            <p>
-              The burrowing owl (Athene cunicularia) is a small, long-legged owl. 
-              Burrowing owls nest and roost in burrows, such as 
-              those excavated by prairie dogs.  
-            </p>
-            <p>Photo by <a href="https://unsplash.com/@rayhennessy" target="_blank" rel="noopener noreferrer" class="underline">Ray Hennessy</a></p>
-          </article>
-        </li>
-        <li
-          id="carousel-slide-4"
-          class="invisible absolute"
-          aria-hidden="true"
-        >
-          <picture>
-            <source type="image/avif" srcset="/images/owls/hawk.avif">
-            <img width="1920" height="1280" src="/images/owls/hawk.jpg" alt="image of a northern hawk-owl" />
-          </picture>
-          <article class="p-4 bg-purple-800">
-            <h3 class="font-bold ">Northern hawk-owl</h3>
-            <p>
-              The northern hawk-owl or northern hawk owl (Surnia ulula) is a medium-sized true owl of 
-              the northern latitudes. It is one of the few owls that is neither nocturnal 
-              nor crepuscular.
-              
-            </p>
-            <p>Photo by <a href="https://unsplash.com/@erik_karits" target="_blank" rel="noopener noreferrer" class="underline">Erik Karits</a></p>
-          </article>
-        </li>
-      </ul>
+        <div class="grid gap-4">
+          <button 
+            id="flashInfo"
+            class="h-12 font-bold flash-message-info"
+          >
+            Info
+          </button>
+          
+          <button 
+            id="flashSuccess"
+            class="h-12 font-bold flash-message-success"
+          >
+            Success
+          </button>
+          
+          <button 
+            id="flashWarning"
+            class="h-12 font-bold flash-message-warning"
+          >
+            Warning
+          </button>
+          
+          <button 
+            id="flashError"
+            class="h-12 font-bold flash-message-error"
+          >
+            Error
+          </button>
+          
+          <p class="text-center">
+            Click on the buttons above to trigger a flash message of that type.  
+          </p>
 
-      <!-- Progress -->
-      <div class="absolute top-2 w-full">
-        <ul class="flex justify-center gap-2">
-          <li>
-            <button id="carousel-stop" class="visually-hidden">
-              Stop Animation
-            </button>
-          </li>
-          <li>
-            <button id="carousel-button-0" class="w-10 h-1 carousel-button-animation">
-              <span class="visually-hidden">Snow owl</span>
-              <span class="visually-hidden">(Current Item)</span>
-            </button>
-          </li>
-          <li>
-            <button id="carousel-button-1" class="w-10 h-1 bg-gray-600">
-              <span class="visually-hidden">Tawny owl</span>
-              <span class="visually-hidden">(Current Item)</span>
-            </button>
-          </li>
-          <li>
-            <button id="carousel-button-2" class="w-10 h-1 bg-gray-600">
-              <span class="visually-hidden">Barn owl</span>
-              <span class="visually-hidden">(Current Item)</span>
-            </button>
-          </li>
-          <li>
-            <button id="carousel-button-3" class="w-10 h-1 bg-gray-600">
-              <span class="visually-hidden">Burrowing owl</span>
-              <span class="visually-hidden">(Current Item)</span>
-            </button>
-          </li>
-          <li>
-            <button id="carousel-button-4" class="w-10 h-1 bg-gray-600">
-              <span class="visually-hidden">Northern hawk-owl</span>
-              <span class="visually-hidden">(Current Item)</span>
-            </button>
-          </li>
-        </ul>
-      </div>
-      
-      <!-- Controls -->
-      <div class="absolute top-32 sm:top-64 w-full">
-        <div class="flex justify-between">
-          <button 
-            id="carousel-prev"
-            type="button" 
-            class="text-purple-800 hover:text-purple-600 transition duration-500 text-8xl"
-          >
-            ‹
-          </button>
-        
-          <button 
-            id="carousel-next" 
-            type="button" 
-            class="text-purple-800 hover:text-purple-600 transition duration-500 text-8xl"
-          >
-            ›
-          </button>
+          <p class="text-center">
+            Higher priority (the lower the number the higher the priority) messages
+            are shown above lower priority messages.
+          </p>
         </div>
       </div>
 
-      <div aria-live="polite" aria-atomic="true" class="invisible h-1">
-        Owl <span id="carousel-current-active">1</span> of 5
+       <!-- Code panel -->
+      <div class="shadow-xl text-left font-mono bg-gray-800 text-white p-4 text-sm sm:text-lg overflow-scroll">
+        <div class="flex mb-4">
+          <span class="text-purple-400 mr-2">const</span> 
+          <span class="text-red-400 mr-2">flashMessageChannel</span> 
+          <span class="mr-2">=</span> 
+          <span class="text-blue-300 mr-2">new</span> 
+          <span class="text-blue-500">ViewChannel</span> 
+          <span class="text-blue-500">();</span> 
+        </div>
+
+        <div class="flex">
+          <span class="text-purple-400 mr-2">export</span> 
+          <span class="text-purple-400 mr-2">function</span> 
+          <span class="text-red-400 mr-2">infoFlashMessage</span> 
+          <span class="text-blue-500">(</span>
+          <span class="text-orange-400">text</span>
+          <span class="text-blue-500">)</span> 
+          <span class="ml-1">{</span>
+        </div>
+
+        <div class="flex ml-6">
+          <span class="text-red-400">flashMessageChannel</span>
+          <span class="text-blue-500">.present</span>({
+        </div>
+        <div class="ml-12">
+          <div>data: {</div>
+          <div class="ml-6">id: 
+            <span class="text-red-400">Math</span><span class="text-blue-500">.random()</span>,
+          </div>
+          <div class="ml-6">
+            <span class="text-red-400">text</span>,
+          </div>
+          <div class="ml-6">type: <span class="text-green-400">'info'</span></div>
+          <div>},</div>
+        </div>
+        <div class="ml-12">priority: 
+          <select id="flashmessage-priority" class="text-black bg-white-700 bg-[center_left_3.5rem] pl-1 pr-9 h-6 p-0 border-none">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>,
+        </div>
+        <div class="ml-12">
+          autoDismiss: {
+          <div class="ml-6">duration:
+            <select id="flashmessage-duration" class="text-black bg-white-700 bg-[center_left_3.5rem] pl-1 pr-9 h-6 p-0 border-none">
+              <option value="1000">1000</option>
+              <option value="2000" selected>2000</option>
+              <option value="3000">3000</option>
+              <option value="4000">4000</option>
+              <option value="5000">5000</option>
+              <option value="10000">10000</option>
+            </select>,
+          </div>
+          <div class="ml-6">result: undefined</div>
+          }
+        </div>
+        <div class="ml-6">});</div>
+        }
       </div>
     </div>
   </div>
