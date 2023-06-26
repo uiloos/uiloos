@@ -1,18 +1,34 @@
 [
   {
-    "id": 1,
-    "text": "A Carousel created with JavaScript",
-    "description": "A basic carousel using vanilla JavaScript and uiloos",
-    "url": "https://codesandbox.io/s/carousel-vanilla-qh7ffo?file=/carousel.js",
-    "tags": ["JavaScript", "Carousel"],
+    "id": 13,
+    "text": "Progressive carousel",
+    "description": "A progressively enhanced carousel, which works when JavaScript is disabled, that uses CSS scroll-snap",
+    "url": "https://codesandbox.io/s/progressively-enhanced-snap-carousel-vanilla-4phhgy",
+    "tags": ["JavaScript","Carousel"],
     "for": "ActiveList"
   },
   {
-    "id": 2,
-    "text": "A Carousel created in React",
-    "description": "An example of how to use React and uiloos to create a carousel",
-    "url": "https://codesandbox.io/s/carousel-react-55h9ib?file=/src/Carousel/Carousel.tsx",
-    "tags": ["React", "Carousel"],
+    "id": 14,
+    "text": "Progressive carousel peek ahead",
+    "description": "Variant of 'Progressive carousel' that shows tiny slice of the previous and next slide",
+    "url": "https://codesandbox.io/s/progressively-enhanced-snap-carousel-vanilla-peek-ahead-v5rt2j",
+    "tags": ["JavaScript","Carousel"],
+    "for": "ActiveList"
+  },
+  {
+    "id": 15,
+    "text": "React CSS snap carousel",
+    "description": "A React carousel that uses CSS scroll-snap",
+    "url": "https://codesandbox.io/s/snap-carousel-react-k32kh9",
+    "tags": ["JavaScript","Carousel"],
+    "for": "ActiveList"
+  },
+  {
+    "id": 16,
+    "text": "React peek ahead carousel",
+    "description": "Variant of 'React carousel' that shows tiny slice of the previous and next slide",
+    "url": "https://codesandbox.io/s/snap-carousel-react-peek-ahead-kt9sd3",
+    "tags": ["JavaScript","Carousel"],
     "for": "ActiveList"
   },
   {
@@ -124,5 +140,20 @@
     "url": "https://codesandbox.io/s/typewriter-angular-zktywz",
     "tags": ["Angular"],
     "for": "Typewriter"
+  },{
+    "id": 1,
+    "text": "A basic Carousel created with JavaScript",
+    "description": "A basic auto playing carousel, with buttons to control movements, using vanilla JavaScript",
+    "url": "https://codesandbox.io/s/carousel-vanilla-qh7ffo?file=/carousel.js",
+    "tags": ["JavaScript", "Carousel"],
+    "for": "ActiveList"
+  },
+  {
+    "id": 2,
+    "text": "A basic Carousel created in React",
+    "description": "An example of how to use React to create a basic auto playing carousel",
+    "url": "https://codesandbox.io/s/carousel-react-55h9ib?file=/src/Carousel/Carousel.tsx",
+    "tags": ["React", "Carousel"],
+    "for": "ActiveList"
   }
 ]
