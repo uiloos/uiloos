@@ -80,11 +80,17 @@ export class _AutoPlay<T> {
     }
 
     this._autoPlayCurrentDuration = duration;
-  
+
     // The `autoPlayDuration` should not be affected by a pause.
     if (this._pauseStarted === null) {
       this._activeList.autoPlay.duration = duration;
+    } else {
+      // Reset '_pauseStarted' so it does not interfere with other
+      // upcoming activations.
+      this._pauseStarted = null;
     }
+    
+   
 
     this._autoPlayStarted = new Date();
 

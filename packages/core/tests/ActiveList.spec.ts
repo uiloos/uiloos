@@ -21924,6 +21924,166 @@ describe('ActiveList', () => {
       ]);
     });
 
+    test('that the autoPlay can be paused and continued multiple times', () => {
+      jest.useFakeTimers();
+
+      const { activeList, subscriber } = setup({
+        autoPlay: { duration: 200 },
+        isCircular: true,
+        activeIndexes: 0,
+      });
+
+      // It should start with 'a' and be playing
+      expect(activeList.active).toEqual(['a']);
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
+      expect(subscriber).toBeCalledTimes(0);
+
+      // After 200 seconds it should be on 'b'
+      jest.advanceTimersByTime(200);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
+      assertEvents(subscriber, ['ACTIVATED']);
+
+      // Now we advance the time to the half way point
+      // between 'b' and 'c'.
+      jest.advanceTimersByTime(100);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
+      assertEvents(subscriber, ['ACTIVATED']);
+
+      // Now pause it at the half way.
+      activeList.pause();
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 200,
+      });
+      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_PAUSED']);
+
+      // Should have no effect
+      jest.advanceTimersByTime(10000);
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 200,
+      });
+      assertEvents(subscriber, ['ACTIVATED', 'AUTO_PLAY_PAUSED']);
+
+      // Now press play, after 100 milliseconds it should have
+      // continued.
+      activeList.play();
+
+      expect(activeList.active).toEqual(['b']);
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        duration: 200,
+        hasBeenStoppedBefore: false,
+      });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+        'AUTO_PLAY_PLAYING',
+      ]);
+
+      // After 100 milliseconds it should be 'c'
+      jest.advanceTimersByTime(100);
+
+      expect(activeList.active).toEqual(['c']);
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        hasBeenStoppedBefore: false,
+        duration: 200,
+      });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+        'AUTO_PLAY_PLAYING',
+        'ACTIVATED',
+      ]);
+
+      // Now we advance the time to the quarter way point
+      // between 'c' and 'a'.
+      jest.advanceTimersByTime(50);
+
+      // Now pause it at the quarter way point.
+      activeList.pause();
+
+      // Should have no effect
+      jest.advanceTimersByTime(10000);
+
+      expect(activeList.active).toEqual(['c']);
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: false,
+        hasBeenStoppedBefore: false,
+        duration: 200,
+      });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+        'AUTO_PLAY_PLAYING',
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+      ]);
+
+       // Now start playing again.
+       activeList.play();
+
+       // After 149 seconds it should still be on on 'c'
+       jest.advanceTimersByTime(149);
+
+       expect(activeList.active).toEqual(['c']);
+      expect(activeList.autoPlay).toEqual({
+        isPlaying: true,
+        hasBeenStoppedBefore: false,
+        duration: 200,
+      });
+      assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+        'AUTO_PLAY_PLAYING',
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+        'AUTO_PLAY_PLAYING',
+      ]);
+
+       // Now kick it over to a.
+       jest.advanceTimersByTime(1);
+
+       expect(activeList.active).toEqual(['a']);
+       expect(activeList.autoPlay).toEqual({
+         isPlaying: true,
+         duration: 200,
+         hasBeenStoppedBefore: false,
+       });
+       assertEvents(subscriber, [
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+        'AUTO_PLAY_PLAYING',
+        'ACTIVATED',
+        'AUTO_PLAY_PAUSED',
+        'AUTO_PLAY_PLAYING',
+        'ACTIVATED',
+      ]);
+    });
+
     test('that it is not possible to pause when already paused', () => {
       jest.useFakeTimers();
 

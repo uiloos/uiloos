@@ -77,6 +77,10 @@ export class _AutoDismiss<T, R> {
     // The `autoPlayDuration` should not be affected by a pause.
     if (this._pauseStarted === null) {
       this._view.autoDismiss.duration = duration;
+    } else {
+      // Unlike the AutoPlay no else is needed here, this is because
+      // AutoDismiss is not shared by each ViewChannelView, each 
+      // one gets its own.
     }
 
     const result = this._config.result;

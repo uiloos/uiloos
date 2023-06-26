@@ -1,0 +1,57 @@
+---
+title: '1.2.1 | @uiloos/core | Releases'
+layout: layouts/base.njk
+permalink: /releases/core/1.2.1/
+renderData:
+  stickyNavigation: false
+  description: "Release notes of @uiloos/core 1.2.1"
+  keywords: "release notes @uiloos/core 1.2.1, changelog @uiloos/core 1.2.1"
+---
+
+<section class="max-w-6xl mx-auto px-5 sm:px-6 my-8">
+  <a
+    class="inline-flex items-center text-base text-purple-600 hover:underline mb-4"
+    href="/releases/core/"
+  >
+    <svg
+      class="w-3 h-3 fill-current text-purple-400 shrink-0 mr-2"
+      viewBox="0 0 12 12"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M.293 5.282L5 .5l1.414 1.436-3 3.048H12v2.032H3.414l3 3.048L5 11.5.293 6.718a1.027 1.027 0 010-1.436z"
+      />
+    </svg>
+    @uiloos/core releases
+  </a>
+
+  <!-- Title -->
+  <h1>@uiloos/core 1.2.1</h1>
+
+  <p>Released on <span class="font-mono">2023-06-27</span></p>
+
+  <p>
+    This releases fixes a bug in the <a href="/api/core/ActiveList/" class="underline high">ActiveList</a> in 
+    the <a href="/api/core/activelist/#autoplay" class="underline high">autoPlay</a> behavior.
+  </p>
+
+  <p>
+    When the autoPlay is paused and then resumed again the duration should 
+    takes into account the time that has already passed, before activating
+    the next content. The duration was correctly calculated for the next content,
+    but interfered with future contents. This was the result of a "pauseStarted" 
+    variable not being reset.
+  </p>
+
+  <p>
+    In other words pauses from the past would affect future autoPlays.
+  </p>
+
+  <p>
+     The effect was that subsequent durations would get shorter and shorter.
+     Also it could lead to a negative duration causing a 
+     <a href="/api/core/ActiveListAutoPlayDurationError/" class="underline high">ActiveListAutoPlayDurationError</a>.
+  </p>
+  
+</section>
+

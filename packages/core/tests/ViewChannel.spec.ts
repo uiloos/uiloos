@@ -2067,6 +2067,85 @@ describe('ViewChannel', () => {
       ]);
     });
 
+    test.only('that the autoDismiss can be paused and continued multiple times', () => {
+      jest.useFakeTimers();
+
+      const viewChannel = new ViewChannel<string, string>();
+      const subscriber = autoSubscribe(viewChannel);
+
+      // Present a playing "a"
+      const view = viewChannel.present({
+        data: 'a',
+        autoDismiss: {
+          duration: 1000,
+          result: 'TIMEOUT',
+        },
+      });
+
+      expect(view.isPresented).toBe(true);
+      expect(view.autoDismiss).toEqual({ isPlaying: true, duration: 1000 });
+      assertEvents(subscriber, ['PRESENTED']);
+
+      // Now pause it at the half way.
+      jest.advanceTimersByTime(500);
+
+      expect(view.isPresented).toBe(true);
+      expect(view.autoDismiss).toEqual({ isPlaying: true, duration: 1000 });
+      assertEvents(subscriber, ['PRESENTED']);
+
+      view.pause();
+
+      expect(view.isPresented).toBe(true);
+      expect(view.autoDismiss).toEqual({ isPlaying: false, duration: 1000 });
+      assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_PAUSED']);
+
+      // Should have no effect
+      jest.advanceTimersByTime(10000);
+
+      expect(view.isPresented).toBe(true);
+      expect(view.autoDismiss).toEqual({ isPlaying: false, duration: 1000 });
+      assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_PAUSED']);
+
+      // Now press play, after 500 milliseconds it should have
+      // dismissed.
+      view.play();
+
+      expect(view.isPresented).toBe(true);
+      expect(view.autoDismiss).toEqual({ isPlaying: true, duration: 1000 });
+      assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING']);
+
+      // After 250 milliseconds at 3/4 we stop it again
+      jest.advanceTimersByTime(250);
+      view.pause();
+
+      // Should have no effect
+      jest.advanceTimersByTime(10000);
+
+      expect(view.isPresented).toBe(true);
+      expect(view.autoDismiss).toEqual({ isPlaying: false, duration: 1000 });
+      assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING', 'AUTO_DISMISS_PAUSED']);
+
+      view.play();
+
+      expect(view.isPresented).toBe(true);
+      expect(view.autoDismiss).toEqual({ isPlaying: true, duration: 1000 });
+      assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING']);
+
+      // Bring it to the edge
+      jest.advanceTimersByTime(249);
+
+      expect(view.isPresented).toBe(true);
+      expect(view.autoDismiss).toEqual({ isPlaying: true, duration: 1000 });
+      assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING']);
+
+      // Now click it over
+      jest.advanceTimersByTime(1);
+
+      expect(view.isPresented).toBe(false);
+      expect(view.autoDismiss).toEqual({ isPlaying: false, duration: 0 });
+      assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING', "DISMISSED"]);
+    });
+
     test('that the autoplay can be stopped and restarted', () => {
       jest.useFakeTimers();
 
