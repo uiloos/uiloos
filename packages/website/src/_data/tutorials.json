@@ -8,11 +8,27 @@
     "for": "Typewriter"
   },
   {
-    "id": 1,
+    "id": 2,
     "text": "Multi cursor",
     "description": "Learn how to style animations which have multiple cursors and selections.",
     "url": "/docs/typewriter/tutorials/multi-cursor/",
     "tags": ["JavaScript"],
     "for": "Typewriter"
+  },
+  {
+    "id": 3,
+    "text": "Basic carousel",
+    "description": "Learn how to create a basic auto playing carousel, with buttons to toggle between slides.",
+    "url": "/docs/active-list/tutorials/basic-carousel/",
+    "tags": ["JavaScript"],
+    "for": "ActiveList"
+  },
+  {
+    "id": 4,
+    "text": "CSS Snap carousel",
+    "description": "Learn how to progressively enhance a CSS snap based carousel by adding auto play to it.",
+    "url": "/docs/active-list/tutorials/snap-carousel/",
+    "tags": ["JavaScript"],
+    "for": "ActiveList"
   }
 ]
