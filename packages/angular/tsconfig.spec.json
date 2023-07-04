@@ -7,11 +7,10 @@
       "jasmine"
     ]
   },
-  "files": [
-    "src/test.ts"
-  ],
+  "files": [],
   "include": [
     "**/*.spec.ts",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "**/*.ts"
   ]
 }

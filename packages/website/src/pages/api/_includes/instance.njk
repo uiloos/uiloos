@@ -1,29 +1,28 @@
-{% from "./macros.njk" import displaySignatures, displaySince, displayComment %}
+{% from "./macros.njk" import displayExamples, displayName, displaySince, displayComment %}
 
-{% macro instancePage(def, sinceRoot) %}
+{% macro instancePage(def) %}
   <article>
-    <h1>
-      {{def.name}}
-    </h1>
+    {{ displayName(def) }}
 
-    <p class="text-2xl font-mono mb-4 text-green-800">INSTANCE</p>
+    <p class="font-mono mb-4 font-extrabold text-green-800">INSTANCE</p>
 
-   {{ displayComment(def) }}
+    {{ displayComment(def) }}
 
-   {{ displaySince(def, sinceRoot) }}
+    {{ displaySince(def) }}
 
-    {% for tag in def.comment.tags %}
-      {% if tag.tag === 'see' %}
-        <p>
-          <strong>See:</strong>
-          <a 
-            class="ml-2 underline text-purple-600 font-mono font-bold" 
-            href="/api/core/{{ tag.text | replace('{', '') | slug}}/"
-          >
-            {{ tag.text | replace('{', '') }}
-          </a>
-        </p>
-      {% endif %}
+    {% for see in def.sees %}
+      <p>
+        <strong>See:</strong>
+        <a 
+          class="ml-2 underline text-purple-600 font-mono font-bold" 
+          href="/api/core/{{ see.name | slug}}/"
+        >
+          {{ see.name }}
+        </a>
+      </p>
     {% endfor %}
+
+    <h2 class="text-2xl">Example</h2>
+    {{ displayExamples(def.examples, false) }}
   </article>
 {% endmacro %}

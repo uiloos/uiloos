@@ -1,10 +1,10 @@
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import typescript from '@rollup/plugin-typescript';
-import external from 'rollup-plugin-peer-deps-external';
-import { terser } from 'rollup-plugin-terser';
-import { glob } from 'glob';
-import { readFileSync, writeFileSync } from 'fs';
+const resolve = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const typescript = require('@rollup/plugin-typescript');
+const external = require('rollup-plugin-peer-deps-external');
+const terser  = require('@rollup/plugin-terser');
+const { glob } = require('glob');
+const { readFileSync, writeFileSync } = require('fs');
 
 console.log('\nBuilding minified components for core package');
 
@@ -35,7 +35,7 @@ const config = [
   createEntry('Typewriter', 'typewriter'),
 ];
 
-export default config;
+module.exports = config;
 
 /*
   Here begins some funky stuff, here is the problem:

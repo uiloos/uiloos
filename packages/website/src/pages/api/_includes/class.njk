@@ -1,100 +1,78 @@
-{% from "./macros.njk" import displaySignatures, displaySince, displayComment %}
+{% from "./macros.njk" import displayName, displaySignature, displaySince, displayComment %}
 {% from "./property.njk" import displayProperty %}
 
-{% macro classPage(def, sinceRoot) %}
+{% macro classPage(def) %}
   <article>
-    <h1>
-      {{def.name}}
-
-      {% if def.typeParameter.length > 0 %}
-        &lt;{{def.typeParameter[0].name}}&gt;
-      {% endif %}
-    </h1>
+   {{ displayName(def) }}
 
     <nav 
       class="hidden 2xl:block 2xl:absolute 2xl:top-[80px] 2xl:right-2 2xl:w-[270px]" 
       role="doc-toc"
       data-no-highlight="true"
     >
-      {% set foundProp = false %}
-      {% for item in def.children %}
-        {% if not foundProp and not item.flags.isPrivate and item.kindString === 'Property' and not item.name.startsWith('_') %}
-          
-          <strong>Properties</strong>
-          {% set foundProp = true %}
-          <ol class="mb-4">
-            {% for item in def.children %}
-              {% if not item.flags.isPrivate and item.kindString === 'Property' and not item.name.startsWith('_') %}
-                <li>
-                  <a 
-                    href="#{{item.name.toLowerCase()}}" 
-                    class="text-purple-600 underline block text-ellipsis overflow-hidden"
-                  >
-                    {{item.name}}
-                  </a>
-                </li>
-              {% endif %}
-            {% endfor %}
-          </ol>
-        {% endif %}
-      {% endfor %}
-
-      {% set foundMethod = false %}
-      {% for item in def.children %}
-        {% if not foundMethod and not item.flags.isPrivate and item.kindString === 'Method' and not item.name.startsWith('_') %}
-          {% set foundMethod = true %}
-
-          <strong>Methods</strong>
-          <ol class="mb-4">
-            {% for item in def.children %}
-              {% if not item.flags.isPrivate and item.kindString === 'Method' and not item.name.startsWith('_') %}
-                <li>
-                  <a 
-                    href="#{{item.name.toLowerCase()}}" 
-                    class="text-purple-600 underline block text-ellipsis overflow-hidden"
-                  >
-                    {{item.name}}
-                  </a>
-                </li>
-              {% endif %}
-            {% endfor %}
-          </ol>
-        {% endif %}
-      {% endfor %}
+      {% if def.properties.length > 0 %}
+        <strong>Properties</strong>
+        <ol class="mb-4">
+          {% for item in def.properties %}
+            <li>
+              <a 
+                href="#{{item.name.toLowerCase()}}" 
+                class="text-purple-600 underline block text-ellipsis overflow-hidden"
+              >
+                {{item.name}}
+              </a>
+            </li>
+          {% endfor %}
+        </ol>
+      {% endif %}
+   
+      {% if def.methods.length > 0 %}
+        <strong>Methods</strong>
+        <ol class="mb-4">
+          {% for item in def.methods %}
+            <li>
+              <a 
+                href="#{{item.name.toLowerCase()}}" 
+                class="text-purple-600 underline block text-ellipsis overflow-hidden"
+              >
+                {{item.name}}
+              </a>
+            </li>
+          {% endfor %}
+        </ol>
+      {% endif %}
     </nav>
 
-    <p class="text-2xl font-mono mb-4 text-blue-800">CLASS</p>
+    <p class="font-mono mb-4 font-extrabold text-blue-800">CLASS</p>
 
     {{ displayComment(def) }}
 
-    {{ displaySince(def, sinceRoot) }}
+    {{ displaySince(def) }}
+    
+    {% if def.constructor %}
+      <h2 id="constructor" class="text-2xl"><a href="#constructor">Constructor</a></h3>
+      <div class="border px-2 pt-4 mb-4">
+        {{ displaySignature(def.constructor) }}
+      </div>
+    {% endif %}
+    
+    {% if def.properties.length > 0 %}
+      <h2 id="properties" class="text-2xl"><a href="#properties">Properties</a></h2>
+      {% for item in def.properties %}
+        {{ displayProperty(item) }}
+      {% endfor %}
+    {% endif %}
 
-    {% for item in def.children %}
-      {% if not item.flags.isPrivate and item.kindString === 'Constructor' %}
-        <h2 id="constructor"><a href="#constructor">Constructor</a></h3>
+    {% if def.methods.length > 0 %}
+      <h2 id="methods" class="text-2xl"><a href="#methods">Methods</a></h2>
+      {% for item in def.methods %}
         <div class="border px-2 pt-4 mb-4">
-          {{ displaySignatures(item.signatures, sinceRoot) }}
+          <h3 class="font-mono text-xl" id="{{item.name.toLowerCase()}}"><a href="#{{item.name.toLowerCase()}}">{{item.name}}</a></h3>
+
+          {{ displaySignature(item) }}
         </div>
-      {% endif %}
-    {% endfor %}
-
-    <h2 id="properties"><a href="#properties">Properties</a></h2>
-    {% for item in def.children %}
-      {% if not item.flags.isPrivate and item.kindString === 'Property'and not item.name.startsWith('_') %}
-        {{ displayProperty(def, item, sinceRoot) }}
-      {% endif %}
-    {% endfor %}
-
-    <h2 id="methods"><a href="#methods">Methods</a></h2>
-    {% for item in def.children %}
-      {% if not item.flags.isPrivate and item.kindString === 'Method' and not item.name.startsWith('_') %}
-        <div class="border px-2 pt-4 mb-4">
-          <h3 class="font-mono" id="{{item.name.toLowerCase()}}"><a href="#{{item.name.toLowerCase()}}">{{item.name}}</a></h3>
-
-          {{ displaySignatures(item.signatures, sinceRoot) }}
-        </div>
-      {% endif %}
-    {% endfor %}
+      {% endfor %}
+    {% endif %}
 
   </article>
 {% endmacro %}

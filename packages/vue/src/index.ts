@@ -10,8 +10,36 @@ import { useTypewriterFromSentences } from './Typewriter/useTypewriterFromSenten
  * The uiloos Vue plugin, add it to vue via `app.use()`;
  *
  * @since 1.0.0
+ * 
+ * @example
+ * A. Installing the plugin
+ * 
+ * Shows how to install the uiloosPlugin in your Vue app.
+ * 
+ * Note: If you plan on using the ActiveList component
+ * the vue configuration called "runtimeCompiler" must
+ * be set to "true" since it uses templates.
+ * 
+ * ```js
+ * import { createApp } from "vue";
+ * import { uiloosPlugin } from "@uiloos/vue";
+ * import App from "./App.vue";
+ * 
+ * const app = createApp(App);
+ * 
+ * app.use(uiloosPlugin);
+ * 
+ * app.mount("#app");
+ * ```
+ * 
  */
 const uiloosPlugin = {
+
+  /**
+   * Installs the uiloos Vue plugin
+   * 
+   * @since 1.0.0
+   */
   install(Vue: any) {
     for (const prop in components) {
       if (components.hasOwnProperty(prop)) {

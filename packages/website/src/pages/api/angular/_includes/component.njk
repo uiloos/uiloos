@@ -1,32 +1,25 @@
-{% from "../../_includes/macros.njk" import displaySince, displayComment %}
+{% from "../../_includes/macros.njk" import displayExamples, displayName, displaySince, displayComment %}
 {% from "../../_includes/property.njk" import displayProperty %}
 
 <article>
-  <h1>
-    {{def.name}}
+  {{ displayName(def )}}
 
-    {% if def.typeParameter.length > 0 %}
-      &lt;{{def.typeParameter[0].name}}&gt;
-    {% endif %}
-  </h1>
+  <p class="font-mono mb-4 font-extrabold text-red-800">COMPONENT</p>
 
-  <p class="text-2xl font-mono mb-4 text-red-800">COMPONENT</p>
-
-  {% for tag in def.comment.tags %}
-    {% if tag.tag === 'alias' %}
-      <p class="font-mono mb-4">&lt;{{tag.text}}&#x2F;&gt;</p>
-    {% endif %}
-  {% endfor %}
-
+  <p class="font-mono mb-4">&lt;{{def.alias}}&#x2F;&gt;</p>
+ 
   {{ displayComment(def) }}
 
-  {{ displaySince(def, 'angular') }}
+  {{ displaySince(def) }}
 
-  <h2 id="inputs"><a href="#inputs">Inputs</a></h2>
-  {% for item in def.children %}
-    {% if not item.flags.isPrivate and item.kindString === 'Property' and item.decorators[0].name === 'Input' %}
-      {{ displayProperty(def, item, 'angular') }}
-    {% endif %}
-  {% endfor %}
+  {% if def.properties.length > 0 %}
+    <h2 id="properties" class="text-xl"><a href="#properties">Properties</a></h2>
+    {% for item in def.properties %}
+      {{ displayProperty(item) }}
+    {% endfor %}
+  {% endif %}
+
+  <h2 class="text-2xl">Example</h2>
+  {{ displayExamples(def.examples, false) }}
 
 </article>

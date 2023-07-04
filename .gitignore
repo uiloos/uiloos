@@ -10,6 +10,8 @@ packages/*/README.md
 # Generated website
 packages/website/_site/
 packages/website/src/_data/api/
+packages/website/src/_data/distilled/
+packages/website/src/_includes/example-**
 packages/website/src/search/
 
 .cache

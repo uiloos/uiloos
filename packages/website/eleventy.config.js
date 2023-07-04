@@ -92,43 +92,6 @@ module.exports = function (eleventyConfig) {
     }
   });
 
-  eleventyConfig.addFilter('sortType', (types) => {
-
-    // This array represents the bottom
-    const sort = [
-      'reference',
-      'literal'
-    ];
-  
-    function sortValue(defName) {
-      let index = 1;
-      for (const name of sort) {
-  
-        if (defName.includes(name)) {
-          return index;
-        }
-  
-        index++;
-      }
-  
-      return 0;
-    }
-  
-    return types.sort((a, b) => {
-      const aValue = sortValue(a.type);
-      const bValue = sortValue(b.type);
-  
-      return aValue - bValue;
-    });
-  });
-
-  const coreJson = require('./src/_data/api/core.json');
-  const coreNames = coreJson.children.map(c => c.name);
-
-  eleventyConfig.addNunjucksGlobal('partOfCore', (x) => {
-    return coreNames.includes(x.name);
-  });
-
   eleventyConfig.addFilter('nlnl2br', (str) => {
     if (str === null || str === undefined) {
       return '';

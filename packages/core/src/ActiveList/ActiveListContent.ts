@@ -74,6 +74,8 @@ export class ActiveListContent<T> {
   /**
    * Whether this `ActiveListContent` has at least one other `ActiveListContent` coming
    * after it in the `contents`
+   * 
+   * @since 1.0.0
    */
   public hasNext = false;
 
@@ -179,7 +181,7 @@ export class ActiveListContent<T> {
    * it will only get a new position.
    *
    * @param {number} index The index to swap the current `ActiveListContent` with.
-   * @throws Item not found error
+   * @throws {ActiveListItemNotFoundError} Item not found error
    * 
    * @since 1.0.0
    */
@@ -195,7 +197,7 @@ export class ActiveListContent<T> {
    * it will only get a new position.
    *
    * @param {number} index] The index to swap the current `ActiveListContent` with.
-   * @throws Index out of bounds error.
+   * @throws {ActiveListIndexOutOfBoundsError} Index out of bounds error.
    * 
    * @since 1.0.0
    */
@@ -251,7 +253,7 @@ export class ActiveListContent<T> {
    * meaning that the activeIndex will get updated.
    *
    * @param {number} to The location the `from` needs to move "to".
-   * @throws Index out of bounds error.
+   * @throws {ActiveListIndexOutOfBoundsError} Index out of bounds error.
    * 
    * @since 1.0.0
    */

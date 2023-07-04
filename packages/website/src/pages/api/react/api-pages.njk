@@ -2,10 +2,10 @@
 layout: layouts/api.njk
 permalink: "/api/react/{{ def.name | slug }}/"
 pagination:
-  data: api.react.children
+  data: distilled.react
   size: 1
   alias: def
-renderData:
+eleventyComputed:
   title: "{{ def.name }} | React | API"
   description: "{{ def.name }} {{def.comment.shortText}}"
   keywords: "@uiloos/react {{ def.name }} API, {{ def.name }}"
@@ -15,14 +15,14 @@ renderData:
 {% from "../_includes/function.njk" import functionPage %}
 {% from "../_includes/typealias.njk" import typealiasPage %}
 
-{% if def.kindString === 'Function' and def.signatures[0].type.name === 'JSX.Element' %}
+{% if def.kindString === 'component' %}
   {% include "./_includes/component.njk" %}
-{% elif def.kindString === 'Function' and def.name.startsWith('use') %}
+{% elif def.kindString === 'hook' %}
   {% include "./_includes/hook.njk" %}
-{% elif def.kindString === 'Class' %}
-  {{ classPage(def, 'react')}}
-{% elif def.kindString === 'Type alias' %}
-  {{ typealiasPage(def, 'react')}}
-{% elif def.kindString === 'Function' %}
-  {{ functionPage(def, 'react')}}
+{% elif def.kindString === 'class' %}
+  {{ classPage(def)}}
+{% elif def.kindString === 'type' %}
+  {{ typealiasPage(def)}}
+{% elif def.kindString === 'function' %}
+  {{ functionPage(def)}}
 {% endif %}

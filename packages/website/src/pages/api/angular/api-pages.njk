@@ -2,10 +2,10 @@
 layout: layouts/api.njk
 permalink: "/api/angular/{{ def.name | slug }}/"
 pagination:
-  data: api.angular.children
+  data: distilled.angular
   size: 1
   alias: def
-renderData:
+eleventyComputed:
   title: "{{ def.name }} | Angular | API"
   description: "{{ def.name }} {{def.comment.shortText}}"
   keywords: "@uiloos/angular {{ def.name }} API, {{ def.name }}"
@@ -14,13 +14,15 @@ renderData:
 {% from "../_includes/class.njk" import classPage %}
 {% from "../_includes/typealias.njk" import typealiasPage %}
 
-{% if def.kindString === 'Class' and def.decorators[0].type.name === 'Component' %}
+{% if def.kindString === 'component' %}
   {% include "./_includes/component.njk" %}
-{% elif def.kindString === 'Class' and def.decorators[0].type.name === 'NgModule' %}
+{% elif def.kindString === 'module' %}
   {% include "./_includes/module.njk" %}
-{% elif def.kindString === 'Class' %}
-  {{ classPage(def, 'angular')}}
-{% elif def.kindString === 'Type alias' %}
-  {{ typealiasPage(def, 'angular')}}
+{% elif def.kindString === 'directive' %}
+  {% include "./_includes/directive.njk" %}
+{% elif def.kindString === 'class' %}
+  {{ classPage(def)}}
+{% elif def.kindString === 'type' %}
+  {{ typealiasPage(def)}}
 {% endif %}
 

@@ -22,6 +22,7 @@ export class _LicenseChecker {
    *
    * @param {string} licenseKey The license key of uiloos you want to activate.
    * @param {ActivateLicenseOptions} options The optional options for the `activateLicense` function, can be used to suppress the "license activated" message.
+   * @since 1.0.0
    */
   public activateLicense(
     licenseKey: string,
@@ -35,6 +36,8 @@ export class _LicenseChecker {
    * Checks the current license to see if it is valid.
    * 
    * Note: this method is for internal use inside uiloos only.
+   * 
+   * @since 1.0.0
    */
   public _checkLicense(): void {
     // This prevents needless checking when the license has already,
@@ -77,17 +80,33 @@ export class _LicenseChecker {
  * 
  * @see _LicenseChecker
  * @since 1.0.0
+ * 
+ * @example
+ * 
+ * Activating license
+ * 
+ * You activate the license by calling "activateLicense" on the
+ * "licenseChecker" instance.
+ * 
+ * ```js
+ * import { licenseChecker } from '@uiloos/core';
+ * licenseChecker.activateLicense("{LICENSE-HERE}");
+ * ```
  */
 export let licenseChecker = new _LicenseChecker();
 
 /**
  * The options for the `activateLicense` functions. Can be used
  * to silence the "license activated" message.
+ * 
+ * @since 1.0.0
  */
 export type ActivateLicenseOptions = {
   /**
    * Whether or not to silence the "license activated" message
    * when the license is valid.
+   * 
+   * @since 1.0.0
    */
   logLicenseActivated: boolean;
 };

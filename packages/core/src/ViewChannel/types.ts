@@ -49,6 +49,8 @@ export type ViewChannelViewAutoDismissConfig<R> = {
  * 
  * Contains wether or not the autoDismiss is playing via `isPlaying` 
  * and the current duration via `duration`.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelViewAutoDismiss = {
   /**
@@ -82,6 +84,8 @@ export type ViewChannelViewAutoDismiss = {
  * Holds the configuration of a view which is placed in the
  * `ViewChannel`. From this configuration the actual
  * `ViewChannelView` is created.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelViewConfig<T, R> = {
   /**
@@ -357,6 +361,8 @@ export type ViewChannelViewDismissedAllEvent<T, R> = ViewChannelBaseEvent & {
  *
  * Note: this event is not fired when a ViewChannelView is presented
  * initially, even though this does start the autoDismiss.
+ * 
+ * @since 1.0.0
  */
 export type ViewChannelViewAutoDismissPlayingEvent<T, R> =
   ViewChannelBaseEvent & {

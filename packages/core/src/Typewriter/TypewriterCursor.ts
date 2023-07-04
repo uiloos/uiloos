@@ -79,6 +79,19 @@ export class TypewriterCursor<T> {
    */
   private _blinkTimeoutId: number | null = null;
 
+   /**
+   * Creates an TypewriterCursor which belongs to the given Typewriter.
+   *
+   * Note: you should never create instances of TypewriterCursor 
+   * yourself. You are supposed to let the Typewriter do this for you.
+   *
+   * @param {Typewriter<T>} typewriter The Typewriter this TypewriterCursor belongs to.
+   * @param {number} position The position of this TypewriterCursor within the Typewriter text.
+   * @param {T} data The data for this TypewriterCursor
+   * @param {selection} selection The selection of the TypewriterCursor
+   * 
+   * @since 1.2.0
+   */
   constructor(
     typewriter: Typewriter<T>,
     position: number,

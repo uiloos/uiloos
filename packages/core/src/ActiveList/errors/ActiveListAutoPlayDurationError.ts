@@ -1,14 +1,19 @@
-import { common } from "./common";
+import { common } from './common';
 
 /**
  * Error which is thrown whenever the autoPlay duration is zero or
- * less than zero. 
- * 
+ * less than zero.
+ *
  * @since 1.0.0
  */
 export class ActiveListAutoPlayDurationError extends Error {
+  /**
+   * ActiveListAutoPlayDurationError constructor
+   *
+   * @since 1.0.0
+   */
   constructor() {
     super(`${common} autoPlay > duration cannot be negative or zero`);
-    this.name = "ActiveListAutoPlayDurationError";
+    this.name = 'ActiveListAutoPlayDurationError';
   }
 }

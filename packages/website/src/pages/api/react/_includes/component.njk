@@ -1,24 +1,9 @@
-{% from "../../_includes/macros.njk" import displaySignatures, displayType, displaySince, displayComment %}
+{% from "../../_includes/macros.njk" import displayName, displaySignature, displayType, displaySince, displayComment %}
 
 <article>
-  <h1>
-    {{def.name}}
+  {{ displayName(def )}}
 
-    {% if def.signatures[0].typeParameter.length > 0 %}
-      &lt;{{def.signatures[0].typeParameter[0].name}}&gt;
-    {% endif %}
-  </h1>
-
-  <p class="text-2xl font-mono mb-4 text-red-800">COMPONENT</p>
+  <p class="font-mono mb-4 font-extrabold text-red-800">COMPONENT</p>
   
-  {{ displayComment(def) }}
-
-  {{ displaySince(def.signatures[0], 'react') }}
-
-  <h2 id="props"><a href="#props">Props</a></h2>
-  {% for item in api.react.children %}
-    {% if def.name + "Props" === item.name %}
-      {{ displayType(item.type, 'react') }}
-    {% endif %}
-  {% endfor %}
+  {{ displaySignature(def) }}
 </article>

@@ -1,103 +1,91 @@
-{% from "./macros.njk" import displayType, displaySignatures, displaySince, displayComment %}
+{% from "./macros.njk" import displayName, displayType, displaySignature, displaySince, displayComment %}
 
-{% macro typealiasPage(def, sinceRoot) %}
+{% macro typealiasPage(def) %}
 <article>
-  <h1>{{def.name}}
+  {{displayName(def)}}
 
-    {% if def.typeParameter.length > 0 %}
-      &lt;{{def.typeParameter[0].name}}&gt;
+  <p class="font-mono mb-4 font-extrabold text-orange-800">TYPE DEFINITION</p>
+
+  {% if def.isCallback %}
+    {{ displaySignature(def) }}
+  {% else %}
+    {{ displayComment(def) }}
+
+    {{ displaySince(def) }}
+    
+    {% if def.type.type === 'reflection' %}
+      {{ displayProperties(def.type.value) }}
+    {% elif def.type.type === 'union' %}
+      <h2 class="mt-4 text-2xl">Union of</h2>
+      <p class="mb-4 font-mono">
+        {{ displayType(def.type, false) }}
+      </p>
+    {% elif def.type.type === 'intersection' %}
+      {% for inter in def.type.value %}
+        {% if inter.type === 'reference' %}
+          <h2 class="text-2xl">Extends
+            <a class="underline text-purple-600" href="{{ inter.link}}/">{{inter.value}}</a>
+          </h2>
+        {% else %}
+          {{ displayProperties(inter.value) }}
+        {% endif %}
+      {% endfor %}
     {% endif %}
-  </h1>
-
-  <p class="text-2xl font-mono mb-4 text-orange-800">TYPE DEFINITION</p>
-
-  {{ displayComment(def) }}
-
-  {{ displaySince(def, sinceRoot) }}
-
-  {% if def.type.type === 'reflection' %}
-    {% if def.type.declaration.children %}
-      {{ displayProperties(def.type.declaration.children, sinceRoot) }}
-    {% else %}
-      {{ displaySignatures(def.type.declaration.signatures, sinceRoot) }}
-    {% endif %}
-  {% elif def.type.type === 'union' %}
-    <h2 class="mt-4">Union of</h2>
-    <p class="mb-4 font-mono">
-      {{ displayType(def.type, sinceRoot, false) }}
-    </p>
-  {% elif def.type.type === 'intersection' %}
-    {% for inter in def.type.types %}
-      {% if inter.type === 'reference' %}
-        <h2 class="font-mono">extends
-          <a class="underline text-purple-600" href="/api/core/{{ inter.name | slug}}/">{{inter.name}}</a>
-        </h2>
-      {% else %}
-        {{ displayProperties(inter.declaration.children, sinceRoot) }}
-      {% endif %}
-    {% endfor %}
   {% endif %}
 </article>
 {% endmacro %}
 
-{% macro displayProperties(properties, sinceRoot) %}
-  <h2 class="mt-4">Properties</h2>
+{% macro displayProperties(properties) %}
+  <h2 class="text-2xl mt-4">Properties</h2>
 
   <nav 
     class="hidden 2xl:block 2xl:absolute 2xl:top-[80px] 2xl:right-2 2xl:w-[270px]" 
     role="doc-toc"
     data-no-highlight="true"
   >
-    {% set foundProp = false %}
-    {% for item in properties %}
-      {% if not foundProp and not item.flags.isPrivate and item.kindString === 'Property' and not item.name.startsWith('_') %}
-        
-        <strong>Properties</strong>
-        {% set foundProp = true %}
-        <ol class="mb-4">
-          {% for item in properties %}
-            {% if not item.flags.isPrivate and item.kindString === 'Property' and not item.name.startsWith('_') %}
-              <li>
-                <a 
-                  href="#{{item.name.toLowerCase()}}" 
-                  class="text-purple-600 underline block text-ellipsis overflow-hidden"
-                >
-                  {{item.name}}
-                </a>
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ol>
-      {% endif %}
-    {% endfor %}
+    {% if properties.length > 0  %}
+      <strong>Properties</strong>
+      {% set foundProp = true %}
+      <ol class="mb-4">
+        {% for item in properties %}
+          <li>
+            <a 
+              href="#{{item.name.toLowerCase()}}" 
+              class="text-purple-600 underline block text-ellipsis overflow-hidden"
+            >
+              {{item.name}}
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    {% endif %}
   </nav>
 
   {% for type in properties %}
     <div class="border px-2 pt-4 mb-4">
-      <h3 class="font-mono" id="{{type.name.toLowerCase()}}">
+      <h3 class="text-xl font-mono" id="{{type.name.toLowerCase()}}">
         <a href="#{{type.name.toLowerCase()}}">{{type.name}}</a>
-        {% if type.flags.isOptional %}
+        {% if type.isOptional %}
           <span class="text-sm italic">Optional</span>
-        {% else %}
-
         {% endif %}
       </h3>
 
-      {% if type.kindString === 'Method' %}
-        {{ displaySignatures(type.signatures, sinceRoot) }}
+      {% if type.kindString === 'function' %}
+        {{ displaySignature(type) }}
       {% else %}
+      HUMMMER
         {% if type.type.type !== 'reflection' %}
           <p class="mb-4 font-mono">
-            {{ displayType(type.type, sinceRoot) }}
+            {{ displayType(type.type) }}
           </p>
         {% endif %}
 
         {{ displayComment(type) }}
 
-        {{ displaySince(type, sinceRoot) }}
+        {{ displaySince(type) }}
 
         {% if type.type.type === 'reflection' %}
-          {{ displayType(type.type, sinceRoot) }}
+          {{ displayType(type.type) }}
         {% endif %}
       {% endif %}
     </div>

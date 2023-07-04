@@ -1,20 +1,14 @@
-{% from "./macros.njk" import displaySignatures, displaySince, displayComment %}
+{% from "./macros.njk" import displayName, displaySince, displayComment %}
 
-{% macro errorPage(def, sinceRoot) %}
+{% macro errorPage(def) %}
   <article>
-    <h1>
-      {{def.name}}
+    {{ displayName(def) }}
 
-      {% if def.typeParameter.length > 0 %}
-        &lt;{{def.typeParameter[0].name}}&gt;
-      {% endif %}
-    </h1>
-
-    <p class="text-2xl font-mono mb-4 text-red-800">ERROR</p>
+    <p class="font-mono mb-4 font-extrabold text-red-800">ERROR</p>
 
     {{ displayComment(def) }}
 
-    {{ displaySince(def, sinceRoot) }}
+    {{ displaySince(def) }}
 
   </article>
 {% endmacro %}

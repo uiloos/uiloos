@@ -35,6 +35,8 @@ import { ViewChannel } from './ViewChannel';
  * you should call `present` on the `ViewChannel` and provide a
  * `ViewChannelViewConfig` from which the `ViewChannelView` is
  * instantiated.
+ * 
+ * @since 1.0.0
  */
 export class ViewChannelView<T, R> {
   /**
@@ -133,7 +135,7 @@ export class ViewChannelView<T, R> {
    * Note: you should never create instances of ViewChannelView yourself. You
    * are supposed to let ViewChannel do this for you.
    *
-   * @param {ViewChannel<T>} viewChannel The ViewChannel this ViewChannelView belongs to.
+   * @param {ViewChannel<T, R>} viewChannel The ViewChannel this ViewChannelView belongs to.
    * @param {number} index The index of this ViewChannelView within the ViewChannel.
    * @param {T} data The data function which when called provides the data for this ViewChannelView.
    * @param {number} priority The priority this ViewChannelView has within the ViewChannel

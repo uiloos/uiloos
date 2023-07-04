@@ -179,6 +179,8 @@ export type ActiveListConfig<T> = {
  * 3. 'ignore': Nothing happens when an item is added and the limit
  *    is ignored. The item is simply not added, but no error is
  *    thrown.
+ * 
+ * @since 1.0.0
  */
 export type ActiveListMaxActivationLimitBehavior =
   | 'circular'
@@ -662,6 +664,8 @@ export type ActiveListInitializedEvent<T> = ActiveListBaseEvent & {
 
 /**
  * Represents an insertion into the ActiveList.
+ * 
+ * @since 1.0.0
  */
 export type ActiveListInsertedEvent<T> = ActiveListBaseEvent & {
   /**
@@ -732,6 +736,8 @@ export type ActiveListRemovedEvent<T> = ActiveListBaseEvent & {
 
 /**
  * Represents multiple removals of items in the ActiveList.
+ * 
+ * @since 1.0.0
  */
 export type ActiveListRemovedMultipleEvent<T> = ActiveListBaseEvent & {
   /**
@@ -766,6 +772,8 @@ export type ActiveListRemovedMultipleEvent<T> = ActiveListBaseEvent & {
 
 /**
  * Represents an activation of an ActiveList.
+ * 
+ * @since 1.0.0
  */
 export type ActiveListActivatedEvent<T> = ActiveListBaseEvent & {
   /**
@@ -837,6 +845,8 @@ export type ActiveListActivatedMultipleEvent<T> = ActiveListBaseEvent & {
 
 /**
  * Represents a deactivation of an ActiveList.
+ * 
+ * @since 1.0.0
  */
 export type ActiveListDeactivatedEvent<T> = ActiveListBaseEvent & {
   /**
@@ -872,6 +882,8 @@ export type ActiveListDeactivatedEvent<T> = ActiveListBaseEvent & {
 /**
  * Represents multiple deactivations happening at the same time in an
  * ActiveList.
+ * 
+ * @since 1.0.0
  */
 export type ActiveListDeactivatedMultipleEvent<T> = ActiveListBaseEvent & {
   /**
@@ -978,6 +990,8 @@ export type ActiveListSwappedEvent<T> = ActiveListBaseEvent & {
 
 /**
  * Represents an activation of an ActiveList.
+ * 
+ * @since 1.0.0
  */
 export type ActiveListMovedEvent<T> = ActiveListBaseEvent & {
   /**

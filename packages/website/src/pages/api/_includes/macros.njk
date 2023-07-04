@@ -1,213 +1,147 @@
-{% set isNumber = r/^\d*(\.\d+)?$/g %}
-
-{% macro displayApiGroup(definitions, subapi, groups = []) %}
-  {% for group in groups %}
-    <h2 id="{{group}}"><a href="#{{group}}">{{loop.index}}. {{group}}</a></h3>
-
-    {{ displayApi(definitions | groupApi(groups, group), subapi) }}
-  {% endfor %}
-{% endmacro %}
-
-{% macro displayApi(definitions, subapi) %}
-  <div class="px-1 mb-2">
-  {% for def in definitions | sortApi %}
-    <a 
-      href="/api/{{subapi}}/{{ def.name | slug}}/" 
-      class="block font-mono text-ellipsis overflow-hidden whitespace-nowrap"
-      title="{{ def.name }}"
-    >
-      {% if def.kindString === 'Function' and def.signatures[0].type.name === 'JSX.Element' %}
-        <span class="bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
-      {% elif def.kindString === 'Function' and def.name.startsWith('use') %}
-        <span class="bg-yellow-400 font-medium text-white inline-block px-1 my-2 text-sm">{% if subapi === 'react' %}H{% else %}C{% endif %}</span>
-      {% elif def.kindString === 'Class' and def.decorators[0].type.name === 'Component' %}
-        <span class="bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
-      {% elif def.type.qualifiedName === 'DefineComponent' %}
-        <span class="bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
-      {% elif def.kindString === 'Class' and def.decorators[0].type.name === 'NgModule' %}
-        <span class="bg-purple-400 font-medium text-white inline-block px-1 my-2 text-sm">M</span>
-      {% elif def.kindString === 'Class' and def.name.endsWith('Error') %}
-        <span class="bg-red-400 font-medium text-white inline-block px-1 my-2 text-sm">E</span>
-      {% elif def.name === 'uiloosPlugin' %}
-        <span class="bg-purple-400 font-medium text-white inline-block px-1 my-2 text-sm">P</span>
-      {% elif def.kindString === 'Class' %}
-        <span class="bg-blue-400 font-medium text-white inline-block px-1 my-2 text-sm">C</span>
-      {% elif def.kindString === 'Function' %}
-        <span class="bg-green-400 font-medium text-white inline-block px-1 my-2 text-sm">F</span>
-      {% elif def.kindString === 'Variable' %}
-        <span class="bg-green-400 font-medium text-white inline-block px-1 my-2 text-sm">I</span>
-      {% else %}
-        <span class="bg-orange-400 font-medium text-white inline-block px-1 my-2 text-sm">T</span>
-      {% endif %}
-      
-      {{def.name}}
-    </a>
-  {% endfor %}
-  </div>
-{% endmacro %}
-
-{% macro displayType(type, sinceRoot, inlineUnion = true, purpleLink = true) %}
-  {% if type.type === 'reference' and type.typeArguments %}
-    {% if partOfCore(type) %}
-      <a class="underline {% if purpleLink %} text-purple-600 {% else %} text-blue-500 {% endif %}" href="/api/core/{{ type.name | slug}}/">{{type.name}}&lt;{{type.typeArguments[0].name}}&gt;</a>
+{% macro displayType(type, inlineUnion = true, purpleLink = true) %}
+  {% if type.type === 'reference' %}
+    {% if type.link %}
+      <a class="underline {% if purpleLink %} text-purple-600 {% else %} text-blue-500 {% endif %}" href="{{ type.link }}/">{{type.value}}</a>
     {% else %}
-      {{type.name}}
-    {% endif %} 
-  {% elif type.type === 'reference'%}
-    {% if type.name.length === 1 or type.name === "Date" %}
-      {{type.name}}
-    {% else %}
-      {% if partOfCore(type) %}
-        <a class="underline {% if purpleLink %} text-purple-600 {% else %} text-blue-500 {% endif %}" href="/api/core/{{ type.name | slug}}/">{{type.name}}</a>
-      {% else %}
-        {{type.name}}
-      {% endif %}
-    {% endif %}
-  {% elif type.type === 'intrinsic' %}
-    {{type.name}}
-  {% elif type.type === 'literal' %}
-    {% if type.value %}
-      {% if isNumber.test(type.value) %}
-        {{type.value}}
-      {% elif type.value === true %}
-        true
-      {% else %}
-        "{{type.value}}"
-      {% endif %}
-    {% elif type.value === null %}
-      null
-    {% elif type.value === false %}
-      false
-    {% elif type.value === undefined %}
-      undefined
+      {{type.value}}
     {% endif %}
   {% elif type.type === 'array' %}
     <span class="inline-flex">
-      <span>{{ displayType(type.elementType, sinceRoot, inlineUnion, purpleLink) }}</span>
+      <span>{{ displayType(type.value, inlineUnion, purpleLink) }}</span>
       <span>[]</span>
     </span>
   {% elif type.type === 'union' %}
-    {% for type in type.types | sortType %}
+    {% for type in type.value  %}
       {% if not inlineUnion %} | {% endif %}
-      {{ displayType(type, sinceRoot, inlineUnion, purpleLink) }}
+      {{ displayType(type, inlineUnion, purpleLink) }}
       {% if not loop.last and inlineUnion %} | {% endif %}
       {% if not inlineUnion %} <br> {% endif %}
     {% endfor %}
   {% elif type.type === 'intersection' %}
-    {% for type in type.types %}
+    {% for type in type.value %}
       {% if not inlineUnion %} & {% endif %}
-      {{ displayType(type, sinceRoot, inlineUnion, purpleLink) }}
+      {{ displayType(type, inlineUnion, purpleLink) }}
       {% if not loop.last and inlineUnion %} & {% endif %}
       {% if not inlineUnion %} <br> {% endif %}
     {% endfor %}
   {% elif type.type === 'reflection' %}
-    <h5 class="h4">Object</h4>
-    {% for item in type.declaration.children %}
+    <h5 class="h4 text-xl">Object</h4>
+    {% for item in type.value %}
       <div class="ml-4 mb-2 py-2 {% if not loop.last %} border-b-2 border-dashed {% endif %}">
         <strong class="mb-2 font-mono">{{item.name}}</strong>: {{ displayType(item.type, sineRoot, inlineUnion, purpleLink) }}
 
         {{ displayComment(item) }}
 
-        {{ displaySince(item, sinceRoot) }}
+        {{ displaySince(item) }}
 
-        {% if item.signatures %}
-          {{displaySignatures(item.signatures, sinceRoot)}}
+        {{displaySignature(item.type)}}
+      </div>
+    {% endfor %}
+  {% else %}
+    {{type.value}}
+  {% endif %}
+{% endmacro %}
+
+{% macro displaySignature(signature) %}
+  {{ displayComment(signature) }}
+
+  {{ displaySince(signature) }}
+
+  <h4 class="mt-4 text-xl">Signature</h3>
+  <div class="font-mono bg-gray-800 text-white p-4 mb-2">
+    {% if not signature.parameters %}
+      <span class="text-purple-400">
+        {% if signature.isCallback %}
+          callback(): </span>{{ displayType(signature.type) }}
+        {% else %}
+          {{signature.name}}(): </span>{{ displayType(signature.type) }}
         {% endif %}
+      </span>
+    {% else %}
+      <span class="text-purple-400">
+        {% if signature.isCallback %}
+        callback(
+      {% else %}
+        {{ signature.name }}(
+      {% endif %}
+      </span>
+      {% for parameter in signature.parameters %}
+        <div class="ml-4 flex">
+          <span class="text-orange-400">{{parameter.name}}</span>
+          <span class="text-white">:</span>
+          <span class="ml-2">{{ displayType(parameter.type, true, false) }}</span>
+          {% if not loop.last %}
+            <span>,</span>{% endif %}
+        </div>
+      {% endfor %}
+      <span class="text-purple-400">):</span>{{ displayType(signature.type, true, false) }}
+    {% endif %}
+  </div>
+
+  {% if signature.parameters %}
+    <h4 class="mt-4 text-xl">Parameters</h3>
+
+    {% for parameter in signature.parameters %}
+      <div class="mb-4">
+        <strong class="mb-2 font-mono">
+          <span>{{parameter.name}}:</span>
+          {{ displayType(parameter.type) }}
+        </strong>
+
+        {{ displayComment(parameter) }}
       </div>
     {% endfor %}
   {% endif %}
-{% endmacro %}
 
-{% macro displaySignatures(signatures, sinceRoot) %}
-  {% for signature in signatures %}
+  {% if signature.returns %}
+    <h4 class="mt-4 text-xl">Returns</h4>
+    <strong class="mb-2 font-mono">{{ displayType(signature.returns) }}</strong>
+    <p class="mb-2">{{signature.returns | escape | nl2br}}</p>
+  {% endif %}
 
-    {{ displayComment(signature) }}
+  {% if signature.throws.length > 0 %}
+    <h4 class="mt-4 text-xl">Throws</h3>
 
-    {{ displaySince(signature, sinceRoot) }}
-
-    <h4 class="mt-4">Signature</h3>
-    <div class="font-mono bg-gray-800 text-white p-4 mb-2">
-      {% if not signature.parameters %}
-        <span class="text-purple-400">
-          {% if signature.name === '__type' %}
-            callback(): </span>{{ displayType(signature.type, sinceRoot) }}
-          {% else %}
-            {{signature.name}}(): </span>{{ displayType(signature.type, sinceRoot) }}
-          {% endif %}
-        </span>
-      {% else %}
-        <span class="text-purple-400">
-          {% if signature.name === '__type' %}
-          callback(
-        {% else %}
-          {{ signature.name }}(
-        {% endif %}
-        </span>
-        {% for parameter in signature.parameters %}
-          <div class="ml-4 flex">
-            <span class="text-orange-400">{{parameter.name}}</span>
-            <span class="text-white">:</span>
-            <span class="ml-2">{{ displayType(parameter.type, sinceRoot, true, false) }}</span>
-            {% if not loop.last %}
-              <span>,</span>{% endif %}
-          </div>
-        {% endfor %}
-        <span class="text-purple-400">):</span>{{ displayType(signature.type, sinceRoot, true, false) }}
-      {% endif %}
-    </div>
-
-    {% if signature.parameters %}
-      <h4 class="mt-4">Parameters</h3>
-
-      {% for parameter in signature.parameters %}
-        <div class="mb-4">
-          <strong class="mb-2 font-mono">
-            <span>{{parameter.name}}:</span>
-            {{ displayType(parameter.type, sinceRoot) }}
-          </strong>
-
-          {{ displayComment(parameter) }}
-        </div>
-      {% endfor %}
-    {% endif %}
-
-    {% if signature.comment.returns %}
-      <h4 class="mt-4">Returns</h4>
-      <strong class="mb-2 font-mono">{{ displayType(signature.type, sinceRoot) }}</strong>
-      <p class="mb-2">{{signature.comment.returns | escape | nl2br}}</p>
-    {% endif %}
-
-    {% if signature.comment.tags %}
-      {% for tag in signature.comment.tags %}
-        {% if tag.tag === 'throws' %}
-          {% if loop.first%}
-            <h4 class="mt-4">Throws</h3>
-          {% endif %}
-          <p>
-            <a class="underline text-purple-600 font-mono font-bold block" href="/api/core/{{ tag.text.split('}')[0] | replace('{', '') | slug}}/">{{ tag.text.split('}')[0] | replace('{', '') }}</a>
-            
-            {{tag.text.split('} ')[1]}}
-          </p>
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-
-  {% endfor %}
-{% endmacro %}
-
-{% macro displaySince(def, sinceRoot) %}
-  {% for tag in def.comment.tags %}
-    {% if tag.tag === 'since' %}
+    {% for throw in signature.throws %}
       <p>
-        <strong>Since</strong> <a class="underline text-purple-600 font-mono font-bold" href="/releases/{{sinceRoot}}/{{tag.text | replace('\n', '')}}/">{{ tag.text | replace('\n', '')}}</a>
+        <a class="underline text-purple-600 font-mono font-bold block" href="/api/core/{{throw.name | slug}}/">{{ throw.name }}</a>
+        
+        {{throw.description}}
       </p>
-    {% endif %}
-  {% endfor %}
+    {% endfor %}
+  {% endif %}
+
+  {% if signature.examples.length > 0 %}
+    <h4 class="mt-4 text-xl">Examples</h4>
+
+    {{displayExamples(signature.examples, true)}}
+  {% endif %}
+{% endmacro %}
+
+{% macro displaySince(def) %}
+  <p>
+    <strong>Since</strong> <a class="underline text-purple-600 font-mono font-bold" href="/releases/{{def.package}}/{{ def.since }}/">{{ def.since }}</a>
+  </p>
 {% endmacro %}
 
 {% macro displayComment(def) %}
-  <p>{{def.comment.shortText | escape | nlnl2br | safe}}</p>
-  {% if def.comment.text %}
-    <p>{{def.comment.text | escape | nlnl2br | safe}}</p>
-  {% endif %}
+  <p>{{def.description | escape | nlnl2br | safe}}</p>
+{% endmacro %}
+
+{% macro displayName(def) %}
+  <h1 class="text-2xl">{{def.name}}{% if def.generic.length > 0 %}&lt;{% for generic in def.generic %}{{ generic.name }}{% if not loop.last %}, {% endif %}{% endfor %}&gt;{% endif %}</h1>
+{% endmacro %}
+
+{% macro displayExamples(examples, showTitle = false) %}
+  {% for example in examples %}
+    {% if showTitle %}
+      <h5>{{example.title}}</h5>
+    {% endif %}
+
+    <p>{{example.description | escape | nlnl2br | safe }}</p>
+
+    {% highlight example.type %}
+      {% include example.fileName %}
+    {% endhighlight %}
+  {% endfor %}
 {% endmacro %}

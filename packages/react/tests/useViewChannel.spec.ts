@@ -7,7 +7,7 @@ import { renderHook, act } from '@testing-library/react';
 
 import { useViewChannel } from '../src';
 
-test('useActiveList hook', () => {
+test('useViewChannel hook', () => {
   licenseChecker.activateLicense('fake-100', { logLicenseActivated: false });
 
   const viewChannel = new ViewChannel<string, string>();
@@ -36,5 +36,6 @@ test('useActiveList hook', () => {
 
   expect(result.current.views.length).toBe(0);
 
+  // @ts-expect-error resolves exists
   expect(promise).resolves.toBe('FINISHED');
 });

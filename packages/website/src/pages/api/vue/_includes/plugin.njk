@@ -1,17 +1,14 @@
-{% from "../../_includes/macros.njk" import displaySince, displayComment %}
+{% from "../../_includes/macros.njk" import displayExamples, displayName, displaySince, displayComment %}
 
 <article>
-  <h1>
-    {{def.name}}
+  {{ displayName(def )}}
 
-    {% if def.typeParameter.length > 0 %}
-      &lt;{{def.typeParameter[0].name}}&gt;
-    {% endif %}
-  </h1>
-
-  <p class="text-2xl font-mono mb-4 text-purple-800">PLUGIN</p>
+  <p class="font-mono mb-4 font-extrabold text-purple-800">PLUGIN</p>
 
   {{ displayComment(def) }}
 
-  {{ displaySince(def, 'vue') }}
+  {{ displaySince(def) }}
+
+  <h2 class="text-2xl">Example</h2>
+  {{ displayExamples(def.examples, false) }}
 </article>

@@ -1,35 +1,14 @@
-{% from "../../_includes/macros.njk" import displayType, displaySince, displayComment %}
+{% from "../../_includes/macros.njk" import displayExamples, displayType, displayName, displaySince, displayComment %}
 
 <article>
-  <h1>
-    {{def.name}}
+  {{displayName(def)}}
 
-    {% if def
-      .signatures[0]
-      .typeParameter
-      .length > 0 %}
-      &lt;{{def.signatures[0].typeParameter[0].name}}&gt;
-    {% endif %}
-  </h1>
-
-  <p class="text-2xl font-mono mb-4 text-red-800">COMPONENT</p>
+  <p class="font-mono mb-4 font-extrabold text-red-800">COMPONENT</p>
 
   {{ displayComment(def) }}
 
-  {{ displaySince(def, 'vue') }}
+  {{ displaySince(def) }}
 
-  <h2 id="props"><a href="#props">Props</a></h2>
-  {% for item in def.type.typeArguments[0].declaration.children %}
-    <div class="border px-2 pt-4 mb-4">
-      <h3 class="font-mono" id="{{item.name.toLowerCase()}}"><a href="#{{item.name.toLowerCase()}}">{{item.name}}</a></h3>
-
-      <p class="mb-4 font-mono">
-        {% for subitem in item.type.declaration.children %}
-          {% if subitem.name === 'type' %}
-            {{ displayType(subitem.type.declaration.signatures[0].type, 'vue') }}
-          {% endif %}
-        {% endfor %}
-      </p>
-    </div>
-  {% endfor %}
+  <h2 class="text-2xl">Example</h2>
+  {{ displayExamples(def.examples, false) }}
 </article>

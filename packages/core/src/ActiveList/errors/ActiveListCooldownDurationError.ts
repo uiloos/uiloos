@@ -13,6 +13,11 @@ import { common } from "./common";
  * @since 1.0.0
  */
 export class ActiveListCooldownDurationError extends Error {
+  /**
+   * ActiveListCooldownDurationError constructor
+   * 
+   * @since 1.0.0
+   */
   constructor() {
     super(`${common} cooldown > duration cannot be negative or zero`);
     this.name = "ActiveListCooldownDurationError";
