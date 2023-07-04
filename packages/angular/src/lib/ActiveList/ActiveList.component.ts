@@ -27,16 +27,28 @@ import { ActiveList, ActiveListConfig } from '@uiloos/core';
   `,
 })
 export class ActiveListComponent<T> implements OnInit {
+  /**
+   * An reference to the ActiveListDirective.
+   * 
+   * @since 1.0.0
+   */
   @ContentChild(ActiveListDirective, { read: TemplateRef })
-  private uiloosActiveList: any;
+  public uiloosActiveList: any;
 
   /**
-   * The initial configuration of the ActiveList.
+   * An `@Input` for the initial configuration of the ActiveList.
+   * 
+   * @since 1.0.0
    */
   @Input()
-  config!: ActiveListConfig<T>;
+  public config!: ActiveListConfig<T>;
 
-  activeList!: ActiveList<T>;
+   /**
+   * The exposed ActiveList.
+   * 
+   * @since 1.0.0
+   */
+  public activeList!: ActiveList<T>;
 
   ngOnInit(): void {
     this.activeList = new ActiveList(this.config);;
