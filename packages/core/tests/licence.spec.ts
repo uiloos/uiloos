@@ -1,3 +1,4 @@
+import {expect, jest, test, describe, beforeEach, afterEach} from '@jest/globals';
 
 import { licenseChecker, _LicenseChecker } from '../src/license';
 import { _reset } from '../src/license/license';

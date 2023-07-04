@@ -32,6 +32,34 @@ export type ActiveListProps<T> = ActiveListConfig<T> & {
 /**
  * A component which wraps the ActiveList from @uiloos/core.
  * 
+ * @example
+ * A. Simple example
+ * 
+ * The example below creates a list with three items: 
+ * a, b and c of which only one item can be active. 
+ * Clicking an item makes it active.
+ * 
+ * ```jsx
+ * <ActiveList 
+ *   active="a" 
+ *   contents={['a', 'b', 'c']}
+ * >
+ *   {(activeContent) => (
+ *     <ul>
+ *       {activeContent.contents.map((content) => (
+ *         <li 
+ *           key={content.value} 
+ *           onClick={() => content.activate()}
+ *         >
+ *           {content.value} 
+ *           {content.isActive ? 'active' : 'inactive'}
+ *         </li>
+ *       ))}
+ *     </ul>
+ *   )}
+ * </ActiveList>
+ * ```
+ * 
  * @param {ActiveListProps<T>} props The properties of the ActiveList component.
  * @returns A component which wraps the ActiveList from @uiloos/core.
  * 

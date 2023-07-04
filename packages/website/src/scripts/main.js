@@ -21,7 +21,7 @@ if (docTocEl && !docTocEl.hasAttribute('data-no-highlight')) {
   // Reference to all <h2> elements which
   const h2Els = Array.from(document.querySelectorAll('article h2'));
 
-  window.addEventListener('scroll', highlightClosest, {passive: true});
+  window.addEventListener('scroll', highlightClosest, { passive: true });
 
   highlightClosest();
 
@@ -29,9 +29,9 @@ if (docTocEl && !docTocEl.hasAttribute('data-no-highlight')) {
     // Find the closest <h2> element to the users current scroll position.
     const closestH2el = h2Els.reduce((closestEl, h2El) => {
       // The bounding rect top is a number which is relative to the
-      // current position of the Y scroll position. This means that 
-      // top can also be a negative number. The closer to zero the 
-      // absolute value of top is the closer the element is to the 
+      // current position of the Y scroll position. This means that
+      // top can also be a negative number. The closer to zero the
+      // absolute value of top is the closer the element is to the
       // user on the screen.
       const closestElTop = Math.abs(closestEl.getBoundingClientRect().top);
       const h2ElTop = Math.abs(h2El.getBoundingClientRect().top);
@@ -161,17 +161,26 @@ searchInput.onkeyup = (event) => {
   filtered.forEach((data) => {
     const liEl = document.createElement('li');
     liEl.className = 'p-4 border-b-2';
-    liEl.innerHTML = `
-      <a href="${data.link}">
-        <span class="flex justify-between">
-          <span class="text-ellipsis overflow-clip ${
-            data.type === 'API' ? 'high underline' : 'font-bold'
-          }">${data.name}</span>
-          <span class="ml-2 font-mono">${data.type}</span>
-        </span>
-        <p class="mt-2 text-lg mb-0">${data.description}</p>
-      </a>
-    `;
+
+    let html = `
+    <a href="${data.link}">
+      <span class="flex justify-between">
+        <span class="text-ellipsis overflow-clip ${
+          data.type === 'API' ? 'high underline' : 'font-bold'
+        }">${data.name}</span>
+        <span class="ml-2 font-mono">${data.type}</span>
+      </span>
+      <p class="mt-2 text-lg mb-0">${data.description}</p>
+    </a>
+  `;
+
+    if (data.package) {
+      html += `<span class="inline-block mt-4 high mb-0 text-sm">${data.package}</span>`;
+    }
+
+    html += '</a>';
+
+    liEl.innerHTML = html;
 
     // Edgecase: when a user searches clicks on a link he is already
     // on the modal should still close.

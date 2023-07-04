@@ -1,3 +1,5 @@
+import {expect, jest, test, describe, beforeEach, afterEach} from '@jest/globals';
+
 import {
   ActiveList,
   ActiveListConfig,
@@ -23790,13 +23792,13 @@ function assertState(state: ActiveList<string>, expected: TestState<string>) {
 }
 
 function assertLastSubscriber(
-  subscriber: jest.Mock<ActiveList<string>, any>,
+  subscriber: jest.Mock,
   expectedState: TestState<string>,
   expectedEvent: ActiveListEvent<string>
 ) {
   const lastCall = subscriber.mock.calls[subscriber.mock.calls.length - 1];
-  const state: ActiveList<string> = lastCall[0];
-  const event: ActiveListEvent<string> = lastCall[1];
+  const state = lastCall[0] as ActiveList<string>;
+  const event = lastCall[1] as ActiveListEvent<string>;
 
   assertState(state, expectedState);
 
@@ -23812,11 +23814,11 @@ function assertLastSubscriber(
 }
 
 function assertEvents(
-  subscriber: jest.Mock<ActiveList<string>, any>,
+  subscriber: jest.Mock,
   expectedEvents: ActiveListEventType[]
 ) {
   const events: ActiveListEventType[] = subscriber.mock.calls.map((call) => {
-    const event: ActiveListEvent<string> = call[1];
+    const event = call[1] as ActiveListEvent<string>;
     return event.type;
   });
 

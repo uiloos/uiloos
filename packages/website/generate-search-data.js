@@ -2,7 +2,10 @@ const fs = require('fs');
 
 console.log('Generating search data file');
 
-const core = require('./src/_data/api/core.json');
+const OUTPUT_DIR = './src/search';
+
+fs.rmSync(OUTPUT_DIR, { recursive: true, force: true });
+fs.mkdirSync(OUTPUT_DIR);
 
 const releases = getReleases();
 
@@ -191,39 +194,46 @@ const data = [
   ...releases,
 ];
 
-core.children.forEach((child) => {
-  data.push({
-    name: child.name,
-    description: child.comment?.shortText ?? '',
-    link: `/api/core/${child.name}/`.toLowerCase(),
-    type: 'API',
-    package: '@uiloos/core',
-    kindString: child.kindString,
-  });
+const PACKAGES = ['core', 'angular', 'react', 'vue'];
 
-  if (child.children && !child.name.endsWith('Error')) {
-    child.children.forEach((grandchild) => {
-      if (
-        !grandchild.name.startsWith('_') &&
-        grandchild.name !== 'constructor'
-      ) {
-        data.push({
-          name: child.name + '::' + grandchild.name,
-          description:
-            grandchild.comment?.shortText ??
-            '' + grandchild.signatures[0].comment.shortText ??
-            '',
-          link: `/api/core/${child.name}/#${grandchild.name}`.toLowerCase(),
-          kindString: grandchild.kindString,
-          type: 'API',
-          package: '@uiloos/core',
-        });
-      }
+PACKAGES.forEach((package) => {
+  const definitions = require(`./src/_data/distilled/${package}.json`);
+
+  definitions.forEach((def) => {
+    data.push({
+      name: def.name,
+      description: def.description.substring(0, 100),
+      link: def.link,
+      type: 'API',
+      package: `@uiloos/${def.package}`,
+      kindString: def.kindString,
     });
-  }
+
+    def.properties?.forEach((property) => {
+      data.push({
+        name: def.name + '::' + property.name,
+        description: property.description.substring(0, 100),
+        link: property.link,
+        kindString: property.kindString,
+        type: 'API',
+        package: `@uiloos/${def.package}`,
+      });
+    });
+
+    def.methods?.forEach((method) => {
+      data.push({
+        name: def.name + '::' + method.name + '()',
+        description: method.description.substring(0, 100),
+        link: method.link,
+        kindString: method.kindString,
+        type: 'API',
+        package: `@uiloos/${def.package}`,
+      });
+    });
+  });
 });
 
-fs.writeFileSync('./src/search/data.json', JSON.stringify(data, null, 2));
+fs.writeFileSync(`${OUTPUT_DIR}/data.json`, JSON.stringify(data, null, 2));
 
 console.log('Wrote search data file successfully');
 

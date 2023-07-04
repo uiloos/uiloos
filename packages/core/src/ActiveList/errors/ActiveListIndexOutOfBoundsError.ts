@@ -6,6 +6,12 @@ import { common } from "./common";
  * @since 1.0.0
  */
 export class ActiveListIndexOutOfBoundsError extends Error {
+
+   /**
+   * ActiveListIndexOutOfBoundsError constructor
+   * 
+   * @since 1.0.0
+   */
   constructor(message: string) {
     super(message);
     this.name = "ActiveListIndexOutOfBoundsError";

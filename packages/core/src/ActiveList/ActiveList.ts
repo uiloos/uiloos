@@ -239,21 +239,21 @@ export class ActiveList<T> {
    * Tracks 15 types of changes:
    *
    *  1. INITIALIZED: fired when ActiveList is initialized.
-   *  
+   * 
    *  2. INSERTED: fired when an item is added.
-   *  
+   * 
    *  3. REMOVED: fired when an item is removed.
    *  
    *  4. REMOVED_MULTIPLE: fired when multiple items are removed with a predicate.
-   *  
+   * 
    *  5. ACTIVATED: fired when an item is activated.
-   *  
+   * 
    *  6  ACTIVATED_MULTIPLE: fired when multiple items are activated with a predicate.
-   *  
+   * 
    *  7. DEACTIVATED: fired when an item is deactivated.
-   *  
+   * 
    *  8. DEACTIVATED_MULTIPLE: fired when multiple items are deactivated with a predicate.
-   *  
+   * 
    *  9. SWAPPED: fired when an item is swapped.
    *  
    *  10. MOVED: fired when an item is moved.
@@ -261,13 +261,13 @@ export class ActiveList<T> {
    *  11. AUTO_PLAY_PLAYING: fired when play is called.
    *  
    *  12. AUTO_PLAY_PAUSED: fired when pause is called.
-   *  
+   * 
    *  13. AUTO_PLAY_STOPPED: fired when stop is called, or the autoPlay stops due to a condition.
-   *  
+   * 
    *  14. COOLDOWN_STARTED: fired when ActiveList goes into cooldown state
-   *  
+   * 
    *  15. COOLDOWN_ENDED: fired when ActiveList goes out of cooldown state
-   *
+   * 
    * Goes only as far back as configured in the `Config` property
    * `keepHistoryFor`, to prevent an infinitely growing history.
    * Note that by default no history is kept, as `keepHistoryFor`

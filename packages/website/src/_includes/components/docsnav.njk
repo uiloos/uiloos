@@ -11,7 +11,7 @@
     <ul class="font-medium -my-2">
       
       <!-- 1st level -->
-      <li class="py-2" x-data="{ open: {% if renderData and renderData.parent === 'getting-started' %} true {% else %} false {% endif %} }">
+      <li class="py-2" x-data="{ open: {% if parent === 'getting-started' %} true {% else %} false {% endif %} }">
         <a
           class="flex items-center hover:underline"
           href="#0"
@@ -39,7 +39,7 @@
         >
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'overview' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'overview' %} font-bold {% endif %}" 
               href="/docs/getting-started/overview/"
             >
               Overview
@@ -47,7 +47,7 @@
           </li>
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'installation' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'installation' %} font-bold {% endif %}" 
               href="/docs/getting-started/installation/"
             >
               Installation
@@ -55,7 +55,7 @@
           </li>
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'activation' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'activation' %} font-bold {% endif %}" 
               href="/docs/getting-started/activation/"
             >
               Activation
@@ -65,7 +65,7 @@
       </li>
      
       <!-- 1st level -->
-      <li class="py-2" x-data="{ open: {% if renderData and renderData.parent === 'active-list' %} true {% else %} false {% endif %} }">
+      <li class="py-2" x-data="{ open: {% if parent === 'active-list' %} true {% else %} false {% endif %} }">
         <a
           class="flex items-center hover:underline"
           href="#1"
@@ -93,7 +93,7 @@
         >
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'active-list-concepts' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'active-list-concepts' %} font-bold {% endif %}" 
               href="/docs/active-list/concepts/"
             >
               Concepts
@@ -102,7 +102,7 @@
          
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'active-list-tutorial' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'active-list-tutorial' %} font-bold {% endif %}" 
               href="/docs/active-list/tutorials/"
             >
               Tutorials
@@ -111,7 +111,7 @@
 
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'active-list-frameworks' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'active-list-frameworks' %} font-bold {% endif %}" 
               href="/docs/active-list/usage-with-frameworks/"
             >
               Usage with Frameworks
@@ -120,7 +120,7 @@
 
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'active-list-examples' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'active-list-examples' %} font-bold {% endif %}" 
               href="/docs/active-list/examples/"
             >
               Examples
@@ -130,7 +130,7 @@
       </li>
 
       <!-- 1st level -->
-      <li class="py-2" x-data="{ open: {% if renderData and renderData.parent === 'view-channel' %} true {% else %} false {% endif %} }">
+      <li class="py-2" x-data="{ open: {% if parent === 'view-channel' %} true {% else %} false {% endif %} }">
         <a
           class="flex items-center hover:underline"
           href="#2"
@@ -158,7 +158,7 @@
         >
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'view-channel-concepts' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'view-channel-concepts' %} font-bold {% endif %}" 
               href="/docs/view-channel/concepts/"
             >
               Concepts
@@ -167,7 +167,7 @@
          
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'view-channel-tutorial' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'view-channel-tutorial' %} font-bold {% endif %}" 
               href="/docs/view-channel/tutorial/"
             >
               Tutorial
@@ -176,7 +176,7 @@
 
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'view-channel-frameworks' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'view-channel-frameworks' %} font-bold {% endif %}" 
               href="/docs/view-channel/usage-with-frameworks/"
             >
               Usage with Frameworks
@@ -185,7 +185,7 @@
 
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'view-channel-examples' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'view-channel-examples' %} font-bold {% endif %}" 
               href="/docs/view-channel/examples/"
             >
               Examples
@@ -195,7 +195,7 @@
       </li>
 
       <!-- 1st level -->
-      <li class="py-2" x-data="{ open: {% if renderData and renderData.parent === 'typewriter' %} true {% else %} false {% endif %} }">
+      <li class="py-2" x-data="{ open: {% if parent === 'typewriter' %} true {% else %} false {% endif %} }">
         <a
           class="flex items-center hover:underline"
           href="#2"
@@ -223,7 +223,7 @@
         >
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'typewriter-concepts' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'typewriter-concepts' %} font-bold {% endif %}" 
               href="/docs/typewriter/concepts/"
             >
               Concepts
@@ -232,7 +232,7 @@
          
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'typewriter-tutorial' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'typewriter-tutorial' %} font-bold {% endif %}" 
               href="/docs/typewriter/tutorials/"
             >
               Tutorials
@@ -241,7 +241,7 @@
 
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'typewriter-frameworks' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'typewriter-frameworks' %} font-bold {% endif %}" 
               href="/docs/typewriter/usage-with-frameworks/"
             >
               Usage with Frameworks
@@ -250,7 +250,7 @@
 
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'typewriter-examples' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'typewriter-examples' %} font-bold {% endif %}" 
               href="/docs/typewriter/examples/"
             >
               Examples
@@ -259,7 +259,7 @@
 
            <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'typewriter-composer' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'typewriter-composer' %} font-bold {% endif %}" 
               href="/docs/typewriter/composer/"
             >
               Composer
@@ -269,7 +269,7 @@
       </li>
 
       <!-- 1st level -->
-      <li class="py-2" x-data="{ open: {% if renderData and renderData.parent === 'miscellaneous' %} true {% else %} false {% endif %} }">
+      <li class="py-2" x-data="{ open: {% if parent === 'miscellaneous' %} true {% else %} false {% endif %} }">
         <a
           class="flex items-center hover:underline"
           href="#2"
@@ -297,7 +297,7 @@
         >
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'rules' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'rules' %} font-bold {% endif %}" 
               href="/docs/miscellaneous/rules/"
             >
               Rules
@@ -306,7 +306,7 @@
          
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'typescript' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'typescript' %} font-bold {% endif %}" 
               href="/docs/miscellaneous/typescript/"
             >
               TypeScript
@@ -315,7 +315,7 @@
 
           <li class="py-1">
             <a 
-              class="hover:underline {% if renderData and renderData.current === 'future' %} font-bold {% endif %}" 
+              class="hover:underline {% if current === 'future' %} font-bold {% endif %}" 
               href="/docs/miscellaneous/future/"
             >
               Future

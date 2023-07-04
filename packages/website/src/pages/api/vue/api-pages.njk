@@ -2,10 +2,10 @@
 layout: layouts/api.njk
 permalink: "/api/vue/{{ def.name | slug }}/"
 pagination:
-  data: api.vue.children
+  data: distilled.vue
   size: 1
   alias: def
-renderData:
+eleventyComputed:
   title: "{{ def.name }} | Vue | API"
   description: "{{ def.name }} {{def.comment.shortText}}"
   keywords: "@uiloos/vue {{ def.name }} API, {{ def.name }}"
@@ -15,17 +15,17 @@ renderData:
 {% from "../_includes/function.njk" import functionPage %}
 {% from "../_includes/typealias.njk" import typealiasPage %}
 
-{% if def.name === 'uiloosPlugin' %}
+{% if def.kindString === 'plugin' %}
   {% include "./_includes/plugin.njk" %}
-{% elif def.kindString === 'Function' and def.name.startsWith('use') %}
+{% elif def.kindString === 'composable' %}
   {% include "./_includes/composable.njk" %}
-{% elif def.type.qualifiedName === 'DefineComponent' %}
+{% elif def.kindString === 'component' %}
   {% include "./_includes/component.njk" %}
-{% elif def.kindString === 'Class' %}
-  {{ classPage(def, 'vue')}}
-{% elif def.kindString === 'Type alias' %}
-  {{ typealiasPage(def, 'vue')}}
-{% elif def.kindString === 'Function' %}
-  {{ functionPage(def, 'vue')}}
+{% elif def.kindString === 'class' %}
+  {{ classPage(def)}}
+{% elif def.kindString === 'type' %}
+  {{ typealiasPage(def)}}
+{% elif def.kindString === 'function' %}
+  {{ functionPage(def)}}
 {% endif %}
 

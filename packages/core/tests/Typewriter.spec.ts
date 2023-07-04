@@ -1,3 +1,5 @@
+import {expect, jest, test, describe, beforeEach, afterEach} from '@jest/globals';
+
 import {
   Typewriter,
   TypewriterBlinkAfterError,
@@ -778,6 +780,7 @@ describe('Typewriter', () => {
 
       assertState(typewriter, {
         history: [
+          // @ts-expect-error objectContaining works
           expect.objectContaining({
             type: 'INITIALIZED',
           }),
@@ -37591,13 +37594,13 @@ function assertCursor(cursor: TypewriterCursor<any>, expected: TestCursor) {
 }
 
 function assertLastSubscriber(
-  subscriber: jest.Mock<Typewriter<string | undefined>, any>,
+  subscriber: jest.Mock,
   expectedState: TestState,
   expectedEvent: TypewriterEvent<string>
 ) {
   const lastCall = subscriber.mock.calls[subscriber.mock.calls.length - 1];
-  const state: Typewriter<string | undefined> = lastCall[0];
-  const event: TypewriterEvent<string> = lastCall[1];
+  const state = lastCall[0] as Typewriter<string | undefined>;
+  const event = lastCall[1] as TypewriterEvent<string>;
 
   assertState(state, expectedState);
 
@@ -37613,11 +37616,11 @@ function assertLastSubscriber(
 }
 
 function assertEvents(
-  subscriber: jest.Mock<Typewriter<string>, any>,
+  subscriber: jest.Mock,
   expectedEvents: TypewriterEventType[]
 ) {
   const events: TypewriterEventType[] = subscriber.mock.calls.map((call) => {
-    const event: TypewriterEvent<string> = call[1];
+    const event = call[1] as TypewriterEvent<string> ;
     return event.type;
   });
 

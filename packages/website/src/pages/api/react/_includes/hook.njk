@@ -1,16 +1,10 @@
-{% from "../../_includes/macros.njk" import displaySignatures %}
+{% from "../../_includes/macros.njk" import displayName, displaySignature %}
 
 <article>
-  <h1>
-    {{def.name}}
+  {{ displayName(def )}}
 
-    {% if def.signatures[0].typeParameter.length > 0 %}
-      &lt;{{def.signatures[0].typeParameter[0].name}}&gt;
-    {% endif %}
-  </h1>
-
-  <p class="text-2xl font-mono mb-4 text-red-800">HOOK</p>
+  <p class="font-mono mb-4 font-extrabold text-yellow-500">HOOK</p>
   
-  {{ displaySignatures(def.signatures, 'react') }}
+  {{ displaySignature(def) }}
 
 </article>

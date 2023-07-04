@@ -1,12 +1,12 @@
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import typescript from '@rollup/plugin-typescript';
-import external from 'rollup-plugin-peer-deps-external';
-import dts from 'rollup-plugin-dts';
+const resolve = require( '@rollup/plugin-node-resolve');
+const commonjs = require( '@rollup/plugin-commonjs');
+const typescript = require( '@rollup/plugin-typescript');
+const external = require( 'rollup-plugin-peer-deps-external');
+const {default: dts} = require( 'rollup-plugin-dts');
 
 const packageJson = require('./package.json');
 
-export default [
+const config = [
   {
     input: 'src/index.ts',
     output: [
@@ -31,9 +31,11 @@ export default [
     external: ['react', '@uiloos/core']
   },
   {
-    input: 'dist/esm/index.d.ts',
+    input: 'dist/esm/types/index.d.ts',
     output: [{ file: 'dist/index.d.ts', format: 'esm' }],
     external: [/\.css$/],
     plugins: [dts()],
   },
 ];
+
+module.exports = config;

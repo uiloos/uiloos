@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>{{ title or renderData.title}} | uiloos</title>
-    <meta name="twitter:title" content="{{ title or renderData.title}} | uiloos" />
-    <meta property="og:title" content="{{ title or renderData.title}} | uiloos" />
+    <title>{{ title }} | uiloos</title>
+    <meta name="twitter:title" content="{{ title }} | uiloos" />
+    <meta property="og:title" content="{{ title }} | uiloos" />
 
     <link rel="stylesheet" type="text/css" href="/assets/main.css"/>
 
@@ -22,18 +22,18 @@
       }
     </script>
 
-    {% if renderData and renderData.description %}
-      <meta name="description" content="{{ renderData.description }}">
-      <meta name="twitter:description" content="{{ renderData.description }}" />
-      <meta property="og:description" content="{{ renderData.description }}" />
+    {% if description %}
+      <meta name="description" content="{{ description }}">
+      <meta name="twitter:description" content="{{ description }}" />
+      <meta property="og:description" content="{{ description }}" />
     {% else %}
       <meta name="description" content="uiloos is a headless library for JavaScript and TypeScript, which provides common behaviors seen in most websites and web-applications.">
       <meta name="twitter:description" content="uiloos is a headless library for JavaScript and TypeScript, which provides common behaviors seen in most websites and web-applications." />
       <meta property="og:description" content="uiloos is a headless library for JavaScript and TypeScript, which provides common behaviors seen in most websites and web-applications." />
     {% endif %}
 
-    {% if renderData and renderData.keywords %}
-      <meta name="keywords" content="{{ renderData.keywords }}">
+    {% if keywords %}
+      <meta name="keywords" content="{{ keywords }}">
     {% else %}
       <meta name="keywords" content="uiloos, headless ui, component library, common web behaviors, javascript component library, typescript component library, headless component library">
     {% endif %}

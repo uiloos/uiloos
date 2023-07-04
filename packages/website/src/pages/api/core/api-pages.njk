@@ -2,12 +2,12 @@
 layout: layouts/api.njk
 permalink: "/api/core/{{ def.name | slug }}/"
 pagination:
-  data: api.core.children
+  data: distilled.core
   size: 1
   alias: def
-renderData:
+eleventyComputed:
   title: "{{ def.name }} | core | API" 
-  description: "{{ def.name }} {{def.comment.shortText}}"
+  description: "{{ def.name }} {{def.description}}"
   keywords: "@uiloos/core {{ def.name }} API, {{ def.name }}"
 ---
 
@@ -17,14 +17,15 @@ renderData:
 {% from "../_includes/typealias.njk" import typealiasPage %}
 {% from "../_includes/instance.njk" import instancePage %}
 
-{% if def.kindString === 'Class' and def.name.endsWith('Error') %}
-  {{ errorPage(def, 'core') }}
-{% elif def.kindString === 'Class' %}
-  {{ classPage(def, 'core') }}
-{% elif def.kindString === 'Function' %}
-  {{ functionPage(def, 'core') }}
-{% elif def.kindString === 'Type alias' %}
-  {{ typealiasPage(def, 'core') }}
-{% elif def.kindString === 'Variable' %}
-  {{ instancePage(def, 'core') }}
+{% if def.kindString === 'error' %}
+  {{ errorPage(def) }}
+{% elif def.kindString === 'class' %}
+  {{ classPage(def) }}
+{% elif def.kindString === 'function' %}
+  {{ functionPage(def) }}
+{% elif def.kindString === 'type' %}
+  {{ typealiasPage(def) }}
+{% elif def.kindString === 'instance' %}
+  {{ instancePage(def) }}
 {% endif %}
+

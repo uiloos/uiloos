@@ -1,3 +1,5 @@
+import {expect, jest, test, describe, beforeEach, afterEach} from '@jest/globals';
+
 import {
   ViewChannel,
   ViewChannelView,
@@ -113,6 +115,7 @@ describe('ViewChannel', () => {
           subscriber,
           {
             history: [
+              // @ts-expect-error objectContaining works
               expect.objectContaining({
                 type: 'INITIALIZED',
               }),
@@ -159,6 +162,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 0,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 0,
             data: 'a',
@@ -209,6 +213,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 1,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 1,
             data: 'b',
@@ -269,6 +274,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 2,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 2,
             data: 'c',
@@ -315,6 +321,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 0,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 0,
             data: 'a',
@@ -366,6 +373,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 0,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 0,
             data: 'b',
@@ -427,6 +435,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 2,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 2,
             data: 'c',
@@ -498,6 +507,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 2,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 2,
             data: 'd',
@@ -544,6 +554,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 0,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 0,
             data: 'a',
@@ -595,6 +606,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 1,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 1,
             data: 'b',
@@ -657,6 +669,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 2,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 2,
             data: 'c',
@@ -729,6 +742,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 3,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 3,
             data: 'd',
@@ -811,6 +825,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 1,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 1,
             data: 'e',
@@ -857,6 +872,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 0,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 0,
             data: 'a',
@@ -908,6 +924,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 0,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 0,
             data: 'b',
@@ -969,6 +986,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 2,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 2,
             data: 'c',
@@ -1040,6 +1058,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 2,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 2,
             data: 'd',
@@ -1121,6 +1140,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 3,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 3,
             data: 'e',
@@ -1213,6 +1233,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 3,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 3,
             data: 'f',
@@ -1314,6 +1335,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 1,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 1,
             data: 'g',
@@ -1425,6 +1447,7 @@ describe('ViewChannel', () => {
         {
           type: 'PRESENTED',
           index: 2,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 2,
             data: 'h',
@@ -1542,6 +1565,7 @@ describe('ViewChannel', () => {
             type: 'DISMISSED',
             index: 1,
             reason: 'USER_INTERACTION',
+            // @ts-expect-error objectContaining works
             view: expect.objectContaining({
               index: 1,
               data: 'b',
@@ -1655,6 +1679,7 @@ describe('ViewChannel', () => {
             type: 'DISMISSED',
             index: 2,
             reason: 'USER_INTERACTION',
+            // @ts-expect-error objectContaining works
             view: expect.objectContaining({
               index: 2,
               data: 'c',
@@ -1702,18 +1727,21 @@ describe('ViewChannel', () => {
             type: 'DISMISSED_ALL',
             indexes: [0, 1, 2],
             views: [
+              // @ts-expect-error objectContaining works
               expect.objectContaining({
                 index: 0,
                 data: 'c',
                 priority: [0],
                 isPresented: false,
               }),
+              // @ts-expect-error objectContaining works
               expect.objectContaining({
                 index: 1,
                 data: 'b',
                 priority: [1],
                 isPresented: false,
               }),
+              // @ts-expect-error objectContaining works
               expect.objectContaining({
                 index: 2,
                 data: 'a',
@@ -1780,6 +1808,7 @@ describe('ViewChannel', () => {
           type: 'DISMISSED',
           index: 0,
           reason: 'USER_INTERACTION',
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 0,
             data: 'a',
@@ -1886,6 +1915,7 @@ describe('ViewChannel', () => {
           type: 'DISMISSED',
           reason: 'AUTO_DISMISS',
           index: 0,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 0,
             data: 'a',
@@ -1964,6 +1994,7 @@ describe('ViewChannel', () => {
           type: 'DISMISSED',
           reason: 'USER_INTERACTION',
           index: 0,
+          // @ts-expect-error objectContaining works
           view: expect.objectContaining({
             index: 0,
             data: 'a',
@@ -2067,7 +2098,7 @@ describe('ViewChannel', () => {
       ]);
     });
 
-    test.only('that the autoDismiss can be paused and continued multiple times', () => {
+    test('that the autoDismiss can be paused and continued multiple times', () => {
       jest.useFakeTimers();
 
       const viewChannel = new ViewChannel<string, string>();
@@ -2697,7 +2728,7 @@ describe('ViewChannel', () => {
           index: 0,
         }),
         expect.objectContaining({
-          type: 'PRESENTED',
+          type: 'PRESENTED', 
           view: expect.objectContaining({
             index: 0,
             data: 'b',
@@ -2996,7 +3027,7 @@ describe('ViewChannel', () => {
           indexes: [0, 1],
         }),
         expect.objectContaining({
-          type: 'PRESENTED',
+          type: 'PRESENTED', 
           view: expect.objectContaining({
             index: 0,
             data: 'd',
@@ -3320,13 +3351,13 @@ function assertState(
 }
 
 function assertLastSubscriber(
-  subscriber: jest.Mock<ViewChannel<string, string>, any>,
+  subscriber: jest.Mock,
   expectedState: TestState<string, string>,
   expectedEvent: ViewChannelEvent<string, string>
 ) {
   const lastCall = subscriber.mock.calls[subscriber.mock.calls.length - 1];
-  const state: ViewChannel<string, string> = lastCall[0];
-  const event: ViewChannelEvent<string, string> = lastCall[1];
+  const state = lastCall[0] as ViewChannel<string, string>;
+  const event = lastCall[1] as ViewChannelEvent<string, string>;
 
   assertState(state, expectedState);
 
@@ -3342,11 +3373,11 @@ function assertLastSubscriber(
 }
 
 function assertEvents(
-  subscriber: jest.Mock<ViewChannel<string, string>, any>,
+  subscriber: jest.Mock,
   expectedEvents: ViewChannelEventType[]
 ) {
   const events: ViewChannelEventType[] = subscriber.mock.calls.map((call) => {
-    const event: ViewChannelEvent<string, string> = call[1];
+    const event= call[1] as ViewChannelEvent<string, string> ;
     return event.type;
   });
 

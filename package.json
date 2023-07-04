@@ -2,22 +2,23 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "4.0.0",
-    "nx": "14.0.5"
+    "lerna": "7.1.0",
+    "nx": "16.4.0"
   },
   "scripts": {
-    "clean": "lerna run clean",
-    "bootstrap": "lerna bootstrap",
-    "clean-bootstrap": "npm run clean && npm run bootstrap",
-    "test": "npm run link && npm run tsc && npm run test:unit && npm run build-docs",
+    "bootstrap": "npm install && npm run build",
+    "clean": "rm -rf node_modules && rm -f package-lock.json",
+    "test": "npm run bootstrap && npm run tsc && npm run test:unit && npm run build-docs",
     "test:unit": "nx run-many --target=test --all",
     "build": "nx run-many --target=build --all",
-    "link": "npm run bootstrap && npm run build",
     "tsc": "lerna run tsc",
     "apigen": "nx run-many --target=apigen:pre --all && nx run-many --target=apigen --all && nx run-many --target=apigen:post --all",
-    "build-docs": "npm run link && npm run apigen && nx build-docs website",
+    "build-docs": "npm run bootstrap && npm run apigen && nx build-docs website",
     "publish:release": "npm run test && lerna run before-publish && lerna publish",
     "publish:alpha": "npm run test && lerna run before-publish && lerna publish --dist-tag alpha",
     "updated": "lerna updated"
-  }
+  },
+  "workspaces": [
+    "./packages/*"
+  ]
 }

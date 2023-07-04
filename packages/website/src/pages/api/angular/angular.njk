@@ -2,17 +2,16 @@
 title: Angular | API
 layout: layouts/api.njk
 permalink: /api/angular/
-renderData: 
-  description: "Lists the API for the @uiloos/angular package"
-  keywords: "API hub @uiloos/angular, angular bindings uiloos"
+description: "Lists the API for the @uiloos/angular package"
+keywords: "API hub @uiloos/angular, angular bindings uiloos"
 ---
 
-{% from "../_includes/macros.njk" import displayApi %}
+{% from "../_includes/displayApi.njk" import displayApi %}
 
 <article>
   <h1>Angular</h1>
 
   <p>The Angular bindings for uiloos.</p>
 
-  {{ displayApi(api.angular.children, 'angular') }}
+  {{ displayApi(distilled.angular) }}
 </article>
