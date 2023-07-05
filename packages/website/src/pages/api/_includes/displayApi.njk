@@ -16,6 +16,8 @@
         <span class="bg-purple-500 font-bold text-white inline-block px-1 my-2 text-sm">M</span>
       {% elif def.kindString === 'directive' %}
         <span class="bg-yellow-500 font-bold text-white inline-block px-1 my-2 text-sm">D</span>
+      {% elif def.kindString === 'store creator' %}
+        <span class="bg-yellow-500 font-bold text-white inline-block px-1 my-2 text-sm">S</span>
       {% elif def.kindString === 'error'%}
         <span class="bg-red-400 font-bold text-white inline-block px-1 my-2 text-sm">E</span>
       {% elif def.kindString === 'plugin' %}

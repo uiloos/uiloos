@@ -26,6 +26,9 @@ keywords: "Typewriter, Typewriter React, Typewriter Vue, Typewriter Angular"
       <li class="ml-8">
         <a href="#angular" class="text-purple-600 underline">Angular</a>
       </li>
+      <li class="ml-8">
+        <a href="#svelte" class="text-purple-600 underline">Svelte</a>
+      </li>
     </ol>
   </nav>
 
@@ -67,6 +70,15 @@ keywords: "Typewriter, Typewriter React, Typewriter Vue, Typewriter Angular"
     If you are using Angular there is no need to include an extra library.
     As long as you use Typewriter inside of a <span class="high">@Component</span> 
     it will pick up on changes automatically.
+  </p>
+
+  <h2 id="svelte" ><a href="#svelte">5. Svelte</a></h2>
+
+  <p>
+    For Svelte you should use the 
+    <a href="https://www.npmjs.com/package/@uiloos/svelte" target="_blank" rel="noopener noreferrer" class="high underline">@uiloos/svelte</a>
+    library. It contains the <a href="/api/svelte/createtypewriterstore/" class="high underline">createTypewriterStore</a>
+    function which creates a readable Typewriter store, so you do not need to subscribe to it manually.
   </p>
 
   <a 

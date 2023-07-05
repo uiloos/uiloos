@@ -26,6 +26,9 @@ keywords: "ViewChannel, ViewChannel React, ViewChannel Vue, ViewChannel Angular"
       <li class="ml-8">
         <a href="#angular" class="text-purple-600 underline">Angular</a>
       </li>
+      <li class="ml-8">
+        <a href="#svelte" class="text-purple-600 underline">Svelte</a>
+      </li>
     </ol>
   </nav>
 
@@ -91,6 +94,31 @@ keywords: "ViewChannel, ViewChannel React, ViewChannel Vue, ViewChannel Angular"
     use the ViewChannel can inject it via Angulars dependency injection
     mechanism. This keeps the usage of the ViewChannel close to the Angular
     way of doing things.
+  </p>
+
+  <h2 id="svelte" ><a href="#svelte">5. Svelte</a></h2>
+
+  <p>
+    For Svelte you should use the 
+    <a href="https://www.npmjs.com/package/@uiloos/svelte" target="_blank" rel="noopener noreferrer" class="high underline">@uiloos/svelte</a>
+    library. It contains the <a href="/api/svelte/createtypewriterstore/" class="high underline">createTypewriterStore</a>
+    function which creates a readable Typewriter store, so you do not need to subscribe to it manually.
+  </p>
+
+
+  <p>
+    For Svelte you should use the 
+    <a href="https://www.npmjs.com/package/@uiloos/svelte" target="_blank" rel="noopener noreferrer" class="high underline">@uiloos/svelte</a>
+    library. It contains the <a href="/api/svelte/createviewchannelstore/" class="high underline">createViewChannelStore</a>
+    function. The createViewChannelStore takes an instance of a ViewChannel, and creates a Svelte readable store from it.
+    This way each time a ViewChannelView is presented or dismissed Svelte will automatically
+    re-render the component the store is used in.
+  </p>
+
+   <p>
+    The easiest way to share a ViewChannel in Svelte is to export the store created 
+    by <a href="/api/svelte/createviewchannelstore/" class="high underline">createViewChannelStore</a> and
+    to export it and import where needed.
   </p>
 
   <a 
