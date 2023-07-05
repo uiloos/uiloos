@@ -18,7 +18,7 @@ includesDir.forEach((file) => {
   }
 });
 
-const PACKAGES = ['core', 'angular', 'react', 'vue'];
+const PACKAGES = ['core', 'angular', 'react', 'vue', 'svelte'];
 
 PACKAGES.forEach((package) => {
   console.log(`  processing ${package}`);
@@ -392,6 +392,10 @@ function getKindString(def, package) {
 
     if (package === 'core' && def.name === 'licenseChecker') {
       return 'instance';
+    }
+
+    if (package === 'svelte' && def.name.endsWith('Store')) {
+      return 'store creator';
     }
 
     return 'function';

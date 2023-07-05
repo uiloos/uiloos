@@ -7,6 +7,9 @@ packages/*/dist/
 packages/*/coverage/
 packages/*/README.md
 
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
 # Generated website
 packages/website/_site/
 packages/website/src/_data/api/
@@ -25,3 +28,4 @@ packages/website/src/search/
 .DS_Store
 
 .angular
+.svelte-kit

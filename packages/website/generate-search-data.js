@@ -194,7 +194,7 @@ const data = [
   ...releases,
 ];
 
-const PACKAGES = ['core', 'angular', 'react', 'vue'];
+const PACKAGES = ['core', 'angular', 'react', 'vue', 'svelte'];
 
 PACKAGES.forEach((package) => {
   const definitions = require(`./src/_data/distilled/${package}.json`);

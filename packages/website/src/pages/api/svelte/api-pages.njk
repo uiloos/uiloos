@@ -1,0 +1,27 @@
+---
+layout: layouts/api.njk
+permalink: "/api/svelte/{{ def.name | slug }}/"
+pagination:
+  data: distilled.svelte
+  size: 1
+  alias: def
+eleventyComputed:
+  title: "{{ def.name }} | Svelte | API"
+  description: "{{ def.name }} {{def.comment.shortText}}"
+  keywords: "@uiloos/svelte {{ def.name }} API, {{ def.name }}"
+---
+
+{% from "../_includes/class.njk" import classPage %}
+{% from "../_includes/function.njk" import functionPage %}
+{% from "../_includes/typealias.njk" import typealiasPage %}
+
+{% if def.kindString === 'store creator' %}
+  {% include "./_includes/store.njk" %}
+{% elif def.kindString === 'class' %}
+  {{ classPage(def)}}
+{% elif def.kindString === 'type' %}
+  {{ typealiasPage(def)}}
+{% elif def.kindString === 'function' %}
+  {{ functionPage(def)}}
+{% endif %}
+
