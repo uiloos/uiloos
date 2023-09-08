@@ -123,7 +123,7 @@ fetch('/search/data.json')
 document.addEventListener('keydown', searchModalListener, { passive: true });
 
 function searchModalListener(event) {
-  if (event.key === 'k' && (event.metaKey || event.ctrKey)) {
+  if (event.key === 'k' && (event.metaKey || event.ctrlKey)) {
     toggleSearch();
   } else if (event.key === 'Escape') {
     searchModal.classList.add('hidden');
