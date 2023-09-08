@@ -4,7 +4,7 @@
     "text": "Progressive carousel",
     "description": "A progressively enhanced carousel, which works when JavaScript is disabled, that uses CSS scroll-snap",
     "url": "https://codesandbox.io/s/progressively-enhanced-snap-carousel-vanilla-4phhgy",
-    "tags": ["JavaScript","Carousel"],
+    "tags": ["JavaScript", "Carousel"],
     "for": "ActiveList"
   },
   {
@@ -12,7 +12,7 @@
     "text": "Progressive carousel peek ahead",
     "description": "Variant of 'Progressive carousel' that shows tiny slice of the previous and next slide",
     "url": "https://codesandbox.io/s/progressively-enhanced-snap-carousel-vanilla-peek-ahead-v5rt2j",
-    "tags": ["JavaScript","Carousel"],
+    "tags": ["JavaScript", "Carousel"],
     "for": "ActiveList"
   },
   {
@@ -20,7 +20,7 @@
     "text": "React CSS snap carousel",
     "description": "A React carousel that uses CSS scroll-snap",
     "url": "https://codesandbox.io/s/snap-carousel-react-k32kh9",
-    "tags": ["JavaScript","Carousel"],
+    "tags": ["JavaScript", "Carousel"],
     "for": "ActiveList"
   },
   {
@@ -28,17 +28,17 @@
     "text": "React peek ahead carousel",
     "description": "Variant of 'React carousel' that shows tiny slice of the previous and next slide",
     "url": "https://codesandbox.io/s/snap-carousel-react-peek-ahead-kt9sd3",
-    "tags": ["JavaScript","Carousel"],
+    "tags": ["JavaScript", "Carousel"],
     "for": "ActiveList"
   },
   {
     "id": 3,
     "text": "A Todo-list created in Svelte",
     "description": "A sortable todo list in Svelte using the ActiveList",
-    "url": "https://codesandbox.io/s/todo-svelte-1mswsf?file=/App.svelte",
+    "url": "https://codesandbox.io/p/sandbox/svelte-todo-v2-f6sdsl?file=%2Fsrc%2Froutes%2F%2Bpage.svelte%3A53%2C26",
     "tags": ["Svelte", "Todo-list"],
     "for": "ActiveList"
-  }, 
+  },
   {
     "id": 4,
     "text": "A Timeline created in Angular using uiloos's ActiveList",
@@ -53,7 +53,8 @@
     "description": "Shows how to create a Vue component which looks just like regular HTML powered by the ActiveList",
     "url": "https://codesandbox.io/s/vue-accordion-lsbw53?file=/src/components/Accordion/Accordion.vue",
     "tags": ["Vue", "Accordion"]
-  },{
+  },
+  {
     "id": 6,
     "text": "A MultipleSelect form component using React",
     "description": "Shows to limit the number of active items in an ActiveList using <span class='high'>maxActivationLimit</span>.",
@@ -140,7 +141,8 @@
     "url": "https://codesandbox.io/s/typewriter-angular-zktywz",
     "tags": ["Angular"],
     "for": "Typewriter"
-  },{
+  },
+  {
     "id": 1,
     "text": "A basic Carousel created with JavaScript",
     "description": "A basic auto playing carousel, with buttons to control movements, using vanilla JavaScript",
@@ -155,5 +157,21 @@
     "url": "https://codesandbox.io/s/carousel-react-55h9ib?file=/src/Carousel/Carousel.tsx",
     "tags": ["React", "Carousel"],
     "for": "ActiveList"
+  },
+  {
+    "id": 17,
+    "text": "ViewChannel usage in Svelte",
+    "description": "Shows how to use the `createViewChannelStore` function in order to create the example.",
+    "url": "https://codesandbox.io/p/sandbox/viewchannel-svelte-j73536",
+    "tags": ["Svelte"],
+    "for": "ViewChannel"
+  },
+  {
+    "id": 18,
+    "text": "Typewriter usage in Svelte",
+    "description": "Demonstrates how to use the `createTypewriterStore` function to create animations",
+    "url": "https://codesandbox.io/p/sandbox/typewriter-svelte-z4f3fp",
+    "tags": ["Svelte"],
+    "for": "Typewriter"
   }
 ]
