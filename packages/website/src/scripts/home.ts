@@ -84,10 +84,8 @@ function initCarousel() {
       const button = document.getElementById(
         `carousel-button-${carousel.lastActivated}`
       ) as HTMLButtonElement;
-
-      button.classList.add('bg-purple-800', 'carousel-button-animation');
+      
       button.style.animation = `progress ${carousel.autoPlay.duration}ms linear`;
-
       return;
     }
 
