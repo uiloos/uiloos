@@ -1,46 +1,35 @@
 import { ActiveList } from '@uiloos/core';
 
-const segmentEl = document.querySelector('.accordion-example');
-const itemsEl = Array.from(
-  segmentEl.querySelectorAll('.accordion-item')
+const accordionEl = document.querySelector('.accordion-example');
+const detailsEl = Array.from(
+  accordionEl.querySelectorAll('details')
 );
-const titlesEl = segmentEl.querySelectorAll('.accordion-title');
+const summariesEl = accordionEl.querySelectorAll('summary');
+
+console.log(summariesEl);
 
 const config = {
-  contents: itemsEl,
-  active: itemsEl.filter(
-    (i) => i.classList.contains('opened')
+  contents: detailsEl,
+  active: detailsEl.filter(
+    (detail) => detail.getAttribute('open') === 'open'
   ),
-  maxActivationLimit: false
+  maxActivationLimit: 1
 };
 
 function subscriber(accordion) {
   accordion.contents.forEach((content) => {
-    const itemEl = content.value;
+    const detailEl = content.value;
 
-    const buttonEl = itemEl.querySelector('button');
-
-    if (content.isActive) {
-      itemEl.classList.add('opened');
-      itemEl.classList.remove('closed');
-
-      buttonEl.textContent = '-';
-    } else {
-      itemEl.classList.add('closed');
-      itemEl.classList.remove('opened');
-
-      buttonEl.textContent = '+';
+    if (!content.isActive) {
+      detailEl.open = false;
     }
-    
-    const pEl = itemEl.querySelector('p');
-    pEl.ariaHidden = !content.isActive;
   });
 }
 
 const accordion = new ActiveList(config, subscriber);
 
-titlesEl.forEach((titleEl, index) => {
-  titleEl.onclick = () => {
-    accordion.contents[index].toggle();
+summariesEl.forEach((summaryEl, index) => {
+  summaryEl.onclick = (event) => {
+    accordion.activateByIndex(index);
   };
 });

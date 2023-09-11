@@ -2,25 +2,33 @@
   margin-bottom: 16px;
 }
 
-.accordion-example .closed p {
-  display: none;
+.accordion-example details {
+  margin: 16px 0px;
 }
 
-.accordion-example .opened p {
-  display: block;
-  margin-left: 18px;
-}
-
-.accordion-example button {
-  padding: 8px;
-  font-size: 32px;
-  width: 48px;
-}
-
-.accordion-example .accordion-title {
+.accordion-example summary {
+  font-weight: bold;
   cursor: pointer;
+  list-style: none;
 }
 
-.accordion-example .accordion-title:hover {
-  color: rgb(192 132 252);
+.accordion-example details[open] summary {
+  color: #6b21a8;
+}
+
+.accordion-example details summary::before {
+  margin-right: 8px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.accordion-example details[open] summary::before {
+  content: "-";
+}
+
+.accordion-example details summary::before {
+  content: "+";
+}
+
+.accordion-example p {
+  margin-left: 20px;
 }
