@@ -4,3 +4,4 @@ import '../pages/docs/active-list/concepts/segment/segment-example';
 import '../pages/docs/active-list/concepts/accordion/accordion-example';
 import '../pages/docs/active-list/concepts/carousel/carousel-example';
 import '../pages/docs/active-list/concepts/sortable/sortable-example';
+import '../pages/docs/active-list/concepts/gallery/gallery-example';

@@ -1,0 +1,42 @@
+<strong>
+  F. Gallery
+</strong>
+
+<p>
+  An image gallery shows multiple images and allows the user to select
+  one which is displayed larger than the others.
+</p>
+
+<style>
+  {% include "./gallery-example.css" %}
+</style>
+
+{% include "./gallery-example.html" %}
+
+<details>
+  <summary class="mb-4">View code</summary>
+
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 dark:bg-gray-700 px-2 pt-2 pb-4 gap-4">
+      <button class="font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">JavaScript</button>
+      <button class="font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">HTML</button>
+      <button class="font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">CSS</button>
+    </div>
+
+    <div class="example">
+      {% highlight "js" %}
+      {% include "./gallery-example.js" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "html" %}
+      {% include "./gallery-example.html" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "css" %}
+      {% include "./gallery-example.css" %}
+      {% endhighlight %}
+    </div>
+  </div>
+</details>

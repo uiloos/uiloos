@@ -1,0 +1,8 @@
+.gallery-example, .gallery-selected {
+  margin-bottom: 16px;
+}
+
+.gallery-example ul {
+  list-style-type: none;
+  display: flex;
+}
