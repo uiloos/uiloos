@@ -60,10 +60,10 @@ const data = [
     link: '/docs/active-list/concepts/',
   },
   {
-    name: 'ActiveList tutorial',
+    name: 'ActiveList tutorials',
     description: 'Learn how to build a carousel with the ActiveList',
     type: 'Docs',
-    link: '/docs/active-list/tutorial/',
+    link: '/docs/active-list/tutorials/',
   },
   {
     name: 'ActiveList examples',

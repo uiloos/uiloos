@@ -109,11 +109,6 @@ darkModeToggleEl.onclick = () => {
 };
 
 // Search modal
-const searchModal = document.getElementById('searchModal') as HTMLDivElement;;
-const searchModalBody = document.getElementById('searchModalBody') as HTMLDivElement;
-const searchModalResults = document.getElementById('searchModalResults') as HTMLOListElement;
-const searchInput = document.getElementById('searchInput') as HTMLInputElement;
-
 type SearchData = {
   name: string;
   description: string;
@@ -122,73 +117,35 @@ type SearchData = {
   package?: string;
 };
 
-// Load the search data index.
-let searchData: SearchData[] = [];
-fetch('/search/data.json')
-  .then(async (result) => {
-    return result.json();
-  })
-  .then((data) => {
-    searchData = data;
-  });
+const searchModal = document.getElementById('searchModal') as HTMLDivElement;
+const searchModalBody = document.getElementById(
+  'searchModalBody'
+) as HTMLDivElement;
+const searchModalResults = document.getElementById(
+  'searchModalResults'
+) as HTMLOListElement;
+const searchInput = document.getElementById('searchInput') as HTMLInputElement;
 
-document.addEventListener('keydown', searchModalListener, { passive: true });
-
-function searchModalListener(event: KeyboardEvent) {
-  if (event.key === 'k' && (event.metaKey || event.ctrlKey)) {
-    toggleSearch();
-  } else if (event.key === 'Escape') {
-    searchModal?.classList.add('hidden');
-  }
-}
-
-const searchToggleEl = document.getElementById('searchToggle') as HTMLButtonElement;
-searchToggleEl.onclick = toggleSearch;
-
-searchModal.onclick = (event: MouseEvent) => {
-  if (!searchModalBody.contains(event.target as Node)) {
-    toggleSearch();
-  }
-};
-
-function toggleSearch() {
-  searchModal.classList.toggle('hidden');
-
-  if (!searchModal.classList.contains('hidden')) {
-    searchInput.focus();
-  }
-}
-
-// Filter search index based on query
-searchInput.onkeyup = (event: KeyboardEvent) => {
-  if (!event.target) {
-    return;
-  }
-
+const searchList = new ActiveList<SearchData>({}, (searchList) => {
   searchModalResults.innerHTML = '';
-  const query = searchInput.value.toLowerCase();
 
-  const filtered = searchData.filter((data) => {
-    const haystack = (data.name + ' ' + data.description).toLowerCase();
-
-    return haystack.includes(query);
-  });
-
-  filtered.forEach((data) => {
+  searchList.contents.forEach(({ isActive, value: data, index }) => {
     const liEl = document.createElement('li');
     liEl.className = 'p-4 border-b-2';
 
+    const aClass = isActive ? 'text-purple-600' : '';
+
     let html = `
-    <a href="${data.link}">
-      <span class="flex justify-between">
-        <span class="text-ellipsis overflow-clip ${
-          data.type === 'API' ? 'high underline' : 'font-bold'
-        }">${data.name}</span>
-        <span class="ml-2 font-mono">${data.type}</span>
-      </span>
-      <p class="mt-2 text-lg mb-0">${data.description}</p>
-    </a>
-  `;
+      <a id="search-${index}" href="${data.link}" class="${aClass}">
+        <span class="flex justify-between">
+          <span class="text-ellipsis overflow-clip ${
+            data.type === 'API' ? 'high underline' : 'font-bold'
+          }">${data.name}</span>
+          <span class="ml-2 font-mono">${data.type}</span>
+        </span>
+        <p class="mt-2 text-lg mb-0">${data.description}</p>
+      </a>
+    `;
 
     if (data.package) {
       html += `<span class="inline-block mt-4 high mb-0 text-sm">${data.package}</span>`;
@@ -204,4 +161,84 @@ searchInput.onkeyup = (event: KeyboardEvent) => {
 
     searchModalResults.append(liEl);
   });
+});
+
+let searchData: SearchData[] = [];
+// Load the search data index.
+fetch('/search/data.json')
+  .then(async (result) => {
+    return result.json();
+  })
+  .then((data) => {
+    searchData = data;
+    searchList.initialize({ contents: data });
+  });
+
+document.addEventListener('keydown', searchModalListener, { passive: true });
+
+function searchModalListener(event: KeyboardEvent) {
+  if (event.key === 'k' && (event.metaKey || event.ctrlKey)) {
+    toggleSearch();
+  } else if (event.key === 'Escape') {
+    searchModal?.classList.add('hidden');
+  }
+}
+
+const searchToggleEl = document.getElementById(
+  'searchToggle'
+) as HTMLButtonElement;
+searchToggleEl.onclick = toggleSearch;
+
+searchModal.onclick = (event: MouseEvent) => {
+  if (!searchModalBody.contains(event.target as Node)) {
+    toggleSearch();
+  }
+};
+
+function toggleSearch() {
+  searchModal.classList.toggle('hidden');
+
+  if (!searchModal.classList.contains('hidden')) {
+    searchList.initialize({ contents: searchData });
+    searchInput.focus();
+  }
+}
+
+let arrowKeyUsed = false;
+
+// Filter search index based on query
+searchInput.onkeyup = (event) => {
+  if (arrowKeyUsed) {
+    arrowKeyUsed = false;
+    return;
+  }
+
+  const query = searchInput.value.toLowerCase();
+
+  const filtered = searchData.filter((data) => {
+    const haystack = `${data.name} ${data.description}`.toLowerCase();
+
+    return haystack.includes(query);
+  });
+
+  searchList.initialize({ contents: filtered, active: filtered[0] });
+};
+
+// Set the active item.
+searchInput.onkeydown = (event: KeyboardEvent) => {
+  if (event.code === 'ArrowUp') {
+    arrowKeyUsed = true;
+    searchList.activatePrevious();
+  } else if (event.code === 'ArrowDown') {
+    arrowKeyUsed = true;
+    searchList.activateNext();
+  } else if (event.code === 'Enter') {
+    const index = searchList.activeIndexes;
+
+    const aEl = document.getElementById('search-' + index);
+
+    if (aEl) {
+      aEl.click();
+    }
+  }
 };
