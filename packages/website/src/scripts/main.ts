@@ -4,6 +4,7 @@ import Alpine from 'alpinejs';
 import { ActiveList } from '@uiloos/core';
 
 // Initialize Alpine
+// @ts-expect-error Allow me to add Alpine to window.
 window.Alpine = Alpine;
 Alpine.start();
 
@@ -16,7 +17,7 @@ if (docTocEl && !docTocEl.hasAttribute('data-no-highlight')) {
   const activeClasses = ['font-medium', 'decoration-4'];
 
   // Keeps track of the current <a> which is highlighted
-  let activeAEl = null;
+  let activeAEl: Element | null = null;
 
   // Reference to all <h2> elements which
   const h2Els = Array.from(document.querySelectorAll('article h2'));
@@ -47,11 +48,13 @@ if (docTocEl && !docTocEl.hasAttribute('data-no-highlight')) {
     // Find the closest <a> element the <h2> element links to.
     const aEl = document.querySelector(`a[href='#${closestH2el.id}']`);
 
-    // Now activate it.
-    aEl.classList.add(...activeClasses);
+    if (aEl) {
+      // Now activate it.
+      aEl.classList.add(...activeClasses);
 
-    // Now set it for the next iteration.
-    activeAEl = aEl;
+      // Now set it for the next iteration.
+      activeAEl = aEl;
+    }
   }
 }
 
@@ -65,29 +68,27 @@ document.querySelectorAll('.js-example-switcher').forEach((exampleSwitchEl) => {
 
   const exampleSwitcher = new ActiveList(
     {
-      contents: buttons,
+      contents: Array.from(buttons),
       active: buttons[0],
     },
-    subscriber
+    (activeList) => {
+      buttons.forEach((button, index) => {
+        if (index === activeList.lastActivatedIndex) {
+          button.classList.add(...activeExampleSwitchClasses);
+        } else {
+          button.classList.remove(...activeExampleSwitchClasses);
+        }
+      });
+
+      examples.forEach((example, index) => {
+        if (index === activeList.lastActivatedIndex) {
+          example.classList.remove('visually-hidden');
+        } else {
+          example.classList.add('visually-hidden');
+        }
+      });
+    }
   );
-
-  function subscriber(activeList) {
-    buttons.forEach((button, index) => {
-      if (index === activeList.lastActivatedIndex) {
-        button.classList.add(...activeExampleSwitchClasses);
-      } else {
-        button.classList.remove(...activeExampleSwitchClasses);
-      }
-    });
-
-    examples.forEach((example, index) => {
-      if (index === activeList.lastActivatedIndex) {
-        example.classList.remove('visually-hidden');
-      } else {
-        example.classList.add('visually-hidden');
-      }
-    });
-  }
 
   buttons.forEach((button, index) => {
     button.onclick = () => exampleSwitcher.activateByIndex(index);
@@ -95,8 +96,11 @@ document.querySelectorAll('.js-example-switcher').forEach((exampleSwitchEl) => {
 });
 
 // Dark mode toggle
+const darkModeToggleEl = document.getElementById(
+  'darkModeToggle'
+) as HTMLButtonElement;
 
-document.getElementById('darkModeToggle').onclick = () => {
+darkModeToggleEl.onclick = () => {
   const isDark = document.documentElement.classList.contains('dark');
 
   document.documentElement.classList.toggle('dark');
@@ -105,13 +109,21 @@ document.getElementById('darkModeToggle').onclick = () => {
 };
 
 // Search modal
-const searchModal = document.getElementById('searchModal');
-const searchModalBody = document.getElementById('searchModalBody');
-const searchModalResults = document.getElementById('searchModalResults');
-const searchInput = document.getElementById('searchInput');
+const searchModal = document.getElementById('searchModal') as HTMLDivElement;;
+const searchModalBody = document.getElementById('searchModalBody') as HTMLDivElement;
+const searchModalResults = document.getElementById('searchModalResults') as HTMLOListElement;
+const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+
+type SearchData = {
+  name: string;
+  description: string;
+  link: string;
+  type: string;
+  package?: string;
+};
 
 // Load the search data index.
-let searchData = [];
+let searchData: SearchData[] = [];
 fetch('/search/data.json')
   .then(async (result) => {
     return result.json();
@@ -122,18 +134,19 @@ fetch('/search/data.json')
 
 document.addEventListener('keydown', searchModalListener, { passive: true });
 
-function searchModalListener(event) {
+function searchModalListener(event: KeyboardEvent) {
   if (event.key === 'k' && (event.metaKey || event.ctrlKey)) {
     toggleSearch();
   } else if (event.key === 'Escape') {
-    searchModal.classList.add('hidden');
+    searchModal?.classList.add('hidden');
   }
 }
 
-document.getElementById('searchToggle').onclick = toggleSearch;
+const searchToggleEl = document.getElementById('searchToggle') as HTMLButtonElement;
+searchToggleEl.onclick = toggleSearch;
 
-searchModal.onclick = (event) => {
-  if (!searchModalBody.contains(event.target)) {
+searchModal.onclick = (event: MouseEvent) => {
+  if (!searchModalBody.contains(event.target as Node)) {
     toggleSearch();
   }
 };
@@ -147,10 +160,13 @@ function toggleSearch() {
 }
 
 // Filter search index based on query
-searchInput.onkeyup = (event) => {
-  searchModalResults.innerHTML = '';
+searchInput.onkeyup = (event: KeyboardEvent) => {
+  if (!event.target) {
+    return;
+  }
 
-  const query = event.target.value.toLowerCase();
+  searchModalResults.innerHTML = '';
+  const query = searchInput.value.toLowerCase();
 
   const filtered = searchData.filter((data) => {
     const haystack = (data.name + ' ' + data.description).toLowerCase();

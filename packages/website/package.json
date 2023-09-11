@@ -25,6 +25,7 @@
     "@uiloos/core": "^1.2.1"
   },
   "devDependencies": {
+    "@types/alpinejs": "3.7.2",
     "@11ty/eleventy": "2.0.1",
     "@11ty/eleventy-navigation": "0.3.5",
     "@11ty/eleventy-plugin-syntaxhighlight": "5.0.0",
