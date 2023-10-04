@@ -67,7 +67,6 @@ sortableEls.forEach((sortableEl) => {
 
   upEl.onclick = () => {
     const index = sortable.getIndex(sortableEl);
-    console.log(index);
 
     sortable.contents[index].swapWithPrevious();
   };
