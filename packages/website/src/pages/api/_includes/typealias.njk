@@ -73,7 +73,6 @@
       {% if type.kindString === 'function' %}
         {{ displaySignature(type) }}
       {% else %}
-      HUMMMER
         {% if type.type.type !== 'reflection' %}
           <p class="mb-4 font-mono">
             {{ displayType(type.type) }}
