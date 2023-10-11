@@ -31,6 +31,12 @@ const config = [
     name: 'uiloosAlpineTypewriterFromSentences',
     core: 'uiloosTypewriter'
   }),
+  createEntry({
+    input: 'subscribe',
+    output: 'subscribe',
+    name: 'uiloosAlpineSubscribe',
+    core: ''
+  }),
 ];
 
 module.exports = config;

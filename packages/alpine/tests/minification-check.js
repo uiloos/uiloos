@@ -32,6 +32,33 @@ function load(file) {
   script.runInThisContext();
 }
 
+load('dist/uiloos-alpine-subscribe-VERSION.min.js');
+
+if (!uiloosAlpineSubscribe) {
+  console.error('uiloosAlpineSubscribe is not defined');
+  process.exit(1);
+}
+
+if (typeof uiloosAlpineSubscribe.subscribe !== 'function') {
+  console.error('uiloosAlpineSubscribe.subscribe should be a function');
+  process.exit(1);
+}
+
+const tabs = uiloosAlpineSubscribe.subscribe('tabs', new ActiveList())();
+
+if (
+  typeof tabs.init !== 'function' &&
+  typeof tabs.destroy !== 'function'
+) {
+  console.error('tabs is not a component');
+  process.exit(1);
+}
+
+if (!tabs.tabs() instanceof ActiveList) {
+  console.error('tabs() is not instance of ActiveList');
+  process.exit(1);
+}
+
 load('dist/uiloos-alpine-active-list-VERSION.min.js');
 
 if (!uiloosAlpineActiveList) {
