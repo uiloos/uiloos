@@ -29,16 +29,19 @@ keywords: "Typewriter, Typewriter React, Typewriter Vue, Typewriter Angular"
       <li class="ml-8">
         <a href="#svelte" class="text-purple-600 underline">Svelte</a>
       </li>
+      <li class="ml-8">
+        <a href="#alpine" class="text-purple-600 underline">Alpine</a>
+      </li>
     </ol>
   </nav>
 
-  <h2 id="react" ><a href="#react">1. In general</a></h2>
+  <h2 id="in-general"><a href="#in-general">1. In general</a></h2>
 
   <p>
     The <a href="/api/core/typewriter/" class="underline high">Typewriter</a> 
     component works well with any framework which supports reactivity.
   </p>
-  
+
   <p>
     When using frameworks you will not need to subscribe to changes
     and observe the Typewriter manually. This allows you to use the
@@ -46,7 +49,17 @@ keywords: "Typewriter, Typewriter React, Typewriter Vue, Typewriter Angular"
     results in easier to understand code.
   </p>
 
-  <h2 id="react" ><a href="#react">2. React</a></h2>
+  <p>
+    It is recommended that you use the <a href="/docs/typewriter/composer/" class="underline">Typewriter Composer</a> for complex animations.
+  </p>
+
+  <p>
+    If you just want to cycle between sentences use a variant of <a href="/api/core/typewriterfromsentences/" class="underline high">typewriterFromSentences</a>.
+  </p>
+
+  <h2 id="react" >
+    <a href="#react">2. React</a>
+  </h2>
 
   <p>
     When using React you should use the 
@@ -55,7 +68,17 @@ keywords: "Typewriter, Typewriter React, Typewriter Vue, Typewriter Angular"
     hook. The useTypewriter hook takes an instance of a Typewriter, and it will subscribe to changes of that Typewriter.
   </p>
 
-  <h2 id="vue" ><a href="#vue">3. Vue</a></h2>
+  <p>
+    Use <a href="/api/react/usetypewriter/" class="high underline">useTypewriter</a> when you composed your animation using the <a href="/docs/typewriter/composer/" class="underline">Typewriter Composer</a>.
+  </p>
+
+  <p>
+    Alternatively use the <a href="/api/react/usetypewriterfromsentences/" class="high underline">useTypewriterFromSentences</a> hook when your animation cycles through sentences.
+  </p>
+
+  <h2 id="vue" >
+    <a href="#vue">3. Vue</a>
+  </h2>
 
   <p>
     In Vue you should use the 
@@ -64,7 +87,17 @@ keywords: "Typewriter, Typewriter React, Typewriter Vue, Typewriter Angular"
     The useTypewriter hook takes an instance of a Typewriter, and it will subscribe to changes of that Typewriter.
   </p>
 
-  <h2 id="angular" ><a href="#angular">4. Angular</a></h2>
+  <p>
+    Use <a href="/api/vue/usetypewriter/" class="high underline">useTypewriter</a> when you composed your animation using the <a href="/docs/typewriter/composer/" class="underline">Typewriter Composer</a>.
+  </p>
+
+  <p>
+    Alternatively use the <a href="/api/vue/usetypewriterfromsentences/" class="high underline">useTypewriterFromSentences</a> composable when your animation cycles through sentences.
+  </p>
+
+  <h2 id="angular" >
+    <a href="#angular">4. Angular</a>
+  </h2>
 
   <p>
     If you are using Angular there is no need to include an extra library.
@@ -72,13 +105,55 @@ keywords: "Typewriter, Typewriter React, Typewriter Vue, Typewriter Angular"
     it will pick up on changes automatically.
   </p>
 
-  <h2 id="svelte" ><a href="#svelte">5. Svelte</a></h2>
+  <h2 id="svelte" >
+    <a href="#svelte">5. Svelte</a>
+  </h2>
 
   <p>
     For Svelte you should use the 
     <a href="https://www.npmjs.com/package/@uiloos/svelte" target="_blank" rel="noopener noreferrer" class="high underline">@uiloos/svelte</a>
     library. It contains the <a href="/api/svelte/createtypewriterstore/" class="high underline">createTypewriterStore</a>
     function which creates a readable Typewriter store, so you do not need to subscribe to it manually.
+  </p>
+
+  <p>
+    Use <a href="/api/svelte/createtypewriterstore/" class="high underline">createTypewriterStore</a> when you composed your animation using the <a href="/docs/typewriter/composer/" class="underline">Typewriter Composer</a>.
+  </p>
+
+  <p>
+    Alternatively use the <a href="/api/svelte/createTypewriterFromSentencesStore/" class="high underline">createTypewriterFromSentencesStore</a> store creator when your animation cycles through sentences.
+  </p>
+
+  <h2 id="alpine">
+    <a href="#alpine">6. Alpine</a>
+  </h2>
+
+  <p>
+    With Alpine you should use the <a href="https://www.npmjs.com/package/@uiloos/alpine" target="_blank" rel="noopener noreferrer" class="high underline">@uiloos/alpine</a>
+    package. It contains various functions to help make typewriter animations, which you use depends on the 
+    use case.
+  </p>
+
+  <p>
+    iI you composed your animation using the <a href="/docs/typewriter/composer/" class="underline">Typewriter Composer</a>, it is
+    recommended that you use the <a href="/api/alpine/subscribe/" class="high underline">subscribe</a> function.
+    You can pass it an instance of <a href="/api/core/typewriter/" class="high underline">Typewriter</a>, and 
+    pass the result to <span class="high">Alpine.data</span>.
+  </p>
+
+  <p>
+    This way the animation will be defined in JavaScript / TypeScript, for complex animations this will 
+    mean less clutter in your HTML.
+  </p>
+
+  <p>
+    Alternatively if you really want to create Typewriter's from HTML you can use <a href="/api/alpine/typewriter/" class="high underline">typewriter</a>
+    which you can register with <span class="high">Alpine.data</span>. This allows you to instantiate a Typewriter from within HTML.
+  </p>
+
+   <p>
+    Lastly use the <a href="/api/alpine/typewriterFromSentences/" class="high underline">typewriterFromSentences</a> when your animation cycles through sentences.
+    This allows you to create Typewriter's from within your HTML.
   </p>
 
   <a 

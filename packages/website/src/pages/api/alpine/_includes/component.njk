@@ -1,0 +1,9 @@
+{% from "../../_includes/macros.njk" import displayName, displaySignature, displayType, displaySince, displayComment %}
+
+<article>
+  {{ displayName(def )}}
+
+  <p class="font-mono mb-4 font-extrabold text-red-800">COMPONENT</p>
+  
+  {{ displaySignature(def) }}
+</article>

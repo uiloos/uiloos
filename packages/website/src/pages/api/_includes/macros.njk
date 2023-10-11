@@ -34,7 +34,9 @@
 
         {{ displaySince(item) }}
 
-        {{displaySignature(item.type)}}
+        {% if item.type.type !== 'intrinsic' %}
+          {{ displaySignature(item.type) }}
+        {% endif %}
       </div>
     {% endfor %}
   {% else %}
@@ -138,10 +140,14 @@
       <h5>{{example.title}}</h5>
     {% endif %}
 
-    <p>{{example.description | escape | nlnl2br | safe }}</p>
-
-    {% highlight example.type %}
-      {% include example.fileName %}
-    {% endhighlight %}
+    {% for part in example.parts %}
+      {% if part.type === 'text' %}
+        <p>{{part.text | escape | nlnl2br | safe }}</p>
+      {% else %}
+         {% highlight part.extension %}
+          {% include part.fileName %}
+          {% endhighlight %}
+      {% endif %}
+    {% endfor %}
   {% endfor %}
 {% endmacro %}

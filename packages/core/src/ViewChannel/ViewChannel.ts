@@ -10,7 +10,7 @@
 */
 import * as uiloosLicenseChecker from '../license/license';
 
-import { UnsubscribeFunction } from '../generic';
+import { UnsubscribeFunction, Observable } from '../generic';
 import { _History } from '../private/History';
 import { _Observer } from '../private/Observer';
 import { ViewChannelIndexOutOfBoundsError } from './errors/ViewChannelIndexOutOfBoundsError';
@@ -76,7 +76,9 @@ import { ViewChannelView } from './ViewChannelView';
  *
  * @since 1.0.0
  */
-export class ViewChannel<T, R = void> {
+export class ViewChannel<T, R = void>
+  implements Observable<ViewChannel<T, R>, ViewChannelEvent<T, R>>
+{
   /**
    * The `ViewChannelView` instances which the `ViewChannel` holds.
    *
@@ -150,8 +152,8 @@ export class ViewChannel<T, R = void> {
 
   /**
    * Initializes the ViewChannel based on the config provided.
-   * 
-   * This effectively resets the ViewChannel when called, including 
+   *
+   * This effectively resets the ViewChannel when called, including
    * the history.
    *
    * @param {ViewChannelConfig<T>} config The new configuration which will override the old one

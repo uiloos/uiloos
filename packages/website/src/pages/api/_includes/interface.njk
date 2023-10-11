@@ -1,0 +1,46 @@
+{% from "./macros.njk" import displayName, displayType, displaySignature, displaySince, displayComment %}
+
+{% macro interfacePage(def) %}
+<article>
+  {{displayName(def)}}
+ 
+  <nav 
+    class="hidden 2xl:block 2xl:absolute 2xl:top-[80px] 2xl:right-2 2xl:w-[270px]" 
+    role="doc-toc"
+    data-no-highlight="true"
+  >
+    {% if def.methods.length > 0 %}
+      <strong>Methods</strong>
+      <ol class="mb-4">
+        {% for item in def.methods %}
+          <li>
+            <a 
+              href="#{{item.name.toLowerCase()}}" 
+              class="text-purple-600 underline block text-ellipsis overflow-hidden"
+            >
+              {{item.name}}
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    {% endif %}
+  </nav>
+
+  <p class="font-mono mb-4 font-extrabold text-pink-400">INTERFACE</p>
+
+  {{ displayComment(def) }}
+
+  {{ displaySince(def) }}  
+  
+  {% if def.methods.length > 0 %}
+    <h2 id="methods" class="text-2xl"><a href="#methods">Methods</a></h2>
+    {% for item in def.methods %}
+      <div class="border px-2 pt-4 mb-4">
+        <h3 class="font-mono text-xl" id="{{item.name.toLowerCase()}}"><a href="#{{item.name.toLowerCase()}}">{{item.name}}</a></h3>
+
+        {{ displaySignature(item) }}
+      </div>
+    {% endfor %}
+  {% endif %}
+</article>
+{% endmacro %}
