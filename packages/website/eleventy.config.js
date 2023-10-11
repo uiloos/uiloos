@@ -40,7 +40,13 @@ module.exports = function (eleventyConfig) {
       'error'
     ];
   
-    function sortValue(defName) {
+    function sortValue(def) {
+      const defName = def.name.toLowerCase();
+
+      if (def.kindString === 'function') {
+        return -1;
+      }
+      
       let index = 1;
       for (const name of sort) {
   
@@ -54,12 +60,9 @@ module.exports = function (eleventyConfig) {
       return 0;
     }
   
-    return definitions.sort((a, b) => {
-      const aName = a.name.toLowerCase();
-      const bName = b.name.toLowerCase();
-  
-      const aValue = sortValue(aName);
-      const bValue = sortValue(bName);
+    return definitions.sort((a, b) => {  
+      const aValue = sortValue(a);
+      const bValue = sortValue(b);
   
       return aValue - bValue;
     });

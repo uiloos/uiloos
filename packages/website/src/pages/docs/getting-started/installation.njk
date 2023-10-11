@@ -11,42 +11,98 @@ keywords: "uiloos installation, uiloos npm, uiloos yarn, uiloos pnpm, uiloos unp
 <article>
   <h1>Installation</h1>
 
+  <p>You can install "uiloos" in two ways: either via a package manager, or via a CDN.</p>
+
+  <h2>1. Via a package manager</h2>
+
+  <p>You can install "uiloos" via any package manager.</p>
+
+  <h3>Core</h3>
+
   <p>
-    "uiloos" can be installed via your package manager of choice:
+    <span class="high">@uiloos/core</span> should always be installed.
+    <span class="high">@uiloos/core</span> can be installed via your package manager of choice
   </p>
 
-  <h2>npm</h2>
-
-  {% highlight "text" %}
-    npm install @uiloos/core
+  {% highlight "bash" %}
+npm install @uiloos/core
+yarn add @uiloos/core
+pnpm add @uiloos/core
   {% endhighlight %}
 
-  <h2>Yarn</h2>
+  <h3>Bindings</h3>
 
-  {% highlight "text" %}
-    yarn add @uiloos/core
-  {% endhighlight %}
-
-  <h2>pnpm</h2>
-
-  {% highlight "text" %}
-    pnpm add @uiloos/core
-  {% endhighlight %}
-
-  <h2>UNPKG</h2>
   <p>
-    Alternatively you can install "uiloos" by using a CDN such as 
+    "uiloos" has bindings for various frameworks, you should install 
+    the bindings for your framework of choice:
+  </p>
+
+
+  {% highlight "bash" %}
+npm install @uiloos/alpine
+npm install @uiloos/react
+npm install @uiloos/vue
+npm install @uiloos/svelte
+npm install @uiloos/angular
+  {% endhighlight %}
+
+  <h2>2. Via a CDN</h2>
+
+  <p>
+    The <span class="high">@uiloos/core</span> and <span class="high">@uiloos/alpine</span> packages
+    provide minified builds.
+  </p>
+
+  <p>
+    You can install "uiloos" by using a CDN such as 
     <a href="https://unpkg.com/browse/@uiloos/core@latest/dist/" target="_blank" rel="noopener noreferrer" class="underline">
       UNPKG
     </a>. When using a CDN make sure that you load each component separately:
 
 {% highlight "html" %}
+<!-- Always load the license checker first -->
 <script
   src="https://unpkg.com/@uiloos/core@{VERSION}/dist/uiloos-license-checker-{VERSION}.min.js"
   defer
 ></script>
+
+<!-- Now include what you need from uiloos -->
 <script
   src="https://unpkg.com/@uiloos/core@{VERSION}/dist/uiloos-active-list-{VERSION}.min.js" 
+  defer>
+</script>
+<script
+  src="https://unpkg.com/@uiloos/core@{VERSION}/dist/uiloos-view-channel-{VERSION}.min.js" 
+  defer>
+</script>
+<script
+  src="https://unpkg.com/@uiloos/core@{VERSION}/dist/uiloos-typewriter-{VERSION}.min.js" 
+  defer>
+</script>
+
+<!-- 
+  Only if you are using Alpine.js you should load 
+  these, and you should only load the use you will 
+  actually use!
+ -->
+<script
+  src="https://unpkg.com/@uiloos/alpine@{VERSION}/dist/uiloos-alpine-active-list-{VERSION}.min" 
+  defer>
+</script>
+<script
+  src="https://unpkg.com/@uiloos/alpine@{VERSION}/dist/uiloos-alpine-view-channel-{VERSION}.min" 
+  defer>
+</script>
+<script
+  src="https://unpkg.com/@uiloos/alpine@{VERSION}/dist/uiloos-alpine-typewriter-{VERSION}.min" 
+  defer>
+</script>
+<script
+  src="https://unpkg.com/@uiloos/alpine@{VERSION}/dist/uiloos-alpine-typewriter-from-sentences-{VERSION}.min" 
+  defer>
+</script>
+<script
+  src="https://unpkg.com/@uiloos/alpine@{VERSION}/dist/uiloos-subscribe-{VERSION}.min" 
   defer>
 </script>
 {% endhighlight %}
@@ -54,7 +110,7 @@ keywords: "uiloos installation, uiloos npm, uiloos yarn, uiloos pnpm, uiloos unp
 
   <a 
     class="card" 
-    href="/docs/getting-started/installation/"
+    href="/docs/getting-started/activation/"
   >
     <div>
       <div class="text-normal font-medium mb-1">Activation</div>

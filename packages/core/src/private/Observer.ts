@@ -1,12 +1,11 @@
-import { UnsubscribeFunction } from '../generic/types';
-import { _Subscriber } from './types';
+import { Subscriber, UnsubscribeFunction } from '../generic/types';
 
 export class _Observer<T, E> {
   // A listeners that need to listen to the observable
-  public _subscribers: _Subscriber<T, E>[] = [];
+  public _subscribers: Subscriber<T, E>[] = [];
 
   // Listen to changes to the observable
-  public _subscribe(subscriber: _Subscriber<T, E>): UnsubscribeFunction {
+  public _subscribe(subscriber: Subscriber<T, E>): UnsubscribeFunction {
     this._subscribers.push(subscriber);
 
     return () => {
@@ -15,7 +14,7 @@ export class _Observer<T, E> {
   }
 
   // Subscribe from the observable
-  public _unsubscribe(subscriber: _Subscriber<T, E>): void {
+  public _unsubscribe(subscriber: Subscriber<T, E>): void {
     this._subscribers = this._subscribers.filter((s) => subscriber !== s);
   }
 

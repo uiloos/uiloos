@@ -1,21 +1,15 @@
 ---
-title: activation | getting started | Docs
-layout: layouts/base.njk
+title: activation | Docs
+layout: layouts/docs.njk
 permalink: /docs/getting-started/activation/
 parent: 'getting-started'
 current: 'activation'
-stickyNavigation: false
 description: "Learn how to activate uiloos using the license key."
 keywords: "uiloos activation, uiloos license key, activate uiloos"
 ---
 
-<section class="max-w-5xl mx-auto px-4 sm:px-6 md:pb-20 xl:flex xl:justify-between">
-  {% include "../../../_includes/components/docsnav.njk" %}
-
-  <!-- Page container -->
-  <div class="md:grow">
-    <h1>Activation</h1>
-
+<article>
+  <h1>Activation</h1>
     <p>
       "uiloos" requires a license when used commercially. For more information
       see: <a href="/pricing/" class="underline">pricing</a>.
@@ -48,13 +42,196 @@ licenseChecker.activateLicense("{LICENSE-HERE}");
 import { licenseChecker } from '@uiloos/core';
 
 licenseChecker.activateLicense(
-"{LICENSE-HERE}", 
-{ logLicenseActivated: false }
+  "{LICENSE-HERE}", 
+  { logLicenseActivated: false }
 );
 {% endhighlight %}
     </p>
+   
+    <h2>Questions & Answers</h2>
+  
+    <!-- Faqs -->
+    <ul class="max-w-3xl mx-auto pl-12">
+      <li x-data="{ expanded: false }">
+        <button
+          class="flex items-center w-full font-medium text-left py-5 border-t border-gray-200"
+          @click="expanded = !expanded"
+          :aria-expanded="expanded"
+        >
+          <svg
+            class="w-4 h-4 fill-current text-blue-500 shrink-0 mr-8 -ml-12"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              y="7"
+              width="16"
+              height="2"
+              rx="1"
+              class="transform origin-center transition duration-200 ease-out"
+              :class="{'rotate-180': expanded}"
+            />
+            <rect
+              y="7"
+              width="16"
+              height="2"
+              rx="1"
+              class="transform origin-center rotate-90 transition duration-200 ease-out"
+              :class="{'rotate-180': expanded}"
+            />
+          </svg>
+          <span>Does the activating the license require a network connection?</span>
+        </button>
+        <div
+          x-ref="item"
+          class="overflow-hidden transition-all duration-300 ease-in-out"
+          :style="expanded ? 'max-height: ' + $refs.item.scrollHeight + 'px; opacity: 1' : 'max-height: 0; opacity: 0'"
+        >
+          <p>
+            Not it does <b>not</b>, no calls to external servers are made during activation.
+            The activation process happens entirely locally, in the end-users browser.
+          </p>
+        </div>
+      </li>
+      <li x-data="{ expanded: false }">
+        <button
+          class="flex items-center w-full font-medium text-left py-5 border-t border-gray-200"
+          @click="expanded = !expanded"
+          :aria-expanded="expanded"
+        >
+          <svg
+            class="w-4 h-4 fill-current text-blue-500 shrink-0 mr-8 -ml-12"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              y="7"
+              width="16"
+              height="2"
+              rx="1"
+              class="transform origin-center transition duration-200 ease-out"
+              :class="{'rotate-180': expanded}"
+            />
+            <rect
+              y="7"
+              width="16"
+              height="2"
+              rx="1"
+              class="transform origin-center rotate-90 transition duration-200 ease-out"
+              :class="{'rotate-180': expanded}"
+            />
+          </svg>
+          <span>What happens when my license key expires?</span>
+        </button>
+        <div
+          x-ref="item"
+          class="overflow-hidden transition-all duration-300 ease-in-out"
+          :style="expanded ? 'max-height: ' + $refs.item.scrollHeight + 'px; opacity: 1' : 'max-height: 0; opacity: 0'"
+        >
+          <p>
+            "uiloos" will keep on working like before. 
+          </p>
+          <p>
+            In fact because
+            "uiloos" checks the license locally it cannot know when
+            the license expires, it is your responsibility to make
+            sure your license is still valid.
+          </p>
+        </div>
+      </li>
+      <li x-data="{ expanded: false }">
+        <button
+          class="flex items-center w-full font-medium text-left py-5 border-t border-gray-200"
+          @click="expanded = !expanded"
+          :aria-expanded="expanded"
+        >
+          <svg
+            class="w-4 h-4 fill-current text-blue-500 shrink-0 mr-8 -ml-12"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              y="7"
+              width="16"
+              height="2"
+              rx="1"
+              class="transform origin-center transition duration-200 ease-out"
+              :class="{'rotate-180': expanded}"
+            />
+            <rect
+              y="7"
+              width="16"
+              height="2"
+              rx="1"
+              class="transform origin-center rotate-90 transition duration-200 ease-out"
+              :class="{'rotate-180': expanded}"
+            />
+          </svg>
+          <span>What happens when I enter an invalid key?</span>
+        </button>
+        <div
+          x-ref="item"
+          class="overflow-hidden transition-all duration-300 ease-in-out"
+          :style="expanded ? 'max-height: ' + $refs.item.scrollHeight + 'px; opacity: 1' : 'max-height: 0; opacity: 0'"
+        >
+          <p>
+            "uiloos" will function normally, no functionality is capped / obstructed in any way.
+          </p>
+          <p>
+            However a message is logged to the <span class="high">console.warn</span> saying you have entered an invalid license. 
+          </p>
+        </div>
+      </li>
+      <li x-data="{ expanded: false }">
+        <button
+          class="flex items-center w-full font-medium text-left py-5 border-t border-gray-200"
+          @click="expanded = !expanded"
+          :aria-expanded="expanded"
+        >
+          <svg
+            class="w-4 h-4 fill-current text-blue-500 shrink-0 mr-8 -ml-12"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              y="7"
+              width="16"
+              height="2"
+              rx="1"
+              class="transform origin-center transition duration-200 ease-out"
+              :class="{'rotate-180': expanded}"
+            />
+            <rect
+              y="7"
+              width="16"
+              height="2"
+              rx="1"
+              class="transform origin-center rotate-90 transition duration-200 ease-out"
+              :class="{'rotate-180': expanded}"
+            />
+          </svg>
+          <span>What happens if I do not enter a license key?</span>
+        </button>
+        <div
+          x-ref="item"
+          class="overflow-hidden transition-all duration-300 ease-in-out"
+          :style="expanded ? 'max-height: ' + $refs.item.scrollHeight + 'px; opacity: 1' : 'max-height: 0; opacity: 0'"
+        >
+          <p>
+            This is considered using a <b>personal license</b>, you are allowed to evaluate and
+            experiment with "uiloos" as long as it is for personal use. 
+            See <a href="/pricing/" class="underline">pricing</a> for more information.
+          </p>
+          <p>
+            "uiloos" itself will work fully when no license is activated. However you will 
+            see a message in the <span class="high">console.warn</span>, saying no license
+            is activated every time you use on of the components.
+          </p>
+        </div>
+      </li>
+    </ul>
 
-    <a 
+     <a 
       class="card" 
       href="/docs/active-list/concepts/"
     >
@@ -67,192 +244,4 @@ licenseChecker.activateLicense(
       </svg>
     </a>
   </div>
-</section>
-
-<section class="max-w-6xl mx-auto px-4 sm:px-6 md:pl-36 py-12 md:py-20 border-t border-gray-200">
-  <!-- Section header -->
-  <div class="max-w-3xl mx-auto text-center pb-20">
-    <h2>Questions & Answers</h2>
-  </div>
-
-  <!-- Faqs -->
-  <ul class="max-w-3xl mx-auto pl-12">
-    <li x-data="{ expanded: false }">
-      <button
-        class="flex items-center w-full font-medium text-left py-5 border-t border-gray-200"
-        @click="expanded = !expanded"
-        :aria-expanded="expanded"
-      >
-        <svg
-          class="w-4 h-4 fill-current text-blue-500 shrink-0 mr-8 -ml-12"
-          viewBox="0 0 16 16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            y="7"
-            width="16"
-            height="2"
-            rx="1"
-            class="transform origin-center transition duration-200 ease-out"
-            :class="{'rotate-180': expanded}"
-          />
-          <rect
-            y="7"
-            width="16"
-            height="2"
-            rx="1"
-            class="transform origin-center rotate-90 transition duration-200 ease-out"
-            :class="{'rotate-180': expanded}"
-          />
-        </svg>
-        <span>Does the activating the license require a network connection?</span>
-      </button>
-      <div
-        x-ref="item"
-        class="overflow-hidden transition-all duration-300 ease-in-out"
-        :style="expanded ? 'max-height: ' + $refs.item.scrollHeight + 'px; opacity: 1' : 'max-height: 0; opacity: 0'"
-      >
-        <p>
-          Not it does <b>not</b>, no calls to external servers are made during activation.
-          The activation process happens entirely locally, in the end-users browser.
-        </p>
-      </div>
-    </li>
-    <li x-data="{ expanded: false }">
-      <button
-        class="flex items-center w-full font-medium text-left py-5 border-t border-gray-200"
-        @click="expanded = !expanded"
-        :aria-expanded="expanded"
-      >
-        <svg
-          class="w-4 h-4 fill-current text-blue-500 shrink-0 mr-8 -ml-12"
-          viewBox="0 0 16 16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            y="7"
-            width="16"
-            height="2"
-            rx="1"
-            class="transform origin-center transition duration-200 ease-out"
-            :class="{'rotate-180': expanded}"
-          />
-          <rect
-            y="7"
-            width="16"
-            height="2"
-            rx="1"
-            class="transform origin-center rotate-90 transition duration-200 ease-out"
-            :class="{'rotate-180': expanded}"
-          />
-        </svg>
-        <span>What happens when my license key expires?</span>
-      </button>
-      <div
-        x-ref="item"
-        class="overflow-hidden transition-all duration-300 ease-in-out"
-        :style="expanded ? 'max-height: ' + $refs.item.scrollHeight + 'px; opacity: 1' : 'max-height: 0; opacity: 0'"
-      >
-        <p>
-          "uiloos" will keep on working like before. 
-        </p>
-        <p>
-          In fact because
-          "uiloos" checks the license locally it cannot know when
-          the license expires, it is your responsibility to make
-          sure your license is still valid.
-        </p>
-      </div>
-    </li>
-    <li x-data="{ expanded: false }">
-      <button
-        class="flex items-center w-full font-medium text-left py-5 border-t border-gray-200"
-        @click="expanded = !expanded"
-        :aria-expanded="expanded"
-      >
-        <svg
-          class="w-4 h-4 fill-current text-blue-500 shrink-0 mr-8 -ml-12"
-          viewBox="0 0 16 16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            y="7"
-            width="16"
-            height="2"
-            rx="1"
-            class="transform origin-center transition duration-200 ease-out"
-            :class="{'rotate-180': expanded}"
-          />
-          <rect
-            y="7"
-            width="16"
-            height="2"
-            rx="1"
-            class="transform origin-center rotate-90 transition duration-200 ease-out"
-            :class="{'rotate-180': expanded}"
-          />
-        </svg>
-        <span>What happens when I enter an invalid key?</span>
-      </button>
-      <div
-        x-ref="item"
-        class="overflow-hidden transition-all duration-300 ease-in-out"
-        :style="expanded ? 'max-height: ' + $refs.item.scrollHeight + 'px; opacity: 1' : 'max-height: 0; opacity: 0'"
-      >
-        <p>
-          "uiloos" will function normally, no functionality is capped / obstructed in any way.
-        </p>
-        <p>
-          However a message is logged to the <span class="high">console.warn</span> saying you have entered an invalid license. 
-        </p>
-      </div>
-    </li>
-    <li x-data="{ expanded: false }">
-      <button
-        class="flex items-center w-full font-medium text-left py-5 border-t border-gray-200"
-        @click="expanded = !expanded"
-        :aria-expanded="expanded"
-      >
-        <svg
-          class="w-4 h-4 fill-current text-blue-500 shrink-0 mr-8 -ml-12"
-          viewBox="0 0 16 16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            y="7"
-            width="16"
-            height="2"
-            rx="1"
-            class="transform origin-center transition duration-200 ease-out"
-            :class="{'rotate-180': expanded}"
-          />
-          <rect
-            y="7"
-            width="16"
-            height="2"
-            rx="1"
-            class="transform origin-center rotate-90 transition duration-200 ease-out"
-            :class="{'rotate-180': expanded}"
-          />
-        </svg>
-        <span>What happens if I do not enter a license key?</span>
-      </button>
-      <div
-        x-ref="item"
-        class="overflow-hidden transition-all duration-300 ease-in-out"
-        :style="expanded ? 'max-height: ' + $refs.item.scrollHeight + 'px; opacity: 1' : 'max-height: 0; opacity: 0'"
-      >
-        <p>
-          This is considered using a <b>personal license</b>, you are allowed to evaluate and
-          experiment with "uiloos" as long as it is for personal use. 
-          See <a href="/pricing/" class="underline">pricing</a> for more information.
-        </p>
-        <p>
-          "uiloos" itself will work fully when no license is activated. However you will 
-          see a message in the <span class="high">console.warn</span>, saying no license
-          is activated every time you use on of the components.
-        </p>
-      </div>
-    </li>
-  </ul>
-</section>
+</article>

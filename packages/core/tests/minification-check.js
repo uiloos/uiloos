@@ -19,8 +19,8 @@ window.setTimeout = setTimeout;
 window.clearTimeout = clearTimeout;
 
 function load(file) {
-  const licenseFile = fs.readFileSync(file);
-  const script = new vm.Script(licenseFile);
+  const contents = fs.readFileSync(file);
+  const script = new vm.Script(contents);
   script.runInThisContext();
 }
 

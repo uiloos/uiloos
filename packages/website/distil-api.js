@@ -1,5 +1,6 @@
 const fs = require('fs');
 const crypto = require('crypto');
+const { PACKAGES } = require('./packages.js');
 
 console.log('Distilling api json files');
 
@@ -17,8 +18,6 @@ includesDir.forEach((file) => {
     fs.rmSync(`${EXAMPLES_OUTPUT_DIR}/${file}`);
   }
 });
-
-const PACKAGES = ['core', 'angular', 'react', 'vue', 'svelte'];
 
 PACKAGES.forEach((package) => {
   console.log(`  processing ${package}`);
@@ -41,8 +40,6 @@ console.log('Distilled api json successfully');
 // Utils
 
 function format(def, package) {
-  // console.log('    ', def.name);
-
   // When a function
   if (def.signatures) {
     return getSignature({
@@ -65,17 +62,19 @@ function format(def, package) {
       isMethod: false,
     });
   }
+  
+  const kindString = getKindString(def, package);
 
   return {
     name: def.name,
     package,
-    kindString: getKindString(def, package),
+    kindString,
     description: getDescription(def),
     link: `/api/${package}/${def.name}/`.toLowerCase(),
     generic: getGeneric(def),
     since: getSince(def, package),
     constructor: getConstructor(def, package),
-    methods: getMethods(def, package),
+    methods: getMethods(def, package, kindString),
     properties: getProperties(def, package),
     sees: getSees(def),
     alias: getAlias(def),
@@ -154,65 +153,80 @@ function getExamples(def, package) {
   return def.comment?.blockTags
     ?.filter((bt) => bt.tag === '@example')
     .map((bt) => {
-      // Get the textual part of the @example
-      const rawText = bt.content.find((bt) => bt.kind === 'text').text;
+      let title = '';
+      let parts = [];
 
-      // Get the individual lines
-      const textLines = rawText.split('\n');
+      bt.content.forEach((part, index) => {
+        if (part.kind === 'text') {
+          if (index === 0) {
+            // Get the individual lines
+            const textLines = part.text.split('\n');
 
-      // First line is the title, the rest the description
-      const [title, ...descriptionLines] = textLines;
+            // First line is the title, the rest the rest of the text
+            const [titleFromLines, ...descriptionLines] = textLines;
 
-      const description = descriptionLines.join('\n').trim();
+            title = titleFromLines;
 
-      // Get the code part of the @example
-      const rawCode = bt.content.find((bt) => bt.kind === 'code').text;
+            const text = descriptionLines.join('\n').trim();
 
-      // Get the individual lines
-      const codeLines = rawCode.split('\n');
+            parts.push({ type: 'text', text });
+          } else {
+            // Replace multiple linebreaks with just one.
+            const text = part.text.replaceAll('\n\n', '\n');
 
-      // Remove the surrounding backticks.
-      const code = codeLines
-        .filter((_line, index) => {
-          return index > 0 && index < codeLines.length - 1;
-        })
-        .join('\n');
+            parts.push({ type: 'text', text: text });
+          }
+        } else {
+          // Get the individual lines
+          const codeLines = part.text.split('\n');
 
-      /// ```jsx => jsx
-      let type = codeLines[0].split('```')[1];
+          // Remove the surrounding backticks.
+          const code = codeLines
+            .filter((_line, index) => {
+              return index > 0 && index < codeLines.length - 1;
+            })
+            .join('\n');
 
-      // Vue does not render well in highlighter
-      if (type === 'vue') {
-        type = 'jsx';
-      }
+          /// ```jsx => jsx
+          let extension = codeLines[0].split('```')[1];
 
-      const hash = crypto.createHash('md5').update(code).digest('hex');
+          // Vue does not render well in highlighter
+          if (extension === 'vue') {
+            extension = 'jsx';
+          }
 
-      const fileName = `example-${package}-${def.name.toLowerCase()}-${hash}.njk`;
+          const hash = crypto.createHash('md5').update(code).digest('hex');
 
-      const content = `
-        {% raw %}
-          ${code}
-        {% endraw%}
-      `;
+          const fileName = `example-${package}-${def.name.toLowerCase()}-${hash}.njk`;
 
-      fs.writeFileSync(`${EXAMPLES_OUTPUT_DIR}/${fileName}`, content, {
-        flag: 'w',
+          const content = `{% raw %}${code}{% endraw %}`;
+
+          fs.writeFileSync(`${EXAMPLES_OUTPUT_DIR}/${fileName}`, content, {
+            flag: 'w',
+          });
+
+          parts.push({ type: 'code', fileName, extension });
+        }
       });
 
-      return { title, description, fileName, type };
+      return { title, parts };
     });
 }
 
-function getMethods(def, package) {
+function getMethods(def, package, kindString) {
   const methods =
-    def?.children?.filter(
-      (c) =>
+    def?.children?.filter((c) => {
+      if (kindString === 'interface') {
+        return true;
+      }
+
+      return (
         c.name !== 'constructor' &&
         !c.name.startsWith('_') &&
         c.flags.isPublic &&
         c.signatures
-    ) ?? [];
+      );
+    }) ?? [];
 
   return methods.map((m) => {
     return getMethod(def, m, package);
@@ -398,6 +412,14 @@ function getKindString(def, package) {
       return 'store creator';
     }
 
+    if (package === 'alpine') {
+      if (def.name.endsWith('Store')) {
+        return 'store creator';
+      }
+
+      return 'component';
+    }
+
     return 'function';
   }
 
@@ -414,10 +436,45 @@ function getKindString(def, package) {
     return 'constructor';
   }
 
+  if (def.kind === 256) {
+    return 'interface';
+  }
+
   throw 'No type could be determined for ' + def.name;
 }
 
 function getType(typeDef, package) {
+  if (package === 'alpine') {
+    if (typeDef.type === 'reflection' && typeDef.declaration.children) {
+      if (
+        typeDef.declaration.children.some((x) => x.name === 'init') &&
+        typeDef.declaration.children.some((x) => x.name === 'destroy')
+      ) {
+        return {
+          value: 'AlpineComponent',
+          type: 'intrinsic',
+        };
+      }
+
+      if (typeDef.declaration.children.some((x) => x.name === 'init')) {
+        return {
+          value: 'AlpineStore',
+          type: 'intrinsic',
+        };
+      }
+    }
+
+    if (
+      typeDef.type === 'reflection' &&
+      typeDef.declaration.sources[0].fileName === 'subscribe.ts'
+    ) {
+      return {
+        value: '() => AlpineComponent',
+        type: 'intrinsic',
+      };
+    }
+  }
+
   if (typeDef.type === 'intrinsic') {
     return {
       value: typeDef.name,

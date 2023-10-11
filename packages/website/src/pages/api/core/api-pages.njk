@@ -16,6 +16,7 @@ eleventyComputed:
 {% from "../_includes/function.njk" import functionPage %}
 {% from "../_includes/typealias.njk" import typealiasPage %}
 {% from "../_includes/instance.njk" import instancePage %}
+{% from "../_includes/interface.njk" import interfacePage %}
 
 {% if def.kindString === 'error' %}
   {{ errorPage(def) }}
@@ -27,5 +28,7 @@ eleventyComputed:
   {{ typealiasPage(def) }}
 {% elif def.kindString === 'instance' %}
   {{ instancePage(def) }}
+{% elif def.kindString === 'interface' %}
+  {{ interfacePage(def) }}
 {% endif %}
 

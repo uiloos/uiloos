@@ -6,7 +6,6 @@ import {
 } from '@uiloos/core';
 import { useActiveList } from './useActiveList';
 
-
 /**
  * The properties for the ActiveList React component.
  * 

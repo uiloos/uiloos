@@ -10,7 +10,7 @@
 */
 import * as uiloosLicenseChecker from '../license/license';
 
-import { UnsubscribeFunction } from '../generic';
+import { UnsubscribeFunction, Observable } from '../generic';
 import { _History } from '../private/History';
 import { _Observer } from '../private/Observer';
 import {
@@ -64,7 +64,9 @@ import { TypewriterActionUnknownCursorError } from './errors/TypewriterActionUnk
  *
  * @since 1.2.0
  */
-export class Typewriter<T = void> {
+export class Typewriter<T = void>
+  implements Observable<Typewriter<T>, TypewriterEvent<T>>
+{
   /**
    * The cursors the `Typewriter` has.
    *
@@ -91,8 +93,8 @@ export class Typewriter<T = void> {
 
   /**
    * The last action that was performed by the Typewriter.
-   * 
-   * Note: `lastPerformedAction` is not affected by repeats. 
+   *
+   * Note: `lastPerformedAction` is not affected by repeats.
    *
    * @since 1.2.0
    */
@@ -201,14 +203,14 @@ export class Typewriter<T = void> {
   /**
    * Whether or not the Typewriter has been stopped at one point
    * before during the current animation.
-   * 
-   * The `hasBeenStoppedBefore` is tied to the lifecycle of an 
-   * animation, and reflects if the current animation has been 
+   *
+   * The `hasBeenStoppedBefore` is tied to the lifecycle of an
+   * animation, and reflects if the current animation has been
    * stopped before or not.
-   * 
+   *
    * Whenever a new animation starts the `hasBeenStoppedBefore`
-   * resets to `false`. An animation starts whenever `play()` is 
-   * called, or through autoPlay, and lasts until there are no 
+   * resets to `false`. An animation starts whenever `play()` is
+   * called, or through autoPlay, and lasts until there are no
    * more actions, or `stop()` is called.
    *
    * Use case: say you are making an animation which has a stop button
@@ -221,9 +223,9 @@ export class Typewriter<T = void> {
    *
    * To fix this problem you should on the mouse over not call
    * `play()` whenever `hasBeenStoppedBefore` is `true`.
-   * 
-   * `hasBeenStoppedBefore` is tied to the animation cycle so a user 
-   * clicks on the stop button, and then on the play button, the 
+   *
+   * `hasBeenStoppedBefore` is tied to the animation cycle so a user
+   * clicks on the stop button, and then on the play button, the
    * hover on pause will work again. The hover now works only because
    * `hasBeenStoppedBefore` is now false.
    *
@@ -333,7 +335,7 @@ export class Typewriter<T = void> {
 
   /**
    * Initializes the Typewriter based on the config provided.
-   * 
+   *
    * This effectively resets the Typewriter when called,
    * including the history.
    *
@@ -560,7 +562,7 @@ export class Typewriter<T = void> {
     } else if (this.isPlaying || this.actions.length === 0) {
       // Do nothing when already playing, or when there are no actions.
       return;
-    } 
+    }
 
     this.isPlaying = true;
 
@@ -1160,7 +1162,7 @@ export class Typewriter<T = void> {
         }
       } else {
         this._change(noOp, action, cursor);
-        
+
         this._tick();
       }
     }, delay);
@@ -1288,7 +1290,11 @@ export class Typewriter<T = void> {
   }
 
   // Handles sending a changed event when the event is not a no-op.
-  private _change(noOp: boolean, action: TypewriterAction, cursor: TypewriterCursor<T>) {
+  private _change(
+    noOp: boolean,
+    action: TypewriterAction,
+    cursor: TypewriterCursor<T>
+  ) {
     if (noOp) {
       return;
     }

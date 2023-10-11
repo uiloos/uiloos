@@ -173,5 +173,31 @@
     "url": "https://codesandbox.io/p/sandbox/typewriter-svelte-z4f3fp",
     "tags": ["Svelte"],
     "for": "Typewriter"
+  },
+  {
+    "id": 19,
+    "text": "ViewChannel usage in Alpine",
+    "description": "Shows how to use the `createViewChannelStore` function in order to create the example.",
+    "url": "https://codesandbox.io/s/viewchannel-alpine-6868ky",
+    "tags": ["Alpine"],
+    "for": "ViewChannel"
+  },
+  {
+    "id": 20,
+    "text": "Typewriter usage in Alpine",
+    "description": "Demonstrates how to use the `typewriter`, `subscribe` and `typewriterFromSentences` functions to create animations",
+    "url": "https://codesandbox.io/s/typewriter-alpine-dlqx83",
+    "tags": ["Alpine"],
+    "for": "Typewriter"
+  },
+  {
+    "id": 21,
+    "text": "An image gallery in Alpine",
+    "description": "Using the ActiveList to create an image gallery",
+    "url": "https://codesandbox.io/s/image-gallery-alpine-2d6sqj",
+    "tags": ["Alpine", "Gallery"],
+    "for": "ActiveList"
   }
+
+  
 ]

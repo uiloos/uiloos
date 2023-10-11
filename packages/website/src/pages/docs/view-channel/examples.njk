@@ -20,34 +20,7 @@ keywords: "ViewChannel examples, ViewChannel flash messages example, ViewChannel
   <div class="grid lg:grid-cols-2 gap-4">
     {% for example in examples %}
       {% if example.for === 'ViewChannel' %}
-        <a 
-          class="example-card" 
-          href="{{ example.url }}"
-        >
-          <div class="flex flex-col h-full">
-            <div class="text-normal font-medium mb-4">{{ example.text }}</div>
-            <div class="grow mb-4">{{ example.description | safe }}</div>
-            <div class="justify-self-end flex items-center gap-4 text-sm">
-              {% for tag in example.tags %}
-                {% if tag === 'JavaScript' %}
-                  <img src="/images/frameworks/vanilla.svg" class="w-12 h-12 p-1" loading="lazy" alt="JavaScript logo" /> 
-                {% elif tag === 'React' %}
-                  <img src="/images/frameworks/react.svg" class="w-12 h-12 p-1" loading="lazy" alt="React logo" />
-                {% elif tag === 'Vue' %}
-                  <img src="/images/frameworks/vue.svg" class="w-12 h-12 p-1" loading="lazy" alt="Vue logo" />
-                {% elif tag === 'Angular' %}
-                  <img src="/images/frameworks/angular.svg" class="w-12 h-12 p-1" loading="lazy" alt="Angular logo" />
-                {% elif tag === 'Svelte' %}
-                  <img src="/images/frameworks/svelte.svg" class="w-12 h-12 p-1" loading="lazy" alt="Svelte logo" />
-                {% else %}
-                  <span class="text-center text-white font-bold py-1 px-3 rounded-full bg-purple-500">
-                    {{ tag }}
-                  </span>
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-        </a>
+        {% include "../../../_includes/components/example.njk" %}
       {% endif %}
     {% endfor %}
   </div>

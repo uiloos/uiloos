@@ -1,0 +1,24 @@
+---
+layout: layouts/api.njk
+permalink: "/api/alpine/{{ def.name | slug }}/"
+pagination:
+  data: distilled.alpine
+  size: 1
+  alias: def
+eleventyComputed:
+  title: "{{ def.name }} | Svelte | API"
+  description: "{{ def.name }} {{def.comment.shortText}}"
+  keywords: "@uiloos/alpine {{ def.name }} API, {{ def.name }}"
+---
+
+{% from "../_includes/function.njk" import functionPage %}
+{% from "../_includes/typealias.njk" import typealiasPage %}
+
+{% if def.kindString === 'component' %}
+  {% include "./_includes/component.njk" %}
+{% elif def.kindString === 'store creator' %}
+  {% include "./_includes/store.njk" %}
+{% elif def.kindString === 'type' %}
+  {{ typealiasPage(def)}}
+{% endif %}
+

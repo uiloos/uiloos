@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { PACKAGES } = require('./packages.js');
 
 console.log('Generating search data file');
 
@@ -193,8 +194,6 @@ const data = [
 
   ...releases,
 ];
-
-const PACKAGES = ['core', 'angular', 'react', 'vue', 'svelte'];
 
 PACKAGES.forEach((package) => {
   const definitions = require(`./src/_data/distilled/${package}.json`);

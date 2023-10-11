@@ -29,10 +29,13 @@ keywords: "ViewChannel, ViewChannel React, ViewChannel Vue, ViewChannel Angular"
       <li class="ml-8">
         <a href="#svelte" class="text-purple-600 underline">Svelte</a>
       </li>
+       <li class="ml-8">
+        <a href="#alpine" class="text-purple-600 underline">Alpine</a>
+      </li>
     </ol>
   </nav>
 
-  <h2 id="react" ><a href="#react">1. In general</a></h2>
+  <h2 id="in-general"><a href="#in-general">1. In general</a></h2>
 
   <p>
     The <a href="/api/core/viewchannel/" class="underline high">ViewChannel</a> 
@@ -46,7 +49,7 @@ keywords: "ViewChannel, ViewChannel React, ViewChannel Vue, ViewChannel Angular"
     results in easier to understand code.
   </p>
 
-  <h2 id="react" ><a href="#react">2. React</a></h2>
+  <h2 id="react"><a href="#react">2. React</a></h2>
 
   <p>
     When using React you should use the 
@@ -63,7 +66,7 @@ keywords: "ViewChannel, ViewChannel React, ViewChannel Vue, ViewChannel Angular"
     is needed.
   </p>
 
-  <h2 id="vue" ><a href="#vue">3. Vue</a></h2>
+  <h2 id="vue"><a href="#vue">3. Vue</a></h2>
 
   <p>
     In Vue you should use the 
@@ -80,7 +83,7 @@ keywords: "ViewChannel, ViewChannel React, ViewChannel Vue, ViewChannel Angular"
     is needed.
   </p>
 
-  <h2 id="angular" ><a href="#angular">4. Angular</a></h2>
+  <h2 id="angular"><a href="#angular">4. Angular</a></h2>
 
   <p>
     If you are using Angular there is no need to include an extra library.
@@ -96,7 +99,7 @@ keywords: "ViewChannel, ViewChannel React, ViewChannel Vue, ViewChannel Angular"
     way of doing things.
   </p>
 
-  <h2 id="svelte" ><a href="#svelte">5. Svelte</a></h2>
+  <h2 id="svelte"><a href="#svelte">5. Svelte</a></h2>
 
   <p>
     For Svelte you should use the 
@@ -104,7 +107,6 @@ keywords: "ViewChannel, ViewChannel React, ViewChannel Vue, ViewChannel Angular"
     library. It contains the <a href="/api/svelte/createtypewriterstore/" class="high underline">createTypewriterStore</a>
     function which creates a readable Typewriter store, so you do not need to subscribe to it manually.
   </p>
-
 
   <p>
     For Svelte you should use the 
@@ -119,6 +121,14 @@ keywords: "ViewChannel, ViewChannel React, ViewChannel Vue, ViewChannel Angular"
     The easiest way to share a ViewChannel in Svelte is to export the store created 
     by <a href="/api/svelte/createviewchannelstore/" class="high underline">createViewChannelStore</a> and
     to export it and import where needed.
+  </p>
+
+  <h2 id="alpine"><a href="#alpine">6. Alpine</a></h2>
+
+  <p>
+    With Alpine you should use the <a href="https://www.npmjs.com/package/@uiloos/alpine" target="_blank" rel="noopener noreferrer" class="high underline">@uiloos/alpine</a>
+    package. It contains a function called <a href="/api/alpine/createViewChannelStore/" class="high underline">createViewChannelStore</a>
+    which you can register with <span class="high">Alpine.store</span>. This allows you to use the ViewChannel from everywhere in the HTML.
   </p>
 
   <a 
