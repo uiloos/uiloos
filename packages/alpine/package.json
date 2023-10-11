@@ -1,6 +1,6 @@
 {
   "name": "@uiloos/alpine",
-  "version": "1.4.0-alpha.0",
+  "version": "1.4.0-alpha.1",
   "description": "The Alpine.js bindings of the uiloos headless UI",
   "keywords": [
     "uiloos",
