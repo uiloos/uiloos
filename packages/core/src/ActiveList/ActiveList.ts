@@ -150,8 +150,11 @@ export class ActiveList<T>
   public readonly activeIndexes: number[] = [];
 
   /**
-   * Which `value` from within a `ActiveListContent` was the last value which
-   * was activated.
+   * Which `value` from within an `ActiveListContent` was the last
+   * value which was activated.
+   *
+   * In other words: of all active values which value was activated
+   * the last chronologically.
    *
    * When nothing is activated in the `ActiveList` the value of
    * `lastActivated` will be `null.
@@ -161,7 +164,11 @@ export class ActiveList<T>
   public lastActivated: T | null = null;
 
   /**
-   * Which `ActiveListContent` is the last ActiveListContent which was activated.
+   * Which `ActiveListContent` is the last ActiveListContent which
+   * was activated.
+   *
+   * In other words: of all active contents which content was
+   * activated the last chronologically.
    *
    * When nothing is activated in the `ActiveList` the value of
    * `lastActivatedContent` will be `null.
@@ -174,12 +181,48 @@ export class ActiveList<T>
    * Which index of the `contents` array was the last index which
    * was activated.
    *
+   * In other words: of all active indexes which index was activated
+   * the last chronologically.
+   *
    * When nothing is activated in the `ActiveList` the value of
    * `lastActivatedIndex` will be `-1`.
    *
    * @since 1.0.0
    */
   public lastActivatedIndex: number = -1;
+
+  /**
+   * Which `value` from within an `ActiveListContent` was the last
+   * value which was deactivated.
+   *
+   * When nothing was deactivated previously in the `ActiveList` the
+   * value of `lastDeactivated` will be `null.
+   *
+   * @since 1.5.0
+   */
+  public lastDeactivated: T | null = null;
+
+  /**
+   * Which `ActiveListContent` is the last ActiveListContent which
+   * was deactivated.
+   *
+   * When nothing was deactivated previously in the `ActiveList` the
+   * value of `lastDeactivatedContent` will be `null.
+   *
+   * @since 1.5.0
+   */
+  public lastDeactivatedContent: ActiveListContent<T> | null = null;
+
+  /**
+   * Which index of the `contents` array was the last index which
+   * was deactivated.
+   *
+   * When nothing was deactivated previously in the `ActiveList` the
+   * value of `lastDeactivatedIndex` will be `-1`.
+   *
+   * @since 1.5.0
+   */
+  public lastDeactivatedIndex: number = -1;
 
   /**
    * Whether or not the content starts back at the beginning when
@@ -491,6 +534,9 @@ export class ActiveList<T>
       }
     }
 
+    // Reset lastDeactivated
+    this._emptyLastDeactivated();
+
     // Set hasChanged to false again after activateByIndex has set it
     // to true. For the same reason set the direction to 'next';
     this.hasActiveChangedAtLeastOnce = false;
@@ -641,7 +687,7 @@ export class ActiveList<T>
           // stay active even through it has been deactivated.
           const content = this.activeContents.shift();
           if (content) {
-            content.isActive = false;
+            this._deactivateContent(content);
           }
         }
 
@@ -650,7 +696,7 @@ export class ActiveList<T>
         // index.
         this.direction = this._getDirectionWhenMovingToIndex(i);
 
-        // Secondly set this item to be the last active item
+        // then set this item to be the last active item
         this.lastActivated = content.value;
         this.lastActivatedContent = content;
         this.lastActivatedIndex = i;
@@ -967,6 +1013,10 @@ export class ActiveList<T>
             the last index of the activeIndexes, this way it will
             truly represent the lastActivated.
 
+            This is because lastActivated answers this question:
+            Which value was the last value that was activated 
+            chronologically?
+
       3. direction: when an item is activated we track to which
          direction the ActiveList moves. This is done so the user
          can perform different animations. 
@@ -1050,7 +1100,7 @@ export class ActiveList<T>
     const deactivatedContent = this.activeContents[indexOfIndex];
 
     // First lets do what we came for deactivate the item.
-    deactivatedContent.isActive = false;
+    this._deactivateContent(deactivatedContent);
 
     // Remove the now deactivated item from the trackers.
     this.activeIndexes.splice(indexOfIndex, 1);
@@ -1352,7 +1402,7 @@ export class ActiveList<T>
    *
    * @param {T} item The item to insert.
    * @param {number} index The index at which to insert the item.
-   * @returns {ActiveListContent<T>} The newly inserted item wrapped in a `ActiveListContent`
+   * @returns {ActiveListContent<T>} The newly inserted item wrapped in an `ActiveListContent`
    * @throws {ActiveListIndexOutOfBoundsError} index cannot be out of bounds
    *
    * @since 1.0.0
@@ -1406,7 +1456,7 @@ export class ActiveList<T>
    * Will add an item to the end of the `contents` array.
    *
    * @param {T} item The item to insert.
-   * @returns {ActiveListContent<T>} The newly inserted item wrapped in a `ActiveListContent`
+   * @returns {ActiveListContent<T>} The newly inserted item wrapped in an `ActiveListContent`
    *
    * @since 1.0.0
    */
@@ -1418,7 +1468,7 @@ export class ActiveList<T>
    * Will add an item at the start of the `contents` array.
    *
    * @param {T} item The item to insert.
-   * @returns {ActiveListContent<T>} The newly inserted item wrapped in a `ActiveListContent`
+   * @returns {ActiveListContent<T>} The newly inserted item wrapped in an `ActiveListContent`
    *
    * @since 1.0.0
    */
@@ -1469,6 +1519,8 @@ export class ActiveList<T>
   /**
    * Will remove an item in the `contents` array, at the specified `index`.
    *
+   * If you remove the `lastDeactivated` item it will be set to null.
+   * 
    * Throws an error if the index does not exist within the `contents`
    * array.
    *
@@ -1524,6 +1576,10 @@ export class ActiveList<T>
       throwIndexOutOfBoundsError('removeByIndex', 'index');
     }
 
+    if (this.lastDeactivated && this.lastDeactivatedIndex === index) {
+      this._emptyLastDeactivated();
+    }
+
     const value: T = this.contents[index].value;
 
     // Remove the content from the array
@@ -1537,6 +1593,8 @@ export class ActiveList<T>
    * via a `===` check. When multiple items match on `===` only the
    * first matching item is removed.
    *
+   * If you remove the `lastDeactivated` item it will be set to null.
+   * 
    * If the item does not exist in the content array it will
    * throw an error.
    *
@@ -1554,6 +1612,8 @@ export class ActiveList<T>
   /**
    * Removes the last item of the of the `contents` array.
    *
+   * If you remove the `lastDeactivated` item it will be set to null.
+   * 
    * If the `contents` array at the time of the `pop` is empty
    * `undefined` is returned.
    *
@@ -1573,6 +1633,8 @@ export class ActiveList<T>
   /**
    * Removes the first item of the `contents` array.
    *
+   * If you remove the `lastDeactivated` item it will be set to null.
+   * 
    * If the `contents` array at the time of the `shift` is empty
    * `undefined` is returned.
    *
@@ -1592,6 +1654,8 @@ export class ActiveList<T>
    * Will remove all items from the `contents` array for which the
    * predicate based on the `item` and `index` returns `true`.
    *
+   * If you remove the `lastDeactivated` item it will be set to null.
+   * 
    * @param {T} item The item to insert.
    * @param {ActiveListContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will remove the item.
    * @returns {T[]} The removed items.
@@ -2525,7 +2589,15 @@ export class ActiveList<T>
     this.lastActivatedContent = null;
   }
 
+  private _emptyLastDeactivated() {
+    this.lastDeactivatedIndex = -1;
+    this.lastDeactivated = null;
+    this.lastDeactivatedContent = null;
+  }
+
   private _becameEmpty(): void {
+    this._emptyLastDeactivated();
+
     this._emptyLastActives();
 
     this.activeContents.length = 0;
@@ -2550,6 +2622,15 @@ export class ActiveList<T>
     this.lastActivated = newLastActiveList.value;
     this.lastActivatedContent = newLastActiveList;
     this.lastActivatedIndex = newLastActiveIndex;
+  }
+
+  private _deactivateContent(content: ActiveListContent<T>) {
+    content.isActive = false;
+
+    // Now make content the last deactivated item.
+    this.lastDeactivated = content.value;
+    this.lastDeactivatedContent = content;
+    this.lastDeactivatedIndex = content.index;
   }
 
   // exists only for code reduction, not to make things clearer

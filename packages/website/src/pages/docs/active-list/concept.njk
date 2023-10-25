@@ -203,14 +203,27 @@ keywords: "ActiveList concept, ActiveList overview, ActiveList use-cases, auto p
       <span class="high">previous</span>. It also determines the
       <span class="high">direction</span> of the ActiveList.
     </li>
+     <li class="ml-8 mb-4">
+      <span class="high">lastDeactivatedContent</span> contains the last deactivated
+      ActiveListContent. Is <span class="high">null</span> if no item was
+      deactivated.
+    </li>
+    <li class="ml-8 mb-4">
+      <span class="high">lastDeactivated</span> contains the last deactivated value,
+      is basically the same a <span class="high">lastDeactivatedContent</span> but
+      unboxed. Is <span class="high">null</span> if no item was deactivated.
+    </li>
 
+    <li class="ml-8 mb-4">
+      <span class="high">lastDeactivatedIndex</span> the last index which was
+      deactivated. Is <span class="high">-1</span> if no item was deactivated.
+    </li>
     <li class="ml-8 mb-4">
       <span class="high">direction</span> is a string telling which 
       direction the ActiveList moved to on it last activation. See
       <a href="/docs/active-list/concepts/#direction" class="underline">Direction</a> 
       for more information.
     </li>
-
     <li class="ml-8 mb-4">
       <span class="high">autoPlay</span> whether or not the 
       AutoPlay is currently playing, and at what duration. See
