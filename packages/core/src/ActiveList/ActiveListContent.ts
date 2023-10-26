@@ -201,7 +201,7 @@ export class ActiveListContent<T> {
    * 
    * @since 1.0.0
    */
-  public swapWithByIndex(index: number) {
+  public swapWithByIndex(index: number): void {
     this.activeList.swapByIndex(this.index, index);
   }
 
@@ -257,7 +257,7 @@ export class ActiveListContent<T> {
    * 
    * @since 1.0.0
    */
-  public moveToIndex(to: number) {
+  public moveToIndex(to: number): void {
     this.activeList.moveByIndex(this.index, to);
   }
 
@@ -288,7 +288,7 @@ export class ActiveListContent<T> {
   public moveToPredicate(
     predicate: ActiveListContentPredicate<T>,
     options?: ActiveListPredicateOptions
-  ) {
+  ): void {
     this.activeList.moveByIndexByPredicate(this.index, predicate, options);
   }
 
@@ -300,7 +300,7 @@ export class ActiveListContent<T> {
    * 
    * @since 1.0.0
    */
-  public moveToFirst() {
+  public moveToFirst(): void {
     this.activeList.moveByIndex(this.index, 0);
   }
 
@@ -312,7 +312,7 @@ export class ActiveListContent<T> {
    * 
    * @since 1.0.0
    */
-  public moveToLast() {
+  public moveToLast(): void {
     this.activeList.moveByIndex(
       this.index,
       this.activeList.getLastIndex()

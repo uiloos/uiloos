@@ -783,10 +783,10 @@ export class ActiveList<T>
       isUserInteraction: true,
       cooldown: undefined,
     }
-  ) {
+  ): void {
     // Do nothing when a cooldown is active.
     if (this._activationCooldownTimer._isActive(activationOptions)) {
-      return null;
+      return undefined;
     }
 
     // Make a copy of what the active indexes were before the sequence
@@ -1270,10 +1270,10 @@ export class ActiveList<T>
       isUserInteraction: true,
       cooldown: undefined,
     }
-  ) {
+  ): void {
     // Do nothing when a cooldown is active.
     if (this._activationCooldownTimer._isActive(activationOptions)) {
-      return null;
+      return undefined;
     }
 
     const deactivatedIndexes: number[] = [];
@@ -2660,13 +2660,13 @@ export class ActiveList<T>
     }
   }
 
-  private _emptyLastActives() {
+  private _emptyLastActives(): void {
     this.lastActivatedIndex = -1;
     this.lastActivated = null;
     this.lastActivatedContent = null;
   }
 
-  private _emptyLastDeactivated() {
+  private _emptyLastDeactivated(): void {
     this.lastDeactivatedIndex = -1;
     this.lastDeactivated = null;
     this.lastDeactivatedContent = null;
@@ -2685,7 +2685,7 @@ export class ActiveList<T>
     this.hasActiveChangedAtLeastOnce = true;
   }
 
-  private _setLastActives() {
+  private _setLastActives(): void {
     if (this.activeIndexes.length === 0) {
       this._emptyLastActives();
       return;
@@ -2701,7 +2701,7 @@ export class ActiveList<T>
     this.lastActivatedIndex = newLastActiveIndex;
   }
 
-  private _deactivateContent(content: ActiveListContent<T>) {
+  private _deactivateContent(content: ActiveListContent<T>): void {
     content.isActive = false;
 
     // Now make content the last deactivated item.

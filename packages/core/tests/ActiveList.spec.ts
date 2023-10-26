@@ -824,7 +824,7 @@ describe('ActiveList', () => {
         expect(activeList.lastDeactivatedIndex).toBe(2);
         expect(activeList.lastDeactivatedContent).toBe(activeList.contents[2]);
 
-        activeList.initialize({
+        const result = activeList.initialize({
           contents: ['d', 'e', 'f', 'g'],
           activeIndexes: 0,
         });
@@ -6546,108 +6546,34 @@ describe('ActiveList', () => {
     });
 
     describe('ActiveListContent methods', () => {
-      describe('activate', () => {
-        test('activate on item', () => {
-          const { activeList } = setup();
+      test('activate on content', () => {
+        const { activeList } = setup();
 
-          jest.spyOn(activeList, 'activateByIndex');
+        jest.spyOn(activeList, 'activateByIndex');
 
-          activeList.contents[1].activate({ isUserInteraction: false });
+        activeList.contents[1].activate({ isUserInteraction: false });
 
-          expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
-          expect(activeList.activateByIndex).toHaveBeenCalledWith(1, {
-            isUserInteraction: false,
-          });
-        });
-
-        test('activate on item after removal should work because the indexes should be fixed', () => {
-          const { activeList } = setup({ activeIndexes: 0 });
-
-          jest.spyOn(activeList, 'activateByIndex');
-
-          activeList.shift();
-
-          activeList.contents[1].activate({ isUserInteraction: false });
-
-          expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
-          expect(activeList.activateByIndex).toHaveBeenLastCalledWith(1, {
-            isUserInteraction: false,
-          });
-
-          expect(activeList.active).toEqual(['c']);
+        expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeList.activateByIndex).toHaveBeenCalledWith(1, {
+          isUserInteraction: false,
         });
       });
 
-      describe('toggle', () => {
-        test('toggle on content which starts as active', () => {
-          const { activeList } = setup({ activeIndexes: 0 });
+      test('activate on content after removal should work because the indexes should be fixed', () => {
+        const { activeList } = setup({ activeIndexes: 0 });
 
-          jest.spyOn(activeList, 'activateByIndex');
-          jest.spyOn(activeList, 'deactivateByIndex');
+        jest.spyOn(activeList, 'activateByIndex');
 
-          activeList.contents[0].toggle({ isUserInteraction: false });
+        activeList.shift();
 
-          expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(1);
-          expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
-            isUserInteraction: false,
-          });
+        activeList.contents[1].activate({ isUserInteraction: false });
 
-          activeList.contents[0].toggle({ isUserInteraction: false });
-
-          expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
-          expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
-            isUserInteraction: false,
-          });
-
-          activeList.contents[0].toggle({ isUserInteraction: true });
-
-          expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(2);
-          expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
-            isUserInteraction: true,
-          });
-
-          activeList.contents[0].toggle({ isUserInteraction: true });
-
-          expect(activeList.activateByIndex).toHaveBeenCalledTimes(2);
-          expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
-            isUserInteraction: true,
-          });
+        expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeList.activateByIndex).toHaveBeenLastCalledWith(1, {
+          isUserInteraction: false,
         });
 
-        test('toggle on content which starts as inactive', () => {
-          const { activeList } = setup({ activeIndexes: [] });
-
-          jest.spyOn(activeList, 'activateByIndex');
-          jest.spyOn(activeList, 'deactivateByIndex');
-
-          activeList.contents[0].toggle({ isUserInteraction: false });
-
-          expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
-          expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
-            isUserInteraction: false,
-          });
-
-          activeList.contents[0].toggle({ isUserInteraction: false });
-
-          expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(1);
-          expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
-            isUserInteraction: false,
-          });
-
-          activeList.contents[0].toggle({ isUserInteraction: true });
-
-          expect(activeList.activateByIndex).toHaveBeenCalledTimes(2);
-          expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
-            isUserInteraction: true,
-          });
-
-          activeList.contents[0].toggle({ isUserInteraction: true });
-
-          expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(2);
-          expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
-            isUserInteraction: true,
-          });
-        });
+        expect(activeList.active).toEqual(['c']);
       });
     });
   });
@@ -8270,7 +8196,7 @@ describe('ActiveList', () => {
     });
 
     describe('ActiveListContent methods', () => {
-      test('deactivate on item', () => {
+      test('deactivate on content', () => {
         const { activeList } = setup();
 
         jest.spyOn(activeList, 'deactivateByIndex');
@@ -8283,7 +8209,7 @@ describe('ActiveList', () => {
         });
       });
 
-      test('deactivate on item after removal should work because the indexes should be fixed', () => {
+      test('deactivate on content after removal should work because the indexes should be fixed', () => {
         const { activeList } = setup();
 
         jest.spyOn(activeList, 'deactivateByIndex');
@@ -8442,6 +8368,78 @@ describe('ActiveList', () => {
         }).toThrowError(ActiveListItemNotFoundError);
 
         expect(activeList.activateByIndex).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    describe('ActiveListContent methods', () => {
+      test('toggle on content which starts as active', () => {
+        const { activeList } = setup({ activeIndexes: 0 });
+
+        jest.spyOn(activeList, 'activateByIndex');
+        jest.spyOn(activeList, 'deactivateByIndex');
+
+        activeList.contents[0].toggle({ isUserInteraction: false });
+
+        expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: false,
+        });
+
+        activeList.contents[0].toggle({ isUserInteraction: false });
+
+        expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: false,
+        });
+
+        activeList.contents[0].toggle({ isUserInteraction: true });
+
+        expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(2);
+        expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: true,
+        });
+
+        activeList.contents[0].toggle({ isUserInteraction: true });
+
+        expect(activeList.activateByIndex).toHaveBeenCalledTimes(2);
+        expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: true,
+        });
+      });
+
+      test('toggle on content which starts as inactive', () => {
+        const { activeList } = setup({ activeIndexes: [] });
+
+        jest.spyOn(activeList, 'activateByIndex');
+        jest.spyOn(activeList, 'deactivateByIndex');
+
+        activeList.contents[0].toggle({ isUserInteraction: false });
+
+        expect(activeList.activateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: false,
+        });
+
+        activeList.contents[0].toggle({ isUserInteraction: false });
+
+        expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(1);
+        expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: false,
+        });
+
+        activeList.contents[0].toggle({ isUserInteraction: true });
+
+        expect(activeList.activateByIndex).toHaveBeenCalledTimes(2);
+        expect(activeList.activateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: true,
+        });
+
+        activeList.contents[0].toggle({ isUserInteraction: true });
+
+        expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(2);
+        expect(activeList.deactivateByIndex).toHaveBeenCalledWith(0, {
+          isUserInteraction: true,
+        });
       });
     });
   });
@@ -9128,6 +9126,70 @@ describe('ActiveList', () => {
       });
     });
 
+    test('insertAtIndex', () => {
+      // test return only as `insertAtIndex` is used many times in other tests
+      const { activeList } = setup({}, []);
+
+      const result = activeList.insertAtIndex('d', 0);
+
+      expect(result).toEqual({
+        activeList,
+        isActive: false,
+        index: 0,
+        value: 'd',
+        isFirst: true,
+        isLast: true,
+        hasNext: false,
+        hasPrevious: false,
+        isNext: false,
+        isPrevious: false,
+        hasBeenActiveBefore: false,
+      });
+    });
+
+    test('push', () => {
+      // test return only as `push` is used many times in other tests
+      const { activeList } = setup({}, []);
+
+      const result = activeList.push('d');
+
+      expect(result).toEqual({
+        activeList,
+        isActive: false,
+        index: 0,
+        value: 'd',
+        isFirst: true,
+        isLast: true,
+        hasNext: false,
+        hasPrevious: false,
+        isNext: false,
+        isPrevious: false,
+        hasBeenActiveBefore: false,
+      });
+    });
+
+    test('unshift', () => {
+      // test return only as `unshift` is used many times in other tests
+
+      const { activeList } = setup({}, []);
+
+      const result = activeList.unshift('d');
+
+      expect(result).toEqual({
+        activeList,
+        isActive: false,
+        index: 0,
+        value: 'd',
+        isFirst: true,
+        isLast: true,
+        hasNext: false,
+        hasPrevious: false,
+        isNext: false,
+        isPrevious: false,
+        hasBeenActiveBefore: false,
+      });
+    });
+
     describe('insertByPredicate', () => {
       test('when no predicate matches do nothing', () => {
         const { activeList, subscriber } = setup({ activeIndexes: 1 });
@@ -9213,7 +9275,21 @@ describe('ActiveList', () => {
       test('when no mode is provided assume at', () => {
         const { activeList, subscriber } = setup({ activeIndexes: 0 });
 
-        activeList.insertByPredicate('d', ({ value }) => value === 'b');
+        const result = activeList.insertByPredicate('d', ({ value }) => value === 'b');
+
+        expect(result).toEqual({
+          activeList,
+          isActive: false,
+          index: 1,
+          value: 'd',
+          isFirst: false,
+          isLast: false,
+          hasNext: true,
+          hasPrevious: true,
+          isNext: true,
+          isPrevious: false,
+          hasBeenActiveBefore: false,
+        });
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
@@ -9841,61 +9917,129 @@ describe('ActiveList', () => {
         });
       });
 
-      test('removing first item', () => {
-        const { activeList, subscriber } = setup({ activeIndexes: 0 }, ['a']);
-
-        activeList.shift();
-
-        expect(subscriber).toHaveBeenCalledTimes(1);
-
-        assertLastSubscriber(
-          subscriber,
-          {
-            active: [],
-            activeContents: [],
-            activeIndexes: [],
-            lastActivated: null,
-            lastActivatedContent: null,
-            lastActivatedIndex: -1,
-            lastDeactivated: null,
-            lastDeactivatedContent: null,
-            lastDeactivatedIndex: -1,
-            isCircular: false,
-            direction: 'right',
-            maxActivationLimit: 1,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: true,
-            autoPlay: {
-              isPlaying: false,
-              hasBeenStoppedBefore: false,
-              duration: 0,
+      describe('remove', () => {
+        test('removes content by identity', () => {
+          const { activeList, subscriber } = setup({ activeIndexes: 0 }, ['a']);
+  
+          const removed = activeList.remove('a');
+  
+          expect(subscriber).toHaveBeenCalledTimes(1);
+  
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: [],
+              activeContents: [],
+              activeIndexes: [],
+              lastActivated: null,
+              lastActivatedContent: null,
+              lastActivatedIndex: -1,
+              lastDeactivated: null,
+              lastDeactivatedContent: null,
+              lastDeactivatedIndex: -1,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: true,
+              autoPlay: {
+                isPlaying: false,
+                hasBeenStoppedBefore: false,
+                duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0,
+              },
+              contents: [],
             },
-            cooldown: {
-              isActive: false,
-              duration: 0,
-            },
-            contents: [],
-          },
-          {
-            type: 'REMOVED',
-            value: 'a',
-            index: 0,
-            time: new Date(),
-          }
-        );
+            {
+              type: 'REMOVED',
+              value: 'a',
+              index: 0,
+              time: new Date(),
+            }
+          );
+
+          expect(removed).toBe('a');
+        });
+
+        test('throws item not found', () => {
+          const { activeList } = setup();
+  
+          jest.spyOn(activeList, 'deactivateByIndex');
+  
+          expect(() => {
+            activeList.remove('d');
+          }).toThrowError(
+            'uiloos > ActiveList > getIndex > index cannot be found, item is not in contents array'
+          );
+  
+          expect(() => {
+            activeList.remove('d');
+          }).toThrowError(ActiveListItemNotFoundError);
+  
+          expect(activeList.deactivateByIndex).toHaveBeenCalledTimes(0);
+        });
       });
 
-      test('removing last item', () => {
-        const { activeList, subscriber } = setup({ activeIndexes: 0 }, ['a']);
+      describe('pop', () => {
+        test('pop removes last item', () => {
+          const { activeList, subscriber } = setup({ activeIndexes: 0 }, ['a']);
+  
+          const removed = activeList.pop();
+  
+          expect(subscriber).toHaveBeenCalledTimes(1);
+  
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: [],
+              activeContents: [],
+              activeIndexes: [],
+              lastActivated: null,
+              lastActivatedContent: null,
+              lastActivatedIndex: -1,
+              lastDeactivated: null,
+              lastDeactivatedContent: null,
+              lastDeactivatedIndex: -1,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: true,
+              autoPlay: {
+                isPlaying: false,
+                hasBeenStoppedBefore: false,
+                duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0,
+              },
+              contents: [],
+            },
+            {
+              type: 'REMOVED',
+              value: 'a',
+              index: 0,
+              time: new Date(),
+            }
+          );
 
-        activeList.pop();
+          expect(removed).toBe('a');
+        });
 
-        expect(subscriber).toHaveBeenCalledTimes(1);
-
-        assertLastSubscriber(
-          subscriber,
-          {
+        test('empty on pop returns undefined', () => {
+          const { activeList, subscriber } = setup({}, []);
+  
+          const removed = activeList.pop();
+  
+          expect(subscriber).toHaveBeenCalledTimes(0);
+  
+          assertState(activeList, {
             active: [],
             activeContents: [],
             activeIndexes: [],
@@ -9910,7 +10054,7 @@ describe('ActiveList', () => {
             maxActivationLimit: 1,
             maxActivationLimitBehavior: 'circular',
             history: [],
-            hasActiveChangedAtLeastOnce: true,
+            hasActiveChangedAtLeastOnce: false,
             autoPlay: {
               isPlaying: false,
               hasBeenStoppedBefore: false,
@@ -9921,14 +10065,97 @@ describe('ActiveList', () => {
               duration: 0,
             },
             contents: [],
-          },
-          {
-            type: 'REMOVED',
-            value: 'a',
-            index: 0,
-            time: new Date(),
-          }
-        );
+          });
+  
+          expect(removed).toBe(undefined);
+        });
+      });
+
+      describe('shift', () => {
+        test('shift removes first item', () => {
+          const { activeList, subscriber } = setup({ activeIndexes: 0 }, ['a']);
+
+          const removed = activeList.shift();
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+
+          assertLastSubscriber(
+            subscriber,
+            {
+              active: [],
+              activeContents: [],
+              activeIndexes: [],
+              lastActivated: null,
+              lastActivatedContent: null,
+              lastActivatedIndex: -1,
+              lastDeactivated: null,
+              lastDeactivatedContent: null,
+              lastDeactivatedIndex: -1,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: true,
+              autoPlay: {
+                isPlaying: false,
+                hasBeenStoppedBefore: false,
+                duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0,
+              },
+              contents: [],
+            },
+            {
+              type: 'REMOVED',
+              value: 'a',
+              index: 0,
+              time: new Date(),
+            }
+          );
+
+          expect(removed).toBe('a');
+        });
+
+        test('empty on shift returns undefined', () => {
+          const { activeList, subscriber } = setup({}, []);
+  
+          const removed = activeList.shift();
+  
+          expect(subscriber).toHaveBeenCalledTimes(0);
+  
+          assertState(activeList, {
+            active: [],
+            activeContents: [],
+            activeIndexes: [],
+            lastActivated: null,
+            lastActivatedContent: null,
+            lastActivatedIndex: -1,
+            lastDeactivated: null,
+            lastDeactivatedContent: null,
+            lastDeactivatedIndex: -1,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              hasBeenStoppedBefore: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
+            contents: [],
+          });
+  
+          expect(removed).toBe(undefined);
+        });
       });
 
       describe('removal when maxActivationLimit is 1', () => {
@@ -10596,106 +10823,36 @@ describe('ActiveList', () => {
         });
       });
 
-      test('empty on pop returns undefined', () => {
-        const { activeList, subscriber } = setup({}, []);
+      describe('ActiveListContent methods', () => {
+        test('remove on content', () => {
+          const { activeList } = setup();
+  
+          jest.spyOn(activeList, 'removeByIndex');
+  
+          const result = activeList.contents[1].remove();
 
-        const removed = activeList.pop();
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
-
-        assertState(activeList, {
-          active: [],
-          activeContents: [],
-          activeIndexes: [],
-          lastActivated: null,
-          lastActivatedContent: null,
-          lastActivatedIndex: -1,
-          lastDeactivated: null,
-          lastDeactivatedContent: null,
-          lastDeactivatedIndex: -1,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          autoPlay: {
-            isPlaying: false,
-            hasBeenStoppedBefore: false,
-            duration: 0,
-          },
-          cooldown: {
-            isActive: false,
-            duration: 0,
-          },
-          contents: [],
+          expect(result).toBe('b');
+  
+          expect(activeList.removeByIndex).toHaveBeenCalledTimes(1);
+          expect(activeList.removeByIndex).toHaveBeenCalledWith(1);
         });
+  
+        test('remove on content after another removal', () => {
+          const { activeList } = setup();
+  
+          jest.spyOn(activeList, 'removeByIndex');
+  
+          activeList.shift();
+  
+          const result = activeList.contents[0].remove();
 
-        expect(removed).toBe(undefined);
-      });
-
-      test('empty on shift returns undefined', () => {
-        const { activeList, subscriber } = setup({}, []);
-
-        const removed = activeList.shift();
-
-        expect(subscriber).toHaveBeenCalledTimes(0);
-
-        assertState(activeList, {
-          active: [],
-          activeContents: [],
-          activeIndexes: [],
-          lastActivated: null,
-          lastActivatedContent: null,
-          lastActivatedIndex: -1,
-          lastDeactivated: null,
-          lastDeactivatedContent: null,
-          lastDeactivatedIndex: -1,
-          isCircular: false,
-          direction: 'right',
-          maxActivationLimit: 1,
-          maxActivationLimitBehavior: 'circular',
-          history: [],
-          hasActiveChangedAtLeastOnce: false,
-          autoPlay: {
-            isPlaying: false,
-            hasBeenStoppedBefore: false,
-            duration: 0,
-          },
-          cooldown: {
-            isActive: false,
-            duration: 0,
-          },
-          contents: [],
+          expect(result).toBe('b');
+  
+          expect(activeList.removeByIndex).toHaveBeenCalledTimes(2);
+          expect(activeList.removeByIndex).toHaveBeenLastCalledWith(0);
+  
+          expect(activeList.contents.map((c) => c.value)).toEqual(['c']);
         });
-
-        expect(removed).toBe(undefined);
-      });
-
-      test('remove on item', () => {
-        const { activeList } = setup();
-
-        jest.spyOn(activeList, 'removeByIndex');
-
-        activeList.contents[1].remove();
-
-        expect(activeList.removeByIndex).toHaveBeenCalledTimes(1);
-        expect(activeList.removeByIndex).toHaveBeenCalledWith(1);
-      });
-
-      test('remove on item after another removal', () => {
-        const { activeList } = setup();
-
-        jest.spyOn(activeList, 'removeByIndex');
-
-        activeList.shift();
-
-        activeList.contents[0].remove();
-
-        expect(activeList.removeByIndex).toHaveBeenCalledTimes(2);
-        expect(activeList.removeByIndex).toHaveBeenLastCalledWith(0);
-
-        expect(activeList.contents.map((c) => c.value)).toEqual(['c']);
       });
 
       test('removal of lastDeactivated should reset the lastDeactivated', () => {

@@ -649,7 +649,7 @@ export class Typewriter<T = void>
     this._inform(event);
   }
 
-  private _init() {
+  private _init(): void {
     this.isFinished = false;
     this._index = 0;
     this._pauseStarted = null;
@@ -1182,7 +1182,7 @@ export class Typewriter<T = void>
     }
   }
 
-  private _resetTandC() {
+  private _resetTandC(): void {
     this.text = this._originalText;
 
     // Copy the cursor here otherwise it will be mutated on the
@@ -1294,7 +1294,7 @@ export class Typewriter<T = void>
     noOp: boolean,
     action: TypewriterAction,
     cursor: TypewriterCursor<T>
-  ) {
+  ): void {
     if (noOp) {
       return;
     }

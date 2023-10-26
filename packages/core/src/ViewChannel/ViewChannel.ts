@@ -449,7 +449,7 @@ export class ViewChannel<T, R = void>
     });
   }
 
-  private _clearViews() {
+  private _clearViews(): void {
     this.views.length = 0;
   }
 
