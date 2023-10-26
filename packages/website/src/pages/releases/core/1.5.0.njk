@@ -70,4 +70,95 @@ keywords: "release notes @uiloos/core 1.5.0, changelog @uiloos/core 1.5.0"
       </li>
     </ol>
   </article>
+
+  <article class="mb-8">
+    <h2>Fixes</h2>
+    
+    <ol class="list-decimal ml-8">
+      <li>
+        <p>
+          The <a href="/api/core/activelist/#activatebypredicate" class="underline high">activateByPredicate</a> and 
+          <a href="/api/core/activelist/#deactivatebypredicate" class="underline high">deactivateByPredicate</a> both
+          always fired the <a href="/api/core/activelistactivatedmultipleevent/" class="underline high">ActiveListActivatedMultipleEvent</a> 
+          even when nothing changed.
+        </p>
+
+        <p>
+          For example: in an ActiveList in which all items are active, when calling <a href="/api/core/activelist/#activatebypredicate" class="underline high">activateByPredicate</a>
+          and all items match the predicate: nothing really changes since all items are already active, and in this case no event should be fired.
+        </p>
+
+        <p>
+          In 1.5.0 checks are put in place to make sure not event is fired when nothing has changed. This way
+          subscribers are only informed when there are changes.
+        </p>
+
+        <p>
+          This only affected you if you used either <a href="/api/core/activelist/#activatebypredicate" class="underline high">activateByPredicate</a> or 
+          <a href="/api/core/activelist/#deactivatebypredicate" class="underline high">deactivateByPredicate</a>.
+        </p>
+      </li>
+
+      <li>
+        <p>
+          The <a href="/api/core/activelist/#activatebypredicate" class="underline high">activateByPredicate</a> emits an
+          <a href="/api/core/activelistactivatedmultipleevent/" class="underline high">ActiveListActivatedMultipleEvent</a>
+          but did not include information about which items were deactivated.
+        </p>
+
+        <p>
+          A deactivation can occur when the ActiveList's <a class="underline high" href="/api/core/activelist/#maxactivationlimit">maxActivationLimit</a> is set 
+          to a number, and the <a class="underline high" href="/api/core/activelist/#maxactivationlimitbehavior">maxActivationLimitBehavior</a>
+          is set to <span class="high">"circular"</span>. In this scenario whenever more items are activated than alloted, the first 
+          item that was activated gets deactivated, in a first in first out manner.
+        </p>
+
+        <p>
+          To fix this since this version two new properties are added to the ActiveListActivatedMultipleEvent:  
+          <a href="/api/core/activelistactivatedmultipleevent/#deactivatedvalues" class="underline high">deactivatedValues</a> and
+          <a href="/api/core/activelistactivatedmultipleevent/#deactivatedindexes" class="underline high">deactivatedIndexes</a>.
+        </p>
+
+        <p>
+          This only affected you if you used <a href="/api/core/activelist/#activatebypredicate" class="underline high">activateByPredicate</a>, and
+           <a class="underline high" href="/api/core/activelist/#maxactivationlimit">maxActivationLimit</a> was set 
+          to a number, and the <a class="underline high" href="/api/core/activelist/#maxactivationlimitbehavior">maxActivationLimitBehavior</a>
+          was set to <span class="high">"circular"</span>.
+        </p>
+      </li>
+
+      <li>
+        <p>
+          The <a href="/api/core/activelist/#activatebypredicate" class="underline high">activateByPredicate</a>
+          would not send out an <a href="/api/core/activelistactivatedmultipleevent/" class="underline high">ActiveListActivatedMultipleEvent</a>
+          when an <a class="underline high" href="/api/core/activelistactivationlimitreachederror/">ActiveListActivationLimitReachedError</a> was thrown.
+        </p>
+
+        <p>
+          The error can be thrown when the ActiveList's <a class="underline high" href="/api/core/activelist/#maxactivationlimit">maxActivationLimit</a> is set 
+          to a number, and the <a class="underline high" href="/api/core/activelist/#maxactivationlimitbehavior">maxActivationLimitBehavior</a>
+          is set to <span class="high">"error"</span>. When more that the alloted items are activated the error is thrown.
+        </p>
+
+        <p>
+          But when the error occurs it should still report the changes it has made thus far, otherwise 
+          the subscribers are never informed of the changes, and they keep displaying stale data.
+        </p>
+
+        <p>
+          In this version the error is caught, then the event is emitted and then the error is re-thrown.
+        </p>
+
+        <p>
+          This only affected you if you used <a href="/api/core/activelist/#activatebypredicate" class="underline high">activateByPredicate</a>, and
+           <a class="underline high" href="/api/core/activelist/#maxactivationlimit">maxActivationLimit</a> was set 
+          to a number, and the <a class="underline high" href="/api/core/activelist/#maxactivationlimitbehavior">maxActivationLimitBehavior</a>
+          was set to <span class="high">"error"</span>.
+        </p>
+      </li>
+      
+    </ol>
+  </article>
+
+  <a class="underline high" href=""></a>
 </section>

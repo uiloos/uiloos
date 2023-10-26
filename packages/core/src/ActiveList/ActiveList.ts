@@ -746,14 +746,24 @@ export class ActiveList<T>
   }
 
   /**
-   * Activates all items based on whether the predicate provided
-   * returns `true` for the item.
+   * Activates all items that match the predicate.
    *
    * If no items match the predicate nothing happens.
    *
-   * If multiple items match they will be activated in order of
-   * appearance in the contents array. Only one call is made to the
-   * subscribers, even if multiple items are activated.
+   * If multiple items were activated as a result of calling
+   * `activateByPredicate` they will be activated in order of
+   * appearance in the contents array.
+   *
+   * Items can also be deactivated if the `maxActivationLimit` is set
+   * to a number and the `maxActivationLimitBehavior` is set to
+   * "circular", if space needs to be made for the new activations.
+   *
+   * Even through each item is activated sequentially, only one event
+   * is emitted, and one call is made to the subscribers, even if
+   * multiple items are activated and deactivated.
+   *
+   * Within the `ActiveListActivatedMultipleEvent` only the end
+   * activate / deactivate results are reported.
    *
    * With the `activationOptions` you can determine the effects
    * on `cooldown` and `autoPlay`. When the cooldown is configured
@@ -779,39 +789,99 @@ export class ActiveList<T>
       return null;
     }
 
-    const activatedIndexes: number[] = [];
-    const activatedValues: T[] = [];
+    // Make a copy of what the active indexes were before the sequence
+    // starts, we will use it to check what has changed.
+    const previousActiveIndexes = [...this.activeIndexes];
 
+    // Which item was lastActivated used to check if a change occurred,
+    // and is sent to the cooldown.
     let lastActivated = null;
 
+    // Keeps track of whether or not an error is thrown.
+    let error: ActiveListActivationLimitReachedError | null = null;
+
     this._execPred(predicate, (index) => {
-      const content = this._doActivateByIndex(index, activationOptions);
+      try {
+        const content = this._doActivateByIndex(index, activationOptions);
 
-      if (content) {
-        activatedIndexes.push(content.index);
-        activatedValues.push(content.value);
+        if (content) {
+          lastActivated = content;
+        }
+      } catch (e) {
+        if (e instanceof ActiveListActivationLimitReachedError) {
+          error = e;
 
-        lastActivated = content;
+          //By returning something `execPred` stops.
+          return true;
+        }
       }
     });
 
-    const event: ActiveListActivatedMultipleEvent<T> = {
-      type: 'ACTIVATED_MULTIPLE',
-      values: activatedValues,
-      indexes: activatedIndexes,
-      time: new Date(),
-    };
-
-    this._inform(event);
-
+    // If nothing actually activated do nothing.
     if (lastActivated) {
-      // Set the cooldown, if it is needed.
-      this._activationCooldownTimer._setCooldown(
-        // Note that at this point a `ActiveListCooldownDurationError`
-        // can be thrown, this means that the items are activated!
-        activationOptions,
-        lastActivated
-      );
+      // Which indexes became active?
+      const values: T[] = [];
+      const indexes: number[] = [];
+
+      // Once the dust is settled which indexes actually became active.
+      this.activeIndexes.forEach((current) => {
+        // If none of the previous indexes matches this active index it has been activated.
+        const isNewlyActivated = previousActiveIndexes.every(
+          (prev) => prev !== current
+        );
+
+        if (isNewlyActivated) {
+          indexes.push(current);
+          values.push(this.contents[current].value);
+        }
+      });
+
+      const deactivatedValues: T[] = [];
+      const deactivatedIndexes: number[] = [];
+
+      if (
+        this.maxActivationLimit !== false &&
+        this.maxActivationLimitBehavior === 'circular'
+      ) {
+        // And which indexes actually became inactive?
+        previousActiveIndexes.forEach((prev) => {
+          // If none of the activeIndexes matches this previously active index is has been deactivated.
+          const isNewlyDeactivated = this.activeIndexes.every(
+            (current) => prev !== current
+          );
+
+          if (isNewlyDeactivated) {
+            deactivatedIndexes.push(prev);
+            deactivatedValues.push(this.contents[prev].value);
+          }
+        });
+      }
+
+      const event: ActiveListActivatedMultipleEvent<T> = {
+        type: 'ACTIVATED_MULTIPLE',
+        values,
+        indexes,
+        deactivatedIndexes,
+        deactivatedValues,
+        time: new Date(),
+      };
+
+      this._inform(event);
+
+      if (lastActivated) {
+        // Set the cooldown, if it is needed.
+        this._activationCooldownTimer._setCooldown(
+          // Note that at this point a `ActiveListCooldownDurationError`
+          // can be thrown, this means that the items are activated!
+          activationOptions,
+          lastActivated
+        );
+      }
+    }
+
+    // If an `ActiveListActivationLimitReachedError` was thrown re-throw it.
+    if (error) {
+      throw error;
     }
   }
 
@@ -1175,8 +1245,7 @@ export class ActiveList<T>
   }
 
   /**
-   * Deactivates all items based on whether the predicate provided
-   * returns `true` for the item.
+   * Deactivates all items that match the predicate.
    *
    * If no items match the predicate nothing happens.
    *
@@ -1222,6 +1291,11 @@ export class ActiveList<T>
         lastRemoved = content;
       }
     });
+
+    // If nothing actually deactivated do nothing.
+    if (deactivatedIndexes.length === 0) {
+      return;
+    }
 
     const event: ActiveListDeactivatedMultipleEvent<T> = {
       type: 'DEACTIVATED_MULTIPLE',
@@ -1520,7 +1594,7 @@ export class ActiveList<T>
    * Will remove an item in the `contents` array, at the specified `index`.
    *
    * If you remove the `lastDeactivated` item it will be set to null.
-   * 
+   *
    * Throws an error if the index does not exist within the `contents`
    * array.
    *
@@ -1594,7 +1668,7 @@ export class ActiveList<T>
    * first matching item is removed.
    *
    * If you remove the `lastDeactivated` item it will be set to null.
-   * 
+   *
    * If the item does not exist in the content array it will
    * throw an error.
    *
@@ -1613,7 +1687,7 @@ export class ActiveList<T>
    * Removes the last item of the of the `contents` array.
    *
    * If you remove the `lastDeactivated` item it will be set to null.
-   * 
+   *
    * If the `contents` array at the time of the `pop` is empty
    * `undefined` is returned.
    *
@@ -1634,7 +1708,7 @@ export class ActiveList<T>
    * Removes the first item of the `contents` array.
    *
    * If you remove the `lastDeactivated` item it will be set to null.
-   * 
+   *
    * If the `contents` array at the time of the `shift` is empty
    * `undefined` is returned.
    *
@@ -1654,8 +1728,11 @@ export class ActiveList<T>
    * Will remove all items from the `contents` array for which the
    * predicate based on the `item` and `index` returns `true`.
    *
+   * If no item matches the predicate nothing is removed and an empty
+   * array will be returned.
+   *
    * If you remove the `lastDeactivated` item it will be set to null.
-   * 
+   *
    * @param {T} item The item to insert.
    * @param {ActiveListContentPredicate<T>} predicate A predicate function, when the predicate returns `true` it will remove the item.
    * @returns {T[]} The removed items.

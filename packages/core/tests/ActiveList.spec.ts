@@ -4474,149 +4474,40 @@ describe('ActiveList', () => {
           },
           {
             type: 'ACTIVATED_MULTIPLE',
-            indexes: [1, 2],
-            values: ['a', 'a'],
+            indexes: [2],
+            values: ['a'],
+            deactivatedIndexes: [0],
+            deactivatedValues: ['b'],
             time: new Date(),
           }
         );
       });
 
-      test('when multiple items match all items are activated when maxActivationLimit is false', () => {
-        // The two 'a's will match the predicate
-        const { activeList, subscriber } = setup(
-          { maxActivationLimit: false },
-          ['b', 'a', 'a', 'z']
-        );
-
-        activeList.activateByPredicate(
-          (data) => {
-            expect(data.index).toBeDefined();
-            expect(data.value).toBeDefined();
-
-            expect(data.content).toBeDefined();
-            expect(data.content).toBeInstanceOf(ActiveListContent);
-
-            expect(data.activeList).toBeDefined();
-
-            expect(data.activeList).toBeInstanceOf(ActiveList);
-            return data.value === 'a';
-          },
-          {
-            isUserInteraction: true,
-          }
-        );
-
-        expect(subscriber).toHaveBeenCalledTimes(1);
-        assertLastSubscriber(
-          subscriber,
-          {
-            active: ['a', 'a'],
-            activeContents: [activeList.contents[1], activeList.contents[2]],
-            activeIndexes: [1, 2],
-            // Since both a's got activated the second one is the last activated
-            lastActivated: 'a',
-            lastActivatedContent: activeList.contents[2],
-            lastActivatedIndex: 2,
-            lastDeactivated: null,
-            lastDeactivatedContent: null,
-            lastDeactivatedIndex: -1,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: true,
-            autoPlay: {
-              isPlaying: false,
-              hasBeenStoppedBefore: false,
-              duration: 0,
-            },
-            cooldown: {
-              isActive: false,
-              duration: 0,
-            },
-            isCircular: false,
-            contents: [
-              {
-                isActive: false,
-                value: 'b',
-                index: 0,
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-              {
-                isActive: true,
-                value: 'a',
-                index: 1,
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: true,
-              },
-              {
-                isActive: true,
-                value: 'a',
-                index: 2,
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                isActive: false,
-                value: 'z',
-                index: 3,
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: true,
-                isPrevious: false,
-                hasBeenActiveBefore: false,
-              },
-            ],
-          },
-          {
-            type: 'ACTIVATED_MULTIPLE',
-            indexes: [1, 2],
-            values: ['a', 'a'],
-            time: new Date(),
-          }
-        );
-      });
-
-      describe('when multiple items and maxActivationLimit is N only N items are activated', () => {
-        test('when limit is not exceeded.', () => {
+      describe('when maxActivationLimit is false', () => {
+        test('when multiple items match all items are activated', () => {
           // The two 'a's will match the predicate
-          const { activeList, subscriber } = setup({ maxActivationLimit: 2 }, [
-            'b',
-            'a',
-            'a',
-            'z',
-          ]);
+          const { activeList, subscriber } = setup(
+            { maxActivationLimit: false },
+            ['b', 'a', 'a', 'z']
+          );
 
-          activeList.activateByPredicate((data) => {
-            expect(data.index).toBeDefined();
-            expect(data.value).toBeDefined();
+          activeList.activateByPredicate(
+            (data) => {
+              expect(data.index).toBeDefined();
+              expect(data.value).toBeDefined();
 
-            expect(data.content).toBeDefined();
-            expect(data.content).toBeInstanceOf(ActiveListContent);
+              expect(data.content).toBeDefined();
+              expect(data.content).toBeInstanceOf(ActiveListContent);
 
-            expect(data.activeList).toBeDefined();
+              expect(data.activeList).toBeDefined();
 
-            expect(data.activeList).toBeInstanceOf(ActiveList);
-            return data.value === 'a';
-          });
+              expect(data.activeList).toBeInstanceOf(ActiveList);
+              return data.value === 'a';
+            },
+            {
+              isUserInteraction: true,
+            }
+          );
 
           expect(subscriber).toHaveBeenCalledTimes(1);
           assertLastSubscriber(
@@ -4633,7 +4524,7 @@ describe('ActiveList', () => {
               lastDeactivatedContent: null,
               lastDeactivatedIndex: -1,
               direction: 'right',
-              maxActivationLimit: 2,
+              maxActivationLimit: false,
               maxActivationLimitBehavior: 'circular',
               history: [],
               hasActiveChangedAtLeastOnce: true,
@@ -4702,183 +4593,1151 @@ describe('ActiveList', () => {
               type: 'ACTIVATED_MULTIPLE',
               indexes: [1, 2],
               values: ['a', 'a'],
+              deactivatedIndexes: [],
+              deactivatedValues: [],
               time: new Date(),
             }
           );
         });
 
-        test('when limit is exceeded, but no lastDeactivated', () => {
-          // The three 'a's will match the predicate
-          const { activeList, subscriber } = setup({ maxActivationLimit: 2 }, [
-            'b',
-            'a',
-            'a',
-            'a',
-            'z',
-          ]);
-
-          activeList.activateByPredicate((data) => {
-            expect(data.index).toBeDefined();
-            expect(data.value).toBeDefined();
-
-            expect(data.content).toBeDefined();
-            expect(data.content).toBeInstanceOf(ActiveListContent);
-
-            expect(data.activeList).toBeDefined();
-
-            expect(data.activeList).toBeInstanceOf(ActiveList);
-            return data.value === 'a';
-          });
-
-          expect(subscriber).toHaveBeenCalledTimes(1);
-
-          assertLastSubscriber(
-            subscriber,
-            {
-              active: ['a', 'a'],
-              activeContents: [activeList.contents[2], activeList.contents[3]],
-              activeIndexes: [2, 3],
-              // Since all three  a's got activated the third one is the last activated
-              lastActivated: 'a',
-              lastActivatedContent: activeList.contents[3],
-              lastActivatedIndex: 3,
-              // Fix this is not right it should not activate the first 'a'
-              lastDeactivated: 'a',
-              lastDeactivatedContent: activeList.contents[1],
-              lastDeactivatedIndex: 1,
-              direction: 'right',
-              maxActivationLimit: 2,
-              maxActivationLimitBehavior: 'circular',
-              history: [],
-              hasActiveChangedAtLeastOnce: true,
-              autoPlay: {
-                isPlaying: false,
-                hasBeenStoppedBefore: false,
-                duration: 0,
-              },
-              cooldown: {
-                isActive: false,
-                duration: 0,
-              },
-              isCircular: false,
-              contents: [
-                {
-                  isActive: false,
-                  value: 'b',
-                  index: 0,
-                  isFirst: true,
-                  isLast: false,
-                  hasNext: true,
-                  hasPrevious: false,
-                  isNext: false,
-                  isPrevious: false,
-                  hasBeenActiveBefore: false,
-                },
-                {
-                  isActive: false,
-                  value: 'a',
-                  index: 1,
-                  isFirst: false,
-                  isLast: false,
-                  hasNext: true,
-                  hasPrevious: true,
-                  isNext: false,
-                  isPrevious: false,
-                  hasBeenActiveBefore: true,
-                },
-                {
-                  isActive: true,
-                  value: 'a',
-                  index: 2,
-                  isFirst: false,
-                  isLast: false,
-                  hasNext: true,
-                  hasPrevious: true,
-                  isNext: false,
-                  isPrevious: true,
-                  hasBeenActiveBefore: true,
-                },
-                {
-                  isActive: true,
-                  value: 'a',
-                  index: 3,
-                  isFirst: false,
-                  isLast: false,
-                  hasNext: true,
-                  hasPrevious: true,
-                  isNext: false,
-                  isPrevious: false,
-                  hasBeenActiveBefore: true,
-                },
-                {
-                  isActive: false,
-                  value: 'z',
-                  index: 4,
-                  isFirst: false,
-                  isLast: true,
-                  hasNext: false,
-                  hasPrevious: true,
-                  isNext: true,
-                  isPrevious: false,
-                  hasBeenActiveBefore: false,
-                },
-              ],
-            },
-            // FIX: this is a bug, it should never activate the first 'a' to begin with will tackle this later
-            {
-              type: 'ACTIVATED_MULTIPLE',
-              indexes: [1, 2, 3],
-              values: ['a', 'a', 'a'],
-              time: new Date(),
-            }
-          );
-        });
-
-        test('when limit is exceeded, with lastDeactivated', () => {
+        test('when all matching items are already active it does nothing', () => {
           // The two 'a's will match the predicate
           const { activeList, subscriber } = setup(
-            {
-              activeIndexes: [0],
-              maxActivationLimit: 2,
-            },
-            ['b', 'a', 'a', 'a', 'z']
+            { maxActivationLimit: false, activeIndexes: [1, 2] },
+            ['b', 'a', 'a', 'z']
           );
 
-          activeList.activateByPredicate((data) => {
-            expect(data.index).toBeDefined();
-            expect(data.value).toBeDefined();
+          activeList.activateByPredicate(
+            (data) => {
+              expect(data.index).toBeDefined();
+              expect(data.value).toBeDefined();
 
-            expect(data.content).toBeDefined();
-            expect(data.content).toBeInstanceOf(ActiveListContent);
+              expect(data.content).toBeDefined();
+              expect(data.content).toBeInstanceOf(ActiveListContent);
 
-            expect(data.activeList).toBeDefined();
+              expect(data.activeList).toBeDefined();
 
-            expect(data.activeList).toBeInstanceOf(ActiveList);
-            return data.value === 'a';
+              expect(data.activeList).toBeInstanceOf(ActiveList);
+              return data.value === 'a';
+            },
+            {
+              isUserInteraction: true,
+            }
+          );
+
+          assertState(activeList, {
+            active: ['a', 'a'],
+            activeContents: [activeList.contents[1], activeList.contents[2]],
+            activeIndexes: [1, 2],
+            lastActivated: 'a',
+            lastActivatedContent: activeList.contents[2],
+            lastActivatedIndex: 2,
+            lastDeactivated: null,
+            lastDeactivatedContent: null,
+            lastDeactivatedIndex: -1,
+            direction: 'right',
+            maxActivationLimit: false,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              hasBeenStoppedBefore: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
+            isCircular: false,
+            contents: [
+              {
+                isActive: false,
+                value: 'b',
+                index: 0,
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+              {
+                isActive: true,
+                value: 'a',
+                index: 1,
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: true,
+              },
+              {
+                isActive: true,
+                value: 'a',
+                index: 2,
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                isActive: false,
+                value: 'z',
+                index: 3,
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: true,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+            ],
           });
 
-          activeList.deactivateByIndex(0);
+          expect(subscriber).toHaveBeenCalledTimes(0);
+        });
 
-          expect(subscriber).toHaveBeenCalledTimes(1);
-          assertLastSubscriber(
-            subscriber,
+        test('when no items match they should remain as they were', () => {
+          // The two 'a's will match the predicate
+          const { activeList, subscriber } = setup(
+            { maxActivationLimit: false, activeIndexes: [0, 1, 3] },
+            ['b', 'a', 'a', 'z']
+          );
+
+          activeList.activateByPredicate(
+            (data) => {
+              expect(data.index).toBeDefined();
+              expect(data.value).toBeDefined();
+
+              expect(data.content).toBeDefined();
+              expect(data.content).toBeInstanceOf(ActiveListContent);
+
+              expect(data.activeList).toBeDefined();
+
+              expect(data.activeList).toBeInstanceOf(ActiveList);
+              return data.value === 'x';
+            },
             {
-              active: ['a', 'a'],
-              activeContents: [activeList.contents[2], activeList.contents[3]],
-              activeIndexes: [2, 3],
-              // Since all three  a's got activated the third one is the last activated
-              lastActivated: 'a',
-              lastActivatedContent: activeList.contents[3],
-              lastActivatedIndex: 3,
-              // FIX: This should be "B" not A
-              lastDeactivated: 'a',
-              lastDeactivatedContent: activeList.contents[1],
-              lastDeactivatedIndex: 1,
+              isUserInteraction: true,
+            }
+          );
+
+          assertState(activeList, {
+            active: ['b', 'a', 'z'],
+            activeContents: [
+              activeList.contents[0],
+              activeList.contents[1],
+              activeList.contents[3],
+            ],
+            activeIndexes: [0, 1, 3],
+            lastActivated: 'z',
+            lastActivatedContent: activeList.contents[3],
+            lastActivatedIndex: 3,
+            lastDeactivated: null,
+            lastDeactivatedContent: null,
+            lastDeactivatedIndex: -1,
+            direction: 'right',
+            maxActivationLimit: false,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              hasBeenStoppedBefore: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
+            isCircular: false,
+            contents: [
+              {
+                isActive: true,
+                value: 'b',
+                index: 0,
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                isActive: true,
+                value: 'a',
+                index: 1,
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                isActive: false,
+                value: 'a',
+                index: 2,
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: false,
+              },
+              {
+                isActive: true,
+                value: 'z',
+                index: 3,
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+            ],
+          });
+
+          expect(subscriber).toHaveBeenCalledTimes(0);
+        });
+      });
+
+      describe('when multiple items and maxActivationLimit is N only N items are activated', () => {
+        describe('when maxActivationLimitBehavior is "circular" FIFO rules apply', () => {
+          test('when limit is not exceeded matches should just be activated', () => {
+            // The two 'a's will match the predicate
+            const { activeList, subscriber } = setup(
+              { maxActivationLimit: 2 },
+              ['b', 'a', 'a', 'z']
+            );
+
+            activeList.activateByPredicate((data) => {
+              expect(data.index).toBeDefined();
+              expect(data.value).toBeDefined();
+
+              expect(data.content).toBeDefined();
+              expect(data.content).toBeInstanceOf(ActiveListContent);
+
+              expect(data.activeList).toBeDefined();
+
+              expect(data.activeList).toBeInstanceOf(ActiveList);
+              return data.value === 'a';
+            });
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['a', 'a'],
+                activeContents: [
+                  activeList.contents[1],
+                  activeList.contents[2],
+                ],
+                activeIndexes: [1, 2],
+                // Since both a's got activated the second one is the last activated
+                lastActivated: 'a',
+                lastActivatedContent: activeList.contents[2],
+                lastActivatedIndex: 2,
+                lastDeactivated: null,
+                lastDeactivatedContent: null,
+                lastDeactivatedIndex: -1,
+                direction: 'right',
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  hasBeenStoppedBefore: false,
+                  duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0,
+                },
+                isCircular: false,
+                contents: [
+                  {
+                    isActive: false,
+                    value: 'b',
+                    index: 0,
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 1,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 2,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    value: 'z',
+                    index: 3,
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'ACTIVATED_MULTIPLE',
+                indexes: [1, 2],
+                values: ['a', 'a'],
+                deactivatedIndexes: [],
+                deactivatedValues: [],
+                time: new Date(),
+              }
+            );
+          });
+
+          test('when limit is exceeded and there are to many matches it should FIFO between matches', () => {
+            // The three 'a's will match the predicate
+            const { activeList, subscriber } = setup(
+              { maxActivationLimit: 2 },
+              ['b', 'a', 'a', 'a', 'z']
+            );
+
+            activeList.activateByPredicate((data) => {
+              expect(data.index).toBeDefined();
+              expect(data.value).toBeDefined();
+
+              expect(data.content).toBeDefined();
+              expect(data.content).toBeInstanceOf(ActiveListContent);
+
+              expect(data.activeList).toBeDefined();
+
+              expect(data.activeList).toBeInstanceOf(ActiveList);
+              return data.value === 'a';
+            });
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['a', 'a'],
+                activeContents: [
+                  activeList.contents[2],
+                  activeList.contents[3],
+                ],
+                activeIndexes: [2, 3],
+                // Since the last two a's got activated the third one is the last activated
+                lastActivated: 'a',
+                lastActivatedContent: activeList.contents[3],
+                lastActivatedIndex: 3,
+                // The first 'a' was deactivated this sequence, but it should not be reported.
+                lastDeactivated: 'a',
+                lastDeactivatedContent: activeList.contents[1],
+                lastDeactivatedIndex: 1,
+                direction: 'right',
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  hasBeenStoppedBefore: false,
+                  duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0,
+                },
+                isCircular: false,
+                contents: [
+                  {
+                    isActive: false,
+                    value: 'b',
+                    index: 0,
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    value: 'a',
+                    index: 1,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 2,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 3,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    value: 'z',
+                    index: 4,
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'ACTIVATED_MULTIPLE',
+                indexes: [2, 3],
+                values: ['a', 'a'],
+                deactivatedIndexes: [],
+                deactivatedValues: [],
+                time: new Date(),
+              }
+            );
+          });
+
+          test('when limit is exceeded the first to FIFO is the item that is already active', () => {
+            // The three 'a's will match the predicate
+            const { activeList, subscriber } = setup(
+              {
+                activeIndexes: [0],
+                maxActivationLimit: 2,
+              },
+              ['b', 'a', 'a', 'a', 'z']
+            );
+
+            activeList.activateByPredicate((data) => {
+              expect(data.index).toBeDefined();
+              expect(data.value).toBeDefined();
+
+              expect(data.content).toBeDefined();
+              expect(data.content).toBeInstanceOf(ActiveListContent);
+
+              expect(data.activeList).toBeDefined();
+
+              expect(data.activeList).toBeInstanceOf(ActiveList);
+              return data.value === 'a';
+            });
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['a', 'a'],
+                activeContents: [
+                  activeList.contents[2],
+                  activeList.contents[3],
+                ],
+                activeIndexes: [2, 3],
+                // Since all three  a's got activated the third one is the last activated
+                lastActivated: 'a',
+                lastActivatedContent: activeList.contents[3],
+                lastActivatedIndex: 3,
+                // The first 'a' was deactivated this sequence, but it should not be reported.
+                lastDeactivated: 'a',
+                lastDeactivatedContent: activeList.contents[1],
+                lastDeactivatedIndex: 1,
+                direction: 'right',
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  hasBeenStoppedBefore: false,
+                  duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0,
+                },
+                isCircular: false,
+                contents: [
+                  {
+                    isActive: false,
+                    value: 'b',
+                    index: 0,
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    value: 'a',
+                    index: 1,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 2,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 3,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    value: 'z',
+                    index: 4,
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'ACTIVATED_MULTIPLE',
+                indexes: [2, 3],
+                values: ['a', 'a'],
+                deactivatedIndexes: [0],
+                deactivatedValues: ['b'],
+                time: new Date(),
+              }
+            );
+          });
+
+          test('when limit is exceeded the first to FIFO is the items that is already active', () => {
+            // The three 'a's will match the predicate
+            const { activeList, subscriber } = setup(
+              {
+                activeIndexes: [0, 4],
+                maxActivationLimit: 2,
+              },
+              ['b', 'a', 'a', 'a', 'z']
+            );
+
+            activeList.activateByPredicate((data) => {
+              expect(data.index).toBeDefined();
+              expect(data.value).toBeDefined();
+
+              expect(data.content).toBeDefined();
+              expect(data.content).toBeInstanceOf(ActiveListContent);
+
+              expect(data.activeList).toBeDefined();
+
+              expect(data.activeList).toBeInstanceOf(ActiveList);
+              return data.value === 'a';
+            });
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['a', 'a'],
+                activeContents: [
+                  activeList.contents[2],
+                  activeList.contents[3],
+                ],
+                activeIndexes: [2, 3],
+                // Since all three a's got activated the third one is the last activated
+                lastActivated: 'a',
+                lastActivatedContent: activeList.contents[3],
+                lastActivatedIndex: 3,
+                // The first 'a' was deactivated this sequence, but it should not be reported.
+                lastDeactivated: 'a',
+                lastDeactivatedContent: activeList.contents[1],
+                lastDeactivatedIndex: 1,
+                direction: 'right',
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'circular',
+                history: [],
+                hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  hasBeenStoppedBefore: false,
+                  duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0,
+                },
+                isCircular: false,
+                contents: [
+                  {
+                    isActive: false,
+                    value: 'b',
+                    index: 0,
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    value: 'a',
+                    index: 1,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 2,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 3,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    value: 'z',
+                    index: 4,
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                ],
+              },
+              {
+                type: 'ACTIVATED_MULTIPLE',
+                indexes: [2, 3],
+                values: ['a', 'a'],
+                deactivatedIndexes: [0, 4],
+                deactivatedValues: ['b', 'z'],
+                time: new Date(),
+              }
+            );
+          });
+        });
+
+        describe('when maxActivationLimitBehavior is "ignore"', () => {
+          test('when limit is not exceeded matches should be activated', () => {
+            // The two 'a's will match the predicate
+            const { activeList, subscriber } = setup(
+              { maxActivationLimit: 2, maxActivationLimitBehavior: 'ignore' },
+              ['b', 'a', 'a', 'z']
+            );
+
+            activeList.activateByPredicate((data) => {
+              expect(data.index).toBeDefined();
+              expect(data.value).toBeDefined();
+
+              expect(data.content).toBeDefined();
+              expect(data.content).toBeInstanceOf(ActiveListContent);
+
+              expect(data.activeList).toBeDefined();
+
+              expect(data.activeList).toBeInstanceOf(ActiveList);
+              return data.value === 'a';
+            });
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['a', 'a'],
+                activeContents: [
+                  activeList.contents[1],
+                  activeList.contents[2],
+                ],
+                activeIndexes: [1, 2],
+                // Since both a's got activated the second one is the last activated
+                lastActivated: 'a',
+                lastActivatedContent: activeList.contents[2],
+                lastActivatedIndex: 2,
+                lastDeactivated: null,
+                lastDeactivatedContent: null,
+                lastDeactivatedIndex: -1,
+                direction: 'right',
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'ignore',
+                history: [],
+                hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  hasBeenStoppedBefore: false,
+                  duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0,
+                },
+                isCircular: false,
+                contents: [
+                  {
+                    isActive: false,
+                    value: 'b',
+                    index: 0,
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 1,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 2,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    value: 'z',
+                    index: 3,
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'ACTIVATED_MULTIPLE',
+                indexes: [1, 2],
+                values: ['a', 'a'],
+                deactivatedIndexes: [],
+                deactivatedValues: [],
+                time: new Date(),
+              }
+            );
+          });
+
+          test('when limit is exceeded it should ignore next matches', () => {
+            // The three 'a's will match the predicate
+            const { activeList, subscriber } = setup(
+              { maxActivationLimit: 2, maxActivationLimitBehavior: 'ignore' },
+              ['b', 'a', 'a', 'a', 'z']
+            );
+
+            activeList.activateByPredicate((data) => {
+              expect(data.index).toBeDefined();
+              expect(data.value).toBeDefined();
+
+              expect(data.content).toBeDefined();
+              expect(data.content).toBeInstanceOf(ActiveListContent);
+
+              expect(data.activeList).toBeDefined();
+
+              expect(data.activeList).toBeInstanceOf(ActiveList);
+              return data.value === 'a';
+            });
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['a', 'a'],
+                activeContents: [
+                  activeList.contents[1],
+                  activeList.contents[2],
+                ],
+                activeIndexes: [1, 2],
+                // Since the first two a's got activated the second one is the last activated
+                lastActivated: 'a',
+                lastActivatedContent: activeList.contents[2],
+                lastActivatedIndex: 2,
+                // Nothing was ever deactivated
+                lastDeactivated: null,
+                lastDeactivatedContent: null,
+                lastDeactivatedIndex: -1,
+                direction: 'right',
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'ignore',
+                history: [],
+                hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  hasBeenStoppedBefore: false,
+                  duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0,
+                },
+                isCircular: false,
+                contents: [
+                  {
+                    isActive: false,
+                    value: 'b',
+                    index: 0,
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 1,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 2,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    value: 'a',
+                    index: 3,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    value: 'z',
+                    index: 4,
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'ACTIVATED_MULTIPLE',
+                indexes: [1, 2],
+                values: ['a', 'a'],
+                deactivatedIndexes: [],
+                deactivatedValues: [],
+                time: new Date(),
+              }
+            );
+          });
+
+          test('when limit is exceeded it may never deactivate items that are already active and ignores subsequent matches', () => {
+            // The three 'a's will match the predicate
+            const { activeList, subscriber } = setup(
+              {
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'ignore',
+                activeIndexes: [0],
+              },
+              ['b', 'a', 'a', 'a', 'z']
+            );
+
+            activeList.activateByPredicate((data) => {
+              expect(data.index).toBeDefined();
+              expect(data.value).toBeDefined();
+
+              expect(data.content).toBeDefined();
+              expect(data.content).toBeInstanceOf(ActiveListContent);
+
+              expect(data.activeList).toBeDefined();
+
+              expect(data.activeList).toBeInstanceOf(ActiveList);
+              return data.value === 'a';
+            });
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b', 'a'],
+                activeContents: [
+                  activeList.contents[0],
+                  activeList.contents[1],
+                ],
+                activeIndexes: [0, 1],
+                // Since the only the first a got activated it is the lastActivated
+                lastActivated: 'a',
+                lastActivatedContent: activeList.contents[1],
+                lastActivatedIndex: 1,
+                // Nothing was deactivated
+                lastDeactivated: null,
+                lastDeactivatedContent: null,
+                lastDeactivatedIndex: -1,
+                direction: 'right',
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'ignore',
+                history: [],
+                hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  hasBeenStoppedBefore: false,
+                  duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0,
+                },
+                isCircular: false,
+                contents: [
+                  {
+                    isActive: true,
+                    value: 'b',
+                    index: 0,
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 1,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    value: 'a',
+                    index: 2,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    value: 'a',
+                    index: 3,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    value: 'z',
+                    index: 4,
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'ACTIVATED_MULTIPLE',
+                indexes: [1],
+                values: ['a'],
+                deactivatedIndexes: [],
+                deactivatedValues: [],
+                time: new Date(),
+              }
+            );
+          });
+
+          test('when limit is already exceeded it may never deactivate items and will ignore the matches', () => {
+            // The three 'a's will match the predicate
+            const { activeList, subscriber } = setup(
+              {
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'ignore',
+                activeIndexes: [0, 4],
+              },
+              ['b', 'a', 'a', 'a', 'z']
+            );
+
+            activeList.activateByPredicate((data) => {
+              expect(data.index).toBeDefined();
+              expect(data.value).toBeDefined();
+
+              expect(data.content).toBeDefined();
+              expect(data.content).toBeInstanceOf(ActiveListContent);
+
+              expect(data.activeList).toBeDefined();
+
+              expect(data.activeList).toBeInstanceOf(ActiveList);
+              return data.value === 'a';
+            });
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
+
+            assertState(activeList, {
+              active: ['b', 'z'],
+              activeContents: [activeList.contents[0], activeList.contents[4]],
+              activeIndexes: [0, 4],
+              // Since nothing happened it should not activate anything.
+              lastActivated: 'z',
+              lastActivatedContent: activeList.contents[4],
+              lastActivatedIndex: 4,
+              // Nothing was deactivated
+              lastDeactivated: null,
+              lastDeactivatedContent: null,
+              lastDeactivatedIndex: -1,
               direction: 'right',
               maxActivationLimit: 2,
-              maxActivationLimitBehavior: 'circular',
+              maxActivationLimitBehavior: 'ignore',
               history: [],
-              hasActiveChangedAtLeastOnce: true,
+              hasActiveChangedAtLeastOnce: false,
               autoPlay: {
                 isPlaying: false,
                 hasBeenStoppedBefore: false,
@@ -4891,7 +5750,7 @@ describe('ActiveList', () => {
               isCircular: false,
               contents: [
                 {
-                  isActive: false,
+                  isActive: true,
                   value: 'b',
                   index: 0,
                   isFirst: true,
@@ -4912,10 +5771,10 @@ describe('ActiveList', () => {
                   hasPrevious: true,
                   isNext: false,
                   isPrevious: false,
-                  hasBeenActiveBefore: true,
+                  hasBeenActiveBefore: false,
                 },
                 {
-                  isActive: true,
+                  isActive: false,
                   value: 'a',
                   index: 2,
                   isFirst: false,
@@ -4923,11 +5782,11 @@ describe('ActiveList', () => {
                   hasNext: true,
                   hasPrevious: true,
                   isNext: false,
-                  isPrevious: true,
-                  hasBeenActiveBefore: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
                 },
                 {
-                  isActive: true,
+                  isActive: false,
                   value: 'a',
                   index: 3,
                   isFirst: false,
@@ -4935,30 +5794,527 @@ describe('ActiveList', () => {
                   hasNext: true,
                   hasPrevious: true,
                   isNext: false,
-                  isPrevious: false,
-                  hasBeenActiveBefore: true,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
                 },
                 {
-                  isActive: false,
+                  isActive: true,
                   value: 'z',
                   index: 4,
                   isFirst: false,
                   isLast: true,
                   hasNext: false,
                   hasPrevious: true,
-                  isNext: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+              ],
+            });
+          });
+        });
+
+        describe('when maxActivationLimitBehavior is "error"', () => {
+          test('when limit is not exceeded matches should be activated', () => {
+            // The two 'a's will match the predicate
+            const { activeList, subscriber } = setup(
+              { maxActivationLimit: 2, maxActivationLimitBehavior: 'error' },
+              ['b', 'a', 'a', 'z']
+            );
+
+            activeList.activateByPredicate((data) => {
+              expect(data.index).toBeDefined();
+              expect(data.value).toBeDefined();
+
+              expect(data.content).toBeDefined();
+              expect(data.content).toBeInstanceOf(ActiveListContent);
+
+              expect(data.activeList).toBeDefined();
+
+              expect(data.activeList).toBeInstanceOf(ActiveList);
+              return data.value === 'a';
+            });
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['a', 'a'],
+                activeContents: [
+                  activeList.contents[1],
+                  activeList.contents[2],
+                ],
+                activeIndexes: [1, 2],
+                // Since both a's got activated the second one is the last activated
+                lastActivated: 'a',
+                lastActivatedContent: activeList.contents[2],
+                lastActivatedIndex: 2,
+                lastDeactivated: null,
+                lastDeactivatedContent: null,
+                lastDeactivatedIndex: -1,
+                direction: 'right',
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'error',
+                history: [],
+                hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  hasBeenStoppedBefore: false,
+                  duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0,
+                },
+                isCircular: false,
+                contents: [
+                  {
+                    isActive: false,
+                    value: 'b',
+                    index: 0,
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 1,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 2,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    value: 'z',
+                    index: 3,
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'ACTIVATED_MULTIPLE',
+                indexes: [1, 2],
+                values: ['a', 'a'],
+                deactivatedIndexes: [],
+                deactivatedValues: [],
+                time: new Date(),
+              }
+            );
+          });
+
+          test('when limit is exceeded it should ignore next matches but throw error, but also send an event', () => {
+            // The three 'a's will match the predicate
+            const { activeList, subscriber } = setup(
+              {
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'error',
+              },
+              ['b', 'a', 'a', 'a', 'z']
+            );
+
+            expect(() => {
+              activeList.activateByPredicate((data) => {
+                expect(data.index).toBeDefined();
+                expect(data.value).toBeDefined();
+
+                expect(data.content).toBeDefined();
+                expect(data.content).toBeInstanceOf(ActiveListContent);
+
+                expect(data.activeList).toBeDefined();
+
+                expect(data.activeList).toBeInstanceOf(ActiveList);
+                return data.value === 'a';
+              });
+            }).toThrowError(ActiveListActivationLimitReachedError);
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['a', 'a'],
+                activeContents: [
+                  activeList.contents[1],
+                  activeList.contents[2],
+                ],
+                activeIndexes: [1, 2],
+                // Since the first two a's got activated the second one is the last activated
+                lastActivated: 'a',
+                lastActivatedContent: activeList.contents[2],
+                lastActivatedIndex: 2,
+                // Nothing was ever deactivated
+                lastDeactivated: null,
+                lastDeactivatedContent: null,
+                lastDeactivatedIndex: -1,
+                direction: 'right',
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'error',
+                history: [],
+                hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  hasBeenStoppedBefore: false,
+                  duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0,
+                },
+                isCircular: false,
+                contents: [
+                  {
+                    isActive: false,
+                    value: 'b',
+                    index: 0,
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 1,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 2,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    value: 'a',
+                    index: 3,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    value: 'z',
+                    index: 4,
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'ACTIVATED_MULTIPLE',
+                indexes: [1, 2],
+                values: ['a', 'a'],
+                deactivatedIndexes: [],
+                deactivatedValues: [],
+                time: new Date(),
+              }
+            );
+          });
+
+          test('when limit is exceeded it may never deactivate items that are already active and ignores subsequent matches', () => {
+            // The three 'a's will match the predicate
+            const { activeList, subscriber } = setup(
+              {
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'error',
+                activeIndexes: [0],
+              },
+              ['b', 'a', 'a', 'a', 'z']
+            );
+
+            expect(() => {
+              activeList.activateByPredicate((data) => {
+                expect(data.index).toBeDefined();
+                expect(data.value).toBeDefined();
+
+                expect(data.content).toBeDefined();
+                expect(data.content).toBeInstanceOf(ActiveListContent);
+
+                expect(data.activeList).toBeDefined();
+
+                expect(data.activeList).toBeInstanceOf(ActiveList);
+                return data.value === 'a';
+              });
+            }).toThrowError(ActiveListActivationLimitReachedError);
+
+            expect(subscriber).toHaveBeenCalledTimes(1);
+
+            assertLastSubscriber(
+              subscriber,
+              {
+                active: ['b', 'a'],
+                activeContents: [
+                  activeList.contents[0],
+                  activeList.contents[1],
+                ],
+                activeIndexes: [0, 1],
+                // Since the only the first a got activated it is the lastActivated
+                lastActivated: 'a',
+                lastActivatedContent: activeList.contents[1],
+                lastActivatedIndex: 1,
+                // Nothing was deactivated
+                lastDeactivated: null,
+                lastDeactivatedContent: null,
+                lastDeactivatedIndex: -1,
+                direction: 'right',
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'error',
+                history: [],
+                hasActiveChangedAtLeastOnce: true,
+                autoPlay: {
+                  isPlaying: false,
+                  hasBeenStoppedBefore: false,
+                  duration: 0,
+                },
+                cooldown: {
+                  isActive: false,
+                  duration: 0,
+                },
+                isCircular: false,
+                contents: [
+                  {
+                    isActive: true,
+                    value: 'b',
+                    index: 0,
+                    isFirst: true,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: false,
+                    isNext: false,
+                    isPrevious: true,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: true,
+                    value: 'a',
+                    index: 1,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: true,
+                  },
+                  {
+                    isActive: false,
+                    value: 'a',
+                    index: 2,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: true,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    value: 'a',
+                    index: 3,
+                    isFirst: false,
+                    isLast: false,
+                    hasNext: true,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                  {
+                    isActive: false,
+                    value: 'z',
+                    index: 4,
+                    isFirst: false,
+                    isLast: true,
+                    hasNext: false,
+                    hasPrevious: true,
+                    isNext: false,
+                    isPrevious: false,
+                    hasBeenActiveBefore: false,
+                  },
+                ],
+              },
+              {
+                type: 'ACTIVATED_MULTIPLE',
+                indexes: [1],
+                values: ['a'],
+                deactivatedIndexes: [],
+                deactivatedValues: [],
+                time: new Date(),
+              }
+            );
+          });
+
+          test('when limit is already exceeded it may never deactivate items and will ignore the matches', () => {
+            // The three 'a's will match the predicate
+            const { activeList, subscriber } = setup(
+              {
+                maxActivationLimit: 2,
+                maxActivationLimitBehavior: 'error',
+                activeIndexes: [0, 4],
+              },
+              ['b', 'a', 'a', 'a', 'z']
+            );
+
+            expect(() => {
+              activeList.activateByPredicate((data) => {
+                expect(data.index).toBeDefined();
+                expect(data.value).toBeDefined();
+
+                expect(data.content).toBeDefined();
+                expect(data.content).toBeInstanceOf(ActiveListContent);
+
+                expect(data.activeList).toBeDefined();
+
+                expect(data.activeList).toBeInstanceOf(ActiveList);
+                return data.value === 'a';
+              });
+            }).toThrowError(ActiveListActivationLimitReachedError);
+
+            expect(subscriber).toHaveBeenCalledTimes(0);
+
+            assertState(activeList, {
+              active: ['b', 'z'],
+              activeContents: [activeList.contents[0], activeList.contents[4]],
+              activeIndexes: [0, 4],
+              // Since nothing happened it should not activate anything.
+              lastActivated: 'z',
+              lastActivatedContent: activeList.contents[4],
+              lastActivatedIndex: 4,
+              // Nothing was deactivated
+              lastDeactivated: null,
+              lastDeactivatedContent: null,
+              lastDeactivatedIndex: -1,
+              direction: 'right',
+              maxActivationLimit: 2,
+              maxActivationLimitBehavior: 'error',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                hasBeenStoppedBefore: false,
+                duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0,
+              },
+              isCircular: false,
+              contents: [
+                {
+                  isActive: true,
+                  value: 'b',
+                  index: 0,
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  isActive: false,
+                  value: 'a',
+                  index: 1,
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
                   isPrevious: false,
                   hasBeenActiveBefore: false,
                 },
+                {
+                  isActive: false,
+                  value: 'a',
+                  index: 2,
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  isActive: false,
+                  value: 'a',
+                  index: 3,
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  isActive: true,
+                  value: 'z',
+                  index: 4,
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
               ],
-            },
-            {
-              type: 'ACTIVATED_MULTIPLE',
-              indexes: [1, 2, 3],
-              values: ['a', 'a', 'a'],
-              time: new Date(),
-            }
-          );
+            });
+          });
         });
       });
 
@@ -6668,6 +8024,111 @@ describe('ActiveList', () => {
         );
       });
 
+      test('when all matching items are already deactivated it does nothing', () => {
+        // The two 'a's will match the predicate
+        const { activeList, subscriber } = setup(
+          { maxActivationLimit: false, activeIndexes: [1, 2] },
+          ['b', 'a', 'a', 'z']
+        );
+
+        activeList.deactivateByPredicate(
+          (data) => {
+            expect(data.index).toBeDefined();
+            expect(data.value).toBeDefined();
+
+            expect(data.content).toBeDefined();
+            expect(data.content).toBeInstanceOf(ActiveListContent);
+
+            expect(data.activeList).toBeDefined();
+
+            expect(data.activeList).toBeInstanceOf(ActiveList);
+            return data.value === 'b' || data.value === 'z';
+          },
+          {
+            isUserInteraction: true,
+          }
+        );
+
+        assertState(activeList, {
+          active: ['a', 'a'],
+          activeContents: [activeList.contents[1], activeList.contents[2]],
+          activeIndexes: [1, 2],
+          lastActivated: 'a',
+          lastActivatedContent: activeList.contents[2],
+          lastActivatedIndex: 2,
+          lastDeactivated: null,
+          lastDeactivatedContent: null,
+          lastDeactivatedIndex: -1,
+          direction: 'right',
+          maxActivationLimit: false,
+          maxActivationLimitBehavior: 'circular',
+          history: [],
+          hasActiveChangedAtLeastOnce: false,
+          autoPlay: {
+            isPlaying: false,
+            hasBeenStoppedBefore: false,
+            duration: 0,
+          },
+          cooldown: {
+            isActive: false,
+            duration: 0,
+          },
+          isCircular: false,
+          contents: [
+            {
+              isActive: false,
+              value: 'b',
+              index: 0,
+              isFirst: true,
+              isLast: false,
+              hasNext: true,
+              hasPrevious: false,
+              isNext: false,
+              isPrevious: false,
+              hasBeenActiveBefore: false,
+            },
+            {
+              isActive: true,
+              value: 'a',
+              index: 1,
+              isFirst: false,
+              isLast: false,
+              hasNext: true,
+              hasPrevious: true,
+              isNext: false,
+              isPrevious: true,
+              hasBeenActiveBefore: true,
+            },
+            {
+              isActive: true,
+              value: 'a',
+              index: 2,
+              isFirst: false,
+              isLast: false,
+              hasNext: true,
+              hasPrevious: true,
+              isNext: false,
+              isPrevious: false,
+              hasBeenActiveBefore: true,
+            },
+            {
+              isActive: false,
+              value: 'z',
+              index: 3,
+              isFirst: false,
+              isLast: true,
+              hasNext: false,
+              hasPrevious: true,
+              isNext: true,
+              isPrevious: false,
+              hasBeenActiveBefore: false,
+            },
+          ],
+        });
+
+        expect(subscriber).toHaveBeenCalledTimes(0);
+      });
+
       test('when no items match they should remain as they were', () => {
         // The two 'a's will match the predicate
         const { activeList, subscriber } = setup(
@@ -6691,96 +8152,88 @@ describe('ActiveList', () => {
           return data.value === 'c';
         });
 
-        expect(subscriber).toHaveBeenCalledTimes(1);
-        assertLastSubscriber(
-          subscriber,
-          {
-            active: ['b', 'a', 'z'],
-            activeContents: [
-              activeList.contents[0],
-              activeList.contents[1],
-              activeList.contents[3],
-            ],
-            activeIndexes: [0, 1, 3],
-            lastActivated: 'z',
-            lastActivatedContent: activeList.contents[3],
-            lastActivatedIndex: 3,
-            lastDeactivated: null,
-            lastDeactivatedContent: null,
-            lastDeactivatedIndex: -1,
-            direction: 'right',
-            maxActivationLimit: false,
-            maxActivationLimitBehavior: 'circular',
-            history: [],
-            hasActiveChangedAtLeastOnce: false,
-            autoPlay: {
-              isPlaying: false,
-              hasBeenStoppedBefore: false,
-              duration: 0,
-            },
-            cooldown: {
-              isActive: false,
-              duration: 0,
-            },
-            isCircular: false,
-            contents: [
-              {
-                isActive: true,
-                value: 'b',
-                index: 0,
-                isFirst: true,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: false,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                isActive: true,
-                value: 'a',
-                index: 1,
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-              {
-                isActive: false,
-                value: 'a',
-                index: 2,
-                isFirst: false,
-                isLast: false,
-                hasNext: true,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: true,
-                hasBeenActiveBefore: false,
-              },
-              {
-                isActive: true,
-                value: 'z',
-                index: 3,
-                isFirst: false,
-                isLast: true,
-                hasNext: false,
-                hasPrevious: true,
-                isNext: false,
-                isPrevious: false,
-                hasBeenActiveBefore: true,
-              },
-            ],
+        assertState(activeList, {
+          active: ['b', 'a', 'z'],
+          activeContents: [
+            activeList.contents[0],
+            activeList.contents[1],
+            activeList.contents[3],
+          ],
+          activeIndexes: [0, 1, 3],
+          lastActivated: 'z',
+          lastActivatedContent: activeList.contents[3],
+          lastActivatedIndex: 3,
+          lastDeactivated: null,
+          lastDeactivatedContent: null,
+          lastDeactivatedIndex: -1,
+          direction: 'right',
+          maxActivationLimit: false,
+          maxActivationLimitBehavior: 'circular',
+          history: [],
+          hasActiveChangedAtLeastOnce: false,
+          autoPlay: {
+            isPlaying: false,
+            hasBeenStoppedBefore: false,
+            duration: 0,
           },
-          {
-            type: 'DEACTIVATED_MULTIPLE',
-            indexes: [],
-            values: [],
-            time: new Date(),
-          }
-        );
+          cooldown: {
+            isActive: false,
+            duration: 0,
+          },
+          isCircular: false,
+          contents: [
+            {
+              isActive: true,
+              value: 'b',
+              index: 0,
+              isFirst: true,
+              isLast: false,
+              hasNext: true,
+              hasPrevious: false,
+              isNext: false,
+              isPrevious: false,
+              hasBeenActiveBefore: true,
+            },
+            {
+              isActive: true,
+              value: 'a',
+              index: 1,
+              isFirst: false,
+              isLast: false,
+              hasNext: true,
+              hasPrevious: true,
+              isNext: false,
+              isPrevious: false,
+              hasBeenActiveBefore: true,
+            },
+            {
+              isActive: false,
+              value: 'a',
+              index: 2,
+              isFirst: false,
+              isLast: false,
+              hasNext: true,
+              hasPrevious: true,
+              isNext: false,
+              isPrevious: true,
+              hasBeenActiveBefore: false,
+            },
+            {
+              isActive: true,
+              value: 'z',
+              index: 3,
+              isFirst: false,
+              isLast: true,
+              hasNext: false,
+              hasPrevious: true,
+              isNext: false,
+              isPrevious: false,
+              hasBeenActiveBefore: true,
+            },
+          ],
+        });
+
+        expect(subscriber).toHaveBeenCalledTimes(0);
       });
 
       test('that it sets a cooldown', () => {
@@ -7677,13 +9130,84 @@ describe('ActiveList', () => {
 
     describe('insertByPredicate', () => {
       test('when no predicate matches do nothing', () => {
-        const { activeList, subscriber } = setup({ activeIndexes: 0 });
+        const { activeList, subscriber } = setup({ activeIndexes: 1 });
 
-        activeList.insertByPredicate('z', ({ value }) => value === 'y', {
-          mode: 'at',
-        });
+        const result = activeList.insertByPredicate(
+          'z',
+          ({ value }) => value === 'y',
+          {
+            mode: 'at',
+          }
+        );
 
         expect(subscriber).toHaveBeenCalledTimes(0);
+
+        expect(result).toBe(null);
+
+        assertState(activeList, {
+          active: ['b'],
+          activeContents: [activeList.contents[1]],
+          activeIndexes: [1],
+          lastActivated: 'b',
+          lastActivatedContent: activeList.contents[1],
+          lastActivatedIndex: 1,
+          lastDeactivated: null,
+          lastDeactivatedContent: null,
+          lastDeactivatedIndex: -1,
+          isCircular: false,
+          direction: 'right',
+          maxActivationLimit: 1,
+          maxActivationLimitBehavior: 'circular',
+          history: [],
+          hasActiveChangedAtLeastOnce: false,
+          autoPlay: {
+            isPlaying: false,
+            hasBeenStoppedBefore: false,
+            duration: 0,
+          },
+          cooldown: {
+            isActive: false,
+            duration: 0,
+          },
+          contents: [
+            {
+              isActive: false,
+              index: 0,
+              value: 'a',
+              isFirst: true,
+              isLast: false,
+              hasNext: true,
+              hasPrevious: false,
+              isNext: false,
+              isPrevious: true,
+              hasBeenActiveBefore: false,
+            },
+            {
+              isActive: true,
+              index: 1,
+              value: 'b',
+              isFirst: false,
+              isLast: false,
+              hasNext: true,
+              hasPrevious: true,
+              isNext: false,
+              isPrevious: false,
+              hasBeenActiveBefore: true,
+            },
+            {
+              isActive: false,
+              index: 2,
+              value: 'c',
+              isFirst: false,
+              isLast: true,
+              hasNext: false,
+              hasPrevious: true,
+              isNext: true,
+              isPrevious: false,
+              hasBeenActiveBefore: false,
+            },
+          ],
+        });
       });
 
       test('when no mode is provided assume at', () => {
@@ -9221,7 +10745,7 @@ describe('ActiveList', () => {
             time: new Date(),
           }
         );
-      })
+      });
     });
 
     describe('removing with predicate', () => {
@@ -10816,7 +12340,7 @@ describe('ActiveList', () => {
         });
 
         test('when no predicate matches do nothing', () => {
-          const { activeList, subscriber } = setup({ activeIndexes: 0 });
+          const { activeList, subscriber } = setup({ activeIndexes: 1 });
 
           const removed = activeList.removeByPredicate(
             ({ value }) => value === 'y'
@@ -10825,6 +12349,71 @@ describe('ActiveList', () => {
           expect(subscriber).toHaveBeenCalledTimes(0);
 
           expect(removed).toEqual([]);
+
+          assertState(activeList, {
+            active: ['b'],
+            activeContents: [activeList.contents[1]],
+            activeIndexes: [1],
+            lastActivated: 'b',
+            lastActivatedContent: activeList.contents[1],
+            lastActivatedIndex: 1,
+            lastDeactivated: null,
+            lastDeactivatedContent: null,
+            lastDeactivatedIndex: -1,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              hasBeenStoppedBefore: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
+            contents: [
+              {
+                isActive: false,
+                index: 0,
+                value: 'a',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: false,
+              },
+              {
+                isActive: true,
+                index: 1,
+                value: 'b',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                isActive: false,
+                index: 2,
+                value: 'c',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: true,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+            ],
+          });
         });
 
         test('when content is already empty do nothing', () => {
@@ -10839,6 +12428,34 @@ describe('ActiveList', () => {
           expect(activeList.hasActiveChangedAtLeastOnce).toBe(false);
 
           expect(removed).toEqual([]);
+
+          assertState(activeList, {
+            active: [],
+            activeContents: [],
+            activeIndexes: [],
+            lastActivated: null,
+            lastActivatedContent: null,
+            lastActivatedIndex: -1,
+            lastDeactivated: null,
+            lastDeactivatedContent: null,
+            lastDeactivatedIndex: -1,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              hasBeenStoppedBefore: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
+            contents: [],
+          });
         });
       });
 
@@ -18488,6 +20105,71 @@ describe('ActiveList', () => {
             );
 
             expect(subscriber).toHaveBeenCalledTimes(0);
+
+            assertState(activeList, {
+              active: ['b'],
+              activeContents: [activeList.contents[1]],
+              activeIndexes: [1],
+              lastActivated: 'b',
+              lastActivatedContent: activeList.contents[1],
+              lastActivatedIndex: 1,
+              lastDeactivated: null,
+              lastDeactivatedContent: null,
+              lastDeactivatedIndex: -1,
+              isCircular: false,
+              direction: 'right',
+              maxActivationLimit: 1,
+              maxActivationLimitBehavior: 'circular',
+              history: [],
+              hasActiveChangedAtLeastOnce: false,
+              autoPlay: {
+                isPlaying: false,
+                hasBeenStoppedBefore: false,
+                duration: 0,
+              },
+              cooldown: {
+                isActive: false,
+                duration: 0,
+              },
+              contents: [
+                {
+                  isActive: false,
+                  index: 0,
+                  value: 'a',
+                  isFirst: true,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: false,
+                  isNext: false,
+                  isPrevious: true,
+                  hasBeenActiveBefore: false,
+                },
+                {
+                  isActive: true,
+                  index: 1,
+                  value: 'b',
+                  isFirst: false,
+                  isLast: false,
+                  hasNext: true,
+                  hasPrevious: true,
+                  isNext: false,
+                  isPrevious: false,
+                  hasBeenActiveBefore: true,
+                },
+                {
+                  isActive: false,
+                  index: 2,
+                  value: 'c',
+                  isFirst: false,
+                  isLast: true,
+                  hasNext: false,
+                  hasPrevious: true,
+                  isNext: true,
+                  isPrevious: false,
+                  hasBeenActiveBefore: false,
+                },
+              ],
+            });
           });
 
           test('move to middle', () => {
@@ -19061,6 +20743,71 @@ describe('ActiveList', () => {
           });
 
           expect(subscriber).toHaveBeenCalledTimes(0);
+
+          assertState(activeList, {
+            active: ['b'],
+            activeContents: [activeList.contents[1]],
+            activeIndexes: [1],
+            lastActivated: 'b',
+            lastActivatedContent: activeList.contents[1],
+            lastActivatedIndex: 1,
+            lastDeactivated: null,
+            lastDeactivatedContent: null,
+            lastDeactivatedIndex: -1,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              hasBeenStoppedBefore: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
+            contents: [
+              {
+                isActive: false,
+                index: 0,
+                value: 'a',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: false,
+              },
+              {
+                isActive: true,
+                index: 1,
+                value: 'b',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                isActive: false,
+                index: 2,
+                value: 'c',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: true,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+            ],
+          });
         });
       });
 
@@ -19649,6 +21396,71 @@ describe('ActiveList', () => {
           });
 
           expect(subscriber).toHaveBeenCalledTimes(0);
+
+          assertState(activeList, {
+            active: ['b'],
+            activeContents: [activeList.contents[1]],
+            activeIndexes: [1],
+            lastActivated: 'b',
+            lastActivatedContent: activeList.contents[1],
+            lastActivatedIndex: 1,
+            lastDeactivated: null,
+            lastDeactivatedContent: null,
+            lastDeactivatedIndex: -1,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              hasBeenStoppedBefore: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
+            contents: [
+              {
+                isActive: false,
+                index: 0,
+                value: 'a',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: false,
+              },
+              {
+                isActive: true,
+                index: 1,
+                value: 'b',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                isActive: false,
+                index: 2,
+                value: 'c',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: true,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+            ],
+          });
         });
       });
 
@@ -20237,6 +22049,71 @@ describe('ActiveList', () => {
           });
 
           expect(subscriber).toHaveBeenCalledTimes(0);
+
+          assertState(activeList, {
+            active: ['b'],
+            activeContents: [activeList.contents[1]],
+            activeIndexes: [1],
+            lastActivated: 'b',
+            lastActivatedContent: activeList.contents[1],
+            lastActivatedIndex: 1,
+            lastDeactivated: null,
+            lastDeactivatedContent: null,
+            lastDeactivatedIndex: -1,
+            isCircular: false,
+            direction: 'right',
+            maxActivationLimit: 1,
+            maxActivationLimitBehavior: 'circular',
+            history: [],
+            hasActiveChangedAtLeastOnce: false,
+            autoPlay: {
+              isPlaying: false,
+              hasBeenStoppedBefore: false,
+              duration: 0,
+            },
+            cooldown: {
+              isActive: false,
+              duration: 0,
+            },
+            contents: [
+              {
+                isActive: false,
+                index: 0,
+                value: 'a',
+                isFirst: true,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: false,
+                isNext: false,
+                isPrevious: true,
+                hasBeenActiveBefore: false,
+              },
+              {
+                isActive: true,
+                index: 1,
+                value: 'b',
+                isFirst: false,
+                isLast: false,
+                hasNext: true,
+                hasPrevious: true,
+                isNext: false,
+                isPrevious: false,
+                hasBeenActiveBefore: true,
+              },
+              {
+                isActive: false,
+                index: 2,
+                value: 'c',
+                isFirst: false,
+                isLast: true,
+                hasNext: false,
+                hasPrevious: true,
+                isNext: true,
+                isPrevious: false,
+                hasBeenActiveBefore: false,
+              },
+            ],
+          });
         });
       });
     });
@@ -24265,8 +26142,10 @@ describe('ActiveList', () => {
         }),
         expect.objectContaining({
           type: 'ACTIVATED_MULTIPLE',
-          indexes: [0, 1, 2],
-          values: ['a', 'c', 'b'],
+          indexes: [2],
+          values: ['b'],
+          deactivatedIndexes: [],
+          deactivatedValues: [],
         }),
       ]);
 
@@ -24312,8 +26191,10 @@ describe('ActiveList', () => {
         }),
         expect.objectContaining({
           type: 'ACTIVATED_MULTIPLE',
-          indexes: [0, 1, 2],
-          values: ['a', 'c', 'b'],
+          indexes: [2],
+          values: ['b'],
+          deactivatedIndexes: [],
+          deactivatedValues: [],
         }),
         expect.objectContaining({
           type: 'AUTO_PLAY_PLAYING',
@@ -24362,8 +26243,10 @@ describe('ActiveList', () => {
         }),
         expect.objectContaining({
           type: 'ACTIVATED_MULTIPLE',
-          indexes: [0, 1, 2],
-          values: ['a', 'c', 'b'],
+          indexes: [2],
+          values: ['b'],
+          deactivatedIndexes: [],
+          deactivatedValues: [],
         }),
         expect.objectContaining({
           type: 'AUTO_PLAY_PLAYING',
@@ -24415,8 +26298,10 @@ describe('ActiveList', () => {
         }),
         expect.objectContaining({
           type: 'ACTIVATED_MULTIPLE',
-          indexes: [0, 1, 2],
-          values: ['a', 'c', 'b'],
+          indexes: [2],
+          values: ['b'],
+          deactivatedIndexes: [],
+          deactivatedValues: [],
         }),
         expect.objectContaining({
           type: 'AUTO_PLAY_PLAYING',
@@ -24471,8 +26356,10 @@ describe('ActiveList', () => {
         }),
         expect.objectContaining({
           type: 'ACTIVATED_MULTIPLE',
-          indexes: [0, 1, 2],
-          values: ['a', 'c', 'b'],
+          indexes: [2],
+          values: ['b'],
+          deactivatedIndexes: [],
+          deactivatedValues: [],
         }),
         expect.objectContaining({
           type: 'AUTO_PLAY_PLAYING',
@@ -24532,8 +26419,10 @@ describe('ActiveList', () => {
         }),
         expect.objectContaining({
           type: 'ACTIVATED_MULTIPLE',
-          indexes: [0, 1, 2],
-          values: ['a', 'c', 'b'],
+          indexes: [2],
+          values: ['b'],
+          deactivatedIndexes: [],
+          deactivatedValues: [],
         }),
         expect.objectContaining({
           type: 'AUTO_PLAY_PLAYING',

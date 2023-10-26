@@ -823,7 +823,7 @@ export type ActiveListActivatedMultipleEvent<T> = ActiveListBaseEvent & {
   /**
    * The values which were activated.
    *
-   * Note: there are the values at the time of deactivation, they might
+   * Note: there are the values at the time of activation, they might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
    * copy is made.
@@ -835,12 +835,34 @@ export type ActiveListActivatedMultipleEvent<T> = ActiveListBaseEvent & {
   /**
    * The indexes of the activated items.
    *
-   * Note: these are the indexes at the time of the deactivation, it might
+   * Note: these are the indexes at the time of the activation, it might
    * no longer be accurate.
    *
    * @since 1.0.0
    */
   indexes: number[];
+
+  /**
+   * The values which were deactivated.
+   *
+   * Note: there are the values at the time of deactivation, they might
+   * no longer be accurate. Keep in mind that when the `value` is
+   * an object or an array, they can still be mutated, because no
+   * copy is made.
+   *
+   * @since 1.5.0
+   */
+  deactivatedValues: T[];
+
+  /**
+   * The indexes of the deactivated items.
+   *
+   * Note: these are the indexes at the time of the deactivation, it might
+   * no longer be accurate.
+   *
+   * @since 1.5.0
+   */
+  deactivatedIndexes: number[];
 };
 
 /**
