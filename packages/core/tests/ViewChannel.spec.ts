@@ -3309,6 +3309,54 @@ describe('ViewChannel', () => {
       expect(secondSubscriber).toHaveBeenCalledTimes(1);
       expect(thirdSubscriber).toHaveBeenCalledTimes(2);
     });
+
+    test('unsubscribeAll', () => {
+      const viewChannel = new ViewChannel<string, string>();
+      const subscriber = autoSubscribe(viewChannel);
+  
+      const secondSubscriber = jest.fn();
+      viewChannel.subscribe(secondSubscriber);
+      
+      const thirdSubscriber = jest.fn();
+      viewChannel.subscribe(thirdSubscriber);
+  
+      // All three should be informed of this
+      viewChannel.present({
+        data: 'view',
+      });
+  
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+  
+      viewChannel.unsubscribeAll();
+  
+      // no one should be informed after the unsubscribe all
+      viewChannel.present({
+        data: 'view',
+      });
+  
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+
+       // Test if a new subscriber can still be added after the clear.
+       const newSubscriber = jest.fn();
+       viewChannel.subscribe(newSubscriber);
+ 
+       // Only new one should be informed
+       viewChannel.present({
+        data: 'view',
+      });
+ 
+       // New one should be informed
+       expect(newSubscriber).toHaveBeenCalledTimes(1);
+ 
+       // Still not informed
+       expect(subscriber).toHaveBeenCalledTimes(1);
+       expect(secondSubscriber).toHaveBeenCalledTimes(1);
+       expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+    });
   });
 });
 

@@ -451,6 +451,17 @@ export class ActiveList<T>
   }
 
   /**
+   * Unsubscribes all subscribers at once, all subscribers will no 
+   * longer receives changes / updates of the state changes of 
+   * the ActiveList.
+   * 
+   * @since 1.5.0
+   */
+  public unsubscribeAll(): void {
+    this._observer._clear();
+  }
+
+  /**
    * Initializes the ActiveList based on the config provided. This can
    * effectively reset the ActiveList when called, including the
    * history, autoPlay and cooldown.

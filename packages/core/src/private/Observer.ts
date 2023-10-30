@@ -18,6 +18,11 @@ export class _Observer<T, E> {
     this._subscribers = this._subscribers.filter((s) => subscriber !== s);
   }
 
+  // Remove all subscribers
+  public _clear(): void {
+    this._subscribers.length = 0;
+  }
+
   // Inform the _subscribers of changes to the observable
   public _inform(observable: T, event: E): void {
     this._subscribers.forEach((subscriber) => subscriber(observable, event));

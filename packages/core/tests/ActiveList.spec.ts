@@ -26717,7 +26717,48 @@ describe('ActiveList', () => {
       expect(secondSubscriber).toHaveBeenCalledTimes(1);
       expect(thirdSubscriber).toHaveBeenCalledTimes(2);
     });
-  });
+
+    test('unsubscribeAll', () => {
+      const { activeList, subscriber } = setup({ activeIndexes: 0 });
+  
+      const secondSubscriber = jest.fn();
+      activeList.subscribe(secondSubscriber);
+      
+      const thirdSubscriber = jest.fn();
+      activeList.subscribe(thirdSubscriber);
+  
+      // All three should be informed of this
+      activeList.activateByIndex(1);
+  
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+  
+      activeList.unsubscribeAll();
+  
+      // no one should be informed after the unsubscribe all
+      activeList.activateByIndex(0);
+  
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+
+      // Test if a new subscriber can still be added after the clear.
+      const newSubscriber = jest.fn();
+      activeList.subscribe(newSubscriber);
+
+      // Only new one should be informed
+      activeList.activateByIndex(2);
+      
+      // New one should be informed
+      expect(newSubscriber).toHaveBeenCalledTimes(1);
+
+      // Still not informed
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+    });
+  }); 
 });
 
 type ActiveListSansContents<T> = Pick<
