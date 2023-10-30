@@ -533,6 +533,17 @@ export class Typewriter<T = void>
   }
 
   /**
+   * Unsubscribes all subscribers at once, all subscribers will no
+   * longer receives changes / updates of the state changes of
+   * the Typewriter.
+   *
+   * @since 1.5.0
+   */
+  public unsubscribeAll(): void {
+    this._observer._clear();
+  }
+
+  /**
    * When the Typewriter is paused or stopped it will start the
    * animation from that point. If the animation was finished calling
    * `play()` will restart the animation.

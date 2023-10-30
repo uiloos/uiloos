@@ -37506,6 +37506,69 @@ describe('Typewriter', () => {
       expect(secondSubscriber).toHaveBeenCalledTimes(1);
       expect(thirdSubscriber).toHaveBeenCalledTimes(2);
     });
+
+    test('unsubscribeAll', () => {
+      const typewriter = new Typewriter<string>({
+        actions: [
+          {
+            type: 'keyboard',
+            text: 'a',
+            delay: 10000,
+            cursor: 0,
+          },
+          {
+            type: 'keyboard',
+            text: 'b',
+            delay: 10000,
+            cursor: 0,
+          },
+          {
+            type: 'keyboard',
+            text: 'c',
+            delay: 10000,
+            cursor: 0,
+          },
+        ],
+      });
+      const subscriber = autoSubscribe(typewriter);
+  
+      const secondSubscriber = jest.fn();
+      typewriter.subscribe(secondSubscriber);
+      
+      const thirdSubscriber = jest.fn();
+      typewriter.subscribe(thirdSubscriber);
+  
+      // All three should be informed of this
+      typewriter.pause();
+  
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+  
+      typewriter.unsubscribeAll();
+  
+      // no one should be informed after the unsubscribe all
+      typewriter.play();
+  
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+
+      // Test if a new subscriber can still be added after the clear.
+      const newSubscriber = jest.fn();
+      typewriter.subscribe(newSubscriber);
+
+      // Only new one should be informed
+      typewriter.pause();
+
+      // New one should be informed
+      expect(newSubscriber).toHaveBeenCalledTimes(1);
+
+      // Still not informed
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+    });
   });
 });
 
