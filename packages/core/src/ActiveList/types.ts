@@ -804,6 +804,38 @@ export type ActiveListActivatedEvent<T> = ActiveListBaseEvent & {
    * @since 1.0.0
    */
   index: number;
+
+  /**
+   * The value which was deactivated, will be `null` when no value
+   * was deactivated as part of the activation.
+   * 
+   * A deactivation will only happen as part of an activation when 
+   * `maxActivationLimit` is set to a `number` and 
+   * `maxActivationLimitBehavior` is set to `circular`.
+   *
+   * Note: there are the values at the time of deactivation, they might
+   * no longer be accurate. Keep in mind that when the `value` is
+   * an object or an array, they can still be mutated, because no
+   * copy is made.
+   *
+   * @since 1.5.0
+   */
+  deactivatedValue: T | null;
+
+  /**
+   * The index of the deactivated item, will be `-1` when no index
+   * was deactivated as part of the activation.
+   * 
+   * A deactivation will only happen as part of an activation when 
+   * `maxActivationLimit` is set to a `number` and 
+   * `maxActivationLimitBehavior` is set to `circular`.
+   *
+   * Note: this was the index at the time of the deactivation, it might
+   * no longer be accurate.
+   *
+   * @since 1.5.0
+   */
+  deactivatedIndex: number;
 };
 
 /**
@@ -868,6 +900,10 @@ export type ActiveListActivatedMultipleEvent<T> = ActiveListBaseEvent & {
 /**
  * Represents a deactivation of an ActiveList.
  * 
+ * IMPORTANT: this event is only fired as a result of a direct 
+ * deactivation call. So not when activating an item also deactivated
+ * an item due to a `maxActivationLimit` being set.
+ * 
  * @since 1.0.0
  */
 export type ActiveListDeactivatedEvent<T> = ActiveListBaseEvent & {
@@ -904,6 +940,11 @@ export type ActiveListDeactivatedEvent<T> = ActiveListBaseEvent & {
 /**
  * Represents multiple deactivations happening at the same time in an
  * ActiveList.
+ * 
+ * IMPORTANT: this event is only fired as a result of a direct 
+ * deactivation call. So not when activating an item also deactivated
+ * an item due to a `maxActivationLimit` being set.
+ * 
  * 
  * @since 1.0.0
  */
