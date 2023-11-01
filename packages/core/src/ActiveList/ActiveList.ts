@@ -451,10 +451,10 @@ export class ActiveList<T>
   }
 
   /**
-   * Unsubscribes all subscribers at once, all subscribers will no 
-   * longer receives changes / updates of the state changes of 
+   * Unsubscribes all subscribers at once, all subscribers will no
+   * longer receives changes / updates of the state changes of
    * the ActiveList.
-   * 
+   *
    * @since 1.5.0
    */
   public unsubscribeAll(): void {
@@ -616,16 +616,30 @@ export class ActiveList<T>
       cooldown: undefined,
     }
   ): void {
+    // Make a copy of what the active indexes were before the sequence
+    // starts, we will use it to check what has changed.
+    const previousDeactivatedIndex = this.lastDeactivatedIndex;
+
     const activatedContent = this._doActivateByIndex(index, activationOptions);
 
     if (!activatedContent) {
       return;
     }
 
+    let deactivatedIndex = -1;
+    let deactivatedValue: T | null = null;
+
+    if (previousDeactivatedIndex !== this.lastDeactivatedIndex) {
+      deactivatedIndex = this.lastDeactivatedIndex;
+      deactivatedValue = this.lastDeactivated;
+    }
+ 
     const event: ActiveListActivatedEvent<T> = {
       type: 'ACTIVATED',
       value: activatedContent.value,
       index,
+      deactivatedIndex,
+      deactivatedValue,
       time: new Date(),
     };
 

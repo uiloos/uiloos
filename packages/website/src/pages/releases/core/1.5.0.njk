@@ -113,6 +113,34 @@ keywords: "release notes @uiloos/core 1.5.0, changelog @uiloos/core 1.5.0"
 
       <li>
         <p>
+          The <a href="/api/core/activelist/#activatebyindex" class="underline high">activateByIndex</a> emits an
+          <a href="/api/core/activelistactivatedevent/" class="underline high">ActiveListActivatedEvent</a>
+          but did not include information about which item was deactivated.
+        </p>
+
+        <p>
+          A deactivation can occur when the ActiveList's <a class="underline high" href="/api/core/activelist/#maxactivationlimit">maxActivationLimit</a> is set 
+          to a number, and the <a class="underline high" href="/api/core/activelist/#maxactivationlimitbehavior">maxActivationLimitBehavior</a>
+          is set to <span class="high">"circular"</span>. In this scenario whenever more items are activated than alloted, the first 
+          item that was activated gets deactivated, in a first in first out manner.
+        </p>
+
+        <p>
+          To fix this since this version two new properties are added to the ActiveListActivatedEvent:  
+          <a href="/api/core/activelistactivatedevent/#deactivatedvalue" class="underline high">deactivatedValue</a> and
+          <a href="/api/core/activelistactivatedevent/#deactivatedindex" class="underline high">deactivatedIndex</a>.
+        </p>
+
+        <p>
+          This only affected you if you used <a href="/api/core/activelist/#activatebypredicate" class="underline high">activateByPredicate</a>, and
+           <a class="underline high" href="/api/core/activelist/#maxactivationlimit">maxActivationLimit</a> was set 
+          to a number, and the <a class="underline high" href="/api/core/activelist/#maxactivationlimitbehavior">maxActivationLimitBehavior</a>
+          was set to <span class="high">"circular"</span>.
+        </p>
+      </li>
+
+      <li>
+        <p>
           The <a href="/api/core/activelist/#activatebypredicate" class="underline high">activateByPredicate</a> emits an
           <a href="/api/core/activelistactivatedmultipleevent/" class="underline high">ActiveListActivatedMultipleEvent</a>
           but did not include information about which items were deactivated.
