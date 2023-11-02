@@ -3,6 +3,7 @@ import { ViewChannel } from './ViewChannel';
 import { ViewChannelIndexOutOfBoundsError } from './errors/ViewChannelIndexOutOfBoundsError';
 import { ViewChannelViewNotFoundError } from './errors/ViewChannelViewNotFoundError';
 import { ViewChannelAutoDismissDurationError } from './errors/ViewChannelAutoDismissDurationError';
+import { createViewChannelSubscriber, CreateViewChannelSubscriberConfig } from './createViewChannelSubscriber';
 
 export * from './types';
 
@@ -11,5 +12,7 @@ export {
   ViewChannelView,
   ViewChannelIndexOutOfBoundsError,
   ViewChannelViewNotFoundError,
-  ViewChannelAutoDismissDurationError
+  ViewChannelAutoDismissDurationError,
+  createViewChannelSubscriber,
+  CreateViewChannelSubscriberConfig
 };

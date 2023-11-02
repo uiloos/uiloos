@@ -39,7 +39,7 @@ console.log('Distilled api json successfully');
 
 // Utils
 
-function format(def, package) {
+function format(def, package, isSub = false) {
   // When a function
   if (def.signatures) {
     return getSignature({
@@ -51,14 +51,14 @@ function format(def, package) {
     });
   }
 
-  // When a type declaration which is a function
+  // When a type declaration is a function
   if (def.type?.type === 'reflection' && def.type?.declaration?.signatures) {
     return getSignature({
       def,
       name: def.name,
       signature: def.type.declaration.signatures[0],
       package,
-      kindString: 'type',
+      kindString: isSub ? 'function': 'type',
       isMethod: false,
     });
   }
@@ -540,7 +540,7 @@ function getType(typeDef, package) {
   if (typeDef.type === 'reflection') {
     return {
       value: typeDef.declaration?.children?.map((child) => {
-        return format(child.signatures ? child.signatures[0] : child, package);
+        return format(child.signatures ? child.signatures[0] : child, package, true);
       }),
       type: 'reflection',
     };

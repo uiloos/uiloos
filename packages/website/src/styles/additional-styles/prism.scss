@@ -18,6 +18,11 @@
   pre[class*='language-'] {
     max-width: 672px;
   }
+
+  .w-full code[class*='language-'],
+  .w-full pre[class*='language-'] {
+    max-width: 100%;
+  }
 }
 
 code[class*='language-'],

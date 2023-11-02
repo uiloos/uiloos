@@ -1,4 +1,11 @@
-import {expect, jest, test, describe, beforeEach, afterEach} from '@jest/globals';
+import {
+  expect,
+  jest,
+  test,
+  describe,
+  beforeEach,
+  afterEach,
+} from '@jest/globals';
 
 import {
   ViewChannel,
@@ -8,6 +15,8 @@ import {
   ViewChannelViewNotFoundError,
   ViewChannelAutoDismissDurationError,
   ViewChannelEventType,
+  CreateViewChannelSubscriberConfig,
+  createViewChannelSubscriber,
 } from '../src/ViewChannel';
 
 import { licenseChecker } from '../src/license';
@@ -2143,7 +2152,11 @@ describe('ViewChannel', () => {
 
       expect(view.isPresented).toBe(true);
       expect(view.autoDismiss).toEqual({ isPlaying: true, duration: 1000 });
-      assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING']);
+      assertEvents(subscriber, [
+        'PRESENTED',
+        'AUTO_DISMISS_PAUSED',
+        'AUTO_DISMISS_PLAYING',
+      ]);
 
       // After 250 milliseconds at 3/4 we stop it again
       jest.advanceTimersByTime(250);
@@ -2154,27 +2167,51 @@ describe('ViewChannel', () => {
 
       expect(view.isPresented).toBe(true);
       expect(view.autoDismiss).toEqual({ isPlaying: false, duration: 1000 });
-      assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING', 'AUTO_DISMISS_PAUSED']);
+      assertEvents(subscriber, [
+        'PRESENTED',
+        'AUTO_DISMISS_PAUSED',
+        'AUTO_DISMISS_PLAYING',
+        'AUTO_DISMISS_PAUSED',
+      ]);
 
       view.play();
 
       expect(view.isPresented).toBe(true);
       expect(view.autoDismiss).toEqual({ isPlaying: true, duration: 1000 });
-      assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING']);
+      assertEvents(subscriber, [
+        'PRESENTED',
+        'AUTO_DISMISS_PAUSED',
+        'AUTO_DISMISS_PLAYING',
+        'AUTO_DISMISS_PAUSED',
+        'AUTO_DISMISS_PLAYING',
+      ]);
 
       // Bring it to the edge
       jest.advanceTimersByTime(249);
 
       expect(view.isPresented).toBe(true);
       expect(view.autoDismiss).toEqual({ isPlaying: true, duration: 1000 });
-      assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING']);
+      assertEvents(subscriber, [
+        'PRESENTED',
+        'AUTO_DISMISS_PAUSED',
+        'AUTO_DISMISS_PLAYING',
+        'AUTO_DISMISS_PAUSED',
+        'AUTO_DISMISS_PLAYING',
+      ]);
 
       // Now click it over
       jest.advanceTimersByTime(1);
 
       expect(view.isPresented).toBe(false);
       expect(view.autoDismiss).toEqual({ isPlaying: false, duration: 0 });
-      assertEvents(subscriber, ['PRESENTED', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING', 'AUTO_DISMISS_PAUSED', 'AUTO_DISMISS_PLAYING', "DISMISSED"]);
+      assertEvents(subscriber, [
+        'PRESENTED',
+        'AUTO_DISMISS_PAUSED',
+        'AUTO_DISMISS_PLAYING',
+        'AUTO_DISMISS_PAUSED',
+        'AUTO_DISMISS_PLAYING',
+        'DISMISSED',
+      ]);
     });
 
     test('that the autoplay can be stopped and restarted', () => {
@@ -2338,7 +2375,7 @@ describe('ViewChannel', () => {
 
       // Present a non playing "a"
       const view = viewChannel.present({
-        data: 'a'
+        data: 'a',
       });
 
       expect(view.isPresented).toBe(true);
@@ -2401,7 +2438,7 @@ describe('ViewChannel', () => {
 
       // Present a non playing "a"
       const view = viewChannel.present({
-        data: 'a'
+        data: 'a',
       });
 
       expect(view.isPresented).toBe(true);
@@ -2728,7 +2765,7 @@ describe('ViewChannel', () => {
           index: 0,
         }),
         expect.objectContaining({
-          type: 'PRESENTED', 
+          type: 'PRESENTED',
           view: expect.objectContaining({
             index: 0,
             data: 'b',
@@ -3027,7 +3064,7 @@ describe('ViewChannel', () => {
           indexes: [0, 1],
         }),
         expect.objectContaining({
-          type: 'PRESENTED', 
+          type: 'PRESENTED',
           view: expect.objectContaining({
             index: 0,
             data: 'd',
@@ -3313,49 +3350,233 @@ describe('ViewChannel', () => {
     test('unsubscribeAll', () => {
       const viewChannel = new ViewChannel<string, string>();
       const subscriber = autoSubscribe(viewChannel);
-  
+
       const secondSubscriber = jest.fn();
       viewChannel.subscribe(secondSubscriber);
-      
+
       const thirdSubscriber = jest.fn();
       viewChannel.subscribe(thirdSubscriber);
-  
+
       // All three should be informed of this
       viewChannel.present({
         data: 'view',
       });
-  
-      expect(subscriber).toHaveBeenCalledTimes(1);
-      expect(secondSubscriber).toHaveBeenCalledTimes(1);
-      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
-  
-      viewChannel.unsubscribeAll();
-  
-      // no one should be informed after the unsubscribe all
-      viewChannel.present({
-        data: 'view',
-      });
-  
+
       expect(subscriber).toHaveBeenCalledTimes(1);
       expect(secondSubscriber).toHaveBeenCalledTimes(1);
       expect(thirdSubscriber).toHaveBeenCalledTimes(1);
 
-       // Test if a new subscriber can still be added after the clear.
-       const newSubscriber = jest.fn();
-       viewChannel.subscribe(newSubscriber);
- 
-       // Only new one should be informed
-       viewChannel.present({
+      viewChannel.unsubscribeAll();
+
+      // no one should be informed after the unsubscribe all
+      viewChannel.present({
         data: 'view',
       });
- 
-       // New one should be informed
-       expect(newSubscriber).toHaveBeenCalledTimes(1);
- 
-       // Still not informed
-       expect(subscriber).toHaveBeenCalledTimes(1);
-       expect(secondSubscriber).toHaveBeenCalledTimes(1);
-       expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+
+      // Test if a new subscriber can still be added after the clear.
+      const newSubscriber = jest.fn();
+      viewChannel.subscribe(newSubscriber);
+
+      // Only new one should be informed
+      viewChannel.present({
+        data: 'view',
+      });
+
+      // New one should be informed
+      expect(newSubscriber).toHaveBeenCalledTimes(1);
+
+      // Still not informed
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('createViewChannelSubscriber', () => {
+    test('that all methods are called correctly', () => {
+      jest.useFakeTimers();
+
+      const config: CreateViewChannelSubscriberConfig<string, string> = {
+        onInitialized: jest.fn(),
+        onPresented: jest.fn(),
+        onDismissed: jest.fn(),
+        onDismissedAll: jest.fn(),
+        onAutoDismissPlaying: jest.fn(),
+        onAutoDismissPaused: jest.fn(),
+        onAutoDismissStopped: jest.fn(),
+      };
+
+      const subscriber = createViewChannelSubscriber<string, string>(config);
+
+      const viewChannel = new ViewChannel<string, string>({}, subscriber);
+
+      expect(config.onInitialized).toBeCalledTimes(1);
+      expect(config.onInitialized).lastCalledWith(
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+        viewChannel
+      );
+
+      const eggs = viewChannel.present({
+        data: 'eggs'
+      });
+
+      expect(config.onPresented).toBeCalledTimes(1);
+      expect(config.onPresented).lastCalledWith(
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: eggs,
+          index: 0
+        }),
+        viewChannel
+      );
+
+      eggs.dismiss('reason');
+
+      expect(config.onDismissed).toBeCalledTimes(1);
+      expect(config.onDismissed).lastCalledWith(
+        expect.objectContaining({
+          type: 'DISMISSED',
+          reason: 'USER_INTERACTION',
+          view: eggs,
+          index: 0
+        }),
+        viewChannel
+      );
+
+      const ham = viewChannel.present({
+        data: 'ham'
+      });
+
+      viewChannel.dismissAll('reason')
+
+      expect(config.onDismissedAll).toBeCalledTimes(1);
+      expect(config.onDismissedAll).lastCalledWith(
+        expect.objectContaining({
+          type: 'DISMISSED_ALL',
+          views: [ham],
+          indexes: [0]
+        }),
+        viewChannel
+      );
+
+      const jam = viewChannel.present({
+        data: 'jam',
+        autoDismiss: {
+          duration: 1000,
+          result: 'auto_dismiss'
+        }
+      });
+
+      jam.pause();
+
+      expect(config.onAutoDismissPaused).toBeCalledTimes(1);
+      expect(config.onAutoDismissPaused).lastCalledWith(
+        expect.objectContaining({
+          type: 'AUTO_DISMISS_PAUSED',
+          view: jam,
+          index:0
+        }),
+        viewChannel
+      );
+
+      jam.play();
+
+      expect(config.onAutoDismissPlaying).toBeCalledTimes(1);
+      expect(config.onAutoDismissPlaying).lastCalledWith(
+        expect.objectContaining({
+          type: 'AUTO_DISMISS_PLAYING',
+          view: jam,
+          index:0
+        }),
+        viewChannel
+      );
+
+      jam.stop();
+
+      expect(config.onAutoDismissStopped).toBeCalledTimes(1);
+      expect(config.onAutoDismissStopped).lastCalledWith(
+        expect.objectContaining({
+          type: 'AUTO_DISMISS_STOPPED',
+          view: jam,
+          index:0
+        }),
+        viewChannel
+      );
+
+      // Check if they are all called at least once.
+      for (const spy of Object.values(config)) {
+        // @ts-expect-error they are mocks
+        expect(spy.mock.calls.length).not.toBe(0);
+      }
+    });
+
+    describe('when a method is not implemented', () => {
+      test('that it logs a warning when debug is true', () => {
+        jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const subscriber = createViewChannelSubscriber<string, string>({
+          debug: true,
+        });
+
+        new ViewChannel({}, subscriber);
+
+        expect(console.warn).toHaveBeenCalledTimes(1);
+        expect(console.warn).toHaveBeenCalledWith(
+          "uiloos > createViewChannelSubscriber event 'INITIALIZED' was fired but 'onInitialized' method is not implemented, this might not be correct."
+        );
+      });
+
+      test('that it does not log a warning when debug is false', () => {
+        jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const subscriber = createViewChannelSubscriber<string, string>({
+          debug: false,
+        });
+
+        new ViewChannel({}, subscriber);
+
+        expect(console.warn).toHaveBeenCalledTimes(0);
+      });
+
+      test('that it does not log a warning when debug is undefined', () => {
+        jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const subscriber = createViewChannelSubscriber<string, string>({});
+
+        new ViewChannel({}, subscriber);
+
+        expect(console.warn).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    test('that created subscribers can be unsubscribed', () => {
+      jest.useFakeTimers();
+
+      const config: CreateViewChannelSubscriberConfig<string, string> = {
+        onPresented: jest.fn(),
+        onDismissedAll: jest.fn(),
+      };
+
+      const subscriber = createViewChannelSubscriber<string, string>(config);
+
+      const viewChannel = new ViewChannel<string, string>({}, subscriber);
+
+      viewChannel.present({
+        data: 'some modal',
+      });
+      expect(config.onPresented).toBeCalledTimes(1);
+
+      viewChannel.unsubscribe(subscriber);
+
+      // Should be unsubscribed and therefore 0 and not 1.
+      viewChannel.dismissAll('clearing');
+      expect(config.onDismissedAll).toBeCalledTimes(0);
     });
   });
 });
@@ -3425,7 +3646,7 @@ function assertEvents(
   expectedEvents: ViewChannelEventType[]
 ) {
   const events: ViewChannelEventType[] = subscriber.mock.calls.map((call) => {
-    const event= call[1] as ViewChannelEvent<string, string> ;
+    const event = call[1] as ViewChannelEvent<string, string>;
     return event.type;
   });
 

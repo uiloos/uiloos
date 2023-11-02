@@ -36,6 +36,128 @@ keywords: "release notes @uiloos/core 1.5.0, changelog @uiloos/core 1.5.0"
     <ol class="list-decimal ml-8">
       <li>
         <p>
+          It is now easier to use "uiloos" with vanilla JavaScript or TypeScript.
+        </p>
+
+        <p>
+          As you know when not using a reactive framework such as React or Svelte 
+          you manually have to sync the changes with the DOM. To make this easier
+          and with less code: this release introduces a new concept: a subscriber creator function. 
+          These functions create subscribers for you, which have an easier to use method based API.
+        </p>
+
+        <p><strong>What they do is convert events to method calls.</strong></p>
+
+        <p>
+          This allows you to write considerably less code because you no longer need 
+          to write a lot of if-statements, or one giant switch statements to determine which 
+          event took place.
+        </p>
+
+        <p>
+          For example before 1.5.0 you would write:
+        </p>
+
+        <div class="w-full">
+{% highlight "javascript" %}
+function subscriber(carousel, event) {
+  // Start the progress animation
+  if (event.type === 'INITIALIZED') {
+    // Code here
+  }
+
+  // Halt the animation when paused
+  if (event.type === 'AUTO_PLAY_PAUSED') {
+    // Code here
+  }
+
+  // and resume when playing
+  if (event.type === 'AUTO_PLAY_PLAYING') {
+    // Code here
+  }
+
+  // Remove the progress indicator now that the user has
+  // assumed full control over the carousel.
+  if (event.type === 'AUTO_PLAY_STOPPED') {
+    // Code here
+  }
+
+  if (event.type === 'ACTIVATED') {
+    // Code here
+  }
+}
+{% endhighlight %}
+        </div>
+
+        <p>
+          And now you can write it like this:
+        </p>
+
+        <div class="w-full">
+{% highlight "javascript" %}
+const subscriber = createActiveListSubscriber({
+  onInitialized(event, carousel) {
+    // Start the progress animation
+    // Code here
+  },
+
+  onAutoPlayPaused(event, carousel) {
+    // Halt the animation when paused
+    // Code here
+  },
+
+  onAutoPlayPlaying(event, carousel) {
+    // Resume the animation when playing
+    // Code here
+  },
+
+  onAutoPlayStopped(event, carousel) {
+    // Remove the progress indicator now that the user has
+    // assumed full control over the carousel.
+    // Code here
+  },
+
+  onActivated(event, carousel) {
+     // Code here
+  }
+});
+{% endhighlight %}
+        </div>
+
+        <p>
+          You should use a subscriber creator whenever you find that you 
+          are creating / need to handle a lot of events from the components.
+          Where each event is handled separately and in isolation, and 
+          where each event is updating the DOM with laser precision.
+        </p>
+
+        <p>
+          When your subscriber nukes the DOM by clearing it and rebuilds
+          the DOM from scratch, in JavaScript / TypeScript, and on each event. 
+          It is easier to use the single (old) subscriber approach.
+        </p>
+        
+        <p>
+          Each component now has a subscriber creator function:
+
+          <ol class="ml-16">
+            <li>
+              A. The ActiveList has the <a href="/api/core/createactivelistsubscriber/" class="underline high">createActiveListSubscriber</a> function.
+            </li>
+
+            <li>
+              B.  The ViewChannel has the <a href="/api/core/createviewchannelsubscriber/" class="underline high">createViewChannelSubscriber</a> function.
+            </li>
+
+            <li>
+              C.  The Typewriter has the <a href="/api/core/createtypewritersubscriber/" class="underline high">createTypewriterSubscriber</a> function.
+            </li>
+          </ol>
+        </p>        
+      </li>
+
+      <li>
+        <p>
           <a href="/api/core/activelist/" class="underline high">ActiveList</a>
           now knows which item was deactivated the last.
         </p>
