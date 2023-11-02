@@ -1,5 +1,6 @@
 import { ActiveList } from './ActiveList';
 import { ActiveListContent } from './ActiveListContent';
+import { createActiveListSubscriber, CreateActiveListSubscriberConfig } from './createActiveListSubscriber';
 import { ActiveListActivationLimitReachedError } from './errors/ActiveListActivationLimitReachedError';
 import { ActiveListAutoPlayDurationError } from './errors/ActiveListAutoPlayDurationError';
 import { ActiveListCooldownDurationError } from './errors/ActiveListCooldownDurationError';
@@ -15,5 +16,7 @@ export {
   ActiveListAutoPlayDurationError,
   ActiveListCooldownDurationError,
   ActiveListIndexOutOfBoundsError,
-  ActiveListItemNotFoundError
+  ActiveListItemNotFoundError,
+  createActiveListSubscriber,
+  CreateActiveListSubscriberConfig
 };

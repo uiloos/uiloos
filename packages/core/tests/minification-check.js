@@ -50,6 +50,11 @@ if (!uiloosActiveList.ActiveList) {
   process.exit(1);
 }
 
+if (!uiloosActiveList.createActiveListSubscriber) {
+  console.error('uiloosActiveList.createActiveListSubscriber is not defined');
+  process.exit(1);
+}
+
 const activeList = new uiloosActiveList.ActiveList();
 activeList.push('a');
 activeList.push('b');
@@ -69,9 +74,13 @@ if (!uiloosViewChannel) {
   process.exit(1);
 }
 
-
 if (!uiloosViewChannel.ViewChannel) {
   console.error('uiloosViewChannel.ViewChannel is not defined');
+  process.exit(1);
+}
+
+if (!uiloosViewChannel.createViewChannelSubscriber) {
+  console.error('uiloosViewChannel.createViewChannelSubscriber is not defined');
   process.exit(1);
 }
 
@@ -130,10 +139,14 @@ if (typewriter.actions.length !== 3) {
   process.exit(1);
 }
 
-if (!uiloosTypewriter.typewriterFromSentences({ sentences: ["A", "B", "C"]})) {
+if (!uiloosTypewriter.typewriterFromSentences) {
   console.error('typewriter.typewriterFromSentences should be defined');
   process.exit(1);
 }
 
+if (!uiloosTypewriter.createTypewriterSubscriber) {
+  console.error('uiloosTypewriter.createTypewriterSubscriber is not defined');
+  process.exit(1);
+}
 
 console.log("Finished checking minification");

@@ -18,6 +18,8 @@ import {
   ActiveListAutoPlayDurationError,
   ActiveListItemNotFoundError,
   ActiveListEventType,
+  createActiveListSubscriber,
+  CreateActiveListSubscriberConfig,
 } from '../src/ActiveList';
 
 import { licenseChecker } from '../src/license';
@@ -1574,7 +1576,7 @@ describe('ActiveList', () => {
           expect(subscriber).toHaveBeenCalledTimes(3);
         });
 
-        test("edge case that the deactivatedIndex and deactivatedValue are only set when it has actually changed", () => {
+        test('edge case that the deactivatedIndex and deactivatedValue are only set when it has actually changed', () => {
           const { activeList, subscriber } = setup({
             activeIndexes: 0,
             maxActivationLimit: 2,
@@ -2164,7 +2166,7 @@ describe('ActiveList', () => {
                 index: 0,
                 value: 'a',
                 deactivatedIndex: -1,
-              deactivatedValue: null,
+                deactivatedValue: null,
                 time: new Date(),
               }
             );
@@ -2813,7 +2815,7 @@ describe('ActiveList', () => {
                 index: 0,
                 value: 'a',
                 deactivatedIndex: -1,
-              deactivatedValue: null,
+                deactivatedValue: null,
                 time: new Date(),
               }
             );
@@ -3068,7 +3070,7 @@ describe('ActiveList', () => {
                 index: 1,
                 value: 'b',
                 deactivatedIndex: -1,
-              deactivatedValue: null,
+                deactivatedValue: null,
                 time: new Date(),
               }
             );
@@ -3240,7 +3242,7 @@ describe('ActiveList', () => {
                 index: 1,
                 value: 'b',
                 deactivatedIndex: -1,
-              deactivatedValue: null,
+                deactivatedValue: null,
                 time: new Date(),
               }
             );
@@ -3323,7 +3325,7 @@ describe('ActiveList', () => {
                 index: 0,
                 value: 'a',
                 deactivatedIndex: -1,
-              deactivatedValue: null,
+                deactivatedValue: null,
                 time: new Date(),
               }
             );
@@ -25661,6 +25663,80 @@ describe('ActiveList', () => {
           type: 'COOLDOWN_ENDED',
         }),
       ]);
+
+      activeList.deactivateByPredicate(() => true);
+
+      expect(activeList.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+          indexes: [0],
+          values: ['a'],
+        }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 1, value: 'b' }),
+        expect.objectContaining({
+          type: 'REMOVED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'REMOVED_MULTIPLE',
+          indexes: [0, 1],
+          values: ['b', 'c'],
+        }),
+        expect.objectContaining({ type: 'INSERTED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 0, value: 'a' }),
+        expect.objectContaining({ type: 'INSERTED', index: 1, value: 'b' }),
+        expect.objectContaining({ type: 'INSERTED', index: 2, value: 'c' }),
+        expect.objectContaining({
+          type: 'SWAPPED',
+          index: { a: 0, b: 2 },
+          value: { a: 'a', b: 'c' },
+        }),
+        expect.objectContaining({
+          type: 'MOVED',
+          index: {
+            from: 2,
+            to: 0,
+          },
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'DEACTIVATED',
+          index: 0,
+          value: 'a',
+        }),
+        expect.objectContaining({
+          type: 'ACTIVATED_MULTIPLE',
+          indexes: [2],
+          values: ['b'],
+          deactivatedIndexes: [],
+          deactivatedValues: [],
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_PLAYING',
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_PAUSED',
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_STOPPED',
+        }),
+        expect.objectContaining({ type: 'ACTIVATED', index: 0, value: 'a' }),
+        expect.objectContaining({
+          type: 'COOLDOWN_STARTED',
+        }),
+        expect.objectContaining({
+          type: 'COOLDOWN_ENDED',
+        }),
+        expect.objectContaining({
+          type: 'AUTO_PLAY_STOPPED',
+        }),
+        expect.objectContaining({
+          type: 'DEACTIVATED_MULTIPLE',
+          indexes: [0],
+          values: ['a'],
+        }),
+      ]);
     });
 
     test('that a history is kept for a maximum number of events', () => {
@@ -25820,6 +25896,258 @@ describe('ActiveList', () => {
       expect(subscriber).toHaveBeenCalledTimes(1);
       expect(secondSubscriber).toHaveBeenCalledTimes(1);
       expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('createActiveListSubscriber', () => {
+    test('that all methods are called correctly', () => {
+      jest.useFakeTimers();
+
+      const config: CreateActiveListSubscriberConfig<string> = {
+        onMoved: jest.fn(),
+        onInserted: jest.fn(),
+        onInitialized: jest.fn(),
+        onCooldownStarted: jest.fn(),
+        onCooldownEnded: jest.fn(),
+        onAutoPlayStopped: jest.fn(),
+        onAutoPlayPlaying: jest.fn(),
+        onAutoPlayPaused: jest.fn(),
+        onActivatedMultiple: jest.fn(),
+        onActivated: jest.fn(),
+        onDeactivatedMultiple: jest.fn(),
+        onDeactivated: jest.fn(),
+        onSwapped: jest.fn(),
+        onRemoved: jest.fn(),
+        onRemovedMultiple: jest.fn(),
+      };
+
+      const subscriber = createActiveListSubscriber<string>(config);
+
+      const activeList = new ActiveList(
+        {
+          contents: ['a', 'b', 'c'],
+          activeIndexes: 0,
+        },
+        subscriber
+      );
+
+      expect(config.onInitialized).toBeCalledTimes(1);
+      expect(config.onInitialized).lastCalledWith(
+        expect.objectContaining({
+          type: 'INITIALIZED',
+          indexes: [0],
+          values: ['a'],
+        }),
+        activeList
+      );
+
+      activeList.activateByIndex(1);
+      expect(config.onActivated).toBeCalledTimes(1);
+      expect(config.onActivated).lastCalledWith(
+        expect.objectContaining({ type: 'ACTIVATED', index: 1, value: 'b' }),
+        activeList
+      );
+
+      activeList.removeByIndex(0);
+      expect(config.onRemoved).toBeCalledTimes(1);
+      expect(config.onRemoved).lastCalledWith(
+        expect.objectContaining({ type: 'REMOVED', index: 0, value: 'a' }),
+        activeList
+      );
+
+      activeList.removeByPredicate(() => true);
+      expect(config.onRemovedMultiple).toBeCalledTimes(1);
+      expect(config.onRemovedMultiple).lastCalledWith(
+        expect.objectContaining({
+          type: 'REMOVED_MULTIPLE',
+          indexes: [0, 1],
+          values: ['b', 'c'],
+        }),
+        activeList
+      );
+
+      activeList.insertAtIndex('a', 0);
+      expect(config.onInserted).toBeCalledTimes(1);
+      expect(config.onInserted).lastCalledWith(
+        expect.objectContaining({ type: 'INSERTED', index: 0, value: 'a' }),
+        activeList
+      );
+
+      activeList.activateByIndex(0);
+      expect(config.onActivated).toBeCalledTimes(2);
+
+      activeList.insertAtIndex('b', 1);
+      expect(config.onInserted).toBeCalledTimes(2);
+      activeList.insertAtIndex('c', 2);
+      expect(config.onInserted).toBeCalledTimes(3);
+
+      activeList.swapByIndex(0, 2);
+      expect(config.onSwapped).toBeCalledTimes(1);
+      expect(config.onSwapped).lastCalledWith(
+        expect.objectContaining({
+          type: 'SWAPPED',
+          index: { a: 0, b: 2 },
+          value: { a: 'a', b: 'c' },
+        }),
+        activeList
+      );
+
+      activeList.moveByIndex(2, 0);
+      expect(config.onMoved).toBeCalledTimes(1);
+      expect(config.onMoved).lastCalledWith(
+        expect.objectContaining({
+          type: 'MOVED',
+          index: {
+            from: 2,
+            to: 0,
+          },
+          value: 'a',
+        }),
+        activeList
+      );
+
+      activeList.deactivateByIndex(0);
+      expect(config.onDeactivated).toBeCalledTimes(1);
+      expect(config.onDeactivated).lastCalledWith(
+        expect.objectContaining({
+          type: 'DEACTIVATED',
+          index: 0,
+          value: 'a',
+        }),
+        activeList
+      );
+
+      activeList.activateByIndex(0);
+      expect(config.onActivated).toBeCalledTimes(3);
+
+      activeList.deactivateByPredicate(() => true);
+      expect(config.onDeactivatedMultiple).toBeCalledTimes(1);
+      expect(config.onDeactivatedMultiple).lastCalledWith(
+        expect.objectContaining({
+          type: 'DEACTIVATED_MULTIPLE',
+          indexes: [0],
+          values: ['a'],
+        }),
+        activeList
+      );
+
+      activeList.activateByPredicate(() => true);
+      expect(config.onActivatedMultiple).toBeCalledTimes(1);
+      expect(config.onActivatedMultiple).lastCalledWith(
+        expect.objectContaining({
+          type: 'ACTIVATED_MULTIPLE',
+          indexes: [2],
+          values: ['b'],
+          deactivatedIndexes: [],
+          deactivatedValues: [],
+        }),
+        activeList
+      );
+
+      activeList.configureAutoPlay({ duration: 1000 });
+      expect(config.onAutoPlayPlaying).toBeCalledTimes(1);
+      expect(config.onAutoPlayPlaying).lastCalledWith(
+        expect.objectContaining({ type: 'AUTO_PLAY_PLAYING' }),
+        activeList
+      );
+
+      activeList.pause();
+      expect(config.onAutoPlayPaused).toBeCalledTimes(1);
+      expect(config.onAutoPlayPaused).lastCalledWith(
+        expect.objectContaining({ type: 'AUTO_PLAY_PAUSED' }),
+        activeList
+      );
+
+      activeList.stop();
+      expect(config.onAutoPlayStopped).toBeCalledTimes(1);
+      expect(config.onAutoPlayStopped).lastCalledWith(
+        expect.objectContaining({ type: 'AUTO_PLAY_STOPPED' }),
+        activeList
+      );
+
+      // Trigger cooldown
+      activeList.activateByIndex(0, { cooldown: 1, isUserInteraction: true });
+      expect(config.onCooldownStarted).toBeCalledTimes(1);
+      expect(config.onCooldownStarted).lastCalledWith(
+        expect.objectContaining({ type: 'COOLDOWN_STARTED' }),
+        activeList
+      );
+
+      // Trigger cooldown ended
+      jest.advanceTimersByTime(1);
+      expect(config.onCooldownEnded).toBeCalledTimes(1);
+      expect(config.onCooldownEnded).lastCalledWith(
+        expect.objectContaining({ type: 'COOLDOWN_ENDED' }),
+        activeList
+      );
+
+      // Check if they are all called at least once.
+      for (const spy of Object.values(config)) {
+        // @ts-expect-error they are mocks
+        expect(spy.mock.calls.length).not.toBe(0);
+      }
+    });
+
+    describe('when a method is not implemented', () => {
+      test('that it logs a warning when debug is true', () => {
+        jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const subscriber = createActiveListSubscriber<string>({ debug: true });
+
+        new ActiveList({}, subscriber);
+
+        expect(console.warn).toHaveBeenCalledTimes(1);
+        expect(console.warn).toHaveBeenCalledWith(
+          "uiloos > createActiveListSubscriber event 'INITIALIZED' was fired but 'onInitialized' method is not implemented, this might not be correct."
+        );
+      });
+
+      test('that it does not log a warning when debug is false', () => {
+        jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const subscriber = createActiveListSubscriber<string>({ debug: false });
+
+        new ActiveList({}, subscriber);
+
+        expect(console.warn).toHaveBeenCalledTimes(0);
+      });
+
+      test('that it does not log a warning when debug is undefined', () => {
+        jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const subscriber = createActiveListSubscriber<string>({});
+
+        new ActiveList({}, subscriber);
+
+        expect(console.warn).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    test('that created subscribers can be unsubscribed', () => {
+      jest.useFakeTimers();
+
+      const config: CreateActiveListSubscriberConfig<string> = {
+        onActivated: jest.fn(),
+      };
+
+      const subscriber = createActiveListSubscriber<string>(config);
+
+      const activeList = new ActiveList(
+        {
+          contents: ['a', 'b', 'c'],
+          activeIndexes: 0,
+        },
+        subscriber
+      );
+
+      activeList.activateByIndex(1);
+      expect(config.onActivated).toBeCalledTimes(1);
+
+      activeList.unsubscribe(subscriber);
+
+      // Should be unsubscribed and therefore still 1 and not 2
+      activeList.activateByIndex(2);
+      expect(config.onActivated).toBeCalledTimes(1);
     });
   });
 });

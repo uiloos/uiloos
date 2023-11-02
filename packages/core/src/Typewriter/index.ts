@@ -1,5 +1,6 @@
 import { Typewriter } from './Typewriter';
 import { TypewriterCursor } from './TypewriterCursor';
+import { createTypewriterSubscriber, CreateTypewriterSubscriberConfig } from './createTypewriterSubscriber';
 
 import { TypewriterBlinkAfterError } from './errors/TypewriterBlinkAfterError';
 import { TypewriterDelayError } from './errors/TypewriterDelayError';
@@ -31,5 +32,7 @@ export {
   TypewriterCursorSelectionInvalidRangeError,
   TypewriterActionUnknownCursorError,
   TypewriterFromSentencesConfig,
-  typewriterFromSentences
+  typewriterFromSentences,
+  createTypewriterSubscriber,
+  CreateTypewriterSubscriberConfig
 };

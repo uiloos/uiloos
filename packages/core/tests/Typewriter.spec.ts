@@ -1,4 +1,11 @@
-import {expect, jest, test, describe, beforeEach, afterEach} from '@jest/globals';
+import {
+  expect,
+  jest,
+  test,
+  describe,
+  beforeEach,
+  afterEach,
+} from '@jest/globals';
 
 import {
   Typewriter,
@@ -17,6 +24,8 @@ import {
   typewriterFromSentences,
   TypewriterCursor,
   TypewriterActionUnknownCursorError,
+  createTypewriterSubscriber,
+  CreateTypewriterSubscriberConfig,
 } from '../src/Typewriter';
 import {
   typewriterActionTypeBackspace,
@@ -10172,10 +10181,12 @@ describe('Typewriter', () => {
                   ],
                   blinkAfter: 50,
                   text: 'this is a nice line',
-                  cursors: [{ position: 14, selection: { start: 10, end: 14 } }],
+                  cursors: [
+                    { position: 14, selection: { start: 10, end: 14 } },
+                  ],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -10203,9 +10214,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -10253,7 +10264,7 @@ describe('Typewriter', () => {
                   }
                 );
               });
-  
+
               it('should remove selection and insert the word in place of the selection, when inserting at the start', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -10269,7 +10280,7 @@ describe('Typewriter', () => {
                   cursors: [{ position: 4, selection: { start: 0, end: 4 } }],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -10297,9 +10308,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -10347,7 +10358,7 @@ describe('Typewriter', () => {
                   }
                 );
               });
-  
+
               it('should remove selection and insert the word in place of the selection, when inserting at the end', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -10360,10 +10371,12 @@ describe('Typewriter', () => {
                   ],
                   blinkAfter: 50,
                   text: 'this is a nice line',
-                  cursors: [{ position: 19, selection: { start: 15, end: 19 } }],
+                  cursors: [
+                    { position: 19, selection: { start: 15, end: 19 } },
+                  ],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -10391,9 +10404,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -10443,7 +10456,7 @@ describe('Typewriter', () => {
               });
             });
 
-            describe("inserting less chars than are removed", ()  => {
+            describe('inserting less chars than are removed', () => {
               it('should remove selection and insert the word in place of the selection, when inserting at the middle', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -10456,10 +10469,12 @@ describe('Typewriter', () => {
                   ],
                   blinkAfter: 50,
                   text: 'this is a nice line',
-                  cursors: [{ position: 14, selection: { start: 10, end: 14 } }],
+                  cursors: [
+                    { position: 14, selection: { start: 10, end: 14 } },
+                  ],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -10487,9 +10502,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -10537,7 +10552,7 @@ describe('Typewriter', () => {
                   }
                 );
               });
-  
+
               it('should remove selection and insert the word in place of the selection, when inserting at the start', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -10553,7 +10568,7 @@ describe('Typewriter', () => {
                   cursors: [{ position: 4, selection: { start: 0, end: 4 } }],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -10581,9 +10596,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -10631,7 +10646,7 @@ describe('Typewriter', () => {
                   }
                 );
               });
-  
+
               it('should remove selection and insert the word in place of the selection, when inserting at the end', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -10644,10 +10659,12 @@ describe('Typewriter', () => {
                   ],
                   blinkAfter: 50,
                   text: 'this is a nice line',
-                  cursors: [{ position: 19, selection: { start: 15, end: 19 } }],
+                  cursors: [
+                    { position: 19, selection: { start: 15, end: 19 } },
+                  ],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -10675,9 +10692,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -10725,8 +10742,8 @@ describe('Typewriter', () => {
                   }
                 );
               });
-            }); 
-            
+            });
+
             describe('inserting the same number of chars that are removed', () => {
               it('should remove selection and insert the word in place of the selection, when inserting at the middle', () => {
                 const typewriter = new Typewriter<string>({
@@ -10740,10 +10757,12 @@ describe('Typewriter', () => {
                   ],
                   blinkAfter: 50,
                   text: 'this is a nice line',
-                  cursors: [{ position: 14, selection: { start: 10, end: 14 } }],
+                  cursors: [
+                    { position: 14, selection: { start: 10, end: 14 } },
+                  ],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -10771,9 +10790,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -10821,7 +10840,7 @@ describe('Typewriter', () => {
                   }
                 );
               });
-  
+
               it('should remove selection and insert the word in place of the selection, when inserting at the start', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -10837,7 +10856,7 @@ describe('Typewriter', () => {
                   cursors: [{ position: 4, selection: { start: 0, end: 4 } }],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -10865,9 +10884,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -10915,7 +10934,7 @@ describe('Typewriter', () => {
                   }
                 );
               });
-  
+
               it('should remove selection and insert the word in place of the selection, when inserting at the end', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -10928,10 +10947,12 @@ describe('Typewriter', () => {
                   ],
                   blinkAfter: 50,
                   text: 'this is a nice line',
-                  cursors: [{ position: 19, selection: { start: 15, end: 19 } }],
+                  cursors: [
+                    { position: 19, selection: { start: 15, end: 19 } },
+                  ],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -10959,9 +10980,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -11026,10 +11047,12 @@ describe('Typewriter', () => {
                   ],
                   blinkAfter: 50,
                   text: 'this is a nice line',
-                  cursors: [{ position: 10, selection: { start: 10, end: 14 } }],
+                  cursors: [
+                    { position: 10, selection: { start: 10, end: 14 } },
+                  ],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -11057,9 +11080,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -11107,7 +11130,7 @@ describe('Typewriter', () => {
                   }
                 );
               });
-  
+
               it('should remove selection and insert the word in place of the selection, when inserting at the start', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -11123,7 +11146,7 @@ describe('Typewriter', () => {
                   cursors: [{ position: 0, selection: { start: 0, end: 4 } }],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -11151,9 +11174,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -11201,7 +11224,7 @@ describe('Typewriter', () => {
                   }
                 );
               });
-  
+
               it('should remove selection and insert the word in place of the selection, when inserting at the end', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -11214,10 +11237,12 @@ describe('Typewriter', () => {
                   ],
                   blinkAfter: 50,
                   text: 'this is a nice line',
-                  cursors: [{ position: 15, selection: { start: 15, end: 19 } }],
+                  cursors: [
+                    { position: 15, selection: { start: 15, end: 19 } },
+                  ],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -11245,9 +11270,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -11297,7 +11322,7 @@ describe('Typewriter', () => {
               });
             });
 
-            describe("inserting less chars than are removed", ()  => {
+            describe('inserting less chars than are removed', () => {
               it('should remove selection and insert the word in place of the selection, when inserting at the middle', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -11310,10 +11335,12 @@ describe('Typewriter', () => {
                   ],
                   blinkAfter: 50,
                   text: 'this is a nice line',
-                  cursors: [{ position: 10, selection: { start: 10, end: 14 } }],
+                  cursors: [
+                    { position: 10, selection: { start: 10, end: 14 } },
+                  ],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -11341,9 +11368,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -11391,7 +11418,7 @@ describe('Typewriter', () => {
                   }
                 );
               });
-  
+
               it('should remove selection and insert the word in place of the selection, when inserting at the start', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -11407,7 +11434,7 @@ describe('Typewriter', () => {
                   cursors: [{ position: 0, selection: { start: 0, end: 4 } }],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -11435,9 +11462,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -11485,7 +11512,7 @@ describe('Typewriter', () => {
                   }
                 );
               });
-  
+
               it('should remove selection and insert the word in place of the selection, when inserting at the end', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -11498,10 +11525,12 @@ describe('Typewriter', () => {
                   ],
                   blinkAfter: 50,
                   text: 'this is a nice line',
-                  cursors: [{ position: 15, selection: { start: 15, end: 19 } }],
+                  cursors: [
+                    { position: 15, selection: { start: 15, end: 19 } },
+                  ],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -11529,9 +11558,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -11579,8 +11608,8 @@ describe('Typewriter', () => {
                   }
                 );
               });
-            }); 
-            
+            });
+
             describe('inserting the same number of chars that are removed', () => {
               it('should remove selection and insert the word in place of the selection, when inserting at the middle', () => {
                 const typewriter = new Typewriter<string>({
@@ -11594,10 +11623,12 @@ describe('Typewriter', () => {
                   ],
                   blinkAfter: 50,
                   text: 'this is a nice line',
-                  cursors: [{ position: 10, selection: { start: 10, end: 14 } }],
+                  cursors: [
+                    { position: 10, selection: { start: 10, end: 14 } },
+                  ],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -11625,9 +11656,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -11675,7 +11706,7 @@ describe('Typewriter', () => {
                   }
                 );
               });
-  
+
               it('should remove selection and insert the word in place of the selection, when inserting at the start', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -11691,7 +11722,7 @@ describe('Typewriter', () => {
                   cursors: [{ position: 0, selection: { start: 0, end: 4 } }],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -11719,9 +11750,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -11769,7 +11800,7 @@ describe('Typewriter', () => {
                   }
                 );
               });
-  
+
               it('should remove selection and insert the word in place of the selection, when inserting at the end', () => {
                 const typewriter = new Typewriter<string>({
                   actions: [
@@ -11782,10 +11813,12 @@ describe('Typewriter', () => {
                   ],
                   blinkAfter: 50,
                   text: 'this is a nice line',
-                  cursors: [{ position: 15, selection: { start: 15, end: 19 } }],
+                  cursors: [
+                    { position: 15, selection: { start: 15, end: 19 } },
+                  ],
                 });
                 const subscriber = autoSubscribe(typewriter);
-  
+
                 assertState(typewriter, {
                   history: [],
                   actions: [
@@ -11813,9 +11846,9 @@ describe('Typewriter', () => {
                   repeatDelay: 0,
                   lastPerformedAction: null,
                 });
-  
+
                 jest.advanceTimersByTime(50);
-  
+
                 assertLastSubscriber(
                   subscriber,
                   {
@@ -37531,25 +37564,25 @@ describe('Typewriter', () => {
         ],
       });
       const subscriber = autoSubscribe(typewriter);
-  
+
       const secondSubscriber = jest.fn();
       typewriter.subscribe(secondSubscriber);
-      
+
       const thirdSubscriber = jest.fn();
       typewriter.subscribe(thirdSubscriber);
-  
+
       // All three should be informed of this
       typewriter.pause();
-  
+
       expect(subscriber).toHaveBeenCalledTimes(1);
       expect(secondSubscriber).toHaveBeenCalledTimes(1);
       expect(thirdSubscriber).toHaveBeenCalledTimes(1);
-  
+
       typewriter.unsubscribeAll();
-  
+
       // no one should be informed after the unsubscribe all
       typewriter.play();
-  
+
       expect(subscriber).toHaveBeenCalledTimes(1);
       expect(secondSubscriber).toHaveBeenCalledTimes(1);
       expect(thirdSubscriber).toHaveBeenCalledTimes(1);
@@ -37568,6 +37601,235 @@ describe('Typewriter', () => {
       expect(subscriber).toHaveBeenCalledTimes(1);
       expect(secondSubscriber).toHaveBeenCalledTimes(1);
       expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('createTypewriterSubscriber', () => {
+    test('that all methods are called correctly', () => {
+      jest.useFakeTimers();
+
+      const config: CreateTypewriterSubscriberConfig<string> = {
+        onInitialized: jest.fn(),
+        onChanged: jest.fn(),
+        onPlaying: jest.fn(),
+        onPaused: jest.fn(),
+        onStopped: jest.fn(),
+        onFinished: jest.fn(),
+        onBlinking: jest.fn(),
+        onRepeating: jest.fn(),
+      };
+
+      const subscriber = createTypewriterSubscriber<string>(config);
+
+      const typewriter = new Typewriter<string>(
+        {
+          repeat: 2,
+          actions: [
+            {
+              type: 'keyboard',
+              text: 'a',
+              delay: 100,
+              cursor: 0,
+            },
+            {
+              type: 'keyboard',
+              text: 'b',
+              delay: 100,
+              cursor: 0,
+            },
+            {
+              type: 'keyboard',
+              text: 'c',
+              delay: 100,
+              cursor: 0,
+            },
+          ],
+        },
+        subscriber
+      );
+
+      expect(config.onInitialized).toBeCalledTimes(1);
+      expect(config.onInitialized).lastCalledWith(
+        expect.objectContaining({
+          type: 'INITIALIZED',
+          
+        }),
+        typewriter
+      );
+
+      jest.advanceTimersByTime(100);
+
+      expect(config.onChanged).toBeCalledTimes(1);
+      expect(config.onChanged).lastCalledWith(
+        expect.objectContaining({
+          type: 'CHANGED',
+          action: {
+            type: 'keyboard',
+            text: 'a',
+            delay: 100,
+            cursor: 0,
+          },
+          cursor: typewriter.cursors[0]
+        }),
+        typewriter
+      );
+
+      typewriter.pause();
+
+      expect(config.onPaused).toBeCalledTimes(1);
+      expect(config.onPaused).lastCalledWith(
+        expect.objectContaining({
+          type: 'PAUSED',
+        }),
+        typewriter
+      );
+
+      typewriter.play();
+
+      expect(config.onPlaying).toBeCalledTimes(1);
+      expect(config.onPlaying).lastCalledWith(
+        expect.objectContaining({
+          type: 'PLAYING',
+        }),
+        typewriter
+      );
+
+      typewriter.stop();
+
+      expect(config.onStopped).toBeCalledTimes(1);
+      expect(config.onStopped).lastCalledWith(
+        expect.objectContaining({
+          type: 'STOPPED',
+        }),
+        typewriter
+      );
+
+      typewriter.play();
+      jest.advanceTimersByTime(301);
+
+      expect(config.onRepeating).toBeCalledTimes(1);
+      expect(config.onRepeating).lastCalledWith(
+        expect.objectContaining({
+          type: 'REPEATING',
+          cursor: typewriter.cursors[0]
+        }),
+        typewriter
+      );
+
+      jest.advanceTimersByTime(300);
+
+      expect(config.onFinished).toBeCalledTimes(1);
+      expect(config.onFinished).lastCalledWith(
+        expect.objectContaining({
+          type: 'FINISHED',
+          action: {
+            type: 'keyboard',
+            text: 'c',
+            delay: 100,
+            cursor: 0,
+          },
+          cursor: typewriter.cursors[0]
+        }),
+        typewriter
+      );
+
+      jest.advanceTimersByTime(250);
+
+      expect(config.onBlinking).toBeCalledTimes(1);
+      expect(config.onBlinking).lastCalledWith(
+        expect.objectContaining({
+          type: 'BLINKING',
+          cursor: typewriter.cursors[0]
+        }),
+        typewriter
+      );
+
+      // Check if they are all called at least once.
+      for (const spy of Object.values(config)) {
+        // @ts-expect-error they are mocks
+        expect(spy.mock.calls.length).not.toBe(0);
+      }
+    });
+
+    describe('when a method is not implemented', () => {
+      test('that it logs a warning when debug is true', () => {
+        jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const subscriber = createTypewriterSubscriber<string>({ debug: true });
+
+        new Typewriter({}, subscriber);
+
+        expect(console.warn).toHaveBeenCalledTimes(1);
+        expect(console.warn).toHaveBeenCalledWith(
+          "uiloos > createTypewriterSubscriber event 'INITIALIZED' was fired but 'onInitialized' method is not implemented, this might not be correct."
+        );
+      });
+
+      test('that it does not log a warning when debug is false', () => {
+        jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const subscriber = createTypewriterSubscriber<string>({ debug: false });
+
+        new Typewriter({}, subscriber);
+
+        expect(console.warn).toHaveBeenCalledTimes(0);
+      });
+
+      test('that it does not log a warning when debug is undefined', () => {
+        jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const subscriber = createTypewriterSubscriber<string>({});
+
+        new Typewriter({}, subscriber);
+
+        expect(console.warn).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    test('that created subscribers can be unsubscribed', () => {
+      jest.useFakeTimers();
+
+      const config: CreateTypewriterSubscriberConfig<string> = {
+        onPlaying: jest.fn(),
+        onPaused: jest.fn(),
+      };
+
+      const subscriber = createTypewriterSubscriber<string>(config);
+
+      const typewriter = new Typewriter<string>(
+        {
+          actions: [
+            {
+              type: 'keyboard',
+              text: 'a',
+              delay: 10000,
+              cursor: 0,
+            },
+            {
+              type: 'keyboard',
+              text: 'b',
+              delay: 10000,
+              cursor: 0,
+            },
+            {
+              type: 'keyboard',
+              text: 'c',
+              delay: 10000,
+              cursor: 0,
+            },
+          ],
+        },
+        subscriber
+      );
+
+      typewriter.pause();
+      expect(config.onPaused).toBeCalledTimes(1);
+
+      typewriter.unsubscribe(subscriber);
+
+      // Should be unsubscribed and therefore 0 and not 2
+      typewriter.play();
+      expect(config.onPlaying).toBeCalledTimes(0);
     });
   });
 });
@@ -37683,7 +37945,7 @@ function assertEvents(
   expectedEvents: TypewriterEventType[]
 ) {
   const events: TypewriterEventType[] = subscriber.mock.calls.map((call) => {
-    const event = call[1] as TypewriterEvent<string> ;
+    const event = call[1] as TypewriterEvent<string>;
     return event.type;
   });
 

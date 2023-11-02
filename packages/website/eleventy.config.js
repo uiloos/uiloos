@@ -43,6 +43,14 @@ module.exports = function (eleventyConfig) {
     function sortValue(def) {
       const defName = def.name.toLowerCase();
 
+      // Pure classes above anything else, does not include errors
+      // which have a kindString called 'error'.
+      if (def.kindString === 'class') {
+        return -1;
+      }
+
+      // Next are the functions they should be below the classes
+      // but above anything else.
       if (def.kindString === 'function') {
         return -1;
       }
