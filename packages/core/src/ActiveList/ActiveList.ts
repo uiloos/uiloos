@@ -276,6 +276,17 @@ export class ActiveList<T>
    */
   public direction: string = 'right';
 
+  /**
+   * The opposite of the `direction` property of the `ActiveList`.
+   * If the `direction` is `next` the opposite direction is always
+   * `previous` and vice versa.
+   *
+   * Defaults to the value of the `Config` property `direction.previous`.
+   * 
+   * @since 1.5.0
+   */
+  public oppositeDirection: string = 'left';
+
   private _history: _History<ActiveListEvent<T>> = new _History();
 
   /**
@@ -552,6 +563,7 @@ export class ActiveList<T>
     // to true. For the same reason set the direction to 'next';
     this.hasActiveChangedAtLeastOnce = false;
     this.direction = this._directions.next;
+    this.oppositeDirection = this._directions.previous;
 
     // Reset autoPlay
     this.autoPlay.isPlaying = false;
@@ -633,7 +645,7 @@ export class ActiveList<T>
       deactivatedIndex = this.lastDeactivatedIndex;
       deactivatedValue = this.lastDeactivated;
     }
- 
+
     const event: ActiveListActivatedEvent<T> = {
       type: 'ACTIVATED',
       value: activatedContent.value,
@@ -720,6 +732,11 @@ export class ActiveList<T>
         // the lastActivatedIndex, because we need to know the old active
         // index.
         this.direction = this._getDirectionWhenMovingToIndex(i);
+
+        this.oppositeDirection =
+          this.direction === this._directions.next
+            ? this._directions.previous
+            : this._directions.next;
 
         // then set this item to be the last active item
         this.lastActivated = content.value;
@@ -1206,7 +1223,7 @@ export class ActiveList<T>
     if (this.activeIndexes.length === 0) {
       this._emptyLastActives();
 
-      this.direction = 'right';
+      this.direction = this._directions.next;
     } else {
       // If not empty we must now fix the trackers by selecting the
       // last of the `activeIndexes` as the new `lastActivated`. This
@@ -1218,6 +1235,8 @@ export class ActiveList<T>
       this.direction = this._getDirectionWhenMovingToIndex(
         deactivatedContent.index
       );
+
+      this.oppositeDirection = this.direction;
 
       // The direction should be inverted because we requested the
       // direction based on deactivation, and `getDirectionWhenMovingToIndex`
