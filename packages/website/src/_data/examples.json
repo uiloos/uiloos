@@ -1,84 +1,5 @@
 [
   {
-    "id": 13,
-    "text": "Progressive carousel",
-    "description": "A progressively enhanced carousel, which works when JavaScript is disabled, that uses CSS scroll-snap",
-    "url": "https://codesandbox.io/s/progressively-enhanced-snap-carousel-vanilla-4phhgy",
-    "tags": ["JavaScript", "Carousel"],
-    "for": "ActiveList"
-  },
-  {
-    "id": 14,
-    "text": "Progressive carousel peek ahead",
-    "description": "Variant of 'Progressive carousel' that shows tiny slice of the previous and next slide",
-    "url": "https://codesandbox.io/s/progressively-enhanced-snap-carousel-vanilla-peek-ahead-v5rt2j",
-    "tags": ["JavaScript", "Carousel"],
-    "for": "ActiveList"
-  },
-  {
-    "id": 15,
-    "text": "React CSS snap carousel",
-    "description": "A React carousel that uses CSS scroll-snap",
-    "url": "https://codesandbox.io/s/snap-carousel-react-k32kh9",
-    "tags": ["JavaScript", "Carousel"],
-    "for": "ActiveList"
-  },
-  {
-    "id": 16,
-    "text": "React peek ahead carousel",
-    "description": "Variant of 'React carousel' that shows tiny slice of the previous and next slide",
-    "url": "https://codesandbox.io/s/snap-carousel-react-peek-ahead-kt9sd3",
-    "tags": ["JavaScript", "Carousel"],
-    "for": "ActiveList"
-  },
-  {
-    "id": 3,
-    "text": "A Todo-list created in Svelte",
-    "description": "A sortable todo list in Svelte using the ActiveList",
-    "url": "https://codesandbox.io/p/sandbox/svelte-todo-v2-f6sdsl?file=%2Fsrc%2Froutes%2F%2Bpage.svelte%3A53%2C26",
-    "tags": ["Svelte", "Todo-list"],
-    "for": "ActiveList"
-  },
-  {
-    "id": 4,
-    "text": "A Timeline created in Angular using uiloos's ActiveList",
-    "description": "A vertical timeline which shows information based on a date",
-    "url": "https://codesandbox.io/s/timeline-angular-gtouh5?file=/src/app/timeline/timeline.component.ts",
-    "tags": ["Angular", "Timeline"],
-    "for": "ActiveList"
-  },
-  {
-    "id": 5,
-    "text": "An Accordion created in Vue using the ActiveList",
-    "description": "Shows how to create a Vue component which looks just like regular HTML powered by the ActiveList",
-    "url": "https://codesandbox.io/s/vue-accordion-lsbw53?file=/src/components/Accordion/Accordion.vue",
-    "tags": ["Vue", "Accordion"]
-  },
-  {
-    "id": 6,
-    "text": "A MultipleSelect form component using React",
-    "description": "Shows to limit the number of active items in an ActiveList using <span class='high'>maxActivationLimit</span>.",
-    "url": "https://codesandbox.io/s/hamburger-condiment-picker-react-5tg9b4?file=/src/CondimentPicker/CondimentPicker.tsx",
-    "tags": ["React", "MultipleSelect"],
-    "for": "ActiveList"
-  },
-  {
-    "id": 7,
-    "text": "A SegmentedButton / ButtonGroup using vanilla JavaScript",
-    "description": "Demonstrates how to create a button group from which only one button can be active at a time. Shows a jQuery like way of creating components.",
-    "url": "https://codesandbox.io/s/segmentedbutton-vanilla-kqw4cd?file=/segmented-button.js",
-    "tags": ["JavaScript", "SegmentedButton"],
-    "for": "ActiveList"
-  },
-  {
-    "id": 8,
-    "text": "A Tab component using Vue",
-    "description": "Shows how to create a simple tab component, which displays content based on the active tab.",
-    "url": "https://codesandbox.io/s/vue-tabs-7mo9ru?file=/src/components/Tabs/Tabs.vue",
-    "tags": ["Vue", "Tabs"],
-    "for": "ActiveList"
-  },
-  {
     "id": 9,
     "text": "ViewChannel usage in vanilla JavaScript",
     "description": "Shows a notification center, a flash message, a modal and a confirmation dialog.",
@@ -143,22 +64,6 @@
     "for": "Typewriter"
   },
   {
-    "id": 1,
-    "text": "A basic Carousel created with JavaScript",
-    "description": "A basic auto playing carousel, with buttons to control movements, using vanilla JavaScript",
-    "url": "https://codesandbox.io/s/carousel-vanilla-qh7ffo?file=/carousel.js",
-    "tags": ["JavaScript", "Carousel"],
-    "for": "ActiveList"
-  },
-  {
-    "id": 2,
-    "text": "A basic Carousel created in React",
-    "description": "An example of how to use React to create a basic auto playing carousel",
-    "url": "https://codesandbox.io/s/carousel-react-55h9ib?file=/src/Carousel/Carousel.tsx",
-    "tags": ["React", "Carousel"],
-    "for": "ActiveList"
-  },
-  {
     "id": 17,
     "text": "ViewChannel usage in Svelte",
     "description": "Shows how to use the `createViewChannelStore` function in order to create the example.",
@@ -191,13 +96,51 @@
     "for": "Typewriter"
   },
   {
-    "id": 21,
-    "text": "An image gallery in Alpine",
-    "description": "Using the ActiveList to create an image gallery",
-    "url": "https://codesandbox.io/s/image-gallery-alpine-2d6sqj",
-    "tags": ["Alpine", "Gallery"],
+    "id": 22,
+    "text": "ActiveList usage in vanilla JavaScript",
+    "description": "Shows how to create various carousels, accordions, segmented buttons and more",
+    "url": "https://codesandbox.io/s/activelist-vanilla-xmf5zj",
+    "tags": ["JavaScript"],
+    "for": "ActiveList"
+  },
+  {
+    "id": 23,
+    "text": "ActiveList usage in Vue",
+    "description": "Shows how to use the `useActiveList` composable",
+    "url": "https://codesandbox.io/p/sandbox/activelist-vue-7mo9ru",
+    "tags": ["Vue"],
+    "for": "ActiveList"
+  },
+  {
+    "id": 24,
+    "text": "ActiveList usage in React",
+    "description": "Demonstrates the `useActiveList` hook",
+    "url": "https://codesandbox.io/p/sandbox/activelist-react-zy9gpv",
+    "tags": ["React"],
+    "for": "ActiveList"
+  },
+  {
+    "id": 25,
+    "text": "ActiveList usage in Angular",
+    "description": "Shows how integrate the `ActiveList` with Angular",
+    "url": "https://codesandbox.io/p/sandbox/activelist-angular-f8zjn7",
+    "tags": ["Angular"],
+    "for": "ActiveList"
+  },
+  {
+    "id": 26,
+    "text": "ActiveList usage in Alpine",
+    "description": "Examples of how to use the `ActiveList` from within your html with Alpine.js",
+    "url": "https://codesandbox.io/s/activelist-alpine-kzgj2m",
+    "tags": ["Alpine"],
+    "for": "ActiveList"
+  },
+  {
+    "id": 27,
+    "text": "ActiveList usage in Svelte",
+    "description": "The `createActiveListStore` is used to defined various components",
+    "url": "https://codesandbox.io/p/sandbox/activelist-svelte-f6sdsl",
+    "tags": ["Svelte"],
     "for": "ActiveList"
   }
-
-  
 ]
