@@ -202,6 +202,18 @@ const subscriber = createActiveListSubscriber({
           it allows all the subscribers to be cleared when you know a component is no longer used.
         </p>
       </li>
+
+      <li>
+        <p>
+          The ActiveList now has an <a href="/api/core/activelist/#oppositedirection" class="underline high">oppositeDirection</a>
+          live property, its value is always the opposite of what the <a href="/api/core/activelist/#direction" class="underline high">direction</a> is.
+        </p>
+
+        <p>
+          This is useful for animations such as carousels in which you want the previous active slide to move in 
+          the opposite direction of the activated slide.
+        </p>
+      </li>
     </ol>
   </article>
 
@@ -319,6 +331,19 @@ const subscriber = createActiveListSubscriber({
         </p>
       </li>
       
+      <li>
+        <p>
+          When the last item of an <a class="underline high" href="/api/core/activelist">ActiveList</a> was deactivated the 
+          <a class="underline high" href="/api/core/activelist#direction">direction</a> was reset to a hard-coded <span class="high">"right"</span> instead
+          of being reset to what was configured in the <a class="underline high" href="/api/core/activelistconfig/#directions">config.direction.next</a>. 
+        </p>
+
+        <p>
+          This only affected you if you used a custom next direction instead of the default <span class="high">"right"</span> and 
+          <span class="high">"left"</span> and cleared the ActiveList.
+        </p>
+      </li>
+
     </ol>
   </article>
 
