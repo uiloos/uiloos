@@ -29,12 +29,12 @@ keywords: "ActiveList tutorial, ActiveList snap carousel tutorial"
       <li class="ml-8">
         <a href="#making-it-circular" class="text-purple-600 underline">Making it circular</a>
       </li>
-       <li class="ml-8">
-        <a href="#stopping-on-interaction" class="text-purple-600 underline">Stopping on interaction</a>
-      </li>
       <li class="ml-8">
         <a href="#a-progress-indicator" class="text-purple-600 underline">A progress indicator</a>
       </li>
+      <li class="ml-8">
+        <a href="#stopping-on-interaction" class="text-purple-600 underline">Stopping on interaction</a>
+      </li>      
       <li class="ml-8">
         <a href="#peak-ahead" class="text-purple-600 underline">Peek ahead</a>
       </li>
@@ -43,6 +43,9 @@ keywords: "ActiveList tutorial, ActiveList snap carousel tutorial"
       </li>
       <li class="ml-8">
         <a href="#further-reading" class="text-purple-600 underline">Further reading</a>
+      </li>
+      <li class="ml-8">
+        <a href="#full-code" class="text-purple-600 underline">Full code</a>
       </li>
     </ol>
   </nav>
@@ -144,35 +147,43 @@ keywords: "ActiveList tutorial, ActiveList snap carousel tutorial"
     <p>Open up the "carousel.js" file and add the following: </p>
 
 {% highlight "javascript" %}
-// I chose to represent each slide as a number.
-const slides = [0, 1, 2, 3, 4];
+// Get a reference to the carousel element
+const carouselEl = document.getElementById("carousel");
 
-const config = {
-  contents: slides,
-
-  activeIndexes: [0],
-
-  autoPlay: {
-    // Each slide should take 2000 milliseconds, note
-    // that you can also provide a function so each
-    // slide has a unique duration.
-    duration: 5000
-  }
-};
+// Array.from is needed becaue querySelectorAll
+// returns a NodeList and not an array.
+const slides = Array.from(
+  carouselEl.querySelectorAll(".slide")
+);
 
 const carousel = new window.uiloosActiveList.ActiveList(
-  config,
-  (carousel, event) => {
-    if (event.type === "ACTIVATED") {
-      // Get the new visible slide
-      const slideEl = document.getElementById(`carousel-slide-${event.index}`);
+  {
+    // The slides will be the contents of the ActiveList
+    contents: slides
+    activeIndexes: [0],
 
-      // and scroll it into view smoothly
-      slideEl.scrollIntoView({
+    autoPlay: {
+      // Each slide should take 5000 milliseconds, note
+      // that you can also provide a function so each
+      // slide has a unique duration.
+      duration: 5000
+    }
+  },
+  new window.uiloosActiveList.createActiveListSubscriber({
+    onActivated(event, carousel) {
+      // The index of the slide times the width 
+      // of the carousel is the position on the 
+      // horizontal axis.
+      const position = carousel.lastActivatedIndex * carouselEl.clientWidth;
+
+      // Slide the carousel <ul> to the desired slide.
+      carouselEl.scrollTo({
+        top: 0,
+        left: position,
         behavior: "smooth"
       });
     }
-  }
+  })
 );
 {% endhighlight %}
     <p>
@@ -182,13 +193,13 @@ const carousel = new window.uiloosActiveList.ActiveList(
 
     <p>
       What the code does is initialize an <a href="/api/core/activelist/" class="underline high">ActiveList</a> which 
-      has five contents, each a number representing each slide. By setting <a href="/api/core/activelistconfig/#autoplay" class="underline high">autoPlay</a> up
-      with a duration of 5000, each 5 seconds a new slide will be scrolled to.
+      has contents set to the <span class="high">.slide</span> elements. By setting <a href="/api/core/activelistconfig/#autoplay" class="underline high">autoPlay</a> up
+      with a duration of 5000, every 5 seconds a new slide will be scrolled to.
     </p>
 
     <p>
-      Whenever a slide becomes activated, our subscriber (the second argument to the ActiveList) is called with an  <a href="/api/core/activelistactivatedevent" class="underline high">ACTIVATED</a> event.
-      It is there that we query the slides <span class="high">li</span> element and scroll it in view.
+      Whenever a slide becomes activated, our <span class="high">onActivated</span> method is called with an <a href="/api/core/activelistactivatedevent" class="underline high">ActiveListActivatedEvent</a> event.
+      Now all we need to do is slide the carousel <span class="high">ul</span> element to the correct position.
     </p>
 
     <p>
@@ -211,13 +222,14 @@ const carousel = new window.uiloosActiveList.ActiveList(
     </p>
 
 {% highlight "javascript" %}
-const config = {
-  // Abbreviated for brevity, rest of 
-  // config is still the same.
+const carousel = new window.uiloosActiveList.ActiveList(
+  {
+    // Abbreviated for brevity, rest of 
+    // config is still the same.
 
-  // Make the last slide go to the first slice and vice versa
-  isCircular: true
-};
+    // Make the last slide go to the first slice and vice versa
+    isCircular: true
+  };
 {% endhighlight %}
 
     <p>
@@ -241,94 +253,38 @@ const config = {
     </p>
 
     <p>
-      In the "carousel.js" alter the "config" and set <a href="/api/core/activelistconfig/#maxactivationlimit" class="underline high">maxActivationLimit</a> to
-      <span class="high">2</span>:
+      Lets change the <span class='high'>onActivated</span> to make this work:
     </p>
 
 {% highlight "javascript" %}
-const config = {
-  // Abbreviated for brevity, rest of 
-  // config is still the same.
+onActivated(event, carousel) {
+  // Slide the carousel <ul> to the desired slide.
+  carouselEl.scrollTo({
+    top: 0,
+    left: carousel.lastActivatedIndex * carouselEl.clientWidth,
+    behavior: "smooth"
+  });
 
-  // Allow two slides to be 'active' at the same time, the
-  // previous slide, and the current active slide.
-  // This is done se we can 'move' the last shown slide
-  // to the last position.
-  maxActivationLimit: 2
-};
-{% endhighlight %}
+  // Now this is the magic trick: we take the previous
+  // slide and move it to the last position. This creates
+  // an infinitely scrolling snap carousel.
+  // Do perform the move after a timeout however, so the move
+  // does not affect the smooth scroll of the next slide.
+  window.setTimeout(() => {
+    // When you append an element which is already a child
+    // it will get moved, so there is no need to remove the
+    // element first.
+    carouselEl.append(carousel.lastDeactivated);
 
-    <p>
-      The trick is explained in the comments: what we do is allow two
-      "slides" to be active at the same time. <b>Nothing states that whatever
-      the ActiveList considers active must actually be shown on the screen.</b>
-    </p>
+    // Now also update the ActiveList itself
+    carousel.lastDeactivatedContent.moveToLast();
 
-    <p>
-      This can be a bit of a mind-bender even for me the author of the 
-      library. 
-    </p>
-
-    <p>
-      What this does is make the <a href="/api/core/activelist#active" class="underline high">active</a> array
-      contain a maximum of two elements. The first element is the previous active slide, and 
-      the second element the current active slide.
-    </p>
-
-    <p class="note">
-      You might think, what happens if three contents become active? The answer is 
-      that this is decided by the configured <a href="/api/core/activelistconfig/#maxactivationlimitbehavior" class="underline high">maxActivationLimitBehavior</a>.
-      By default it is set to <span class="high">circular</span> meaning it will drop the first 
-      content that was active to make space for the newly activated content.
-    </p>
-
-     <p>
-      Now to make this work alter the "carousel.js" file keep the 
-      "config" but alter the rest of the code to: 
-    </p>
-
-{% highlight "javascript" %}
-// Get a reference to the carousel element
-const carouselEl = document.getElementById("carousel");
-
-const carousel = new window.uiloosActiveList.ActiveList(
-  config,
-  (carousel, event) => {
-    if (event.type === "ACTIVATED") {
-      // Get the new visible slide
-      const slideEl = document.getElementById(`carousel-slide-${event.index}`);
-
-      // and scroll it into view smoothly
-      slideEl.scrollIntoView({
-        behavior: "smooth"
-      });
-
-      // Now this is the magic trick: we take the previous
-      // slide and move it to the last position. This creates
-      // an infinitely scrolling snap carousel.
-      const lastActivated = carousel.active[0];
-
-      const lastActiveSlideEl = document.getElementById(
-        `carousel-slide-${lastActivated}`
-      );
-
-      // Do perform the move after a timeout however, so the move
-      // does not affect the smooth scroll of the next slide.
-      window.setTimeout(() => {
-        // First remove the slide from the DOM.
-        lastActiveSlideEl.remove();
-
-        // And append the last slide at the end of the carousel.
-        carouselEl.append(lastActiveSlideEl);
-
-        // Reset the scrollLeft, needed for Safari
-        // and FireFox otherwise the wrong slide
-        // will be shown.
-        carouselEl.scrollLeft = 0;
-      }, 1000);
-    }
-  }
-);
+    // Reset the scrollLeft, needed for Safari
+    // and FireFox otherwise the wrong slide
+    // will be shown.
+    carouselEl.scrollLeft = 0;
+  }, 1000);
+}
 {% endhighlight %}
 
     <p>
@@ -337,50 +293,139 @@ const carousel = new window.uiloosActiveList.ActiveList(
 
   </section>
 
-  <section>
-    <h2 id="stopping-on-interaction" ><a href="#a-progress-indicator">6. Stopping on interaction</a></h2>
+   <section>
+    <h2 id="a-progress-indicator" ><a href="#a-progress-indicator">7. A progress indicator</a></h2>
 
     <p>
-      We have now enhanced the carousel with a pretty nifty auto play, but we 
-      have broken the user interaction, it is now unusable because the auto play
-      interferes with user interaction.
+      It would be nice to give the user an indication of when the carousel will move 
+      to the next slide. Lets add a progress indicator.
     </p>
 
     <p>
-      Lets stop the auto play as soon as the user mouses over the carousel, 
-      and continue playing if the user mouses out of the carousel.
-    </p>
-
-    <p>
-      Add the following code at the bottom of 'carousel.js':
+      Again in the file "carousel.js" change the following:
     </p>
 
 {% highlight "javascript" %}
-// Top of file is abbreviated for brevity.
+// Abbreviated same as before
+
+// Get a reference to the progress element
+const progressEl = document.getElementById(
+  "carousel-progress"
+);
+
+const carousel = new window.uiloosActiveList.ActiveList(
+  {
+    // Abbreviated same config as before
+  },
+  new window.uiloosActiveList.createActiveListSubscriber({
+    onInitialized(event, carousel) {
+      // Start the progress animation
+      progressEl.style.animation = 
+        `progress ${carousel.autoPlay.duration}ms linear`;
+    },
+
+    onActivated(event, carousel) {
+      // Abbreviated same onActivated as before, add the following 
+      // below the window.setTimeout
+  
+      // Technically the animation needs not be reset,
+      // since all slides have the same duration. But
+      // if you'd change the autoPlay duration to a
+      // function the progress would be wrong.
+      progressEl.style.animation = `progress ${carousel.autoPlay.duration}ms linear`;
+
+      // By removing the node and inserting it again
+      // the animation is restarted.
+      progressEl.remove();
+      carouselEl.parentElement.insertBefore(
+        progressEl, carouselEl
+      );
+    }
+  })
+);
+
+{% endhighlight %}
+
+    <p>
+      The one bit that requires some explanation is the <span class="high">style.animationPlayState</span> it is 
+      a property that allows you to pause and resume a CSS animation from within JavaScript.
+    </p>
+
+    <p>
+      Now we can see how long a slide will stay active, giving the user a sense of time.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="stopping-on-interaction" ><a href="#a-progress-indicator">7. Stopping on interaction</a></h2>
+
+    <p>
+      We have now enhanced the carousel with a pretty nifty auto play, but we 
+      have broken the user interaction: the auto play interferes with any user 
+      interaction.
+    </p>
+
+    <p>
+      We want to add two things:
+    </p>
+
+    <p>
+      First we want to pause the auto play on mouse hover and resume
+      on mouse out. This way the users can view an image a little longer
+      if they want to.
+    </p>
+
+    <p>
+      Second we want to stop the auto play as soon as the user scrolls.
+    </p>
+
+    <p>
+      There is however a big catch, how are we going to know the 
+      difference between a user scrolling and a <span class="high">scrollTo()</span> call?
+    </p>
+
+    <p>
+      Here is a solution:
+    </p>
+
+{% highlight "javascript" %}
+// Abbreviated: variables as before
 
 // Unfortunately there is no way of knowing whether or
-// not a scroll happend programmatically via "scrollIntoView"
+// not a scroll happened programmatically via "scrollIntoView"
 // or by the end user.
 let carouselIsScrolling = false;
 
 const carousel = new window.uiloosActiveList.ActiveList(
-  config,
-  (carousel, event) => {
-    if (event.type === "ACTIVATED") {
-      // Get the new visible slide
-      const slideEl = document.getElementById(`carousel-slide-${event.index}`);
+  {
+    // Abbreviated: same config as before
+  },
+  new window.uiloosActiveList.createActiveListSubscriber({
+    // Abbreviated: onInitialized is same as before
 
+    onAutoPlayPaused() {
+      // Halt the animation when paused
+      progressEl.style.animationPlayState = "paused";
+    },
+
+    onAutoPlayPlaying() {
+      // Resume animation when playing
+      progressEl.style.animationPlayState = "running";
+    },
+
+    onAutoPlayStopped() {
+      // Remove the progress indicator now that the user has
+      // assumed full control over the carousel.
+      progressEl.style.background = "white";
+    },
+
+    onActivated(event, carousel) {
       // We are now scrolling as the carousel.
       carouselIsScrolling = true;
 
-      slideEl.scrollIntoView({
-        behavior: "smooth",
-        inline: "start"
-      });
-
-      // Abbreviated for brevity, rest of ACTIVATED is still the same.
+      // Abbreviated rest is same as before
     }
-  }
+  })
 );
 
 // Disable the carousel when users mouse enters the carousel
@@ -388,14 +433,16 @@ carouselEl.addEventListener("mouseenter", () => {
   carousel.pause();
 });
 
-// Enable the carousel again when users mouse exits the carousel.
+// Enable the carousel again when users mouse 
+// exits the carousel.
 carouselEl.addEventListener("mouseleave", () => {
   if (!carousel.autoPlay.hasBeenStoppedBefore) {
     carousel.play();
   }
 });
 
-// When the user scrolls stop the autoplay, the user now takes over.
+// When the user scrolls stop the autoplay, 
+// the user now takes over.
 carouselEl.addEventListener("scroll", () => {
   // In browser that do not support "onscrollend"
   // stop the carousel when not playing. This does
@@ -413,17 +460,20 @@ carouselEl.addEventListener("scroll", () => {
     return;
   }
 
-  // The scroll event is also triggered by the ACTIVATED scrollIntoView
-  // and we want to ignore that. We know when the user hovers over the
-  // carousel that is is "paused", so if it is playing at this moment
-  // we know it is an carousel ACTIVATED scroll
+  // The scroll event is also triggered by the 
+  // ACTIVATED scrollIntoView and we want to ignore 
+  // that. We know when the user hovers over the
+  // carousel that is is "paused", so if it is playing 
+  // at this moment  we know it is an carousel 
+  // ACTIVATED scroll
   if (!carousel.autoPlay.isPlaying) {
     carousel.stop();
   }
 });
 
 // This is called multiple times for some reason,
-// when scrolling via "scrollIntoView" so it must be debounced.
+// when scrolling via "scrollIntoView" so it must 
+// be debounced.
 let scrollEndTimerId = -1;
 carouselEl.addEventListener("scrollend", () => {
   window.clearTimeout(scrollEndTimerId);
@@ -433,8 +483,8 @@ carouselEl.addEventListener("scrollend", () => {
     carouselIsScrolling = false;
   }, 500);
 });
-
 {% endhighlight %}
+
     <p>
       The most tricky bit understanding why we do not call <a href="/api/core/activelist/#play" class="underline high">play()</a> when
       <a href="/api/core/activelistautoplay/#hasbeenstoppedbefore" class="underline high">hasBeenStoppedBefore</a> is <span class="high">false</span>.
@@ -451,93 +501,24 @@ carouselEl.addEventListener("scrollend", () => {
     </p>
 
     <p>
-      Another thing is that we only want to stop when the user scrolls, and not when the carousel is auto play scrolling.
-      Unfortunately for us <span class="high">scrollIntoView</span> does not indicate in the event, 
+      Now for the solution to our "who is scrolling problem", we only want to stop when the user scrolls, and not 
+      when the carousel is auto play scrolling. Unfortunately for us <span class="high">scrollTo</span> does not indicate in the event, 
       that it was called programmatically.
     </p>
 
     <p>
       This is why the <span class="high">carouselIsScrolling</span> and the <span class="high">scrollend</span> event
-      must exist, so we can tell if it was the user or the carousel, which is unfortunate since this bloats up the code by quite a bit.
+      must exist, so we can tell if it was the user or the carousel that is scrolling.
+    </p>
+
+    <p>
+      Which is unfortunate since this bloats up the code by quite a bit. 
+      Hopefully one day the information will be part of the scroll event
+      in future browser versions.
     </p>
 
     <p>
       The carousel now pauses on hover and stops on user scroll.
-    </p>
-  </section>
-
-  <section>
-    <h2 id="a-progress-indicator" ><a href="#a-progress-indicator">7. A progress indicator</a></h2>
-
-    <p>
-      It would be nice to give the user an indication of when the carousel will move 
-      to the next slide. Lets add a progress indicator.
-    </p>
-
-    <p>
-      Again in the file "carousel.js" change the following:
-    </p>
-
-{% highlight "javascript" %}
-// Top of file is abbreviated for brevity.
-
-// Get a reference to the progress element
-const progressEl = document.getElementById("carousel-progress");
-
-const carousel = new window.uiloosActiveList.ActiveList(
-  config,
-  (carousel, event) => {
-    // Start the progress animation
-    if (event.type === "INITIALIZED") {
-      progressEl.style.animation = `progress ${carousel.autoPlay.duration}ms linear`;
-    }
-
-    // Halt the animation when paused
-    if (event.type === "AUTO_PLAY_PAUSED") {
-      progressEl.style.animationPlayState = "paused";
-    }
-
-    // and resume when playing
-    if (event.type === "AUTO_PLAY_PLAYING") {
-      progressEl.style.animationPlayState = "running";
-    }
-
-    // Remove the progress indicator now that the user has
-    // assumed full control over the carousel.
-    if (event.type === "AUTO_PLAY_STOPPED") {
-      progressEl.style.background = "white";
-    }
-
-    if (event.type === "ACTIVATED") {
-      // Abbreviated for brevity, rest of ACTIVATED is still the same.
-
-      // Technically the animation needs not be reset,
-      // since all slides have the same duration. But
-      // if you'd change the autoPlay duration to a
-      // function the progress would be wrong.
-      progressEl.style.animation = `progress ${carousel.autoPlay.duration}ms linear`;
-
-      // By removing the node and inserting it again
-      // the animation is restarted.
-      progressEl.remove();
-      carouselEl.parentElement.insertBefore(progressEl, carouselEl);
-    }
-  }
-);
-{% endhighlight %}
-
-    <p>
-      As you can see the code adds new events which result in new types for the 
-      "subscriber" to handle. These chunks of code are relatively straightforward.
-    </p>
-
-    <p>
-      The one bit that requires some explanation is the <span class="high">style.animationPlayState</span> it is 
-      a property that allows you to pause and resume a CSS animation from within JavaScript.
-    </p>
-
-    <p>
-      Now that we have an accurate progress indicator the experience is really coming together.
     </p>
   </section>
 
@@ -550,7 +531,9 @@ const carousel = new window.uiloosActiveList.ActiveList(
     </p>
 
     <p>
-      <i>I want the user to always see part of the previous and next slides.</i>
+      <i>I want the user to always see part of the previous and next slides. So the user knows 
+        they can scroll and is looking at a carousel.
+      </i>
     </p>
 
     <p>
@@ -595,8 +578,9 @@ const carousel = new window.uiloosActiveList.ActiveList(
     </p>
 
 {% highlight "javascript" %}
-const config = {
-  // Only change activeIndexes, and maxActivationLimit
+{
+  // Only change activeIndexes, and add a 
+  // maxActivationLimit
 
   // Start at the second slide so there is content
   // on both the left and the right, if started on the
@@ -604,42 +588,62 @@ const config = {
   // slide, which looks sloppy.
   activeIndexes: [0, 1],
 
-  // The last activated slide is the one we are going to show.
-  // The slide that was active two slides ago we are going to
-  // move. The trick here is that while the ActiveList considers
-  // three slides to be active, we only consider the last active
-  // slide active.
+  // The last activated slide is the one we are 
+  // going to show. The slide that was active two 
+  // slides ago we are going to move. The trick 
+  // here is that while the ActiveList considers
+  // three slides to be active, we only consider 
+  // the last active slide active.
   maxActivationLimit: 3,
 };
 {% endhighlight %}
 
-     <p>
-      By increasing the <a href="/api/core/activelistconfig/#maxactivationlimit" class="underline high">maxActivationLimit</a> to
-      <span class="high">3</span> we now have access to the previous slides, previous slide. 
+    <p>
+      The trick is explained in the comments: what we do is allow three
+      "slides" to be active at the same time. <b>Nothing states that whatever
+      the ActiveList considers active must actually be shown on the screen.</b>
     </p>
 
     <p>
-      Now to make the scroll to the second slide at initialization alter the "INITIALIZED" event:
+      This can be a bit of a mind-bender even for me the author of the 
+      library. 
+    </p>
+
+    <p>
+      What this does is make the <a href="/api/core/activelist#active" class="underline high">active</a> array
+      contain a maximum of three elements. The last element is the active the current active slide, 
+      the second element the previous slide, and the first element is the "grandparent" slide or the 
+      previous slide's previous slide.
+    </p>
+
+    <p class="note">
+      You might think, what happens if three contents become active? The answer is 
+      that this is decided by the configured <a href="/api/core/activelistconfig/#maxactivationlimitbehavior" class="underline high">maxActivationLimitBehavior</a>.
+      By default it is set to <span class="high">circular</span> meaning it will drop the first 
+      content that was active to make space for the newly activated content.
+    </p>
+
+    <p>
+      Now to make the scroll to the second slide at initialization alter the <span class="high">onInitialized</span>:
     </p>
 
 {% highlight "javascript" %}
-if (event.type === "INITIALIZED") {
+onInitialized(event, carousel) {
   // Start the progress animation
   progressEl.style.animation = `progress ${carousel.autoPlay.duration}ms linear`;
 
   // Since we show the "second" slide initially have to
-  // scroll to that slide on initialization.
-  const slideEl = document.getElementById(
-    `carousel-slide-${carousel.lastActivated}`
-  );
-
-  // Scroll instantly
-  slideEl.scrollIntoView();
-}
+  // scroll instantly to that slide on initialization.
+  carouselEl.scrollTo({
+    top: 0,
+    left: carousel.lastActivatedIndex * carouselEl.clientWidth,
+    behavior: "instant"
+  });
+},
 {% endhighlight %}
 
   <p>
-    Finally in the "ACTIVATED" event change the "magic trick" to:
+    Finally in the <span class="high">onActivated</span> change the "magic trick" to:
   </p>
 
 {% highlight "javascript" %}
@@ -649,38 +653,29 @@ if (event.type === "INITIALIZED") {
 // But because we show a litte of the the previous
 // and next slides, (peek ahead) we need actually need to move
 // the slide that was shown two iterations ago.
-const previousPreviousSlide = carousel.active[0];
-
-// Now take that element and move it.
-const slideToBeMovedEl = document.getElementById(
-  `carousel-slide-${previousPreviousSlide}`
-);
+const previousPreviousSlide = carousel.activeContents[0];
 
 // Do perform the move after a timeout however, so the move
 // does not affect the smooth scroll of the next slide.
 window.setTimeout(() => {
-  // First remove the slide from the DOM.
-  slideToBeMovedEl.remove();
+  // When you append an element which is already a child
+  // it will get moved, so there is no need to remove the
+  // element first.
+  carouselEl.append(previousPreviousSlide.value);
 
-  // And append the last slide at the end of the carousel.
-  carouselEl.append(slideToBeMovedEl);
+  // Now also update the ActiveList itself
+  previousPreviousSlide.moveToLast();
 
   // Reset the scrollLeft, needed for Safari
   // and FireFox otherwise the wrong slide
   // will be shown.
-  carouselEl.scrollLeft = 512;
+  carouselEl.scrollLeft = carouselEl.clientWidth;
 }, 1000);
 {% endhighlight %}
 
     <p>
       Our work has been done, we have a nice carousel that supports peak ahead.
     </p>
-    
-    <p>
-      For reference here is the <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/s/progressively-enhanced-snap-carousel-vanilla-peek-ahead-v5rt2j?file=/carousel.js" class="underline text-purple-600">full code of the peek ahead carousel</a>,
-      and here the <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/s/progressively-enhanced-snap-carousel-vanilla-4phhgy?file=/carousel.js" class="underline text-purple-600">full code of the non peak ahead carousel</a>
-    </p>
-
   </section>
 
   <section>
@@ -725,12 +720,23 @@ window.setTimeout(() => {
         As it often provides the most convenient API for mutating the ActiveList.
       </li>
       <li class="ml-8 mb-4">
-        Take a look and contrast the approach here with the 
-        <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/s/snap-carousel-react-peek-ahead-kt9sd3" class="underline text-purple-600">React version</a> 
-        of the carousel. Which does not have a subscriber callback, 
-        because React handles the DOM manipulation.
+        If you do not like a CSS snap based carousel make sure you check out <a href="/docs/active-list/tutorials/basic-carousel" class="underline">the tutorial for the basic carousel</a>. 
+        Just know that it does not work without JavaScript enabled.
+      </li>
+      <li class="ml-8 mb-4">
+        When using vanilla JavaScript you must handle DOM manipulation yourself, 
+        contrast this with <a href="/docs/active-list/examples/" class="underline">the examples that use a JavaScript framework</a>.
       </li>
     </ol>
+  </section>
+
+  <section>
+    <h2 id="full-code"><a href="#full-code">11. Full code</a></h2>
+
+     <p>
+      For reference here is the <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/s/activelist-vanilla-xmf5zj?file=/examples/peek-ahead-carousel/peek-ahead-carousel.js" class="underline text-purple-600">reference implementation of a peek ahead carousel in JavaScript</a>,
+      and here the <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/s/activelist-vanilla-xmf5zj?file=/examples/snap-carousel/snap-carousel.js" class="underline text-purple-600">reference implementation of a non peak ahead carousel in JavaScript</a>
+    </p>
   </section>
 
   <a 
