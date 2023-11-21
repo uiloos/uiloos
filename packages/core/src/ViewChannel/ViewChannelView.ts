@@ -137,7 +137,7 @@ export class ViewChannelView<T, R> {
    *
    * @param {ViewChannel<T, R>} viewChannel The ViewChannel this ViewChannelView belongs to.
    * @param {number} index The index of this ViewChannelView within the ViewChannel.
-   * @param {T} data The data function which when called provides the data for this ViewChannelView.
+   * @param {T} data The data of this ViewChannelView.
    * @param {number} priority The priority this ViewChannelView has within the ViewChannel
    * @param {ViewChannelViewAutoDismissConfig<R>} autoDismiss Whether or not this ViewChannelView is auto dismissed after a duration. 
    * 

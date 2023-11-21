@@ -8,3 +8,5 @@ export * from './ActiveList';
 export * from './ViewChannel';
 
 export * from './Typewriter';
+
+export * from './DateFrame';
