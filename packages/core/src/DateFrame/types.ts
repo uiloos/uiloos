@@ -1,18 +1,6 @@
 import { DateFrame } from './DateFrame';
 import { DateFrameDate } from './DateFrameDate';
-
-export type DateFrameDateRepresentation = {
-  day: number;
-  month: number;
-  year: number;
-};
-
-export type DateFrameDateTime = DateFrameDateRepresentation & {
-  hour: number;
-  minute: number;
-  seconds: number;
-};
-
+import { DateFrameEvent } from './DateFrameEvent';
 
 /**
  * Configures the initial state of the `DateFrame`
@@ -32,20 +20,28 @@ export type DateFrameConfig<T> = {
   mode?: DateFrameMode;
 
   /**
-   * The format used for the dates as provided in the frame.
+   * Whether the `DateFrame` is in UTC mode.
    *
-   * Defaults to 'YYYY-MM-DD'.
+   * When the `DateFrame` is in UTC mode all dates are parsed as UTC.
    *
-   * @since 1.6.0
+   * TODO: doc this
+   *
+   * TODO: implement this
+   *
+   * Defaults to `false` meaning the browsers local timezone is used.
+   *
+   * @since 1.60
    */
-  dateFormat?: DateFrameDateFormat;
+  isUtc?: boolean;
 
   /**
-   * A date as a string in the same format as the `dateFormat`, it
-   * acts as the initial date for the date frame.
+   * A date that will act as the initial date for the date frame.
    *
    * It will set the date frame to the "closest" date given the
    * `mode`.
+   *
+   * Can either be a Date instance, or a string which can be passed
+   * to the Date constructor to make a date. TODO UTC
    *
    * For example if you use "2023-06-23" as the `anchorDate` and the
    * `mode` is set to 'year', the date frame will be the year 2023. If
@@ -56,7 +52,7 @@ export type DateFrameConfig<T> = {
    *
    * @since 1.6.0
    */
-  initialDate?: string;
+  initialDate?: Date | string;
 
   /**
    * What is to be considered the first day of the week, is used in
@@ -108,10 +104,29 @@ export type DateFrameConfig<T> = {
    *
    * @since 1.6.0
    */
-  selectedDates?: string[];
+  selectedDates?: (Date | string)[];
+
+  /**
+   * The number of frames that are visible at a time for the end user.
+   *
+   * This is useful for when you want to show a multiple frames at
+   * the same time. For example if you an entire years worth of
+   * `month-single-month` calendars you'd set the `numberOfFrames`
+   * to `12`.
+   *
+   * Defaults to `1` for a single frame at a time.
+   *
+   * @since 1.6.0
+   */
+  numberOfFrames?: number;
 };
 
-type DateFrameEventConfig<T> = {
+/**
+ * TODO docs
+ *
+ * @since 1.6.0
+ */
+export type DateFrameEventConfig<T> = {
   /**
    * The data for this event, "data" can be be anything from an
    * object, string, array etc etc. It is used to pass along data
@@ -125,15 +140,35 @@ type DateFrameEventConfig<T> = {
   data: T;
 
   /**
-   * The date as a string of the `DateFrameDate` which it has within
-   * the `contents`. In the format of the `DateFrame.dateFormat`.
+   * The start date of the event, includes the time.
+   *
+   * The `startDate` is inclusive: meaning if the event has a `startDate`
+   * which is monday and an `endDate` on wednesday, the event runs on
+   * monday, tuesday and wednesday.
+   *
+   * Can either be a Date instance, or a string which can be passed
+   * to the Date constructor to make a date. TODO UTC
+   *
+   * TODO: string examples
    *
    * @since 1.6.0
    */
-  date: string;
-};
+  startDate: Date | string;
 
-export type DateFrameDateFormat = 'YYYY-MM-DD' | 'DD-MM-YYYY' | 'MM-DD-YYYY';
+  /**
+   * The end date of the event, includes the time.
+   *
+   * The `endDate` is inclusive: meaning if the event has a `startDate`
+   * which is monday and an `endDate` on wednesday, the event runs on
+   * monday, tuesday and wednesday.
+   *
+   * Can either be a Date instance, or a string which can be passed
+   * to the Date constructor to make a date. TODO UTC
+   *
+   * @since 1.6.0
+   */
+  endDate: Date | string;
+};
 
 export type DateFrameDayOfWeek =
   | 0 // 'sunday'
@@ -144,20 +179,22 @@ export type DateFrameDayOfWeek =
   | 5 // 'friday'
   | 6; // 'saturday';
 
-export type DateFrameMode =
-  | 'day'
-  | 'week'
-  | 'month-calendar-month'
-  | 'month-six-weeks'
-  | 'month-pad-to-week'
-  | 'year';
+export const DATE_FRAME_MODES = [
+  'day',
+  'week',
+  'month',
+  'month-six-weeks',
+  'month-pad-to-week',
+  'year'
+] as const;
+
+export type DateFrameMode = typeof DATE_FRAME_MODES[number];
 
 type DateRep = {
   day: number;
   month: number;
-   year: number;
+  year: number;
 };
-  
 
 /**
  * The subscriber which is informed of all state changes the
@@ -181,8 +218,14 @@ export type DateFrameSubscriber<T> = (
 export type DateFrameSubscriberEventType =
   | 'INITIALIZED'
   | 'FRAME_CHANGED'
+  | 'MODE_CHANGED'
   | 'DATE_SELECTED'
-  | 'DATE_DESELECTED';
+  | 'DATE_SELECTED_MULTIPLE'
+  | 'DATE_DESELECTED'
+  | 'DATE_DESELECTED_MULTIPLE'
+  | 'EVENT_ADDED'
+  | 'EVENT_REMOVED'
+  | 'EVENT_MOVED'
 
 /**
  * Represents an event which happened in the DateFrame. Based
@@ -235,16 +278,15 @@ export type DateFrameFrameChangedEvent<T> = DateFrameBaseEvent & {
   type: 'FRAME_CHANGED';
 
   /**
-   * The new date frame.
-   * 
+   * The newly visible frames.
+   *
    * @since 1.6.0
    */
-  dates: DateFrameDate<T>[];
+  frames: DateFrameDate<T>[][];
 };
 
 /**
- * Represents the fact that the date frame has how changed, this
- * occurs when the frame is moved to the next or previous frame.
+ * Represents the fact that a date has been selected.
  *
  * @since 1.6.0
  */
@@ -258,15 +300,35 @@ export type DateFrameDateSelectedEvent = DateFrameBaseEvent & {
 
   /**
    * The date that was selected.
-   * 
+   *
    * @since 1.6.0
    */
-  date: string
+  date: Date;
 };
 
 /**
- * Represents the fact that the date frame has how changed, this
- * occurs when the frame is moved to the next or previous frame.
+ * Represents the fact that multiple dates have been selected.
+ *
+ * @since 1.6.0
+ */
+export type DateFrameDateSelectedMultipleEvent = DateFrameBaseEvent & {
+  /**
+   * Which type occurred
+   *
+   * @since 1.6.0
+   */
+  type: 'DATE_SELECTED_MULTIPLE';
+
+  /**
+   * The dates that were selected.
+   *
+   * @since 1.6.0
+   */
+  dates: Date[];
+};
+
+/**
+ * Represents the fact that a date has been deselected
  *
  * @since 1.6.0
  */
@@ -280,10 +342,125 @@ export type DateFrameDateDeselectedEvent = DateFrameBaseEvent & {
 
   /**
    * The date that was deselected.
-   * 
+   *
    * @since 1.6.0
    */
-  date: string
+  date: Date;
+};
+
+/**
+ * Represents the fact that multiple dates have been deselected
+ *
+ * @since 1.6.0
+ */
+export type DateFrameDateDeselectedMultipleEvent = DateFrameBaseEvent & {
+  /**
+   * Which type occurred
+   *
+   * @since 1.6.0
+   */
+  type: 'DATE_DESELECTED_MULTIPLE';
+
+  /**
+   * The dates that were deselected.
+   *
+   * @since 1.6.0
+   */
+  dates: Date[];
+};
+
+/**
+ * Represents the fact that an event has been added to the 
+ * DateFrame.
+ *
+ * @since 1.6.0
+ */
+export type DateFrameEventAddedEvent<T> = DateFrameBaseEvent & {
+  /**
+   * Which type occurred
+   *
+   * @since 1.6.0
+   */
+  type: 'EVENT_ADDED';
+
+  /**
+   * The event that was added
+   *
+   * @since 1.6.0
+   */
+  event: DateFrameEvent<T>;
+};
+
+/**
+ * Represents the fact that an event has been removed from the 
+ * DateFrame.
+ *
+ * @since 1.6.0
+ */
+export type DateFrameEventRemovedEvent<T> = DateFrameBaseEvent & {
+  /**
+   * Which type occurred
+   *
+   * @since 1.6.0
+   */
+  type: 'EVENT_REMOVED';
+
+  /**
+   * The event that was removed
+   *
+   * @since 1.6.0
+   */
+  event: DateFrameEvent<T>;
+};
+
+/**
+ * Represents the fact that an event was moved, it got either
+ * a new start or end date.
+ *
+ * @since 1.6.0
+ */
+export type DateFrameEventMovedEvent<T> = DateFrameBaseEvent & {
+  /**
+   * Which type occurred
+   *
+   * @since 1.6.0
+   */
+  type: 'EVENT_MOVED';
+
+  /**
+   * The event that was moved
+   *
+   * @since 1.6.0
+   */
+  event: DateFrameEvent<T>;
+};
+
+/**
+ * Represents the fact that the date frames mode has changed.
+ *
+ * @since 1.6.0
+ */
+export type DateFrameModeChangedEvent<T> = DateFrameBaseEvent & {
+  /**
+   * Which type occurred
+   *
+   * @since 1.6.0
+   */
+  type: 'MODE_CHANGED';
+
+  /**
+   * The new mode.
+   *
+   * @since 1.6.0
+   */
+  mode: DateFrameMode;
+
+  /**
+   * The newly visible frames.
+   *
+   * @since 1.6.0
+   */
+  frames: DateFrameDate<T>[][];
 };
 
 /**
@@ -297,4 +474,10 @@ export type DateFrameSubscriberEvent<T> =
   | DateFrameInitializedEvent
   | DateFrameFrameChangedEvent<T>
   | DateFrameDateSelectedEvent
-  | DateFrameDateDeselectedEvent;
+  | DateFrameDateDeselectedEvent
+  | DateFrameEventAddedEvent<T>
+  | DateFrameEventRemovedEvent<T>
+  | DateFrameModeChangedEvent<T>
+  | DateFrameDateSelectedMultipleEvent
+  | DateFrameDateDeselectedMultipleEvent
+  | DateFrameEventMovedEvent<T>;

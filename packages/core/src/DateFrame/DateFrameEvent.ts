@@ -1,4 +1,5 @@
 import { DateFrame } from './DateFrame';
+import { _hasOverlap } from './utils';
 
 /**
  * Represents a piece of content in the `events` array of the `DateFrame`.
@@ -16,13 +17,6 @@ export class DateFrameEvent<T> {
   public dateFrame: DateFrame<T>;
 
   /**
-   * The index of the `DateFrameEvent` which it has within the `contents`.
-   *
-   * @since 1.6.0
-   */
-  public index: number;
-
-  /**
    * The data for this event, "data" can be be anything from an
    * object, string, array etc etc. It is used to pass along data
    * to the event you might need to display the event, such as the
@@ -35,12 +29,33 @@ export class DateFrameEvent<T> {
   public data: T;
 
   /**
-   * The date as a string of the `DateFrameDate` in the format of
-   * the `DateFrame.dateFormat`.
+   * The start date of the event, includes the time.
+   *
+   * The `startDate` is inclusive: meaning if the event has a `startDate`
+   * which is monday and an `endDate` on wednesday, the event runs on
+   * monday, tuesday and wednesday.
    *
    * @since 1.6.0
    */
-  public date: string;
+  public startDate: Date;
+
+  /**
+   * The end date of the event, includes the time.
+   *
+   * The `endDate` is inclusive: meaning if the event has a `startDate`
+   * which is monday and an `endDate` on wednesday, the event runs on
+   * monday, tuesday and wednesday.
+   *
+   * @since 1.6.0
+   */
+  public endDate: Date;
+
+  /**
+   * The other events in the `DateFrame` this event overlaps with.
+   *
+   * @since 1.6.0
+   */
+  public readonly overlapsWith: DateFrameEvent<T>[] = [];
 
   /**
    * Creates an DateFrameEvent which belongs to the given DateFrame.
@@ -54,10 +69,46 @@ export class DateFrameEvent<T> {
    *
    * @since 1.6.0
    */
-  constructor(dateFrame: DateFrame<T>, index: number, data: T, date: string) {
+  constructor(
+    dateFrame: DateFrame<T>,
+    data: T,
+    startDate: Date,
+    endDate: Date
+  ) {
     this.dateFrame = dateFrame;
-    this.index = index;
     this.data = data;
-    this.date = date;
+    this.startDate = startDate;
+    this.endDate = endDate;
+  }
+
+  // Calculates the overlapping events
+  public _calcOverlap() {
+    // Reset overlap
+    this.overlapsWith.length = 0;
+
+    // Check for overlap
+    this.dateFrame.events.forEach((other) => {
+      if (other === this) {
+        return;
+      }
+
+      if (_hasOverlap(this, other)) {
+        this.overlapsWith.push(other);
+      }
+    });
+
+    this.overlapsWith.sort((a, b) => {
+      return a.startDate.getTime() - b.startDate.getTime();
+    });
+  }
+
+  // TODO: docs
+  public remove() {
+    this.dateFrame.removeEvent(this);
+  }
+
+  // TODO: docs
+  public move(startDate: Date | string, endDate: Date | string) {
+    this.dateFrame.moveEvent(this, startDate, endDate);
   }
 }

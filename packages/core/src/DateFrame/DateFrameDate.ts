@@ -22,19 +22,11 @@ export class DateFrameDate<T> {
   public dateFrame: DateFrame<T>;
 
   /**
-   * The index of the `DateFrameDate` which it has within the `contents`.
+   * The date associated with this `DateFrameDate`.
    *
    * @since 1.6.0
    */
-  public index: number;
-
-  /**
-   * The date as a string of the `DateFrameDate` which it has within
-   * the `contents`. In the format of the `DateFrame.dateFormat`.
-   *
-   * @since 1.6.0
-   */
-  public date: string;
+  public date: Date;
 
   /**
    * The events that occur on this date.
@@ -67,6 +59,13 @@ export class DateFrameDate<T> {
    */
   public isToday: boolean;
 
+   /**
+   * Whether or not this `DateFrameDate` has any events.
+   *
+   * @since 1.6.0
+   */
+   public hasEvents: boolean;
+
   /**
    * Creates an DateFrameDate which belongs to the given DateFrame.
    *
@@ -82,33 +81,32 @@ export class DateFrameDate<T> {
    */
   constructor(
     dateFrame: DateFrame<T>,
-    index: number,
-    date: string,
+    date: Date,
     events: DateFrameEvent<T>[],
     isPadding: boolean,
     isSelected: boolean
   ) {
     this.dateFrame = dateFrame;
-    this.index = index;
     this.date = date;
     this.events = events;
     this.isPadding = isPadding;
     this.isSelected = isSelected;
 
-    const now = new Date();
-    const d = new Date(date);
-
-    this.isToday =
-      now.getFullYear() === d.getFullYear() &&
-      now.getMonth() === d.getMonth() &&
-      now.getDate() === d.getDate();
+    this.isToday = dateFrame._sameDay(new Date(), date);
+    this.hasEvents = events.length > 0;
   }
 
-  public selectDate() {
+  // TODO: docs
+  public select() {
     this.dateFrame.selectDate(this.date);
   }
 
-  public deselectDate() {
+  // TODO: docs
+  public deselect() {
     this.dateFrame.deselectDate(this.date);
+  }
+
+  public toggle() {
+    this.dateFrame.toggleDateSelection(this.date);
   }
 }

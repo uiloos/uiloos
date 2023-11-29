@@ -19,14 +19,27 @@ import {
   DateFrameInitializedEvent,
   DateFrameSubscriber,
   DateFrameMode,
-  DateFrameDateFormat,
   DateFrameDayOfWeek,
   DateFrameFrameChangedEvent,
   DateFrameDateSelectedEvent,
   DateFrameDateDeselectedEvent,
+  DateFrameEventConfig,
+  DateFrameEventAddedEvent,
+  DateFrameEventRemovedEvent,
+  DateFrameModeChangedEvent,
+  DATE_FRAME_MODES,
+  DateFrameDateSelectedMultipleEvent,
+  DateFrameDateDeselectedMultipleEvent,
+  DateFrameEventMovedEvent,
 } from './types';
 import { DateFrameDate } from './DateFrameDate';
 import { DateFrameEvent } from './DateFrameEvent';
+import { DateFrameModeError } from './errors/DateFrameModeError';
+import { DateFrameFirstDayOfWeekError } from './errors/DateFrameFirstDayOfWeekError';
+import { DateFrameNumberOfFramesError } from './errors/DateFrameNumberOfFramesError';
+import { DateFrameInvalidDateError } from './errors/DateFrameInvalidDateError';
+import { DateFrameEventInvalidRangeError } from './errors/DateFrameEventInvalidRangeError';
+import { _hasOverlap } from './utils';
 
 /**
  * A DateFrame is a class that represents a frame of dates, a frame
@@ -70,26 +83,60 @@ export class DateFrame<T>
   private _isInitializing = false;
 
   /**
-   * The frame of dates that are currently visible to the user.
+   * Whether the `DateFrame` is in UTC mode.
+   *
+   * When the `DateFrame` is in UTC mode all dates are parsed as UTC.
+   *
+   * TODO: doc this
+   *
+   * TODO: implement this
+   *
+   * @since 1.60
+   */
+  public isUTC = false;
+
+  /**
+   * The frames of dates that are currently visible to the user.
    *
    * @since 1.6.0
    */
-  public readonly dates: DateFrameDate<T>[] = [];
+  public readonly frames: DateFrameDate<T>[][] = [];
+
+  /**
+   * The first frame of dates that is visible to the user.
+   *
+   * Is a shortcut to the first frame in the `frames` property.
+   *
+   * If `numberOfFrames` is 1 this will be the only visible frame.
+   *
+   * @since 1.6.0
+   */
+  public firstFrame: DateFrameDate<T>[] = [];
+
+  /**
+   * The number of frames that are visible at a time for the end user.
+   *
+   * This is useful for when you want to show a multiple frames at
+   * the same time. For example if you an entire years worth of
+   * `month-single-month` calendars you'd set the `numberOfFrames`
+   * to `12`.
+   *
+   * @since 1.6.0
+   */
+  public numberOfFrames = 1;
 
   /**
    * All dates which are currently considered selected.
    *
-   * The dates are a strings in the same format of the `dateFormat`.
-   *
    * @since 1.6.0
    */
-  public readonly selectedDates: string[] = [];
+  public readonly selectedDates: Date[] = [];
 
   /**
    * All events, such as birthdays, meetings etc that are associated
    * with this `DateFrame`.
-   * 
-   * Is sorted from old to new, events that appear earlier in the 
+   *
+   * Is sorted from old to new, events that appear earlier in the
    * array are earlier than events that appear later in the array.
    *
    * @since 1.6.0
@@ -97,33 +144,34 @@ export class DateFrame<T>
   public readonly events: DateFrameEvent<T>[] = [];
 
   /**
-   * Only the events, such as birthdays, meetings etc that are
-   * currently visible to the user, in other words all events
-   * that fall within the `dates` date frame.
-   * 
-   * Is sorted from old to new, events that appear earlier in the 
+   * The events that happen within the `firstFrame`.
+   *
+   * Is sorted from old to new, events that appear earlier in the
    * array are earlier than events that appear later in the array.
    *
    * @since 1.6.0
    */
-  public readonly activeEvents: DateFrameEvent<T>[] = [];
+  public firstFrameEvents: DateFrameEvent<T>[] = [];
+
+  /**
+   * Per frame which events belong to that frame.
+   *
+   * Is sorted from old to new, events that appear earlier in the
+   * array are earlier than events that appear later in the array.
+   *
+   * @since 1.6.0
+   */
+  public readonly eventsPerFrame: DateFrameEvent<T>[][] = [];
 
   // TODO docs
   public mode: DateFrameMode = 'month-six-weeks';
-  public dateFormat: DateFrameDateFormat = 'YYYY-MM-DD';
   public firstDayOfWeek: DateFrameDayOfWeek = 0;
-
-  public readonly daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   /*
     The anchorDate is a reference to what the starting date of a 
     `mode` is.
   */
-  private readonly _anchorDate: DateRep = {
-    day: 0,
-    month: 0,
-    year: 0,
-  };
+  private _anchorDate = new Date();
 
   private _history: _History<DateFrameSubscriberEvent<T>> = new _History();
 
@@ -177,7 +225,7 @@ export class DateFrame<T>
       this.subscribe(subscriber);
     }
 
-    this.initialize(config);
+    this._doInitialize(config, 'constructor');
   }
 
   /**
@@ -232,76 +280,76 @@ export class DateFrame<T>
    * @since 1.6.0
    */
   public initialize(config: DateFrameConfig<T>): void {
+    this._doInitialize(config, 'initialize');
+  }
+
+  /**
+   * Initializes the DateFrame based on the config provided. This can
+   * effectively reset the DateFrame when called, including the
+   * history, autoPlay and cooldown.
+   *
+   * @param {DateFrameConfig<T>} config The new configuration which will override the old one
+   *
+   * @throws {DateFrameAutoPlayDurationError} autoPlay duration must be a positive number when defined
+   *
+   * @since 1.6.0
+   */
+  private _doInitialize(config: DateFrameConfig<T>, method: string): void {
     // Ignore changes for now, we will restore subscriber at the end
     // of the initialization process.
     this._isInitializing = true;
 
+    this.isUTC = config.isUtc ? config.isUtc : false;
+
     this.mode = config.mode ? config.mode : 'month-six-weeks';
-    this.dateFormat = config.dateFormat ? config.dateFormat : 'YYYY-MM-DD';
+    this._checkMode(this.mode);
+
     this.firstDayOfWeek = config.firstDayOfWeek ? config.firstDayOfWeek : 0;
-
-    // First simply set the anchorDate
-    if (config.initialDate) {
-      const values = config.initialDate.split('-');
-
-      if (values.length !== 3) {
-        // TODO throw error
-      }
-
-      // TODO check if initialDate has correct format or throw
-
-      const numbers = values.map((v) => parseInt(v));
-
-      if (this.dateFormat === 'DD-MM-YYYY') {
-        this._anchorDate.year = numbers[2];
-        this._anchorDate.month = numbers[1];
-        this._anchorDate.day = numbers[0];
-      } else if (this.dateFormat === 'YYYY-MM-DD') {
-        this._anchorDate.year = numbers[0];
-        this._anchorDate.month = numbers[1];
-        this._anchorDate.day = numbers[2];
-      } else {
-        // MM-DD-YYYY
-        this._anchorDate.year = numbers[2];
-        this._anchorDate.month = numbers[0];
-        this._anchorDate.day = numbers[1];
-      }
-    } else {
-      this._setAnchorDate(new Date());
+    if (this.firstDayOfWeek < 0 || this.firstDayOfWeek > 6) {
+      throw new DateFrameFirstDayOfWeekError();
     }
+
+    this.numberOfFrames =
+      config.numberOfFrames !== undefined ? config.numberOfFrames : 1;
+    if (this.numberOfFrames <= 0) {
+      throw new DateFrameNumberOfFramesError();
+    }
+
+    // TODO utc
+    this._anchorDate = config.initialDate
+      ? this._toDate(config.initialDate, method, 'initialDate')
+      : new Date();
+
+    this._anchorDate.setHours(0, 0, 0, 0);
 
     // Second move the anchorDate to the closest start date of the fame
-
-    if (this.mode === 'year') {
-      this._anchorDate.month = 1;
-      this._anchorDate.day = 1;
-    } else if (this.mode === 'week') {
-      const date = this._firstDayOfWeekDateFromRep(this._anchorDate);
-
-      this._setAnchorDate(date);
-    } else if (this.mode.startsWith('month')) {
-      this._anchorDate.day = 1;
-    }
+    this._dragAnchor();
 
     // Empty the contents first before assigning them, so re-init
     // works with a new empty content.
-    this.activeEvents.length = 0;
     this.events.length = 0;
     this.selectedDates.length = 0;
 
-    this._setDates();
-
-    if (config.events) {
-      config.events.forEach((c, index) => {
-        this.events[index] = new DateFrameEvent(this, index, c.data, c.date);
-      });
-    }
-
+    // First set the selectedDates
     if (config.selectedDates) {
-      config.selectedDates.forEach((s, index) => {
-        this.selectedDates[index] = s;
+      config.selectedDates.forEach((s) => {
+        this.selectDate(this._toDate(s, method, 'selectedDates'));
       });
     }
+
+    // Second set the events.
+    if (config.events) {
+      config.events.forEach((config) => {
+        this._doAddEvent(config, method);
+      });
+
+      this.events.forEach((e) => {
+        e._calcOverlap();
+      });
+    }
+
+    // Finally set the dates, now that the events and selected dates are set
+    this._buildFrames();
 
     // Configure history
     this._history._events.length = 0;
@@ -318,44 +366,202 @@ export class DateFrame<T>
     this._inform(event);
   }
 
-  public next(): void {
-    this._moveFrame(1);
-  }
-
-  public previous() {
-    this._moveFrame(-1);
-  }
-
-  private _moveFrame(mod: 1 | -1): void {
-    const date = new Date(this._dateRepToString(this._anchorDate));
-
-    if (this.mode === 'day') {
-      date.setDate(date.getDate() + 1 * mod);
-    } else if (this.mode === 'week') {
-      date.setDate(date.getDate() + 7 * mod);
-    } else if (this.mode === 'year') {
-      date.setFullYear(date.getFullYear() + 1 * mod);
-    } else {
-      // Mode has to be one of the months
-      date.setMonth(date.getMonth() + 1 * mod);
+  // TODO docs
+  public changeMode(mode: DateFrameMode, date?: Date | string) {
+    // When the mode is set to be the same mode
+    if (this.mode === mode) {
+      // Do nothing when anchorDates match
+      if (
+        !date ||
+        this._sameDay(
+          this._dragAnchorFor(this._toDate(date, 'changeMode', 'date')),
+          this._anchorDate
+        )
+      ) {
+        return;
+      }
     }
 
-    this._setAnchorDate(date);
+    this._checkMode(mode);
 
-    this._setDates();
+    this.mode = mode;
+
+    // If a date is provided make it the new achorDate
+    if (date) {
+      this._anchorDate = this._toDate(date, 'changeMode', 'date');
+      this._anchorDate.setHours(0, 0, 0, 0);
+    }
+
+    this._dragAnchor();
+
+    this._buildFrames();
+
+    const event: DateFrameModeChangedEvent<T> = {
+      type: 'MODE_CHANGED',
+      mode,
+      frames: this.frames,
+      time: new Date(),
+    };
+
+    this._inform(event);
+  }
+
+  private _buildFrames(inform = false) {
+    this.frames.length = 0;
+    this.eventsPerFrame.length = 0;
+
+    for (let i = 0; i < this.numberOfFrames; i++) {
+      // For each frame this is not the first frame we must first
+      // move the anchorDate to the next frame
+      if (i !== 0) {
+        this._moveFrame(1);
+      }
+
+      this.firstFrame.length = 0;
+      this.firstFrameEvents.length = 0;
+
+      // Copy the _anchorDate to prevent mutation.
+      const anchor = new Date(this._anchorDate);
+
+      if (this.mode === 'day') {
+        this.firstFrame.push(this._makeDate(anchor, false));
+      } else if (this.mode === 'week') {
+        this._addNoDates(anchor, 7);
+      } else if (this.mode === 'year') {
+        const year = anchor.getFullYear();
+        const isLeapYear =
+          (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+
+        this._addNoDates(anchor, isLeapYear ? 366 : 365);
+      } else if (this.mode === 'month') {
+        this._addMonth(anchor, false);
+      } else if (this.mode === 'month-pad-to-week') {
+        // Set the date to the first day of the week, this will probably
+        // move the day to the previous month.
+        const date = this._firstDayOfWeek(anchor);
+
+        // Add the dates until we are in the desired month. // TODO utc
+        while (date.getMonth() !== anchor.getMonth()) {
+          this._pushDay(date, true);
+        }
+
+        // Add the dates until out of the desired month.
+        this._addMonth(date, false);
+
+        // Continue into the next month until we are in the new week.
+        while (date.getDay() !== this.firstDayOfWeek) {
+          this._pushDay(date, true);
+        }
+      } else if (this.mode === 'month-six-weeks') {
+        const date = this._firstDayOfWeek(anchor);
+
+        // TODO: Utc
+        const anchorMonth = anchor.getMonth();
+
+        // 6 * 7 = 42;
+        this._addNoDates(date, 42, (d) => {
+          // A day is padded when the month does not match
+          // the anchor's month.
+          return d.getMonth() !== anchorMonth;
+        });
+      }
+
+      this.frames.push([...this.firstFrame]);
+
+      const startDate = new Date(this.firstFrame[0].date);
+      const endDate = new Date(
+        this.firstFrame[this.firstFrame.length - 1].date
+      );
+
+      // Get midnight of the first day.
+      startDate.setHours(0, 0, 0, 0);
+
+      // Get midnight of the day after the endDate
+      endDate.setDate(endDate.getDate() + 1);
+      endDate.setHours(0, 0, 0, 0);
+
+      this.events.forEach((event) => {
+        if (_hasOverlap({ startDate, endDate }, event)) {
+          this.firstFrameEvents.push(event);
+        }
+      });
+
+      this.eventsPerFrame.push([...this.firstFrameEvents]);
+    }
+
+    this.firstFrame = this.frames[0];
+    this.firstFrameEvents = this.eventsPerFrame[0];
+
+    if (inform) {
+      const event: DateFrameFrameChangedEvent<T> = {
+        type: 'FRAME_CHANGED',
+        frames: this.frames,
+        time: new Date(),
+      };
+
+      this._inform(event);
+    }
+  }
+
+  // TODO: docs
+  public next(): void {
+    this._moveFrame(1);
+    this._buildFrames(true);
+  }
+
+  // TODO: docs
+  public previous() {
+    this._moveFrame(-1, this.numberOfFrames * 2 - 1);
+    this._buildFrames(true);
+  }
+
+  private _moveFrame(mod: 1 | -1, skip = 1): void {
+    // TODO is the copy needed
+    const date = new Date(this._anchorDate);
+
+    // TODO UTC
+    if (this.mode === 'day') {
+      date.setDate(date.getDate() + 1 * skip * mod);
+    } else if (this.mode === 'week') {
+      date.setDate(date.getDate() + 7 * skip * mod);
+    } else if (this.mode === 'year') {
+      date.setFullYear(date.getFullYear() + 1 * skip * mod);
+    } else {
+      // Mode has to be one of the months
+      date.setMonth(date.getMonth() + 1 * skip * mod);
+    }
+
+    this._anchorDate = date;
   }
 
   // TODO doc
-  public selectDate(date: string): void {
-    if (this.selectedDates.includes(date)) {
-      return;
-    }
+  public selectDate(date: string | Date): void {
+    const method = 'selectDate';
+    const _date = this._toDate(date, method, 'date');
 
-    this.selectedDates.push(date);
+    const [index] = this._indexOfDate(_date, method);
+
+    if (index === -1) {
+      this._doSelectDate(_date, method);
+    }
+  }
+
+  public _doSelectDate(date: Date, method: string): void {
+    const midnight = this._toDate(date, method, 'date');
+    midnight.setHours(0, 0, 0, 0);
+
+    this.selectedDates.push(midnight);
+
+    // Sort by past to future
+    this.selectedDates.sort((a, b) => {
+      return a.getTime() - b.getTime();
+    });
+
+    this._setIsSelected();
 
     const event: DateFrameDateSelectedEvent = {
       type: 'DATE_SELECTED',
-      date,
+      date: midnight,
       time: new Date(),
     };
 
@@ -363,14 +569,20 @@ export class DateFrame<T>
   }
 
   // TODO doc
-  public deselectDate(date: string): void {
-    const index = this.selectedDates.indexOf(date);
+  public deselectDate(date: string | Date): void {
+    const [index, _date] = this._indexOfDate(date, 'deselectDate');
 
     if (index === -1) {
       return;
     }
 
+    this._doDeselectDate(index, _date);
+  }
+
+  public _doDeselectDate(index: number, date: Date): void {
     this.selectedDates.splice(index, 1);
+
+    this._setIsSelected();
 
     const event: DateFrameDateDeselectedEvent = {
       type: 'DATE_DESELECTED',
@@ -382,71 +594,238 @@ export class DateFrame<T>
   }
 
   // TODO doc
-  public toggleDateSelection(date: string): void {
-    // Small performance hit as we check it again in `selectDate` and `deselectDate`.
-    if (this.selectedDates.indexOf(date) === -1) {
-      this.selectDate(date);
+  public toggleDateSelection(date: string | Date): void {
+    const [index, _date] = this._indexOfDate(date, 'toggleDateSelection');
+
+    if (index === -1) {
+      this._doSelectDate(_date, 'toggleDateSelection');
     } else {
-      this.deselectDate(date);
+      this._doDeselectDate(index, _date);
     }
   }
 
-  private _setDates() {
-    this.dates.length = 0;
+  private _indexOfDate(date: Date | string, method: string) {
+    const _date = this._toDate(date, method, 'date');
 
-    if (this.mode === 'day') {
-      const date = this._dateRepToString(this._anchorDate);
+    const index = this.selectedDates.findIndex((s) => {
+      return this._sameDay(s, _date);
+    });
 
-      this.dates.push(this._makeDate(date, 0, false));
-    } else if (this.mode === 'week') {
-      const date = new Date(this._dateRepToString(this._anchorDate));
+    return [index, _date] as const;
+  }
 
-      this._datesAddAmount(date, 7, false);
-    } else if (this.mode === 'year') {
-      const date = new Date(this._dateRepToString(this._anchorDate));
-
-      const year = this._anchorDate.year;
-      const isLeapYear =
-        (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-
-      this._datesAddAmount(date, isLeapYear ? 366 : 365, false);
-    } else if (this.mode === 'month-calendar-month') {
-      const date = new Date(this._dateRepToString(this._anchorDate));
-
-      this._addDesiredMonth(date, 0, false);
-    } else if (this.mode === 'month-pad-to-week') {
-      // Set the date to the first day of the week, this will probably
-      // move the day to the previous month.
-      const date = this._firstDayOfWeekDateFromRep(this._anchorDate);
-
-      let i = 0;
-
-      // Add the dates until we are in the desired month.
-      while (date.getMonth() !== this._anchorDate.month) {
-        i = this._pushDay(date, i, true);
-      }
-
-      // Add the dates until out of the desired month.
-      i = this._addDesiredMonth(date, i, false);
-
-      // Continue into the next month until we are in the new week.
-      while (date.getDay() !== this.firstDayOfWeek) {
-        i = this._pushDay(date, i, true);
-      }
-    } else if (this.mode === 'month-six-weeks') {
-      const date = this._firstDayOfWeekDateFromRep(this._anchorDate);
-
-      // 6 * 7 = 42;
-      this._datesAddAmount(date, 42, false);
+  // TODO: docs
+  public deselectAll() {
+    // Do nothing when no dates are selected
+    if (this.selectedDates.length === 0) {
+      return;
     }
 
-    const event: DateFrameFrameChangedEvent<T> = {
-      type: 'FRAME_CHANGED',
-      dates: this.dates,
+    const dates = [...this.selectedDates];
+
+    this.selectedDates.length = 0;
+
+    this._setIsSelected();
+
+    const e: DateFrameDateDeselectedMultipleEvent = {
+      type: 'DATE_DESELECTED_MULTIPLE',
+      dates,
+      time: new Date(),
+    };
+
+    this._inform(e);
+  }
+
+  // TODO: docs
+  public activateRange(a: Date | string, b: Date | string) {
+    const aDate = this._toDate(a, 'activateRange', 'a');
+    const bDate = this._toDate(b, 'activateRange', 'b');
+
+    const startDate = bDate.getTime() > aDate.getTime() ? aDate : bDate;
+    const endDate = aDate === startDate ? bDate : aDate;
+
+    // Do nothing if they start on the same day
+    if (this._sameDay(startDate, endDate)) {
+      return;
+    }
+
+    startDate.setHours(0, 0, 0, 0);
+
+    endDate.setDate(endDate.getDate() + 1);
+    endDate.setHours(0, 0, 0, 0);
+
+    const dates = [];
+
+    const date = new Date(startDate);
+
+    while (!this._sameDay(date, endDate)) {
+      const index = this.selectedDates.findIndex((s) => {
+        return this._sameDay(s, date);
+      });
+
+      if (index === -1) {
+        dates.push(new Date(date));
+        this.selectedDates.push(new Date(date));
+      }
+
+      date.setDate(date.getDate() + 1);
+    }
+
+    // If nothing happened do not inform
+    if (dates.length === 0) {
+      return;
+    }
+
+    // Sort by past to future
+    this.selectedDates.sort((a, b) => {
+      return a.getTime() - b.getTime();
+    });
+
+    this._setIsSelected();
+
+    const event: DateFrameDateSelectedMultipleEvent = {
+      type: 'DATE_SELECTED_MULTIPLE',
+      dates: dates,
       time: new Date(),
     };
 
     this._inform(event);
+  }
+
+  // TODO: docs
+  public addEvent(event: DateFrameEventConfig<T>): DateFrameEvent<T> {
+    const addedEvent = this._doAddEvent(event, 'addEvent');
+
+    this.events.forEach((e) => {
+      e._calcOverlap();
+    });
+
+    this._moveFrame(-1, this.numberOfFrames - 1);
+
+    this._buildFrames();
+
+    const e: DateFrameEventAddedEvent<T> = {
+      type: 'EVENT_ADDED',
+      event: addedEvent,
+      time: new Date(),
+    };
+
+    this._inform(e);
+
+    return addedEvent;
+  }
+
+  private _doAddEvent(
+    config: DateFrameEventConfig<T>,
+    method: string
+  ): DateFrameEvent<T> {
+    const startDate = this._toDate(config.startDate, method, 'event.startDate');
+    const endDate = this._toDate(config.endDate, method, 'event.endDate');
+
+    if (startDate.getTime() > endDate.getTime()) {
+      throw new DateFrameEventInvalidRangeError();
+    }
+
+    const event = new DateFrameEvent(this, config.data, startDate, endDate);
+
+    this.events.push(event);
+
+    // Sort by past to future
+    this.events.sort((a, b) => {
+      return a.startDate.getTime() - b.startDate.getTime();
+    });
+
+    return event;
+  }
+
+  // TODO: docs
+  public removeEvent(event: DateFrameEvent<T>): DateFrameEvent<T> {
+    const index = this.events.indexOf(event);
+
+    if (index === -1) {
+      return event;
+    }
+
+    this.events.splice(index, 1);
+
+    // Remove the removed event from all events it overlaps with
+    this.events.forEach((e) => {
+      const index = e.overlapsWith.indexOf(event);
+
+      if (index !== -1) {
+        e.overlapsWith.splice(index, 1);
+      }
+    });
+
+    this._moveFrame(-1, this.numberOfFrames - 1);
+    this._buildFrames();
+
+    const e: DateFrameEventRemovedEvent<T> = {
+      type: 'EVENT_REMOVED',
+      event,
+      time: new Date(),
+    };
+
+    this._inform(e);
+
+    return event;
+  }
+
+  // TODO: docs
+  public moveEvent(
+    event: DateFrameEvent<T>,
+    startDate: Date | string,
+    endDate: Date | string
+  ): void {
+    const _startDate = this._toDate(startDate, 'moveEvent', 'startDate');
+    const _endDate = this._toDate(endDate, 'moveEvent', 'endDate');
+
+    if (_startDate.getTime() > _endDate.getTime()) {
+      throw new DateFrameEventInvalidRangeError();
+    }
+
+    if (
+      _startDate.getTime() === event.startDate.getTime() &&
+      _endDate.getTime() === event.endDate.getTime()
+    ) {
+      return;
+    }
+
+    const index = this.events.indexOf(event);
+
+    if (index === -1) {
+      return;
+    }
+
+    event.startDate = _startDate;
+    event.endDate = _startDate;
+
+    const e: DateFrameEventMovedEvent<T> = {
+      type: 'EVENT_MOVED',
+      event,
+      time: new Date(),
+    };
+
+    this._inform(e);
+  }
+
+  private _dragAnchor() {
+    this._anchorDate = this._dragAnchorFor(this._anchorDate);
+  }
+
+  private _dragAnchorFor(date: Date): Date {
+    if (this.mode === 'year') {
+      date.setDate(1);
+      date.setMonth(0);
+    } else if (this.mode === 'week') {
+      date = this._firstDayOfWeek(date);
+    } else if (this.mode.startsWith('month')) {
+      date.setDate(1);
+    }
+
+    // When mode is 'day' do nothing
+
+    return date;
   }
 
   public _inform(event: DateFrameSubscriberEvent<T>): void {
@@ -459,128 +838,110 @@ export class DateFrame<T>
     this._observer._inform(this, event);
   }
 
-  private _dateToString(date: Date) {
-    const year = date.getFullYear().toString();
-    const month = this._zeroPad(date.getMonth() + 1);
-    const day = this._zeroPad(date.getDate());
+  private _toDate(date: Date | string, method: string, dateName: string): Date {
+    if (date instanceof Date) {
+      this._checkDate(date, method, dateName);
+    }
 
-    return this._format(year, month, day);
+    // Make a copy if it is a Date, otherwise convert the
+    // string to a date.
+    const result = new Date(date);
+
+    this._checkDate(result, method, dateName);
+
+    return result;
   }
 
-  private _dateRepToString(rep: DateRep) {
-    const year = rep.year.toString();
-    const month = this._zeroPad(rep.month);
-    const day = this._zeroPad(rep.day);
+  private _checkDate(date: Date, method: string, dateName: string) {
+    const isValid =
+      Object.prototype.toString.call(date) === '[object Date]' &&
+      !isNaN(date.valueOf());
 
-    return this._format(year, month, day);
-  }
-
-  private _setAnchorDate(date: Date) {
-    this._anchorDate.year = date.getFullYear();
-    this._anchorDate.month = date.getMonth() + 1;
-    this._anchorDate.day = date.getDate();
-  }
-
-  private _format(year: string, month: string, day: string): string {
-    if (this.dateFormat === 'DD-MM-YYYY') {
-      return [day, month, year].join('-');
-    } else if (this.dateFormat === 'MM-DD-YYYY') {
-      return [day, month, year].join('-');
-    } else {
-      return [year, month, day].join('-');
+    if (!isValid) {
+      throw new DateFrameInvalidDateError(method, dateName);
     }
   }
 
-  private _zeroPad(number: number): string {
-    if (number < 10) {
-      return '0' + number;
-    } else {
-      return number.toString();
-    }
-  }
+  private _firstDayOfWeek(date: Date): Date {
+    const copy = new Date(date);
 
-  private _firstDayOfWeekDateFromRep(rep: DateRep): Date {
-    const date = new Date(rep.year, rep.month - 1, rep.day);
-
-    while (date.getDay() !== this.firstDayOfWeek) {
-      date.setDate(date.getDate() - 1);
+    // TODO utc
+    while (copy.getDay() !== this.firstDayOfWeek) {
+      copy.setDate(copy.getDate() - 1);
     }
 
-    return date;
+    return copy;
   }
 
-  private _datesAddAmount(date: Date, amount: number, isPadding: boolean) {
+  private _addNoDates(
+    date: Date,
+    amount: number,
+    isPadding?: (date: Date) => boolean
+  ): void {
     for (let i = 0; i < amount; i++) {
-      this._pushDay(date, i, isPadding);
+      this._pushDay(date, isPadding ? isPadding(date) : false);
     }
   }
 
-  private _addDesiredMonth(date: Date, i: number, isPadding: boolean): number {
-    while (date.getMonth() + 1 === this._anchorDate.month) {
-      i = this._pushDay(date, i, isPadding);
+  private _addMonth(date: Date, isPadding: boolean): void {
+    while (date.getMonth() === this._anchorDate.getMonth()) {
+      this._pushDay(date, isPadding);
     }
-
-    return i;
   }
 
-  private _pushDay(date: Date, i: number, isPadding: boolean): number {
-    const dateStr = this._dateToString(date);
-
-    this.dates.push(this._makeDate(dateStr, i, isPadding));
+  private _pushDay(date: Date, isPadding: boolean): void {
+    this.firstFrame.push(this._makeDate(date, isPadding));
 
     date.setDate(date.getDate() + 1);
-
-    i++;
-
-    return i;
   }
 
-  private _makeDate(
-    date: string,
-    index: number,
-    isPadding: boolean
-  ): DateFrameDate<T> {
+  private _makeDate(date: Date, isPadding: boolean): DateFrameDate<T> {
     return new DateFrameDate<T>(
       this,
-      index,
-      date,
-      this.events.filter((event) => event.date === date),
+      new Date(date),
+      this.events.filter((event) => {
+        // Check if on the same day:
+        const time = date.getTime();
+
+        // Move start to midnight
+        const start = new Date(event.startDate).setHours(0, 0, 0, 0);
+
+        // Move end to midnight of next day
+        const endDate = new Date(event.endDate);
+        endDate.setDate(event.endDate.getDate() + 1);
+        const end = endDate.setHours(0, 0, 0, 0);
+
+        return time >= start && time < end;
+      }),
       isPadding,
-      this.selectedDates.includes(date)
+      this.selectedDates.some((selected) => {
+        return this._sameDay(selected, date);
+      })
     );
   }
+
+  public _sameDay(a: Date, b: Date) {
+    // TODO: UTC
+    return (
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate()
+    );
+  }
+
+  private _checkMode(mode: DateFrameMode) {
+    if (!DATE_FRAME_MODES.includes(mode)) {
+      throw new DateFrameModeError(mode);
+    }
+  }
+
+  private _setIsSelected() {
+    this.frames.forEach((frame) => {
+      frame.forEach((d) => {
+        d.isSelected = this.selectedDates.some((selected) => {
+          return this._sameDay(selected, d.date);
+        });
+      });
+    });
+  }
 }
-
-/*
-  Ideas
-
-  1. Move through frame dates, in DAY, MONTH, YEAR
-
-  2. Keep list of activated / selected dates
-     - maxLimit
-     - maxLimitBehavior
-     - activate(date)
-     - activateRange(start, end)
-     - deactivate(date)
-     - deactivateRange(start, end)
-
-  3. Keep list of events ordered chronologically. The higher index
-     in the array the later the date.
-
-  4. DateFrameDate
-      - isMonday, isTuesday, etc etc
-      - isToday
-      - isFirstDayOfMonth
-      - isInWeekend
-
-      - activate
-      - deactivate
-
-      - events array
-*/
-
-type DateRep = {
-  day: number;
-  month: number;
-  year: number;
-};
