@@ -6,14 +6,14 @@ import { common } from './common';
  *
  * @since 1.6.0
  */
-export class DateFrameNumberOfFramesError extends Error {
+export class DateGalleryNumberOfFramesError extends Error {
   /**
-   * DateFrameNumberOfFramesError constructor
+   * DateGalleryNumberOfFramesError constructor
    *
    * @since 1.6.0
    */
   constructor() {
     super(`${common} numberOfFrames cannot be negative or zero`);
-    this.name = 'DateFrameNumberOfFramesError';
+    this.name = 'DateGalleryNumberOfFramesError';
   }
 }

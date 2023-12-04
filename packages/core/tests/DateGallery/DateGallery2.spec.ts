@@ -8,24 +8,24 @@ import {
 } from '@jest/globals';
 
 import {
-  CreateDateFrameSubscriberConfig,
-  DateFrame,
-  DateFrameDate,
-  DateFrameEvent,
-  DateFrameEventInvalidRangeError,
-  DateFrameEventNotFoundError,
-  DateFrameInvalidDateError,
-  DateFrameModeError,
-  createDateFrameSubscriber
-} from '../../src/DateFrame';
+  CreateDateGallerySubscriberConfig,
+  DateGallery,
+  DateGalleryDate,
+  DateGalleryEvent,
+  DateGalleryEventInvalidRangeError,
+  DateGalleryEventNotFoundError,
+  DateGalleryInvalidDateError,
+  DateGalleryModeError,
+  createDateGallerySubscriber
+} from '../../src/DateGallery';
 
 import { licenseChecker } from '../../src/license';
 
 import { UnsubscribeFunction } from '../../src/generic/types';
-import { _hasOverlap } from '../../src/DateFrame/utils';
+import { _hasOverlap } from '../../src/DateGallery/utils';
 import { assertLastSubscriber, dateToTestDate, assertState } from './utils';
 
-describe('DateFrame', () => {
+describe('DateGallery', () => {
   let unsubscribe: UnsubscribeFunction | null = null;
 
   beforeEach(() => {
@@ -51,61 +51,61 @@ describe('DateFrame', () => {
     expect(new Date().getTimezoneOffset()).toBe(0);
   });
 
-  function autoSubscribe(dateFrame: DateFrame<string>) {
+  function autoSubscribe(dateGallery: DateGallery<string>) {
     const subscriber = jest.fn();
-    unsubscribe = dateFrame.subscribe(subscriber);
+    unsubscribe = dateGallery.subscribe(subscriber);
 
     return subscriber;
   }
 
   describe('changeMode', () => {
     test('should error when mode does not exist', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'day',
         initialDate: '1980-05-03',
       });
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       expect(() => {
-        dateFrame.changeMode(
+        dateGallery.changeMode(
           // @ts-expect-error Allow me to set a non mode
           'what-mode-is-this'
         );
       }).toThrowError(
-        'uiloos > DateFrame > unknown mode: "what-mode-is-this" provided'
+        'uiloos > DateGallery > unknown mode: "what-mode-is-this" provided'
       );
 
       expect(() => {
-        dateFrame.changeMode(
+        dateGallery.changeMode(
           // @ts-expect-error Allow me to set a non mode
           'what-mode-is-this'
         );
-      }).toThrowError(DateFrameModeError);
+      }).toThrowError(DateGalleryModeError);
 
       expect(subscriber).toBeCalledTimes(0);
     });
 
     describe('from day', () => {
       test('to day', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
           initialDate: '1980-05-03',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('day');
+        dateGallery.changeMode('day');
 
         expect(subscriber).toBeCalledTimes(0);
       });
 
       test('to week', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
           initialDate: '1990-10-04',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('week');
+        dateGallery.changeMode('week');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -115,7 +115,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'week',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 // Summertime
@@ -185,20 +185,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'week',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
           initialDate: '2017-08-08',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month');
+        dateGallery.changeMode('month');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -208,7 +208,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -469,20 +469,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month-six-weeks', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
           initialDate: '2017-08-29',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-six-weeks');
+        dateGallery.changeMode('month-six-weeks');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -492,7 +492,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month-six-weeks',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -841,20 +841,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month-six-weeks',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month-pad-to-week', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
           initialDate: '2017-08-13',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-pad-to-week');
+        dateGallery.changeMode('month-pad-to-week');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -864,7 +864,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month-pad-to-week',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -1157,20 +1157,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month-pad-to-week',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to year', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
           initialDate: '2020-09-26',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('year');
+        dateGallery.changeMode('year');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -1180,7 +1180,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'year',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -4121,20 +4121,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'year',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('with new date', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
           initialDate: '1980-05-03',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('day', '1980-05-04');
+        dateGallery.changeMode('day', '1980-05-04');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -4144,7 +4144,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -4165,20 +4165,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'day',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('with new date, but same frames', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
           initialDate: '1980-05-03',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('day', '1980-05-03');
+        dateGallery.changeMode('day', '1980-05-03');
 
         expect(subscriber).toBeCalledTimes(0);
       });
@@ -4186,13 +4186,13 @@ describe('DateFrame', () => {
 
     describe('from week', () => {
       test('to day', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
           initialDate: '1990-10-04',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('day');
+        dateGallery.changeMode('day');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -4202,7 +4202,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 // Summertime
@@ -4224,32 +4224,32 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'day',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to week', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
           initialDate: '1990-10-04',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('week');
+        dateGallery.changeMode('week');
 
         expect(subscriber).toBeCalledTimes(0);
       });
 
       test('to month', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
           initialDate: '2017-08-08',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month');
+        dateGallery.changeMode('month');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -4259,7 +4259,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -4520,20 +4520,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month-six-weeks', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
           initialDate: '2017-08-29',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-six-weeks');
+        dateGallery.changeMode('month-six-weeks');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -4543,7 +4543,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month-six-weeks',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -4892,20 +4892,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month-six-weeks',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month-pad-to-week', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
           initialDate: '2017-08-13',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-pad-to-week');
+        dateGallery.changeMode('month-pad-to-week');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -4915,7 +4915,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month-pad-to-week',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -5208,20 +5208,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month-pad-to-week',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to year', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
           initialDate: '2020-09-26',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('year');
+        dateGallery.changeMode('year');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -5231,7 +5231,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'year',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -8172,20 +8172,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'year',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('with new date', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
           initialDate: '1980-05-03',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('week', '2023-11-29');
+        dateGallery.changeMode('week', '2023-11-29');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -8195,7 +8195,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'week',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -8264,20 +8264,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'week',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('with new date, but same frames', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
           initialDate: '2023-11-05',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('week', '2023-11-05');
+        dateGallery.changeMode('week', '2023-11-05');
 
         expect(subscriber).toBeCalledTimes(0);
       });
@@ -8285,13 +8285,13 @@ describe('DateFrame', () => {
 
     describe('from month', () => {
       test('to day', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
           initialDate: '1990-10-04',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('day');
+        dateGallery.changeMode('day');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -8301,7 +8301,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 // Summertime
@@ -8323,20 +8323,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'day',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to week', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
           initialDate: '2017-08-22',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('week');
+        dateGallery.changeMode('week');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -8346,7 +8346,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'week',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -8415,32 +8415,32 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'week',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
           initialDate: '2017-08-08',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month');
+        dateGallery.changeMode('month');
 
         expect(subscriber).toBeCalledTimes(0);
       });
 
       test('to month-six-weeks', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
           initialDate: '2017-08-29',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-six-weeks');
+        dateGallery.changeMode('month-six-weeks');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -8450,7 +8450,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month-six-weeks',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -8799,20 +8799,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month-six-weeks',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month-pad-to-week', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
           initialDate: '2017-08-13',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-pad-to-week');
+        dateGallery.changeMode('month-pad-to-week');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -8822,7 +8822,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month-pad-to-week',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -9115,20 +9115,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month-pad-to-week',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to year', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
           initialDate: '2020-09-26',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('year');
+        dateGallery.changeMode('year');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -9138,7 +9138,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'year',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -12079,20 +12079,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'year',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('with new date', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
           initialDate: '1980-05-03',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month', '2023-11-29');
+        dateGallery.changeMode('month', '2023-11-29');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -12102,7 +12102,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -12355,20 +12355,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('with new date, but same frames', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
           initialDate: '2023-11-05',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month', '2023-11-30');
+        dateGallery.changeMode('month', '2023-11-30');
 
         expect(subscriber).toBeCalledTimes(0);
       });
@@ -12376,13 +12376,13 @@ describe('DateFrame', () => {
 
     describe('from month-six-weeks', () => {
       test('to day', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
           initialDate: '1990-10-04',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('day');
+        dateGallery.changeMode('day');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -12392,7 +12392,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 // Summertime
@@ -12414,20 +12414,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'day',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to week', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
           initialDate: '2017-08-22',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('week');
+        dateGallery.changeMode('week');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -12437,7 +12437,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'week',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -12506,20 +12506,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'week',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
           initialDate: '2017-08-08',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month');
+        dateGallery.changeMode('month');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -12529,7 +12529,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -12790,32 +12790,32 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month-six-weeks', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
           initialDate: '2017-08-29',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-six-weeks');
+        dateGallery.changeMode('month-six-weeks');
 
         expect(subscriber).toHaveBeenCalledTimes(0);
       });
 
       test('to month-pad-to-week', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
           initialDate: '2017-08-13',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-pad-to-week');
+        dateGallery.changeMode('month-pad-to-week');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -12825,7 +12825,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month-pad-to-week',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -13118,20 +13118,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month-pad-to-week',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to year', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
           initialDate: '2020-09-26',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('year');
+        dateGallery.changeMode('year');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -13141,7 +13141,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'year',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -16082,20 +16082,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'year',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('with new date', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
           initialDate: '1980-05-03',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-six-weeks', '2023-11-29');
+        dateGallery.changeMode('month-six-weeks', '2023-11-29');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -16105,7 +16105,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month-six-weeks',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -16454,20 +16454,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month-six-weeks',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('with new date, but same frames', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
           initialDate: '2023-11-05',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-six-weeks', '2023-11-30');
+        dateGallery.changeMode('month-six-weeks', '2023-11-30');
 
         expect(subscriber).toBeCalledTimes(0);
       });
@@ -16475,13 +16475,13 @@ describe('DateFrame', () => {
 
     describe('from month-pad-to-week', () => {
       test('to day', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
           initialDate: '1990-10-04',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('day');
+        dateGallery.changeMode('day');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -16491,7 +16491,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 // Summertime
@@ -16513,20 +16513,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'day',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to week', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
           initialDate: '2017-08-22',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('week');
+        dateGallery.changeMode('week');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -16536,7 +16536,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'week',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -16605,20 +16605,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'week',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
           initialDate: '2017-08-08',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month');
+        dateGallery.changeMode('month');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -16628,7 +16628,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -16889,20 +16889,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month-six-weeks', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
           initialDate: '2017-08-29',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-six-weeks');
+        dateGallery.changeMode('month-six-weeks');
 
         assertLastSubscriber(
           subscriber,
@@ -16911,7 +16911,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month-six-weeks',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -17260,32 +17260,32 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month-six-weeks',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month-pad-to-week', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
           initialDate: '2017-08-13',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-pad-to-week');
+        dateGallery.changeMode('month-pad-to-week');
 
         expect(subscriber).toHaveBeenCalledTimes(0);
       });
 
       test('to year', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
           initialDate: '2020-09-26',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('year');
+        dateGallery.changeMode('year');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -17295,7 +17295,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'year',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -20236,20 +20236,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'year',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('with new date', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
           initialDate: '1980-05-03',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-pad-to-week', '2023-11-29');
+        dateGallery.changeMode('month-pad-to-week', '2023-11-29');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -20259,7 +20259,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month-pad-to-week',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -20552,20 +20552,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month-pad-to-week',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('with new date, but same frames', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
           initialDate: '2023-11-05',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-pad-to-week', '2023-11-30');
+        dateGallery.changeMode('month-pad-to-week', '2023-11-30');
 
         expect(subscriber).toBeCalledTimes(0);
       });
@@ -20573,13 +20573,13 @@ describe('DateFrame', () => {
 
     describe('from year', () => {
       test('to day', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
           initialDate: '1990-10-04',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('day');
+        dateGallery.changeMode('day');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -20589,7 +20589,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 // Summertime
@@ -20611,20 +20611,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'day',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to week', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
           initialDate: '2017-08-22',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('week');
+        dateGallery.changeMode('week');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -20634,7 +20634,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'week',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -20703,20 +20703,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'week',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
           initialDate: '2017-08-08',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month');
+        dateGallery.changeMode('month');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -20726,7 +20726,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -20987,20 +20987,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month-six-weeks', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
           initialDate: '2017-08-29',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-six-weeks');
+        dateGallery.changeMode('month-six-weeks');
 
         assertLastSubscriber(
           subscriber,
@@ -21009,7 +21009,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month-six-weeks',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -21358,20 +21358,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month-six-weeks',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to month-pad-to-week', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
           initialDate: '2017-08-13',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('month-pad-to-week');
+        dateGallery.changeMode('month-pad-to-week');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
 
@@ -21382,7 +21382,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'month-pad-to-week',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -21675,32 +21675,32 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'month-pad-to-week',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('to year', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
           initialDate: '2020-09-26',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('year');
+        dateGallery.changeMode('year');
 
         expect(subscriber).toHaveBeenCalledTimes(0);
       });
 
       test('with new date', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
           initialDate: '1980-05-03',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('year', '2020-07-14');
+        dateGallery.changeMode('year', '2020-07-14');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -21710,7 +21710,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'year',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -24651,20 +24651,20 @@ describe('DateFrame', () => {
           {
             type: 'MODE_CHANGED',
             mode: 'year',
-            frames: dateFrame.frames,
+            frames: dateGallery.frames,
             time: new Date(),
           }
         );
       });
 
       test('with new date, but same frames', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
           initialDate: '2023-11-05',
         });
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        dateFrame.changeMode('year', '2023-11-30');
+        dateGallery.changeMode('year', '2023-11-30');
 
         expect(subscriber).toBeCalledTimes(0);
       });
@@ -24673,14 +24673,14 @@ describe('DateFrame', () => {
 
   describe('selectDate', () => {
     test('should select the given date when date is a string', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.selectDate('1990-09-24');
+      dateGallery.selectDate('1990-09-24');
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -24690,7 +24690,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -24766,14 +24766,14 @@ describe('DateFrame', () => {
     });
 
     test('should select the given date when date is a Date', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.selectDate(new Date('1990-09-24'));
+      dateGallery.selectDate(new Date('1990-09-24'));
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -24783,7 +24783,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -24858,15 +24858,15 @@ describe('DateFrame', () => {
       );
     });
 
-    test('should select when calling select from a DateFrameDate', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+    test('should select when calling select from a DateGalleryDate', () => {
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.firstFrame[1].select();
+      dateGallery.firstFrame[1].select();
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -24876,7 +24876,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -24952,33 +24952,33 @@ describe('DateFrame', () => {
     });
 
     test('should do nothing if date is already selected', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: ['1990-09-24'],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.selectDate(new Date('1990-09-24'));
-      dateFrame.selectDate('1990-09-24');
+      dateGallery.selectDate(new Date('1990-09-24'));
+      dateGallery.selectDate('1990-09-24');
 
       expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
     test('should sort the dates from past to future', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       // Later date first
-      dateFrame.selectDate(new Date('1990-09-27'));
+      dateGallery.selectDate(new Date('1990-09-27'));
 
       // Earlier date later
-      dateFrame.selectDate(new Date('1990-09-23'));
+      dateGallery.selectDate(new Date('1990-09-23'));
 
       expect(subscriber).toHaveBeenCalledTimes(2);
       assertLastSubscriber(
@@ -24988,7 +24988,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -25064,32 +25064,32 @@ describe('DateFrame', () => {
     });
 
     test('should error when given a malformed date', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: ['1990-09-24'],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       expect(() => {
-        dateFrame.selectDate('1990-125-24');
-      }).toThrowError(DateFrameInvalidDateError);
+        dateGallery.selectDate('1990-125-24');
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.selectDate('1990-125-24');
+        dateGallery.selectDate('1990-125-24');
       }).toThrowError(
-        'uiloos > DateFrame > selectDate > "date" is an or contains an invalid date'
+        'uiloos > DateGallery > selectDate > "date" is an or contains an invalid date'
       );
 
       expect(() => {
-        dateFrame.selectDate(new Date('1990-125-24'));
-      }).toThrowError(DateFrameInvalidDateError);
+        dateGallery.selectDate(new Date('1990-125-24'));
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.selectDate(new Date('1990-125-24'));
+        dateGallery.selectDate(new Date('1990-125-24'));
       }).toThrowError(
-        'uiloos > DateFrame > selectDate > "date" is an or contains an invalid date'
+        'uiloos > DateGallery > selectDate > "date" is an or contains an invalid date'
       );
 
       expect(subscriber).toHaveBeenCalledTimes(0);
@@ -25098,15 +25098,15 @@ describe('DateFrame', () => {
 
   describe('deselectDate', () => {
     test('should deselect the given date when date is a string', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: ['1990-09-24'],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.deselectDate('1990-09-24');
+      dateGallery.deselectDate('1990-09-24');
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -25116,7 +25116,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -25192,15 +25192,15 @@ describe('DateFrame', () => {
     });
 
     test('should deselect the given date when date is a Date', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: [new Date('1990-09-24')],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.deselectDate(new Date('1990-09-24'));
+      dateGallery.deselectDate(new Date('1990-09-24'));
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -25210,7 +25210,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -25285,16 +25285,16 @@ describe('DateFrame', () => {
       );
     });
 
-    test('should deselect when calling select from a DateFrameDate', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+    test('should deselect when calling select from a DateGalleryDate', () => {
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: [new Date('1990-09-24')],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.firstFrame[1].deselect();
+      dateGallery.firstFrame[1].deselect();
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -25304,7 +25304,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -25380,21 +25380,21 @@ describe('DateFrame', () => {
     });
 
     test('should do nothing if date is already deselected', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.deselectDate(new Date('1990-09-24'));
-      dateFrame.deselectDate('1990-09-24');
+      dateGallery.deselectDate(new Date('1990-09-24'));
+      dateGallery.deselectDate('1990-09-24');
 
       expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
     test('should keep other dates selected', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: [
@@ -25404,9 +25404,9 @@ describe('DateFrame', () => {
         ],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.deselectDate(new Date('1990-09-24'));
+      dateGallery.deselectDate(new Date('1990-09-24'));
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -25416,7 +25416,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -25492,32 +25492,32 @@ describe('DateFrame', () => {
     });
 
     test('should error when given a malformed date', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: ['1990-09-24'],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       expect(() => {
-        dateFrame.deselectDate('1990-125-24');
-      }).toThrowError(DateFrameInvalidDateError);
+        dateGallery.deselectDate('1990-125-24');
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.deselectDate('1990-125-24');
+        dateGallery.deselectDate('1990-125-24');
       }).toThrowError(
-        'uiloos > DateFrame > deselectDate > "date" is an or contains an invalid date'
+        'uiloos > DateGallery > deselectDate > "date" is an or contains an invalid date'
       );
 
       expect(() => {
-        dateFrame.deselectDate(new Date('1990-125-24'));
-      }).toThrowError(DateFrameInvalidDateError);
+        dateGallery.deselectDate(new Date('1990-125-24'));
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.deselectDate(new Date('1990-125-24'));
+        dateGallery.deselectDate(new Date('1990-125-24'));
       }).toThrowError(
-        'uiloos > DateFrame > deselectDate > "date" is an or contains an invalid date'
+        'uiloos > DateGallery > deselectDate > "date" is an or contains an invalid date'
       );
 
       expect(subscriber).toHaveBeenCalledTimes(0);
@@ -25526,14 +25526,14 @@ describe('DateFrame', () => {
 
   describe('toggleDateSelection', () => {
     test('should select the given date when date is a string, when date is not selected', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.toggleDateSelection('1990-09-24');
+      dateGallery.toggleDateSelection('1990-09-24');
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -25543,7 +25543,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -25619,14 +25619,14 @@ describe('DateFrame', () => {
     });
 
     test('should select the given date when date is a Date, when date is not selected', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.toggleDateSelection(new Date('1990-09-24'));
+      dateGallery.toggleDateSelection(new Date('1990-09-24'));
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -25636,7 +25636,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -25711,15 +25711,15 @@ describe('DateFrame', () => {
       );
     });
 
-    test('should select when calling toggle from a DateFrameDate, when date is not selected', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+    test('should select when calling toggle from a DateGalleryDate, when date is not selected', () => {
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.firstFrame[1].toggle();
+      dateGallery.firstFrame[1].toggle();
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -25729,7 +25729,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -25805,15 +25805,15 @@ describe('DateFrame', () => {
     });
 
     test('should deselect the given date when date is a string, when date is selected', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: ['1990-09-24'],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.toggleDateSelection('1990-09-24');
+      dateGallery.toggleDateSelection('1990-09-24');
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -25823,7 +25823,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -25899,15 +25899,15 @@ describe('DateFrame', () => {
     });
 
     test('should deselect the given date when date is a Date, when date is selected', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: [new Date('1990-09-24')],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.toggleDateSelection(new Date('1990-09-24'));
+      dateGallery.toggleDateSelection(new Date('1990-09-24'));
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -25917,7 +25917,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -25992,16 +25992,16 @@ describe('DateFrame', () => {
       );
     });
 
-    test('should deselect when calling toggle from a DateFrameDate, when date is selected', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+    test('should deselect when calling toggle from a DateGalleryDate, when date is selected', () => {
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: [new Date('1990-09-24')],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.firstFrame[1].toggle();
+      dateGallery.firstFrame[1].toggle();
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -26011,7 +26011,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -26087,32 +26087,32 @@ describe('DateFrame', () => {
     });
 
     test('should error when given a malformed date', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: ['1990-09-24'],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       expect(() => {
-        dateFrame.toggleDateSelection('1990-125-24');
-      }).toThrowError(DateFrameInvalidDateError);
+        dateGallery.toggleDateSelection('1990-125-24');
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.toggleDateSelection('1990-125-24');
+        dateGallery.toggleDateSelection('1990-125-24');
       }).toThrowError(
-        'uiloos > DateFrame > toggleDateSelection > "date" is an or contains an invalid date'
+        'uiloos > DateGallery > toggleDateSelection > "date" is an or contains an invalid date'
       );
 
       expect(() => {
-        dateFrame.toggleDateSelection(new Date('1990-125-24'));
-      }).toThrowError(DateFrameInvalidDateError);
+        dateGallery.toggleDateSelection(new Date('1990-125-24'));
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.toggleDateSelection(new Date('1990-125-24'));
+        dateGallery.toggleDateSelection(new Date('1990-125-24'));
       }).toThrowError(
-        'uiloos > DateFrame > toggleDateSelection > "date" is an or contains an invalid date'
+        'uiloos > DateGallery > toggleDateSelection > "date" is an or contains an invalid date'
       );
 
       expect(subscriber).toHaveBeenCalledTimes(0);
@@ -26121,7 +26121,7 @@ describe('DateFrame', () => {
 
   describe('deselectAll', () => {
     test('should deselect all dates', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: [
@@ -26132,9 +26132,9 @@ describe('DateFrame', () => {
         ],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.deselectAll();
+      dateGallery.deselectAll();
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -26144,7 +26144,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -26225,15 +26225,15 @@ describe('DateFrame', () => {
     });
 
     test('should work when there is only one date to deselect', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: [new Date('1990-09-24')],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.deselectAll();
+      dateGallery.deselectAll();
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -26243,7 +26243,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -26319,15 +26319,15 @@ describe('DateFrame', () => {
     });
 
     test('should do nothing when there are no dates selected', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: [],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.deselectAll();
+      dateGallery.deselectAll();
 
       expect(subscriber).toHaveBeenCalledTimes(0);
     });
@@ -26335,86 +26335,86 @@ describe('DateFrame', () => {
 
   describe('activateRange', () => {
     test('should error when given a malformed date', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: ['1990-09-24'],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       // For a
       expect(() => {
-        dateFrame.activateRange('1990-125-24', '2000-01-01');
-      }).toThrowError(DateFrameInvalidDateError);
+        dateGallery.activateRange('1990-125-24', '2000-01-01');
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.activateRange('1990-125-24', '2000-01-01');
+        dateGallery.activateRange('1990-125-24', '2000-01-01');
       }).toThrowError(
-        'uiloos > DateFrame > activateRange > "a" is an or contains an invalid date'
+        'uiloos > DateGallery > activateRange > "a" is an or contains an invalid date'
       );
 
       expect(() => {
-        dateFrame.activateRange(new Date('1990-125-24'), '2000-01-01');
-      }).toThrowError(DateFrameInvalidDateError);
+        dateGallery.activateRange(new Date('1990-125-24'), '2000-01-01');
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.activateRange(new Date('1990-125-24'), '2000-01-01');
+        dateGallery.activateRange(new Date('1990-125-24'), '2000-01-01');
       }).toThrowError(
-        'uiloos > DateFrame > activateRange > "a" is an or contains an invalid date'
+        'uiloos > DateGallery > activateRange > "a" is an or contains an invalid date'
       );
 
       // For b
       expect(() => {
-        dateFrame.activateRange('2000-01-01', '1990-125-24');
-      }).toThrowError(DateFrameInvalidDateError);
+        dateGallery.activateRange('2000-01-01', '1990-125-24');
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.activateRange('2000-01-01', '1990-125-24');
+        dateGallery.activateRange('2000-01-01', '1990-125-24');
       }).toThrowError(
-        'uiloos > DateFrame > activateRange > "b" is an or contains an invalid date'
+        'uiloos > DateGallery > activateRange > "b" is an or contains an invalid date'
       );
 
       expect(() => {
-        dateFrame.activateRange('2000-01-01', new Date('1990-125-24'));
-      }).toThrowError(DateFrameInvalidDateError);
+        dateGallery.activateRange('2000-01-01', new Date('1990-125-24'));
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.activateRange('2000-01-01', new Date('1990-125-24'));
+        dateGallery.activateRange('2000-01-01', new Date('1990-125-24'));
       }).toThrowError(
-        'uiloos > DateFrame > activateRange > "b" is an or contains an invalid date'
+        'uiloos > DateGallery > activateRange > "b" is an or contains an invalid date'
       );
 
       expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
     test('should do nothing when the same day is provided', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: ['1990-09-24'],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.activateRange('2000-01-01', '2000-01-01');
-      dateFrame.activateRange(new Date('2000-01-01'), new Date('2000-01-01'));
+      dateGallery.activateRange('2000-01-01', '2000-01-01');
+      dateGallery.activateRange(new Date('2000-01-01'), new Date('2000-01-01'));
 
       expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
     test('should activate the range of dates, but not dates that are already active', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: [new Date('1990-09-23'), '1990-09-26'],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       // All dates in the range should be activated, except for
       // th 26th since it is already active.
-      dateFrame.activateRange('1990-09-25', '1990-09-28');
+      dateGallery.activateRange('1990-09-25', '1990-09-28');
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -26424,7 +26424,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -26510,17 +26510,17 @@ describe('DateFrame', () => {
     });
 
     test('the order of a and b should not matter', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: [new Date('1990-09-23'), '1990-09-26'],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       // All dates in the range should be activated, except for
       // th 26th since it is already active.
-      dateFrame.activateRange('1990-09-28', '1990-09-25');
+      dateGallery.activateRange('1990-09-28', '1990-09-25');
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -26530,7 +26530,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -26616,17 +26616,17 @@ describe('DateFrame', () => {
     });
 
     test('should keep the dates sorted from past to future', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: ['1990-09-29'],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       // All dates in the range should be activated, except for
       // th 26th since it is already active.
-      dateFrame.activateRange('1990-09-25', '1990-09-28');
+      dateGallery.activateRange('1990-09-25', '1990-09-28');
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -26636,7 +26636,7 @@ describe('DateFrame', () => {
           isUTC: false,
           mode: 'week',
           firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
+          firstFrame: dateGallery.frames[0].map(dateToTestDate),
           frames: [
             [
               // Summertime
@@ -26723,25 +26723,25 @@ describe('DateFrame', () => {
     });
 
     test('should keep the dates sorted from past to future', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
         selectedDates: ['1990-09-25', '1990-09-26'],
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       // All dates in the range should be activated, except for
       // th 26th since it is already active.
-      dateFrame.activateRange('1990-09-25', '1990-09-26');
+      dateGallery.activateRange('1990-09-25', '1990-09-26');
 
       expect(subscriber).toHaveBeenCalledTimes(0);
-      assertState(dateFrame, {
+      assertState(dateGallery, {
         history: [],
         isUTC: false,
         mode: 'week',
         firstDayOfWeek: 0,
-        firstFrame: dateFrame.frames[0].map(dateToTestDate),
+        firstFrame: dateGallery.frames[0].map(dateToTestDate),
         frames: [
           [
             // Summertime
@@ -26813,123 +26813,123 @@ describe('DateFrame', () => {
 
   describe('addEvent', () => {
     test('should error when given a malformed start date', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       expect(() => {
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: 'event',
           startDate: '2000-2000-2000',
           endDate: '2000-02-02',
         });
-      }).toThrowError(DateFrameInvalidDateError);
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: 'event',
           startDate: '2000-2000-2000',
           endDate: '2000-02-02',
         });
       }).toThrowError(
-        'uiloos > DateFrame > addEvent > "event.startDate" is an or contains an invalid date'
+        'uiloos > DateGallery > addEvent > "event.startDate" is an or contains an invalid date'
       );
 
       expect(() => {
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: 'event',
           startDate: new Date('2000-2000-2000'),
           endDate: '2000-02-02',
         });
-      }).toThrowError(DateFrameInvalidDateError);
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: 'event',
           startDate: new Date('2000-2000-2000'),
           endDate: '2000-02-02',
         });
       }).toThrowError(
-        'uiloos > DateFrame > addEvent > "event.startDate" is an or contains an invalid date'
+        'uiloos > DateGallery > addEvent > "event.startDate" is an or contains an invalid date'
       );
 
       expect(subscriber).toBeCalledTimes(0);
     });
 
     test('should error when given a malformed end date', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       expect(() => {
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: 'event',
           startDate: '2000-01-01',
           endDate: '2000-32-02',
         });
-      }).toThrowError(DateFrameInvalidDateError);
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: 'event',
           startDate: '2000-01-01',
           endDate: '2000-32-02',
         });
       }).toThrowError(
-        'uiloos > DateFrame > addEvent > "event.endDate" is an or contains an invalid date'
+        'uiloos > DateGallery > addEvent > "event.endDate" is an or contains an invalid date'
       );
 
       expect(() => {
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: 'event',
           startDate: '2000-01-01',
           endDate: new Date('2000-32-02'),
         });
-      }).toThrowError(DateFrameInvalidDateError);
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: 'event',
           startDate: '2000-01-01',
           endDate: new Date('2000-32-02'),
         });
       }).toThrowError(
-        'uiloos > DateFrame > addEvent > "event.endDate" is an or contains an invalid date'
+        'uiloos > DateGallery > addEvent > "event.endDate" is an or contains an invalid date'
       );
 
       expect(subscriber).toBeCalledTimes(0);
     });
 
     test('should error when given a invalid range', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       expect(() => {
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: 'event',
           startDate: '2000-01-01 15:01',
           endDate: '2000-01-01 15:00',
         });
-      }).toThrowError(DateFrameEventInvalidRangeError);
+      }).toThrowError(DateGalleryEventInvalidRangeError);
 
       expect(() => {
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: 'event',
           startDate: '2000-01-01 15:01',
           endDate: '2000-01-01 15:00',
         });
       }).toThrowError(
-        'uiloos > DateFrame > invalid range, an events startDate lies after its endDate'
+        'uiloos > DateGallery > invalid range, an events startDate lies after its endDate'
       );
 
       expect(subscriber).toBeCalledTimes(0);
@@ -26937,21 +26937,21 @@ describe('DateFrame', () => {
 
     describe('when adding an event update the frames, recalculate overlap, and re-order arrays', () => {
       test('3 frames', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           numberOfFrames: 3,
           mode: 'day',
           initialDate: '1989-03-21',
         });
 
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        const event1 = dateFrame.addEvent({
+        const event1 = dateGallery.addEvent({
           data: 'event1',
           startDate: '1989-03-21 21:00',
           endDate: '1989-03-21 21:00',
         });
 
-        expect(event1 instanceof DateFrameEvent).toBe(true);
+        expect(event1 instanceof DateGalleryEvent).toBe(true);
 
         expect(subscriber).toBeCalledTimes(1);
         assertLastSubscriber(
@@ -26961,7 +26961,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -27033,18 +27033,18 @@ describe('DateFrame', () => {
           },
           {
             type: 'EVENT_ADDED',
-            event: dateFrame.events[0],
+            event: dateGallery.events[0],
             time: new Date(),
           }
         );
 
-        const event2 = dateFrame.addEvent({
+        const event2 = dateGallery.addEvent({
           data: 'event2',
           startDate: '1989-03-21 20:00',
           endDate: '1989-05-21 21:00',
         });
 
-        expect(event2 instanceof DateFrameEvent).toBe(true);
+        expect(event2 instanceof DateGalleryEvent).toBe(true);
 
         expect(subscriber).toBeCalledTimes(2);
         assertLastSubscriber(
@@ -27054,7 +27054,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -27178,28 +27178,28 @@ describe('DateFrame', () => {
           },
           {
             type: 'EVENT_ADDED',
-            event: dateFrame.events[0],
+            event: dateGallery.events[0],
             time: new Date(),
           }
         );
       });
 
       test('2 frames', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           numberOfFrames: 2,
           mode: 'day',
           initialDate: '1989-03-21',
         });
 
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        const event1 = dateFrame.addEvent({
+        const event1 = dateGallery.addEvent({
           data: 'event1',
           startDate: '1989-03-21 21:00',
           endDate: '1989-03-21 21:00',
         });
 
-        expect(event1 instanceof DateFrameEvent).toBe(true);
+        expect(event1 instanceof DateGalleryEvent).toBe(true);
 
         expect(subscriber).toBeCalledTimes(1);
         assertLastSubscriber(
@@ -27209,7 +27209,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -27270,18 +27270,18 @@ describe('DateFrame', () => {
           },
           {
             type: 'EVENT_ADDED',
-            event: dateFrame.events[0],
+            event: dateGallery.events[0],
             time: new Date(),
           }
         );
 
-        const event2 = dateFrame.addEvent({
+        const event2 = dateGallery.addEvent({
           data: 'event2',
           startDate: '1989-03-21 20:00',
           endDate: '1989-05-21 21:00',
         });
 
-        expect(event2 instanceof DateFrameEvent).toBe(true);
+        expect(event2 instanceof DateGalleryEvent).toBe(true);
 
         expect(subscriber).toBeCalledTimes(2);
         assertLastSubscriber(
@@ -27291,7 +27291,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -27390,28 +27390,28 @@ describe('DateFrame', () => {
           },
           {
             type: 'EVENT_ADDED',
-            event: dateFrame.events[0],
+            event: dateGallery.events[0],
             time: new Date(),
           }
         );
       });
 
       test('1 frame', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           numberOfFrames: 1,
           mode: 'day',
           initialDate: '1989-03-21',
         });
 
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        const event1 = dateFrame.addEvent({
+        const event1 = dateGallery.addEvent({
           data: 'event1',
           startDate: '1989-03-21 21:00',
           endDate: '1989-03-21 21:00',
         });
 
-        expect(event1 instanceof DateFrameEvent).toBe(true);
+        expect(event1 instanceof DateGalleryEvent).toBe(true);
 
         expect(subscriber).toBeCalledTimes(1);
         assertLastSubscriber(
@@ -27421,7 +27421,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -27471,18 +27471,18 @@ describe('DateFrame', () => {
           },
           {
             type: 'EVENT_ADDED',
-            event: dateFrame.events[0],
+            event: dateGallery.events[0],
             time: new Date(),
           }
         );
 
-        const event2 = dateFrame.addEvent({
+        const event2 = dateGallery.addEvent({
           data: 'event2',
           startDate: '1989-03-21 20:00',
           endDate: '1989-05-21 21:00',
         });
 
-        expect(event2 instanceof DateFrameEvent).toBe(true);
+        expect(event2 instanceof DateGalleryEvent).toBe(true);
 
         expect(subscriber).toBeCalledTimes(2);
         assertLastSubscriber(
@@ -27492,7 +27492,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -27566,7 +27566,7 @@ describe('DateFrame', () => {
           },
           {
             type: 'EVENT_ADDED',
-            event: dateFrame.events[0],
+            event: dateGallery.events[0],
             time: new Date(),
           }
         );
@@ -27576,14 +27576,14 @@ describe('DateFrame', () => {
 
   describe('removeEvent', () => {
     test('should do nothing when event cannot be found', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      const event = dateFrame.addEvent({
+      const event = dateGallery.addEvent({
         data: 'event1',
         startDate: '2000-01-01 12:00',
         endDate: '2000-01-01 14:00',
@@ -27592,29 +27592,29 @@ describe('DateFrame', () => {
       expect(subscriber).toBeCalledTimes(1);
 
       // The first removal should do something.
-      const eventRemoved = dateFrame.removeEvent(event);
-      expect(eventRemoved instanceof DateFrameEvent).toBe(true);
+      const eventRemoved = dateGallery.removeEvent(event);
+      expect(eventRemoved instanceof DateGalleryEvent).toBe(true);
       expect(eventRemoved === event);
       expect(subscriber).toBeCalledTimes(2);
 
       // The second removal should do nothing
-      const eventThatWasAlreadyRemoved = dateFrame.removeEvent(event);
-      expect(eventThatWasAlreadyRemoved instanceof DateFrameEvent).toBe(true);
+      const eventThatWasAlreadyRemoved = dateGallery.removeEvent(event);
+      expect(eventThatWasAlreadyRemoved instanceof DateGalleryEvent).toBe(true);
       expect(eventRemoved === eventThatWasAlreadyRemoved);
       expect(subscriber).toBeCalledTimes(2);
     });
 
     describe('when removing an event update the frames, recalculate overlap, and re-order arrays', () => {
       test('3 frames', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           numberOfFrames: 3,
           mode: 'day',
           initialDate: '1989-03-21',
         });
 
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        const event1 = dateFrame.addEvent({
+        const event1 = dateGallery.addEvent({
           data: 'event1',
           startDate: '1989-03-21 21:00',
           endDate: '1989-03-21 21:00',
@@ -27622,7 +27622,7 @@ describe('DateFrame', () => {
 
         expect(subscriber).toBeCalledTimes(1);
 
-        const event2 = dateFrame.addEvent({
+        const event2 = dateGallery.addEvent({
           data: 'event2',
           startDate: '1989-03-21 20:00',
           endDate: '1989-05-21 21:00',
@@ -27630,7 +27630,7 @@ describe('DateFrame', () => {
 
         expect(subscriber).toBeCalledTimes(2);
 
-        dateFrame.removeEvent(event1);
+        dateGallery.removeEvent(event1);
 
         expect(subscriber).toBeCalledTimes(3);
         assertLastSubscriber(
@@ -27640,7 +27640,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -27755,7 +27755,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -27805,15 +27805,15 @@ describe('DateFrame', () => {
       });
 
       test('2 frames', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           numberOfFrames: 2,
           mode: 'day',
           initialDate: '1989-03-21',
         });
 
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        const event1 = dateFrame.addEvent({
+        const event1 = dateGallery.addEvent({
           data: 'event1',
           startDate: '1989-03-21 21:00',
           endDate: '1989-03-21 21:00',
@@ -27821,7 +27821,7 @@ describe('DateFrame', () => {
 
         expect(subscriber).toBeCalledTimes(1);
 
-        const event2 = dateFrame.addEvent({
+        const event2 = dateGallery.addEvent({
           data: 'event2',
           startDate: '1989-03-21 20:00',
           endDate: '1989-05-21 21:00',
@@ -27829,7 +27829,7 @@ describe('DateFrame', () => {
 
         expect(subscriber).toBeCalledTimes(2);
 
-        dateFrame.removeEvent(event1);
+        dateGallery.removeEvent(event1);
 
         expect(subscriber).toBeCalledTimes(3);
         assertLastSubscriber(
@@ -27839,7 +27839,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -27929,7 +27929,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -27969,15 +27969,15 @@ describe('DateFrame', () => {
       });
 
       test('1 frames', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           numberOfFrames: 1,
           mode: 'day',
           initialDate: '1989-03-21',
         });
 
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        const event1 = dateFrame.addEvent({
+        const event1 = dateGallery.addEvent({
           data: 'event1',
           startDate: '1989-03-21 21:00',
           endDate: '1989-03-21 21:00',
@@ -27985,7 +27985,7 @@ describe('DateFrame', () => {
 
         expect(subscriber).toBeCalledTimes(1);
 
-        const event2 = dateFrame.addEvent({
+        const event2 = dateGallery.addEvent({
           data: 'event2',
           startDate: '1989-03-21 20:00',
           endDate: '1989-05-21 21:00',
@@ -27993,7 +27993,7 @@ describe('DateFrame', () => {
 
         expect(subscriber).toBeCalledTimes(2);
 
-        dateFrame.removeEvent(event1);
+        dateGallery.removeEvent(event1);
 
         expect(subscriber).toBeCalledTimes(3);
         assertLastSubscriber(
@@ -28003,7 +28003,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -28068,7 +28068,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -28101,143 +28101,143 @@ describe('DateFrame', () => {
 
   describe('moveEvent', () => {
     test('should error when given a malformed start date', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const event = dateFrame.addEvent({
+      const event = dateGallery.addEvent({
         data: 'event',
         startDate: '1989-03-21 21:00',
         endDate: '1989-03-21 21:00',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       expect(() => {
-        dateFrame.moveEvent(event, {
+        dateGallery.moveEvent(event, {
           startDate: '2000-2000-2000',
           endDate: '2000-02-02',
         });
-      }).toThrowError(DateFrameInvalidDateError);
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.moveEvent(event, {
+        dateGallery.moveEvent(event, {
           startDate: '2000-2000-2000',
           endDate: '2000-02-02',
         });
       }).toThrowError(
-        'uiloos > DateFrame > moveEvent > "range.startDate" is an or contains an invalid date'
+        'uiloos > DateGallery > moveEvent > "range.startDate" is an or contains an invalid date'
       );
 
       expect(() => {
-        dateFrame.moveEvent(event, {
+        dateGallery.moveEvent(event, {
           startDate: new Date('2000-2000-2000'),
           endDate: '2000-02-02',
         });
-      }).toThrowError(DateFrameInvalidDateError);
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.moveEvent(event, {
+        dateGallery.moveEvent(event, {
           startDate: new Date('2000-2000-2000'),
           endDate: '2000-02-02',
         });
       }).toThrowError(
-        'uiloos > DateFrame > moveEvent > "range.startDate" is an or contains an invalid date'
+        'uiloos > DateGallery > moveEvent > "range.startDate" is an or contains an invalid date'
       );
 
       expect(subscriber).toBeCalledTimes(0);
     });
 
     test('should error when given a malformed end date', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const event = dateFrame.addEvent({
+      const event = dateGallery.addEvent({
         data: 'event',
         startDate: '1989-03-21 21:00',
         endDate: '1989-03-21 21:00',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       expect(() => {
-        dateFrame.moveEvent(event, {
+        dateGallery.moveEvent(event, {
           startDate: '2000-02-02',
           endDate: '2000-2000-2000',
         });
-      }).toThrowError(DateFrameInvalidDateError);
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.moveEvent(event, {
+        dateGallery.moveEvent(event, {
           startDate: '2000-02-02',
           endDate: '2000-2000-2000',
         });
       }).toThrowError(
-        'uiloos > DateFrame > moveEvent > "range.endDate" is an or contains an invalid date'
+        'uiloos > DateGallery > moveEvent > "range.endDate" is an or contains an invalid date'
       );
 
       expect(() => {
-        dateFrame.moveEvent(event, {
+        dateGallery.moveEvent(event, {
           startDate: '2000-02-02',
           endDate: new Date('2000-2000-2000'),
         });
-      }).toThrowError(DateFrameInvalidDateError);
+      }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateFrame.moveEvent(event, {
+        dateGallery.moveEvent(event, {
           startDate: '2000-02-02',
           endDate: new Date('2000-2000-2000'),
         });
       }).toThrowError(
-        'uiloos > DateFrame > moveEvent > "range.endDate" is an or contains an invalid date'
+        'uiloos > DateGallery > moveEvent > "range.endDate" is an or contains an invalid date'
       );
 
       expect(subscriber).toBeCalledTimes(0);
     });
 
     test('should error when given a invalid range', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const event = dateFrame.addEvent({
+      const event = dateGallery.addEvent({
         data: 'event',
         startDate: '1989-03-21 21:00',
         endDate: '1989-03-21 21:00',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       expect(() => {
-        dateFrame.moveEvent(event, {
+        dateGallery.moveEvent(event, {
           startDate: '2000-01-01 15:01',
           endDate: '2000-01-01 15:00',
         });
-      }).toThrowError(DateFrameEventInvalidRangeError);
+      }).toThrowError(DateGalleryEventInvalidRangeError);
 
       expect(() => {
-        dateFrame.moveEvent(event, {
+        dateGallery.moveEvent(event, {
           startDate: '2000-01-01 15:01',
           endDate: '2000-01-01 15:00',
         });
       }).toThrowError(
-        'uiloos > DateFrame > invalid range, an events startDate lies after its endDate'
+        'uiloos > DateGallery > invalid range, an events startDate lies after its endDate'
       );
 
       expect(subscriber).toBeCalledTimes(0);
     });
 
-    test('should error when event cannot be found inside of the DateFrame', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+    test('should error when event cannot be found inside of the DateGallery', () => {
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const event = dateFrame.addEvent({
+      const event = dateGallery.addEvent({
         data: 'event',
         startDate: '1989-03-21 21:00',
         endDate: '1989-03-21 21:00',
@@ -28245,34 +28245,34 @@ describe('DateFrame', () => {
 
       event.remove();
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
       expect(() => {
-        dateFrame.moveEvent(event, {
+        dateGallery.moveEvent(event, {
           startDate: '2000-01-01 14:00',
           endDate: '2000-01-01 15:00',
         });
-      }).toThrowError(DateFrameEventNotFoundError);
+      }).toThrowError(DateGalleryEventNotFoundError);
 
       expect(() => {
-        dateFrame.moveEvent(event, {
+        dateGallery.moveEvent(event, {
           startDate: '2000-01-01 14:00',
           endDate: '2000-01-01 15:00',
         });
       }).toThrowError(
-        'uiloos > DateFrame > moveEvent > event cannot be found in DateFrame'
+        'uiloos > DateGallery > moveEvent > event cannot be found in DateGallery'
       );
 
       expect(subscriber).toBeCalledTimes(0);
     });
 
     test('should do nothing if event is set to the same range', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
+      const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
         initialDate: '1990-09-26',
       });
 
-      const event = dateFrame.addEvent({
+      const event = dateGallery.addEvent({
         data: 'event',
         startDate: '1989-03-21 21:00',
         endDate: '1989-03-21 21:00',
@@ -28280,9 +28280,9 @@ describe('DateFrame', () => {
 
       event.remove();
 
-      const subscriber = autoSubscribe(dateFrame);
+      const subscriber = autoSubscribe(dateGallery);
 
-      dateFrame.moveEvent(event, {
+      dateGallery.moveEvent(event, {
         startDate: '1989-03-21 21:00',
         endDate: '1989-03-21 21:00',
       });
@@ -28292,15 +28292,15 @@ describe('DateFrame', () => {
 
     describe('when moving an event update the frames, recalculate overlap, and re-order arrays', () => {
       test('3 frames', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           numberOfFrames: 3,
           mode: 'day',
           initialDate: '1989-03-21',
         });
 
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        const event1 = dateFrame.addEvent({
+        const event1 = dateGallery.addEvent({
           data: 'event1',
           startDate: '1989-03-21 21:00',
           endDate: '1989-03-21 21:00',
@@ -28308,7 +28308,7 @@ describe('DateFrame', () => {
 
         expect(subscriber).toBeCalledTimes(1);
 
-        const event2 = dateFrame.addEvent({
+        const event2 = dateGallery.addEvent({
           data: 'event2',
           startDate: '1989-03-21 20:00',
           endDate: '1989-05-21 21:00',
@@ -28316,7 +28316,7 @@ describe('DateFrame', () => {
 
         expect(subscriber).toBeCalledTimes(2);
 
-        dateFrame.moveEvent(event2, {
+        dateGallery.moveEvent(event2, {
           startDate: '1989-05-21 20:00',
           endDate: '1989-05-21 21:00',
         });
@@ -28329,7 +28329,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -28425,7 +28425,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -28538,15 +28538,15 @@ describe('DateFrame', () => {
       });
 
       test('2 frames', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           numberOfFrames: 2,
           mode: 'day',
           initialDate: '1989-03-21',
         });
 
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        const event1 = dateFrame.addEvent({
+        const event1 = dateGallery.addEvent({
           data: 'event1',
           startDate: '1989-03-21 21:00',
           endDate: '1989-03-21 21:00',
@@ -28554,7 +28554,7 @@ describe('DateFrame', () => {
 
         expect(subscriber).toBeCalledTimes(1);
 
-        const event2 = dateFrame.addEvent({
+        const event2 = dateGallery.addEvent({
           data: 'event2',
           startDate: '1989-03-21 20:00',
           endDate: '1989-05-21 21:00',
@@ -28562,7 +28562,7 @@ describe('DateFrame', () => {
 
         expect(subscriber).toBeCalledTimes(2);
 
-        dateFrame.moveEvent(event2, {
+        dateGallery.moveEvent(event2, {
           startDate: '1989-05-21 20:00',
           endDate: '1989-05-21 21:00',
         });
@@ -28575,7 +28575,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -28660,7 +28660,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -28748,15 +28748,15 @@ describe('DateFrame', () => {
       });
 
       test('1 frame', () => {
-        const dateFrame: DateFrame<string> = new DateFrame({
+        const dateGallery: DateGallery<string> = new DateGallery({
           numberOfFrames: 1,
           mode: 'day',
           initialDate: '1989-03-21',
         });
 
-        const subscriber = autoSubscribe(dateFrame);
+        const subscriber = autoSubscribe(dateGallery);
 
-        const event1 = dateFrame.addEvent({
+        const event1 = dateGallery.addEvent({
           data: 'event1',
           startDate: '1989-03-21 21:00',
           endDate: '1989-03-21 21:00',
@@ -28764,7 +28764,7 @@ describe('DateFrame', () => {
 
         expect(subscriber).toBeCalledTimes(1);
 
-        const event2 = dateFrame.addEvent({
+        const event2 = dateGallery.addEvent({
           data: 'event2',
           startDate: '1989-03-21 20:00',
           endDate: '1989-05-21 21:00',
@@ -28772,7 +28772,7 @@ describe('DateFrame', () => {
 
         expect(subscriber).toBeCalledTimes(2);
 
-        dateFrame.moveEvent(event2, {
+        dateGallery.moveEvent(event2, {
           startDate: '1989-05-21 20:00',
           endDate: '1989-05-21 21:00',
         });
@@ -28785,7 +28785,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -28859,7 +28859,7 @@ describe('DateFrame', () => {
             isUTC: false,
             mode: 'day',
             firstDayOfWeek: 0,
-            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            firstFrame: dateGallery.frames[0].map(dateToTestDate),
             frames: [
               [
                 {
@@ -28928,12 +28928,12 @@ describe('DateFrame', () => {
   describe('generics', () => {
     describe('T', () => {
       test('when T is an object it should require the data function to return that object', () => {
-        const dateFrame = new DateFrame<{
+        const dateGallery = new DateGallery<{
           text: string;
           type: 'work' | 'home';
         }>();
 
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: {
             text: 'Datenight',
             type: 'home'
@@ -28942,7 +28942,7 @@ describe('DateFrame', () => {
           endDate: '2000-01-01 14:00'
         });
 
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           // @ts-expect-error This is a typecheck undefined should keep failing
           data: undefined,
           startDate: '2000-01-01 12:00',
@@ -28951,15 +28951,15 @@ describe('DateFrame', () => {
       });
 
       test('when T not an object but a primitive it should work', () => {
-        const dateFrame = new DateFrame<number>();
+        const dateGallery = new DateGallery<number>();
         
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: 42,
           startDate: '2000-01-01 12:00',
           endDate: '2000-01-01 14:00'
         });
 
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           // @ts-expect-error This is a typecheck undefined should keep failing
           data: undefined,
           startDate: '2000-01-01 12:00',
@@ -28968,21 +28968,21 @@ describe('DateFrame', () => {
       });
 
       test('when T is not defined all should work', () => {
-        const dateFrame = new DateFrame();
+        const dateGallery = new DateGallery();
 
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: undefined,
           startDate: '2000-01-01 12:00',
           endDate: '2000-01-01 14:00'
         });
 
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: 'yo',
           startDate: '2000-01-01 12:00',
           endDate: '2000-01-01 14:00'
         });
 
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: {
             title: 'Doctors appointment',
             description: 'Yearly checkup',
@@ -28991,7 +28991,7 @@ describe('DateFrame', () => {
           endDate: '2000-01-01 14:00'
         });
 
-        dateFrame.addEvent({
+        dateGallery.addEvent({
           data: () => ({
             title: 'Doctors appointment',
             description: 'Yearly checkup',
@@ -29005,20 +29005,20 @@ describe('DateFrame', () => {
 
   describe('history', () => {
     test('that a correct history is kept for all events', () => {
-      const dateFrame = new DateFrame<string>({
+      const dateGallery = new DateGallery<string>({
         keepHistoryFor: 100,
         mode: 'day',
       });
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
       ]);
     
-      dateFrame.next();
+      dateGallery.next();
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29028,9 +29028,9 @@ describe('DateFrame', () => {
         }),
       ]);
 
-      dateFrame.changeMode('week');
+      dateGallery.changeMode('week');
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29044,9 +29044,9 @@ describe('DateFrame', () => {
         }),
       ]);
 
-      dateFrame.selectDate('2001-01-01');
+      dateGallery.selectDate('2001-01-01');
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29064,9 +29064,9 @@ describe('DateFrame', () => {
         }),
       ]);
 
-      dateFrame.deselectDate('2001-01-01');
+      dateGallery.deselectDate('2001-01-01');
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29088,9 +29088,9 @@ describe('DateFrame', () => {
         }),
       ]);
 
-      dateFrame.activateRange('2001-01-01', '2001-01-10');
+      dateGallery.activateRange('2001-01-01', '2001-01-10');
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29116,9 +29116,9 @@ describe('DateFrame', () => {
         }),
       ]);
 
-      dateFrame.deselectAll();
+      dateGallery.deselectAll();
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29148,9 +29148,9 @@ describe('DateFrame', () => {
         }),
       ]);
 
-      const event = dateFrame.addEvent({data: 'event', startDate: '2000-01-01 12:00', endDate: '2000-01-01 16:00'});
+      const event = dateGallery.addEvent({data: 'event', startDate: '2000-01-01 12:00', endDate: '2000-01-01 16:00'});
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29184,12 +29184,12 @@ describe('DateFrame', () => {
         }),
       ]);
 
-      dateFrame.moveEvent(event, {
+      dateGallery.moveEvent(event, {
         startDate: '2000-01-01 14:00', 
         endDate: '2000-01-01 15:00'
       });
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29227,9 +29227,9 @@ describe('DateFrame', () => {
         }),
       ]);
 
-      dateFrame.removeEvent(event);
+      dateGallery.removeEvent(event);
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29273,19 +29273,19 @@ describe('DateFrame', () => {
     });
 
     test('that a history is kept for a maximum number of events', () => {
-      const dateFrame = new DateFrame<string>({
+      const dateGallery = new DateGallery<string>({
         keepHistoryFor: 3,
       });
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
       ]);
     
-      dateFrame.next();
+      dateGallery.next();
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29295,9 +29295,9 @@ describe('DateFrame', () => {
         }),
       ]);
 
-      dateFrame.changeMode('week');
+      dateGallery.changeMode('week');
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29311,9 +29311,9 @@ describe('DateFrame', () => {
         }),
       ]);
 
-      dateFrame.selectDate('2001-01-01');
+      dateGallery.selectDate('2001-01-01');
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'FRAME_CHANGED',
         }),
@@ -29329,19 +29329,19 @@ describe('DateFrame', () => {
     });
 
     test('that initialize resets the history', () => {
-      const dateFrame = new DateFrame<string>({
+      const dateGallery = new DateGallery<string>({
         keepHistoryFor: 3,
       });
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
       ]);
     
-      dateFrame.next();
+      dateGallery.next();
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29351,9 +29351,9 @@ describe('DateFrame', () => {
         }),
       ]);
 
-      dateFrame.changeMode('week');
+      dateGallery.changeMode('week');
 
-      expect(dateFrame.history).toEqual([
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29369,8 +29369,8 @@ describe('DateFrame', () => {
 
       // Now reset the history, note that if `keepHistoryFor` is zero
       // the `history` array would be empty
-      dateFrame.initialize({ keepHistoryFor: 1 });
-      expect(dateFrame.history).toEqual([
+      dateGallery.initialize({ keepHistoryFor: 1 });
+      expect(dateGallery.history).toEqual([
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
@@ -29382,7 +29382,7 @@ describe('DateFrame', () => {
     test('that all methods are called correctly', () => {
       jest.useFakeTimers();
 
-      const config: CreateDateFrameSubscriberConfig<string> = {
+      const config: CreateDateGallerySubscriberConfig<string> = {
         onInitialized: jest.fn(),
         onFrameChanged: jest.fn(),
         onModeChanged: jest.fn(),
@@ -29395,9 +29395,9 @@ describe('DateFrame', () => {
         onEventMoved: jest.fn(),
       };
 
-      const subscriber = createDateFrameSubscriber<string>(config);
+      const subscriber = createDateGallerySubscriber<string>(config);
 
-      const dateFrame = new DateFrame<string>({
+      const dateGallery = new DateGallery<string>({
         mode: 'day',
       }, subscriber);
 
@@ -29406,80 +29406,80 @@ describe('DateFrame', () => {
         expect.objectContaining({
           type: 'INITIALIZED',
         }),
-        dateFrame
+        dateGallery
       );
 
-      dateFrame.next();
+      dateGallery.next();
 
       expect(config.onFrameChanged).toBeCalledTimes(1);
       expect(config.onFrameChanged).lastCalledWith(
         expect.objectContaining({
           type: 'FRAME_CHANGED',
         }),
-        dateFrame
+        dateGallery
       );
 
-      dateFrame.changeMode('week');
+      dateGallery.changeMode('week');
 
       expect(config.onModeChanged).toBeCalledTimes(1);
       expect(config.onModeChanged).lastCalledWith(
         expect.objectContaining({
           type: 'MODE_CHANGED',
         }),
-        dateFrame
+        dateGallery
       );
 
-      dateFrame.selectDate('2001-01-01');
+      dateGallery.selectDate('2001-01-01');
 
       expect(config.onDateSelected).toBeCalledTimes(1);
       expect(config.onDateSelected).lastCalledWith(
         expect.objectContaining({
           type: 'DATE_SELECTED',
         }),
-        dateFrame
+        dateGallery
       );
 
-      dateFrame.deselectDate('2001-01-01');
+      dateGallery.deselectDate('2001-01-01');
 
       expect(config.onDateDeselected).toBeCalledTimes(1);
       expect(config.onDateDeselected).lastCalledWith(
         expect.objectContaining({
           type: 'DATE_DESELECTED',
         }),
-        dateFrame
+        dateGallery
       );
 
-      dateFrame.activateRange('2001-01-01', '2001-01-10');
+      dateGallery.activateRange('2001-01-01', '2001-01-10');
 
       expect(config.onDateSelectedMultiple).toBeCalledTimes(1);
       expect(config.onDateSelectedMultiple).lastCalledWith(
         expect.objectContaining({
           type: 'DATE_SELECTED_MULTIPLE',
         }),
-        dateFrame
+        dateGallery
       );
 
-      dateFrame.deselectAll();
+      dateGallery.deselectAll();
 
       expect(config.onDateDeselectedMultiple).toBeCalledTimes(1);
       expect(config.onDateDeselectedMultiple).lastCalledWith(
         expect.objectContaining({
           type: 'DATE_DESELECTED_MULTIPLE',
         }),
-        dateFrame
+        dateGallery
       );
 
-      const event = dateFrame.addEvent({data: 'event', startDate: '2000-01-01 12:00', endDate: '2000-01-01 16:00'});
+      const event = dateGallery.addEvent({data: 'event', startDate: '2000-01-01 12:00', endDate: '2000-01-01 16:00'});
 
       expect(config.onEventAdded).toBeCalledTimes(1);
       expect(config.onEventAdded).lastCalledWith(
         expect.objectContaining({
           type: 'EVENT_ADDED',
         }),
-        dateFrame
+        dateGallery
       );
 
-      dateFrame.moveEvent(event, {
+      dateGallery.moveEvent(event, {
         startDate: '2000-01-01 14:00', 
         endDate: '2000-01-01 15:00'
       });
@@ -29489,17 +29489,17 @@ describe('DateFrame', () => {
         expect.objectContaining({
           type: 'EVENT_MOVED',
         }),
-        dateFrame
+        dateGallery
       );
 
-      dateFrame.removeEvent(event);
+      dateGallery.removeEvent(event);
 
       expect(config.onEventRemoved).toBeCalledTimes(1);
       expect(config.onEventRemoved).lastCalledWith(
         expect.objectContaining({
           type: 'EVENT_REMOVED',
         }),
-        dateFrame
+        dateGallery
       );
      
       // Check if they are all called at least once.
@@ -29513,26 +29513,26 @@ describe('DateFrame', () => {
       test('that it logs a warning when debug is true', () => {
         jest.spyOn(console, 'warn').mockImplementation(() => undefined);
 
-        const subscriber = createDateFrameSubscriber<string>({
+        const subscriber = createDateGallerySubscriber<string>({
           debug: true,
         });
 
-        new DateFrame({}, subscriber);
+        new DateGallery({}, subscriber);
 
         expect(console.warn).toHaveBeenCalledTimes(1);
         expect(console.warn).toHaveBeenCalledWith(
-          "uiloos > createDateFrameSubscriber event 'INITIALIZED' was fired but 'onInitialized' method is not implemented, this might not be correct."
+          "uiloos > createDateGallerySubscriber event 'INITIALIZED' was fired but 'onInitialized' method is not implemented, this might not be correct."
         );
       });
 
       test('that it does not log a warning when debug is false', () => {
         jest.spyOn(console, 'warn').mockImplementation(() => undefined);
 
-        const subscriber = createDateFrameSubscriber<string>({
+        const subscriber = createDateGallerySubscriber<string>({
           debug: false,
         });
 
-        new DateFrame({}, subscriber);
+        new DateGallery({}, subscriber);
 
         expect(console.warn).toHaveBeenCalledTimes(0);
       });
@@ -29540,9 +29540,9 @@ describe('DateFrame', () => {
       test('that it does not log a warning when debug is undefined', () => {
         jest.spyOn(console, 'warn').mockImplementation(() => undefined);
 
-        const subscriber = createDateFrameSubscriber<string>({});
+        const subscriber = createDateGallerySubscriber<string>({});
 
-        new DateFrame({}, subscriber);
+        new DateGallery({}, subscriber);
 
         expect(console.warn).toHaveBeenCalledTimes(0);
       });
@@ -29551,22 +29551,22 @@ describe('DateFrame', () => {
     test('that created subscribers can be unsubscribed', () => {
       jest.useFakeTimers();
 
-      const config: CreateDateFrameSubscriberConfig<string> = {
+      const config: CreateDateGallerySubscriberConfig<string> = {
         onFrameChanged: jest.fn(),
         onDateSelected: jest.fn()
       };
 
-      const subscriber = createDateFrameSubscriber<string>(config);
+      const subscriber = createDateGallerySubscriber<string>(config);
 
-      const dateFrame = new DateFrame<string>({}, subscriber);
+      const dateGallery = new DateGallery<string>({}, subscriber);
 
-      dateFrame.next();
+      dateGallery.next();
       expect(config.onFrameChanged).toBeCalledTimes(1);
 
-      dateFrame.unsubscribe(subscriber);
+      dateGallery.unsubscribe(subscriber);
 
       // Should be unsubscribed and therefore 0 and not 1.
-      dateFrame.selectDate('2010-03-21')
+      dateGallery.selectDate('2010-03-21')
       expect(config.onDateSelected).toBeCalledTimes(0);
     });
   });

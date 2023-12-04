@@ -2,8 +2,7 @@ import {
   expect,
   jest,
 } from '@jest/globals';
-
-import { DateFrame, DateFrameDate, DateFrameEvent, DateFrameSubscriberEvent, DateFrameSubscriberEventType } from "../../src/DateFrame";
+import { DateGallery, DateGalleryDate, DateGalleryEvent, DateGallerySubscriberEvent } from '../../src/DateGallery';
 
 
 export const formatter = new Intl.DateTimeFormat('nl-Nl', {
@@ -17,12 +16,12 @@ export const formatter = new Intl.DateTimeFormat('nl-Nl', {
   timeZone: 'Europe/London', // +0 utc, but does have a summertime!
 });
 
-export type DateFrameSansDatesAndEvents<T> = Pick<
-  DateFrame<T>,
+export type DateGallerySansDatesAndEvents<T> = Pick<
+  DateGallery<T>,
   'history' | 'firstDayOfWeek' | 'mode' | 'isUTC'
 >;
 
-export type TestState<T> = DateFrameSansDatesAndEvents<T> & {
+export type TestState<T> = DateGallerySansDatesAndEvents<T> & {
   firstFrame: TestDate<T>[];
   firstFrameEvents: TestEvent[];
   frames: TestDate<T>[][];
@@ -39,14 +38,14 @@ export type TestEvent = {
 };
 
 export type TestDate<T> = Pick<
-  DateFrameDate<T>,
+  DateGalleryDate<T>,
   'isPadding' | 'isToday' | 'isSelected' | 'hasEvents'
 > & {
   date: string;
   events: TestEvent[];
 };
 
-export function assertState(state: DateFrame<string>, expected: TestState<string>) {
+export function assertState(state: DateGallery<string>, expected: TestState<string>) {
   const callAsTestState: TestState<string> = {
     // maxActivationLimit: state.maxActivationLimit,
     // maxActivationLimitBehavior: state.maxActivationLimitBehavior,
@@ -71,8 +70,8 @@ export function assertState(state: DateFrame<string>, expected: TestState<string
   expect(callAsTestState).toEqual(expected);
 }
 
-export function eventToTestEvent(event: DateFrameEvent<string>): TestEvent {
-  expect(event instanceof DateFrameEvent).toBe(true);
+export function eventToTestEvent(event: DateGalleryEvent<string>): TestEvent {
+  expect(event instanceof DateGalleryEvent).toBe(true);
 
   return {
     data: event.data,
@@ -81,14 +80,14 @@ export function eventToTestEvent(event: DateFrameEvent<string>): TestEvent {
 
     // To prevent circular references (infinite loop) we only check the 'data'
     overlapsWith: event.overlapsWith.map((e) => {
-      expect(e instanceof DateFrameEvent);
+      expect(e instanceof DateGalleryEvent);
       return e.data;
     }),
   };
 }
 
-export function dateToTestDate(date: DateFrameDate<string>): TestDate<string> {
-  expect(date instanceof DateFrameDate).toBe(true);
+export function dateToTestDate(date: DateGalleryDate<string>): TestDate<string> {
+  expect(date instanceof DateGalleryDate).toBe(true);
 
   return {
     date: formatter.format(date.date),
@@ -103,11 +102,11 @@ export function dateToTestDate(date: DateFrameDate<string>): TestDate<string> {
 export function assertLastSubscriber(
   subscriber: jest.Mock,
   expectedState: TestState<string>,
-  expectedEvent: DateFrameSubscriberEvent<string>
+  expectedEvent: DateGallerySubscriberEvent<string>
 ) {
   const lastCall = subscriber.mock.calls[subscriber.mock.calls.length - 1];
-  const state = lastCall[0] as DateFrame<string>;
-  const event = lastCall[1] as DateFrameSubscriberEvent<string>;
+  const state = lastCall[0] as DateGallery<string>;
+  const event = lastCall[1] as DateGallerySubscriberEvent<string>;
 
   assertState(state, expectedState);
 

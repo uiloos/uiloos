@@ -1,21 +1,21 @@
-import { DateFrame } from './DateFrame';
-import { DateFrameRange } from './types';
+import { DateGallery } from './DateGallery';
+import { DateGalleryRange } from './types';
 import { _hasOverlap } from './utils';
 
 /**
- * Represents a piece of content in the `events` array of the `DateFrame`.
+ * Represents a piece of content in the `events` array of the `DateGallery`.
  *
  * TODO more
  *
  * @since 1.6.0
  */
-export class DateFrameEvent<T> {
+export class DateGalleryEvent<T> {
   /**
-   * Reference to the DateFrame is it a part of.
+   * Reference to the DateGallery is it a part of.
    *
    * @since 1.6.0
    */
-  public dateFrame: DateFrame<T>;
+  public dateGallery: DateGallery<T>;
 
   /**
    * The data for this event, "data" can be be anything from an
@@ -52,31 +52,31 @@ export class DateFrameEvent<T> {
   public endDate: Date;
 
   /**
-   * The other events in the `DateFrame` this event overlaps with.
+   * The other events in the `DateGallery` this event overlaps with.
    *
    * @since 1.6.0
    */
-  public readonly overlapsWith: DateFrameEvent<T>[] = [];
+  public readonly overlapsWith: DateGalleryEvent<T>[] = [];
 
   /**
-   * Creates an DateFrameEvent which belongs to the given DateFrame.
+   * Creates an DateGalleryEvent which belongs to the given DateGallery.
    *
-   * Note: you should never create instances of DateFrameEvent
-   * yourself. You are supposed to let DateFrame do this for you.
+   * Note: you should never create instances of DateGalleryEvent
+   * yourself. You are supposed to let DateGallery do this for you.
    *
-   * @param {DateFrame<T>} dateFrame The DateFrame this DateFrameEvent belongs to.
-   * @param {T} index The index of this DateFrameEvent within the DateFrame.
-   * @param {T} data The data of this DateFrameEvent
+   * @param {DateGallery<T>} dateGallery The DateGallery this DateGalleryEvent belongs to.
+   * @param {T} index The index of this DateGalleryEvent within the DateGallery.
+   * @param {T} data The data of this DateGalleryEvent
    *
    * @since 1.6.0
    */
   constructor(
-    dateFrame: DateFrame<T>,
+    dateGallery: DateGallery<T>,
     data: T,
     startDate: Date,
     endDate: Date
   ) {
-    this.dateFrame = dateFrame;
+    this.dateGallery = dateGallery;
     this.data = data;
     this.startDate = startDate;
     this.endDate = endDate;
@@ -88,7 +88,7 @@ export class DateFrameEvent<T> {
     this.overlapsWith.length = 0;
 
     // Check for overlap
-    this.dateFrame.events.forEach((other) => {
+    this.dateGallery.events.forEach((other) => {
       if (other === this) {
         return;
       }
@@ -105,11 +105,11 @@ export class DateFrameEvent<T> {
 
   // TODO: docs
   public remove() {
-    this.dateFrame.removeEvent(this);
+    this.dateGallery.removeEvent(this);
   }
 
   // TODO: docs
-  public move(range: DateFrameRange) {
-    this.dateFrame.moveEvent(this, range);
+  public move(range: DateGalleryRange) {
+    this.dateGallery.moveEvent(this, range);
   }
 }

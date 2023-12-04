@@ -1,7 +1,7 @@
 import { common } from './common';
 
 /**
- * Error which is thrown whenever the DateFrame is given an invalid
+ * Error which is thrown whenever the DateGallery is given an invalid
  * Date object, or when Date object cannot be constructed from
  * a string.
  * 
@@ -10,14 +10,14 @@ import { common } from './common';
  *
  * @since 1.6.0
  */
-export class DateFrameInvalidDateError extends Error {
+export class DateGalleryInvalidDateError extends Error {
   /**
-   * DateFrameInvalidDateError constructor
+   * DateGalleryInvalidDateError constructor
    *
    * @since 1.6.0
    */
   constructor(method: string, dateName: string) {
     super(`${common} ${method} > "${dateName}" is an or contains an invalid date`);
-    this.name = 'DateFrameInvalidDateError';
+    this.name = 'DateGalleryInvalidDateError';
   }
 }

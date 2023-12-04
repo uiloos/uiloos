@@ -13,47 +13,28 @@ import * as uiloosLicenseChecker from '../license/license';
 import { Observable, UnsubscribeFunction } from '../generic/types';
 import { _History } from '../private/History';
 import { _Observer } from '../private/Observer';
-import {
-  DateFrameConfig,
-  DateFrameSubscriberEvent,
-  DateFrameInitializedEvent,
-  DateFrameSubscriber,
-  DateFrameMode,
-  DateFrameDayOfWeek,
-  DateFrameFrameChangedEvent,
-  DateFrameDateSelectedEvent,
-  DateFrameDateDeselectedEvent,
-  DateFrameEventConfig,
-  DateFrameEventAddedEvent,
-  DateFrameEventRemovedEvent,
-  DateFrameModeChangedEvent,
-  DATE_FRAME_MODES,
-  DateFrameDateSelectedMultipleEvent,
-  DateFrameDateDeselectedMultipleEvent,
-  DateFrameEventMovedEvent,
-  DateFrameRange,
-} from './types';
-import { DateFrameDate } from './DateFrameDate';
-import { DateFrameEvent } from './DateFrameEvent';
-import { DateFrameModeError } from './errors/DateFrameModeError';
-import { DateFrameFirstDayOfWeekError } from './errors/DateFrameFirstDayOfWeekError';
-import { DateFrameNumberOfFramesError } from './errors/DateFrameNumberOfFramesError';
-import { DateFrameInvalidDateError } from './errors/DateFrameInvalidDateError';
-import { DateFrameEventInvalidRangeError } from './errors/DateFrameEventInvalidRangeError';
+import { DATE_FRAME_MODES, DateGalleryConfig, DateGalleryDateDeselectedEvent, DateGalleryDateDeselectedMultipleEvent, DateGalleryDateSelectedEvent, DateGalleryDateSelectedMultipleEvent, DateGalleryDayOfWeek, DateGalleryEventAddedEvent, DateGalleryEventConfig, DateGalleryEventMovedEvent, DateGalleryEventRemovedEvent, DateGalleryFrame, DateGalleryFrameChangedEvent, DateGalleryInitializedEvent, DateGalleryMode, DateGalleryModeChangedEvent, DateGalleryRange, DateGallerySubscriber, DateGallerySubscriberEvent } from './types';
+import { DateGalleryDate } from './DateGalleryDate';
 import { _hasOverlap } from './utils';
-import { DateFrameEventNotFoundError } from './errors/DateFrameEventNotFoundError';
+import { DateGalleryEvent } from './DateGalleryEvent';
+import { DateGalleryEventInvalidRangeError } from './errors/DateGalleryEventInvalidRangeError';
+import { DateGalleryEventNotFoundError } from './errors/DateGalleryEventNotFoundError';
+import { DateGalleryFirstDayOfWeekError } from './errors/DateGalleryFirstDayOfWeekError';
+import { DateGalleryInvalidDateError } from './errors/DateGalleryInvalidDateError';
+import { DateGalleryModeError } from './errors/DateGalleryModeError';
+import { DateGalleryNumberOfFramesError } from './errors/DateGalleryNumberOfFramesError';
 
 /**
- * A DateFrame is a class that represents a frame of dates, a frame
+ * A DateGallery is a class that represents a frame of dates, a frame
  * of dates is a sequence of chronologically sequential dates of a
  * certain length.
  *
  * The idea is that whenever you are creating components that use
  * sequences of dates, so for example: date pickers, range selectors,
- * or calendars, that you can use the DateFrame class to handle the
+ * or calendars, that you can use the DateGallery class to handle the
  * dates for you.
  *
- * The DateFrame comes in various modes:
+ * The DateGallery comes in various modes:
  *
  *   // TODO document actual options
  *   1. DAY: a frame that holds a singular day
@@ -62,20 +43,20 @@ import { DateFrameEventNotFoundError } from './errors/DateFrameEventNotFoundErro
  *   3. YEAR: a frame that holds all dates of a year.
  *   4. CUSTOM: a frame that holds a custom range of dates.
  *
- * The frame part of a DateFrame is what is visually displayed to a
+ * The frame part of a DateGallery is what is visually displayed to a
  * user, when making a monthly based calendar you are making a whole
  * year available but only show one month at a time. The month that
  * you show is a "frame", the dates that are visually displayed.
  *
- * The DateFrame provides methods for navigating through frames,
+ * The DateGallery provides methods for navigating through frames,
  * for example you can go to the next / previous frame.
  *
  * TODO: events and activation
  *
  * @since 1.6.0
  */
-export class DateFrame<T>
-  implements Observable<DateFrame<T>, DateFrameSubscriberEvent<T>>
+export class DateGallery<T>
+  implements Observable<DateGallery<T>, DateGallerySubscriberEvent<T>>
 {
   /**
    * Whether or not to inform subscribers of changes / record history.
@@ -85,9 +66,9 @@ export class DateFrame<T>
   private _isInitializing = false;
 
   /**
-   * Whether the `DateFrame` is in UTC mode.
+   * Whether the `DateGallery` is in UTC mode.
    *
-   * When the `DateFrame` is in UTC mode all dates are parsed as UTC.
+   * When the `DateGallery` is in UTC mode all dates are parsed as UTC.
    *
    * TODO: doc this
    *
@@ -102,7 +83,14 @@ export class DateFrame<T>
    *
    * @since 1.6.0
    */
-  public readonly frames: DateFrameDate<T>[][] = [];
+  public readonly frames: DateGalleryDate<T>[][] = [];
+
+   /**
+   * The frames of dates that are currently visible to the user.
+   *
+   * @since 1.6.0
+   */
+  public readonly xframes: DateGalleryFrame<T>[] = [];
 
   /**
    * The first frame of dates that is visible to the user.
@@ -113,7 +101,7 @@ export class DateFrame<T>
    *
    * @since 1.6.0
    */
-  public firstFrame: DateFrameDate<T>[] = [];
+  public firstFrame: DateGalleryDate<T>[] = [];
 
   /**
    * The number of frames that are visible at a time for the end user.
@@ -136,14 +124,14 @@ export class DateFrame<T>
 
   /**
    * All events, such as birthdays, meetings etc that are associated
-   * with this `DateFrame`.
+   * with this `DateGallery`.
    *
    * Is sorted from old to new, events that appear earlier in the
    * array are earlier than events that appear later in the array.
    *
    * @since 1.6.0
    */
-  public readonly events: DateFrameEvent<T>[] = [];
+  public readonly events: DateGalleryEvent<T>[] = [];
 
   /**
    * The events that happen within the `firstFrame`.
@@ -153,7 +141,7 @@ export class DateFrame<T>
    *
    * @since 1.6.0
    */
-  public firstFrameEvents: DateFrameEvent<T>[] = [];
+  public firstFrameEvents: DateGalleryEvent<T>[] = [];
 
   /**
    * Per frame which events belong to that frame.
@@ -163,11 +151,11 @@ export class DateFrame<T>
    *
    * @since 1.6.0
    */
-  public readonly eventsPerFrame: DateFrameEvent<T>[][] = [];
+  public readonly eventsPerFrame: DateGalleryEvent<T>[][] = [];
 
   // TODO docs
-  public mode: DateFrameMode = 'month-six-weeks';
-  public firstDayOfWeek: DateFrameDayOfWeek = 0;
+  public mode: DateGalleryMode = 'month-six-weeks';
+  public firstDayOfWeek: DateGalleryDayOfWeek = 0;
 
   /*
     The anchorDate is a reference to what the starting date of a 
@@ -175,14 +163,14 @@ export class DateFrame<T>
   */
   private _anchorDate = new Date();
 
-  private _history: _History<DateFrameSubscriberEvent<T>> = new _History();
+  private _history: _History<DateGallerySubscriberEvent<T>> = new _History();
 
   /**
    * Contains the history of the changes in the contents array.
    *
    * Tracks 15 types of changes:
    *
-   *  1. INITIALIZED: fired when DateFrame is initialized.
+   *  1. INITIALIZED: fired when DateGallery is initialized.
    *
    *  TODO
    *
@@ -201,25 +189,25 @@ export class DateFrame<T>
    *
    * @since 1.6.0
    */
-  public readonly history: DateFrameSubscriberEvent<T>[] =
+  public readonly history: DateGallerySubscriberEvent<T>[] =
     this._history._events;
 
-  private _observer: _Observer<DateFrame<T>, DateFrameSubscriberEvent<T>> =
+  private _observer: _Observer<DateGallery<T>, DateGallerySubscriberEvent<T>> =
     new _Observer();
 
   /**
-   * Creates an DateFrame based on the DateFrameConfig config.
+   * Creates an DateGallery based on the DateGalleryConfig config.
    *
    * You can also optionally provide an subscriber so you can get
-   * informed of the changes happening to the DateFrame.
+   * informed of the changes happening to the DateGallery.
    *
-   * @param {DateFrameConfig<T>} config The initial configuration of the DateFrame.
-   * @param {DateFrameSubscriber<T> | undefined} subscriber An optional subscriber which responds to changes in the DateFrame.
+   * @param {DateGalleryConfig<T>} config The initial configuration of the DateGallery.
+   * @param {DateGallerySubscriber<T> | undefined} subscriber An optional subscriber which responds to changes in the DateGallery.
    * @since 1.6.0
    */
   constructor(
-    config: DateFrameConfig<T> = {},
-    subscriber?: DateFrameSubscriber<T>
+    config: DateGalleryConfig<T> = {},
+    subscriber?: DateGallerySubscriber<T>
   ) {
     uiloosLicenseChecker.licenseChecker._checkLicense();
 
@@ -231,38 +219,38 @@ export class DateFrame<T>
   }
 
   /**
-   * Subscribe to changes of the DateFrame. The function you
+   * Subscribe to changes of the DateGallery. The function you
    * provide will get called whenever changes occur in the
-   * DateFrame.
+   * DateGallery.
    *
    * Returns an unsubscribe function which when called will unsubscribe
-   * from the DateFrame.
+   * from the DateGallery.
    *
-   * @param {DateFrameSubscriber<T>} subscriber The subscriber which responds to changes in the DateFrame.
-   * @returns {UnsubscribeFunction} A function which when called will unsubscribe from the DateFrame.
+   * @param {DateGallerySubscriber<T>} subscriber The subscriber which responds to changes in the DateGallery.
+   * @returns {UnsubscribeFunction} A function which when called will unsubscribe from the DateGallery.
    *
    * @since 1.6.0
    */
-  public subscribe(subscriber: DateFrameSubscriber<T>): UnsubscribeFunction {
+  public subscribe(subscriber: DateGallerySubscriber<T>): UnsubscribeFunction {
     return this._observer._subscribe(subscriber);
   }
 
   /**
    * Unsubscribe the subscriber so it no longer receives changes / updates
-   * of the state changes of the DateFrame.
+   * of the state changes of the DateGallery.
    *
-   * @param {DateFrameSubscriber<T>} subscriber The subscriber which you want to unsubscribe.
+   * @param {DateGallerySubscriber<T>} subscriber The subscriber which you want to unsubscribe.
    *
    * @since 1.6.0
    */
-  public unsubscribe(subscriber: DateFrameSubscriber<T>): void {
+  public unsubscribe(subscriber: DateGallerySubscriber<T>): void {
     this._observer._unsubscribe(subscriber);
   }
 
   /**
    * Unsubscribes all subscribers at once, all subscribers will no
    * longer receives changes / updates of the state changes of
-   * the DateFrame.
+   * the DateGallery.
    *
    * @since 1.6.0
    */
@@ -271,32 +259,32 @@ export class DateFrame<T>
   }
 
   /**
-   * Initializes the DateFrame based on the config provided. This can
-   * effectively reset the DateFrame when called, including the
+   * Initializes the DateGallery based on the config provided. This can
+   * effectively reset the DateGallery when called, including the
    * history, autoPlay and cooldown.
    *
-   * @param {DateFrameConfig<T>} config The new configuration which will override the old one
+   * @param {DateGalleryConfig<T>} config The new configuration which will override the old one
    *
-   * @throws {DateFrameAutoPlayDurationError} autoPlay duration must be a positive number when defined
+   * @throws {DateGalleryAutoPlayDurationError} autoPlay duration must be a positive number when defined
    *
    * @since 1.6.0
    */
-  public initialize(config: DateFrameConfig<T>): void {
+  public initialize(config: DateGalleryConfig<T>): void {
     this._doInitialize(config, 'initialize');
   }
 
   /**
-   * Initializes the DateFrame based on the config provided. This can
-   * effectively reset the DateFrame when called, including the
+   * Initializes the DateGallery based on the config provided. This can
+   * effectively reset the DateGallery when called, including the
    * history, autoPlay and cooldown.
    *
-   * @param {DateFrameConfig<T>} config The new configuration which will override the old one
+   * @param {DateGalleryConfig<T>} config The new configuration which will override the old one
    *
-   * @throws {DateFrameAutoPlayDurationError} autoPlay duration must be a positive number when defined
+   * @throws {DateGalleryAutoPlayDurationError} autoPlay duration must be a positive number when defined
    *
    * @since 1.6.0
    */
-  private _doInitialize(config: DateFrameConfig<T>, method: string): void {
+  private _doInitialize(config: DateGalleryConfig<T>, method: string): void {
     // Ignore changes for now, we will restore subscriber at the end
     // of the initialization process.
     this._isInitializing = true;
@@ -308,13 +296,13 @@ export class DateFrame<T>
 
     this.firstDayOfWeek = config.firstDayOfWeek ? config.firstDayOfWeek : 0;
     if (this.firstDayOfWeek < 0 || this.firstDayOfWeek > 6) {
-      throw new DateFrameFirstDayOfWeekError();
+      throw new DateGalleryFirstDayOfWeekError();
     }
 
     this.numberOfFrames =
       config.numberOfFrames !== undefined ? config.numberOfFrames : 1;
     if (this.numberOfFrames <= 0) {
-      throw new DateFrameNumberOfFramesError();
+      throw new DateGalleryNumberOfFramesError();
     }
 
     // TODO utc
@@ -360,7 +348,7 @@ export class DateFrame<T>
     // Now start sending out changes.
     this._isInitializing = false;
 
-    const event: DateFrameInitializedEvent = {
+    const event: DateGalleryInitializedEvent = {
       type: 'INITIALIZED',
       time: new Date(),
     };
@@ -369,7 +357,7 @@ export class DateFrame<T>
   }
 
   // TODO docs
-  public changeMode(mode: DateFrameMode, date?: Date | string) {
+  public changeMode(mode: DateGalleryMode, date?: Date | string) {
     // When the mode is set to be the same mode
     if (this.mode === mode) {
       // Do nothing when anchorDates match
@@ -398,7 +386,7 @@ export class DateFrame<T>
 
     this._buildFrames();
 
-    const event: DateFrameModeChangedEvent<T> = {
+    const event: DateGalleryModeChangedEvent<T> = {
       type: 'MODE_CHANGED',
       mode,
       frames: this.frames,
@@ -495,7 +483,7 @@ export class DateFrame<T>
     this.firstFrameEvents = this.eventsPerFrame[0];
 
     if (inform) {
-      const event: DateFrameFrameChangedEvent<T> = {
+      const event: DateGalleryFrameChangedEvent<T> = {
         type: 'FRAME_CHANGED',
         frames: this.frames,
         time: new Date(),
@@ -561,7 +549,7 @@ export class DateFrame<T>
 
     this._setIsSelected();
 
-    const event: DateFrameDateSelectedEvent = {
+    const event: DateGalleryDateSelectedEvent = {
       type: 'DATE_SELECTED',
       date: midnight,
       time: new Date(),
@@ -586,7 +574,7 @@ export class DateFrame<T>
 
     this._setIsSelected();
 
-    const event: DateFrameDateDeselectedEvent = {
+    const event: DateGalleryDateDeselectedEvent = {
       type: 'DATE_DESELECTED',
       date,
       time: new Date(),
@@ -629,7 +617,7 @@ export class DateFrame<T>
 
     this._setIsSelected();
 
-    const e: DateFrameDateDeselectedMultipleEvent = {
+    const e: DateGalleryDateDeselectedMultipleEvent = {
       type: 'DATE_DESELECTED_MULTIPLE',
       dates,
       time: new Date(),
@@ -685,7 +673,7 @@ export class DateFrame<T>
 
     this._setIsSelected();
 
-    const event: DateFrameDateSelectedMultipleEvent = {
+    const event: DateGalleryDateSelectedMultipleEvent = {
       type: 'DATE_SELECTED_MULTIPLE',
       dates: dates,
       time: new Date(),
@@ -695,7 +683,7 @@ export class DateFrame<T>
   }
 
   // TODO: docs
-  public addEvent(event: DateFrameEventConfig<T>): DateFrameEvent<T> {
+  public addEvent(event: DateGalleryEventConfig<T>): DateGalleryEvent<T> {
     const addedEvent = this._doAddEvent(event, 'addEvent');
 
     this.events.forEach((e) => {
@@ -706,7 +694,7 @@ export class DateFrame<T>
 
     this._buildFrames();
 
-    const e: DateFrameEventAddedEvent<T> = {
+    const e: DateGalleryEventAddedEvent<T> = {
       type: 'EVENT_ADDED',
       event: addedEvent,
       time: new Date(),
@@ -718,17 +706,17 @@ export class DateFrame<T>
   }
 
   private _doAddEvent(
-    config: DateFrameEventConfig<T>,
+    config: DateGalleryEventConfig<T>,
     method: string
-  ): DateFrameEvent<T> {
+  ): DateGalleryEvent<T> {
     const startDate = this._toDate(config.startDate, method, 'event.startDate');
     const endDate = this._toDate(config.endDate, method, 'event.endDate');
 
     if (startDate.getTime() > endDate.getTime()) {
-      throw new DateFrameEventInvalidRangeError();
+      throw new DateGalleryEventInvalidRangeError();
     }
 
-    const event = new DateFrameEvent(this, config.data, startDate, endDate);
+    const event = new DateGalleryEvent(this, config.data, startDate, endDate);
 
     this.events.push(event);
 
@@ -741,7 +729,7 @@ export class DateFrame<T>
   }
 
   // TODO: docs
-  public removeEvent(event: DateFrameEvent<T>): DateFrameEvent<T> {
+  public removeEvent(event: DateGalleryEvent<T>): DateGalleryEvent<T> {
     const index = this.events.indexOf(event);
 
     if (index === -1) {
@@ -762,7 +750,7 @@ export class DateFrame<T>
     this._moveFrame(-1, this.numberOfFrames - 1);
     this._buildFrames();
 
-    const e: DateFrameEventRemovedEvent<T> = {
+    const e: DateGalleryEventRemovedEvent<T> = {
       type: 'EVENT_REMOVED',
       event,
       time: new Date(),
@@ -775,14 +763,14 @@ export class DateFrame<T>
 
   // TODO: docs
   public moveEvent(
-    event: DateFrameEvent<T>,
-    range: DateFrameRange
+    event: DateGalleryEvent<T>,
+    range: DateGalleryRange
   ): void {
     const startDate = this._toDate(range.startDate, 'moveEvent', 'range.startDate');
     const endDate = this._toDate(range.endDate, 'moveEvent', 'range.endDate');
 
     if (startDate.getTime() > endDate.getTime()) {
-      throw new DateFrameEventInvalidRangeError();
+      throw new DateGalleryEventInvalidRangeError();
     }
 
     if (
@@ -795,7 +783,7 @@ export class DateFrame<T>
     const index = this.events.indexOf(event);
 
     if (index === -1) {
-      throw new DateFrameEventNotFoundError();
+      throw new DateGalleryEventNotFoundError();
     }
 
     event.startDate = startDate;
@@ -813,7 +801,7 @@ export class DateFrame<T>
     this._moveFrame(-1, this.numberOfFrames - 1);
     this._buildFrames();
 
-    const e: DateFrameEventMovedEvent<T> = {
+    const e: DateGalleryEventMovedEvent<T> = {
       type: 'EVENT_MOVED',
       event,
       time: new Date(),
@@ -841,7 +829,7 @@ export class DateFrame<T>
     return date;
   }
 
-  public _inform(event: DateFrameSubscriberEvent<T>): void {
+  public _inform(event: DateGallerySubscriberEvent<T>): void {
     if (this._isInitializing) {
       return;
     }
@@ -871,7 +859,7 @@ export class DateFrame<T>
       !isNaN(date.valueOf());
 
     if (!isValid) {
-      throw new DateFrameInvalidDateError(method, dateName);
+      throw new DateGalleryInvalidDateError(method, dateName);
     }
   }
 
@@ -908,8 +896,8 @@ export class DateFrame<T>
     date.setDate(date.getDate() + 1);
   }
 
-  private _makeDate(date: Date, isPadding: boolean): DateFrameDate<T> {
-    return new DateFrameDate<T>(
+  private _makeDate(date: Date, isPadding: boolean): DateGalleryDate<T> {
+    return new DateGalleryDate<T>(
       this,
       new Date(date),
       this.events.filter((event) => {
@@ -942,9 +930,9 @@ export class DateFrame<T>
     );
   }
 
-  private _checkMode(mode: DateFrameMode) {
+  private _checkMode(mode: DateGalleryMode) {
     if (!DATE_FRAME_MODES.includes(mode)) {
-      throw new DateFrameModeError(mode);
+      throw new DateGalleryModeError(mode);
     }
   }
 

@@ -1,15 +1,15 @@
-import { DateFrame } from './DateFrame';
-import { DateFrameDate } from './DateFrameDate';
-import { DateFrameEvent } from './DateFrameEvent';
+import { DateGallery } from './DateGallery';
+import { DateGalleryDate } from './DateGalleryDate';
+import { DateGalleryEvent } from './DateGalleryEvent';
 
 /**
- * Configures the initial state of the `DateFrame`
+ * Configures the initial state of the `DateGallery`
  *
  * @since 1.6.0
  */
-export type DateFrameConfig<T> = {
+export type DateGalleryConfig<T> = {
   /**
-   * The range the `DateFrame` is going to show.
+   * The range the `DateGallery` is going to show.
    *
    * Can be one of these modes: TODO
    *
@@ -17,12 +17,12 @@ export type DateFrameConfig<T> = {
    *
    * @since 1.6.0
    */
-  mode?: DateFrameMode;
+  mode?: DateGalleryMode;
 
   /**
-   * Whether the `DateFrame` is in UTC mode.
+   * Whether the `DateGallery` is in UTC mode.
    *
-   * When the `DateFrame` is in UTC mode all dates are parsed as UTC.
+   * When the `DateGallery` is in UTC mode all dates are parsed as UTC.
    *
    * TODO: doc this
    *
@@ -74,10 +74,10 @@ export type DateFrameConfig<T> = {
    *
    * @since 1.6.0
    */
-  firstDayOfWeek?: DateFrameDayOfWeek;
+  firstDayOfWeek?: DateGalleryDayOfWeek;
 
   /**
-   * For how many items the `history` may contain in the `DateFrame`.
+   * For how many items the `history` may contain in the `DateGallery`.
    *
    * Defaults to `0` meaning that it will not track history.
    *
@@ -86,7 +86,7 @@ export type DateFrameConfig<T> = {
   keepHistoryFor?: number;
 
   /**
-   * The initial events the `DateFrame` will start out with. Events
+   * The initial events the `DateGallery` will start out with. Events
    * in the sense of events on a calendar: birthdays / dentist
    * appointments etc.
    *
@@ -94,10 +94,10 @@ export type DateFrameConfig<T> = {
    *
    * @since 1.6.0
    */
-  events?: DateFrameEventConfig<T>[];
+  events?: DateGalleryEventConfig<T>[];
 
   /**
-   * The dates that are considered selected when the `DateFrame` is
+   * The dates that are considered selected when the `DateGallery` is
    * initialized. Must be in the same format of the `dateFormat`.
    *
    * Defaults to `[]` for no events.
@@ -121,12 +121,17 @@ export type DateFrameConfig<T> = {
   numberOfFrames?: number;
 };
 
+export type DateGalleryFrame<T> = {
+  dates: DateGalleryDate<T>[];
+  events: DateGalleryEvent<T>[];
+};
+
 /**
  * TODO docs
  *
  * @since 1.6.0
  */
-export type DateFrameEventConfig<T> = {
+export type DateGalleryEventConfig<T> = {
   /**
    * The data for this event, "data" can be be anything from an
    * object, string, array etc etc. It is used to pass along data
@@ -171,7 +176,7 @@ export type DateFrameEventConfig<T> = {
 };
 
 // TODO doc
-export type DateFrameDayOfWeek =
+export type DateGalleryDayOfWeek =
   | 0 // 'sunday'
   | 1 // 'monday'
   | 2 // 'tuesday'
@@ -191,26 +196,26 @@ export const DATE_FRAME_MODES = [
 ] as const;
 
 // TODO doc
-export type DateFrameMode = typeof DATE_FRAME_MODES[number];
+export type DateGalleryMode = typeof DATE_FRAME_MODES[number];
 
 // TODO doc
-export type DateFrameRange = {
+export type DateGalleryRange = {
   startDate: Date | string,
   endDate: Date | string
 };
 
 /**
  * The subscriber which is informed of all state changes the
- * DateFrame goes through.
+ * DateGallery goes through.
  *
- * @param {DateFrame<T>} dateFrame The DateFrame which had changes.
- * @param {DateFrameSubscriberEvent<T>} event The event that occurred.
+ * @param {DateGallery<T>} DateGallery The DateGallery which had changes.
+ * @param {DateGallerySubscriberEvent<T>} event The event that occurred.
  *
  * @since 1.6.0
  */
-export type DateFrameSubscriber<T> = (
-  dateFrame: DateFrame<T>,
-  event: DateFrameSubscriberEvent<T>
+export type DateGallerySubscriber<T> = (
+  DateGallery: DateGallery<T>,
+  event: DateGallerySubscriberEvent<T>
 ) => void;
 
 /**
@@ -218,7 +223,7 @@ export type DateFrameSubscriber<T> = (
  *
  * @since 1.6.0
  */
-export type DateFrameSubscriberEventType =
+export type DateGallerySubscriberEventType =
   | 'INITIALIZED'
   | 'FRAME_CHANGED'
   | 'MODE_CHANGED'
@@ -231,18 +236,18 @@ export type DateFrameSubscriberEventType =
   | 'EVENT_MOVED'
 
 /**
- * Represents an event which happened in the DateFrame. Based
+ * Represents an event which happened in the DateGallery. Based
  * on the `type` you can determine which event occurred.
  *
  * @since 1.6.0
  */
-export type DateFrameBaseEvent = {
+export type DateGalleryBaseEvent = {
   /**
    * Which event occurred
    *
    * @since 1.6.0
    */
-  type: DateFrameSubscriberEventType;
+  type: DateGallerySubscriberEventType;
 
   /**
    * The time the event occurred on as a Date object.
@@ -253,11 +258,11 @@ export type DateFrameBaseEvent = {
 };
 
 /**
- * Represents the initialization of the DateFrame
+ * Represents the initialization of the DateGallery
  *
  * @since 1.6.0
  */
-export type DateFrameInitializedEvent = DateFrameBaseEvent & {
+export type DateGalleryInitializedEvent = DateGalleryBaseEvent & {
   /**
    * Which type occurred
    *
@@ -272,7 +277,7 @@ export type DateFrameInitializedEvent = DateFrameBaseEvent & {
  *
  * @since 1.6.0
  */
-export type DateFrameFrameChangedEvent<T> = DateFrameBaseEvent & {
+export type DateGalleryFrameChangedEvent<T> = DateGalleryBaseEvent & {
   /**
    * Which type occurred
    *
@@ -285,7 +290,7 @@ export type DateFrameFrameChangedEvent<T> = DateFrameBaseEvent & {
    *
    * @since 1.6.0
    */
-  frames: DateFrameDate<T>[][];
+  frames: DateGalleryDate<T>[][];
 };
 
 /**
@@ -293,7 +298,7 @@ export type DateFrameFrameChangedEvent<T> = DateFrameBaseEvent & {
  *
  * @since 1.6.0
  */
-export type DateFrameDateSelectedEvent = DateFrameBaseEvent & {
+export type DateGalleryDateSelectedEvent = DateGalleryBaseEvent & {
   /**
    * Which type occurred
    *
@@ -314,7 +319,7 @@ export type DateFrameDateSelectedEvent = DateFrameBaseEvent & {
  *
  * @since 1.6.0
  */
-export type DateFrameDateSelectedMultipleEvent = DateFrameBaseEvent & {
+export type DateGalleryDateSelectedMultipleEvent = DateGalleryBaseEvent & {
   /**
    * Which type occurred
    *
@@ -335,7 +340,7 @@ export type DateFrameDateSelectedMultipleEvent = DateFrameBaseEvent & {
  *
  * @since 1.6.0
  */
-export type DateFrameDateDeselectedEvent = DateFrameBaseEvent & {
+export type DateGalleryDateDeselectedEvent = DateGalleryBaseEvent & {
   /**
    * Which type occurred
    *
@@ -356,7 +361,7 @@ export type DateFrameDateDeselectedEvent = DateFrameBaseEvent & {
  *
  * @since 1.6.0
  */
-export type DateFrameDateDeselectedMultipleEvent = DateFrameBaseEvent & {
+export type DateGalleryDateDeselectedMultipleEvent = DateGalleryBaseEvent & {
   /**
    * Which type occurred
    *
@@ -374,11 +379,11 @@ export type DateFrameDateDeselectedMultipleEvent = DateFrameBaseEvent & {
 
 /**
  * Represents the fact that an event has been added to the 
- * DateFrame.
+ * DateGallery.
  *
  * @since 1.6.0
  */
-export type DateFrameEventAddedEvent<T> = DateFrameBaseEvent & {
+export type DateGalleryEventAddedEvent<T> = DateGalleryBaseEvent & {
   /**
    * Which type occurred
    *
@@ -391,16 +396,16 @@ export type DateFrameEventAddedEvent<T> = DateFrameBaseEvent & {
    *
    * @since 1.6.0
    */
-  event: DateFrameEvent<T>;
+  event: DateGalleryEvent<T>;
 };
 
 /**
  * Represents the fact that an event has been removed from the 
- * DateFrame.
+ * DateGallery.
  *
  * @since 1.6.0
  */
-export type DateFrameEventRemovedEvent<T> = DateFrameBaseEvent & {
+export type DateGalleryEventRemovedEvent<T> = DateGalleryBaseEvent & {
   /**
    * Which type occurred
    *
@@ -413,7 +418,7 @@ export type DateFrameEventRemovedEvent<T> = DateFrameBaseEvent & {
    *
    * @since 1.6.0
    */
-  event: DateFrameEvent<T>;
+  event: DateGalleryEvent<T>;
 };
 
 /**
@@ -422,7 +427,7 @@ export type DateFrameEventRemovedEvent<T> = DateFrameBaseEvent & {
  *
  * @since 1.6.0
  */
-export type DateFrameEventMovedEvent<T> = DateFrameBaseEvent & {
+export type DateGalleryEventMovedEvent<T> = DateGalleryBaseEvent & {
   /**
    * Which type occurred
    *
@@ -435,7 +440,7 @@ export type DateFrameEventMovedEvent<T> = DateFrameBaseEvent & {
    *
    * @since 1.6.0
    */
-  event: DateFrameEvent<T>;
+  event: DateGalleryEvent<T>;
 };
 
 /**
@@ -443,7 +448,7 @@ export type DateFrameEventMovedEvent<T> = DateFrameBaseEvent & {
  *
  * @since 1.6.0
  */
-export type DateFrameModeChangedEvent<T> = DateFrameBaseEvent & {
+export type DateGalleryModeChangedEvent<T> = DateGalleryBaseEvent & {
   /**
    * Which type occurred
    *
@@ -456,31 +461,31 @@ export type DateFrameModeChangedEvent<T> = DateFrameBaseEvent & {
    *
    * @since 1.6.0
    */
-  mode: DateFrameMode;
+  mode: DateGalleryMode;
 
   /**
    * The newly visible frames.
    *
    * @since 1.6.0
    */
-  frames: DateFrameDate<T>[][];
+  frames: DateGalleryDate<T>[][];
 };
 
 /**
- * A DateFrameSubscriberEvent represents an event happened in the DateFrame.
+ * A DateGallerySubscriberEvent represents an event happened in the DateGallery.
  * For example the insertion, removal, or activation of a
- * DateFrameContent<T>.
+ * DateGalleryContent<T>.
  *
  * @since 1.6.0
  */
-export type DateFrameSubscriberEvent<T> =
-  | DateFrameInitializedEvent
-  | DateFrameFrameChangedEvent<T>
-  | DateFrameDateSelectedEvent
-  | DateFrameDateDeselectedEvent
-  | DateFrameEventAddedEvent<T>
-  | DateFrameEventRemovedEvent<T>
-  | DateFrameModeChangedEvent<T>
-  | DateFrameDateSelectedMultipleEvent
-  | DateFrameDateDeselectedMultipleEvent
-  | DateFrameEventMovedEvent<T>;
+export type DateGallerySubscriberEvent<T> =
+  | DateGalleryInitializedEvent
+  | DateGalleryFrameChangedEvent<T>
+  | DateGalleryDateSelectedEvent
+  | DateGalleryDateDeselectedEvent
+  | DateGalleryEventAddedEvent<T>
+  | DateGalleryEventRemovedEvent<T>
+  | DateGalleryModeChangedEvent<T>
+  | DateGalleryDateSelectedMultipleEvent
+  | DateGalleryDateDeselectedMultipleEvent
+  | DateGalleryEventMovedEvent<T>;

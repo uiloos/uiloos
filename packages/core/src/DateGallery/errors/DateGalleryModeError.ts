@@ -6,14 +6,14 @@ import { common } from './common';
  *
  * @since 1.6.0
  */
-export class DateFrameModeError extends Error {
+export class DateGalleryModeError extends Error {
   /**
-   * DateFrameModeError constructor
+   * DateGalleryModeError constructor
    *
    * @since 1.6.0
    */
   constructor(mode: string) {
     super(`${common} unknown mode: "${mode}" provided`);
-    this.name = 'DateFrameModeError';
+    this.name = 'DateGalleryModeError';
   }
 }

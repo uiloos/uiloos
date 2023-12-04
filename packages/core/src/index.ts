@@ -9,4 +9,4 @@ export * from './ViewChannel';
 
 export * from './Typewriter';
 
-export * from './DateFrame';
+export * from './DateGallery';

@@ -6,14 +6,14 @@ import { common } from './common';
  *
  * @since 1.6.0
  */
-export class DateFrameEventInvalidRangeError extends Error {
+export class DateGalleryEventInvalidRangeError extends Error {
   /**
-   * DateFrameEventInvalidRangeError constructor
+   * DateGalleryEventInvalidRangeError constructor
    *
    * @since 1.6.0
    */
   constructor() {
     super(`${common} invalid range, an events startDate lies after its endDate`);
-    this.name = 'DateFrameEventInvalidRangeError';
+    this.name = 'DateGalleryEventInvalidRangeError';
   }
 }
