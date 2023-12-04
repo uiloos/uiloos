@@ -31,6 +31,7 @@ import {
   DateFrameDateSelectedMultipleEvent,
   DateFrameDateDeselectedMultipleEvent,
   DateFrameEventMovedEvent,
+  DateFrameRange,
 } from './types';
 import { DateFrameDate } from './DateFrameDate';
 import { DateFrameEvent } from './DateFrameEvent';
@@ -40,6 +41,7 @@ import { DateFrameNumberOfFramesError } from './errors/DateFrameNumberOfFramesEr
 import { DateFrameInvalidDateError } from './errors/DateFrameInvalidDateError';
 import { DateFrameEventInvalidRangeError } from './errors/DateFrameEventInvalidRangeError';
 import { _hasOverlap } from './utils';
+import { DateFrameEventNotFoundError } from './errors/DateFrameEventNotFoundError';
 
 /**
  * A DateFrame is a class that represents a frame of dates, a frame
@@ -774,19 +776,18 @@ export class DateFrame<T>
   // TODO: docs
   public moveEvent(
     event: DateFrameEvent<T>,
-    startDate: Date | string,
-    endDate: Date | string
+    range: DateFrameRange
   ): void {
-    const _startDate = this._toDate(startDate, 'moveEvent', 'startDate');
-    const _endDate = this._toDate(endDate, 'moveEvent', 'endDate');
+    const startDate = this._toDate(range.startDate, 'moveEvent', 'range.startDate');
+    const endDate = this._toDate(range.endDate, 'moveEvent', 'range.endDate');
 
-    if (_startDate.getTime() > _endDate.getTime()) {
+    if (startDate.getTime() > endDate.getTime()) {
       throw new DateFrameEventInvalidRangeError();
     }
 
     if (
-      _startDate.getTime() === event.startDate.getTime() &&
-      _endDate.getTime() === event.endDate.getTime()
+      startDate.getTime() === event.startDate.getTime() &&
+      endDate.getTime() === event.endDate.getTime()
     ) {
       return;
     }
@@ -794,11 +795,23 @@ export class DateFrame<T>
     const index = this.events.indexOf(event);
 
     if (index === -1) {
-      return;
+      throw new DateFrameEventNotFoundError();
     }
 
-    event.startDate = _startDate;
-    event.endDate = _startDate;
+    event.startDate = startDate;
+    event.endDate = endDate;
+
+     // Sort by past to future
+     this.events.sort((a, b) => {
+      return a.startDate.getTime() - b.startDate.getTime();
+    });
+
+    this.events.forEach((e) => {
+      e._calcOverlap();
+    });
+
+    this._moveFrame(-1, this.numberOfFrames - 1);
+    this._buildFrames();
 
     const e: DateFrameEventMovedEvent<T> = {
       type: 'EVENT_MOVED',

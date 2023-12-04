@@ -8,33 +8,22 @@ import {
 } from '@jest/globals';
 
 import {
+  CreateDateFrameSubscriberConfig,
   DateFrame,
   DateFrameDate,
   DateFrameEvent,
   DateFrameEventInvalidRangeError,
-  DateFrameFirstDayOfWeekError,
+  DateFrameEventNotFoundError,
   DateFrameInvalidDateError,
   DateFrameModeError,
-  DateFrameNumberOfFramesError,
-  DateFrameSubscriberEvent,
-  DateFrameSubscriberEventType,
-} from '../src/DateFrame';
+  createDateFrameSubscriber
+} from '../../src/DateFrame';
 
-import { licenseChecker } from '../src/license';
+import { licenseChecker } from '../../src/license';
 
-import { UnsubscribeFunction } from '../src/generic/types';
-import { _hasOverlap } from '../src/DateFrame/utils';
-
-const formatter = new Intl.DateTimeFormat('nl-Nl', {
-  year: 'numeric',
-  month: '2-digit',
-  weekday: 'short',
-  day: '2-digit',
-  hour: '2-digit',
-  minute: '2-digit',
-  hour12: false,
-  timeZone: 'Europe/London', // +0 utc, but does have a summertime!
-});
+import { UnsubscribeFunction } from '../../src/generic/types';
+import { _hasOverlap } from '../../src/DateFrame/utils';
+import { assertLastSubscriber, dateToTestDate, assertState } from './utils';
 
 describe('DateFrame', () => {
   let unsubscribe: UnsubscribeFunction | null = null;
@@ -26946,89 +26935,73 @@ describe('DateFrame', () => {
       expect(subscriber).toBeCalledTimes(0);
     });
 
-    test('should when adding an event add it to the appropriate frames and calculate overlap, with 3 frames', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
-        numberOfFrames: 3,
-        mode: 'day',
-        initialDate: '1989-03-21',
-      });
-
-      const subscriber = autoSubscribe(dateFrame);
-
-      const event1 = dateFrame.addEvent({
-        data: 'event1',
-        startDate: '1989-03-21 21:00',
-        endDate: '1989-03-21 21:00',
-      });
-
-      expect(event1 instanceof DateFrameEvent).toBe(true);
-
-      expect(subscriber).toBeCalledTimes(1);
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          isUTC: false,
+    describe('when adding an event update the frames, recalculate overlap, and re-order arrays', () => {
+      test('3 frames', () => {
+        const dateFrame: DateFrame<string> = new DateFrame({
+          numberOfFrames: 3,
           mode: 'day',
-          firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
-          frames: [
-            [
-              {
-                date: 'di 21-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event1',
-                    startDate: 'di 21-03-1989 21:00',
-                    endDate: 'di 21-03-1989 21:00',
-                    overlapsWith: [],
-                  },
-                ],
-                hasEvents: true,
-              },
+          initialDate: '1989-03-21',
+        });
+
+        const subscriber = autoSubscribe(dateFrame);
+
+        const event1 = dateFrame.addEvent({
+          data: 'event1',
+          startDate: '1989-03-21 21:00',
+          endDate: '1989-03-21 21:00',
+        });
+
+        expect(event1 instanceof DateFrameEvent).toBe(true);
+
+        expect(subscriber).toBeCalledTimes(1);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+              [
+                {
+                  date: 'wo 22-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+              [
+                {
+                  date: 'do 23-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
             ],
-            [
-              {
-                date: 'wo 22-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [],
-                hasEvents: false,
-              },
-            ],
-            [
-              {
-                date: 'do 23-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [],
-                hasEvents: false,
-              },
-            ],
-          ],
-          events: [
-            {
-              data: 'event1',
-              startDate: 'di 21-03-1989 21:00',
-              endDate: 'di 21-03-1989 21:00',
-              overlapsWith: [],
-            },
-          ],
-          firstFrameEvents: [
-            {
-              data: 'event1',
-              startDate: 'di 21-03-1989 21:00',
-              endDate: 'di 21-03-1989 21:00',
-              overlapsWith: [],
-            },
-          ],
-          eventsPerFrame: [
-            [
+            events: [
               {
                 data: 'event1',
                 startDate: 'di 21-03-1989 21:00',
@@ -27036,124 +27009,112 @@ describe('DateFrame', () => {
                 overlapsWith: [],
               },
             ],
-            [],
-            [],
-          ],
-          selectedDates: [],
-        },
-        {
-          type: 'EVENT_ADDED',
-          event: dateFrame.events[0],
-          time: new Date(),
-        }
-      );
-
-      const event2 = dateFrame.addEvent({
-        data: 'event2',
-        startDate: '1989-03-21 20:00',
-        endDate: '1989-05-21 21:00',
-      });
-
-      expect(event2 instanceof DateFrameEvent).toBe(true);
-
-      expect(subscriber).toBeCalledTimes(2);
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          isUTC: false,
-          mode: 'day',
-          firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
-          frames: [
-            [
+            firstFrameEvents: [
               {
-                date: 'di 21-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event2',
-                    startDate: 'di 21-03-1989 20:00',
-                    endDate: 'zo 21-05-1989 22:00', // Summer time
-                    overlapsWith: ['event1'],
-                  },
-                  {
-                    data: 'event1',
-                    startDate: 'di 21-03-1989 21:00',
-                    endDate: 'di 21-03-1989 21:00',
-                    overlapsWith: ['event2'],
-                  },
-                ],
-                hasEvents: true,
+                data: 'event1',
+                startDate: 'di 21-03-1989 21:00',
+                endDate: 'di 21-03-1989 21:00',
+                overlapsWith: [],
               },
             ],
-            [
-              {
-                date: 'wo 22-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event2',
-                    startDate: 'di 21-03-1989 20:00',
-                    endDate: 'zo 21-05-1989 22:00', // Summer time
-                    overlapsWith: ['event1'],
-                  },
-                ],
-                hasEvents: true,
-              },
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: [],
+                },
+              ],
+              [],
+              [],
             ],
-            [
-              {
-                date: 'do 23-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event2',
-                    startDate: 'di 21-03-1989 20:00',
-                    endDate: 'zo 21-05-1989 22:00', // Summer time
-                    overlapsWith: ['event1'],
-                  },
-                ],
-                hasEvents: true,
-              },
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_ADDED',
+            event: dateFrame.events[0],
+            time: new Date(),
+          }
+        );
+
+        const event2 = dateFrame.addEvent({
+          data: 'event2',
+          startDate: '1989-03-21 20:00',
+          endDate: '1989-05-21 21:00',
+        });
+
+        expect(event2 instanceof DateFrameEvent).toBe(true);
+
+        expect(subscriber).toBeCalledTimes(2);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00', // Summer time
+                      overlapsWith: ['event1'],
+                    },
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+              [
+                {
+                  date: 'wo 22-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00', // Summer time
+                      overlapsWith: ['event1'],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+              [
+                {
+                  date: 'do 23-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00', // Summer time
+                      overlapsWith: ['event1'],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
             ],
-          ],
-          events: [
-            {
-              data: 'event2',
-              startDate: 'di 21-03-1989 20:00',
-              endDate: 'zo 21-05-1989 22:00', // Summer time
-              overlapsWith: ['event1'],
-            },
-            {
-              data: 'event1',
-              startDate: 'di 21-03-1989 21:00',
-              endDate: 'di 21-03-1989 21:00',
-              overlapsWith: ['event2'],
-            },
-          ],
-          firstFrameEvents: [
-            {
-              data: 'event2',
-              startDate: 'di 21-03-1989 20:00',
-              endDate: 'zo 21-05-1989 22:00', // Summer time
-              overlapsWith: ['event1'],
-            },
-            {
-              data: 'event1',
-              startDate: 'di 21-03-1989 21:00',
-              endDate: 'di 21-03-1989 21:00',
-              overlapsWith: ['event2'],
-            },
-          ],
-          eventsPerFrame: [
-            [
+            events: [
               {
                 data: 'event2',
                 startDate: 'di 21-03-1989 20:00',
@@ -27167,213 +27128,7 @@ describe('DateFrame', () => {
                 overlapsWith: ['event2'],
               },
             ],
-            [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: ['event1'],
-              },
-            ],
-            [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: ['event1'],
-              },
-            ],
-          ],
-          selectedDates: [],
-        },
-        {
-          type: 'EVENT_ADDED',
-          event: dateFrame.events[0],
-          time: new Date(),
-        }
-      );
-    });
-
-    test('should when adding an event add it to the appropriate frames and calculate overlap, with 2 frames', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
-        numberOfFrames: 2,
-        mode: 'day',
-        initialDate: '1989-03-21',
-      });
-
-      const subscriber = autoSubscribe(dateFrame);
-
-      const event1 = dateFrame.addEvent({
-        data: 'event1',
-        startDate: '1989-03-21 21:00',
-        endDate: '1989-03-21 21:00',
-      });
-
-      expect(event1 instanceof DateFrameEvent).toBe(true);
-
-      expect(subscriber).toBeCalledTimes(1);
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          isUTC: false,
-          mode: 'day',
-          firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
-          frames: [
-            [
-              {
-                date: 'di 21-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event1',
-                    startDate: 'di 21-03-1989 21:00',
-                    endDate: 'di 21-03-1989 21:00',
-                    overlapsWith: [],
-                  },
-                ],
-                hasEvents: true,
-              },
-            ],
-            [
-              {
-                date: 'wo 22-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [],
-                hasEvents: false,
-              },
-            ],
-          ],
-          events: [
-            {
-              data: 'event1',
-              startDate: 'di 21-03-1989 21:00',
-              endDate: 'di 21-03-1989 21:00',
-              overlapsWith: [],
-            },
-          ],
-          firstFrameEvents: [
-            {
-              data: 'event1',
-              startDate: 'di 21-03-1989 21:00',
-              endDate: 'di 21-03-1989 21:00',
-              overlapsWith: [],
-            },
-          ],
-          eventsPerFrame: [
-            [
-              {
-                data: 'event1',
-                startDate: 'di 21-03-1989 21:00',
-                endDate: 'di 21-03-1989 21:00',
-                overlapsWith: [],
-              },
-            ],
-            [],
-          ],
-          selectedDates: [],
-        },
-        {
-          type: 'EVENT_ADDED',
-          event: dateFrame.events[0],
-          time: new Date(),
-        }
-      );
-
-      const event2 = dateFrame.addEvent({
-        data: 'event2',
-        startDate: '1989-03-21 20:00',
-        endDate: '1989-05-21 21:00',
-      });
-
-      expect(event2 instanceof DateFrameEvent).toBe(true);
-
-      expect(subscriber).toBeCalledTimes(2);
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          isUTC: false,
-          mode: 'day',
-          firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
-          frames: [
-            [
-              {
-                date: 'di 21-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event2',
-                    startDate: 'di 21-03-1989 20:00',
-                    endDate: 'zo 21-05-1989 22:00', // Summer time
-                    overlapsWith: ['event1'],
-                  },
-                  {
-                    data: 'event1',
-                    startDate: 'di 21-03-1989 21:00',
-                    endDate: 'di 21-03-1989 21:00',
-                    overlapsWith: ['event2'],
-                  },
-                ],
-                hasEvents: true,
-              },
-            ],
-            [
-              {
-                date: 'wo 22-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event2',
-                    startDate: 'di 21-03-1989 20:00',
-                    endDate: 'zo 21-05-1989 22:00', // Summer time
-                    overlapsWith: ['event1'],
-                  },
-                ],
-                hasEvents: true,
-              },
-            ],
-          ],
-          events: [
-            {
-              data: 'event2',
-              startDate: 'di 21-03-1989 20:00',
-              endDate: 'zo 21-05-1989 22:00', // Summer time
-              overlapsWith: ['event1'],
-            },
-            {
-              data: 'event1',
-              startDate: 'di 21-03-1989 21:00',
-              endDate: 'di 21-03-1989 21:00',
-              overlapsWith: ['event2'],
-            },
-          ],
-          firstFrameEvents: [
-            {
-              data: 'event2',
-              startDate: 'di 21-03-1989 20:00',
-              endDate: 'zo 21-05-1989 22:00', // Summer time
-              overlapsWith: ['event1'],
-            },
-            {
-              data: 'event1',
-              startDate: 'di 21-03-1989 21:00',
-              endDate: 'di 21-03-1989 21:00',
-              overlapsWith: ['event2'],
-            },
-          ],
-          eventsPerFrame: [
-            [
+            firstFrameEvents: [
               {
                 data: 'event2',
                 startDate: 'di 21-03-1989 20:00',
@@ -27387,88 +27142,104 @@ describe('DateFrame', () => {
                 overlapsWith: ['event2'],
               },
             ],
-            [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: ['event1'],
-              },
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  overlapsWith: ['event1'],
+                },
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: ['event2'],
+                },
+              ],
+              [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  overlapsWith: ['event1'],
+                },
+              ],
+              [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  overlapsWith: ['event1'],
+                },
+              ],
             ],
-          ],
-          selectedDates: [],
-        },
-        {
-          type: 'EVENT_ADDED',
-          event: dateFrame.events[0],
-          time: new Date(),
-        }
-      );
-    });
-
-    test('should when adding an event add it to the appropriate frame and calculate overlap, with a single frame', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
-        numberOfFrames: 1,
-        mode: 'day',
-        initialDate: '1989-03-21',
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_ADDED',
+            event: dateFrame.events[0],
+            time: new Date(),
+          }
+        );
       });
 
-      const subscriber = autoSubscribe(dateFrame);
-
-      const event1 = dateFrame.addEvent({
-        data: 'event1',
-        startDate: '1989-03-21 21:00',
-        endDate: '1989-03-21 21:00',
-      });
-
-      expect(event1 instanceof DateFrameEvent).toBe(true);
-
-      expect(subscriber).toBeCalledTimes(1);
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          isUTC: false,
+      test('2 frames', () => {
+        const dateFrame: DateFrame<string> = new DateFrame({
+          numberOfFrames: 2,
           mode: 'day',
-          firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
-          frames: [
-            [
-              {
-                date: 'di 21-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event1',
-                    startDate: 'di 21-03-1989 21:00',
-                    endDate: 'di 21-03-1989 21:00',
-                    overlapsWith: [],
-                  },
-                ],
-                hasEvents: true,
-              },
+          initialDate: '1989-03-21',
+        });
+
+        const subscriber = autoSubscribe(dateFrame);
+
+        const event1 = dateFrame.addEvent({
+          data: 'event1',
+          startDate: '1989-03-21 21:00',
+          endDate: '1989-03-21 21:00',
+        });
+
+        expect(event1 instanceof DateFrameEvent).toBe(true);
+
+        expect(subscriber).toBeCalledTimes(1);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+              [
+                {
+                  date: 'wo 22-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
             ],
-          ],
-          events: [
-            {
-              data: 'event1',
-              startDate: 'di 21-03-1989 21:00',
-              endDate: 'di 21-03-1989 21:00',
-              overlapsWith: [],
-            },
-          ],
-          firstFrameEvents: [
-            {
-              data: 'event1',
-              startDate: 'di 21-03-1989 21:00',
-              endDate: 'di 21-03-1989 21:00',
-              overlapsWith: [],
-            },
-          ],
-          eventsPerFrame: [
-            [
+            events: [
               {
                 data: 'event1',
                 startDate: 'di 21-03-1989 21:00',
@@ -27476,88 +27247,94 @@ describe('DateFrame', () => {
                 overlapsWith: [],
               },
             ],
-          ],
-          selectedDates: [],
-        },
-        {
-          type: 'EVENT_ADDED',
-          event: dateFrame.events[0],
-          time: new Date(),
-        }
-      );
-
-      const event2 = dateFrame.addEvent({
-        data: 'event2',
-        startDate: '1989-03-21 20:00',
-        endDate: '1989-05-21 21:00',
-      });
-
-      expect(event2 instanceof DateFrameEvent).toBe(true);
-
-      expect(subscriber).toBeCalledTimes(2);
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          isUTC: false,
-          mode: 'day',
-          firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
-          frames: [
-            [
+            firstFrameEvents: [
               {
-                date: 'di 21-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event2',
-                    startDate: 'di 21-03-1989 20:00',
-                    endDate: 'zo 21-05-1989 22:00', // Summer time
-                    overlapsWith: ['event1'],
-                  },
-                  {
-                    data: 'event1',
-                    startDate: 'di 21-03-1989 21:00',
-                    endDate: 'di 21-03-1989 21:00',
-                    overlapsWith: ['event2'],
-                  },
-                ],
-                hasEvents: true,
+                data: 'event1',
+                startDate: 'di 21-03-1989 21:00',
+                endDate: 'di 21-03-1989 21:00',
+                overlapsWith: [],
               },
             ],
-          ],
-          events: [
-            {
-              data: 'event2',
-              startDate: 'di 21-03-1989 20:00',
-              endDate: 'zo 21-05-1989 22:00', // Summer time
-              overlapsWith: ['event1'],
-            },
-            {
-              data: 'event1',
-              startDate: 'di 21-03-1989 21:00',
-              endDate: 'di 21-03-1989 21:00',
-              overlapsWith: ['event2'],
-            },
-          ],
-          firstFrameEvents: [
-            {
-              data: 'event2',
-              startDate: 'di 21-03-1989 20:00',
-              endDate: 'zo 21-05-1989 22:00', // Summer time
-              overlapsWith: ['event1'],
-            },
-            {
-              data: 'event1',
-              startDate: 'di 21-03-1989 21:00',
-              endDate: 'di 21-03-1989 21:00',
-              overlapsWith: ['event2'],
-            },
-          ],
-          eventsPerFrame: [
-            [
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: [],
+                },
+              ],
+              [],
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_ADDED',
+            event: dateFrame.events[0],
+            time: new Date(),
+          }
+        );
+
+        const event2 = dateFrame.addEvent({
+          data: 'event2',
+          startDate: '1989-03-21 20:00',
+          endDate: '1989-05-21 21:00',
+        });
+
+        expect(event2 instanceof DateFrameEvent).toBe(true);
+
+        expect(subscriber).toBeCalledTimes(2);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00', // Summer time
+                      overlapsWith: ['event1'],
+                    },
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+              [
+                {
+                  date: 'wo 22-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00', // Summer time
+                      overlapsWith: ['event1'],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+            ],
+            events: [
               {
                 data: 'event2',
                 startDate: 'di 21-03-1989 20:00',
@@ -27571,15 +27348,229 @@ describe('DateFrame', () => {
                 overlapsWith: ['event2'],
               },
             ],
-          ],
-          selectedDates: [],
-        },
-        {
-          type: 'EVENT_ADDED',
-          event: dateFrame.events[0],
-          time: new Date(),
-        }
-      );
+            firstFrameEvents: [
+              {
+                data: 'event2',
+                startDate: 'di 21-03-1989 20:00',
+                endDate: 'zo 21-05-1989 22:00', // Summer time
+                overlapsWith: ['event1'],
+              },
+              {
+                data: 'event1',
+                startDate: 'di 21-03-1989 21:00',
+                endDate: 'di 21-03-1989 21:00',
+                overlapsWith: ['event2'],
+              },
+            ],
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  overlapsWith: ['event1'],
+                },
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: ['event2'],
+                },
+              ],
+              [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  overlapsWith: ['event1'],
+                },
+              ],
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_ADDED',
+            event: dateFrame.events[0],
+            time: new Date(),
+          }
+        );
+      });
+
+      test('1 frame', () => {
+        const dateFrame: DateFrame<string> = new DateFrame({
+          numberOfFrames: 1,
+          mode: 'day',
+          initialDate: '1989-03-21',
+        });
+
+        const subscriber = autoSubscribe(dateFrame);
+
+        const event1 = dateFrame.addEvent({
+          data: 'event1',
+          startDate: '1989-03-21 21:00',
+          endDate: '1989-03-21 21:00',
+        });
+
+        expect(event1 instanceof DateFrameEvent).toBe(true);
+
+        expect(subscriber).toBeCalledTimes(1);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+            ],
+            events: [
+              {
+                data: 'event1',
+                startDate: 'di 21-03-1989 21:00',
+                endDate: 'di 21-03-1989 21:00',
+                overlapsWith: [],
+              },
+            ],
+            firstFrameEvents: [
+              {
+                data: 'event1',
+                startDate: 'di 21-03-1989 21:00',
+                endDate: 'di 21-03-1989 21:00',
+                overlapsWith: [],
+              },
+            ],
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: [],
+                },
+              ],
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_ADDED',
+            event: dateFrame.events[0],
+            time: new Date(),
+          }
+        );
+
+        const event2 = dateFrame.addEvent({
+          data: 'event2',
+          startDate: '1989-03-21 20:00',
+          endDate: '1989-05-21 21:00',
+        });
+
+        expect(event2 instanceof DateFrameEvent).toBe(true);
+
+        expect(subscriber).toBeCalledTimes(2);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00', // Summer time
+                      overlapsWith: ['event1'],
+                    },
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+            ],
+            events: [
+              {
+                data: 'event2',
+                startDate: 'di 21-03-1989 20:00',
+                endDate: 'zo 21-05-1989 22:00', // Summer time
+                overlapsWith: ['event1'],
+              },
+              {
+                data: 'event1',
+                startDate: 'di 21-03-1989 21:00',
+                endDate: 'di 21-03-1989 21:00',
+                overlapsWith: ['event2'],
+              },
+            ],
+            firstFrameEvents: [
+              {
+                data: 'event2',
+                startDate: 'di 21-03-1989 20:00',
+                endDate: 'zo 21-05-1989 22:00', // Summer time
+                overlapsWith: ['event1'],
+              },
+              {
+                data: 'event1',
+                startDate: 'di 21-03-1989 21:00',
+                endDate: 'di 21-03-1989 21:00',
+                overlapsWith: ['event2'],
+              },
+            ],
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  overlapsWith: ['event1'],
+                },
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: ['event2'],
+                },
+              ],
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_ADDED',
+            event: dateFrame.events[0],
+            time: new Date(),
+          }
+        );
+      });
     });
   });
 
@@ -27613,1624 +27604,1970 @@ describe('DateFrame', () => {
       expect(subscriber).toBeCalledTimes(2);
     });
 
-    test('should when removing an event remove it from the appropriate frames and re-calculate overlap, with 3 frames', () => {
-      const dateFrame: DateFrame<string> = new DateFrame({
-        numberOfFrames: 3,
-        mode: 'day',
-        initialDate: '1989-03-21',
+    describe('when removing an event update the frames, recalculate overlap, and re-order arrays', () => {
+      test('3 frames', () => {
+        const dateFrame: DateFrame<string> = new DateFrame({
+          numberOfFrames: 3,
+          mode: 'day',
+          initialDate: '1989-03-21',
+        });
+
+        const subscriber = autoSubscribe(dateFrame);
+
+        const event1 = dateFrame.addEvent({
+          data: 'event1',
+          startDate: '1989-03-21 21:00',
+          endDate: '1989-03-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(1);
+
+        const event2 = dateFrame.addEvent({
+          data: 'event2',
+          startDate: '1989-03-21 20:00',
+          endDate: '1989-05-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(2);
+
+        dateFrame.removeEvent(event1);
+
+        expect(subscriber).toBeCalledTimes(3);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00', // Summer time
+                      overlapsWith: [],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+              [
+                {
+                  date: 'wo 22-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00', // Summer time
+                      overlapsWith: [],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+              [
+                {
+                  date: 'do 23-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00', // Summer time
+                      overlapsWith: [],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+            ],
+            events: [
+              {
+                data: 'event2',
+                startDate: 'di 21-03-1989 20:00',
+                endDate: 'zo 21-05-1989 22:00', // Summer time
+                overlapsWith: [],
+              },
+            ],
+            firstFrameEvents: [
+              {
+                data: 'event2',
+                startDate: 'di 21-03-1989 20:00',
+                endDate: 'zo 21-05-1989 22:00', // Summer time
+                overlapsWith: [],
+              },
+            ],
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  overlapsWith: [],
+                },
+              ],
+              [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  overlapsWith: [],
+                },
+              ],
+              [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  overlapsWith: [],
+                },
+              ],
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_REMOVED',
+            event: event1,
+            time: new Date(),
+          }
+        );
+
+        event2.remove();
+
+        expect(subscriber).toBeCalledTimes(4);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+              [
+                {
+                  date: 'wo 22-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+              [
+                {
+                  date: 'do 23-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+            ],
+            events: [],
+            firstFrameEvents: [],
+            eventsPerFrame: [[], [], []],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_REMOVED',
+            event: event2,
+            time: new Date(),
+          }
+        );
+
+        event2.remove();
+        expect(subscriber).toBeCalledTimes(4);
       });
 
-      const subscriber = autoSubscribe(dateFrame);
+      test('2 frames', () => {
+        const dateFrame: DateFrame<string> = new DateFrame({
+          numberOfFrames: 2,
+          mode: 'day',
+          initialDate: '1989-03-21',
+        });
 
-      const event1 = dateFrame.addEvent({
-        data: 'event1',
+        const subscriber = autoSubscribe(dateFrame);
+
+        const event1 = dateFrame.addEvent({
+          data: 'event1',
+          startDate: '1989-03-21 21:00',
+          endDate: '1989-03-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(1);
+
+        const event2 = dateFrame.addEvent({
+          data: 'event2',
+          startDate: '1989-03-21 20:00',
+          endDate: '1989-05-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(2);
+
+        dateFrame.removeEvent(event1);
+
+        expect(subscriber).toBeCalledTimes(3);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00', // Summer time
+                      overlapsWith: [],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+              [
+                {
+                  date: 'wo 22-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00', // Summer time
+                      overlapsWith: [],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+            ],
+            events: [
+              {
+                data: 'event2',
+                startDate: 'di 21-03-1989 20:00',
+                endDate: 'zo 21-05-1989 22:00', // Summer time
+                overlapsWith: [],
+              },
+            ],
+            firstFrameEvents: [
+              {
+                data: 'event2',
+                startDate: 'di 21-03-1989 20:00',
+                endDate: 'zo 21-05-1989 22:00', // Summer time
+                overlapsWith: [],
+              },
+            ],
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  overlapsWith: [],
+                },
+              ],
+              [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  overlapsWith: [],
+                },
+              ],
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_REMOVED',
+            event: event1,
+            time: new Date(),
+          }
+        );
+
+        event2.remove();
+
+        expect(subscriber).toBeCalledTimes(4);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+              [
+                {
+                  date: 'wo 22-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+            ],
+            events: [],
+            firstFrameEvents: [],
+            eventsPerFrame: [[], []],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_REMOVED',
+            event: event2,
+            time: new Date(),
+          }
+        );
+
+        event2.remove();
+        expect(subscriber).toBeCalledTimes(4);
+      });
+
+      test('1 frames', () => {
+        const dateFrame: DateFrame<string> = new DateFrame({
+          numberOfFrames: 1,
+          mode: 'day',
+          initialDate: '1989-03-21',
+        });
+
+        const subscriber = autoSubscribe(dateFrame);
+
+        const event1 = dateFrame.addEvent({
+          data: 'event1',
+          startDate: '1989-03-21 21:00',
+          endDate: '1989-03-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(1);
+
+        const event2 = dateFrame.addEvent({
+          data: 'event2',
+          startDate: '1989-03-21 20:00',
+          endDate: '1989-05-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(2);
+
+        dateFrame.removeEvent(event1);
+
+        expect(subscriber).toBeCalledTimes(3);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00', // Summer time
+                      overlapsWith: [],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+            ],
+            events: [
+              {
+                data: 'event2',
+                startDate: 'di 21-03-1989 20:00',
+                endDate: 'zo 21-05-1989 22:00', // Summer time
+                overlapsWith: [],
+              },
+            ],
+            firstFrameEvents: [
+              {
+                data: 'event2',
+                startDate: 'di 21-03-1989 20:00',
+                endDate: 'zo 21-05-1989 22:00', // Summer time
+                overlapsWith: [],
+              },
+            ],
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  overlapsWith: [],
+                },
+              ],
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_REMOVED',
+            event: event1,
+            time: new Date(),
+          }
+        );
+
+        event2.remove();
+
+        expect(subscriber).toBeCalledTimes(4);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+            ],
+            events: [],
+            firstFrameEvents: [],
+            eventsPerFrame: [[]],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_REMOVED',
+            event: event2,
+            time: new Date(),
+          }
+        );
+
+        event2.remove();
+        expect(subscriber).toBeCalledTimes(4);
+      });
+    });
+  });
+
+  describe('moveEvent', () => {
+    test('should error when given a malformed start date', () => {
+      const dateFrame: DateFrame<string> = new DateFrame({
+        mode: 'week',
+        initialDate: '1990-09-26',
+      });
+
+      const event = dateFrame.addEvent({
+        data: 'event',
         startDate: '1989-03-21 21:00',
         endDate: '1989-03-21 21:00',
       });
 
-      expect(subscriber).toBeCalledTimes(1);
+      const subscriber = autoSubscribe(dateFrame);
 
-      const event2 = dateFrame.addEvent({
-        data: 'event2',
-        startDate: '1989-03-21 20:00',
-        endDate: '1989-05-21 21:00',
-      });
+      expect(() => {
+        dateFrame.moveEvent(event, {
+          startDate: '2000-2000-2000',
+          endDate: '2000-02-02',
+        });
+      }).toThrowError(DateFrameInvalidDateError);
 
-      expect(subscriber).toBeCalledTimes(2);
-
-      dateFrame.removeEvent(event1);
-
-      expect(subscriber).toBeCalledTimes(3);
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          isUTC: false,
-          mode: 'day',
-          firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
-          frames: [
-            [
-              {
-                date: 'di 21-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event2',
-                    startDate: 'di 21-03-1989 20:00',
-                    endDate: 'zo 21-05-1989 22:00', // Summer time
-                    overlapsWith: [],
-                  },
-                ],
-                hasEvents: true,
-              },
-            ],
-            [
-              {
-                date: 'wo 22-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event2',
-                    startDate: 'di 21-03-1989 20:00',
-                    endDate: 'zo 21-05-1989 22:00', // Summer time
-                    overlapsWith: [],
-                  },
-                ],
-                hasEvents: true,
-              },
-            ],
-            [
-              {
-                date: 'do 23-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event2',
-                    startDate: 'di 21-03-1989 20:00',
-                    endDate: 'zo 21-05-1989 22:00', // Summer time
-                    overlapsWith: [],
-                  },
-                ],
-                hasEvents: true,
-              },
-            ],
-          ],
-          events: [
-            {
-              data: 'event2',
-              startDate: 'di 21-03-1989 20:00',
-              endDate: 'zo 21-05-1989 22:00', // Summer time
-              overlapsWith: [],
-            },
-          ],
-          firstFrameEvents: [
-            {
-              data: 'event2',
-              startDate: 'di 21-03-1989 20:00',
-              endDate: 'zo 21-05-1989 22:00', // Summer time
-              overlapsWith: [],
-            },
-          ],
-          eventsPerFrame: [
-            [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: [],
-              },
-            ],
-            [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: [],
-              },
-            ],
-            [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: [],
-              },
-            ],
-          ],
-          selectedDates: [],
-        },
-        {
-          type: 'EVENT_REMOVED',
-          event: event1,
-          time: new Date(),
-        }
+      expect(() => {
+        dateFrame.moveEvent(event, {
+          startDate: '2000-2000-2000',
+          endDate: '2000-02-02',
+        });
+      }).toThrowError(
+        'uiloos > DateFrame > moveEvent > "range.startDate" is an or contains an invalid date'
       );
 
-      event2.remove();
+      expect(() => {
+        dateFrame.moveEvent(event, {
+          startDate: new Date('2000-2000-2000'),
+          endDate: '2000-02-02',
+        });
+      }).toThrowError(DateFrameInvalidDateError);
 
-      expect(subscriber).toBeCalledTimes(4);
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          isUTC: false,
-          mode: 'day',
-          firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
-          frames: [
-            [
-              {
-                date: 'di 21-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [],
-                hasEvents: false,
-              },
-            ],
-            [
-              {
-                date: 'wo 22-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [],
-                hasEvents: false,
-              },
-            ],
-            [
-              {
-                date: 'do 23-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [],
-                hasEvents: false,
-              },
-            ],
-          ],
-          events: [],
-          firstFrameEvents: [],
-          eventsPerFrame: [[], [], []],
-          selectedDates: [],
-        },
-        {
-          type: 'EVENT_REMOVED',
-          event: event2,
-          time: new Date(),
-        }
+      expect(() => {
+        dateFrame.moveEvent(event, {
+          startDate: new Date('2000-2000-2000'),
+          endDate: '2000-02-02',
+        });
+      }).toThrowError(
+        'uiloos > DateFrame > moveEvent > "range.startDate" is an or contains an invalid date'
       );
 
-      event2.remove();
-      expect(subscriber).toBeCalledTimes(4);
+      expect(subscriber).toBeCalledTimes(0);
     });
 
-    test('should when removing an event remove it from the appropriate frames and re-calculate overlap, with 2 frames', () => {
+    test('should error when given a malformed end date', () => {
       const dateFrame: DateFrame<string> = new DateFrame({
-        numberOfFrames: 2,
-        mode: 'day',
-        initialDate: '1989-03-21',
+        mode: 'week',
+        initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
-
-      const event1 = dateFrame.addEvent({
-        data: 'event1',
+      const event = dateFrame.addEvent({
+        data: 'event',
         startDate: '1989-03-21 21:00',
         endDate: '1989-03-21 21:00',
       });
 
-      expect(subscriber).toBeCalledTimes(1);
+      const subscriber = autoSubscribe(dateFrame);
 
-      const event2 = dateFrame.addEvent({
-        data: 'event2',
-        startDate: '1989-03-21 20:00',
-        endDate: '1989-05-21 21:00',
-      });
+      expect(() => {
+        dateFrame.moveEvent(event, {
+          startDate: '2000-02-02',
+          endDate: '2000-2000-2000',
+        });
+      }).toThrowError(DateFrameInvalidDateError);
 
-      expect(subscriber).toBeCalledTimes(2);
-
-      dateFrame.removeEvent(event1);
-
-      expect(subscriber).toBeCalledTimes(3);
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          isUTC: false,
-          mode: 'day',
-          firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
-          frames: [
-            [
-              {
-                date: 'di 21-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event2',
-                    startDate: 'di 21-03-1989 20:00',
-                    endDate: 'zo 21-05-1989 22:00', // Summer time
-                    overlapsWith: [],
-                  },
-                ],
-                hasEvents: true,
-              },
-            ],
-            [
-              {
-                date: 'wo 22-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event2',
-                    startDate: 'di 21-03-1989 20:00',
-                    endDate: 'zo 21-05-1989 22:00', // Summer time
-                    overlapsWith: [],
-                  },
-                ],
-                hasEvents: true,
-              },
-            ],
-          ],
-          events: [
-            {
-              data: 'event2',
-              startDate: 'di 21-03-1989 20:00',
-              endDate: 'zo 21-05-1989 22:00', // Summer time
-              overlapsWith: [],
-            },
-          ],
-          firstFrameEvents: [
-            {
-              data: 'event2',
-              startDate: 'di 21-03-1989 20:00',
-              endDate: 'zo 21-05-1989 22:00', // Summer time
-              overlapsWith: [],
-            },
-          ],
-          eventsPerFrame: [
-            [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: [],
-              },
-            ],
-            [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: [],
-              },
-            ],
-          ],
-          selectedDates: [],
-        },
-        {
-          type: 'EVENT_REMOVED',
-          event: event1,
-          time: new Date(),
-        }
+      expect(() => {
+        dateFrame.moveEvent(event, {
+          startDate: '2000-02-02',
+          endDate: '2000-2000-2000',
+        });
+      }).toThrowError(
+        'uiloos > DateFrame > moveEvent > "range.endDate" is an or contains an invalid date'
       );
 
-      event2.remove();
+      expect(() => {
+        dateFrame.moveEvent(event, {
+          startDate: '2000-02-02',
+          endDate: new Date('2000-2000-2000'),
+        });
+      }).toThrowError(DateFrameInvalidDateError);
 
-      expect(subscriber).toBeCalledTimes(4);
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          isUTC: false,
-          mode: 'day',
-          firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
-          frames: [
-            [
-              {
-                date: 'di 21-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [],
-                hasEvents: false,
-              },
-            ],
-            [
-              {
-                date: 'wo 22-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [],
-                hasEvents: false,
-              },
-            ],
-          ],
-          events: [],
-          firstFrameEvents: [],
-          eventsPerFrame: [[], []],
-          selectedDates: [],
-        },
-        {
-          type: 'EVENT_REMOVED',
-          event: event2,
-          time: new Date(),
-        }
+      expect(() => {
+        dateFrame.moveEvent(event, {
+          startDate: '2000-02-02',
+          endDate: new Date('2000-2000-2000'),
+        });
+      }).toThrowError(
+        'uiloos > DateFrame > moveEvent > "range.endDate" is an or contains an invalid date'
       );
 
-      event2.remove();
-      expect(subscriber).toBeCalledTimes(4);
+      expect(subscriber).toBeCalledTimes(0);
     });
 
-    test('should when removing an event remove it from the appropriate frame and re-calculate overlap, with a single frames', () => {
+    test('should error when given a invalid range', () => {
       const dateFrame: DateFrame<string> = new DateFrame({
-        numberOfFrames: 1,
-        mode: 'day',
-        initialDate: '1989-03-21',
+        mode: 'week',
+        initialDate: '1990-09-26',
       });
 
-      const subscriber = autoSubscribe(dateFrame);
-
-      const event1 = dateFrame.addEvent({
-        data: 'event1',
+      const event = dateFrame.addEvent({
+        data: 'event',
         startDate: '1989-03-21 21:00',
         endDate: '1989-03-21 21:00',
       });
 
-      expect(subscriber).toBeCalledTimes(1);
+      const subscriber = autoSubscribe(dateFrame);
 
-      const event2 = dateFrame.addEvent({
-        data: 'event2',
-        startDate: '1989-03-21 20:00',
-        endDate: '1989-05-21 21:00',
+      expect(() => {
+        dateFrame.moveEvent(event, {
+          startDate: '2000-01-01 15:01',
+          endDate: '2000-01-01 15:00',
+        });
+      }).toThrowError(DateFrameEventInvalidRangeError);
+
+      expect(() => {
+        dateFrame.moveEvent(event, {
+          startDate: '2000-01-01 15:01',
+          endDate: '2000-01-01 15:00',
+        });
+      }).toThrowError(
+        'uiloos > DateFrame > invalid range, an events startDate lies after its endDate'
+      );
+
+      expect(subscriber).toBeCalledTimes(0);
+    });
+
+    test('should error when event cannot be found inside of the DateFrame', () => {
+      const dateFrame: DateFrame<string> = new DateFrame({
+        mode: 'week',
+        initialDate: '1990-09-26',
       });
 
-      expect(subscriber).toBeCalledTimes(2);
+      const event = dateFrame.addEvent({
+        data: 'event',
+        startDate: '1989-03-21 21:00',
+        endDate: '1989-03-21 21:00',
+      });
 
-      dateFrame.removeEvent(event1);
+      event.remove();
 
-      expect(subscriber).toBeCalledTimes(3);
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          isUTC: false,
+      const subscriber = autoSubscribe(dateFrame);
+
+      expect(() => {
+        dateFrame.moveEvent(event, {
+          startDate: '2000-01-01 14:00',
+          endDate: '2000-01-01 15:00',
+        });
+      }).toThrowError(DateFrameEventNotFoundError);
+
+      expect(() => {
+        dateFrame.moveEvent(event, {
+          startDate: '2000-01-01 14:00',
+          endDate: '2000-01-01 15:00',
+        });
+      }).toThrowError(
+        'uiloos > DateFrame > moveEvent > event cannot be found in DateFrame'
+      );
+
+      expect(subscriber).toBeCalledTimes(0);
+    });
+
+    test('should do nothing if event is set to the same range', () => {
+      const dateFrame: DateFrame<string> = new DateFrame({
+        mode: 'week',
+        initialDate: '1990-09-26',
+      });
+
+      const event = dateFrame.addEvent({
+        data: 'event',
+        startDate: '1989-03-21 21:00',
+        endDate: '1989-03-21 21:00',
+      });
+
+      event.remove();
+
+      const subscriber = autoSubscribe(dateFrame);
+
+      dateFrame.moveEvent(event, {
+        startDate: '1989-03-21 21:00',
+        endDate: '1989-03-21 21:00',
+      });
+
+      expect(subscriber).toBeCalledTimes(0);
+    });
+
+    describe('when moving an event update the frames, recalculate overlap, and re-order arrays', () => {
+      test('3 frames', () => {
+        const dateFrame: DateFrame<string> = new DateFrame({
+          numberOfFrames: 3,
           mode: 'day',
-          firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
-          frames: [
-            [
-              {
-                date: 'di 21-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [
-                  {
-                    data: 'event2',
-                    startDate: 'di 21-03-1989 20:00',
-                    endDate: 'zo 21-05-1989 22:00', // Summer time
-                    overlapsWith: [],
-                  },
-                ],
-                hasEvents: true,
-              },
+          initialDate: '1989-03-21',
+        });
+
+        const subscriber = autoSubscribe(dateFrame);
+
+        const event1 = dateFrame.addEvent({
+          data: 'event1',
+          startDate: '1989-03-21 21:00',
+          endDate: '1989-03-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(1);
+
+        const event2 = dateFrame.addEvent({
+          data: 'event2',
+          startDate: '1989-03-21 20:00',
+          endDate: '1989-05-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(2);
+
+        dateFrame.moveEvent(event2, {
+          startDate: '1989-05-21 20:00',
+          endDate: '1989-05-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(3);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+              [
+                {
+                  date: 'wo 22-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+              [
+                {
+                  date: 'do 23-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
             ],
-          ],
-          events: [
-            {
-              data: 'event2',
-              startDate: 'di 21-03-1989 20:00',
-              endDate: 'zo 21-05-1989 22:00', // Summer time
-              overlapsWith: [],
-            },
-          ],
-          firstFrameEvents: [
-            {
-              data: 'event2',
-              startDate: 'di 21-03-1989 20:00',
-              endDate: 'zo 21-05-1989 22:00', // Summer time
-              overlapsWith: [],
-            },
-          ],
-          eventsPerFrame: [
-            [
+            events: [
+              {
+                data: 'event1',
+                startDate: 'di 21-03-1989 21:00',
+                endDate: 'di 21-03-1989 21:00',
+                overlapsWith: [],
+              },
               {
                 data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
+                startDate: 'zo 21-05-1989 21:00',
+                endDate: 'zo 21-05-1989 22:00',
                 overlapsWith: [],
               },
             ],
-          ],
-          selectedDates: [],
-        },
-        {
-          type: 'EVENT_REMOVED',
-          event: event1,
-          time: new Date(),
-        }
-      );
-
-      event2.remove();
-
-      expect(subscriber).toBeCalledTimes(4);
-      assertLastSubscriber(
-        subscriber,
-        {
-          history: [],
-          isUTC: false,
-          mode: 'day',
-          firstDayOfWeek: 0,
-          firstFrame: dateFrame.frames[0].map(dateToTestDate),
-          frames: [
-            [
+            firstFrameEvents: [
               {
-                date: 'di 21-03-1989 00:00',
-                isPadding: false,
-                isSelected: false,
-                isToday: false,
-                events: [],
-                hasEvents: false,
+                data: 'event1',
+                startDate: 'di 21-03-1989 21:00',
+                endDate: 'di 21-03-1989 21:00',
+                overlapsWith: [],
               },
             ],
-          ],
-          events: [],
-          firstFrameEvents: [],
-          eventsPerFrame: [[]],
-          selectedDates: [],
-        },
-        {
-          type: 'EVENT_REMOVED',
-          event: event2,
-          time: new Date(),
-        }
-      );
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: [],
+                },
+              ],
+              [],
+              [],
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_MOVED',
+            event: event2,
+            time: new Date(),
+          }
+        );
 
-      event2.remove();
-      expect(subscriber).toBeCalledTimes(4);
+        event1.move({
+          startDate: '1989-01-21 21:00',
+          endDate: '1989-08-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(4);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 22:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+              [
+                {
+                  date: 'wo 22-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 22:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+              [
+                {
+                  date: 'do 23-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 22:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+            ],
+            events: [
+              {
+                data: 'event1',
+                startDate: 'za 21-01-1989 21:00',
+                endDate: 'ma 21-08-1989 22:00',
+                overlapsWith: ['event2'],
+              },
+              {
+                data: 'event2',
+                startDate: 'zo 21-05-1989 21:00',
+                endDate: 'zo 21-05-1989 22:00',
+                overlapsWith: ['event1'],
+              },
+            ],
+            firstFrameEvents: [
+              {
+                data: 'event1',
+                startDate: 'za 21-01-1989 21:00',
+                endDate: 'ma 21-08-1989 22:00',
+                overlapsWith: ['event2'],
+              },
+            ],
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event1',
+                  startDate: 'za 21-01-1989 21:00',
+                  endDate: 'ma 21-08-1989 22:00',
+                  overlapsWith: ['event2'],
+                },
+              ],
+              [
+                {
+                  data: 'event1',
+                  startDate: 'za 21-01-1989 21:00',
+                  endDate: 'ma 21-08-1989 22:00',
+                  overlapsWith: ['event2'],
+                },
+              ],
+              [
+                {
+                  data: 'event1',
+                  startDate: 'za 21-01-1989 21:00',
+                  endDate: 'ma 21-08-1989 22:00',
+                  overlapsWith: ['event2'],
+                },
+              ],
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_MOVED',
+            event: event1,
+            time: new Date(),
+          }
+        );
+      });
+
+      test('2 frames', () => {
+        const dateFrame: DateFrame<string> = new DateFrame({
+          numberOfFrames: 2,
+          mode: 'day',
+          initialDate: '1989-03-21',
+        });
+
+        const subscriber = autoSubscribe(dateFrame);
+
+        const event1 = dateFrame.addEvent({
+          data: 'event1',
+          startDate: '1989-03-21 21:00',
+          endDate: '1989-03-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(1);
+
+        const event2 = dateFrame.addEvent({
+          data: 'event2',
+          startDate: '1989-03-21 20:00',
+          endDate: '1989-05-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(2);
+
+        dateFrame.moveEvent(event2, {
+          startDate: '1989-05-21 20:00',
+          endDate: '1989-05-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(3);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+              [
+                {
+                  date: 'wo 22-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+            ],
+            events: [
+              {
+                data: 'event1',
+                startDate: 'di 21-03-1989 21:00',
+                endDate: 'di 21-03-1989 21:00',
+                overlapsWith: [],
+              },
+              {
+                data: 'event2',
+                startDate: 'zo 21-05-1989 21:00',
+                endDate: 'zo 21-05-1989 22:00',
+                overlapsWith: [],
+              },
+            ],
+            firstFrameEvents: [
+              {
+                data: 'event1',
+                startDate: 'di 21-03-1989 21:00',
+                endDate: 'di 21-03-1989 21:00',
+                overlapsWith: [],
+              },
+            ],
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: [],
+                },
+              ],
+              [],
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_MOVED',
+            event: event2,
+            time: new Date(),
+          }
+        );
+
+        event1.move({
+          startDate: '1989-01-21 21:00',
+          endDate: '1989-08-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(4);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 22:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+              [
+                {
+                  date: 'wo 22-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 22:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+            ],
+            events: [
+              {
+                data: 'event1',
+                startDate: 'za 21-01-1989 21:00',
+                endDate: 'ma 21-08-1989 22:00',
+                overlapsWith: ['event2'],
+              },
+              {
+                data: 'event2',
+                startDate: 'zo 21-05-1989 21:00',
+                endDate: 'zo 21-05-1989 22:00',
+                overlapsWith: ['event1'],
+              },
+            ],
+            firstFrameEvents: [
+              {
+                data: 'event1',
+                startDate: 'za 21-01-1989 21:00',
+                endDate: 'ma 21-08-1989 22:00',
+                overlapsWith: ['event2'],
+              },
+            ],
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event1',
+                  startDate: 'za 21-01-1989 21:00',
+                  endDate: 'ma 21-08-1989 22:00',
+                  overlapsWith: ['event2'],
+                },
+              ],
+              [
+                {
+                  data: 'event1',
+                  startDate: 'za 21-01-1989 21:00',
+                  endDate: 'ma 21-08-1989 22:00',
+                  overlapsWith: ['event2'],
+                },
+              ],
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_MOVED',
+            event: event1,
+            time: new Date(),
+          }
+        );
+      });
+
+      test('1 frame', () => {
+        const dateFrame: DateFrame<string> = new DateFrame({
+          numberOfFrames: 1,
+          mode: 'day',
+          initialDate: '1989-03-21',
+        });
+
+        const subscriber = autoSubscribe(dateFrame);
+
+        const event1 = dateFrame.addEvent({
+          data: 'event1',
+          startDate: '1989-03-21 21:00',
+          endDate: '1989-03-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(1);
+
+        const event2 = dateFrame.addEvent({
+          data: 'event2',
+          startDate: '1989-03-21 20:00',
+          endDate: '1989-05-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(2);
+
+        dateFrame.moveEvent(event2, {
+          startDate: '1989-05-21 20:00',
+          endDate: '1989-05-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(3);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+            ],
+            events: [
+              {
+                data: 'event1',
+                startDate: 'di 21-03-1989 21:00',
+                endDate: 'di 21-03-1989 21:00',
+                overlapsWith: [],
+              },
+              {
+                data: 'event2',
+                startDate: 'zo 21-05-1989 21:00',
+                endDate: 'zo 21-05-1989 22:00',
+                overlapsWith: [],
+              },
+            ],
+            firstFrameEvents: [
+              {
+                data: 'event1',
+                startDate: 'di 21-03-1989 21:00',
+                endDate: 'di 21-03-1989 21:00',
+                overlapsWith: [],
+              },
+            ],
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: [],
+                },
+              ]
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_MOVED',
+            event: event2,
+            time: new Date(),
+          }
+        );
+
+        event1.move({
+          startDate: '1989-01-21 21:00',
+          endDate: '1989-08-21 21:00',
+        });
+
+        expect(subscriber).toBeCalledTimes(4);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: dateFrame.frames[0].map(dateToTestDate),
+            frames: [
+              [
+                {
+                  date: 'di 21-03-1989 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 22:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                  hasEvents: true,
+                },
+              ],
+             
+            ],
+            events: [
+              {
+                data: 'event1',
+                startDate: 'za 21-01-1989 21:00',
+                endDate: 'ma 21-08-1989 22:00',
+                overlapsWith: ['event2'],
+              },
+              {
+                data: 'event2',
+                startDate: 'zo 21-05-1989 21:00',
+                endDate: 'zo 21-05-1989 22:00',
+                overlapsWith: ['event1'],
+              },
+            ],
+            firstFrameEvents: [
+              {
+                data: 'event1',
+                startDate: 'za 21-01-1989 21:00',
+                endDate: 'ma 21-08-1989 22:00',
+                overlapsWith: ['event2'],
+              },
+            ],
+            eventsPerFrame: [
+              [
+                {
+                  data: 'event1',
+                  startDate: 'za 21-01-1989 21:00',
+                  endDate: 'ma 21-08-1989 22:00',
+                  overlapsWith: ['event2'],
+                },
+              ]
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_MOVED',
+            event: event1,
+            time: new Date(),
+          }
+        );
+      });
     });
   });
 
   // These test should pass TypeScript checking
-  // describe('generics', () => {
-  //   describe('T', () => {
-  //     test('when T is an object it should require the data function to return that object', () => {
-  //       const viewChannel = new ViewChannel<{
-  //         text: string;
-  //         icon: 'check' | 'cross';
-  //       }>();
-  //       viewChannel.present({
-  //         data: {
-  //           text: 'Pokemon removed',
-  //           icon: 'check',
-  //         },
-  //       });
-
-  //       viewChannel.present({
-  //         // @ts-expect-error This is a typecheck undefined should keep failings
-  //         data: undefined,
-  //       });
-  //     });
-
-  //     test('when T not an object but a primitive it should work', () => {
-  //       const viewChannel = new ViewChannel<number>();
-  //       viewChannel.present({
-  //         data: 42,
-  //       });
-
-  //       viewChannel.present({
-  //         // @ts-expect-error This is a typecheck undefined should keep failing
-  //         data: undefined,
-  //       });
-  //     });
-
-  //     test('when T is not defined all should work', () => {
-  //       const viewChannel = new ViewChannel();
-  //       viewChannel.present({
-  //         data: 42,
-  //       });
-
-  //       viewChannel.present({
-  //         data: {
-  //           text: 'Pokemon removed',
-  //           icon: 'check',
-  //         },
-  //       });
-
-  //       viewChannel.present({
-  //         data: () => ({
-  //           text: 'Pokemon removed',
-  //           icon: 'check',
-  //         }),
-  //       });
-  //     });
-  //   });
-
-  //   describe('R', () => {
-  //     test('when R is defined it is required on dismissal', () => {
-  //       const viewChannel = new ViewChannel<string, 'YES' | 'NO' | 'CANCEL'>();
-  //       viewChannel.present({
-  //         data: "Are you sure you want to remove boat named: 'tugger'",
-  //       });
-  //       // Test that a reason is needed.
-  //       viewChannel.dismissByIndex(0, 'CANCEL');
-  //     });
-
-  //     test('when R is not defined it is not required on dismissal', () => {
-  //       const viewChannel = new ViewChannel<string>();
-  //       viewChannel.present({
-  //         data: "Are you sure you want to remove boat named: 'tugger'",
-  //       });
-  //       // Test that a reason is needed.
-  //       viewChannel.dismissByIndex(0);
-  //     });
-
-  //     test('when R is set explicitly to void it does not require a reason', () => {
-  //       const viewChannel = new ViewChannel<string, void>();
-  //       viewChannel.present({
-  //         data: "Are you sure you want to remove boat named: 'tugger'",
-  //       });
-  //       // Test that a reason is needed.
-  //       viewChannel.dismissByIndex(0);
-  //     });
-  //   });
-  // });
-
-  // describe('history', () => {
-  //   test('that a correct history is kept for all events', () => {
-  //     const viewChannel = new ViewChannel<string, string>({
-  //       keepHistoryFor: 100,
-  //     });
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //     ]);
-
-  //     viewChannel.present({
-  //       data: 'a',
-  //     });
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //     ]);
-
-  //     viewChannel.present({
-  //       data: 'b',
-  //     });
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'b',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //     ]);
-
-  //     viewChannel.present({
-  //       data: 'c',
-  //     });
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'b',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 2,
-  //           data: 'c',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //     ]);
-
-  //     viewChannel.dismissByIndex(0, 'SUCCESS');
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0, // Note that b has now become the first index
-  //           data: 'b',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1, // Note that c has now become the second index
-  //           data: 'c',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED',
-  //         reason: 'USER_INTERACTION',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //     ]);
-
-  //     viewChannel.dismissAll('SUCCESS');
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'b',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'c',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED',
-  //         reason: 'USER_INTERACTION',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED_ALL',
-  //         views: [
-  //           expect.objectContaining({
-  //             index: 0,
-  //             data: 'b',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //           expect.objectContaining({
-  //             index: 1, // Note that c has now become the second index
-  //             data: 'c',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //         ],
-  //         indexes: [0, 1],
-  //       }),
-  //     ]);
-
-  //     // Present a view so we can test pause, stop and play
-  //     const view = viewChannel.present({
-  //       data: 'd',
-  //       autoDismiss: {
-  //         duration: 1000,
-  //         result: 'AUTO',
-  //       },
-  //     });
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'b',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'c',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED',
-  //         reason: 'USER_INTERACTION',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED_ALL',
-  //         views: [
-  //           expect.objectContaining({
-  //             index: 0,
-  //             data: 'b',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //           expect.objectContaining({
-  //             index: 1, // Note that c has now become the second index
-  //             data: 'c',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //         ],
-  //         indexes: [0, 1],
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: true,
-  //             duration: 1000,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //     ]);
-
-  //     view.pause();
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'b',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'c',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED',
-  //         reason: 'USER_INTERACTION',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED_ALL',
-  //         views: [
-  //           expect.objectContaining({
-  //             index: 0,
-  //             data: 'b',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //           expect.objectContaining({
-  //             index: 1, // Note that c has now become the second index
-  //             data: 'c',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //         ],
-  //         indexes: [0, 1],
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 1000,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_PAUSED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 1000,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //     ]);
-
-  //     view.play();
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'b',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'c',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED',
-  //         reason: 'USER_INTERACTION',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED_ALL',
-  //         views: [
-  //           expect.objectContaining({
-  //             index: 0,
-  //             data: 'b',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //           expect.objectContaining({
-  //             index: 1, // Note that c has now become the second index
-  //             data: 'c',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //         ],
-  //         indexes: [0, 1],
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: true,
-  //             duration: 1000,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_PAUSED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: true,
-  //             duration: 1000,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_PLAYING',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: true,
-  //             duration: 1000,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //     ]);
-
-  //     view.stop();
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'b',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 1,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 1,
-  //           data: 'c',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 2,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED',
-  //         reason: 'USER_INTERACTION',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'a',
-  //           isPresented: false,
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'DISMISSED_ALL',
-  //         views: [
-  //           expect.objectContaining({
-  //             index: 0,
-  //             data: 'b',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //           expect.objectContaining({
-  //             index: 1, // Note that c has now become the second index
-  //             data: 'c',
-  //             isPresented: false,
-  //             priority: [0],
-  //           }),
-  //         ],
-  //         indexes: [0, 1],
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_PAUSED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_PLAYING',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_STOPPED',
-  //         view: expect.objectContaining({
-  //           index: 0,
-  //           data: 'd',
-  //           isPresented: true,
-  //           autoDismiss: {
-  //             isPlaying: false,
-  //             duration: 0,
-  //           },
-  //           priority: [0],
-  //         }),
-  //         index: 0,
-  //       }),
-  //     ]);
-  //   });
-
-  //   test('that a history is kept for a maximum number of events', () => {
-  //     const viewChannel = new ViewChannel<string, string>({
-  //       keepHistoryFor: 3,
-  //     });
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //     ]);
-
-  //     viewChannel.present({ data: 'view' });
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 0 }),
-  //     ]);
-
-  //     viewChannel.present({ data: 'view' });
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 0 }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 1 }),
-  //     ]);
-
-  //     viewChannel.present({ data: 'view' });
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({ type: 'PRESENTED', index: 0 }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 1 }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 2 }),
-  //     ]);
-  //   });
-
-  //   test('that initialize resets the history', () => {
-  //     const viewChannel = new ViewChannel<string, string>({
-  //       keepHistoryFor: 5,
-  //     });
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //     ]);
-
-  //     viewChannel.present({ data: 'view' });
-
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 0 }),
-  //     ]);
-
-  //     viewChannel.present({ data: 'view' });
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 0 }),
-  //       expect.objectContaining({ type: 'PRESENTED', index: 1 }),
-  //     ]);
-
-  //     // Now reset the history, note that if `keepHistoryFor` is zero
-  //     // the `history` array would be empty
-  //     viewChannel.initialize({ keepHistoryFor: 1 });
-  //     expect(viewChannel.history).toEqual([
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //     ]);
-  //   });
-  // });
-
-  // describe('createViewChannelSubscriber', () => {
-  //   test('that all methods are called correctly', () => {
-  //     jest.useFakeTimers();
-
-  //     const config: CreateViewChannelSubscriberConfig<string, string> = {
-  //       onInitialized: jest.fn(),
-  //       onPresented: jest.fn(),
-  //       onDismissed: jest.fn(),
-  //       onDismissedAll: jest.fn(),
-  //       onAutoDismissPlaying: jest.fn(),
-  //       onAutoDismissPaused: jest.fn(),
-  //       onAutoDismissStopped: jest.fn(),
-  //     };
-
-  //     const subscriber = createViewChannelSubscriber<string, string>(config);
-
-  //     const viewChannel = new ViewChannel<string, string>({}, subscriber);
-
-  //     expect(config.onInitialized).toBeCalledTimes(1);
-  //     expect(config.onInitialized).lastCalledWith(
-  //       expect.objectContaining({
-  //         type: 'INITIALIZED',
-  //       }),
-  //       viewChannel
-  //     );
-
-  //     const eggs = viewChannel.present({
-  //       data: 'eggs',
-  //     });
-
-  //     expect(config.onPresented).toBeCalledTimes(1);
-  //     expect(config.onPresented).lastCalledWith(
-  //       expect.objectContaining({
-  //         type: 'PRESENTED',
-  //         view: eggs,
-  //         index: 0,
-  //       }),
-  //       viewChannel
-  //     );
-
-  //     eggs.dismiss('reason');
-
-  //     expect(config.onDismissed).toBeCalledTimes(1);
-  //     expect(config.onDismissed).lastCalledWith(
-  //       expect.objectContaining({
-  //         type: 'DISMISSED',
-  //         reason: 'USER_INTERACTION',
-  //         view: eggs,
-  //         index: 0,
-  //       }),
-  //       viewChannel
-  //     );
-
-  //     const ham = viewChannel.present({
-  //       data: 'ham',
-  //     });
-
-  //     viewChannel.dismissAll('reason');
-
-  //     expect(config.onDismissedAll).toBeCalledTimes(1);
-  //     expect(config.onDismissedAll).lastCalledWith(
-  //       expect.objectContaining({
-  //         type: 'DISMISSED_ALL',
-  //         views: [ham],
-  //         indexes: [0],
-  //       }),
-  //       viewChannel
-  //     );
-
-  //     const jam = viewChannel.present({
-  //       data: 'jam',
-  //       autoDismiss: {
-  //         duration: 1000,
-  //         result: 'auto_dismiss',
-  //       },
-  //     });
-
-  //     jam.pause();
-
-  //     expect(config.onAutoDismissPaused).toBeCalledTimes(1);
-  //     expect(config.onAutoDismissPaused).lastCalledWith(
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_PAUSED',
-  //         view: jam,
-  //         index: 0,
-  //       }),
-  //       viewChannel
-  //     );
-
-  //     jam.play();
-
-  //     expect(config.onAutoDismissPlaying).toBeCalledTimes(1);
-  //     expect(config.onAutoDismissPlaying).lastCalledWith(
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_PLAYING',
-  //         view: jam,
-  //         index: 0,
-  //       }),
-  //       viewChannel
-  //     );
-
-  //     jam.stop();
-
-  //     expect(config.onAutoDismissStopped).toBeCalledTimes(1);
-  //     expect(config.onAutoDismissStopped).lastCalledWith(
-  //       expect.objectContaining({
-  //         type: 'AUTO_DISMISS_STOPPED',
-  //         view: jam,
-  //         index: 0,
-  //       }),
-  //       viewChannel
-  //     );
-
-  //     // Check if they are all called at least once.
-  //     for (const spy of Object.values(config)) {
-  //       // @ts-expect-error they are mocks
-  //       expect(spy.mock.calls.length).not.toBe(0);
-  //     }
-  //   });
-
-  //   describe('when a method is not implemented', () => {
-  //     test('that it logs a warning when debug is true', () => {
-  //       jest.spyOn(console, 'warn').mockImplementation(() => undefined);
-
-  //       const subscriber = createViewChannelSubscriber<string, string>({
-  //         debug: true,
-  //       });
-
-  //       new ViewChannel({}, subscriber);
-
-  //       expect(console.warn).toHaveBeenCalledTimes(1);
-  //       expect(console.warn).toHaveBeenCalledWith(
-  //         "uiloos > createViewChannelSubscriber event 'INITIALIZED' was fired but 'onInitialized' method is not implemented, this might not be correct."
-  //       );
-  //     });
-
-  //     test('that it does not log a warning when debug is false', () => {
-  //       jest.spyOn(console, 'warn').mockImplementation(() => undefined);
-
-  //       const subscriber = createViewChannelSubscriber<string, string>({
-  //         debug: false,
-  //       });
-
-  //       new ViewChannel({}, subscriber);
-
-  //       expect(console.warn).toHaveBeenCalledTimes(0);
-  //     });
-
-  //     test('that it does not log a warning when debug is undefined', () => {
-  //       jest.spyOn(console, 'warn').mockImplementation(() => undefined);
-
-  //       const subscriber = createViewChannelSubscriber<string, string>({});
-
-  //       new ViewChannel({}, subscriber);
-
-  //       expect(console.warn).toHaveBeenCalledTimes(0);
-  //     });
-  //   });
-
-  //   test('that created subscribers can be unsubscribed', () => {
-  //     jest.useFakeTimers();
-
-  //     const config: CreateViewChannelSubscriberConfig<string, string> = {
-  //       onPresented: jest.fn(),
-  //       onDismissedAll: jest.fn(),
-  //     };
-
-  //     const subscriber = createViewChannelSubscriber<string, string>(config);
-
-  //     const viewChannel = new ViewChannel<string, string>({}, subscriber);
-
-  //     viewChannel.present({
-  //       data: 'some modal',
-  //     });
-  //     expect(config.onPresented).toBeCalledTimes(1);
-
-  //     viewChannel.unsubscribe(subscriber);
-
-  //     // Should be unsubscribed and therefore 0 and not 1.
-  //     viewChannel.dismissAll('clearing');
-  //     expect(config.onDismissedAll).toBeCalledTimes(0);
-  //   });
-  // });
+  describe('generics', () => {
+    describe('T', () => {
+      test('when T is an object it should require the data function to return that object', () => {
+        const dateFrame = new DateFrame<{
+          text: string;
+          type: 'work' | 'home';
+        }>();
+
+        dateFrame.addEvent({
+          data: {
+            text: 'Datenight',
+            type: 'home'
+          },
+          startDate: '2000-01-01 12:00',
+          endDate: '2000-01-01 14:00'
+        });
+
+        dateFrame.addEvent({
+          // @ts-expect-error This is a typecheck undefined should keep failing
+          data: undefined,
+          startDate: '2000-01-01 12:00',
+          endDate: '2000-01-01 14:00'
+        });
+      });
+
+      test('when T not an object but a primitive it should work', () => {
+        const dateFrame = new DateFrame<number>();
+        
+        dateFrame.addEvent({
+          data: 42,
+          startDate: '2000-01-01 12:00',
+          endDate: '2000-01-01 14:00'
+        });
+
+        dateFrame.addEvent({
+          // @ts-expect-error This is a typecheck undefined should keep failing
+          data: undefined,
+          startDate: '2000-01-01 12:00',
+          endDate: '2000-01-01 14:00'
+        });
+      });
+
+      test('when T is not defined all should work', () => {
+        const dateFrame = new DateFrame();
+
+        dateFrame.addEvent({
+          data: undefined,
+          startDate: '2000-01-01 12:00',
+          endDate: '2000-01-01 14:00'
+        });
+
+        dateFrame.addEvent({
+          data: 'yo',
+          startDate: '2000-01-01 12:00',
+          endDate: '2000-01-01 14:00'
+        });
+
+        dateFrame.addEvent({
+          data: {
+            title: 'Doctors appointment',
+            description: 'Yearly checkup',
+          },
+          startDate: '2000-01-01 12:00',
+          endDate: '2000-01-01 14:00'
+        });
+
+        dateFrame.addEvent({
+          data: () => ({
+            title: 'Doctors appointment',
+            description: 'Yearly checkup',
+          }),
+          startDate: '2000-01-01 12:00',
+          endDate: '2000-01-01 14:00'
+        });
+      });
+    });
+  });
+
+  describe('history', () => {
+    test('that a correct history is kept for all events', () => {
+      const dateFrame = new DateFrame<string>({
+        keepHistoryFor: 100,
+        mode: 'day',
+      });
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+      ]);
+    
+      dateFrame.next();
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+      ]);
+
+      dateFrame.changeMode('week');
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'MODE_CHANGED',
+        }),
+      ]);
+
+      dateFrame.selectDate('2001-01-01');
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'MODE_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED',
+        }),
+      ]);
+
+      dateFrame.deselectDate('2001-01-01');
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'MODE_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_DESELECTED',
+        }),
+      ]);
+
+      dateFrame.activateRange('2001-01-01', '2001-01-10');
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'MODE_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_DESELECTED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED_MULTIPLE',
+        }),
+      ]);
+
+      dateFrame.deselectAll();
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'MODE_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_DESELECTED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED_MULTIPLE',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_DESELECTED_MULTIPLE',
+        }),
+      ]);
+
+      const event = dateFrame.addEvent({data: 'event', startDate: '2000-01-01 12:00', endDate: '2000-01-01 16:00'});
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'MODE_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_DESELECTED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED_MULTIPLE',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_DESELECTED_MULTIPLE',
+        }),
+
+        expect.objectContaining({
+          type: 'EVENT_ADDED',
+        }),
+      ]);
+
+      dateFrame.moveEvent(event, {
+        startDate: '2000-01-01 14:00', 
+        endDate: '2000-01-01 15:00'
+      });
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'MODE_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_DESELECTED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED_MULTIPLE',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_DESELECTED_MULTIPLE',
+        }),
+
+        expect.objectContaining({
+          type: 'EVENT_ADDED',
+        }),
+
+        expect.objectContaining({
+          type: 'EVENT_MOVED',
+        }),
+      ]);
+
+      dateFrame.removeEvent(event);
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'MODE_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_DESELECTED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED_MULTIPLE',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_DESELECTED_MULTIPLE',
+        }),
+
+        expect.objectContaining({
+          type: 'EVENT_ADDED',
+        }),
+
+        expect.objectContaining({
+          type: 'EVENT_MOVED',
+        }),
+
+        expect.objectContaining({
+          type: 'EVENT_REMOVED',
+        }),
+      ]);
+    });
+
+    test('that a history is kept for a maximum number of events', () => {
+      const dateFrame = new DateFrame<string>({
+        keepHistoryFor: 3,
+      });
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+      ]);
+    
+      dateFrame.next();
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+      ]);
+
+      dateFrame.changeMode('week');
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'MODE_CHANGED',
+        }),
+      ]);
+
+      dateFrame.selectDate('2001-01-01');
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'MODE_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED',
+        }),
+      ]);
+    });
+
+    test('that initialize resets the history', () => {
+      const dateFrame = new DateFrame<string>({
+        keepHistoryFor: 3,
+      });
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+      ]);
+    
+      dateFrame.next();
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+      ]);
+
+      dateFrame.changeMode('week');
+
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'MODE_CHANGED',
+        }),
+      ]);
+
+      // Now reset the history, note that if `keepHistoryFor` is zero
+      // the `history` array would be empty
+      dateFrame.initialize({ keepHistoryFor: 1 });
+      expect(dateFrame.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+      ]);
+    });
+  });
+
+  describe('createViewChannelSubscriber', () => {
+    test('that all methods are called correctly', () => {
+      jest.useFakeTimers();
+
+      const config: CreateDateFrameSubscriberConfig<string> = {
+        onInitialized: jest.fn(),
+        onFrameChanged: jest.fn(),
+        onModeChanged: jest.fn(),
+        onDateSelected: jest.fn(),
+        onDateSelectedMultiple: jest.fn(),
+        onDateDeselected: jest.fn(),
+        onDateDeselectedMultiple: jest.fn(),
+        onEventAdded: jest.fn(),
+        onEventRemoved: jest.fn(),
+        onEventMoved: jest.fn(),
+      };
+
+      const subscriber = createDateFrameSubscriber<string>(config);
+
+      const dateFrame = new DateFrame<string>({
+        mode: 'day',
+      }, subscriber);
+
+      expect(config.onInitialized).toBeCalledTimes(1);
+      expect(config.onInitialized).lastCalledWith(
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+        dateFrame
+      );
+
+      dateFrame.next();
+
+      expect(config.onFrameChanged).toBeCalledTimes(1);
+      expect(config.onFrameChanged).lastCalledWith(
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+        dateFrame
+      );
+
+      dateFrame.changeMode('week');
+
+      expect(config.onModeChanged).toBeCalledTimes(1);
+      expect(config.onModeChanged).lastCalledWith(
+        expect.objectContaining({
+          type: 'MODE_CHANGED',
+        }),
+        dateFrame
+      );
+
+      dateFrame.selectDate('2001-01-01');
+
+      expect(config.onDateSelected).toBeCalledTimes(1);
+      expect(config.onDateSelected).lastCalledWith(
+        expect.objectContaining({
+          type: 'DATE_SELECTED',
+        }),
+        dateFrame
+      );
+
+      dateFrame.deselectDate('2001-01-01');
+
+      expect(config.onDateDeselected).toBeCalledTimes(1);
+      expect(config.onDateDeselected).lastCalledWith(
+        expect.objectContaining({
+          type: 'DATE_DESELECTED',
+        }),
+        dateFrame
+      );
+
+      dateFrame.activateRange('2001-01-01', '2001-01-10');
+
+      expect(config.onDateSelectedMultiple).toBeCalledTimes(1);
+      expect(config.onDateSelectedMultiple).lastCalledWith(
+        expect.objectContaining({
+          type: 'DATE_SELECTED_MULTIPLE',
+        }),
+        dateFrame
+      );
+
+      dateFrame.deselectAll();
+
+      expect(config.onDateDeselectedMultiple).toBeCalledTimes(1);
+      expect(config.onDateDeselectedMultiple).lastCalledWith(
+        expect.objectContaining({
+          type: 'DATE_DESELECTED_MULTIPLE',
+        }),
+        dateFrame
+      );
+
+      const event = dateFrame.addEvent({data: 'event', startDate: '2000-01-01 12:00', endDate: '2000-01-01 16:00'});
+
+      expect(config.onEventAdded).toBeCalledTimes(1);
+      expect(config.onEventAdded).lastCalledWith(
+        expect.objectContaining({
+          type: 'EVENT_ADDED',
+        }),
+        dateFrame
+      );
+
+      dateFrame.moveEvent(event, {
+        startDate: '2000-01-01 14:00', 
+        endDate: '2000-01-01 15:00'
+      });
+
+      expect(config.onEventMoved).toBeCalledTimes(1);
+      expect(config.onEventMoved).lastCalledWith(
+        expect.objectContaining({
+          type: 'EVENT_MOVED',
+        }),
+        dateFrame
+      );
+
+      dateFrame.removeEvent(event);
+
+      expect(config.onEventRemoved).toBeCalledTimes(1);
+      expect(config.onEventRemoved).lastCalledWith(
+        expect.objectContaining({
+          type: 'EVENT_REMOVED',
+        }),
+        dateFrame
+      );
+     
+      // Check if they are all called at least once.
+      for (const spy of Object.values(config)) {
+        // @ts-expect-error they are mocks
+        expect(spy.mock.calls.length).not.toBe(0);
+      }
+    });
+
+    describe('when a method is not implemented', () => {
+      test('that it logs a warning when debug is true', () => {
+        jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const subscriber = createDateFrameSubscriber<string>({
+          debug: true,
+        });
+
+        new DateFrame({}, subscriber);
+
+        expect(console.warn).toHaveBeenCalledTimes(1);
+        expect(console.warn).toHaveBeenCalledWith(
+          "uiloos > createDateFrameSubscriber event 'INITIALIZED' was fired but 'onInitialized' method is not implemented, this might not be correct."
+        );
+      });
+
+      test('that it does not log a warning when debug is false', () => {
+        jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const subscriber = createDateFrameSubscriber<string>({
+          debug: false,
+        });
+
+        new DateFrame({}, subscriber);
+
+        expect(console.warn).toHaveBeenCalledTimes(0);
+      });
+
+      test('that it does not log a warning when debug is undefined', () => {
+        jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const subscriber = createDateFrameSubscriber<string>({});
+
+        new DateFrame({}, subscriber);
+
+        expect(console.warn).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    test('that created subscribers can be unsubscribed', () => {
+      jest.useFakeTimers();
+
+      const config: CreateDateFrameSubscriberConfig<string> = {
+        onFrameChanged: jest.fn(),
+        onDateSelected: jest.fn()
+      };
+
+      const subscriber = createDateFrameSubscriber<string>(config);
+
+      const dateFrame = new DateFrame<string>({}, subscriber);
+
+      dateFrame.next();
+      expect(config.onFrameChanged).toBeCalledTimes(1);
+
+      dateFrame.unsubscribe(subscriber);
+
+      // Should be unsubscribed and therefore 0 and not 1.
+      dateFrame.selectDate('2010-03-21')
+      expect(config.onDateSelected).toBeCalledTimes(0);
+    });
+  });
 });
-
-type DateFrameSansDatesAndEvents<T> = Pick<
-  DateFrame<T>,
-  'history' | 'firstDayOfWeek' | 'mode' | 'isUTC'
->;
-
-type TestState<T> = DateFrameSansDatesAndEvents<T> & {
-  firstFrame: TestDate<T>[];
-  firstFrameEvents: TestEvent[];
-  frames: TestDate<T>[][];
-  events: TestEvent[];
-  eventsPerFrame: TestEvent[][];
-  selectedDates: string[];
-};
-
-type TestEvent = {
-  data: string;
-  overlapsWith: string[];
-  startDate: string;
-  endDate: string;
-};
-
-type TestDate<T> = Pick<
-  DateFrameDate<T>,
-  'isPadding' | 'isToday' | 'isSelected' | 'hasEvents'
-> & {
-  date: string;
-  events: TestEvent[];
-};
-
-function assertState(state: DateFrame<string>, expected: TestState<string>) {
-  const callAsTestState: TestState<string> = {
-    // maxActivationLimit: state.maxActivationLimit,
-    // maxActivationLimitBehavior: state.maxActivationLimitBehavior,
-    history: state.history,
-
-    mode: state.mode,
-    firstDayOfWeek: state.firstDayOfWeek,
-    isUTC: state.isUTC,
-
-    firstFrame: state.firstFrame.map(dateToTestDate),
-
-    frames: state.frames.map((frame) => frame.map(dateToTestDate)),
-
-    events: state.events.map(eventToTestEvent),
-    firstFrameEvents: state.firstFrameEvents.map(eventToTestEvent),
-    eventsPerFrame: state.eventsPerFrame.map((frameEvents) =>
-      frameEvents.map(eventToTestEvent)
-    ),
-    selectedDates: state.selectedDates.map((date) => formatter.format(date)),
-  };
-
-  expect(callAsTestState).toEqual(expected);
-}
-
-function eventToTestEvent(event: DateFrameEvent<string>): TestEvent {
-  return {
-    data: event.data,
-    startDate: formatter.format(event.startDate),
-    endDate: formatter.format(event.endDate),
-
-    // To prevent circular references (infinite loop) we only check the 'data'
-    overlapsWith: event.overlapsWith.map((e) => {
-      expect(e instanceof DateFrameEvent);
-      return e.data;
-    }),
-  };
-}
-
-function dateToTestDate(date: DateFrameDate<string>): TestDate<string> {
-  return {
-    date: formatter.format(date.date),
-    isPadding: date.isPadding,
-    events: date.events.map(eventToTestEvent),
-    isSelected: date.isSelected,
-    isToday: date.isToday,
-    hasEvents: date.hasEvents,
-  };
-}
-
-function assertLastSubscriber(
-  subscriber: jest.Mock,
-  expectedState: TestState<string>,
-  expectedEvent: DateFrameSubscriberEvent<string>
-) {
-  const lastCall = subscriber.mock.calls[subscriber.mock.calls.length - 1];
-  const state = lastCall[0] as DateFrame<string>;
-  const event = lastCall[1] as DateFrameSubscriberEvent<string>;
-
-  assertState(state, expectedState);
-
-  const eventCopy = { ...event };
-  // @ts-ignore Just delete it
-  delete eventCopy.time;
-
-  const expectedEventCopy = { ...expectedEvent };
-  // @ts-ignore Just delete it
-  delete expectedEventCopy.time;
-
-  expect(eventCopy).toEqual(expectedEventCopy);
-}
-
-function assertEvents(
-  subscriber: jest.Mock,
-  expectedEvents: DateFrameSubscriberEventType[]
-) {
-  const events: DateFrameSubscriberEventType[] = subscriber.mock.calls.map(
-    (call) => {
-      const event = call[1] as DateFrameSubscriberEvent<string>;
-      return event.type;
-    }
-  );
-
-  expect(events).toEqual(expectedEvents);
-
-  expect(subscriber).toBeCalledTimes(expectedEvents.length);
-}

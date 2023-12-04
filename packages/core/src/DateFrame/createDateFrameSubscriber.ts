@@ -1,6 +1,16 @@
 import { _callSubscriber } from '../private/subscriber';
 import { DateFrame } from './DateFrame';
 import {
+  DateFrameDateDeselectedEvent,
+  DateFrameDateDeselectedMultipleEvent,
+  DateFrameDateSelectedEvent,
+  DateFrameDateSelectedMultipleEvent,
+  DateFrameEventAddedEvent,
+  DateFrameEventMovedEvent,
+  DateFrameEventRemovedEvent,
+  DateFrameFrameChangedEvent,
+  DateFrameInitializedEvent,
+  DateFrameModeChangedEvent,
   DateFrameSubscriber,
   DateFrameSubscriberEvent,
 } from './types';
@@ -26,6 +36,106 @@ export type CreateDateFrameSubscriberConfig<T> = {
    * @since 1.6.0
    */
   debug?: boolean;
+
+  /**
+   * Method which is called whenever an `INITIALIZED` event is fired
+   * from within the DateFrame.
+   *
+   * @param {DateFrameInitializedEvent} event The event that was fired.
+   * @param {DateFrame<T>} dateFrame The DateFrame the event was fired from
+   * @since 1.6.0
+   */
+  onInitialized?: (event: DateFrameInitializedEvent, dateFrame: DateFrame<T>) => void;
+
+  /**
+   * Method which is called whenever an `FRAME_CHANGED` event is fired
+   * from within the DateFrame.
+   *
+   * @param {DateFrameFrameChangedEvent<T>} event The event that was fired.
+   * @param {DateFrame<T>} dateFrame The DateFrame the event was fired from
+   * @since 1.6.0
+   */
+  onFrameChanged?: (event: DateFrameFrameChangedEvent<T>, dateFrame: DateFrame<T>) => void;
+  
+  /**
+   * Method which is called whenever an `MOVED` event is fired
+   * from within the DateFrame.
+   *
+   * @param {DateFrameModeChangedEvent<T>} event The event that was fired.
+   * @param {DateFrame<T>} dateFrame The DateFrame the event was fired from
+   * @since 1.6.0
+   */
+  onModeChanged?: (event: DateFrameModeChangedEvent<T>, dateFrame: DateFrame<T>) => void;
+  
+  /**
+   * Method which is called whenever an `MOVED` event is fired
+   * from within the DateFrame.
+   *
+   * @param {DateFrameDateSelectedEvent} event The event that was fired.
+   * @param {DateFrame<T>} dateFrame The DateFrame the event was fired from
+   * @since 1.6.0
+   */
+  onDateSelected?: (event: DateFrameDateSelectedEvent, dateFrame: DateFrame<T>) => void;
+  
+  /**
+   * Method which is called whenever an `MOVED` event is fired
+   * from within the DateFrame.
+   *
+   * @param {DateFrameDateSelectedMultipleEvent} event The event that was fired.
+   * @param {DateFrame<T>} dateFrame The DateFrame the event was fired from
+   * @since 1.6.0
+   */
+  onDateSelectedMultiple?: (event: DateFrameDateSelectedMultipleEvent, dateFrame: DateFrame<T>) => void;
+  
+  /**
+   * Method which is called whenever an `MOVED` event is fired
+   * from within the DateFrame.
+   *
+   * @param {DateFrameDateDeselectedEvent} event The event that was fired.
+   * @param {DateFrame<T>} dateFrame The DateFrame the event was fired from
+   * @since 1.6.0
+   */
+  onDateDeselected?: (event: DateFrameDateDeselectedEvent, dateFrame: DateFrame<T>) => void;
+  
+  /**
+   * Method which is called whenever an `MOVED` event is fired
+   * from within the DateFrame.
+   *
+   * @param {DateFrameDateDeselectedMultipleEvent} event The event that was fired.
+   * @param {DateFrame<T>} dateFrame The DateFrame the event was fired from
+   * @since 1.6.0
+   */
+  onDateDeselectedMultiple?: (event: DateFrameDateDeselectedMultipleEvent, dateFrame: DateFrame<T>) => void;
+  
+  /**
+   * Method which is called whenever an `MOVED` event is fired
+   * from within the DateFrame.
+   *
+   * @param {DateFrameEventAddedEvent<T>} event The event that was fired.
+   * @param {DateFrame<T>} dateFrame The DateFrame the event was fired from
+   * @since 1.6.0
+   */
+  onEventAdded?: (event: DateFrameEventAddedEvent<T>, dateFrame: DateFrame<T>) => void;
+  
+  /**
+   * Method which is called whenever an `MOVED` event is fired
+   * from within the DateFrame.
+   *
+   * @param {DateFrameEventRemovedEvent<T>} event The event that was fired.
+   * @param {DateFrame<T>} dateFrame The DateFrame the event was fired from
+   * @since 1.6.0
+   */
+  onEventRemoved?: (event: DateFrameEventRemovedEvent<T>, dateFrame: DateFrame<T>) => void;
+  
+  /**
+   * Method which is called whenever an `MOVED` event is fired
+   * from within the DateFrame.
+   *
+   * @param {DateFrameEventMovedEvent<T>} event The event that was fired.
+   * @param {DateFrame<T>} dateFrame The DateFrame the event was fired from
+   * @since 1.6.0
+   */
+  onEventMoved?: (event: DateFrameEventMovedEvent<T>, dateFrame: DateFrame<T>) => void;
 };
 
 /**
@@ -33,14 +143,15 @@ export type CreateDateFrameSubscriberConfig<T> = {
  * provide to an `DateFrame`, which maps all `DateFrameEvent` to
  * methods.
  *
- * You provide `createDateFrame` with an object with all
- * the events you want to handle as methods and it will call the
- * methods for you. This way your code will not have any switch or
- * if-statement to distinguish between events.
+ * You provide `createDateFrame` with an object with all the events 
+ * you want to handle as methods and it will call the methods for you. 
+ * This way your code will not have any switch or if-statement to 
+ * distinguish between events.
  *
- * For example if you wanted to handle the `ACTIVATED` event, you
- * provide a method called `onActivated` within the config. Whenever
- * the `ACTIVATED` event occurs `onActivated` will be called.
+ * For example if you wanted to handle the `FRAME_CHANGED` event, you
+ * provide a method called `onFrameChanged` within the config.
+ * Whenever the `FRAME_CHANGED` event occurs `onFrameChanged` will be 
+ * called.
  *
  * All methods are called with two parameters: the first is the
  * `event` that occurred and the second the `DateFrame` the event
@@ -54,36 +165,14 @@ export type CreateDateFrameSubscriberConfig<T> = {
  * If an event is fired that you did not provide a method for,
  * an `SubscriberMissingMethodError` error will be thrown.
  *
- * @param {CreateDateFrameSubscriberConfig<T>} config An object containing all methods you want to listen to.
+ * @param {CreateDateFrameSubscriberConfig} config An object containing all methods you want to listen to.
  * @returns {DateFrameSubscriber<T>} A subscriber function which can be passed to an DateFrame.
  * @since 1.6.0
  *
  * @example
  * A. Simple example
  *
- * The example below shows what the subscriber could look like for
- * a carousel component which has one slide active at a time.
- *
- * ```js
- * import {
- *  DateFrame,
- *  createDateFrame
- * } from "uiloos/core";
- *
- * const carouselSubscriber = createDateFrame({
- *   onActivated() {
- *     // Activate the active slide
- *     activeList.lastDeactivated.classList.remove('active');
- *
- *     // Deactivates the last activated slide
- *     activeList.lastActivated.classList.add('active');
- *   },
- * });
- *
- * const activeList = new DateFrame({
- *   // The slide div elements are the contents of the DateFrame
- *   contents: Array.from(document.querySelectorAll('.carousel .slide'))
- * }, carouselSubscriber)
+ * TODO
  * ```
  *
  * @example
@@ -94,16 +183,54 @@ export type CreateDateFrameSubscriberConfig<T> = {
  *
  * ```js
  * const subscriber = createDateFrame({
- *   // TODO fill in blanks
+ *   onInitialized(event, dateFrame) {
+ *     console.log('onInitialized', event, dateFrame)
+ *   },
+ * 
+ *   onFrameChanged(event, dateFrame) {
+ *     console.log('onFrameChanged', event, dateFrame)
+ *   },
+ * 
+ *   onModeChanged(event, dateFrame) {
+ *     console.log('onModeChanged', event, dateFrame)
+ *   },
+ * 
+ *   onDateSelected(event, dateFrame) {
+ *     console.log('onDateSelected', event, dateFrame)
+ *   },
+ * 
+ *   onDateSelectedMultiple(event, dateFrame) {
+ *     console.log('onDateSelectedMultiple', event, dateFrame)
+ *   },
+ * 
+ *   onDateDeselected(event, dateFrame) {
+ *     console.log('onDateDeselected', event, dateFrame)
+ *   },
+ * 
+ *   onDateDeselectedMultiple(event, dateFrame) {
+ *     console.log('onDateDeselectedMultiple', event, dateFrame)
+ *   },
+ * 
+ *   onEventAdded(event, dateFrame) {
+ *     console.log('onEventAdded', event, dateFrame)
+ *   },
+ * 
+ *   onEventRemoved(event, dateFrame) {
+ *     console.log('onEventRemoved', event, dateFrame)
+ *   },
+ * 
+ *   onEventMoved(event, dateFrame) {
+ *     console.log('onEventMoved', event, dateFrame)
+ *   },
  * });
  * ```
  */
-export function createDateFrame<T>(
+export function createDateFrameSubscriber<T>(
   config: CreateDateFrameSubscriberConfig<T>
 ): DateFrameSubscriber<T> {
   return (activeList: DateFrame<T>, event: DateFrameSubscriberEvent<T>) => {
     _callSubscriber(
-      'createDateFrame',
+      'createDateFrameSubscriber',
       event,
       activeList,
       config

@@ -170,6 +170,7 @@ export type DateFrameEventConfig<T> = {
   endDate: Date | string;
 };
 
+// TODO doc
 export type DateFrameDayOfWeek =
   | 0 // 'sunday'
   | 1 // 'monday'
@@ -179,6 +180,7 @@ export type DateFrameDayOfWeek =
   | 5 // 'friday'
   | 6; // 'saturday';
 
+  // TODO doc
 export const DATE_FRAME_MODES = [
   'day',
   'week',
@@ -188,12 +190,13 @@ export const DATE_FRAME_MODES = [
   'year'
 ] as const;
 
+// TODO doc
 export type DateFrameMode = typeof DATE_FRAME_MODES[number];
 
-type DateRep = {
-  day: number;
-  month: number;
-  year: number;
+// TODO doc
+export type DateFrameRange = {
+  startDate: Date | string,
+  endDate: Date | string
 };
 
 /**

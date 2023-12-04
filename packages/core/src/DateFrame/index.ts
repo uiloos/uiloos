@@ -6,6 +6,8 @@ import { DateFrameFirstDayOfWeekError } from './errors/DateFrameFirstDayOfWeekEr
 import { DateFrameInvalidDateError } from './errors/DateFrameInvalidDateError';
 import { DateFrameModeError } from './errors/DateFrameModeError';
 import { DateFrameNumberOfFramesError } from './errors/DateFrameNumberOfFramesError';
+import { DateFrameEventNotFoundError} from './errors/DateFrameEventNotFoundError';
+import { createDateFrameSubscriber, CreateDateFrameSubscriberConfig} from './createDateFrameSubscriber';
 
 export * from './types';
 
@@ -17,5 +19,8 @@ export {
   DateFrameNumberOfFramesError,
   DateFrameFirstDayOfWeekError,
   DateFrameInvalidDateError,
-  DateFrameEventInvalidRangeError
+  DateFrameEventInvalidRangeError,
+  DateFrameEventNotFoundError,
+  createDateFrameSubscriber, 
+  CreateDateFrameSubscriberConfig
 };

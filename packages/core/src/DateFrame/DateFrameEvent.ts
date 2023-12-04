@@ -1,4 +1,5 @@
 import { DateFrame } from './DateFrame';
+import { DateFrameRange } from './types';
 import { _hasOverlap } from './utils';
 
 /**
@@ -108,7 +109,7 @@ export class DateFrameEvent<T> {
   }
 
   // TODO: docs
-  public move(startDate: Date | string, endDate: Date | string) {
-    this.dateFrame.moveEvent(this, startDate, endDate);
+  public move(range: DateFrameRange) {
+    this.dateFrame.moveEvent(this, range);
   }
 }

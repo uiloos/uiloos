@@ -9,32 +9,18 @@ import {
 
 import {
   DateFrame,
-  DateFrameDate,
-  DateFrameEvent,
   DateFrameEventInvalidRangeError,
   DateFrameFirstDayOfWeekError,
   DateFrameInvalidDateError,
   DateFrameModeError,
-  DateFrameNumberOfFramesError,
-  DateFrameSubscriberEvent,
-  DateFrameSubscriberEventType,
-} from '../src/DateFrame';
+  DateFrameNumberOfFramesError
+} from '../../src/DateFrame';
 
-import { licenseChecker } from '../src/license';
+import { licenseChecker } from '../../src/license';
 
-import { UnsubscribeFunction } from '../src/generic/types';
-import { _hasOverlap } from '../src/DateFrame/utils';
-
-const formatter = new Intl.DateTimeFormat('nl-Nl', {
-  year: 'numeric',
-  month: '2-digit',
-  weekday: 'short',
-  day: '2-digit',
-  hour: '2-digit',
-  minute: '2-digit',
-  hour12: false,
-  timeZone: 'Europe/London', // +0 utc, but does have a summertime!
-});
+import { _hasOverlap } from '../../src/DateFrame/utils';
+import { UnsubscribeFunction } from '../../src/generic/types';
+import { assertLastSubscriber, assertState, dateToTestDate } from './utils';
 
 describe('DateFrame', () => {
   let unsubscribe: UnsubscribeFunction | null = null;
@@ -68292,119 +68278,3 @@ describe('DateFrame', () => {
   });
 });
 
-type DateFrameSansDatesAndEvents<T> = Pick<
-  DateFrame<T>,
-  'history' | 'firstDayOfWeek' | 'mode' | 'isUTC'
->;
-
-type TestState<T> = DateFrameSansDatesAndEvents<T> & {
-  firstFrame: TestDate<T>[];
-  firstFrameEvents: TestEvent[];
-  frames: TestDate<T>[][];
-  events: TestEvent[];
-  eventsPerFrame: TestEvent[][];
-  selectedDates: string[];
-};
-
-type TestEvent = {
-  data: string;
-  overlapsWith: string[];
-  startDate: string;
-  endDate: string;
-};
-
-type TestDate<T> = Pick<
-  DateFrameDate<T>,
-  'isPadding' | 'isToday' | 'isSelected' | 'hasEvents'
-> & {
-  date: string;
-  events: TestEvent[];
-};
-
-function assertState(state: DateFrame<string>, expected: TestState<string>) {
-  const callAsTestState: TestState<string> = {
-    // maxActivationLimit: state.maxActivationLimit,
-    // maxActivationLimitBehavior: state.maxActivationLimitBehavior,
-    history: state.history,
-
-    mode: state.mode,
-    firstDayOfWeek: state.firstDayOfWeek,
-    isUTC: state.isUTC,
-
-    firstFrame: state.firstFrame.map(dateToTestDate),
-
-    frames: state.frames.map((frame) => frame.map(dateToTestDate)),
-
-    events: state.events.map(eventToTestEvent),
-    firstFrameEvents: state.firstFrameEvents.map(eventToTestEvent),
-    eventsPerFrame: state.eventsPerFrame.map((frameEvents) =>
-      frameEvents.map(eventToTestEvent)
-    ),
-    selectedDates: state.selectedDates.map((date) => formatter.format(date)),
-  };
-
-  expect(callAsTestState).toEqual(expected);
-}
-
-function eventToTestEvent(event: DateFrameEvent<string>): TestEvent {
-  return {
-    data: event.data,
-    startDate: formatter.format(event.startDate),
-    endDate: formatter.format(event.endDate),
-
-    // To prevent circular references (infinite loop) we only check the 'data'
-    overlapsWith: event.overlapsWith.map((e) => {
-      expect(e instanceof DateFrameEvent);
-      return e.data;
-    }),
-  };
-}
-
-function dateToTestDate(date: DateFrameDate<string>): TestDate<string> {
-  return {
-    date: formatter.format(date.date),
-    isPadding: date.isPadding,
-    events: date.events.map(eventToTestEvent),
-    isSelected: date.isSelected,
-    isToday: date.isToday,
-    hasEvents: date.hasEvents,
-  };
-}
-
-function assertLastSubscriber(
-  subscriber: jest.Mock,
-  expectedState: TestState<string>,
-  expectedEvent: DateFrameSubscriberEvent<string>
-) {
-  const lastCall = subscriber.mock.calls[subscriber.mock.calls.length - 1];
-  const state = lastCall[0] as DateFrame<string>;
-  const event = lastCall[1] as DateFrameSubscriberEvent<string>;
-
-  assertState(state, expectedState);
-
-  const eventCopy = { ...event };
-  // @ts-ignore Just delete it
-  delete eventCopy.time;
-
-  const expectedEventCopy = { ...expectedEvent };
-  // @ts-ignore Just delete it
-  delete expectedEventCopy.time;
-
-  expect(eventCopy).toEqual(expectedEventCopy);
-}
-
-function assertEvents(
-  subscriber: jest.Mock,
-  expectedEvents: DateFrameSubscriberEventType[]
-) {
-  const events: DateFrameSubscriberEventType[] = subscriber.mock.calls.map(
-    (call) => {
-      const event = call[1] as DateFrameSubscriberEvent<string>;
-      return event.type;
-    }
-  );
-
-  expect(events).toEqual(expectedEvents);
-
-  expect(subscriber).toBeCalledTimes(expectedEvents.length);
-}
