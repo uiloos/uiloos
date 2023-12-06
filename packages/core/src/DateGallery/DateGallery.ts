@@ -83,14 +83,7 @@ export class DateGallery<T>
    *
    * @since 1.6.0
    */
-  public readonly frames: DateGalleryDate<T>[][] = [];
-
-   /**
-   * The frames of dates that are currently visible to the user.
-   *
-   * @since 1.6.0
-   */
-  public readonly xframes: DateGalleryFrame<T>[] = [];
+  public readonly frames: DateGalleryFrame<T>[] = [];
 
   /**
    * The first frame of dates that is visible to the user.
@@ -101,7 +94,10 @@ export class DateGallery<T>
    *
    * @since 1.6.0
    */
-  public firstFrame: DateGalleryDate<T>[] = [];
+  public firstFrame: DateGalleryFrame<T> = {
+    dates: [],
+    events: []
+  };
 
   /**
    * The number of frames that are visible at a time for the end user.
@@ -132,26 +128,6 @@ export class DateGallery<T>
    * @since 1.6.0
    */
   public readonly events: DateGalleryEvent<T>[] = [];
-
-  /**
-   * The events that happen within the `firstFrame`.
-   *
-   * Is sorted from old to new, events that appear earlier in the
-   * array are earlier than events that appear later in the array.
-   *
-   * @since 1.6.0
-   */
-  public firstFrameEvents: DateGalleryEvent<T>[] = [];
-
-  /**
-   * Per frame which events belong to that frame.
-   *
-   * Is sorted from old to new, events that appear earlier in the
-   * array are earlier than events that appear later in the array.
-   *
-   * @since 1.6.0
-   */
-  public readonly eventsPerFrame: DateGalleryEvent<T>[][] = [];
 
   // TODO docs
   public mode: DateGalleryMode = 'month-six-weeks';
@@ -398,7 +374,6 @@ export class DateGallery<T>
 
   private _buildFrames(inform = false) {
     this.frames.length = 0;
-    this.eventsPerFrame.length = 0;
 
     for (let i = 0; i < this.numberOfFrames; i++) {
       // For each frame this is not the first frame we must first
@@ -407,24 +382,26 @@ export class DateGallery<T>
         this._moveFrame(1);
       }
 
-      this.firstFrame.length = 0;
-      this.firstFrameEvents.length = 0;
+      const frame: DateGalleryFrame<T> = {
+        dates: [],
+        events: []
+      };;
 
       // Copy the _anchorDate to prevent mutation.
       const anchor = new Date(this._anchorDate);
 
       if (this.mode === 'day') {
-        this.firstFrame.push(this._makeDate(anchor, false));
+        frame.dates.push(this._makeDate(anchor, false));
       } else if (this.mode === 'week') {
-        this._addNoDates(anchor, 7);
+        this._addNoDates(anchor, 7, frame);
       } else if (this.mode === 'year') {
         const year = anchor.getFullYear();
         const isLeapYear =
           (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 
-        this._addNoDates(anchor, isLeapYear ? 366 : 365);
+        this._addNoDates(anchor, isLeapYear ? 366 : 365, frame);
       } else if (this.mode === 'month') {
-        this._addMonth(anchor, false);
+        this._addMonth(anchor, false, frame);
       } else if (this.mode === 'month-pad-to-week') {
         // Set the date to the first day of the week, this will probably
         // move the day to the previous month.
@@ -432,15 +409,15 @@ export class DateGallery<T>
 
         // Add the dates until we are in the desired month. // TODO utc
         while (date.getMonth() !== anchor.getMonth()) {
-          this._pushDay(date, true);
+          this._pushDay(date, true, frame);
         }
 
         // Add the dates until out of the desired month.
-        this._addMonth(date, false);
+        this._addMonth(date, false, frame);
 
         // Continue into the next month until we are in the new week.
         while (date.getDay() !== this.firstDayOfWeek) {
-          this._pushDay(date, true);
+          this._pushDay(date, true, frame);
         }
       } else if (this.mode === 'month-six-weeks') {
         const date = this._firstDayOfWeek(anchor);
@@ -449,18 +426,18 @@ export class DateGallery<T>
         const anchorMonth = anchor.getMonth();
 
         // 6 * 7 = 42;
-        this._addNoDates(date, 42, (d) => {
+        this._addNoDates(date, 42, frame, (d) => {
           // A day is padded when the month does not match
           // the anchor's month.
           return d.getMonth() !== anchorMonth;
         });
       }
 
-      this.frames.push([...this.firstFrame]);
+      this.frames.push(frame);
 
-      const startDate = new Date(this.firstFrame[0].date);
+      const startDate = new Date(frame.dates[0].date);
       const endDate = new Date(
-        this.firstFrame[this.firstFrame.length - 1].date
+        frame.dates[frame.dates.length - 1].date
       );
 
       // Get midnight of the first day.
@@ -472,15 +449,12 @@ export class DateGallery<T>
 
       this.events.forEach((event) => {
         if (_hasOverlap({ startDate, endDate }, event)) {
-          this.firstFrameEvents.push(event);
+          frame.events.push(event);
         }
       });
-
-      this.eventsPerFrame.push([...this.firstFrameEvents]);
     }
 
     this.firstFrame = this.frames[0];
-    this.firstFrameEvents = this.eventsPerFrame[0];
 
     if (inform) {
       const event: DateGalleryFrameChangedEvent<T> = {
@@ -877,21 +851,22 @@ export class DateGallery<T>
   private _addNoDates(
     date: Date,
     amount: number,
-    isPadding?: (date: Date) => boolean
+    frame: DateGalleryFrame<T>,
+    isPadding?: (date: Date) => boolean,
   ): void {
     for (let i = 0; i < amount; i++) {
-      this._pushDay(date, isPadding ? isPadding(date) : false);
+      this._pushDay(date, isPadding ? isPadding(date) : false, frame);
     }
   }
 
-  private _addMonth(date: Date, isPadding: boolean): void {
+  private _addMonth(date: Date, isPadding: boolean, frame: DateGalleryFrame<T>): void {
     while (date.getMonth() === this._anchorDate.getMonth()) {
-      this._pushDay(date, isPadding);
+      this._pushDay(date, isPadding, frame);
     }
   }
 
-  private _pushDay(date: Date, isPadding: boolean): void {
-    this.firstFrame.push(this._makeDate(date, isPadding));
+  private _pushDay(date: Date, isPadding: boolean, frame: DateGalleryFrame<T>): void {
+    frame.dates.push(this._makeDate(date, isPadding));
 
     date.setDate(date.getDate() + 1);
   }
@@ -938,7 +913,7 @@ export class DateGallery<T>
 
   private _setIsSelected() {
     this.frames.forEach((frame) => {
-      frame.forEach((d) => {
+      frame.dates.forEach((d) => {
         d.isSelected = this.selectedDates.some((selected) => {
           return this._sameDay(selected, d.date);
         });

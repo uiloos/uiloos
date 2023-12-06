@@ -290,7 +290,7 @@ export type DateGalleryFrameChangedEvent<T> = DateGalleryBaseEvent & {
    *
    * @since 1.6.0
    */
-  frames: DateGalleryDate<T>[][];
+  frames: DateGalleryFrame<T>[];
 };
 
 /**
@@ -468,7 +468,7 @@ export type DateGalleryModeChangedEvent<T> = DateGalleryBaseEvent & {
    *
    * @since 1.6.0
    */
-  frames: DateGalleryDate<T>[][];
+  frames: DateGalleryFrame<T>[];
 };
 
 /**

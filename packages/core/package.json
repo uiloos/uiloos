@@ -24,7 +24,7 @@
     "before-publish": "cp ../../README.MD ./ && cp ../../LICENSE.MD dist",
     "clean": "rm -rf coverage && rm -rf dist",
     "test": "TZ=UTC jest --coverage && node ./tests/minification-check.js",
-    "start": "TZ=UTC jest --watch --coverage",
+    "start": "TZ=UTC jest --watchAll --coverage",
     "tsc": "tsc --version && tsc --noEmit",
     "build": "rm -rf dist && rollup -c rollup.typings.config.cjs && rollup -c rollup.esm-cjs.config.cjs && rollup -c rollup.minification.config.cjs && rm -rf dist/cjs/types && rm -rf dist/esm/types && rm -rf dist/types",
     "apigen": "typedoc src  --json ../website/src/_data/api/core.json"

@@ -2,7 +2,7 @@ import {
   expect,
   jest,
 } from '@jest/globals';
-import { DateGallery, DateGalleryDate, DateGalleryEvent, DateGallerySubscriberEvent } from '../../src/DateGallery';
+import { DateGallery, DateGalleryDate, DateGalleryEvent, DateGalleryFrame, DateGallerySubscriberEvent } from '../../src/DateGallery';
 
 
 export const formatter = new Intl.DateTimeFormat('nl-Nl', {
@@ -21,12 +21,15 @@ export type DateGallerySansDatesAndEvents<T> = Pick<
   'history' | 'firstDayOfWeek' | 'mode' | 'isUTC'
 >;
 
-export type TestState<T> = DateGallerySansDatesAndEvents<T> & {
-  firstFrame: TestDate<T>[];
-  firstFrameEvents: TestEvent[];
-  frames: TestDate<T>[][];
+type TestFrame<T> = {
   events: TestEvent[];
-  eventsPerFrame: TestEvent[][];
+  dates: TestDate<T>[];
+}
+
+export type TestState<T> = DateGallerySansDatesAndEvents<T> & {
+  firstFrame: TestFrame<T>;
+  frames: TestFrame<T>[];
+  events: TestEvent[];
   selectedDates: string[];
 };
 
@@ -55,19 +58,22 @@ export function assertState(state: DateGallery<string>, expected: TestState<stri
     firstDayOfWeek: state.firstDayOfWeek,
     isUTC: state.isUTC,
 
-    firstFrame: state.firstFrame.map(dateToTestDate),
+    firstFrame: frameToTestFrame(state.firstFrame),
 
-    frames: state.frames.map((frame) => frame.map(dateToTestDate)),
+    frames: state.frames.map(frameToTestFrame),
 
     events: state.events.map(eventToTestEvent),
-    firstFrameEvents: state.firstFrameEvents.map(eventToTestEvent),
-    eventsPerFrame: state.eventsPerFrame.map((frameEvents) =>
-      frameEvents.map(eventToTestEvent)
-    ),
     selectedDates: state.selectedDates.map((date) => formatter.format(date)),
   };
 
   expect(callAsTestState).toEqual(expected);
+}
+
+export function frameToTestFrame(frame: DateGalleryFrame<string>): TestFrame<string> {
+  return {
+    dates: frame.dates.map(dateToTestDate),
+    events: frame.events.map(eventToTestEvent),
+  }
 }
 
 export function eventToTestEvent(event: DateGalleryEvent<string>): TestEvent {
