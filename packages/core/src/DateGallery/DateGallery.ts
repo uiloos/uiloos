@@ -13,7 +13,27 @@ import * as uiloosLicenseChecker from '../license/license';
 import { Observable, UnsubscribeFunction } from '../generic/types';
 import { _History } from '../private/History';
 import { _Observer } from '../private/Observer';
-import { DATE_FRAME_MODES, DateGalleryConfig, DateGalleryDateDeselectedEvent, DateGalleryDateDeselectedMultipleEvent, DateGalleryDateSelectedEvent, DateGalleryDateSelectedMultipleEvent, DateGalleryDayOfWeek, DateGalleryEventAddedEvent, DateGalleryEventConfig, DateGalleryEventMovedEvent, DateGalleryEventRemovedEvent, DateGalleryFrame, DateGalleryFrameChangedEvent, DateGalleryInitializedEvent, DateGalleryMode, DateGalleryModeChangedEvent, DateGalleryRange, DateGallerySubscriber, DateGallerySubscriberEvent } from './types';
+import {
+  DATE_FRAME_MODES,
+  DateGalleryConfig,
+  DateGalleryDateDeselectedEvent,
+  DateGalleryDateDeselectedMultipleEvent,
+  DateGalleryDateSelectedEvent,
+  DateGalleryDateSelectedMultipleEvent,
+  DateGalleryDayOfWeek,
+  DateGalleryEventAddedEvent,
+  DateGalleryEventConfig,
+  DateGalleryEventMovedEvent,
+  DateGalleryEventRemovedEvent,
+  DateGalleryFrame,
+  DateGalleryFrameChangedEvent,
+  DateGalleryInitializedEvent,
+  DateGalleryMode,
+  DateGalleryModeChangedEvent,
+  DateGalleryRange,
+  DateGallerySubscriber,
+  DateGallerySubscriberEvent,
+} from './types';
 import { DateGalleryDate } from './DateGalleryDate';
 import { _hasOverlap } from './utils';
 import { DateGalleryEvent } from './DateGalleryEvent';
@@ -36,22 +56,58 @@ import { DateGalleryNumberOfFramesError } from './errors/DateGalleryNumberOfFram
  *
  * The DateGallery comes in various modes:
  *
- *   // TODO document actual options
- *   1. DAY: a frame that holds a singular day
- *   1. WEEK: a frame that holds all dates of a week.
- *   2. MONTH: a frame that holds all dates of a month.
- *   3. YEAR: a frame that holds all dates of a year.
- *   4. CUSTOM: a frame that holds a custom range of dates.
+ * 1. 'day': a single day per frame.
+ *
+ * 2. 'week': seven days per frame, starting at the configured
+ *    `firstDayOfWeek`.
+ *
+ * 3. 'month': all days within a calendar month per frame. A frame
+ *     will then always start on the first of the month, and end on
+ *     the last day of the month.
+ *
+ * 4. 'month-six-weeks': all days within a calendar month, but padded
+ *    out to six weeks. Meaning that there are always 42 days in the
+ *    frame. Useful for when you want you calendar / datepicker to be
+ *    visually stable height wise.
+ *
+ *    Starts the days on the configured `firstDayOfWeek`.
+ *
+ * 5. 'month-pad-to-week': all days within a calendar month, but
+ *    padded out to the closest `firstDayOfWeek`.
+ *
+ *    For example given that firstDayOfWeek is set to 0 / Sunday:
+ *    if the first day of the month starts on Wednesday it will pad to
+ *    the previous Sunday of the previous month.
+ *
+ *    If the month ends on a friday, it will add the next saturday
+ *    of the next month.
+ *
+ *    Starts the days on the configured `firstDayOfWeek`.
+ *
+ * 6. 'year': a frame will contain all 365 days (or 366 when a leap year)
+ *     within a year.
  *
  * The frame part of a DateGallery is what is visually displayed to a
  * user, when making a monthly based calendar you are making a whole
  * year available but only show one month at a time. The month that
- * you show is a "frame", the dates that are visually displayed.
+ * you show is a "frames", the dates that are visually displayed.
  *
  * The DateGallery provides methods for navigating through frames,
  * for example you can go to the next / previous frame.
  *
- * TODO: events and activation
+ * You can ask the DateGallery for multiple frames at the same time
+ * by stetting the `numberOfFrames` property, this allows you to for
+ * example display three months at the same time, or five years at
+ * the same time.
+ *
+ * DateGallery also supports having events such as birthdays or
+ * holidays. For each "frame" that the DateGallery provides it will
+ * also tell you which events fall on that frame. Events also know
+ * if they are overlapping with other events.
+ *
+ * Finally the DateGallery can help you select dates. It will also
+ * put this information in each frame so you know which dates are
+ * selected.
  *
  * @since 1.6.0
  */
@@ -66,13 +122,17 @@ export class DateGallery<T>
   private _isInitializing = false;
 
   /**
-   * Whether the `DateGallery` is in UTC mode.
+   * Whether the `DateGallery` is in UTC mode or not.
    *
-   * When the `DateGallery` is in UTC mode all dates are parsed as UTC.
-   *
-   * TODO: doc this
-   *
-   * TODO: implement this
+   * When the `DateGallery` is in UTC mode all dates that are given
+   * to you via the `DateGallery` through a `DateGalleryDate` are 
+   * given in UTC.
+   * 
+   * Also all operations on `Date` objects within the `DateGallery`
+   * or done via the `UTC` variants.
+   * 
+   * UTC is useful for when you want all datepickers / calendars 
+   * to look the same al around the world, which is not very often.
    *
    * @since 1.60
    */
@@ -96,7 +156,7 @@ export class DateGallery<T>
    */
   public firstFrame: DateGalleryFrame<T> = {
     dates: [],
-    events: []
+    events: [],
   };
 
   /**
@@ -113,6 +173,8 @@ export class DateGallery<T>
 
   /**
    * All dates which are currently considered selected.
+   * 
+   * All dates will have their time set at midnight.
    *
    * @since 1.6.0
    */
@@ -129,8 +191,62 @@ export class DateGallery<T>
    */
   public readonly events: DateGalleryEvent<T>[] = [];
 
-  // TODO docs
+  /**
+   * The mode the `DateGallery` is on.
+   *
+   * 1. 'day': a single day per frame.
+   *
+   * 2. 'week': seven days per frame, starting at the configured
+   *    `firstDayOfWeek`.
+   *
+   * 3. 'month': all days within a calendar month per frame. A frame
+   *     will then always start on the first of the month, and end on
+   *     the last day of the month.
+   *
+   * 4. 'month-six-weeks': all days within a calendar month, but padded
+   *    out to six weeks. Meaning that there are always 42 days in the
+   *    frame. Useful for when you want you calendar / datepicker to be
+   *    visually stable height wise.
+   *
+   *    Starts the days on the configured `firstDayOfWeek`.
+   *
+   * 5. 'month-pad-to-week': all days within a calendar month, but
+   *    padded out to the closest `firstDayOfWeek`.
+   *
+   *    For example given that firstDayOfWeek is set to 0 / Sunday:
+   *    if the first day of the month starts on Wednesday it will pad to
+   *    the previous Sunday of the previous month.
+   *
+   *    If the month ends on a friday, it will add the next saturday
+   *    of the next month.
+   *
+   *    Starts the days on the configured `firstDayOfWeek`.
+   *
+   * 6. 'year': a frame will contain all 365 days (or 366 when a leap year)
+   *     within a year.
+   *
+   * @since 1.6.0
+   */
   public mode: DateGalleryMode = 'month-six-weeks';
+
+  /**
+   * What is to be considered the first day of the week, is used in
+   * modes such as 'week' to determine on which day of the week to
+   * start the frame.
+   *
+   * The `firstDayOfWeek` is a number between 0 and 6, were each
+   * number represents a day of the week:
+   *
+   * 0 = Sunday
+   * 1 = Monday
+   * 2 = Tuesday
+   * 3 = Wednesday
+   * 4 = Thursday
+   * 5 = Friday
+   * 6 = Saturday
+   *
+   * @since 1.6.0
+   */
   public firstDayOfWeek: DateGalleryDayOfWeek = 0;
 
   /*
@@ -179,6 +295,10 @@ export class DateGallery<T>
    *
    * @param {DateGalleryConfig<T>} config The initial configuration of the DateGallery.
    * @param {DateGallerySubscriber<T> | undefined} subscriber An optional subscriber which responds to changes in the DateGallery.
+   * @throws {DateGalleryEventInvalidRangeError} an events start date must lie before on on the end date.
+   * @throws {DateGalleryFirstDayOfWeekError} the configured day of the week must be between 0 and 6 inclusive.
+   * @throws {DateGalleryInvalidDateError} dates provided must be valid dates
+   * @throws {DateGalleryModeError} the mode must be one of the predefined modes
    * @since 1.6.0
    */
   constructor(
@@ -237,35 +357,25 @@ export class DateGallery<T>
   /**
    * Initializes the DateGallery based on the config provided. This can
    * effectively reset the DateGallery when called, including the
-   * history, autoPlay and cooldown.
+   * frames and history.
    *
    * @param {DateGalleryConfig<T>} config The new configuration which will override the old one
-   *
-   * @throws {DateGalleryAutoPlayDurationError} autoPlay duration must be a positive number when defined
-   *
+   * @throws {DateGalleryEventInvalidRangeError} an events start date must lie before on on the end date.
+   * @throws {DateGalleryFirstDayOfWeekError} the configured day of the week must be between 0 and 6 inclusive.
+   * @throws {DateGalleryInvalidDateError} dates provided must be valid dates
+   * @throws {DateGalleryModeError} the mode must be one of the predefined modes
    * @since 1.6.0
    */
   public initialize(config: DateGalleryConfig<T>): void {
     this._doInitialize(config, 'initialize');
   }
 
-  /**
-   * Initializes the DateGallery based on the config provided. This can
-   * effectively reset the DateGallery when called, including the
-   * history, autoPlay and cooldown.
-   *
-   * @param {DateGalleryConfig<T>} config The new configuration which will override the old one
-   *
-   * @throws {DateGalleryAutoPlayDurationError} autoPlay duration must be a positive number when defined
-   *
-   * @since 1.6.0
-   */
   private _doInitialize(config: DateGalleryConfig<T>, method: string): void {
     // Ignore changes for now, we will restore subscriber at the end
     // of the initialization process.
     this._isInitializing = true;
 
-    this.isUTC = config.isUtc ? config.isUtc : false;
+    this.isUTC = config.isUTC !== undefined ? config.isUTC : false;
 
     this.mode = config.mode ? config.mode : 'month-six-weeks';
     this._checkMode(this.mode);
@@ -281,12 +391,12 @@ export class DateGallery<T>
       throw new DateGalleryNumberOfFramesError();
     }
 
-    // TODO utc
     this._anchorDate = config.initialDate
       ? this._toDate(config.initialDate, method, 'initialDate')
       : new Date();
 
-    this._anchorDate.setHours(0, 0, 0, 0);
+    // Now drag the anchorDate to midnight, toMidnight handles UTC
+    this._toMidnight(this._anchorDate);
 
     // Second move the anchorDate to the closest start date of the fame
     this._dragAnchor();
@@ -332,8 +442,26 @@ export class DateGallery<T>
     this._inform(event);
   }
 
-  // TODO docs
-  public changeMode(mode: DateGalleryMode, date?: Date | string) {
+  /**
+   * Changes the mode of the DateGallery.
+   *
+   * You can also optionally provide a `date` which will act as the
+   * initial date to anchor the DateGallery on. Can either be a `Date`
+   * instance, or a `string` which can be passed to the `Date` constructor
+   * to make a date.
+   *
+   * When no `date` is provided the DateGallery will move the frames
+   * to the closest date. For example when going from `day` to `year`
+   * the year will be set to the year of the current anchored date.
+   * When you move from `year` to `month` it will go to January of
+   * that year etc etc.
+   *
+   * @param {DateGalleryMode} mode The mode you want to set the DateGallery on.
+   * @param {Date | string} date An optional date to act as the new initial date
+   * @throws {DateGalleryModeError} the mode must be one of the predefined modes
+   * @since 1.6.0
+   */
+  public changeMode(mode: DateGalleryMode, date?: Date | string): void {
     // When the mode is set to be the same mode
     if (this.mode === mode) {
       // Do nothing when anchorDates match
@@ -355,7 +483,7 @@ export class DateGallery<T>
     // If a date is provided make it the new achorDate
     if (date) {
       this._anchorDate = this._toDate(date, 'changeMode', 'date');
-      this._anchorDate.setHours(0, 0, 0, 0);
+      this._toMidnight(this._anchorDate);
     }
 
     this._dragAnchor();
@@ -372,7 +500,7 @@ export class DateGallery<T>
     this._inform(event);
   }
 
-  private _buildFrames(inform = false) {
+  private _buildFrames(inform = false): void {
     this.frames.length = 0;
 
     for (let i = 0; i < this.numberOfFrames; i++) {
@@ -384,8 +512,8 @@ export class DateGallery<T>
 
       const frame: DateGalleryFrame<T> = {
         dates: [],
-        events: []
-      };;
+        events: [],
+      };
 
       // Copy the _anchorDate to prevent mutation.
       const anchor = new Date(this._anchorDate);
@@ -395,57 +523,58 @@ export class DateGallery<T>
       } else if (this.mode === 'week') {
         this._addNoDates(anchor, 7, frame);
       } else if (this.mode === 'year') {
-        const year = anchor.getFullYear();
+        const year = this._getFullYear(anchor);
         const isLeapYear =
           (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 
         this._addNoDates(anchor, isLeapYear ? 366 : 365, frame);
       } else if (this.mode === 'month') {
-        this._addMonth(anchor, false, frame);
+        const anchorMonth = this._getMonth(anchor);
+
+        this._addMonth(anchor, anchorMonth, frame);
       } else if (this.mode === 'month-pad-to-week') {
         // Set the date to the first day of the week, this will probably
         // move the day to the previous month.
         const date = this._firstDayOfWeek(anchor);
 
-        // Add the dates until we are in the desired month. // TODO utc
-        while (date.getMonth() !== anchor.getMonth()) {
+        const anchorMonth = this._getMonth(anchor);
+
+        // Add the dates until we are in the desired month.
+        while (this._getMonth(date) !== anchorMonth) {
           this._pushDay(date, true, frame);
         }
 
         // Add the dates until out of the desired month.
-        this._addMonth(date, false, frame);
+        this._addMonth(date, anchorMonth, frame);
 
         // Continue into the next month until we are in the new week.
-        while (date.getDay() !== this.firstDayOfWeek) {
+        while (this._getDay(date) !== this.firstDayOfWeek) {
           this._pushDay(date, true, frame);
         }
       } else if (this.mode === 'month-six-weeks') {
         const date = this._firstDayOfWeek(anchor);
 
-        // TODO: Utc
-        const anchorMonth = anchor.getMonth();
+        const anchorMonth = this._getMonth(anchor);
 
         // 6 * 7 = 42;
         this._addNoDates(date, 42, frame, (d) => {
           // A day is padded when the month does not match
           // the anchor's month.
-          return d.getMonth() !== anchorMonth;
+          return this._getMonth(d) !== anchorMonth;
         });
       }
 
       this.frames.push(frame);
 
       const startDate = new Date(frame.dates[0].date);
-      const endDate = new Date(
-        frame.dates[frame.dates.length - 1].date
-      );
+      const endDate = new Date(frame.dates[frame.dates.length - 1].date);
 
       // Get midnight of the first day.
-      startDate.setHours(0, 0, 0, 0);
+      this._toMidnight(startDate);
 
       // Get midnight of the day after the endDate
-      endDate.setDate(endDate.getDate() + 1);
-      endDate.setHours(0, 0, 0, 0);
+      this._moveDateBy(endDate, 1);
+      this._toMidnight(endDate);
 
       this.events.forEach((event) => {
         if (_hasOverlap({ startDate, endDate }, event)) {
@@ -467,38 +596,71 @@ export class DateGallery<T>
     }
   }
 
-  // TODO: docs
+  /**
+   * Moves the frame of the DateGallery to the next frame.
+   *
+   * For example if the mode is set to `month` and the current anchor
+   * date is in March it will move to April.
+   *
+   * @since 1.6.0
+   */
   public next(): void {
     this._moveFrame(1);
     this._buildFrames(true);
   }
 
-  // TODO: docs
+  /**
+   * Moves the frame of the DateGallery to the previous frame.
+   *
+   * For example if the mode is set to `month` and the current anchor
+   * date is in April it will move to March.
+   *
+   * @since 1.6.0
+   */
   public previous() {
     this._moveFrame(-1, this.numberOfFrames * 2 - 1);
     this._buildFrames(true);
   }
 
   private _moveFrame(mod: 1 | -1, skip = 1): void {
-    // TODO is the copy needed
     const date = new Date(this._anchorDate);
 
-    // TODO UTC
     if (this.mode === 'day') {
-      date.setDate(date.getDate() + 1 * skip * mod);
+      this._moveDateBy(date, 1 * skip * mod);
     } else if (this.mode === 'week') {
-      date.setDate(date.getDate() + 7 * skip * mod);
+      this._moveDateBy(date, 7 * skip * mod);
     } else if (this.mode === 'year') {
-      date.setFullYear(date.getFullYear() + 1 * skip * mod);
+      if (this.isUTC) {
+        date.setUTCFullYear(date.getUTCFullYear() + 1 * skip * mod);
+      } else {
+        date.setFullYear(date.getFullYear() + 1 * skip * mod);
+      }
     } else {
       // Mode has to be one of the months
-      date.setMonth(date.getMonth() + 1 * skip * mod);
+
+      if (this.isUTC) {
+        date.setUTCMonth(date.getUTCMonth() + 1 * skip * mod);
+      } else {
+        date.setMonth(date.getMonth() + 1 * skip * mod);
+      }
     }
 
     this._anchorDate = date;
   }
 
-  // TODO doc
+  /**
+   * Selects the given date, the date can either be a `Date` instance,
+   * or a `string` which can be passed to the `Date`constructor to
+   * make a date.
+   * 
+   * The given date will be converted to midnight, so all times in 
+   * the `selectedDates` array are always at midnight.
+   *
+   * @param {Date | string} date An optional date to act as the new initial date
+   * @throws {DateGalleryModeError} the mode must be one of the predefined modes
+   * @throws {DateGalleryInvalidDateError} date provided must be valid date
+   * @since 1.6.0
+   */
   public selectDate(date: string | Date): void {
     const method = 'selectDate';
     const _date = this._toDate(date, method, 'date');
@@ -512,7 +674,7 @@ export class DateGallery<T>
 
   public _doSelectDate(date: Date, method: string): void {
     const midnight = this._toDate(date, method, 'date');
-    midnight.setHours(0, 0, 0, 0);
+    this._toMidnight(midnight);
 
     this.selectedDates.push(midnight);
 
@@ -532,7 +694,19 @@ export class DateGallery<T>
     this._inform(event);
   }
 
-  // TODO doc
+  /**
+   * Deselects the given date, the date can either be a `Date`
+   * instance, or a `string` which can be passed to the `Date`
+   * constructor to make a date.
+   * 
+   * The given date will be converted to midnight so it better matches
+   * the `selectedDates` which are always at midnight.
+   *
+   * @param {Date | string} date An optional date to act as the new initial date
+   * @throws {DateGalleryModeError} the mode must be one of the predefined modes
+   * @throws {DateGalleryInvalidDateError} date provided must be valid date
+   * @since 1.6.0
+   */
   public deselectDate(date: string | Date): void {
     const [index, _date] = this._indexOfDate(date, 'deselectDate');
 
@@ -557,7 +731,19 @@ export class DateGallery<T>
     this._inform(event);
   }
 
-  // TODO doc
+  /**
+   * Toggles the date selection of the given date, if the date is
+   * selected it becomes deselected, if the date is deselected it
+   * becomes selected.
+   *
+   * The given date can either be a `Date` instance, or a `string`
+   * which can be passed to the `Date` constructor to make a date.
+   *
+   * @param {Date | string} date An optional date to act as the new initial date
+   * @throws {DateGalleryModeError} the mode must be one of the predefined modes
+   * @throws {DateGalleryInvalidDateError} date provided must be valid date
+   * @since 1.6.0
+   */
   public toggleDateSelection(date: string | Date): void {
     const [index, _date] = this._indexOfDate(date, 'toggleDateSelection');
 
@@ -578,8 +764,13 @@ export class DateGallery<T>
     return [index, _date] as const;
   }
 
-  // TODO: docs
-  public deselectAll() {
+  /**
+   * Deselects all dates, effectively clearing the `selectedDates`
+   * property.
+   *
+   * @since 1.6.0
+   */
+  public deselectAll(): void {
     // Do nothing when no dates are selected
     if (this.selectedDates.length === 0) {
       return;
@@ -600,23 +791,38 @@ export class DateGallery<T>
     this._inform(e);
   }
 
-  // TODO: docs
-  public activateRange(a: Date | string, b: Date | string) {
-    const aDate = this._toDate(a, 'activateRange', 'a');
-    const bDate = this._toDate(b, 'activateRange', 'b');
+  /**
+   * Selects all dates from within the given date range.
+   *
+   * If the range is end inclusive meaning if the starts on Monday
+   * and end ends on Friday: Monday, Tuesday, Wednesday, Thursday
+   * and Friday are selected.
+   *
+   * The given dates can either be a `Date` instance, or a `string`
+   * which can be passed to the `Date` constructor to make a date.
+   *
+   * Note: the order of the two parameters does not matter as
+   * `selectRange` will check whether `a` or `b` is the earlier date.
+   *
+   * Note: if a date is already selected and falls within the range
+   * the date will stay selected.
+   *
+   * @param {Date | string} a the start or end date of the range
+   * @param {Date | string} b The start or end date of the range
+   * @throws {DateGalleryInvalidDateError} dates provided must be valid dates
+   * @since 1.6.0
+   */
+  public selectRange(a: Date | string, b: Date | string): void {
+    const aDate = this._toDate(a, 'selectRange', 'a');
+    const bDate = this._toDate(b, 'selectRange', 'b');
 
     const startDate = bDate.getTime() > aDate.getTime() ? aDate : bDate;
     const endDate = aDate === startDate ? bDate : aDate;
 
-    // Do nothing if they start on the same day
-    if (this._sameDay(startDate, endDate)) {
-      return;
-    }
+    this._toMidnight(startDate);
 
-    startDate.setHours(0, 0, 0, 0);
-
-    endDate.setDate(endDate.getDate() + 1);
-    endDate.setHours(0, 0, 0, 0);
+    this._moveDateBy(endDate, 1);
+    this._toMidnight(endDate);
 
     const dates = [];
 
@@ -632,7 +838,7 @@ export class DateGallery<T>
         this.selectedDates.push(new Date(date));
       }
 
-      date.setDate(date.getDate() + 1);
+      this._moveDateBy(date, 1);
     }
 
     // If nothing happened do not inform
@@ -656,7 +862,16 @@ export class DateGallery<T>
     this._inform(event);
   }
 
-  // TODO: docs
+  /**
+   * Takes a `DateGalleryEventConfig` and adds that config as a
+   * `DateGalleryEvent` to the `DateGallery`.
+   *
+   * @param {DateGalleryEventConfig<T>} event The config of the event you want to add.
+   * @throws {DateGalleryEventInvalidRangeError} an events start date must lie before on on the end date.
+   * @throws {DateGalleryInvalidDateError} dates provided must be valid dates
+   * @returns {DateGalleryEvent} The created DateGalleryEvent.
+   * @since 1.6.0
+   */
   public addEvent(event: DateGalleryEventConfig<T>): DateGalleryEvent<T> {
     const addedEvent = this._doAddEvent(event, 'addEvent');
 
@@ -702,7 +917,17 @@ export class DateGallery<T>
     return event;
   }
 
-  // TODO: docs
+  /**
+   * Takes a `DateGalleryEvent` and removes that event from this
+   * `DateGallery`, and all associated frames.
+   *
+   * Note: if the event cannot be found within the `DateGallery`
+   * nothing happens.
+   *
+   * @param {DateGalleryEvent<T>} event The event you want to remove.
+   * @returns {DateGalleryEvent} The removed DateGalleryEvent.
+   * @since 1.6.0
+   */
   public removeEvent(event: DateGalleryEvent<T>): DateGalleryEvent<T> {
     const index = this.events.indexOf(event);
 
@@ -735,12 +960,23 @@ export class DateGallery<T>
     return event;
   }
 
-  // TODO: docs
-  public moveEvent(
-    event: DateGalleryEvent<T>,
-    range: DateGalleryRange
-  ): void {
-    const startDate = this._toDate(range.startDate, 'moveEvent', 'range.startDate');
+  /**
+   * Takes a `DateGalleryEvent` and moves that event chronologically,
+   * in other words it changes the events start and end time to the
+   * given range.
+   *
+   * @param {DateGalleryEvent<T>} event The event you want to move / change the start / end time for.
+   * @param {DateGalleryRange} range The new start and end times of the event.
+   * @throws {DateGalleryEventInvalidRangeError} an events start date must lie before on on the end date.
+   * @throws {DateGalleryEventNotFoundError} the provided event must be part of the DateGallery.
+   * @since 1.6.0
+   */
+  public moveEvent(event: DateGalleryEvent<T>, range: DateGalleryRange): void {
+    const startDate = this._toDate(
+      range.startDate,
+      'moveEvent',
+      'range.startDate'
+    );
     const endDate = this._toDate(range.endDate, 'moveEvent', 'range.endDate');
 
     if (startDate.getTime() > endDate.getTime()) {
@@ -763,8 +999,8 @@ export class DateGallery<T>
     event.startDate = startDate;
     event.endDate = endDate;
 
-     // Sort by past to future
-     this.events.sort((a, b) => {
+    // Sort by past to future
+    this.events.sort((a, b) => {
       return a.startDate.getTime() - b.startDate.getTime();
     });
 
@@ -790,12 +1026,21 @@ export class DateGallery<T>
 
   private _dragAnchorFor(date: Date): Date {
     if (this.mode === 'year') {
-      date.setDate(1);
-      date.setMonth(0);
+      if (this.isUTC) {
+        date.setUTCDate(1);
+        date.setUTCMonth(0);
+      } else {
+        date.setDate(1);
+        date.setMonth(0);
+      }
     } else if (this.mode === 'week') {
       date = this._firstDayOfWeek(date);
     } else if (this.mode.startsWith('month')) {
-      date.setDate(1);
+      if (this.isUTC) {
+        date.setUTCDate(1);
+      } else {
+        date.setDate(1);
+      }
     }
 
     // When mode is 'day' do nothing
@@ -840,9 +1085,8 @@ export class DateGallery<T>
   private _firstDayOfWeek(date: Date): Date {
     const copy = new Date(date);
 
-    // TODO utc
-    while (copy.getDay() !== this.firstDayOfWeek) {
-      copy.setDate(copy.getDate() - 1);
+    while (this._getDay(copy) !== this.firstDayOfWeek) {
+      this._moveDateBy(copy, -1);
     }
 
     return copy;
@@ -852,62 +1096,106 @@ export class DateGallery<T>
     date: Date,
     amount: number,
     frame: DateGalleryFrame<T>,
-    isPadding?: (date: Date) => boolean,
+    isPadding?: (date: Date) => boolean
   ): void {
     for (let i = 0; i < amount; i++) {
       this._pushDay(date, isPadding ? isPadding(date) : false, frame);
     }
   }
 
-  private _addMonth(date: Date, isPadding: boolean, frame: DateGalleryFrame<T>): void {
-    while (date.getMonth() === this._anchorDate.getMonth()) {
-      this._pushDay(date, isPadding, frame);
+  private _addMonth(
+    date: Date,
+    month: number,
+    frame: DateGalleryFrame<T>
+  ): void {
+    while (this._getMonth(date) === month) {
+      this._pushDay(date, false, frame);
     }
   }
 
-  private _pushDay(date: Date, isPadding: boolean, frame: DateGalleryFrame<T>): void {
+  private _pushDay(
+    date: Date,
+    isPadding: boolean,
+    frame: DateGalleryFrame<T>
+  ): void {
     frame.dates.push(this._makeDate(date, isPadding));
 
-    date.setDate(date.getDate() + 1);
+    this._moveDateBy(date, 1);
   }
 
   private _makeDate(date: Date, isPadding: boolean): DateGalleryDate<T> {
+    const _date = new Date(date);
+    this._toMidnight(_date);
+
     return new DateGalleryDate<T>(
       this,
-      new Date(date),
+      _date,
       this.events.filter((event) => {
         // Check if on the same day:
-        const time = date.getTime();
+        const time = _date.getTime();
 
         // Move start to midnight
-        const start = new Date(event.startDate).setHours(0, 0, 0, 0);
+        const startDate = new Date(event.startDate);
+        const start = this._toMidnight(startDate);
 
         // Move end to midnight of next day
         const endDate = new Date(event.endDate);
-        endDate.setDate(event.endDate.getDate() + 1);
-        const end = endDate.setHours(0, 0, 0, 0);
+
+        this._moveDateBy(endDate, 1);
+        const end = this._toMidnight(endDate);
 
         return time >= start && time < end;
       }),
       isPadding,
       this.selectedDates.some((selected) => {
-        return this._sameDay(selected, date);
+        return this._sameDay(selected, _date);
       })
     );
   }
 
   public _sameDay(a: Date, b: Date) {
-    // TODO: UTC
     return (
-      a.getFullYear() === b.getFullYear() &&
-      a.getMonth() === b.getMonth() &&
-      a.getDate() === b.getDate()
+      this._getFullYear(a) === this._getFullYear(b) &&
+      this._getMonth(a) === this._getMonth(b) &&
+      this._getDate(a) === this._getDate(b)
     );
+  }
+
+  private _getFullYear(date: Date): number {
+    return this.isUTC ? date.getUTCFullYear() : date.getFullYear();
+  }
+
+  private _getMonth(date: Date): number {
+    return this.isUTC ? date.getUTCMonth() : date.getMonth();
+  }
+
+  private _getDate(date: Date): number {
+    return this.isUTC ? date.getUTCDate() : date.getDate();
+  }
+
+  private _getDay(date: Date): number {
+    return this.isUTC ? date.getUTCDay() : date.getDay();
   }
 
   private _checkMode(mode: DateGalleryMode) {
     if (!DATE_FRAME_MODES.includes(mode)) {
       throw new DateGalleryModeError(mode);
+    }
+  }
+
+  private _toMidnight(date: Date): number {
+    if (this.isUTC) {
+      return date.setUTCHours(0, 0, 0, 0);
+    } else {
+      return date.setHours(0, 0, 0, 0);
+    }
+  }
+
+  private _moveDateBy(date: Date, mod: number) {
+    if (this.isUTC) {
+      date.setUTCDate(date.getUTCDate() + mod);
+    } else {
+      date.setDate(date.getDate() + mod);
     }
   }
 

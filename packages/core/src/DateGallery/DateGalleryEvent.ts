@@ -3,10 +3,27 @@ import { DateGalleryRange } from './types';
 import { _hasOverlap } from './utils';
 
 /**
- * Represents a piece of content in the `events` array of the `DateGallery`.
+ * A `DateGalleryEvent` represents things like birthdays, meetings 
+ * doctors appointments etc etc inside of a `DateGallery`.
+ * 
+ * A `DateGalleryEvent` keeps track of the events start and end date.
+ * 
+ * Custom pieces of information can be found in the `data` property, 
+ * which can be anything you'd like, from an object to a string. For
+ * example you could store the title and description of the event
+ * there.
+ * 
+ * The `overlapsWith` property will tell you all the events that this
+ * event currently overlaps with.
  *
- * TODO more
- *
+ * You should never instantiate a `DateGalleryEvent` directly, instead
+ * you should call `addEvent` on the `DateGallery` and provide a
+ * `DateGalleryEventConfig` from which the `DateGalleryEvent` is
+ * instantiated.
+ * 
+ * Alternatively you can also provide events via the 
+ * `DateGalleryConfig`s `events` property.
+ * 
  * @since 1.6.0
  */
 export class DateGalleryEvent<T> {
@@ -103,12 +120,26 @@ export class DateGalleryEvent<T> {
     });
   }
 
-  // TODO: docs
+  /**
+   * Removes this `DateGalleryEvent` from the `DateGallery` it belongs
+   * to.
+   * 
+   * @param {DateGalleryEvent<T>} event The event you want to remove.
+   * @since 1.6.0
+   */
   public remove() {
     this.dateGallery.removeEvent(this);
   }
 
-  // TODO: docs
+  /**
+   * Moves this `DateGalleryEvent` chronologically, or in other words 
+   * it changes the events start and end time to the given range.
+   * 
+   * @param {DateGalleryRange} range The new start and end times of the event.
+   * @throws {DateGalleryEventInvalidRangeError} an events start date must lie before on on the end date.
+   * @throws {DateGalleryEventNotFoundError} the provided event must be part of the DateGallery.
+   * @since 1.6.0
+   */
   public move(range: DateGalleryRange) {
     this.dateGallery.moveEvent(this, range);
   }

@@ -33,7 +33,7 @@ const config = [
   createEntry('ActiveList', 'active-list'),
   createEntry('ViewChannel', 'view-channel'),
   createEntry('Typewriter', 'typewriter'),
-  createEntry('DateFrame', 'date-frame'),
+  createEntry('DateGallery', 'date-gallery'),
 ];
 
 module.exports = config;

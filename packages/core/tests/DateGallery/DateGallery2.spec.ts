@@ -22,12 +22,7 @@ import { licenseChecker } from '../../src/license';
 
 import { UnsubscribeFunction } from '../../src/generic/types';
 import { _hasOverlap } from '../../src/DateGallery/utils';
-import {
-  assertLastSubscriber,
-  dateToTestDate,
-  assertState,
-  frameToTestFrame,
-} from './utils';
+import { assertLastSubscriber, assertState, frameToTestFrame } from './utils';
 
 describe('DateGallery', () => {
   let unsubscribe: UnsubscribeFunction | null = null;
@@ -51,8 +46,8 @@ describe('DateGallery', () => {
     }
   });
 
-  it('should always be UTC', () => {
-    expect(new Date().getTimezoneOffset()).toBe(0);
+  test('sanity check: timezone of the tests should be samoa', () => {
+    expect(new Date().getTimezoneOffset()).toBe(660);
   });
 
   function autoSubscribe(dateGallery: DateGallery<string>) {
@@ -66,7 +61,7 @@ describe('DateGallery', () => {
     test('should error when mode does not exist', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'day',
-        initialDate: '1980-05-03',
+        initialDate: '1980-05-03 00:00',
       });
       const subscriber = autoSubscribe(dateGallery);
 
@@ -93,7 +88,7 @@ describe('DateGallery', () => {
       test('to day', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
-          initialDate: '1980-05-03',
+          initialDate: '1980-05-03 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -105,7 +100,7 @@ describe('DateGallery', () => {
       test('to week', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
-          initialDate: '1990-10-04',
+          initialDate: '1990-10-04 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -123,9 +118,8 @@ describe('DateGallery', () => {
             frames: [
               {
                 dates: [
-                  // Summertime
                   {
-                    date: 'zo 30-09-1990 01:00',
+                    date: 'zo 30-09-1990 00:00',
                     isPadding: false,
                     isSelected: false,
                     isToday: false,
@@ -133,7 +127,7 @@ describe('DateGallery', () => {
                     hasEvents: false,
                   },
                   {
-                    date: 'ma 01-10-1990 01:00',
+                    date: 'ma 01-10-1990 00:00',
                     isPadding: false,
                     isSelected: false,
                     isToday: false,
@@ -141,7 +135,7 @@ describe('DateGallery', () => {
                     hasEvents: false,
                   },
                   {
-                    date: 'di 02-10-1990 01:00',
+                    date: 'di 02-10-1990 00:00',
                     isPadding: false,
                     isSelected: false,
                     isToday: false,
@@ -149,7 +143,7 @@ describe('DateGallery', () => {
                     hasEvents: false,
                   },
                   {
-                    date: 'wo 03-10-1990 01:00',
+                    date: 'wo 03-10-1990 00:00',
                     isPadding: false,
                     isSelected: false,
                     isToday: false,
@@ -157,7 +151,7 @@ describe('DateGallery', () => {
                     hasEvents: false,
                   },
                   {
-                    date: 'do 04-10-1990 01:00',
+                    date: 'do 04-10-1990 00:00',
                     isPadding: false,
                     isSelected: false,
                     isToday: false,
@@ -165,7 +159,7 @@ describe('DateGallery', () => {
                     hasEvents: false,
                   },
                   {
-                    date: 'vr 05-10-1990 01:00',
+                    date: 'vr 05-10-1990 00:00',
                     isPadding: false,
                     isSelected: false,
                     isToday: false,
@@ -173,7 +167,7 @@ describe('DateGallery', () => {
                     hasEvents: false,
                   },
                   {
-                    date: 'za 06-10-1990 01:00',
+                    date: 'za 06-10-1990 00:00',
                     isPadding: false,
                     isSelected: false,
                     isToday: false,
@@ -199,7 +193,7 @@ describe('DateGallery', () => {
       test('to month', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
-          initialDate: '2017-08-08',
+          initialDate: '2017-08-08 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -218,7 +212,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -226,7 +220,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -234,7 +228,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -242,7 +236,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -250,7 +244,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -258,7 +252,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-08-2017 01:00',
+                    date: 'zo 06-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -266,7 +260,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-08-2017 01:00',
+                    date: 'ma 07-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -274,7 +268,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-08-2017 01:00',
+                    date: 'di 08-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -282,7 +276,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-08-2017 01:00',
+                    date: 'wo 09-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -290,7 +284,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-08-2017 01:00',
+                    date: 'do 10-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -298,7 +292,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-08-2017 01:00',
+                    date: 'vr 11-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -306,7 +300,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-08-2017 01:00',
+                    date: 'za 12-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -314,7 +308,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-08-2017 01:00',
+                    date: 'zo 13-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -322,7 +316,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-08-2017 01:00',
+                    date: 'ma 14-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -330,7 +324,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-08-2017 01:00',
+                    date: 'di 15-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -338,7 +332,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-08-2017 01:00',
+                    date: 'wo 16-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -346,7 +340,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-08-2017 01:00',
+                    date: 'do 17-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -354,7 +348,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-08-2017 01:00',
+                    date: 'vr 18-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -362,7 +356,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-08-2017 01:00',
+                    date: 'za 19-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -370,7 +364,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-08-2017 01:00',
+                    date: 'zo 20-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -378,7 +372,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-08-2017 01:00',
+                    date: 'ma 21-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -386,7 +380,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-08-2017 01:00',
+                    date: 'di 22-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -394,7 +388,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-08-2017 01:00',
+                    date: 'wo 23-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -402,7 +396,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-08-2017 01:00',
+                    date: 'do 24-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -410,7 +404,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-08-2017 01:00',
+                    date: 'vr 25-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -418,7 +412,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-08-2017 01:00',
+                    date: 'za 26-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -426,7 +420,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-08-2017 01:00',
+                    date: 'zo 27-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -434,7 +428,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-08-2017 01:00',
+                    date: 'ma 28-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -442,7 +436,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-08-2017 01:00',
+                    date: 'di 29-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -450,7 +444,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-08-2017 01:00',
+                    date: 'wo 30-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -458,7 +452,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 31-08-2017 01:00',
+                    date: 'do 31-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -484,7 +478,7 @@ describe('DateGallery', () => {
       test('to month-six-weeks', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
-          initialDate: '2017-08-29',
+          initialDate: '2017-08-29 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -503,7 +497,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 30-07-2017 01:00',
+                    date: 'zo 30-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -511,7 +505,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-07-2017 01:00',
+                    date: 'ma 31-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -519,7 +513,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -527,7 +521,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -535,7 +529,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -543,7 +537,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -551,7 +545,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -559,7 +553,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-08-2017 01:00',
+                    date: 'zo 06-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -567,7 +561,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-08-2017 01:00',
+                    date: 'ma 07-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -575,7 +569,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-08-2017 01:00',
+                    date: 'di 08-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -583,7 +577,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-08-2017 01:00',
+                    date: 'wo 09-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -591,7 +585,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-08-2017 01:00',
+                    date: 'do 10-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -599,7 +593,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-08-2017 01:00',
+                    date: 'vr 11-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -607,7 +601,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-08-2017 01:00',
+                    date: 'za 12-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -615,7 +609,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-08-2017 01:00',
+                    date: 'zo 13-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -623,7 +617,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-08-2017 01:00',
+                    date: 'ma 14-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -631,7 +625,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-08-2017 01:00',
+                    date: 'di 15-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -639,7 +633,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-08-2017 01:00',
+                    date: 'wo 16-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -647,7 +641,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-08-2017 01:00',
+                    date: 'do 17-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -655,7 +649,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-08-2017 01:00',
+                    date: 'vr 18-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -663,7 +657,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-08-2017 01:00',
+                    date: 'za 19-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -671,7 +665,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-08-2017 01:00',
+                    date: 'zo 20-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -679,7 +673,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-08-2017 01:00',
+                    date: 'ma 21-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -687,7 +681,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-08-2017 01:00',
+                    date: 'di 22-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -695,7 +689,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-08-2017 01:00',
+                    date: 'wo 23-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -703,7 +697,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-08-2017 01:00',
+                    date: 'do 24-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -711,7 +705,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-08-2017 01:00',
+                    date: 'vr 25-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -719,7 +713,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-08-2017 01:00',
+                    date: 'za 26-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -727,7 +721,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-08-2017 01:00',
+                    date: 'zo 27-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -735,7 +729,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-08-2017 01:00',
+                    date: 'ma 28-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -743,7 +737,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-08-2017 01:00',
+                    date: 'di 29-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -751,7 +745,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-08-2017 01:00',
+                    date: 'wo 30-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -759,7 +753,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 31-08-2017 01:00',
+                    date: 'do 31-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -767,7 +761,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-09-2017 01:00',
+                    date: 'vr 01-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -775,7 +769,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-09-2017 01:00',
+                    date: 'za 02-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -783,7 +777,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 03-09-2017 01:00',
+                    date: 'zo 03-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -791,7 +785,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 04-09-2017 01:00',
+                    date: 'ma 04-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -799,7 +793,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 05-09-2017 01:00',
+                    date: 'di 05-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -807,7 +801,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 06-09-2017 01:00',
+                    date: 'wo 06-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -815,7 +809,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 07-09-2017 01:00',
+                    date: 'do 07-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -823,7 +817,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 08-09-2017 01:00',
+                    date: 'vr 08-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -831,7 +825,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 09-09-2017 01:00',
+                    date: 'za 09-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -857,7 +851,7 @@ describe('DateGallery', () => {
       test('to month-pad-to-week', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
-          initialDate: '2017-08-13',
+          initialDate: '2017-08-13 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -876,7 +870,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 30-07-2017 01:00',
+                    date: 'zo 30-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -884,7 +878,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-07-2017 01:00',
+                    date: 'ma 31-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -892,7 +886,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -900,7 +894,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -908,7 +902,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -916,7 +910,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -924,7 +918,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -932,7 +926,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-08-2017 01:00',
+                    date: 'zo 06-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -940,7 +934,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-08-2017 01:00',
+                    date: 'ma 07-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -948,7 +942,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-08-2017 01:00',
+                    date: 'di 08-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -956,7 +950,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-08-2017 01:00',
+                    date: 'wo 09-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -964,7 +958,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-08-2017 01:00',
+                    date: 'do 10-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -972,7 +966,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-08-2017 01:00',
+                    date: 'vr 11-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -980,7 +974,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-08-2017 01:00',
+                    date: 'za 12-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -988,7 +982,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-08-2017 01:00',
+                    date: 'zo 13-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -996,7 +990,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-08-2017 01:00',
+                    date: 'ma 14-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1004,7 +998,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-08-2017 01:00',
+                    date: 'di 15-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1012,7 +1006,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-08-2017 01:00',
+                    date: 'wo 16-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1020,7 +1014,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-08-2017 01:00',
+                    date: 'do 17-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1028,7 +1022,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-08-2017 01:00',
+                    date: 'vr 18-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1036,7 +1030,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-08-2017 01:00',
+                    date: 'za 19-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1044,7 +1038,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-08-2017 01:00',
+                    date: 'zo 20-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1052,7 +1046,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-08-2017 01:00',
+                    date: 'ma 21-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1060,7 +1054,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-08-2017 01:00',
+                    date: 'di 22-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1068,7 +1062,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-08-2017 01:00',
+                    date: 'wo 23-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1076,7 +1070,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-08-2017 01:00',
+                    date: 'do 24-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1084,7 +1078,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-08-2017 01:00',
+                    date: 'vr 25-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1092,7 +1086,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-08-2017 01:00',
+                    date: 'za 26-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1100,7 +1094,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-08-2017 01:00',
+                    date: 'zo 27-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1108,7 +1102,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-08-2017 01:00',
+                    date: 'ma 28-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1116,7 +1110,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-08-2017 01:00',
+                    date: 'di 29-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1124,7 +1118,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-08-2017 01:00',
+                    date: 'wo 30-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1132,7 +1126,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 31-08-2017 01:00',
+                    date: 'do 31-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1140,7 +1134,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-09-2017 01:00',
+                    date: 'vr 01-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -1148,7 +1142,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-09-2017 01:00',
+                    date: 'za 02-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -1174,7 +1168,7 @@ describe('DateGallery', () => {
       test('to year', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
-          initialDate: '2020-09-26',
+          initialDate: '2020-09-26 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -1905,7 +1899,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 30-03-2020 01:00',
+                    date: 'ma 30-03-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1913,7 +1907,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 31-03-2020 01:00',
+                    date: 'di 31-03-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1921,7 +1915,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 01-04-2020 01:00',
+                    date: 'wo 01-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1929,7 +1923,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 02-04-2020 01:00',
+                    date: 'do 02-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1937,7 +1931,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 03-04-2020 01:00',
+                    date: 'vr 03-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1945,7 +1939,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 04-04-2020 01:00',
+                    date: 'za 04-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1953,7 +1947,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 05-04-2020 01:00',
+                    date: 'zo 05-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1961,7 +1955,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 06-04-2020 01:00',
+                    date: 'ma 06-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1969,7 +1963,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 07-04-2020 01:00',
+                    date: 'di 07-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1977,7 +1971,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 08-04-2020 01:00',
+                    date: 'wo 08-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1985,7 +1979,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 09-04-2020 01:00',
+                    date: 'do 09-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -1993,7 +1987,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 10-04-2020 01:00',
+                    date: 'vr 10-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2001,7 +1995,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 11-04-2020 01:00',
+                    date: 'za 11-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2009,7 +2003,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 12-04-2020 01:00',
+                    date: 'zo 12-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2017,7 +2011,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 13-04-2020 01:00',
+                    date: 'ma 13-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2025,7 +2019,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 14-04-2020 01:00',
+                    date: 'di 14-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2033,7 +2027,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 15-04-2020 01:00',
+                    date: 'wo 15-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2041,7 +2035,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 16-04-2020 01:00',
+                    date: 'do 16-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2049,7 +2043,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 17-04-2020 01:00',
+                    date: 'vr 17-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2057,7 +2051,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 18-04-2020 01:00',
+                    date: 'za 18-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2065,7 +2059,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 19-04-2020 01:00',
+                    date: 'zo 19-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2073,7 +2067,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 20-04-2020 01:00',
+                    date: 'ma 20-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2081,7 +2075,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 21-04-2020 01:00',
+                    date: 'di 21-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2089,7 +2083,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 22-04-2020 01:00',
+                    date: 'wo 22-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2097,7 +2091,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 23-04-2020 01:00',
+                    date: 'do 23-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2105,7 +2099,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 24-04-2020 01:00',
+                    date: 'vr 24-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2113,7 +2107,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 25-04-2020 01:00',
+                    date: 'za 25-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2121,7 +2115,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 26-04-2020 01:00',
+                    date: 'zo 26-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2129,7 +2123,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 27-04-2020 01:00',
+                    date: 'ma 27-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2137,7 +2131,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 28-04-2020 01:00',
+                    date: 'di 28-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2145,7 +2139,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 29-04-2020 01:00',
+                    date: 'wo 29-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2153,7 +2147,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 30-04-2020 01:00',
+                    date: 'do 30-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2161,7 +2155,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-05-2020 01:00',
+                    date: 'vr 01-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2169,7 +2163,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-05-2020 01:00',
+                    date: 'za 02-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2177,7 +2171,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 03-05-2020 01:00',
+                    date: 'zo 03-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2185,7 +2179,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 04-05-2020 01:00',
+                    date: 'ma 04-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2193,7 +2187,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 05-05-2020 01:00',
+                    date: 'di 05-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2201,7 +2195,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 06-05-2020 01:00',
+                    date: 'wo 06-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2209,7 +2203,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 07-05-2020 01:00',
+                    date: 'do 07-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2217,7 +2211,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 08-05-2020 01:00',
+                    date: 'vr 08-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2225,7 +2219,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 09-05-2020 01:00',
+                    date: 'za 09-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2233,7 +2227,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 10-05-2020 01:00',
+                    date: 'zo 10-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2241,7 +2235,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 11-05-2020 01:00',
+                    date: 'ma 11-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2249,7 +2243,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 12-05-2020 01:00',
+                    date: 'di 12-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2257,7 +2251,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 13-05-2020 01:00',
+                    date: 'wo 13-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2265,7 +2259,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 14-05-2020 01:00',
+                    date: 'do 14-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2273,7 +2267,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 15-05-2020 01:00',
+                    date: 'vr 15-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2281,7 +2275,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 16-05-2020 01:00',
+                    date: 'za 16-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2289,7 +2283,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 17-05-2020 01:00',
+                    date: 'zo 17-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2297,7 +2291,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 18-05-2020 01:00',
+                    date: 'ma 18-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2305,7 +2299,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 19-05-2020 01:00',
+                    date: 'di 19-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2313,7 +2307,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 20-05-2020 01:00',
+                    date: 'wo 20-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2321,7 +2315,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 21-05-2020 01:00',
+                    date: 'do 21-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2329,7 +2323,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 22-05-2020 01:00',
+                    date: 'vr 22-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2337,7 +2331,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 23-05-2020 01:00',
+                    date: 'za 23-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2345,7 +2339,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 24-05-2020 01:00',
+                    date: 'zo 24-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2353,7 +2347,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 25-05-2020 01:00',
+                    date: 'ma 25-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2361,7 +2355,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 26-05-2020 01:00',
+                    date: 'di 26-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2369,7 +2363,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 27-05-2020 01:00',
+                    date: 'wo 27-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2377,7 +2371,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 28-05-2020 01:00',
+                    date: 'do 28-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2385,7 +2379,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 29-05-2020 01:00',
+                    date: 'vr 29-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2393,7 +2387,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 30-05-2020 01:00',
+                    date: 'za 30-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2401,7 +2395,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 31-05-2020 01:00',
+                    date: 'zo 31-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2409,7 +2403,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 01-06-2020 01:00',
+                    date: 'ma 01-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2417,7 +2411,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 02-06-2020 01:00',
+                    date: 'di 02-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2425,7 +2419,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 03-06-2020 01:00',
+                    date: 'wo 03-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2433,7 +2427,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 04-06-2020 01:00',
+                    date: 'do 04-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2441,7 +2435,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 05-06-2020 01:00',
+                    date: 'vr 05-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2449,7 +2443,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 06-06-2020 01:00',
+                    date: 'za 06-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2457,7 +2451,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 07-06-2020 01:00',
+                    date: 'zo 07-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2465,7 +2459,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 08-06-2020 01:00',
+                    date: 'ma 08-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2473,7 +2467,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 09-06-2020 01:00',
+                    date: 'di 09-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2481,7 +2475,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 10-06-2020 01:00',
+                    date: 'wo 10-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2489,7 +2483,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 11-06-2020 01:00',
+                    date: 'do 11-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2497,7 +2491,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 12-06-2020 01:00',
+                    date: 'vr 12-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2505,7 +2499,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 13-06-2020 01:00',
+                    date: 'za 13-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2513,7 +2507,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 14-06-2020 01:00',
+                    date: 'zo 14-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2521,7 +2515,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 15-06-2020 01:00',
+                    date: 'ma 15-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2529,7 +2523,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 16-06-2020 01:00',
+                    date: 'di 16-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2537,7 +2531,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 17-06-2020 01:00',
+                    date: 'wo 17-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2545,7 +2539,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 18-06-2020 01:00',
+                    date: 'do 18-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2553,7 +2547,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 19-06-2020 01:00',
+                    date: 'vr 19-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2561,7 +2555,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 20-06-2020 01:00',
+                    date: 'za 20-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2569,7 +2563,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 21-06-2020 01:00',
+                    date: 'zo 21-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2577,7 +2571,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 22-06-2020 01:00',
+                    date: 'ma 22-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2585,7 +2579,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 23-06-2020 01:00',
+                    date: 'di 23-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2593,7 +2587,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 24-06-2020 01:00',
+                    date: 'wo 24-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2601,7 +2595,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 25-06-2020 01:00',
+                    date: 'do 25-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2609,7 +2603,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 26-06-2020 01:00',
+                    date: 'vr 26-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2617,7 +2611,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 27-06-2020 01:00',
+                    date: 'za 27-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2625,7 +2619,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 28-06-2020 01:00',
+                    date: 'zo 28-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2633,7 +2627,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 29-06-2020 01:00',
+                    date: 'ma 29-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2641,7 +2635,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 30-06-2020 01:00',
+                    date: 'di 30-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2649,7 +2643,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 01-07-2020 01:00',
+                    date: 'wo 01-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2657,7 +2651,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 02-07-2020 01:00',
+                    date: 'do 02-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2665,7 +2659,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 03-07-2020 01:00',
+                    date: 'vr 03-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2673,7 +2667,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 04-07-2020 01:00',
+                    date: 'za 04-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2681,7 +2675,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 05-07-2020 01:00',
+                    date: 'zo 05-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2689,7 +2683,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 06-07-2020 01:00',
+                    date: 'ma 06-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2697,7 +2691,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 07-07-2020 01:00',
+                    date: 'di 07-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2705,7 +2699,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 08-07-2020 01:00',
+                    date: 'wo 08-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2713,7 +2707,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 09-07-2020 01:00',
+                    date: 'do 09-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2721,7 +2715,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 10-07-2020 01:00',
+                    date: 'vr 10-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2729,7 +2723,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 11-07-2020 01:00',
+                    date: 'za 11-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2737,7 +2731,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 12-07-2020 01:00',
+                    date: 'zo 12-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2745,7 +2739,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 13-07-2020 01:00',
+                    date: 'ma 13-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2753,7 +2747,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 14-07-2020 01:00',
+                    date: 'di 14-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2761,7 +2755,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 15-07-2020 01:00',
+                    date: 'wo 15-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2769,7 +2763,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 16-07-2020 01:00',
+                    date: 'do 16-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2777,7 +2771,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 17-07-2020 01:00',
+                    date: 'vr 17-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2785,7 +2779,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 18-07-2020 01:00',
+                    date: 'za 18-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2793,7 +2787,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 19-07-2020 01:00',
+                    date: 'zo 19-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2801,7 +2795,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 20-07-2020 01:00',
+                    date: 'ma 20-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2809,7 +2803,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 21-07-2020 01:00',
+                    date: 'di 21-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2817,7 +2811,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 22-07-2020 01:00',
+                    date: 'wo 22-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2825,7 +2819,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 23-07-2020 01:00',
+                    date: 'do 23-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2833,7 +2827,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 24-07-2020 01:00',
+                    date: 'vr 24-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2841,7 +2835,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 25-07-2020 01:00',
+                    date: 'za 25-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2849,7 +2843,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 26-07-2020 01:00',
+                    date: 'zo 26-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2857,7 +2851,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 27-07-2020 01:00',
+                    date: 'ma 27-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2865,7 +2859,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 28-07-2020 01:00',
+                    date: 'di 28-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2873,7 +2867,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 29-07-2020 01:00',
+                    date: 'wo 29-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2881,7 +2875,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 30-07-2020 01:00',
+                    date: 'do 30-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2889,7 +2883,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 31-07-2020 01:00',
+                    date: 'vr 31-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2897,7 +2891,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 01-08-2020 01:00',
+                    date: 'za 01-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2905,7 +2899,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 02-08-2020 01:00',
+                    date: 'zo 02-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2913,7 +2907,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 03-08-2020 01:00',
+                    date: 'ma 03-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2921,7 +2915,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 04-08-2020 01:00',
+                    date: 'di 04-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2929,7 +2923,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 05-08-2020 01:00',
+                    date: 'wo 05-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2937,7 +2931,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 06-08-2020 01:00',
+                    date: 'do 06-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2945,7 +2939,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 07-08-2020 01:00',
+                    date: 'vr 07-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2953,7 +2947,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 08-08-2020 01:00',
+                    date: 'za 08-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2961,7 +2955,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 09-08-2020 01:00',
+                    date: 'zo 09-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2969,7 +2963,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 10-08-2020 01:00',
+                    date: 'ma 10-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2977,7 +2971,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 11-08-2020 01:00',
+                    date: 'di 11-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2985,7 +2979,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 12-08-2020 01:00',
+                    date: 'wo 12-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -2993,7 +2987,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 13-08-2020 01:00',
+                    date: 'do 13-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3001,7 +2995,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 14-08-2020 01:00',
+                    date: 'vr 14-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3009,7 +3003,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 15-08-2020 01:00',
+                    date: 'za 15-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3017,7 +3011,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 16-08-2020 01:00',
+                    date: 'zo 16-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3025,7 +3019,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 17-08-2020 01:00',
+                    date: 'ma 17-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3033,7 +3027,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 18-08-2020 01:00',
+                    date: 'di 18-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3041,7 +3035,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 19-08-2020 01:00',
+                    date: 'wo 19-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3049,7 +3043,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 20-08-2020 01:00',
+                    date: 'do 20-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3057,7 +3051,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 21-08-2020 01:00',
+                    date: 'vr 21-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3065,7 +3059,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 22-08-2020 01:00',
+                    date: 'za 22-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3073,7 +3067,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 23-08-2020 01:00',
+                    date: 'zo 23-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3081,7 +3075,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 24-08-2020 01:00',
+                    date: 'ma 24-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3089,7 +3083,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 25-08-2020 01:00',
+                    date: 'di 25-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3097,7 +3091,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 26-08-2020 01:00',
+                    date: 'wo 26-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3105,7 +3099,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 27-08-2020 01:00',
+                    date: 'do 27-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3113,7 +3107,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 28-08-2020 01:00',
+                    date: 'vr 28-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3121,7 +3115,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 29-08-2020 01:00',
+                    date: 'za 29-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3129,7 +3123,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 30-08-2020 01:00',
+                    date: 'zo 30-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3137,7 +3131,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-08-2020 01:00',
+                    date: 'ma 31-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3145,7 +3139,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-09-2020 01:00',
+                    date: 'di 01-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3153,7 +3147,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-09-2020 01:00',
+                    date: 'wo 02-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3161,7 +3155,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-09-2020 01:00',
+                    date: 'do 03-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3169,7 +3163,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-09-2020 01:00',
+                    date: 'vr 04-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3177,7 +3171,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-09-2020 01:00',
+                    date: 'za 05-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3185,7 +3179,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-09-2020 01:00',
+                    date: 'zo 06-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3193,7 +3187,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-09-2020 01:00',
+                    date: 'ma 07-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3201,7 +3195,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-09-2020 01:00',
+                    date: 'di 08-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3209,7 +3203,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-09-2020 01:00',
+                    date: 'wo 09-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3217,7 +3211,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-09-2020 01:00',
+                    date: 'do 10-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3225,7 +3219,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-09-2020 01:00',
+                    date: 'vr 11-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3233,7 +3227,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-09-2020 01:00',
+                    date: 'za 12-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3241,7 +3235,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-09-2020 01:00',
+                    date: 'zo 13-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3249,7 +3243,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-09-2020 01:00',
+                    date: 'ma 14-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3257,7 +3251,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-09-2020 01:00',
+                    date: 'di 15-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3265,7 +3259,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-09-2020 01:00',
+                    date: 'wo 16-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3273,7 +3267,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-09-2020 01:00',
+                    date: 'do 17-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3281,7 +3275,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-09-2020 01:00',
+                    date: 'vr 18-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3289,7 +3283,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-09-2020 01:00',
+                    date: 'za 19-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3297,7 +3291,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-09-2020 01:00',
+                    date: 'zo 20-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3305,7 +3299,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-09-2020 01:00',
+                    date: 'ma 21-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3313,7 +3307,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-09-2020 01:00',
+                    date: 'di 22-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3321,7 +3315,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-09-2020 01:00',
+                    date: 'wo 23-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3329,7 +3323,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-09-2020 01:00',
+                    date: 'do 24-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3337,7 +3331,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-09-2020 01:00',
+                    date: 'vr 25-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3345,7 +3339,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-09-2020 01:00',
+                    date: 'za 26-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3353,7 +3347,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-09-2020 01:00',
+                    date: 'zo 27-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3361,7 +3355,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-09-2020 01:00',
+                    date: 'ma 28-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3369,7 +3363,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-09-2020 01:00',
+                    date: 'di 29-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3377,7 +3371,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-09-2020 01:00',
+                    date: 'wo 30-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3385,7 +3379,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 01-10-2020 01:00',
+                    date: 'do 01-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3393,7 +3387,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 02-10-2020 01:00',
+                    date: 'vr 02-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3401,7 +3395,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 03-10-2020 01:00',
+                    date: 'za 03-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3409,7 +3403,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 04-10-2020 01:00',
+                    date: 'zo 04-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3417,7 +3411,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 05-10-2020 01:00',
+                    date: 'ma 05-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3425,7 +3419,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 06-10-2020 01:00',
+                    date: 'di 06-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3433,7 +3427,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 07-10-2020 01:00',
+                    date: 'wo 07-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3441,7 +3435,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 08-10-2020 01:00',
+                    date: 'do 08-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3449,7 +3443,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 09-10-2020 01:00',
+                    date: 'vr 09-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3457,7 +3451,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 10-10-2020 01:00',
+                    date: 'za 10-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3465,7 +3459,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 11-10-2020 01:00',
+                    date: 'zo 11-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3473,7 +3467,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 12-10-2020 01:00',
+                    date: 'ma 12-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3481,7 +3475,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 13-10-2020 01:00',
+                    date: 'di 13-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3489,7 +3483,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 14-10-2020 01:00',
+                    date: 'wo 14-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3497,7 +3491,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 15-10-2020 01:00',
+                    date: 'do 15-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3505,7 +3499,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 16-10-2020 01:00',
+                    date: 'vr 16-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3513,7 +3507,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 17-10-2020 01:00',
+                    date: 'za 17-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3521,7 +3515,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 18-10-2020 01:00',
+                    date: 'zo 18-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3529,7 +3523,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 19-10-2020 01:00',
+                    date: 'ma 19-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3537,7 +3531,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 20-10-2020 01:00',
+                    date: 'di 20-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3545,7 +3539,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 21-10-2020 01:00',
+                    date: 'wo 21-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3553,7 +3547,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 22-10-2020 01:00',
+                    date: 'do 22-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3561,7 +3555,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 23-10-2020 01:00',
+                    date: 'vr 23-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3569,7 +3563,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 24-10-2020 01:00',
+                    date: 'za 24-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -3577,7 +3571,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 25-10-2020 01:00',
+                    date: 'zo 25-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4139,11 +4133,11 @@ describe('DateGallery', () => {
       test('with new date', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
-          initialDate: '1980-05-03',
+          initialDate: '1980-05-03 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
-        dateGallery.changeMode('day', '1980-05-04');
+        dateGallery.changeMode('day', '1980-05-04 00:00');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -4158,7 +4152,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 04-05-1980 01:00',
+                    date: 'zo 04-05-1980 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4184,11 +4178,11 @@ describe('DateGallery', () => {
       test('with new date, but same frames', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'day',
-          initialDate: '1980-05-03',
+          initialDate: '1980-05-03 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
-        dateGallery.changeMode('day', '1980-05-03');
+        dateGallery.changeMode('day', '1980-05-03 00:00');
 
         expect(subscriber).toBeCalledTimes(0);
       });
@@ -4198,7 +4192,7 @@ describe('DateGallery', () => {
       test('to day', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
-          initialDate: '1990-10-04',
+          initialDate: '1990-10-04 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -4216,9 +4210,8 @@ describe('DateGallery', () => {
             frames: [
               {
                 dates: [
-                  // Summertime
                   {
-                    date: 'zo 30-09-1990 01:00',
+                    date: 'zo 30-09-1990 00:00',
                     isPadding: false,
                     isSelected: false,
                     isToday: false,
@@ -4244,7 +4237,7 @@ describe('DateGallery', () => {
       test('to week', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
-          initialDate: '1990-10-04',
+          initialDate: '1990-10-04 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -4256,7 +4249,7 @@ describe('DateGallery', () => {
       test('to month', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
-          initialDate: '2017-08-08',
+          initialDate: '2017-08-08 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -4275,7 +4268,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4283,7 +4276,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4291,7 +4284,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4299,7 +4292,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4307,7 +4300,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4315,7 +4308,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-08-2017 01:00',
+                    date: 'zo 06-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4323,7 +4316,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-08-2017 01:00',
+                    date: 'ma 07-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4331,7 +4324,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-08-2017 01:00',
+                    date: 'di 08-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4339,7 +4332,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-08-2017 01:00',
+                    date: 'wo 09-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4347,7 +4340,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-08-2017 01:00',
+                    date: 'do 10-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4355,7 +4348,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-08-2017 01:00',
+                    date: 'vr 11-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4363,7 +4356,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-08-2017 01:00',
+                    date: 'za 12-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4371,7 +4364,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-08-2017 01:00',
+                    date: 'zo 13-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4379,7 +4372,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-08-2017 01:00',
+                    date: 'ma 14-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4387,7 +4380,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-08-2017 01:00',
+                    date: 'di 15-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4395,7 +4388,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-08-2017 01:00',
+                    date: 'wo 16-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4403,7 +4396,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-08-2017 01:00',
+                    date: 'do 17-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4411,7 +4404,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-08-2017 01:00',
+                    date: 'vr 18-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4419,7 +4412,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-08-2017 01:00',
+                    date: 'za 19-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4427,7 +4420,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-08-2017 01:00',
+                    date: 'zo 20-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4435,7 +4428,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-08-2017 01:00',
+                    date: 'ma 21-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4443,7 +4436,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-08-2017 01:00',
+                    date: 'di 22-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4451,7 +4444,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-08-2017 01:00',
+                    date: 'wo 23-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4459,7 +4452,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-08-2017 01:00',
+                    date: 'do 24-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4467,7 +4460,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-08-2017 01:00',
+                    date: 'vr 25-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4475,7 +4468,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-08-2017 01:00',
+                    date: 'za 26-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4483,7 +4476,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-08-2017 01:00',
+                    date: 'zo 27-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4491,7 +4484,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-08-2017 01:00',
+                    date: 'ma 28-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4499,7 +4492,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-08-2017 01:00',
+                    date: 'di 29-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4507,7 +4500,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-08-2017 01:00',
+                    date: 'wo 30-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4515,7 +4508,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 31-08-2017 01:00',
+                    date: 'do 31-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4541,7 +4534,7 @@ describe('DateGallery', () => {
       test('to month-six-weeks', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
-          initialDate: '2017-08-29',
+          initialDate: '2017-08-29 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -4560,7 +4553,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 30-07-2017 01:00',
+                    date: 'zo 30-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -4568,7 +4561,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-07-2017 01:00',
+                    date: 'ma 31-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -4576,7 +4569,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4584,7 +4577,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4592,7 +4585,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4600,7 +4593,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4608,7 +4601,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4616,7 +4609,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-08-2017 01:00',
+                    date: 'zo 06-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4624,7 +4617,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-08-2017 01:00',
+                    date: 'ma 07-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4632,7 +4625,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-08-2017 01:00',
+                    date: 'di 08-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4640,7 +4633,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-08-2017 01:00',
+                    date: 'wo 09-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4648,7 +4641,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-08-2017 01:00',
+                    date: 'do 10-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4656,7 +4649,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-08-2017 01:00',
+                    date: 'vr 11-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4664,7 +4657,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-08-2017 01:00',
+                    date: 'za 12-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4672,7 +4665,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-08-2017 01:00',
+                    date: 'zo 13-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4680,7 +4673,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-08-2017 01:00',
+                    date: 'ma 14-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4688,7 +4681,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-08-2017 01:00',
+                    date: 'di 15-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4696,7 +4689,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-08-2017 01:00',
+                    date: 'wo 16-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4704,7 +4697,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-08-2017 01:00',
+                    date: 'do 17-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4712,7 +4705,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-08-2017 01:00',
+                    date: 'vr 18-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4720,7 +4713,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-08-2017 01:00',
+                    date: 'za 19-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4728,7 +4721,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-08-2017 01:00',
+                    date: 'zo 20-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4736,7 +4729,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-08-2017 01:00',
+                    date: 'ma 21-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4744,7 +4737,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-08-2017 01:00',
+                    date: 'di 22-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4752,7 +4745,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-08-2017 01:00',
+                    date: 'wo 23-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4760,7 +4753,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-08-2017 01:00',
+                    date: 'do 24-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4768,7 +4761,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-08-2017 01:00',
+                    date: 'vr 25-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4776,7 +4769,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-08-2017 01:00',
+                    date: 'za 26-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4784,7 +4777,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-08-2017 01:00',
+                    date: 'zo 27-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4792,7 +4785,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-08-2017 01:00',
+                    date: 'ma 28-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4800,7 +4793,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-08-2017 01:00',
+                    date: 'di 29-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4808,7 +4801,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-08-2017 01:00',
+                    date: 'wo 30-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4816,7 +4809,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 31-08-2017 01:00',
+                    date: 'do 31-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4824,7 +4817,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-09-2017 01:00',
+                    date: 'vr 01-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -4832,7 +4825,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-09-2017 01:00',
+                    date: 'za 02-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -4840,7 +4833,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 03-09-2017 01:00',
+                    date: 'zo 03-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -4848,7 +4841,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 04-09-2017 01:00',
+                    date: 'ma 04-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -4856,7 +4849,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 05-09-2017 01:00',
+                    date: 'di 05-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -4864,7 +4857,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 06-09-2017 01:00',
+                    date: 'wo 06-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -4872,7 +4865,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 07-09-2017 01:00',
+                    date: 'do 07-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -4880,7 +4873,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 08-09-2017 01:00',
+                    date: 'vr 08-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -4888,7 +4881,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 09-09-2017 01:00',
+                    date: 'za 09-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -4914,7 +4907,7 @@ describe('DateGallery', () => {
       test('to month-pad-to-week', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
-          initialDate: '2017-08-13',
+          initialDate: '2017-08-13 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -4933,7 +4926,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 30-07-2017 01:00',
+                    date: 'zo 30-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -4941,7 +4934,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-07-2017 01:00',
+                    date: 'ma 31-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -4949,7 +4942,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4957,7 +4950,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4965,7 +4958,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4973,7 +4966,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4981,7 +4974,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4989,7 +4982,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-08-2017 01:00',
+                    date: 'zo 06-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -4997,7 +4990,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-08-2017 01:00',
+                    date: 'ma 07-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5005,7 +4998,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-08-2017 01:00',
+                    date: 'di 08-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5013,7 +5006,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-08-2017 01:00',
+                    date: 'wo 09-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5021,7 +5014,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-08-2017 01:00',
+                    date: 'do 10-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5029,7 +5022,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-08-2017 01:00',
+                    date: 'vr 11-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5037,7 +5030,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-08-2017 01:00',
+                    date: 'za 12-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5045,7 +5038,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-08-2017 01:00',
+                    date: 'zo 13-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5053,7 +5046,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-08-2017 01:00',
+                    date: 'ma 14-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5061,7 +5054,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-08-2017 01:00',
+                    date: 'di 15-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5069,7 +5062,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-08-2017 01:00',
+                    date: 'wo 16-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5077,7 +5070,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-08-2017 01:00',
+                    date: 'do 17-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5085,7 +5078,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-08-2017 01:00',
+                    date: 'vr 18-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5093,7 +5086,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-08-2017 01:00',
+                    date: 'za 19-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5101,7 +5094,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-08-2017 01:00',
+                    date: 'zo 20-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5109,7 +5102,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-08-2017 01:00',
+                    date: 'ma 21-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5117,7 +5110,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-08-2017 01:00',
+                    date: 'di 22-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5125,7 +5118,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-08-2017 01:00',
+                    date: 'wo 23-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5133,7 +5126,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-08-2017 01:00',
+                    date: 'do 24-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5141,7 +5134,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-08-2017 01:00',
+                    date: 'vr 25-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5149,7 +5142,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-08-2017 01:00',
+                    date: 'za 26-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5157,7 +5150,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-08-2017 01:00',
+                    date: 'zo 27-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5165,7 +5158,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-08-2017 01:00',
+                    date: 'ma 28-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5173,7 +5166,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-08-2017 01:00',
+                    date: 'di 29-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5181,7 +5174,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-08-2017 01:00',
+                    date: 'wo 30-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5189,7 +5182,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 31-08-2017 01:00',
+                    date: 'do 31-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5197,7 +5190,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-09-2017 01:00',
+                    date: 'vr 01-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -5205,7 +5198,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-09-2017 01:00',
+                    date: 'za 02-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -5231,7 +5224,7 @@ describe('DateGallery', () => {
       test('to year', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
-          initialDate: '2020-09-26',
+          initialDate: '2020-09-26 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -5962,7 +5955,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 30-03-2020 01:00',
+                    date: 'ma 30-03-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5970,7 +5963,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 31-03-2020 01:00',
+                    date: 'di 31-03-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5978,7 +5971,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 01-04-2020 01:00',
+                    date: 'wo 01-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5986,7 +5979,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 02-04-2020 01:00',
+                    date: 'do 02-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -5994,7 +5987,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 03-04-2020 01:00',
+                    date: 'vr 03-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6002,7 +5995,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 04-04-2020 01:00',
+                    date: 'za 04-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6010,7 +6003,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 05-04-2020 01:00',
+                    date: 'zo 05-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6018,7 +6011,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 06-04-2020 01:00',
+                    date: 'ma 06-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6026,7 +6019,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 07-04-2020 01:00',
+                    date: 'di 07-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6034,7 +6027,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 08-04-2020 01:00',
+                    date: 'wo 08-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6042,7 +6035,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 09-04-2020 01:00',
+                    date: 'do 09-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6050,7 +6043,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 10-04-2020 01:00',
+                    date: 'vr 10-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6058,7 +6051,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 11-04-2020 01:00',
+                    date: 'za 11-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6066,7 +6059,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 12-04-2020 01:00',
+                    date: 'zo 12-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6074,7 +6067,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 13-04-2020 01:00',
+                    date: 'ma 13-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6082,7 +6075,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 14-04-2020 01:00',
+                    date: 'di 14-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6090,7 +6083,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 15-04-2020 01:00',
+                    date: 'wo 15-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6098,7 +6091,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 16-04-2020 01:00',
+                    date: 'do 16-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6106,7 +6099,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 17-04-2020 01:00',
+                    date: 'vr 17-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6114,7 +6107,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 18-04-2020 01:00',
+                    date: 'za 18-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6122,7 +6115,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 19-04-2020 01:00',
+                    date: 'zo 19-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6130,7 +6123,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 20-04-2020 01:00',
+                    date: 'ma 20-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6138,7 +6131,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 21-04-2020 01:00',
+                    date: 'di 21-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6146,7 +6139,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 22-04-2020 01:00',
+                    date: 'wo 22-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6154,7 +6147,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 23-04-2020 01:00',
+                    date: 'do 23-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6162,7 +6155,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 24-04-2020 01:00',
+                    date: 'vr 24-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6170,7 +6163,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 25-04-2020 01:00',
+                    date: 'za 25-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6178,7 +6171,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 26-04-2020 01:00',
+                    date: 'zo 26-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6186,7 +6179,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 27-04-2020 01:00',
+                    date: 'ma 27-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6194,7 +6187,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 28-04-2020 01:00',
+                    date: 'di 28-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6202,7 +6195,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 29-04-2020 01:00',
+                    date: 'wo 29-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6210,7 +6203,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 30-04-2020 01:00',
+                    date: 'do 30-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6218,7 +6211,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-05-2020 01:00',
+                    date: 'vr 01-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6226,7 +6219,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-05-2020 01:00',
+                    date: 'za 02-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6234,7 +6227,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 03-05-2020 01:00',
+                    date: 'zo 03-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6242,7 +6235,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 04-05-2020 01:00',
+                    date: 'ma 04-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6250,7 +6243,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 05-05-2020 01:00',
+                    date: 'di 05-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6258,7 +6251,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 06-05-2020 01:00',
+                    date: 'wo 06-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6266,7 +6259,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 07-05-2020 01:00',
+                    date: 'do 07-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6274,7 +6267,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 08-05-2020 01:00',
+                    date: 'vr 08-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6282,7 +6275,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 09-05-2020 01:00',
+                    date: 'za 09-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6290,7 +6283,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 10-05-2020 01:00',
+                    date: 'zo 10-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6298,7 +6291,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 11-05-2020 01:00',
+                    date: 'ma 11-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6306,7 +6299,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 12-05-2020 01:00',
+                    date: 'di 12-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6314,7 +6307,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 13-05-2020 01:00',
+                    date: 'wo 13-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6322,7 +6315,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 14-05-2020 01:00',
+                    date: 'do 14-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6330,7 +6323,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 15-05-2020 01:00',
+                    date: 'vr 15-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6338,7 +6331,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 16-05-2020 01:00',
+                    date: 'za 16-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6346,7 +6339,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 17-05-2020 01:00',
+                    date: 'zo 17-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6354,7 +6347,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 18-05-2020 01:00',
+                    date: 'ma 18-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6362,7 +6355,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 19-05-2020 01:00',
+                    date: 'di 19-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6370,7 +6363,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 20-05-2020 01:00',
+                    date: 'wo 20-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6378,7 +6371,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 21-05-2020 01:00',
+                    date: 'do 21-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6386,7 +6379,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 22-05-2020 01:00',
+                    date: 'vr 22-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6394,7 +6387,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 23-05-2020 01:00',
+                    date: 'za 23-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6402,7 +6395,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 24-05-2020 01:00',
+                    date: 'zo 24-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6410,7 +6403,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 25-05-2020 01:00',
+                    date: 'ma 25-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6418,7 +6411,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 26-05-2020 01:00',
+                    date: 'di 26-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6426,7 +6419,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 27-05-2020 01:00',
+                    date: 'wo 27-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6434,7 +6427,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 28-05-2020 01:00',
+                    date: 'do 28-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6442,7 +6435,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 29-05-2020 01:00',
+                    date: 'vr 29-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6450,7 +6443,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 30-05-2020 01:00',
+                    date: 'za 30-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6458,7 +6451,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 31-05-2020 01:00',
+                    date: 'zo 31-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6466,7 +6459,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 01-06-2020 01:00',
+                    date: 'ma 01-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6474,7 +6467,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 02-06-2020 01:00',
+                    date: 'di 02-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6482,7 +6475,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 03-06-2020 01:00',
+                    date: 'wo 03-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6490,7 +6483,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 04-06-2020 01:00',
+                    date: 'do 04-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6498,7 +6491,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 05-06-2020 01:00',
+                    date: 'vr 05-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6506,7 +6499,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 06-06-2020 01:00',
+                    date: 'za 06-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6514,7 +6507,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 07-06-2020 01:00',
+                    date: 'zo 07-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6522,7 +6515,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 08-06-2020 01:00',
+                    date: 'ma 08-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6530,7 +6523,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 09-06-2020 01:00',
+                    date: 'di 09-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6538,7 +6531,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 10-06-2020 01:00',
+                    date: 'wo 10-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6546,7 +6539,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 11-06-2020 01:00',
+                    date: 'do 11-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6554,7 +6547,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 12-06-2020 01:00',
+                    date: 'vr 12-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6562,7 +6555,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 13-06-2020 01:00',
+                    date: 'za 13-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6570,7 +6563,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 14-06-2020 01:00',
+                    date: 'zo 14-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6578,7 +6571,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 15-06-2020 01:00',
+                    date: 'ma 15-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6586,7 +6579,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 16-06-2020 01:00',
+                    date: 'di 16-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6594,7 +6587,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 17-06-2020 01:00',
+                    date: 'wo 17-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6602,7 +6595,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 18-06-2020 01:00',
+                    date: 'do 18-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6610,7 +6603,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 19-06-2020 01:00',
+                    date: 'vr 19-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6618,7 +6611,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 20-06-2020 01:00',
+                    date: 'za 20-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6626,7 +6619,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 21-06-2020 01:00',
+                    date: 'zo 21-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6634,7 +6627,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 22-06-2020 01:00',
+                    date: 'ma 22-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6642,7 +6635,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 23-06-2020 01:00',
+                    date: 'di 23-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6650,7 +6643,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 24-06-2020 01:00',
+                    date: 'wo 24-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6658,7 +6651,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 25-06-2020 01:00',
+                    date: 'do 25-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6666,7 +6659,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 26-06-2020 01:00',
+                    date: 'vr 26-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6674,7 +6667,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 27-06-2020 01:00',
+                    date: 'za 27-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6682,7 +6675,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 28-06-2020 01:00',
+                    date: 'zo 28-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6690,7 +6683,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 29-06-2020 01:00',
+                    date: 'ma 29-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6698,7 +6691,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 30-06-2020 01:00',
+                    date: 'di 30-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6706,7 +6699,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 01-07-2020 01:00',
+                    date: 'wo 01-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6714,7 +6707,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 02-07-2020 01:00',
+                    date: 'do 02-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6722,7 +6715,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 03-07-2020 01:00',
+                    date: 'vr 03-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6730,7 +6723,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 04-07-2020 01:00',
+                    date: 'za 04-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6738,7 +6731,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 05-07-2020 01:00',
+                    date: 'zo 05-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6746,7 +6739,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 06-07-2020 01:00',
+                    date: 'ma 06-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6754,7 +6747,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 07-07-2020 01:00',
+                    date: 'di 07-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6762,7 +6755,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 08-07-2020 01:00',
+                    date: 'wo 08-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6770,7 +6763,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 09-07-2020 01:00',
+                    date: 'do 09-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6778,7 +6771,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 10-07-2020 01:00',
+                    date: 'vr 10-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6786,7 +6779,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 11-07-2020 01:00',
+                    date: 'za 11-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6794,7 +6787,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 12-07-2020 01:00',
+                    date: 'zo 12-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6802,7 +6795,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 13-07-2020 01:00',
+                    date: 'ma 13-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6810,7 +6803,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 14-07-2020 01:00',
+                    date: 'di 14-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6818,7 +6811,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 15-07-2020 01:00',
+                    date: 'wo 15-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6826,7 +6819,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 16-07-2020 01:00',
+                    date: 'do 16-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6834,7 +6827,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 17-07-2020 01:00',
+                    date: 'vr 17-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6842,7 +6835,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 18-07-2020 01:00',
+                    date: 'za 18-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6850,7 +6843,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 19-07-2020 01:00',
+                    date: 'zo 19-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6858,7 +6851,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 20-07-2020 01:00',
+                    date: 'ma 20-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6866,7 +6859,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 21-07-2020 01:00',
+                    date: 'di 21-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6874,7 +6867,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 22-07-2020 01:00',
+                    date: 'wo 22-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6882,7 +6875,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 23-07-2020 01:00',
+                    date: 'do 23-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6890,7 +6883,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 24-07-2020 01:00',
+                    date: 'vr 24-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6898,7 +6891,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 25-07-2020 01:00',
+                    date: 'za 25-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6906,7 +6899,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 26-07-2020 01:00',
+                    date: 'zo 26-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6914,7 +6907,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 27-07-2020 01:00',
+                    date: 'ma 27-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6922,7 +6915,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 28-07-2020 01:00',
+                    date: 'di 28-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6930,7 +6923,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 29-07-2020 01:00',
+                    date: 'wo 29-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6938,7 +6931,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 30-07-2020 01:00',
+                    date: 'do 30-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6946,7 +6939,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 31-07-2020 01:00',
+                    date: 'vr 31-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6954,7 +6947,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 01-08-2020 01:00',
+                    date: 'za 01-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6962,7 +6955,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 02-08-2020 01:00',
+                    date: 'zo 02-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6970,7 +6963,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 03-08-2020 01:00',
+                    date: 'ma 03-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6978,7 +6971,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 04-08-2020 01:00',
+                    date: 'di 04-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6986,7 +6979,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 05-08-2020 01:00',
+                    date: 'wo 05-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -6994,7 +6987,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 06-08-2020 01:00',
+                    date: 'do 06-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7002,7 +6995,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 07-08-2020 01:00',
+                    date: 'vr 07-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7010,7 +7003,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 08-08-2020 01:00',
+                    date: 'za 08-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7018,7 +7011,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 09-08-2020 01:00',
+                    date: 'zo 09-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7026,7 +7019,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 10-08-2020 01:00',
+                    date: 'ma 10-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7034,7 +7027,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 11-08-2020 01:00',
+                    date: 'di 11-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7042,7 +7035,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 12-08-2020 01:00',
+                    date: 'wo 12-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7050,7 +7043,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 13-08-2020 01:00',
+                    date: 'do 13-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7058,7 +7051,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 14-08-2020 01:00',
+                    date: 'vr 14-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7066,7 +7059,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 15-08-2020 01:00',
+                    date: 'za 15-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7074,7 +7067,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 16-08-2020 01:00',
+                    date: 'zo 16-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7082,7 +7075,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 17-08-2020 01:00',
+                    date: 'ma 17-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7090,7 +7083,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 18-08-2020 01:00',
+                    date: 'di 18-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7098,7 +7091,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 19-08-2020 01:00',
+                    date: 'wo 19-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7106,7 +7099,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 20-08-2020 01:00',
+                    date: 'do 20-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7114,7 +7107,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 21-08-2020 01:00',
+                    date: 'vr 21-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7122,7 +7115,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 22-08-2020 01:00',
+                    date: 'za 22-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7130,7 +7123,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 23-08-2020 01:00',
+                    date: 'zo 23-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7138,7 +7131,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 24-08-2020 01:00',
+                    date: 'ma 24-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7146,7 +7139,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 25-08-2020 01:00',
+                    date: 'di 25-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7154,7 +7147,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 26-08-2020 01:00',
+                    date: 'wo 26-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7162,7 +7155,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 27-08-2020 01:00',
+                    date: 'do 27-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7170,7 +7163,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 28-08-2020 01:00',
+                    date: 'vr 28-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7178,7 +7171,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 29-08-2020 01:00',
+                    date: 'za 29-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7186,7 +7179,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 30-08-2020 01:00',
+                    date: 'zo 30-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7194,7 +7187,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-08-2020 01:00',
+                    date: 'ma 31-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7202,7 +7195,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-09-2020 01:00',
+                    date: 'di 01-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7210,7 +7203,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-09-2020 01:00',
+                    date: 'wo 02-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7218,7 +7211,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-09-2020 01:00',
+                    date: 'do 03-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7226,7 +7219,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-09-2020 01:00',
+                    date: 'vr 04-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7234,7 +7227,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-09-2020 01:00',
+                    date: 'za 05-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7242,7 +7235,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-09-2020 01:00',
+                    date: 'zo 06-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7250,7 +7243,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-09-2020 01:00',
+                    date: 'ma 07-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7258,7 +7251,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-09-2020 01:00',
+                    date: 'di 08-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7266,7 +7259,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-09-2020 01:00',
+                    date: 'wo 09-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7274,7 +7267,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-09-2020 01:00',
+                    date: 'do 10-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7282,7 +7275,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-09-2020 01:00',
+                    date: 'vr 11-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7290,7 +7283,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-09-2020 01:00',
+                    date: 'za 12-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7298,7 +7291,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-09-2020 01:00',
+                    date: 'zo 13-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7306,7 +7299,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-09-2020 01:00',
+                    date: 'ma 14-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7314,7 +7307,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-09-2020 01:00',
+                    date: 'di 15-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7322,7 +7315,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-09-2020 01:00',
+                    date: 'wo 16-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7330,7 +7323,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-09-2020 01:00',
+                    date: 'do 17-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7338,7 +7331,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-09-2020 01:00',
+                    date: 'vr 18-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7346,7 +7339,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-09-2020 01:00',
+                    date: 'za 19-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7354,7 +7347,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-09-2020 01:00',
+                    date: 'zo 20-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7362,7 +7355,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-09-2020 01:00',
+                    date: 'ma 21-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7370,7 +7363,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-09-2020 01:00',
+                    date: 'di 22-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7378,7 +7371,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-09-2020 01:00',
+                    date: 'wo 23-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7386,7 +7379,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-09-2020 01:00',
+                    date: 'do 24-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7394,7 +7387,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-09-2020 01:00',
+                    date: 'vr 25-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7402,7 +7395,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-09-2020 01:00',
+                    date: 'za 26-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7410,7 +7403,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-09-2020 01:00',
+                    date: 'zo 27-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7418,7 +7411,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-09-2020 01:00',
+                    date: 'ma 28-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7426,7 +7419,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-09-2020 01:00',
+                    date: 'di 29-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7434,7 +7427,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-09-2020 01:00',
+                    date: 'wo 30-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7442,7 +7435,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 01-10-2020 01:00',
+                    date: 'do 01-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7450,7 +7443,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 02-10-2020 01:00',
+                    date: 'vr 02-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7458,7 +7451,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 03-10-2020 01:00',
+                    date: 'za 03-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7466,7 +7459,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 04-10-2020 01:00',
+                    date: 'zo 04-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7474,7 +7467,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 05-10-2020 01:00',
+                    date: 'ma 05-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7482,7 +7475,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 06-10-2020 01:00',
+                    date: 'di 06-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7490,7 +7483,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 07-10-2020 01:00',
+                    date: 'wo 07-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7498,7 +7491,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 08-10-2020 01:00',
+                    date: 'do 08-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7506,7 +7499,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 09-10-2020 01:00',
+                    date: 'vr 09-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7514,7 +7507,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 10-10-2020 01:00',
+                    date: 'za 10-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7522,7 +7515,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 11-10-2020 01:00',
+                    date: 'zo 11-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7530,7 +7523,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 12-10-2020 01:00',
+                    date: 'ma 12-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7538,7 +7531,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 13-10-2020 01:00',
+                    date: 'di 13-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7546,7 +7539,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 14-10-2020 01:00',
+                    date: 'wo 14-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7554,7 +7547,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 15-10-2020 01:00',
+                    date: 'do 15-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7562,7 +7555,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 16-10-2020 01:00',
+                    date: 'vr 16-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7570,7 +7563,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 17-10-2020 01:00',
+                    date: 'za 17-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7578,7 +7571,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 18-10-2020 01:00',
+                    date: 'zo 18-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7586,7 +7579,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 19-10-2020 01:00',
+                    date: 'ma 19-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7594,7 +7587,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 20-10-2020 01:00',
+                    date: 'di 20-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7602,7 +7595,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 21-10-2020 01:00',
+                    date: 'wo 21-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7610,7 +7603,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 22-10-2020 01:00',
+                    date: 'do 22-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7618,7 +7611,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 23-10-2020 01:00',
+                    date: 'vr 23-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7626,7 +7619,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 24-10-2020 01:00',
+                    date: 'za 24-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -7634,7 +7627,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 25-10-2020 01:00',
+                    date: 'zo 25-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8196,11 +8189,11 @@ describe('DateGallery', () => {
       test('with new date', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
-          initialDate: '1980-05-03',
+          initialDate: '1980-05-03 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
-        dateGallery.changeMode('week', '2023-11-29');
+        dateGallery.changeMode('week', '2023-11-29 00:00');
 
         expect(subscriber).toHaveBeenCalledTimes(1);
         assertLastSubscriber(
@@ -8289,11 +8282,11 @@ describe('DateGallery', () => {
       test('with new date, but same frames', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'week',
-          initialDate: '2023-11-05',
+          initialDate: '2023-11-05 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
-        dateGallery.changeMode('week', '2023-11-05');
+        dateGallery.changeMode('week', '2023-11-05 00:00');
 
         expect(subscriber).toBeCalledTimes(0);
       });
@@ -8303,7 +8296,7 @@ describe('DateGallery', () => {
       test('to day', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
-          initialDate: '1990-10-04',
+          initialDate: '1990-10-04 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -8321,9 +8314,8 @@ describe('DateGallery', () => {
             frames: [
               {
                 dates: [
-                  // Summertime
                   {
-                    date: 'ma 01-10-1990 01:00',
+                    date: 'ma 01-10-1990 00:00',
                     isPadding: false,
                     isSelected: false,
                     isToday: false,
@@ -8349,7 +8341,7 @@ describe('DateGallery', () => {
       test('to week', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
-          initialDate: '2017-08-22',
+          initialDate: '2017-08-22 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -8368,7 +8360,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 30-07-2017 01:00',
+                    date: 'zo 30-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8376,7 +8368,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-07-2017 01:00',
+                    date: 'ma 31-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8384,7 +8376,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8392,7 +8384,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8400,7 +8392,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8408,7 +8400,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8416,7 +8408,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8442,7 +8434,7 @@ describe('DateGallery', () => {
       test('to month', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
-          initialDate: '2017-08-08',
+          initialDate: '2017-08-08 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -8454,7 +8446,7 @@ describe('DateGallery', () => {
       test('to month-six-weeks', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
-          initialDate: '2017-08-29',
+          initialDate: '2017-08-29 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -8473,7 +8465,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 30-07-2017 01:00',
+                    date: 'zo 30-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -8481,7 +8473,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-07-2017 01:00',
+                    date: 'ma 31-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -8489,7 +8481,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8497,7 +8489,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8505,7 +8497,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8513,7 +8505,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8521,7 +8513,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8529,7 +8521,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-08-2017 01:00',
+                    date: 'zo 06-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8537,7 +8529,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-08-2017 01:00',
+                    date: 'ma 07-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8545,7 +8537,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-08-2017 01:00',
+                    date: 'di 08-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8553,7 +8545,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-08-2017 01:00',
+                    date: 'wo 09-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8561,7 +8553,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-08-2017 01:00',
+                    date: 'do 10-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8569,7 +8561,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-08-2017 01:00',
+                    date: 'vr 11-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8577,7 +8569,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-08-2017 01:00',
+                    date: 'za 12-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8585,7 +8577,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-08-2017 01:00',
+                    date: 'zo 13-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8593,7 +8585,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-08-2017 01:00',
+                    date: 'ma 14-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8601,7 +8593,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-08-2017 01:00',
+                    date: 'di 15-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8609,7 +8601,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-08-2017 01:00',
+                    date: 'wo 16-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8617,7 +8609,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-08-2017 01:00',
+                    date: 'do 17-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8625,7 +8617,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-08-2017 01:00',
+                    date: 'vr 18-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8633,7 +8625,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-08-2017 01:00',
+                    date: 'za 19-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8641,7 +8633,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-08-2017 01:00',
+                    date: 'zo 20-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8649,7 +8641,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-08-2017 01:00',
+                    date: 'ma 21-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8657,7 +8649,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-08-2017 01:00',
+                    date: 'di 22-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8665,7 +8657,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-08-2017 01:00',
+                    date: 'wo 23-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8673,7 +8665,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-08-2017 01:00',
+                    date: 'do 24-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8681,7 +8673,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-08-2017 01:00',
+                    date: 'vr 25-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8689,7 +8681,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-08-2017 01:00',
+                    date: 'za 26-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8697,7 +8689,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-08-2017 01:00',
+                    date: 'zo 27-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8705,7 +8697,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-08-2017 01:00',
+                    date: 'ma 28-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8713,7 +8705,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-08-2017 01:00',
+                    date: 'di 29-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8721,7 +8713,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-08-2017 01:00',
+                    date: 'wo 30-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8729,7 +8721,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 31-08-2017 01:00',
+                    date: 'do 31-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8737,7 +8729,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-09-2017 01:00',
+                    date: 'vr 01-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -8745,7 +8737,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-09-2017 01:00',
+                    date: 'za 02-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -8753,7 +8745,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 03-09-2017 01:00',
+                    date: 'zo 03-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -8761,7 +8753,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 04-09-2017 01:00',
+                    date: 'ma 04-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -8769,7 +8761,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 05-09-2017 01:00',
+                    date: 'di 05-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -8777,7 +8769,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 06-09-2017 01:00',
+                    date: 'wo 06-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -8785,7 +8777,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 07-09-2017 01:00',
+                    date: 'do 07-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -8793,7 +8785,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 08-09-2017 01:00',
+                    date: 'vr 08-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -8801,7 +8793,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 09-09-2017 01:00',
+                    date: 'za 09-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -8827,7 +8819,7 @@ describe('DateGallery', () => {
       test('to month-pad-to-week', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
-          initialDate: '2017-08-13',
+          initialDate: '2017-08-13 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -8846,7 +8838,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 30-07-2017 01:00',
+                    date: 'zo 30-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -8854,7 +8846,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-07-2017 01:00',
+                    date: 'ma 31-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -8862,7 +8854,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8870,7 +8862,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8878,7 +8870,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8886,7 +8878,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8894,7 +8886,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8902,7 +8894,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-08-2017 01:00',
+                    date: 'zo 06-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8910,7 +8902,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-08-2017 01:00',
+                    date: 'ma 07-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8918,7 +8910,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-08-2017 01:00',
+                    date: 'di 08-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8926,7 +8918,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-08-2017 01:00',
+                    date: 'wo 09-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8934,7 +8926,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-08-2017 01:00',
+                    date: 'do 10-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8942,7 +8934,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-08-2017 01:00',
+                    date: 'vr 11-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8950,7 +8942,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-08-2017 01:00',
+                    date: 'za 12-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8958,7 +8950,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-08-2017 01:00',
+                    date: 'zo 13-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8966,7 +8958,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-08-2017 01:00',
+                    date: 'ma 14-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8974,7 +8966,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-08-2017 01:00',
+                    date: 'di 15-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8982,7 +8974,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-08-2017 01:00',
+                    date: 'wo 16-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8990,7 +8982,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-08-2017 01:00',
+                    date: 'do 17-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -8998,7 +8990,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-08-2017 01:00',
+                    date: 'vr 18-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9006,7 +8998,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-08-2017 01:00',
+                    date: 'za 19-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9014,7 +9006,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-08-2017 01:00',
+                    date: 'zo 20-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9022,7 +9014,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-08-2017 01:00',
+                    date: 'ma 21-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9030,7 +9022,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-08-2017 01:00',
+                    date: 'di 22-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9038,7 +9030,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-08-2017 01:00',
+                    date: 'wo 23-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9046,7 +9038,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-08-2017 01:00',
+                    date: 'do 24-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9054,7 +9046,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-08-2017 01:00',
+                    date: 'vr 25-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9062,7 +9054,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-08-2017 01:00',
+                    date: 'za 26-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9070,7 +9062,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-08-2017 01:00',
+                    date: 'zo 27-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9078,7 +9070,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-08-2017 01:00',
+                    date: 'ma 28-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9086,7 +9078,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-08-2017 01:00',
+                    date: 'di 29-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9094,7 +9086,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-08-2017 01:00',
+                    date: 'wo 30-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9102,7 +9094,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 31-08-2017 01:00',
+                    date: 'do 31-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9110,7 +9102,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-09-2017 01:00',
+                    date: 'vr 01-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -9118,7 +9110,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-09-2017 01:00',
+                    date: 'za 02-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -9144,7 +9136,7 @@ describe('DateGallery', () => {
       test('to year', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
-          initialDate: '2020-09-26',
+          initialDate: '2020-09-26 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -9875,7 +9867,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 30-03-2020 01:00',
+                    date: 'ma 30-03-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9883,7 +9875,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 31-03-2020 01:00',
+                    date: 'di 31-03-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9891,7 +9883,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 01-04-2020 01:00',
+                    date: 'wo 01-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9899,7 +9891,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 02-04-2020 01:00',
+                    date: 'do 02-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9907,7 +9899,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 03-04-2020 01:00',
+                    date: 'vr 03-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9915,7 +9907,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 04-04-2020 01:00',
+                    date: 'za 04-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9923,7 +9915,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 05-04-2020 01:00',
+                    date: 'zo 05-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9931,7 +9923,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 06-04-2020 01:00',
+                    date: 'ma 06-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9939,7 +9931,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 07-04-2020 01:00',
+                    date: 'di 07-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9947,7 +9939,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 08-04-2020 01:00',
+                    date: 'wo 08-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9955,7 +9947,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 09-04-2020 01:00',
+                    date: 'do 09-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9963,7 +9955,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 10-04-2020 01:00',
+                    date: 'vr 10-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9971,7 +9963,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 11-04-2020 01:00',
+                    date: 'za 11-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9979,7 +9971,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 12-04-2020 01:00',
+                    date: 'zo 12-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9987,7 +9979,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 13-04-2020 01:00',
+                    date: 'ma 13-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -9995,7 +9987,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 14-04-2020 01:00',
+                    date: 'di 14-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10003,7 +9995,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 15-04-2020 01:00',
+                    date: 'wo 15-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10011,7 +10003,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 16-04-2020 01:00',
+                    date: 'do 16-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10019,7 +10011,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 17-04-2020 01:00',
+                    date: 'vr 17-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10027,7 +10019,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 18-04-2020 01:00',
+                    date: 'za 18-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10035,7 +10027,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 19-04-2020 01:00',
+                    date: 'zo 19-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10043,7 +10035,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 20-04-2020 01:00',
+                    date: 'ma 20-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10051,7 +10043,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 21-04-2020 01:00',
+                    date: 'di 21-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10059,7 +10051,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 22-04-2020 01:00',
+                    date: 'wo 22-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10067,7 +10059,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 23-04-2020 01:00',
+                    date: 'do 23-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10075,7 +10067,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 24-04-2020 01:00',
+                    date: 'vr 24-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10083,7 +10075,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 25-04-2020 01:00',
+                    date: 'za 25-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10091,7 +10083,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 26-04-2020 01:00',
+                    date: 'zo 26-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10099,7 +10091,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 27-04-2020 01:00',
+                    date: 'ma 27-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10107,7 +10099,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 28-04-2020 01:00',
+                    date: 'di 28-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10115,7 +10107,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 29-04-2020 01:00',
+                    date: 'wo 29-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10123,7 +10115,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 30-04-2020 01:00',
+                    date: 'do 30-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10131,7 +10123,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-05-2020 01:00',
+                    date: 'vr 01-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10139,7 +10131,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-05-2020 01:00',
+                    date: 'za 02-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10147,7 +10139,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 03-05-2020 01:00',
+                    date: 'zo 03-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10155,7 +10147,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 04-05-2020 01:00',
+                    date: 'ma 04-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10163,7 +10155,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 05-05-2020 01:00',
+                    date: 'di 05-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10171,7 +10163,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 06-05-2020 01:00',
+                    date: 'wo 06-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10179,7 +10171,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 07-05-2020 01:00',
+                    date: 'do 07-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10187,7 +10179,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 08-05-2020 01:00',
+                    date: 'vr 08-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10195,7 +10187,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 09-05-2020 01:00',
+                    date: 'za 09-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10203,7 +10195,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 10-05-2020 01:00',
+                    date: 'zo 10-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10211,7 +10203,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 11-05-2020 01:00',
+                    date: 'ma 11-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10219,7 +10211,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 12-05-2020 01:00',
+                    date: 'di 12-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10227,7 +10219,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 13-05-2020 01:00',
+                    date: 'wo 13-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10235,7 +10227,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 14-05-2020 01:00',
+                    date: 'do 14-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10243,7 +10235,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 15-05-2020 01:00',
+                    date: 'vr 15-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10251,7 +10243,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 16-05-2020 01:00',
+                    date: 'za 16-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10259,7 +10251,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 17-05-2020 01:00',
+                    date: 'zo 17-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10267,7 +10259,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 18-05-2020 01:00',
+                    date: 'ma 18-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10275,7 +10267,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 19-05-2020 01:00',
+                    date: 'di 19-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10283,7 +10275,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 20-05-2020 01:00',
+                    date: 'wo 20-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10291,7 +10283,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 21-05-2020 01:00',
+                    date: 'do 21-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10299,7 +10291,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 22-05-2020 01:00',
+                    date: 'vr 22-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10307,7 +10299,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 23-05-2020 01:00',
+                    date: 'za 23-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10315,7 +10307,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 24-05-2020 01:00',
+                    date: 'zo 24-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10323,7 +10315,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 25-05-2020 01:00',
+                    date: 'ma 25-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10331,7 +10323,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 26-05-2020 01:00',
+                    date: 'di 26-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10339,7 +10331,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 27-05-2020 01:00',
+                    date: 'wo 27-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10347,7 +10339,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 28-05-2020 01:00',
+                    date: 'do 28-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10355,7 +10347,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 29-05-2020 01:00',
+                    date: 'vr 29-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10363,7 +10355,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 30-05-2020 01:00',
+                    date: 'za 30-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10371,7 +10363,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 31-05-2020 01:00',
+                    date: 'zo 31-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10379,7 +10371,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 01-06-2020 01:00',
+                    date: 'ma 01-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10387,7 +10379,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 02-06-2020 01:00',
+                    date: 'di 02-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10395,7 +10387,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 03-06-2020 01:00',
+                    date: 'wo 03-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10403,7 +10395,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 04-06-2020 01:00',
+                    date: 'do 04-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10411,7 +10403,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 05-06-2020 01:00',
+                    date: 'vr 05-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10419,7 +10411,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 06-06-2020 01:00',
+                    date: 'za 06-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10427,7 +10419,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 07-06-2020 01:00',
+                    date: 'zo 07-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10435,7 +10427,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 08-06-2020 01:00',
+                    date: 'ma 08-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10443,7 +10435,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 09-06-2020 01:00',
+                    date: 'di 09-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10451,7 +10443,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 10-06-2020 01:00',
+                    date: 'wo 10-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10459,7 +10451,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 11-06-2020 01:00',
+                    date: 'do 11-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10467,7 +10459,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 12-06-2020 01:00',
+                    date: 'vr 12-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10475,7 +10467,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 13-06-2020 01:00',
+                    date: 'za 13-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10483,7 +10475,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 14-06-2020 01:00',
+                    date: 'zo 14-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10491,7 +10483,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 15-06-2020 01:00',
+                    date: 'ma 15-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10499,7 +10491,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 16-06-2020 01:00',
+                    date: 'di 16-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10507,7 +10499,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 17-06-2020 01:00',
+                    date: 'wo 17-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10515,7 +10507,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 18-06-2020 01:00',
+                    date: 'do 18-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10523,7 +10515,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 19-06-2020 01:00',
+                    date: 'vr 19-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10531,7 +10523,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 20-06-2020 01:00',
+                    date: 'za 20-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10539,7 +10531,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 21-06-2020 01:00',
+                    date: 'zo 21-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10547,7 +10539,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 22-06-2020 01:00',
+                    date: 'ma 22-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10555,7 +10547,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 23-06-2020 01:00',
+                    date: 'di 23-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10563,7 +10555,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 24-06-2020 01:00',
+                    date: 'wo 24-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10571,7 +10563,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 25-06-2020 01:00',
+                    date: 'do 25-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10579,7 +10571,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 26-06-2020 01:00',
+                    date: 'vr 26-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10587,7 +10579,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 27-06-2020 01:00',
+                    date: 'za 27-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10595,7 +10587,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 28-06-2020 01:00',
+                    date: 'zo 28-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10603,7 +10595,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 29-06-2020 01:00',
+                    date: 'ma 29-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10611,7 +10603,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 30-06-2020 01:00',
+                    date: 'di 30-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10619,7 +10611,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 01-07-2020 01:00',
+                    date: 'wo 01-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10627,7 +10619,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 02-07-2020 01:00',
+                    date: 'do 02-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10635,7 +10627,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 03-07-2020 01:00',
+                    date: 'vr 03-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10643,7 +10635,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 04-07-2020 01:00',
+                    date: 'za 04-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10651,7 +10643,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 05-07-2020 01:00',
+                    date: 'zo 05-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10659,7 +10651,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 06-07-2020 01:00',
+                    date: 'ma 06-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10667,7 +10659,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 07-07-2020 01:00',
+                    date: 'di 07-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10675,7 +10667,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 08-07-2020 01:00',
+                    date: 'wo 08-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10683,7 +10675,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 09-07-2020 01:00',
+                    date: 'do 09-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10691,7 +10683,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 10-07-2020 01:00',
+                    date: 'vr 10-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10699,7 +10691,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 11-07-2020 01:00',
+                    date: 'za 11-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10707,7 +10699,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 12-07-2020 01:00',
+                    date: 'zo 12-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10715,7 +10707,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 13-07-2020 01:00',
+                    date: 'ma 13-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10723,7 +10715,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 14-07-2020 01:00',
+                    date: 'di 14-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10731,7 +10723,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 15-07-2020 01:00',
+                    date: 'wo 15-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10739,7 +10731,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 16-07-2020 01:00',
+                    date: 'do 16-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10747,7 +10739,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 17-07-2020 01:00',
+                    date: 'vr 17-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10755,7 +10747,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 18-07-2020 01:00',
+                    date: 'za 18-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10763,7 +10755,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 19-07-2020 01:00',
+                    date: 'zo 19-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10771,7 +10763,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 20-07-2020 01:00',
+                    date: 'ma 20-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10779,7 +10771,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 21-07-2020 01:00',
+                    date: 'di 21-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10787,7 +10779,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 22-07-2020 01:00',
+                    date: 'wo 22-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10795,7 +10787,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 23-07-2020 01:00',
+                    date: 'do 23-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10803,7 +10795,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 24-07-2020 01:00',
+                    date: 'vr 24-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10811,7 +10803,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 25-07-2020 01:00',
+                    date: 'za 25-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10819,7 +10811,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 26-07-2020 01:00',
+                    date: 'zo 26-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10827,7 +10819,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 27-07-2020 01:00',
+                    date: 'ma 27-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10835,7 +10827,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 28-07-2020 01:00',
+                    date: 'di 28-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10843,7 +10835,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 29-07-2020 01:00',
+                    date: 'wo 29-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10851,7 +10843,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 30-07-2020 01:00',
+                    date: 'do 30-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10859,7 +10851,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 31-07-2020 01:00',
+                    date: 'vr 31-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10867,7 +10859,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 01-08-2020 01:00',
+                    date: 'za 01-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10875,7 +10867,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 02-08-2020 01:00',
+                    date: 'zo 02-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10883,7 +10875,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 03-08-2020 01:00',
+                    date: 'ma 03-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10891,7 +10883,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 04-08-2020 01:00',
+                    date: 'di 04-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10899,7 +10891,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 05-08-2020 01:00',
+                    date: 'wo 05-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10907,7 +10899,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 06-08-2020 01:00',
+                    date: 'do 06-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10915,7 +10907,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 07-08-2020 01:00',
+                    date: 'vr 07-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10923,7 +10915,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 08-08-2020 01:00',
+                    date: 'za 08-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10931,7 +10923,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 09-08-2020 01:00',
+                    date: 'zo 09-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10939,7 +10931,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 10-08-2020 01:00',
+                    date: 'ma 10-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10947,7 +10939,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 11-08-2020 01:00',
+                    date: 'di 11-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10955,7 +10947,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 12-08-2020 01:00',
+                    date: 'wo 12-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10963,7 +10955,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 13-08-2020 01:00',
+                    date: 'do 13-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10971,7 +10963,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 14-08-2020 01:00',
+                    date: 'vr 14-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10979,7 +10971,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 15-08-2020 01:00',
+                    date: 'za 15-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10987,7 +10979,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 16-08-2020 01:00',
+                    date: 'zo 16-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -10995,7 +10987,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 17-08-2020 01:00',
+                    date: 'ma 17-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11003,7 +10995,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 18-08-2020 01:00',
+                    date: 'di 18-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11011,7 +11003,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 19-08-2020 01:00',
+                    date: 'wo 19-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11019,7 +11011,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 20-08-2020 01:00',
+                    date: 'do 20-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11027,7 +11019,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 21-08-2020 01:00',
+                    date: 'vr 21-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11035,7 +11027,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 22-08-2020 01:00',
+                    date: 'za 22-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11043,7 +11035,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 23-08-2020 01:00',
+                    date: 'zo 23-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11051,7 +11043,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 24-08-2020 01:00',
+                    date: 'ma 24-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11059,7 +11051,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 25-08-2020 01:00',
+                    date: 'di 25-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11067,7 +11059,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 26-08-2020 01:00',
+                    date: 'wo 26-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11075,7 +11067,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 27-08-2020 01:00',
+                    date: 'do 27-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11083,7 +11075,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 28-08-2020 01:00',
+                    date: 'vr 28-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11091,7 +11083,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 29-08-2020 01:00',
+                    date: 'za 29-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11099,7 +11091,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 30-08-2020 01:00',
+                    date: 'zo 30-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11107,7 +11099,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-08-2020 01:00',
+                    date: 'ma 31-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11115,7 +11107,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-09-2020 01:00',
+                    date: 'di 01-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11123,7 +11115,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-09-2020 01:00',
+                    date: 'wo 02-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11131,7 +11123,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-09-2020 01:00',
+                    date: 'do 03-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11139,7 +11131,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-09-2020 01:00',
+                    date: 'vr 04-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11147,7 +11139,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-09-2020 01:00',
+                    date: 'za 05-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11155,7 +11147,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-09-2020 01:00',
+                    date: 'zo 06-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11163,7 +11155,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-09-2020 01:00',
+                    date: 'ma 07-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11171,7 +11163,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-09-2020 01:00',
+                    date: 'di 08-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11179,7 +11171,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-09-2020 01:00',
+                    date: 'wo 09-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11187,7 +11179,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-09-2020 01:00',
+                    date: 'do 10-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11195,7 +11187,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-09-2020 01:00',
+                    date: 'vr 11-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11203,7 +11195,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-09-2020 01:00',
+                    date: 'za 12-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11211,7 +11203,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-09-2020 01:00',
+                    date: 'zo 13-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11219,7 +11211,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-09-2020 01:00',
+                    date: 'ma 14-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11227,7 +11219,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-09-2020 01:00',
+                    date: 'di 15-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11235,7 +11227,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-09-2020 01:00',
+                    date: 'wo 16-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11243,7 +11235,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-09-2020 01:00',
+                    date: 'do 17-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11251,7 +11243,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-09-2020 01:00',
+                    date: 'vr 18-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11259,7 +11251,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-09-2020 01:00',
+                    date: 'za 19-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11267,7 +11259,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-09-2020 01:00',
+                    date: 'zo 20-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11275,7 +11267,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-09-2020 01:00',
+                    date: 'ma 21-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11283,7 +11275,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-09-2020 01:00',
+                    date: 'di 22-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11291,7 +11283,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-09-2020 01:00',
+                    date: 'wo 23-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11299,7 +11291,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-09-2020 01:00',
+                    date: 'do 24-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11307,7 +11299,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-09-2020 01:00',
+                    date: 'vr 25-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11315,7 +11307,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-09-2020 01:00',
+                    date: 'za 26-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11323,7 +11315,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-09-2020 01:00',
+                    date: 'zo 27-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11331,7 +11323,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-09-2020 01:00',
+                    date: 'ma 28-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11339,7 +11331,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-09-2020 01:00',
+                    date: 'di 29-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11347,7 +11339,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-09-2020 01:00',
+                    date: 'wo 30-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11355,7 +11347,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 01-10-2020 01:00',
+                    date: 'do 01-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11363,7 +11355,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 02-10-2020 01:00',
+                    date: 'vr 02-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11371,7 +11363,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 03-10-2020 01:00',
+                    date: 'za 03-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11379,7 +11371,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 04-10-2020 01:00',
+                    date: 'zo 04-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11387,7 +11379,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 05-10-2020 01:00',
+                    date: 'ma 05-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11395,7 +11387,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 06-10-2020 01:00',
+                    date: 'di 06-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11403,7 +11395,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 07-10-2020 01:00',
+                    date: 'wo 07-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11411,7 +11403,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 08-10-2020 01:00',
+                    date: 'do 08-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11419,7 +11411,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 09-10-2020 01:00',
+                    date: 'vr 09-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11427,7 +11419,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 10-10-2020 01:00',
+                    date: 'za 10-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11435,7 +11427,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 11-10-2020 01:00',
+                    date: 'zo 11-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11443,7 +11435,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 12-10-2020 01:00',
+                    date: 'ma 12-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11451,7 +11443,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 13-10-2020 01:00',
+                    date: 'di 13-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11459,7 +11451,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 14-10-2020 01:00',
+                    date: 'wo 14-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11467,7 +11459,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 15-10-2020 01:00',
+                    date: 'do 15-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11475,7 +11467,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 16-10-2020 01:00',
+                    date: 'vr 16-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11483,7 +11475,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 17-10-2020 01:00',
+                    date: 'za 17-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11491,7 +11483,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 18-10-2020 01:00',
+                    date: 'zo 18-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11499,7 +11491,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 19-10-2020 01:00',
+                    date: 'ma 19-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11507,7 +11499,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 20-10-2020 01:00',
+                    date: 'di 20-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11515,7 +11507,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 21-10-2020 01:00',
+                    date: 'wo 21-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11523,7 +11515,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 22-10-2020 01:00',
+                    date: 'do 22-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11531,7 +11523,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 23-10-2020 01:00',
+                    date: 'vr 23-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11539,7 +11531,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 24-10-2020 01:00',
+                    date: 'za 24-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -11547,7 +11539,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 25-10-2020 01:00',
+                    date: 'zo 25-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12109,7 +12101,7 @@ describe('DateGallery', () => {
       test('with new date', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
-          initialDate: '1980-05-03',
+          initialDate: '1980-05-03 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -12386,7 +12378,7 @@ describe('DateGallery', () => {
       test('with new date, but same frames', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month',
-          initialDate: '2023-11-05',
+          initialDate: '2023-11-05 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -12400,7 +12392,7 @@ describe('DateGallery', () => {
       test('to day', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
-          initialDate: '1990-10-04',
+          initialDate: '1990-10-04 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -12418,9 +12410,8 @@ describe('DateGallery', () => {
             frames: [
               {
                 dates: [
-                  // Summertime
                   {
-                    date: 'ma 01-10-1990 01:00',
+                    date: 'ma 01-10-1990 00:00',
                     isPadding: false,
                     isSelected: false,
                     isToday: false,
@@ -12446,7 +12437,7 @@ describe('DateGallery', () => {
       test('to week', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
-          initialDate: '2017-08-22',
+          initialDate: '2017-08-22 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -12465,7 +12456,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 30-07-2017 01:00',
+                    date: 'zo 30-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12473,7 +12464,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-07-2017 01:00',
+                    date: 'ma 31-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12481,7 +12472,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12489,7 +12480,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12497,7 +12488,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12505,7 +12496,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12513,7 +12504,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12539,7 +12530,7 @@ describe('DateGallery', () => {
       test('to month', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
-          initialDate: '2017-08-08',
+          initialDate: '2017-08-08 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -12558,7 +12549,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12566,7 +12557,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12574,7 +12565,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12582,7 +12573,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12590,7 +12581,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12598,7 +12589,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-08-2017 01:00',
+                    date: 'zo 06-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12606,7 +12597,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-08-2017 01:00',
+                    date: 'ma 07-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12614,7 +12605,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-08-2017 01:00',
+                    date: 'di 08-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12622,7 +12613,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-08-2017 01:00',
+                    date: 'wo 09-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12630,7 +12621,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-08-2017 01:00',
+                    date: 'do 10-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12638,7 +12629,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-08-2017 01:00',
+                    date: 'vr 11-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12646,7 +12637,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-08-2017 01:00',
+                    date: 'za 12-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12654,7 +12645,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-08-2017 01:00',
+                    date: 'zo 13-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12662,7 +12653,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-08-2017 01:00',
+                    date: 'ma 14-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12670,7 +12661,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-08-2017 01:00',
+                    date: 'di 15-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12678,7 +12669,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-08-2017 01:00',
+                    date: 'wo 16-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12686,7 +12677,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-08-2017 01:00',
+                    date: 'do 17-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12694,7 +12685,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-08-2017 01:00',
+                    date: 'vr 18-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12702,7 +12693,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-08-2017 01:00',
+                    date: 'za 19-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12710,7 +12701,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-08-2017 01:00',
+                    date: 'zo 20-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12718,7 +12709,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-08-2017 01:00',
+                    date: 'ma 21-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12726,7 +12717,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-08-2017 01:00',
+                    date: 'di 22-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12734,7 +12725,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-08-2017 01:00',
+                    date: 'wo 23-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12742,7 +12733,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-08-2017 01:00',
+                    date: 'do 24-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12750,7 +12741,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-08-2017 01:00',
+                    date: 'vr 25-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12758,7 +12749,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-08-2017 01:00',
+                    date: 'za 26-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12766,7 +12757,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-08-2017 01:00',
+                    date: 'zo 27-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12774,7 +12765,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-08-2017 01:00',
+                    date: 'ma 28-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12782,7 +12773,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-08-2017 01:00',
+                    date: 'di 29-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12790,7 +12781,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-08-2017 01:00',
+                    date: 'wo 30-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12798,7 +12789,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 31-08-2017 01:00',
+                    date: 'do 31-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12824,7 +12815,7 @@ describe('DateGallery', () => {
       test('to month-six-weeks', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
-          initialDate: '2017-08-29',
+          initialDate: '2017-08-29 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -12836,7 +12827,7 @@ describe('DateGallery', () => {
       test('to month-pad-to-week', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
-          initialDate: '2017-08-13',
+          initialDate: '2017-08-13 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -12855,7 +12846,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 30-07-2017 01:00',
+                    date: 'zo 30-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -12863,7 +12854,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-07-2017 01:00',
+                    date: 'ma 31-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -12871,7 +12862,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12879,7 +12870,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12887,7 +12878,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12895,7 +12886,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12903,7 +12894,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12911,7 +12902,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-08-2017 01:00',
+                    date: 'zo 06-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12919,7 +12910,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-08-2017 01:00',
+                    date: 'ma 07-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12927,7 +12918,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-08-2017 01:00',
+                    date: 'di 08-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12935,7 +12926,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-08-2017 01:00',
+                    date: 'wo 09-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12943,7 +12934,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-08-2017 01:00',
+                    date: 'do 10-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12951,7 +12942,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-08-2017 01:00',
+                    date: 'vr 11-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12959,7 +12950,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-08-2017 01:00',
+                    date: 'za 12-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12967,7 +12958,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-08-2017 01:00',
+                    date: 'zo 13-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12975,7 +12966,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-08-2017 01:00',
+                    date: 'ma 14-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12983,7 +12974,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-08-2017 01:00',
+                    date: 'di 15-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12991,7 +12982,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-08-2017 01:00',
+                    date: 'wo 16-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -12999,7 +12990,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-08-2017 01:00',
+                    date: 'do 17-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13007,7 +12998,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-08-2017 01:00',
+                    date: 'vr 18-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13015,7 +13006,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-08-2017 01:00',
+                    date: 'za 19-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13023,7 +13014,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-08-2017 01:00',
+                    date: 'zo 20-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13031,7 +13022,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-08-2017 01:00',
+                    date: 'ma 21-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13039,7 +13030,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-08-2017 01:00',
+                    date: 'di 22-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13047,7 +13038,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-08-2017 01:00',
+                    date: 'wo 23-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13055,7 +13046,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-08-2017 01:00',
+                    date: 'do 24-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13063,7 +13054,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-08-2017 01:00',
+                    date: 'vr 25-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13071,7 +13062,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-08-2017 01:00',
+                    date: 'za 26-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13079,7 +13070,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-08-2017 01:00',
+                    date: 'zo 27-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13087,7 +13078,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-08-2017 01:00',
+                    date: 'ma 28-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13095,7 +13086,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-08-2017 01:00',
+                    date: 'di 29-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13103,7 +13094,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-08-2017 01:00',
+                    date: 'wo 30-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13111,7 +13102,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 31-08-2017 01:00',
+                    date: 'do 31-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13119,7 +13110,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-09-2017 01:00',
+                    date: 'vr 01-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -13127,7 +13118,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-09-2017 01:00',
+                    date: 'za 02-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -13153,7 +13144,7 @@ describe('DateGallery', () => {
       test('to year', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
-          initialDate: '2020-09-26',
+          initialDate: '2020-09-26 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -13884,7 +13875,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 30-03-2020 01:00',
+                    date: 'ma 30-03-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13892,7 +13883,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 31-03-2020 01:00',
+                    date: 'di 31-03-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13900,7 +13891,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 01-04-2020 01:00',
+                    date: 'wo 01-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13908,7 +13899,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 02-04-2020 01:00',
+                    date: 'do 02-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13916,7 +13907,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 03-04-2020 01:00',
+                    date: 'vr 03-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13924,7 +13915,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 04-04-2020 01:00',
+                    date: 'za 04-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13932,7 +13923,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 05-04-2020 01:00',
+                    date: 'zo 05-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13940,7 +13931,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 06-04-2020 01:00',
+                    date: 'ma 06-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13948,7 +13939,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 07-04-2020 01:00',
+                    date: 'di 07-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13956,7 +13947,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 08-04-2020 01:00',
+                    date: 'wo 08-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13964,7 +13955,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 09-04-2020 01:00',
+                    date: 'do 09-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13972,7 +13963,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 10-04-2020 01:00',
+                    date: 'vr 10-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13980,7 +13971,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 11-04-2020 01:00',
+                    date: 'za 11-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13988,7 +13979,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 12-04-2020 01:00',
+                    date: 'zo 12-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -13996,7 +13987,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 13-04-2020 01:00',
+                    date: 'ma 13-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14004,7 +13995,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 14-04-2020 01:00',
+                    date: 'di 14-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14012,7 +14003,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 15-04-2020 01:00',
+                    date: 'wo 15-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14020,7 +14011,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 16-04-2020 01:00',
+                    date: 'do 16-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14028,7 +14019,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 17-04-2020 01:00',
+                    date: 'vr 17-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14036,7 +14027,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 18-04-2020 01:00',
+                    date: 'za 18-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14044,7 +14035,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 19-04-2020 01:00',
+                    date: 'zo 19-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14052,7 +14043,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 20-04-2020 01:00',
+                    date: 'ma 20-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14060,7 +14051,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 21-04-2020 01:00',
+                    date: 'di 21-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14068,7 +14059,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 22-04-2020 01:00',
+                    date: 'wo 22-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14076,7 +14067,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 23-04-2020 01:00',
+                    date: 'do 23-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14084,7 +14075,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 24-04-2020 01:00',
+                    date: 'vr 24-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14092,7 +14083,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 25-04-2020 01:00',
+                    date: 'za 25-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14100,7 +14091,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 26-04-2020 01:00',
+                    date: 'zo 26-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14108,7 +14099,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 27-04-2020 01:00',
+                    date: 'ma 27-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14116,7 +14107,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 28-04-2020 01:00',
+                    date: 'di 28-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14124,7 +14115,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 29-04-2020 01:00',
+                    date: 'wo 29-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14132,7 +14123,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 30-04-2020 01:00',
+                    date: 'do 30-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14140,7 +14131,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-05-2020 01:00',
+                    date: 'vr 01-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14148,7 +14139,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-05-2020 01:00',
+                    date: 'za 02-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14156,7 +14147,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 03-05-2020 01:00',
+                    date: 'zo 03-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14164,7 +14155,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 04-05-2020 01:00',
+                    date: 'ma 04-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14172,7 +14163,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 05-05-2020 01:00',
+                    date: 'di 05-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14180,7 +14171,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 06-05-2020 01:00',
+                    date: 'wo 06-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14188,7 +14179,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 07-05-2020 01:00',
+                    date: 'do 07-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14196,7 +14187,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 08-05-2020 01:00',
+                    date: 'vr 08-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14204,7 +14195,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 09-05-2020 01:00',
+                    date: 'za 09-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14212,7 +14203,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 10-05-2020 01:00',
+                    date: 'zo 10-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14220,7 +14211,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 11-05-2020 01:00',
+                    date: 'ma 11-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14228,7 +14219,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 12-05-2020 01:00',
+                    date: 'di 12-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14236,7 +14227,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 13-05-2020 01:00',
+                    date: 'wo 13-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14244,7 +14235,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 14-05-2020 01:00',
+                    date: 'do 14-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14252,7 +14243,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 15-05-2020 01:00',
+                    date: 'vr 15-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14260,7 +14251,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 16-05-2020 01:00',
+                    date: 'za 16-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14268,7 +14259,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 17-05-2020 01:00',
+                    date: 'zo 17-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14276,7 +14267,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 18-05-2020 01:00',
+                    date: 'ma 18-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14284,7 +14275,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 19-05-2020 01:00',
+                    date: 'di 19-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14292,7 +14283,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 20-05-2020 01:00',
+                    date: 'wo 20-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14300,7 +14291,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 21-05-2020 01:00',
+                    date: 'do 21-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14308,7 +14299,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 22-05-2020 01:00',
+                    date: 'vr 22-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14316,7 +14307,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 23-05-2020 01:00',
+                    date: 'za 23-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14324,7 +14315,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 24-05-2020 01:00',
+                    date: 'zo 24-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14332,7 +14323,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 25-05-2020 01:00',
+                    date: 'ma 25-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14340,7 +14331,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 26-05-2020 01:00',
+                    date: 'di 26-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14348,7 +14339,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 27-05-2020 01:00',
+                    date: 'wo 27-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14356,7 +14347,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 28-05-2020 01:00',
+                    date: 'do 28-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14364,7 +14355,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 29-05-2020 01:00',
+                    date: 'vr 29-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14372,7 +14363,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 30-05-2020 01:00',
+                    date: 'za 30-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14380,7 +14371,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 31-05-2020 01:00',
+                    date: 'zo 31-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14388,7 +14379,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 01-06-2020 01:00',
+                    date: 'ma 01-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14396,7 +14387,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 02-06-2020 01:00',
+                    date: 'di 02-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14404,7 +14395,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 03-06-2020 01:00',
+                    date: 'wo 03-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14412,7 +14403,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 04-06-2020 01:00',
+                    date: 'do 04-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14420,7 +14411,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 05-06-2020 01:00',
+                    date: 'vr 05-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14428,7 +14419,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 06-06-2020 01:00',
+                    date: 'za 06-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14436,7 +14427,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 07-06-2020 01:00',
+                    date: 'zo 07-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14444,7 +14435,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 08-06-2020 01:00',
+                    date: 'ma 08-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14452,7 +14443,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 09-06-2020 01:00',
+                    date: 'di 09-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14460,7 +14451,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 10-06-2020 01:00',
+                    date: 'wo 10-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14468,7 +14459,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 11-06-2020 01:00',
+                    date: 'do 11-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14476,7 +14467,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 12-06-2020 01:00',
+                    date: 'vr 12-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14484,7 +14475,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 13-06-2020 01:00',
+                    date: 'za 13-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14492,7 +14483,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 14-06-2020 01:00',
+                    date: 'zo 14-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14500,7 +14491,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 15-06-2020 01:00',
+                    date: 'ma 15-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14508,7 +14499,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 16-06-2020 01:00',
+                    date: 'di 16-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14516,7 +14507,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 17-06-2020 01:00',
+                    date: 'wo 17-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14524,7 +14515,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 18-06-2020 01:00',
+                    date: 'do 18-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14532,7 +14523,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 19-06-2020 01:00',
+                    date: 'vr 19-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14540,7 +14531,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 20-06-2020 01:00',
+                    date: 'za 20-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14548,7 +14539,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 21-06-2020 01:00',
+                    date: 'zo 21-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14556,7 +14547,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 22-06-2020 01:00',
+                    date: 'ma 22-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14564,7 +14555,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 23-06-2020 01:00',
+                    date: 'di 23-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14572,7 +14563,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 24-06-2020 01:00',
+                    date: 'wo 24-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14580,7 +14571,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 25-06-2020 01:00',
+                    date: 'do 25-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14588,7 +14579,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 26-06-2020 01:00',
+                    date: 'vr 26-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14596,7 +14587,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 27-06-2020 01:00',
+                    date: 'za 27-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14604,7 +14595,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 28-06-2020 01:00',
+                    date: 'zo 28-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14612,7 +14603,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 29-06-2020 01:00',
+                    date: 'ma 29-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14620,7 +14611,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 30-06-2020 01:00',
+                    date: 'di 30-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14628,7 +14619,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 01-07-2020 01:00',
+                    date: 'wo 01-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14636,7 +14627,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 02-07-2020 01:00',
+                    date: 'do 02-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14644,7 +14635,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 03-07-2020 01:00',
+                    date: 'vr 03-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14652,7 +14643,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 04-07-2020 01:00',
+                    date: 'za 04-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14660,7 +14651,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 05-07-2020 01:00',
+                    date: 'zo 05-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14668,7 +14659,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 06-07-2020 01:00',
+                    date: 'ma 06-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14676,7 +14667,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 07-07-2020 01:00',
+                    date: 'di 07-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14684,7 +14675,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 08-07-2020 01:00',
+                    date: 'wo 08-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14692,7 +14683,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 09-07-2020 01:00',
+                    date: 'do 09-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14700,7 +14691,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 10-07-2020 01:00',
+                    date: 'vr 10-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14708,7 +14699,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 11-07-2020 01:00',
+                    date: 'za 11-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14716,7 +14707,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 12-07-2020 01:00',
+                    date: 'zo 12-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14724,7 +14715,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 13-07-2020 01:00',
+                    date: 'ma 13-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14732,7 +14723,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 14-07-2020 01:00',
+                    date: 'di 14-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14740,7 +14731,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 15-07-2020 01:00',
+                    date: 'wo 15-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14748,7 +14739,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 16-07-2020 01:00',
+                    date: 'do 16-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14756,7 +14747,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 17-07-2020 01:00',
+                    date: 'vr 17-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14764,7 +14755,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 18-07-2020 01:00',
+                    date: 'za 18-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14772,7 +14763,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 19-07-2020 01:00',
+                    date: 'zo 19-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14780,7 +14771,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 20-07-2020 01:00',
+                    date: 'ma 20-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14788,7 +14779,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 21-07-2020 01:00',
+                    date: 'di 21-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14796,7 +14787,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 22-07-2020 01:00',
+                    date: 'wo 22-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14804,7 +14795,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 23-07-2020 01:00',
+                    date: 'do 23-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14812,7 +14803,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 24-07-2020 01:00',
+                    date: 'vr 24-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14820,7 +14811,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 25-07-2020 01:00',
+                    date: 'za 25-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14828,7 +14819,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 26-07-2020 01:00',
+                    date: 'zo 26-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14836,7 +14827,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 27-07-2020 01:00',
+                    date: 'ma 27-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14844,7 +14835,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 28-07-2020 01:00',
+                    date: 'di 28-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14852,7 +14843,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 29-07-2020 01:00',
+                    date: 'wo 29-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14860,7 +14851,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 30-07-2020 01:00',
+                    date: 'do 30-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14868,7 +14859,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 31-07-2020 01:00',
+                    date: 'vr 31-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14876,7 +14867,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 01-08-2020 01:00',
+                    date: 'za 01-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14884,7 +14875,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 02-08-2020 01:00',
+                    date: 'zo 02-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14892,7 +14883,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 03-08-2020 01:00',
+                    date: 'ma 03-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14900,7 +14891,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 04-08-2020 01:00',
+                    date: 'di 04-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14908,7 +14899,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 05-08-2020 01:00',
+                    date: 'wo 05-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14916,7 +14907,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 06-08-2020 01:00',
+                    date: 'do 06-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14924,7 +14915,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 07-08-2020 01:00',
+                    date: 'vr 07-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14932,7 +14923,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 08-08-2020 01:00',
+                    date: 'za 08-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14940,7 +14931,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 09-08-2020 01:00',
+                    date: 'zo 09-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14948,7 +14939,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 10-08-2020 01:00',
+                    date: 'ma 10-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14956,7 +14947,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 11-08-2020 01:00',
+                    date: 'di 11-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14964,7 +14955,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 12-08-2020 01:00',
+                    date: 'wo 12-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14972,7 +14963,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 13-08-2020 01:00',
+                    date: 'do 13-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14980,7 +14971,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 14-08-2020 01:00',
+                    date: 'vr 14-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14988,7 +14979,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 15-08-2020 01:00',
+                    date: 'za 15-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -14996,7 +14987,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 16-08-2020 01:00',
+                    date: 'zo 16-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15004,7 +14995,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 17-08-2020 01:00',
+                    date: 'ma 17-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15012,7 +15003,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 18-08-2020 01:00',
+                    date: 'di 18-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15020,7 +15011,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 19-08-2020 01:00',
+                    date: 'wo 19-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15028,7 +15019,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 20-08-2020 01:00',
+                    date: 'do 20-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15036,7 +15027,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 21-08-2020 01:00',
+                    date: 'vr 21-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15044,7 +15035,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 22-08-2020 01:00',
+                    date: 'za 22-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15052,7 +15043,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 23-08-2020 01:00',
+                    date: 'zo 23-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15060,7 +15051,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 24-08-2020 01:00',
+                    date: 'ma 24-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15068,7 +15059,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 25-08-2020 01:00',
+                    date: 'di 25-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15076,7 +15067,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 26-08-2020 01:00',
+                    date: 'wo 26-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15084,7 +15075,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 27-08-2020 01:00',
+                    date: 'do 27-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15092,7 +15083,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 28-08-2020 01:00',
+                    date: 'vr 28-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15100,7 +15091,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 29-08-2020 01:00',
+                    date: 'za 29-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15108,7 +15099,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 30-08-2020 01:00',
+                    date: 'zo 30-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15116,7 +15107,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-08-2020 01:00',
+                    date: 'ma 31-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15124,7 +15115,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-09-2020 01:00',
+                    date: 'di 01-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15132,7 +15123,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-09-2020 01:00',
+                    date: 'wo 02-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15140,7 +15131,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-09-2020 01:00',
+                    date: 'do 03-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15148,7 +15139,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-09-2020 01:00',
+                    date: 'vr 04-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15156,7 +15147,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-09-2020 01:00',
+                    date: 'za 05-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15164,7 +15155,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-09-2020 01:00',
+                    date: 'zo 06-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15172,7 +15163,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-09-2020 01:00',
+                    date: 'ma 07-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15180,7 +15171,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-09-2020 01:00',
+                    date: 'di 08-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15188,7 +15179,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-09-2020 01:00',
+                    date: 'wo 09-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15196,7 +15187,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-09-2020 01:00',
+                    date: 'do 10-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15204,7 +15195,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-09-2020 01:00',
+                    date: 'vr 11-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15212,7 +15203,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-09-2020 01:00',
+                    date: 'za 12-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15220,7 +15211,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-09-2020 01:00',
+                    date: 'zo 13-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15228,7 +15219,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-09-2020 01:00',
+                    date: 'ma 14-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15236,7 +15227,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-09-2020 01:00',
+                    date: 'di 15-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15244,7 +15235,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-09-2020 01:00',
+                    date: 'wo 16-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15252,7 +15243,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-09-2020 01:00',
+                    date: 'do 17-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15260,7 +15251,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-09-2020 01:00',
+                    date: 'vr 18-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15268,7 +15259,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-09-2020 01:00',
+                    date: 'za 19-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15276,7 +15267,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-09-2020 01:00',
+                    date: 'zo 20-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15284,7 +15275,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-09-2020 01:00',
+                    date: 'ma 21-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15292,7 +15283,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-09-2020 01:00',
+                    date: 'di 22-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15300,7 +15291,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-09-2020 01:00',
+                    date: 'wo 23-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15308,7 +15299,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-09-2020 01:00',
+                    date: 'do 24-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15316,7 +15307,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-09-2020 01:00',
+                    date: 'vr 25-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15324,7 +15315,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-09-2020 01:00',
+                    date: 'za 26-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15332,7 +15323,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-09-2020 01:00',
+                    date: 'zo 27-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15340,7 +15331,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-09-2020 01:00',
+                    date: 'ma 28-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15348,7 +15339,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-09-2020 01:00',
+                    date: 'di 29-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15356,7 +15347,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-09-2020 01:00',
+                    date: 'wo 30-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15364,7 +15355,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 01-10-2020 01:00',
+                    date: 'do 01-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15372,7 +15363,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 02-10-2020 01:00',
+                    date: 'vr 02-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15380,7 +15371,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 03-10-2020 01:00',
+                    date: 'za 03-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15388,7 +15379,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 04-10-2020 01:00',
+                    date: 'zo 04-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15396,7 +15387,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 05-10-2020 01:00',
+                    date: 'ma 05-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15404,7 +15395,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 06-10-2020 01:00',
+                    date: 'di 06-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15412,7 +15403,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 07-10-2020 01:00',
+                    date: 'wo 07-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15420,7 +15411,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 08-10-2020 01:00',
+                    date: 'do 08-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15428,7 +15419,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 09-10-2020 01:00',
+                    date: 'vr 09-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15436,7 +15427,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 10-10-2020 01:00',
+                    date: 'za 10-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15444,7 +15435,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 11-10-2020 01:00',
+                    date: 'zo 11-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15452,7 +15443,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 12-10-2020 01:00',
+                    date: 'ma 12-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15460,7 +15451,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 13-10-2020 01:00',
+                    date: 'di 13-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15468,7 +15459,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 14-10-2020 01:00',
+                    date: 'wo 14-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15476,7 +15467,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 15-10-2020 01:00',
+                    date: 'do 15-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15484,7 +15475,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 16-10-2020 01:00',
+                    date: 'vr 16-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15492,7 +15483,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 17-10-2020 01:00',
+                    date: 'za 17-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15500,7 +15491,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 18-10-2020 01:00',
+                    date: 'zo 18-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15508,7 +15499,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 19-10-2020 01:00',
+                    date: 'ma 19-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15516,7 +15507,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 20-10-2020 01:00',
+                    date: 'di 20-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15524,7 +15515,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 21-10-2020 01:00',
+                    date: 'wo 21-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15532,7 +15523,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 22-10-2020 01:00',
+                    date: 'do 22-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15540,7 +15531,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 23-10-2020 01:00',
+                    date: 'vr 23-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15548,7 +15539,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 24-10-2020 01:00',
+                    date: 'za 24-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -15556,7 +15547,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 25-10-2020 01:00',
+                    date: 'zo 25-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16118,7 +16109,7 @@ describe('DateGallery', () => {
       test('with new date', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
-          initialDate: '1980-05-03',
+          initialDate: '1980-05-03 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -16137,7 +16128,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 29-10-2023 01:00',
+                    date: 'zo 29-10-2023 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -16491,7 +16482,7 @@ describe('DateGallery', () => {
       test('with new date, but same frames', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-six-weeks',
-          initialDate: '2023-11-05',
+          initialDate: '2023-11-05 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -16505,7 +16496,7 @@ describe('DateGallery', () => {
       test('to day', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
-          initialDate: '1990-10-04',
+          initialDate: '1990-10-04 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -16523,9 +16514,8 @@ describe('DateGallery', () => {
             frames: [
               {
                 dates: [
-                  // Summertime
                   {
-                    date: 'ma 01-10-1990 01:00',
+                    date: 'ma 01-10-1990 00:00',
                     isPadding: false,
                     isSelected: false,
                     isToday: false,
@@ -16551,7 +16541,7 @@ describe('DateGallery', () => {
       test('to week', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
-          initialDate: '2017-08-22',
+          initialDate: '2017-08-22 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -16570,7 +16560,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 30-07-2017 01:00',
+                    date: 'zo 30-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16578,7 +16568,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-07-2017 01:00',
+                    date: 'ma 31-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16586,7 +16576,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16594,7 +16584,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16602,7 +16592,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16610,7 +16600,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16618,7 +16608,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16644,7 +16634,7 @@ describe('DateGallery', () => {
       test('to month', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
-          initialDate: '2017-08-08',
+          initialDate: '2017-08-08 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -16663,7 +16653,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16671,7 +16661,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16679,7 +16669,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16687,7 +16677,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16695,7 +16685,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16703,7 +16693,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-08-2017 01:00',
+                    date: 'zo 06-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16711,7 +16701,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-08-2017 01:00',
+                    date: 'ma 07-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16719,7 +16709,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-08-2017 01:00',
+                    date: 'di 08-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16727,7 +16717,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-08-2017 01:00',
+                    date: 'wo 09-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16735,7 +16725,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-08-2017 01:00',
+                    date: 'do 10-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16743,7 +16733,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-08-2017 01:00',
+                    date: 'vr 11-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16751,7 +16741,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-08-2017 01:00',
+                    date: 'za 12-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16759,7 +16749,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-08-2017 01:00',
+                    date: 'zo 13-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16767,7 +16757,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-08-2017 01:00',
+                    date: 'ma 14-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16775,7 +16765,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-08-2017 01:00',
+                    date: 'di 15-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16783,7 +16773,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-08-2017 01:00',
+                    date: 'wo 16-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16791,7 +16781,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-08-2017 01:00',
+                    date: 'do 17-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16799,7 +16789,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-08-2017 01:00',
+                    date: 'vr 18-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16807,7 +16797,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-08-2017 01:00',
+                    date: 'za 19-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16815,7 +16805,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-08-2017 01:00',
+                    date: 'zo 20-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16823,7 +16813,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-08-2017 01:00',
+                    date: 'ma 21-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16831,7 +16821,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-08-2017 01:00',
+                    date: 'di 22-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16839,7 +16829,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-08-2017 01:00',
+                    date: 'wo 23-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16847,7 +16837,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-08-2017 01:00',
+                    date: 'do 24-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16855,7 +16845,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-08-2017 01:00',
+                    date: 'vr 25-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16863,7 +16853,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-08-2017 01:00',
+                    date: 'za 26-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16871,7 +16861,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-08-2017 01:00',
+                    date: 'zo 27-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16879,7 +16869,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-08-2017 01:00',
+                    date: 'ma 28-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16887,7 +16877,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-08-2017 01:00',
+                    date: 'di 29-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16895,7 +16885,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-08-2017 01:00',
+                    date: 'wo 30-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16903,7 +16893,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 31-08-2017 01:00',
+                    date: 'do 31-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16929,7 +16919,7 @@ describe('DateGallery', () => {
       test('to month-six-weeks', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
-          initialDate: '2017-08-29',
+          initialDate: '2017-08-29 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -16947,7 +16937,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 30-07-2017 01:00',
+                    date: 'zo 30-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -16955,7 +16945,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-07-2017 01:00',
+                    date: 'ma 31-07-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -16963,7 +16953,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-08-2017 01:00',
+                    date: 'di 01-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16971,7 +16961,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-08-2017 01:00',
+                    date: 'wo 02-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16979,7 +16969,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-08-2017 01:00',
+                    date: 'do 03-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16987,7 +16977,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-08-2017 01:00',
+                    date: 'vr 04-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -16995,7 +16985,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-08-2017 01:00',
+                    date: 'za 05-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17003,7 +16993,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-08-2017 01:00',
+                    date: 'zo 06-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17011,7 +17001,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-08-2017 01:00',
+                    date: 'ma 07-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17019,7 +17009,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-08-2017 01:00',
+                    date: 'di 08-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17027,7 +17017,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-08-2017 01:00',
+                    date: 'wo 09-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17035,7 +17025,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-08-2017 01:00',
+                    date: 'do 10-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17043,7 +17033,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-08-2017 01:00',
+                    date: 'vr 11-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17051,7 +17041,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-08-2017 01:00',
+                    date: 'za 12-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17059,7 +17049,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-08-2017 01:00',
+                    date: 'zo 13-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17067,7 +17057,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-08-2017 01:00',
+                    date: 'ma 14-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17075,7 +17065,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-08-2017 01:00',
+                    date: 'di 15-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17083,7 +17073,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-08-2017 01:00',
+                    date: 'wo 16-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17091,7 +17081,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-08-2017 01:00',
+                    date: 'do 17-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17099,7 +17089,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-08-2017 01:00',
+                    date: 'vr 18-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17107,7 +17097,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-08-2017 01:00',
+                    date: 'za 19-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17115,7 +17105,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-08-2017 01:00',
+                    date: 'zo 20-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17123,7 +17113,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-08-2017 01:00',
+                    date: 'ma 21-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17131,7 +17121,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-08-2017 01:00',
+                    date: 'di 22-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17139,7 +17129,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-08-2017 01:00',
+                    date: 'wo 23-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17147,7 +17137,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-08-2017 01:00',
+                    date: 'do 24-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17155,7 +17145,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-08-2017 01:00',
+                    date: 'vr 25-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17163,7 +17153,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-08-2017 01:00',
+                    date: 'za 26-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17171,7 +17161,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-08-2017 01:00',
+                    date: 'zo 27-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17179,7 +17169,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-08-2017 01:00',
+                    date: 'ma 28-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17187,7 +17177,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-08-2017 01:00',
+                    date: 'di 29-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17195,7 +17185,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-08-2017 01:00',
+                    date: 'wo 30-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17203,7 +17193,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 31-08-2017 01:00',
+                    date: 'do 31-08-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -17211,7 +17201,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-09-2017 01:00',
+                    date: 'vr 01-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -17219,7 +17209,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-09-2017 01:00',
+                    date: 'za 02-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -17227,7 +17217,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 03-09-2017 01:00',
+                    date: 'zo 03-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -17235,7 +17225,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 04-09-2017 01:00',
+                    date: 'ma 04-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -17243,7 +17233,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 05-09-2017 01:00',
+                    date: 'di 05-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -17251,7 +17241,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 06-09-2017 01:00',
+                    date: 'wo 06-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -17259,7 +17249,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 07-09-2017 01:00',
+                    date: 'do 07-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -17267,7 +17257,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 08-09-2017 01:00',
+                    date: 'vr 08-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -17275,7 +17265,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 09-09-2017 01:00',
+                    date: 'za 09-09-2017 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -17301,7 +17291,7 @@ describe('DateGallery', () => {
       test('to month-pad-to-week', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
-          initialDate: '2017-08-13',
+          initialDate: '2017-08-13 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -17313,7 +17303,7 @@ describe('DateGallery', () => {
       test('to year', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
-          initialDate: '2020-09-26',
+          initialDate: '2020-09-26 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -18044,7 +18034,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 30-03-2020 01:00',
+                    date: 'ma 30-03-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18052,7 +18042,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 31-03-2020 01:00',
+                    date: 'di 31-03-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18060,7 +18050,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 01-04-2020 01:00',
+                    date: 'wo 01-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18068,7 +18058,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 02-04-2020 01:00',
+                    date: 'do 02-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18076,7 +18066,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 03-04-2020 01:00',
+                    date: 'vr 03-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18084,7 +18074,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 04-04-2020 01:00',
+                    date: 'za 04-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18092,7 +18082,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 05-04-2020 01:00',
+                    date: 'zo 05-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18100,7 +18090,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 06-04-2020 01:00',
+                    date: 'ma 06-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18108,7 +18098,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 07-04-2020 01:00',
+                    date: 'di 07-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18116,7 +18106,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 08-04-2020 01:00',
+                    date: 'wo 08-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18124,7 +18114,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 09-04-2020 01:00',
+                    date: 'do 09-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18132,7 +18122,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 10-04-2020 01:00',
+                    date: 'vr 10-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18140,7 +18130,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 11-04-2020 01:00',
+                    date: 'za 11-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18148,7 +18138,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 12-04-2020 01:00',
+                    date: 'zo 12-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18156,7 +18146,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 13-04-2020 01:00',
+                    date: 'ma 13-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18164,7 +18154,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 14-04-2020 01:00',
+                    date: 'di 14-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18172,7 +18162,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 15-04-2020 01:00',
+                    date: 'wo 15-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18180,7 +18170,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 16-04-2020 01:00',
+                    date: 'do 16-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18188,7 +18178,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 17-04-2020 01:00',
+                    date: 'vr 17-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18196,7 +18186,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 18-04-2020 01:00',
+                    date: 'za 18-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18204,7 +18194,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 19-04-2020 01:00',
+                    date: 'zo 19-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18212,7 +18202,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 20-04-2020 01:00',
+                    date: 'ma 20-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18220,7 +18210,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 21-04-2020 01:00',
+                    date: 'di 21-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18228,7 +18218,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 22-04-2020 01:00',
+                    date: 'wo 22-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18236,7 +18226,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 23-04-2020 01:00',
+                    date: 'do 23-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18244,7 +18234,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 24-04-2020 01:00',
+                    date: 'vr 24-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18252,7 +18242,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 25-04-2020 01:00',
+                    date: 'za 25-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18260,7 +18250,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 26-04-2020 01:00',
+                    date: 'zo 26-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18268,7 +18258,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 27-04-2020 01:00',
+                    date: 'ma 27-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18276,7 +18266,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 28-04-2020 01:00',
+                    date: 'di 28-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18284,7 +18274,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 29-04-2020 01:00',
+                    date: 'wo 29-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18292,7 +18282,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 30-04-2020 01:00',
+                    date: 'do 30-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18300,7 +18290,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-05-2020 01:00',
+                    date: 'vr 01-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18308,7 +18298,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-05-2020 01:00',
+                    date: 'za 02-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18316,7 +18306,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 03-05-2020 01:00',
+                    date: 'zo 03-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18324,7 +18314,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 04-05-2020 01:00',
+                    date: 'ma 04-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18332,7 +18322,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 05-05-2020 01:00',
+                    date: 'di 05-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18340,7 +18330,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 06-05-2020 01:00',
+                    date: 'wo 06-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18348,7 +18338,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 07-05-2020 01:00',
+                    date: 'do 07-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18356,7 +18346,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 08-05-2020 01:00',
+                    date: 'vr 08-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18364,7 +18354,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 09-05-2020 01:00',
+                    date: 'za 09-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18372,7 +18362,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 10-05-2020 01:00',
+                    date: 'zo 10-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18380,7 +18370,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 11-05-2020 01:00',
+                    date: 'ma 11-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18388,7 +18378,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 12-05-2020 01:00',
+                    date: 'di 12-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18396,7 +18386,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 13-05-2020 01:00',
+                    date: 'wo 13-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18404,7 +18394,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 14-05-2020 01:00',
+                    date: 'do 14-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18412,7 +18402,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 15-05-2020 01:00',
+                    date: 'vr 15-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18420,7 +18410,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 16-05-2020 01:00',
+                    date: 'za 16-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18428,7 +18418,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 17-05-2020 01:00',
+                    date: 'zo 17-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18436,7 +18426,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 18-05-2020 01:00',
+                    date: 'ma 18-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18444,7 +18434,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 19-05-2020 01:00',
+                    date: 'di 19-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18452,7 +18442,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 20-05-2020 01:00',
+                    date: 'wo 20-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18460,7 +18450,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 21-05-2020 01:00',
+                    date: 'do 21-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18468,7 +18458,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 22-05-2020 01:00',
+                    date: 'vr 22-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18476,7 +18466,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 23-05-2020 01:00',
+                    date: 'za 23-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18484,7 +18474,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 24-05-2020 01:00',
+                    date: 'zo 24-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18492,7 +18482,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 25-05-2020 01:00',
+                    date: 'ma 25-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18500,7 +18490,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 26-05-2020 01:00',
+                    date: 'di 26-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18508,7 +18498,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 27-05-2020 01:00',
+                    date: 'wo 27-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18516,7 +18506,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 28-05-2020 01:00',
+                    date: 'do 28-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18524,7 +18514,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 29-05-2020 01:00',
+                    date: 'vr 29-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18532,7 +18522,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 30-05-2020 01:00',
+                    date: 'za 30-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18540,7 +18530,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 31-05-2020 01:00',
+                    date: 'zo 31-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18548,7 +18538,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 01-06-2020 01:00',
+                    date: 'ma 01-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18556,7 +18546,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 02-06-2020 01:00',
+                    date: 'di 02-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18564,7 +18554,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 03-06-2020 01:00',
+                    date: 'wo 03-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18572,7 +18562,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 04-06-2020 01:00',
+                    date: 'do 04-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18580,7 +18570,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 05-06-2020 01:00',
+                    date: 'vr 05-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18588,7 +18578,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 06-06-2020 01:00',
+                    date: 'za 06-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18596,7 +18586,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 07-06-2020 01:00',
+                    date: 'zo 07-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18604,7 +18594,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 08-06-2020 01:00',
+                    date: 'ma 08-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18612,7 +18602,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 09-06-2020 01:00',
+                    date: 'di 09-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18620,7 +18610,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 10-06-2020 01:00',
+                    date: 'wo 10-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18628,7 +18618,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 11-06-2020 01:00',
+                    date: 'do 11-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18636,7 +18626,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 12-06-2020 01:00',
+                    date: 'vr 12-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18644,7 +18634,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 13-06-2020 01:00',
+                    date: 'za 13-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18652,7 +18642,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 14-06-2020 01:00',
+                    date: 'zo 14-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18660,7 +18650,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 15-06-2020 01:00',
+                    date: 'ma 15-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18668,7 +18658,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 16-06-2020 01:00',
+                    date: 'di 16-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18676,7 +18666,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 17-06-2020 01:00',
+                    date: 'wo 17-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18684,7 +18674,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 18-06-2020 01:00',
+                    date: 'do 18-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18692,7 +18682,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 19-06-2020 01:00',
+                    date: 'vr 19-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18700,7 +18690,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 20-06-2020 01:00',
+                    date: 'za 20-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18708,7 +18698,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 21-06-2020 01:00',
+                    date: 'zo 21-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18716,7 +18706,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 22-06-2020 01:00',
+                    date: 'ma 22-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18724,7 +18714,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 23-06-2020 01:00',
+                    date: 'di 23-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18732,7 +18722,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 24-06-2020 01:00',
+                    date: 'wo 24-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18740,7 +18730,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 25-06-2020 01:00',
+                    date: 'do 25-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18748,7 +18738,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 26-06-2020 01:00',
+                    date: 'vr 26-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18756,7 +18746,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 27-06-2020 01:00',
+                    date: 'za 27-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18764,7 +18754,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 28-06-2020 01:00',
+                    date: 'zo 28-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18772,7 +18762,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 29-06-2020 01:00',
+                    date: 'ma 29-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18780,7 +18770,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 30-06-2020 01:00',
+                    date: 'di 30-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18788,7 +18778,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 01-07-2020 01:00',
+                    date: 'wo 01-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18796,7 +18786,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 02-07-2020 01:00',
+                    date: 'do 02-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18804,7 +18794,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 03-07-2020 01:00',
+                    date: 'vr 03-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18812,7 +18802,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 04-07-2020 01:00',
+                    date: 'za 04-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18820,7 +18810,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 05-07-2020 01:00',
+                    date: 'zo 05-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18828,7 +18818,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 06-07-2020 01:00',
+                    date: 'ma 06-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18836,7 +18826,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 07-07-2020 01:00',
+                    date: 'di 07-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18844,7 +18834,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 08-07-2020 01:00',
+                    date: 'wo 08-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18852,7 +18842,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 09-07-2020 01:00',
+                    date: 'do 09-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18860,7 +18850,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 10-07-2020 01:00',
+                    date: 'vr 10-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18868,7 +18858,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 11-07-2020 01:00',
+                    date: 'za 11-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18876,7 +18866,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 12-07-2020 01:00',
+                    date: 'zo 12-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18884,7 +18874,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 13-07-2020 01:00',
+                    date: 'ma 13-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18892,7 +18882,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 14-07-2020 01:00',
+                    date: 'di 14-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18900,7 +18890,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 15-07-2020 01:00',
+                    date: 'wo 15-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18908,7 +18898,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 16-07-2020 01:00',
+                    date: 'do 16-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18916,7 +18906,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 17-07-2020 01:00',
+                    date: 'vr 17-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18924,7 +18914,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 18-07-2020 01:00',
+                    date: 'za 18-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18932,7 +18922,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 19-07-2020 01:00',
+                    date: 'zo 19-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18940,7 +18930,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 20-07-2020 01:00',
+                    date: 'ma 20-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18948,7 +18938,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 21-07-2020 01:00',
+                    date: 'di 21-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18956,7 +18946,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 22-07-2020 01:00',
+                    date: 'wo 22-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18964,7 +18954,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 23-07-2020 01:00',
+                    date: 'do 23-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18972,7 +18962,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 24-07-2020 01:00',
+                    date: 'vr 24-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18980,7 +18970,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 25-07-2020 01:00',
+                    date: 'za 25-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18988,7 +18978,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 26-07-2020 01:00',
+                    date: 'zo 26-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -18996,7 +18986,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 27-07-2020 01:00',
+                    date: 'ma 27-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19004,7 +18994,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 28-07-2020 01:00',
+                    date: 'di 28-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19012,7 +19002,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 29-07-2020 01:00',
+                    date: 'wo 29-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19020,7 +19010,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 30-07-2020 01:00',
+                    date: 'do 30-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19028,7 +19018,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 31-07-2020 01:00',
+                    date: 'vr 31-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19036,7 +19026,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 01-08-2020 01:00',
+                    date: 'za 01-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19044,7 +19034,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 02-08-2020 01:00',
+                    date: 'zo 02-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19052,7 +19042,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 03-08-2020 01:00',
+                    date: 'ma 03-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19060,7 +19050,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 04-08-2020 01:00',
+                    date: 'di 04-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19068,7 +19058,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 05-08-2020 01:00',
+                    date: 'wo 05-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19076,7 +19066,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 06-08-2020 01:00',
+                    date: 'do 06-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19084,7 +19074,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 07-08-2020 01:00',
+                    date: 'vr 07-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19092,7 +19082,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 08-08-2020 01:00',
+                    date: 'za 08-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19100,7 +19090,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 09-08-2020 01:00',
+                    date: 'zo 09-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19108,7 +19098,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 10-08-2020 01:00',
+                    date: 'ma 10-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19116,7 +19106,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 11-08-2020 01:00',
+                    date: 'di 11-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19124,7 +19114,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 12-08-2020 01:00',
+                    date: 'wo 12-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19132,7 +19122,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 13-08-2020 01:00',
+                    date: 'do 13-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19140,7 +19130,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 14-08-2020 01:00',
+                    date: 'vr 14-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19148,7 +19138,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 15-08-2020 01:00',
+                    date: 'za 15-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19156,7 +19146,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 16-08-2020 01:00',
+                    date: 'zo 16-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19164,7 +19154,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 17-08-2020 01:00',
+                    date: 'ma 17-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19172,7 +19162,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 18-08-2020 01:00',
+                    date: 'di 18-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19180,7 +19170,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 19-08-2020 01:00',
+                    date: 'wo 19-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19188,7 +19178,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 20-08-2020 01:00',
+                    date: 'do 20-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19196,7 +19186,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 21-08-2020 01:00',
+                    date: 'vr 21-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19204,7 +19194,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 22-08-2020 01:00',
+                    date: 'za 22-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19212,7 +19202,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 23-08-2020 01:00',
+                    date: 'zo 23-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19220,7 +19210,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 24-08-2020 01:00',
+                    date: 'ma 24-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19228,7 +19218,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 25-08-2020 01:00',
+                    date: 'di 25-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19236,7 +19226,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 26-08-2020 01:00',
+                    date: 'wo 26-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19244,7 +19234,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 27-08-2020 01:00',
+                    date: 'do 27-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19252,7 +19242,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 28-08-2020 01:00',
+                    date: 'vr 28-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19260,7 +19250,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 29-08-2020 01:00',
+                    date: 'za 29-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19268,7 +19258,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 30-08-2020 01:00',
+                    date: 'zo 30-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19276,7 +19266,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-08-2020 01:00',
+                    date: 'ma 31-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19284,7 +19274,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-09-2020 01:00',
+                    date: 'di 01-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19292,7 +19282,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-09-2020 01:00',
+                    date: 'wo 02-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19300,7 +19290,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-09-2020 01:00',
+                    date: 'do 03-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19308,7 +19298,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-09-2020 01:00',
+                    date: 'vr 04-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19316,7 +19306,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-09-2020 01:00',
+                    date: 'za 05-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19324,7 +19314,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-09-2020 01:00',
+                    date: 'zo 06-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19332,7 +19322,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-09-2020 01:00',
+                    date: 'ma 07-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19340,7 +19330,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-09-2020 01:00',
+                    date: 'di 08-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19348,7 +19338,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-09-2020 01:00',
+                    date: 'wo 09-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19356,7 +19346,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-09-2020 01:00',
+                    date: 'do 10-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19364,7 +19354,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-09-2020 01:00',
+                    date: 'vr 11-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19372,7 +19362,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-09-2020 01:00',
+                    date: 'za 12-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19380,7 +19370,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-09-2020 01:00',
+                    date: 'zo 13-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19388,7 +19378,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-09-2020 01:00',
+                    date: 'ma 14-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19396,7 +19386,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-09-2020 01:00',
+                    date: 'di 15-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19404,7 +19394,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-09-2020 01:00',
+                    date: 'wo 16-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19412,7 +19402,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-09-2020 01:00',
+                    date: 'do 17-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19420,7 +19410,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-09-2020 01:00',
+                    date: 'vr 18-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19428,7 +19418,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-09-2020 01:00',
+                    date: 'za 19-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19436,7 +19426,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-09-2020 01:00',
+                    date: 'zo 20-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19444,7 +19434,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-09-2020 01:00',
+                    date: 'ma 21-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19452,7 +19442,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-09-2020 01:00',
+                    date: 'di 22-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19460,7 +19450,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-09-2020 01:00',
+                    date: 'wo 23-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19468,7 +19458,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-09-2020 01:00',
+                    date: 'do 24-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19476,7 +19466,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-09-2020 01:00',
+                    date: 'vr 25-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19484,7 +19474,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-09-2020 01:00',
+                    date: 'za 26-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19492,7 +19482,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-09-2020 01:00',
+                    date: 'zo 27-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19500,7 +19490,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-09-2020 01:00',
+                    date: 'ma 28-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19508,7 +19498,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-09-2020 01:00',
+                    date: 'di 29-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19516,7 +19506,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-09-2020 01:00',
+                    date: 'wo 30-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19524,7 +19514,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 01-10-2020 01:00',
+                    date: 'do 01-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19532,7 +19522,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 02-10-2020 01:00',
+                    date: 'vr 02-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19540,7 +19530,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 03-10-2020 01:00',
+                    date: 'za 03-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19548,7 +19538,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 04-10-2020 01:00',
+                    date: 'zo 04-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19556,7 +19546,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 05-10-2020 01:00',
+                    date: 'ma 05-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19564,7 +19554,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 06-10-2020 01:00',
+                    date: 'di 06-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19572,7 +19562,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 07-10-2020 01:00',
+                    date: 'wo 07-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19580,7 +19570,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 08-10-2020 01:00',
+                    date: 'do 08-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19588,7 +19578,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 09-10-2020 01:00',
+                    date: 'vr 09-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19596,7 +19586,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 10-10-2020 01:00',
+                    date: 'za 10-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19604,7 +19594,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 11-10-2020 01:00',
+                    date: 'zo 11-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19612,7 +19602,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 12-10-2020 01:00',
+                    date: 'ma 12-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19620,7 +19610,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 13-10-2020 01:00',
+                    date: 'di 13-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19628,7 +19618,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 14-10-2020 01:00',
+                    date: 'wo 14-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19636,7 +19626,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 15-10-2020 01:00',
+                    date: 'do 15-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19644,7 +19634,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 16-10-2020 01:00',
+                    date: 'vr 16-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19652,7 +19642,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 17-10-2020 01:00',
+                    date: 'za 17-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19660,7 +19650,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 18-10-2020 01:00',
+                    date: 'zo 18-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19668,7 +19658,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 19-10-2020 01:00',
+                    date: 'ma 19-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19676,7 +19666,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 20-10-2020 01:00',
+                    date: 'di 20-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19684,7 +19674,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 21-10-2020 01:00',
+                    date: 'wo 21-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19692,7 +19682,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 22-10-2020 01:00',
+                    date: 'do 22-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19700,7 +19690,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 23-10-2020 01:00',
+                    date: 'vr 23-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19708,7 +19698,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 24-10-2020 01:00',
+                    date: 'za 24-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -19716,7 +19706,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 25-10-2020 01:00',
+                    date: 'zo 25-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -20278,7 +20268,7 @@ describe('DateGallery', () => {
       test('with new date', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
-          initialDate: '1980-05-03',
+          initialDate: '1980-05-03 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -20297,7 +20287,7 @@ describe('DateGallery', () => {
               {
                 dates: [
                   {
-                    date: 'zo 29-10-2023 01:00',
+                    date: 'zo 29-10-2023 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: true,
@@ -20595,7 +20585,7 @@ describe('DateGallery', () => {
       test('with new date, but same frames', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'month-pad-to-week',
-          initialDate: '2023-11-05',
+          initialDate: '2023-11-05 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -20609,7 +20599,7 @@ describe('DateGallery', () => {
       test('to day', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
-          initialDate: '1990-10-04',
+          initialDate: '1990-10-04 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -20627,7 +20617,6 @@ describe('DateGallery', () => {
             frames: [
               {
                 dates: [
-                  // Summertime
                   {
                     date: 'ma 01-01-1990 00:00',
                     isPadding: false,
@@ -20655,7 +20644,7 @@ describe('DateGallery', () => {
       test('to week', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
-          initialDate: '2017-08-22',
+          initialDate: '2017-08-22 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -20748,7 +20737,7 @@ describe('DateGallery', () => {
       test('to month', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
-          initialDate: '2017-08-08',
+          initialDate: '2017-08-08 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -21033,7 +21022,7 @@ describe('DateGallery', () => {
       test('to month-six-weeks', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
-          initialDate: '2017-08-29',
+          initialDate: '2017-08-29 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -21405,7 +21394,7 @@ describe('DateGallery', () => {
       test('to month-pad-to-week', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
-          initialDate: '2017-08-13',
+          initialDate: '2017-08-13 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -21723,7 +21712,7 @@ describe('DateGallery', () => {
       test('to year', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
-          initialDate: '2020-09-26',
+          initialDate: '2020-09-26 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -21735,7 +21724,7 @@ describe('DateGallery', () => {
       test('with new date', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
-          initialDate: '1980-05-03',
+          initialDate: '1980-05-03 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -22466,7 +22455,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 30-03-2020 01:00',
+                    date: 'ma 30-03-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22474,7 +22463,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 31-03-2020 01:00',
+                    date: 'di 31-03-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22482,7 +22471,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 01-04-2020 01:00',
+                    date: 'wo 01-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22490,7 +22479,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 02-04-2020 01:00',
+                    date: 'do 02-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22498,7 +22487,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 03-04-2020 01:00',
+                    date: 'vr 03-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22506,7 +22495,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 04-04-2020 01:00',
+                    date: 'za 04-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22514,7 +22503,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 05-04-2020 01:00',
+                    date: 'zo 05-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22522,7 +22511,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 06-04-2020 01:00',
+                    date: 'ma 06-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22530,7 +22519,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 07-04-2020 01:00',
+                    date: 'di 07-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22538,7 +22527,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 08-04-2020 01:00',
+                    date: 'wo 08-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22546,7 +22535,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 09-04-2020 01:00',
+                    date: 'do 09-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22554,7 +22543,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 10-04-2020 01:00',
+                    date: 'vr 10-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22562,7 +22551,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 11-04-2020 01:00',
+                    date: 'za 11-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22570,7 +22559,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 12-04-2020 01:00',
+                    date: 'zo 12-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22578,7 +22567,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 13-04-2020 01:00',
+                    date: 'ma 13-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22586,7 +22575,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 14-04-2020 01:00',
+                    date: 'di 14-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22594,7 +22583,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 15-04-2020 01:00',
+                    date: 'wo 15-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22602,7 +22591,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 16-04-2020 01:00',
+                    date: 'do 16-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22610,7 +22599,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 17-04-2020 01:00',
+                    date: 'vr 17-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22618,7 +22607,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 18-04-2020 01:00',
+                    date: 'za 18-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22626,7 +22615,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 19-04-2020 01:00',
+                    date: 'zo 19-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22634,7 +22623,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 20-04-2020 01:00',
+                    date: 'ma 20-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22642,7 +22631,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 21-04-2020 01:00',
+                    date: 'di 21-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22650,7 +22639,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 22-04-2020 01:00',
+                    date: 'wo 22-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22658,7 +22647,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 23-04-2020 01:00',
+                    date: 'do 23-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22666,7 +22655,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 24-04-2020 01:00',
+                    date: 'vr 24-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22674,7 +22663,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 25-04-2020 01:00',
+                    date: 'za 25-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22682,7 +22671,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 26-04-2020 01:00',
+                    date: 'zo 26-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22690,7 +22679,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 27-04-2020 01:00',
+                    date: 'ma 27-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22698,7 +22687,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 28-04-2020 01:00',
+                    date: 'di 28-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22706,7 +22695,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 29-04-2020 01:00',
+                    date: 'wo 29-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22714,7 +22703,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 30-04-2020 01:00',
+                    date: 'do 30-04-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22722,7 +22711,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 01-05-2020 01:00',
+                    date: 'vr 01-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22730,7 +22719,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 02-05-2020 01:00',
+                    date: 'za 02-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22738,7 +22727,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 03-05-2020 01:00',
+                    date: 'zo 03-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22746,7 +22735,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 04-05-2020 01:00',
+                    date: 'ma 04-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22754,7 +22743,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 05-05-2020 01:00',
+                    date: 'di 05-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22762,7 +22751,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 06-05-2020 01:00',
+                    date: 'wo 06-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22770,7 +22759,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 07-05-2020 01:00',
+                    date: 'do 07-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22778,7 +22767,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 08-05-2020 01:00',
+                    date: 'vr 08-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22786,7 +22775,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 09-05-2020 01:00',
+                    date: 'za 09-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22794,7 +22783,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 10-05-2020 01:00',
+                    date: 'zo 10-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22802,7 +22791,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 11-05-2020 01:00',
+                    date: 'ma 11-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22810,7 +22799,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 12-05-2020 01:00',
+                    date: 'di 12-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22818,7 +22807,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 13-05-2020 01:00',
+                    date: 'wo 13-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22826,7 +22815,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 14-05-2020 01:00',
+                    date: 'do 14-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22834,7 +22823,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 15-05-2020 01:00',
+                    date: 'vr 15-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22842,7 +22831,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 16-05-2020 01:00',
+                    date: 'za 16-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22850,7 +22839,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 17-05-2020 01:00',
+                    date: 'zo 17-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22858,7 +22847,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 18-05-2020 01:00',
+                    date: 'ma 18-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22866,7 +22855,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 19-05-2020 01:00',
+                    date: 'di 19-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22874,7 +22863,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 20-05-2020 01:00',
+                    date: 'wo 20-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22882,7 +22871,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 21-05-2020 01:00',
+                    date: 'do 21-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22890,7 +22879,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 22-05-2020 01:00',
+                    date: 'vr 22-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22898,7 +22887,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 23-05-2020 01:00',
+                    date: 'za 23-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22906,7 +22895,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 24-05-2020 01:00',
+                    date: 'zo 24-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22914,7 +22903,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 25-05-2020 01:00',
+                    date: 'ma 25-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22922,7 +22911,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 26-05-2020 01:00',
+                    date: 'di 26-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22930,7 +22919,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 27-05-2020 01:00',
+                    date: 'wo 27-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22938,7 +22927,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 28-05-2020 01:00',
+                    date: 'do 28-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22946,7 +22935,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 29-05-2020 01:00',
+                    date: 'vr 29-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22954,7 +22943,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 30-05-2020 01:00',
+                    date: 'za 30-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22962,7 +22951,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 31-05-2020 01:00',
+                    date: 'zo 31-05-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22970,7 +22959,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 01-06-2020 01:00',
+                    date: 'ma 01-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22978,7 +22967,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 02-06-2020 01:00',
+                    date: 'di 02-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22986,7 +22975,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 03-06-2020 01:00',
+                    date: 'wo 03-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -22994,7 +22983,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 04-06-2020 01:00',
+                    date: 'do 04-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23002,7 +22991,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 05-06-2020 01:00',
+                    date: 'vr 05-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23010,7 +22999,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 06-06-2020 01:00',
+                    date: 'za 06-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23018,7 +23007,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 07-06-2020 01:00',
+                    date: 'zo 07-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23026,7 +23015,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 08-06-2020 01:00',
+                    date: 'ma 08-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23034,7 +23023,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 09-06-2020 01:00',
+                    date: 'di 09-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23042,7 +23031,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 10-06-2020 01:00',
+                    date: 'wo 10-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23050,7 +23039,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 11-06-2020 01:00',
+                    date: 'do 11-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23058,7 +23047,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 12-06-2020 01:00',
+                    date: 'vr 12-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23066,7 +23055,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 13-06-2020 01:00',
+                    date: 'za 13-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23074,7 +23063,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 14-06-2020 01:00',
+                    date: 'zo 14-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23082,7 +23071,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 15-06-2020 01:00',
+                    date: 'ma 15-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23090,7 +23079,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 16-06-2020 01:00',
+                    date: 'di 16-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23098,7 +23087,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 17-06-2020 01:00',
+                    date: 'wo 17-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23106,7 +23095,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 18-06-2020 01:00',
+                    date: 'do 18-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23114,7 +23103,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 19-06-2020 01:00',
+                    date: 'vr 19-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23122,7 +23111,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 20-06-2020 01:00',
+                    date: 'za 20-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23130,7 +23119,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 21-06-2020 01:00',
+                    date: 'zo 21-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23138,7 +23127,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 22-06-2020 01:00',
+                    date: 'ma 22-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23146,7 +23135,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 23-06-2020 01:00',
+                    date: 'di 23-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23154,7 +23143,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 24-06-2020 01:00',
+                    date: 'wo 24-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23162,7 +23151,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 25-06-2020 01:00',
+                    date: 'do 25-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23170,7 +23159,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 26-06-2020 01:00',
+                    date: 'vr 26-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23178,7 +23167,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 27-06-2020 01:00',
+                    date: 'za 27-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23186,7 +23175,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 28-06-2020 01:00',
+                    date: 'zo 28-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23194,7 +23183,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 29-06-2020 01:00',
+                    date: 'ma 29-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23202,7 +23191,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 30-06-2020 01:00',
+                    date: 'di 30-06-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23210,7 +23199,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 01-07-2020 01:00',
+                    date: 'wo 01-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23218,7 +23207,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 02-07-2020 01:00',
+                    date: 'do 02-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23226,7 +23215,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 03-07-2020 01:00',
+                    date: 'vr 03-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23234,7 +23223,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 04-07-2020 01:00',
+                    date: 'za 04-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23242,7 +23231,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 05-07-2020 01:00',
+                    date: 'zo 05-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23250,7 +23239,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 06-07-2020 01:00',
+                    date: 'ma 06-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23258,7 +23247,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 07-07-2020 01:00',
+                    date: 'di 07-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23266,7 +23255,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 08-07-2020 01:00',
+                    date: 'wo 08-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23274,7 +23263,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 09-07-2020 01:00',
+                    date: 'do 09-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23282,7 +23271,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 10-07-2020 01:00',
+                    date: 'vr 10-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23290,7 +23279,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 11-07-2020 01:00',
+                    date: 'za 11-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23298,7 +23287,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 12-07-2020 01:00',
+                    date: 'zo 12-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23306,7 +23295,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 13-07-2020 01:00',
+                    date: 'ma 13-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23314,7 +23303,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 14-07-2020 01:00',
+                    date: 'di 14-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23322,7 +23311,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 15-07-2020 01:00',
+                    date: 'wo 15-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23330,7 +23319,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 16-07-2020 01:00',
+                    date: 'do 16-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23338,7 +23327,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 17-07-2020 01:00',
+                    date: 'vr 17-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23346,7 +23335,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 18-07-2020 01:00',
+                    date: 'za 18-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23354,7 +23343,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 19-07-2020 01:00',
+                    date: 'zo 19-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23362,7 +23351,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 20-07-2020 01:00',
+                    date: 'ma 20-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23370,7 +23359,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 21-07-2020 01:00',
+                    date: 'di 21-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23378,7 +23367,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 22-07-2020 01:00',
+                    date: 'wo 22-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23386,7 +23375,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 23-07-2020 01:00',
+                    date: 'do 23-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23394,7 +23383,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 24-07-2020 01:00',
+                    date: 'vr 24-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23402,7 +23391,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 25-07-2020 01:00',
+                    date: 'za 25-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23410,7 +23399,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 26-07-2020 01:00',
+                    date: 'zo 26-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23418,7 +23407,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 27-07-2020 01:00',
+                    date: 'ma 27-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23426,7 +23415,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 28-07-2020 01:00',
+                    date: 'di 28-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23434,7 +23423,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 29-07-2020 01:00',
+                    date: 'wo 29-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23442,7 +23431,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 30-07-2020 01:00',
+                    date: 'do 30-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23450,7 +23439,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 31-07-2020 01:00',
+                    date: 'vr 31-07-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23458,7 +23447,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 01-08-2020 01:00',
+                    date: 'za 01-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23466,7 +23455,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 02-08-2020 01:00',
+                    date: 'zo 02-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23474,7 +23463,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 03-08-2020 01:00',
+                    date: 'ma 03-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23482,7 +23471,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 04-08-2020 01:00',
+                    date: 'di 04-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23490,7 +23479,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 05-08-2020 01:00',
+                    date: 'wo 05-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23498,7 +23487,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 06-08-2020 01:00',
+                    date: 'do 06-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23506,7 +23495,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 07-08-2020 01:00',
+                    date: 'vr 07-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23514,7 +23503,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 08-08-2020 01:00',
+                    date: 'za 08-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23522,7 +23511,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 09-08-2020 01:00',
+                    date: 'zo 09-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23530,7 +23519,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 10-08-2020 01:00',
+                    date: 'ma 10-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23538,7 +23527,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 11-08-2020 01:00',
+                    date: 'di 11-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23546,7 +23535,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 12-08-2020 01:00',
+                    date: 'wo 12-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23554,7 +23543,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 13-08-2020 01:00',
+                    date: 'do 13-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23562,7 +23551,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 14-08-2020 01:00',
+                    date: 'vr 14-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23570,7 +23559,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 15-08-2020 01:00',
+                    date: 'za 15-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23578,7 +23567,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 16-08-2020 01:00',
+                    date: 'zo 16-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23586,7 +23575,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 17-08-2020 01:00',
+                    date: 'ma 17-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23594,7 +23583,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 18-08-2020 01:00',
+                    date: 'di 18-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23602,7 +23591,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 19-08-2020 01:00',
+                    date: 'wo 19-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23610,7 +23599,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 20-08-2020 01:00',
+                    date: 'do 20-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23618,7 +23607,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 21-08-2020 01:00',
+                    date: 'vr 21-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23626,7 +23615,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 22-08-2020 01:00',
+                    date: 'za 22-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23634,7 +23623,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 23-08-2020 01:00',
+                    date: 'zo 23-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23642,7 +23631,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 24-08-2020 01:00',
+                    date: 'ma 24-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23650,7 +23639,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 25-08-2020 01:00',
+                    date: 'di 25-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23658,7 +23647,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 26-08-2020 01:00',
+                    date: 'wo 26-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23666,7 +23655,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 27-08-2020 01:00',
+                    date: 'do 27-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23674,7 +23663,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 28-08-2020 01:00',
+                    date: 'vr 28-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23682,7 +23671,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 29-08-2020 01:00',
+                    date: 'za 29-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23690,7 +23679,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 30-08-2020 01:00',
+                    date: 'zo 30-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23698,7 +23687,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 31-08-2020 01:00',
+                    date: 'ma 31-08-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23706,7 +23695,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 01-09-2020 01:00',
+                    date: 'di 01-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23714,7 +23703,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 02-09-2020 01:00',
+                    date: 'wo 02-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23722,7 +23711,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 03-09-2020 01:00',
+                    date: 'do 03-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23730,7 +23719,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 04-09-2020 01:00',
+                    date: 'vr 04-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23738,7 +23727,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 05-09-2020 01:00',
+                    date: 'za 05-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23746,7 +23735,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 06-09-2020 01:00',
+                    date: 'zo 06-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23754,7 +23743,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 07-09-2020 01:00',
+                    date: 'ma 07-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23762,7 +23751,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 08-09-2020 01:00',
+                    date: 'di 08-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23770,7 +23759,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 09-09-2020 01:00',
+                    date: 'wo 09-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23778,7 +23767,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 10-09-2020 01:00',
+                    date: 'do 10-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23786,7 +23775,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 11-09-2020 01:00',
+                    date: 'vr 11-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23794,7 +23783,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 12-09-2020 01:00',
+                    date: 'za 12-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23802,7 +23791,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 13-09-2020 01:00',
+                    date: 'zo 13-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23810,7 +23799,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 14-09-2020 01:00',
+                    date: 'ma 14-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23818,7 +23807,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 15-09-2020 01:00',
+                    date: 'di 15-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23826,7 +23815,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 16-09-2020 01:00',
+                    date: 'wo 16-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23834,7 +23823,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 17-09-2020 01:00',
+                    date: 'do 17-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23842,7 +23831,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 18-09-2020 01:00',
+                    date: 'vr 18-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23850,7 +23839,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 19-09-2020 01:00',
+                    date: 'za 19-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23858,7 +23847,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 20-09-2020 01:00',
+                    date: 'zo 20-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23866,7 +23855,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 21-09-2020 01:00',
+                    date: 'ma 21-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23874,7 +23863,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 22-09-2020 01:00',
+                    date: 'di 22-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23882,7 +23871,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 23-09-2020 01:00',
+                    date: 'wo 23-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23890,7 +23879,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 24-09-2020 01:00',
+                    date: 'do 24-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23898,7 +23887,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 25-09-2020 01:00',
+                    date: 'vr 25-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23906,7 +23895,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 26-09-2020 01:00',
+                    date: 'za 26-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23914,7 +23903,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 27-09-2020 01:00',
+                    date: 'zo 27-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23922,7 +23911,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 28-09-2020 01:00',
+                    date: 'ma 28-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23930,7 +23919,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 29-09-2020 01:00',
+                    date: 'di 29-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23938,7 +23927,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 30-09-2020 01:00',
+                    date: 'wo 30-09-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23946,7 +23935,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 01-10-2020 01:00',
+                    date: 'do 01-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23954,7 +23943,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 02-10-2020 01:00',
+                    date: 'vr 02-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23962,7 +23951,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 03-10-2020 01:00',
+                    date: 'za 03-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23970,7 +23959,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 04-10-2020 01:00',
+                    date: 'zo 04-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23978,7 +23967,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 05-10-2020 01:00',
+                    date: 'ma 05-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23986,7 +23975,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 06-10-2020 01:00',
+                    date: 'di 06-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -23994,7 +23983,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 07-10-2020 01:00',
+                    date: 'wo 07-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24002,7 +23991,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 08-10-2020 01:00',
+                    date: 'do 08-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24010,7 +23999,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 09-10-2020 01:00',
+                    date: 'vr 09-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24018,7 +24007,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 10-10-2020 01:00',
+                    date: 'za 10-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24026,7 +24015,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 11-10-2020 01:00',
+                    date: 'zo 11-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24034,7 +24023,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 12-10-2020 01:00',
+                    date: 'ma 12-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24042,7 +24031,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 13-10-2020 01:00',
+                    date: 'di 13-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24050,7 +24039,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 14-10-2020 01:00',
+                    date: 'wo 14-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24058,7 +24047,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 15-10-2020 01:00',
+                    date: 'do 15-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24066,7 +24055,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 16-10-2020 01:00',
+                    date: 'vr 16-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24074,7 +24063,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 17-10-2020 01:00',
+                    date: 'za 17-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24082,7 +24071,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 18-10-2020 01:00',
+                    date: 'zo 18-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24090,7 +24079,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'ma 19-10-2020 01:00',
+                    date: 'ma 19-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24098,7 +24087,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'di 20-10-2020 01:00',
+                    date: 'di 20-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24106,7 +24095,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'wo 21-10-2020 01:00',
+                    date: 'wo 21-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24114,7 +24103,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'do 22-10-2020 01:00',
+                    date: 'do 22-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24122,7 +24111,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'vr 23-10-2020 01:00',
+                    date: 'vr 23-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24130,7 +24119,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'za 24-10-2020 01:00',
+                    date: 'za 24-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24138,7 +24127,7 @@ describe('DateGallery', () => {
                     isToday: false,
                   },
                   {
-                    date: 'zo 25-10-2020 01:00',
+                    date: 'zo 25-10-2020 00:00',
                     events: [],
                     hasEvents: false,
                     isPadding: false,
@@ -24700,7 +24689,7 @@ describe('DateGallery', () => {
       test('with new date, but same frames', () => {
         const dateGallery: DateGallery<string> = new DateGallery({
           mode: 'year',
-          initialDate: '2023-11-05',
+          initialDate: '2023-11-05 00:00',
         });
         const subscriber = autoSubscribe(dateGallery);
 
@@ -24715,12 +24704,12 @@ describe('DateGallery', () => {
     test('should select the given date when date is a string', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const subscriber = autoSubscribe(dateGallery);
 
-      dateGallery.selectDate('1990-09-24');
+      dateGallery.selectDate('1990-09-24 00:00');
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -24734,9 +24723,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -24744,7 +24732,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -24752,7 +24740,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -24760,7 +24748,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -24768,7 +24756,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -24776,7 +24764,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -24784,7 +24772,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -24796,11 +24784,11 @@ describe('DateGallery', () => {
             },
           ],
           events: [],
-          selectedDates: ['ma 24-09-1990 01:00'],
+          selectedDates: ['ma 24-09-1990 00:00'],
         },
         {
           type: 'DATE_SELECTED',
-          date: new Date('1990-09-24'),
+          date: new Date('1990-09-24 00:00'),
           time: new Date(),
         }
       );
@@ -24808,6 +24796,100 @@ describe('DateGallery', () => {
 
     test('should select the given date when date is a Date', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
+        mode: 'week',
+        initialDate: '1990-09-26 00:00',
+      });
+
+      const subscriber = autoSubscribe(dateGallery);
+
+      dateGallery.selectDate(new Date('1990-09-24 00:00'));
+
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      assertLastSubscriber(
+        subscriber,
+        {
+          history: [],
+          isUTC: false,
+          mode: 'week',
+          firstDayOfWeek: 0,
+          firstFrame: frameToTestFrame(dateGallery.frames[0]),
+          frames: [
+            {
+              dates: [
+                {
+                  date: 'zo 23-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'ma 24-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'di 25-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'wo 26-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'do 27-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'vr 28-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'za 29-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+              events: [],
+            },
+          ],
+          events: [],
+          selectedDates: ['ma 24-09-1990 00:00'],
+        },
+        {
+          type: 'DATE_SELECTED',
+          date: new Date('1990-09-24 00:00'),
+          time: new Date(),
+        }
+      );
+    });
+
+    test('select should work when isUTC is true', () => {
+      const dateGallery: DateGallery<string> = new DateGallery({
+        isUTC: true,
         mode: 'week',
         initialDate: '1990-09-26',
       });
@@ -24821,14 +24903,13 @@ describe('DateGallery', () => {
         subscriber,
         {
           history: [],
-          isUTC: false,
+          isUTC: true,
           mode: 'week',
           firstDayOfWeek: 0,
           firstFrame: frameToTestFrame(dateGallery.frames[0]),
           frames: [
             {
               dates: [
-                // Summertime
                 {
                   date: 'zo 23-09-1990 01:00',
                   isPadding: false,
@@ -24903,7 +24984,7 @@ describe('DateGallery', () => {
     test('should select when calling select from a DateGalleryDate', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const subscriber = autoSubscribe(dateGallery);
@@ -24922,9 +25003,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -24932,7 +25012,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -24940,7 +25020,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -24948,7 +25028,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -24956,7 +25036,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -24964,7 +25044,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -24972,7 +25052,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -24984,11 +25064,11 @@ describe('DateGallery', () => {
             },
           ],
           events: [],
-          selectedDates: ['ma 24-09-1990 01:00'],
+          selectedDates: ['ma 24-09-1990 00:00'],
         },
         {
           type: 'DATE_SELECTED',
-          date: new Date('1990-09-24'),
+          date: new Date('1990-09-24 00:00'),
           time: new Date(),
         }
       );
@@ -24997,7 +25077,7 @@ describe('DateGallery', () => {
     test('should do nothing if date is already selected', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
         selectedDates: ['1990-09-24'],
       });
 
@@ -25012,16 +25092,16 @@ describe('DateGallery', () => {
     test('should sort the dates from past to future', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const subscriber = autoSubscribe(dateGallery);
 
       // Later date first
-      dateGallery.selectDate(new Date('1990-09-27'));
+      dateGallery.selectDate(new Date('1990-09-27 00:00'));
 
       // Earlier date later
-      dateGallery.selectDate(new Date('1990-09-23'));
+      dateGallery.selectDate(new Date('1990-09-23 00:00'));
 
       expect(subscriber).toHaveBeenCalledTimes(2);
       assertLastSubscriber(
@@ -25035,9 +25115,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -25045,7 +25124,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25053,7 +25132,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25061,7 +25140,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25069,7 +25148,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -25077,7 +25156,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25085,7 +25164,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25097,11 +25176,11 @@ describe('DateGallery', () => {
             },
           ],
           events: [],
-          selectedDates: ['zo 23-09-1990 01:00', 'do 27-09-1990 01:00'],
+          selectedDates: ['zo 23-09-1990 00:00', 'do 27-09-1990 00:00'],
         },
         {
           type: 'DATE_SELECTED',
-          date: new Date('1990-09-23'),
+          date: new Date('1990-09-23 00:00'),
           time: new Date(),
         }
       );
@@ -25110,7 +25189,7 @@ describe('DateGallery', () => {
     test('should error when given a malformed date', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
         selectedDates: ['1990-09-24'],
       });
 
@@ -25144,7 +25223,7 @@ describe('DateGallery', () => {
     test('should deselect the given date when date is a string', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
         selectedDates: ['1990-09-24'],
       });
 
@@ -25164,9 +25243,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25174,7 +25252,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25182,7 +25260,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25190,7 +25268,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25198,7 +25276,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25206,7 +25284,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25214,7 +25292,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25239,7 +25317,7 @@ describe('DateGallery', () => {
     test('should deselect the given date when date is a Date', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
         selectedDates: [new Date('1990-09-24')],
       });
 
@@ -25259,7 +25337,101 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
+                {
+                  date: 'zo 23-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'ma 24-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'di 25-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'wo 26-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'do 27-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'vr 28-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'za 29-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+              events: [],
+            },
+          ],
+          events: [],
+          selectedDates: [],
+        },
+        {
+          type: 'DATE_DESELECTED',
+          date: new Date('1990-09-24'),
+          time: new Date(),
+        }
+      );
+    });
+
+    test('deselect should work when isUTC is true', () => {
+      const dateGallery: DateGallery<string> = new DateGallery({
+        isUTC: true,
+        mode: 'week',
+        initialDate: '1990-09-26',
+        selectedDates: [new Date('1990-09-24')],
+      });
+
+      const subscriber = autoSubscribe(dateGallery);
+
+      dateGallery.deselectDate(new Date('1990-09-24'));
+
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      assertLastSubscriber(
+        subscriber,
+        {
+          history: [],
+          isUTC: true,
+          mode: 'week',
+          firstDayOfWeek: 0,
+          firstFrame: frameToTestFrame(dateGallery.frames[0]),
+          frames: [
+            {
+              dates: [
                 {
                   date: 'zo 23-09-1990 01:00',
                   isPadding: false,
@@ -25331,11 +25503,11 @@ describe('DateGallery', () => {
       );
     });
 
-    test('should deselect when calling select from a DateGalleryDate', () => {
+    test('should deselect when calling deselect from a DateGalleryDate', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
-        selectedDates: [new Date('1990-09-24')],
+        initialDate: '1990-09-26 00:00',
+        selectedDates: [new Date('1990-09-24 00:00')],
       });
 
       const subscriber = autoSubscribe(dateGallery);
@@ -25354,9 +25526,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25364,7 +25535,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25372,7 +25543,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25380,7 +25551,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25388,7 +25559,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25396,7 +25567,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25404,7 +25575,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25420,7 +25591,7 @@ describe('DateGallery', () => {
         },
         {
           type: 'DATE_DESELECTED',
-          date: new Date('1990-09-24'),
+          date: new Date('1990-09-24 00:00'),
           time: new Date(),
         }
       );
@@ -25429,7 +25600,7 @@ describe('DateGallery', () => {
     test('should do nothing if date is already deselected', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const subscriber = autoSubscribe(dateGallery);
@@ -25443,17 +25614,17 @@ describe('DateGallery', () => {
     test('should keep other dates selected', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
         selectedDates: [
-          new Date('1990-09-24'),
-          new Date('1990-09-25'),
-          new Date('1990-09-23'),
+          new Date('1990-09-24 00:00'),
+          new Date('1990-09-25 00:00'),
+          new Date('1990-09-23 00:00'),
         ],
       });
 
       const subscriber = autoSubscribe(dateGallery);
 
-      dateGallery.deselectDate(new Date('1990-09-24'));
+      dateGallery.deselectDate(new Date('1990-09-24 00:00'));
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -25467,9 +25638,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -25477,7 +25647,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25485,7 +25655,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -25493,7 +25663,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25501,7 +25671,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25509,7 +25679,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25517,7 +25687,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25529,11 +25699,11 @@ describe('DateGallery', () => {
             },
           ],
           events: [],
-          selectedDates: ['zo 23-09-1990 01:00', 'di 25-09-1990 01:00'],
+          selectedDates: ['zo 23-09-1990 00:00', 'di 25-09-1990 00:00'],
         },
         {
           type: 'DATE_DESELECTED',
-          date: new Date('1990-09-24'),
+          date: new Date('1990-09-24 00:00'),
           time: new Date(),
         }
       );
@@ -25542,7 +25712,7 @@ describe('DateGallery', () => {
     test('should error when given a malformed date', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
         selectedDates: ['1990-09-24'],
       });
 
@@ -25576,12 +25746,12 @@ describe('DateGallery', () => {
     test('should select the given date when date is a string, when date is not selected', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const subscriber = autoSubscribe(dateGallery);
 
-      dateGallery.toggleDateSelection('1990-09-24');
+      dateGallery.toggleDateSelection('1990-09-24 00:00');
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -25595,9 +25765,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25605,7 +25774,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -25613,7 +25782,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25621,7 +25790,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25629,7 +25798,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25637,7 +25806,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25645,7 +25814,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25657,11 +25826,11 @@ describe('DateGallery', () => {
             },
           ],
           events: [],
-          selectedDates: ['ma 24-09-1990 01:00'],
+          selectedDates: ['ma 24-09-1990 00:00'],
         },
         {
           type: 'DATE_SELECTED',
-          date: new Date('1990-09-24'),
+          date: new Date('1990-09-24 00:00'),
           time: new Date(),
         }
       );
@@ -25670,12 +25839,12 @@ describe('DateGallery', () => {
     test('should select the given date when date is a Date, when date is not selected', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const subscriber = autoSubscribe(dateGallery);
 
-      dateGallery.toggleDateSelection(new Date('1990-09-24'));
+      dateGallery.toggleDateSelection(new Date('1990-09-24 00:00'));
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -25689,9 +25858,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25699,7 +25867,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -25707,7 +25875,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25715,7 +25883,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25723,7 +25891,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25731,7 +25899,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25739,7 +25907,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25751,11 +25919,11 @@ describe('DateGallery', () => {
             },
           ],
           events: [],
-          selectedDates: ['ma 24-09-1990 01:00'],
+          selectedDates: ['ma 24-09-1990 00:00'],
         },
         {
           type: 'DATE_SELECTED',
-          date: new Date('1990-09-24'),
+          date: new Date('1990-09-24 00:00'),
           time: new Date(),
         }
       );
@@ -25764,7 +25932,7 @@ describe('DateGallery', () => {
     test('should select when calling toggle from a DateGalleryDate, when date is not selected', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const subscriber = autoSubscribe(dateGallery);
@@ -25783,9 +25951,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25793,7 +25960,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -25801,7 +25968,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25809,7 +25976,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25817,7 +25984,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25825,7 +25992,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25833,7 +26000,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25845,11 +26012,11 @@ describe('DateGallery', () => {
             },
           ],
           events: [],
-          selectedDates: ['ma 24-09-1990 01:00'],
+          selectedDates: ['ma 24-09-1990 00:00'],
         },
         {
           type: 'DATE_SELECTED',
-          date: new Date('1990-09-24'),
+          date: new Date('1990-09-24 00:00'),
           time: new Date(),
         }
       );
@@ -25858,7 +26025,7 @@ describe('DateGallery', () => {
     test('should deselect the given date when date is a string, when date is selected', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
         selectedDates: ['1990-09-24'],
       });
 
@@ -25878,7 +26045,196 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
+                {
+                  date: 'zo 23-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'ma 24-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'di 25-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'wo 26-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'do 27-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'vr 28-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'za 29-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+              events: [],
+            },
+          ],
+          events: [],
+          selectedDates: [],
+        },
+        {
+          type: 'DATE_DESELECTED',
+          date: new Date('1990-09-24'),
+          time: new Date(),
+        }
+      );
+    });
+
+    test('toggle should work when isUTC is true, for when toggle selects', () => {
+      const dateGallery: DateGallery<string> = new DateGallery({
+        isUTC: true,
+        mode: 'week',
+        initialDate: '1990-09-26',
+        selectedDates: [new Date('1990-09-24')],
+      });
+
+      const subscriber = autoSubscribe(dateGallery);
+
+      dateGallery.toggleDateSelection(new Date('1990-09-24'));
+
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      assertLastSubscriber(
+        subscriber,
+        {
+          history: [],
+          isUTC: true,
+          mode: 'week',
+          firstDayOfWeek: 0,
+          firstFrame: frameToTestFrame(dateGallery.frames[0]),
+          frames: [
+            {
+              dates: [
+                {
+                  date: 'zo 23-09-1990 01:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'ma 24-09-1990 01:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'di 25-09-1990 01:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'wo 26-09-1990 01:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'do 27-09-1990 01:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'vr 28-09-1990 01:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'za 29-09-1990 01:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+              events: [],
+            },
+          ],
+          events: [],
+          selectedDates: [],
+        },
+        {
+          type: 'DATE_DESELECTED',
+          date: new Date('1990-09-24'),
+          time: new Date(),
+        }
+      );
+    });
+
+    test('toggle should work when isUTC is true, for when toggle deselects', () => {
+      const dateGallery: DateGallery<string> = new DateGallery({
+        isUTC: true,
+        mode: 'week',
+        initialDate: '1990-09-26',
+        selectedDates: ['1990-09-24'],
+      });
+
+      const subscriber = autoSubscribe(dateGallery);
+
+      dateGallery.toggleDateSelection('1990-09-24');
+
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      assertLastSubscriber(
+        subscriber,
+        {
+          history: [],
+          isUTC: true,
+          mode: 'week',
+          firstDayOfWeek: 0,
+          firstFrame: frameToTestFrame(dateGallery.frames[0]),
+          frames: [
+            {
+              dates: [
                 {
                   date: 'zo 23-09-1990 01:00',
                   isPadding: false,
@@ -25953,7 +26309,7 @@ describe('DateGallery', () => {
     test('should deselect the given date when date is a Date, when date is selected', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
         selectedDates: [new Date('1990-09-24')],
       });
 
@@ -25973,9 +26329,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25983,7 +26338,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25991,7 +26346,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -25999,7 +26354,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26007,7 +26362,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26015,7 +26370,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26023,7 +26378,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26048,8 +26403,8 @@ describe('DateGallery', () => {
     test('should deselect when calling toggle from a DateGalleryDate, when date is selected', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
-        selectedDates: [new Date('1990-09-24')],
+        initialDate: '1990-09-26 00:00',
+        selectedDates: [new Date('1990-09-24 00:00')],
       });
 
       const subscriber = autoSubscribe(dateGallery);
@@ -26068,9 +26423,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26078,7 +26432,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26086,7 +26440,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26094,7 +26448,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26102,7 +26456,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26110,7 +26464,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26118,7 +26472,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26134,7 +26488,7 @@ describe('DateGallery', () => {
         },
         {
           type: 'DATE_DESELECTED',
-          date: new Date('1990-09-24'),
+          date: new Date('1990-09-24 00:00'),
           time: new Date(),
         }
       );
@@ -26143,7 +26497,7 @@ describe('DateGallery', () => {
     test('should error when given a malformed date', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
         selectedDates: ['1990-09-24'],
       });
 
@@ -26177,12 +26531,12 @@ describe('DateGallery', () => {
     test('should deselect all dates', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
         selectedDates: [
-          new Date('1990-09-24'),
-          new Date('2050-09-25'),
-          new Date('1990-09-23'),
-          new Date('2001-09-23'),
+          new Date('1990-09-24 00:00'),
+          new Date('2050-09-25 00:00'),
+          new Date('1990-09-23 00:00'),
+          new Date('2001-09-23 00:00'),
         ],
       });
 
@@ -26202,7 +26556,111 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
+                {
+                  date: 'zo 23-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'ma 24-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'di 25-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'wo 26-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'do 27-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'vr 28-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'za 29-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+              events: [],
+            },
+          ],
+          events: [],
+          selectedDates: [],
+        },
+        {
+          type: 'DATE_DESELECTED_MULTIPLE',
+          dates: [
+            new Date('1990-09-23 00:00'),
+            new Date('1990-09-24 00:00'),
+            new Date('2001-09-23 00:00'),
+            new Date('2050-09-25 00:00'),
+          ],
+          time: new Date(),
+        }
+      );
+    });
+
+    test('deselectAll should work when isUTC is true', () => {
+      const dateGallery: DateGallery<string> = new DateGallery({
+        isUTC: true,
+        mode: 'week',
+        initialDate: '1990-09-26',
+        selectedDates: [
+          new Date('1990-09-24'),
+          new Date('2050-09-25'),
+          new Date('1990-09-23'),
+          new Date('2001-09-23'),
+        ],
+      });
+
+      const subscriber = autoSubscribe(dateGallery);
+
+      dateGallery.deselectAll();
+
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      assertLastSubscriber(
+        subscriber,
+        {
+          history: [],
+          isUTC: true,
+          mode: 'week',
+          firstDayOfWeek: 0,
+          firstFrame: frameToTestFrame(dateGallery.frames[0]),
+          frames: [
+            {
+              dates: [
                 {
                   date: 'zo 23-09-1990 01:00',
                   isPadding: false,
@@ -26282,8 +26740,8 @@ describe('DateGallery', () => {
     test('should work when there is only one date to deselect', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
-        selectedDates: [new Date('1990-09-24')],
+        initialDate: '1990-09-26 00:00',
+        selectedDates: [new Date('1990-09-24 00:00')],
       });
 
       const subscriber = autoSubscribe(dateGallery);
@@ -26302,9 +26760,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26312,7 +26769,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26320,7 +26777,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26328,7 +26785,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26336,7 +26793,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26344,7 +26801,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26352,7 +26809,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26368,7 +26825,7 @@ describe('DateGallery', () => {
         },
         {
           type: 'DATE_DESELECTED_MULTIPLE',
-          dates: [new Date('1990-09-24')],
+          dates: [new Date('1990-09-24 00:00')],
           time: new Date(),
         }
       );
@@ -26377,7 +26834,7 @@ describe('DateGallery', () => {
     test('should do nothing when there are no dates selected', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
         selectedDates: [],
       });
 
@@ -26389,11 +26846,11 @@ describe('DateGallery', () => {
     });
   });
 
-  describe('activateRange', () => {
+  describe('selectRange', () => {
     test('should error when given a malformed date', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
         selectedDates: ['1990-09-24'],
       });
 
@@ -26401,76 +26858,157 @@ describe('DateGallery', () => {
 
       // For a
       expect(() => {
-        dateGallery.activateRange('1990-125-24', '2000-01-01');
+        dateGallery.selectRange('1990-125-24', '2000-01-01');
       }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateGallery.activateRange('1990-125-24', '2000-01-01');
+        dateGallery.selectRange('1990-125-24', '2000-01-01');
       }).toThrowError(
-        'uiloos > DateGallery > activateRange > "a" is an or contains an invalid date'
+        'uiloos > DateGallery > selectRange > "a" is an or contains an invalid date'
       );
 
       expect(() => {
-        dateGallery.activateRange(new Date('1990-125-24'), '2000-01-01');
+        dateGallery.selectRange(new Date('1990-125-24'), '2000-01-01');
       }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateGallery.activateRange(new Date('1990-125-24'), '2000-01-01');
+        dateGallery.selectRange(new Date('1990-125-24'), '2000-01-01');
       }).toThrowError(
-        'uiloos > DateGallery > activateRange > "a" is an or contains an invalid date'
+        'uiloos > DateGallery > selectRange > "a" is an or contains an invalid date'
       );
 
       // For b
       expect(() => {
-        dateGallery.activateRange('2000-01-01', '1990-125-24');
+        dateGallery.selectRange('2000-01-01', '1990-125-24');
       }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateGallery.activateRange('2000-01-01', '1990-125-24');
+        dateGallery.selectRange('2000-01-01', '1990-125-24');
       }).toThrowError(
-        'uiloos > DateGallery > activateRange > "b" is an or contains an invalid date'
+        'uiloos > DateGallery > selectRange > "b" is an or contains an invalid date'
       );
 
       expect(() => {
-        dateGallery.activateRange('2000-01-01', new Date('1990-125-24'));
+        dateGallery.selectRange('2000-01-01', new Date('1990-125-24'));
       }).toThrowError(DateGalleryInvalidDateError);
 
       expect(() => {
-        dateGallery.activateRange('2000-01-01', new Date('1990-125-24'));
+        dateGallery.selectRange('2000-01-01', new Date('1990-125-24'));
       }).toThrowError(
-        'uiloos > DateGallery > activateRange > "b" is an or contains an invalid date'
+        'uiloos > DateGallery > selectRange > "b" is an or contains an invalid date'
       );
 
       expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
-    test('should do nothing when the same day is provided', () => {
+    test('should just select the day if the same day is provided for a and b', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
-        selectedDates: ['1990-09-24'],
+        initialDate: '1990-09-26 00:00',
+        selectedDates: [],
       });
 
       const subscriber = autoSubscribe(dateGallery);
 
-      dateGallery.activateRange('2000-01-01', '2000-01-01');
-      dateGallery.activateRange(new Date('2000-01-01'), new Date('2000-01-01'));
+      // Should just select the 25th
+      dateGallery.selectRange('1990-09-25 00:00', '1990-09-25 00:00');
 
-      expect(subscriber).toHaveBeenCalledTimes(0);
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      assertLastSubscriber(
+        subscriber,
+        {
+          history: [],
+          isUTC: false,
+          mode: 'week',
+          firstDayOfWeek: 0,
+          firstFrame: frameToTestFrame(dateGallery.frames[0]),
+          frames: [
+            {
+              dates: [
+                {
+                  date: 'zo 23-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'ma 24-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'di 25-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'wo 26-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'do 27-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'vr 28-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'za 29-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+              events: [],
+            },
+          ],
+          events: [],
+          selectedDates: ['di 25-09-1990 00:00'],
+        },
+        {
+          type: 'DATE_SELECTED_MULTIPLE',
+          dates: [new Date('1990-09-25 00:00')],
+          time: new Date(),
+        }
+      );
     });
 
     test('should activate the range of dates, but not dates that are already active', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
-        selectedDates: [new Date('1990-09-23'), '1990-09-26'],
+        initialDate: '1990-09-26 00:00',
+        selectedDates: [new Date('1990-09-23 00:00'), '1990-09-26 00:00'],
       });
 
       const subscriber = autoSubscribe(dateGallery);
 
       // All dates in the range should be activated, except for
-      // th 26th since it is already active.
-      dateGallery.activateRange('1990-09-25', '1990-09-28');
+      // the 26th since it is already active.
+      dateGallery.selectRange('1990-09-25 00:00', '1990-09-28 00:00');
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -26484,7 +27022,113 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
+                {
+                  date: 'zo 23-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'ma 24-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'di 25-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'wo 26-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'do 27-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'vr 28-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+                {
+                  date: 'za 29-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                },
+              ],
+              events: [],
+            },
+          ],
+          events: [],
+          selectedDates: [
+            'zo 23-09-1990 00:00',
+            'di 25-09-1990 00:00',
+            'wo 26-09-1990 00:00',
+            'do 27-09-1990 00:00',
+            'vr 28-09-1990 00:00',
+          ],
+        },
+        {
+          type: 'DATE_SELECTED_MULTIPLE',
+          dates: [
+            new Date('1990-09-25 00:00'),
+            new Date('1990-09-27 00:00'),
+            new Date('1990-09-28 00:00'),
+          ],
+          time: new Date(),
+        }
+      );
+    });
+
+    test('selectRange should work when isUTC is true', () => {
+      const dateGallery: DateGallery<string> = new DateGallery({
+        isUTC: true,
+        mode: 'week',
+        initialDate: '1990-09-26',
+        selectedDates: [new Date('1990-09-23'), '1990-09-26'],
+      });
+
+      const subscriber = autoSubscribe(dateGallery);
+
+      // All dates in the range should be activated, except for
+      // the 26th since it is already active.
+      dateGallery.selectRange('1990-09-25', '1990-09-28');
+
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      assertLastSubscriber(
+        subscriber,
+        {
+          history: [],
+          isUTC: true,
+          mode: 'week',
+          firstDayOfWeek: 0,
+          firstFrame: frameToTestFrame(dateGallery.frames[0]),
+          frames: [
+            {
+              dates: [
                 {
                   date: 'zo 23-09-1990 01:00',
                   isPadding: false,
@@ -26569,15 +27213,15 @@ describe('DateGallery', () => {
     test('the order of a and b should not matter', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
-        selectedDates: [new Date('1990-09-23'), '1990-09-26'],
+        initialDate: '1990-09-26 00:00',
+        selectedDates: [new Date('1990-09-23 00:00'), '1990-09-26 00:00'],
       });
 
       const subscriber = autoSubscribe(dateGallery);
 
       // All dates in the range should be activated, except for
-      // th 26th since it is already active.
-      dateGallery.activateRange('1990-09-28', '1990-09-25');
+      // the 26th since it is already active.
+      dateGallery.selectRange('1990-09-28 00:00', '1990-09-25 00:00');
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -26591,9 +27235,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -26601,7 +27244,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26609,7 +27252,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -26617,7 +27260,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -26625,7 +27268,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -26633,7 +27276,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -26641,7 +27284,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26654,19 +27297,19 @@ describe('DateGallery', () => {
           ],
           events: [],
           selectedDates: [
-            'zo 23-09-1990 01:00',
-            'di 25-09-1990 01:00',
-            'wo 26-09-1990 01:00',
-            'do 27-09-1990 01:00',
-            'vr 28-09-1990 01:00',
+            'zo 23-09-1990 00:00',
+            'di 25-09-1990 00:00',
+            'wo 26-09-1990 00:00',
+            'do 27-09-1990 00:00',
+            'vr 28-09-1990 00:00',
           ],
         },
         {
           type: 'DATE_SELECTED_MULTIPLE',
           dates: [
-            new Date('1990-09-25'),
-            new Date('1990-09-27'),
-            new Date('1990-09-28'),
+            new Date('1990-09-25 00:00'),
+            new Date('1990-09-27 00:00'),
+            new Date('1990-09-28 00:00'),
           ],
           time: new Date(),
         }
@@ -26676,15 +27319,15 @@ describe('DateGallery', () => {
     test('should keep the dates sorted from past to future', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
-        selectedDates: ['1990-09-29'],
+        initialDate: '1990-09-26 00:00',
+        selectedDates: ['1990-09-29 00:00'],
       });
 
       const subscriber = autoSubscribe(dateGallery);
 
       // All dates in the range should be activated, except for
-      // th 26th since it is already active.
-      dateGallery.activateRange('1990-09-25', '1990-09-28');
+      // the 26th since it is already active.
+      dateGallery.selectRange('1990-09-25 00:00', '1990-09-28 00:00');
 
       expect(subscriber).toHaveBeenCalledTimes(1);
       assertLastSubscriber(
@@ -26698,9 +27341,8 @@ describe('DateGallery', () => {
           frames: [
             {
               dates: [
-                // Summertime
                 {
-                  date: 'zo 23-09-1990 01:00',
+                  date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26708,7 +27350,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'ma 24-09-1990 01:00',
+                  date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
                   isToday: false,
@@ -26716,7 +27358,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'di 25-09-1990 01:00',
+                  date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -26724,7 +27366,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'wo 26-09-1990 01:00',
+                  date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -26732,7 +27374,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'do 27-09-1990 01:00',
+                  date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -26740,7 +27382,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'vr 28-09-1990 01:00',
+                  date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -26748,7 +27390,7 @@ describe('DateGallery', () => {
                   hasEvents: false,
                 },
                 {
-                  date: 'za 29-09-1990 01:00',
+                  date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
                   isToday: false,
@@ -26761,38 +27403,38 @@ describe('DateGallery', () => {
           ],
           events: [],
           selectedDates: [
-            'di 25-09-1990 01:00',
-            'wo 26-09-1990 01:00',
-            'do 27-09-1990 01:00',
-            'vr 28-09-1990 01:00',
-            'za 29-09-1990 01:00',
+            'di 25-09-1990 00:00',
+            'wo 26-09-1990 00:00',
+            'do 27-09-1990 00:00',
+            'vr 28-09-1990 00:00',
+            'za 29-09-1990 00:00',
           ],
         },
         {
           type: 'DATE_SELECTED_MULTIPLE',
           dates: [
-            new Date('1990-09-25'),
-            new Date('1990-09-26'),
-            new Date('1990-09-27'),
-            new Date('1990-09-28'),
+            new Date('1990-09-25 00:00'),
+            new Date('1990-09-26 00:00'),
+            new Date('1990-09-27 00:00'),
+            new Date('1990-09-28 00:00'),
           ],
           time: new Date(),
         }
       );
     });
 
-    test('should keep the dates sorted from past to future', () => {
+    test('should not do anything if the range is already active', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
-        selectedDates: ['1990-09-25', '1990-09-26'],
+        initialDate: '1990-09-26 00:00',
+        selectedDates: ['1990-09-25 00:00', '1990-09-26 00:00'],
       });
 
       const subscriber = autoSubscribe(dateGallery);
 
       // All dates in the range should be activated, except for
-      // th 26th since it is already active.
-      dateGallery.activateRange('1990-09-25', '1990-09-26');
+      // the 26th since it is already active.
+      dateGallery.selectRange('1990-09-25 00:00', '1990-09-26 00:00');
 
       expect(subscriber).toHaveBeenCalledTimes(0);
       assertState(dateGallery, {
@@ -26804,9 +27446,8 @@ describe('DateGallery', () => {
         frames: [
           {
             dates: [
-              // Summertime
               {
-                date: 'zo 23-09-1990 01:00',
+                date: 'zo 23-09-1990 00:00',
                 isPadding: false,
                 isSelected: false,
                 isToday: false,
@@ -26814,7 +27455,7 @@ describe('DateGallery', () => {
                 hasEvents: false,
               },
               {
-                date: 'ma 24-09-1990 01:00',
+                date: 'ma 24-09-1990 00:00',
                 isPadding: false,
                 isSelected: false,
                 isToday: false,
@@ -26822,7 +27463,7 @@ describe('DateGallery', () => {
                 hasEvents: false,
               },
               {
-                date: 'di 25-09-1990 01:00',
+                date: 'di 25-09-1990 00:00',
                 isPadding: false,
                 isSelected: true,
                 isToday: false,
@@ -26830,7 +27471,7 @@ describe('DateGallery', () => {
                 hasEvents: false,
               },
               {
-                date: 'wo 26-09-1990 01:00',
+                date: 'wo 26-09-1990 00:00',
                 isPadding: false,
                 isSelected: true,
                 isToday: false,
@@ -26838,7 +27479,7 @@ describe('DateGallery', () => {
                 hasEvents: false,
               },
               {
-                date: 'do 27-09-1990 01:00',
+                date: 'do 27-09-1990 00:00',
                 isPadding: false,
                 isSelected: false,
                 isToday: false,
@@ -26846,7 +27487,7 @@ describe('DateGallery', () => {
                 hasEvents: false,
               },
               {
-                date: 'vr 28-09-1990 01:00',
+                date: 'vr 28-09-1990 00:00',
                 isPadding: false,
                 isSelected: false,
                 isToday: false,
@@ -26854,7 +27495,7 @@ describe('DateGallery', () => {
                 hasEvents: false,
               },
               {
-                date: 'za 29-09-1990 01:00',
+                date: 'za 29-09-1990 00:00',
                 isPadding: false,
                 isSelected: false,
                 isToday: false,
@@ -26866,8 +27507,7 @@ describe('DateGallery', () => {
           },
         ],
         events: [],
-
-        selectedDates: ['di 25-09-1990 01:00', 'wo 26-09-1990 01:00'],
+        selectedDates: ['di 25-09-1990 00:00', 'wo 26-09-1990 00:00'],
       });
     });
   });
@@ -26876,7 +27516,7 @@ describe('DateGallery', () => {
     test('should error when given a malformed start date', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const subscriber = autoSubscribe(dateGallery);
@@ -26923,7 +27563,7 @@ describe('DateGallery', () => {
     test('should error when given a malformed end date', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const subscriber = autoSubscribe(dateGallery);
@@ -26970,7 +27610,7 @@ describe('DateGallery', () => {
     test('should error when given a invalid range', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const subscriber = autoSubscribe(dateGallery);
@@ -26997,370 +27637,223 @@ describe('DateGallery', () => {
     });
 
     describe('when adding an event update the frames, recalculate overlap, and re-order arrays', () => {
-      test('3 frames', () => {
-        const dateGallery: DateGallery<string> = new DateGallery({
-          numberOfFrames: 3,
-          mode: 'day',
-          initialDate: '1989-03-21',
-        });
-
-        const subscriber = autoSubscribe(dateGallery);
-
-        const event1 = dateGallery.addEvent({
-          data: 'event1',
-          startDate: '1989-03-21 21:00',
-          endDate: '1989-03-21 21:00',
-        });
-
-        expect(event1 instanceof DateGalleryEvent).toBe(true);
-
-        expect(subscriber).toBeCalledTimes(1);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
+      describe('when isUTC is true', () => {
+        test('3 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            isUTC: true,
+            numberOfFrames: 3,
             mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event1',
-                        startDate: 'di 21-03-1989 21:00',
-                        endDate: 'di 21-03-1989 21:00',
-                        overlapsWith: [],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [
-                  {
-                    data: 'event1',
-                    startDate: 'di 21-03-1989 21:00',
-                    endDate: 'di 21-03-1989 21:00',
-                    overlapsWith: [],
-                  },
-                ],
-              },
+            initialDate: '1989-03-21',
+          });
 
-              {
-                dates: [
-                  {
-                    date: 'wo 22-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [],
-                    hasEvents: false,
-                  },
-                ],
-                events: [],
-              },
+          const subscriber = autoSubscribe(dateGallery);
 
-              {
-                dates: [
-                  {
-                    date: 'do 23-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [],
-                    hasEvents: false,
-                  },
-                ],
-                events: [],
-              },
-            ],
-            events: [
-              {
-                data: 'event1',
-                startDate: 'di 21-03-1989 21:00',
-                endDate: 'di 21-03-1989 21:00',
-                overlapsWith: [],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_ADDED',
-            event: dateGallery.events[0],
-            time: new Date(),
-          }
-        );
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21T21:00Z',
+            endDate: '1989-03-21T21:00Z',
+          });
 
-        const event2 = dateGallery.addEvent({
-          data: 'event2',
-          startDate: '1989-03-21 20:00',
-          endDate: '1989-05-21 21:00',
-        });
+          expect(event1 instanceof DateGalleryEvent).toBe(true);
 
-        expect(event2 instanceof DateGalleryEvent).toBe(true);
-
-        expect(subscriber).toBeCalledTimes(2);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
-            mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event2',
-                        startDate: 'di 21-03-1989 20:00',
-                        endDate: 'zo 21-05-1989 22:00', // Summer time
-                        overlapsWith: ['event1'],
-                      },
-                      {
-                        data: 'event1',
-                        startDate: 'di 21-03-1989 21:00',
-                        endDate: 'di 21-03-1989 21:00',
-                        overlapsWith: ['event2'],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [
-                  {
-                    data: 'event2',
-                    startDate: 'di 21-03-1989 20:00',
-                    endDate: 'zo 21-05-1989 22:00', // Summer time
-                    overlapsWith: ['event1'],
-                  },
-                  {
-                    data: 'event1',
-                    startDate: 'di 21-03-1989 21:00',
-                    endDate: 'di 21-03-1989 21:00',
-                    overlapsWith: ['event2'],
-                  },
-                ],
-              },
-
-              {
-                dates: [
-                  {
-                    date: 'wo 22-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event2',
-                        startDate: 'di 21-03-1989 20:00',
-                        endDate: 'zo 21-05-1989 22:00', // Summer time
-                        overlapsWith: ['event1'],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
-                  data: 'event2',
-                  startDate: 'di 21-03-1989 20:00',
-                  endDate: 'zo 21-05-1989 22:00', // Summer time
-                  overlapsWith: ['event1'],
-                },],
-              },
-
-              {
-                dates: [
-                  {
-                    date: 'do 23-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event2',
-                        startDate: 'di 21-03-1989 20:00',
-                        endDate: 'zo 21-05-1989 22:00', // Summer time
-                        overlapsWith: ['event1'],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [ {
-                  data: 'event2',
-                  startDate: 'di 21-03-1989 20:00',
-                  endDate: 'zo 21-05-1989 22:00', // Summer time
-                  overlapsWith: ['event1'],
-                },],
-              },
-            ],
-            events: [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: ['event1'],
-              },
-              {
-                data: 'event1',
-                startDate: 'di 21-03-1989 21:00',
-                endDate: 'di 21-03-1989 21:00',
-                overlapsWith: ['event2'],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_ADDED',
-            event: dateGallery.events[0],
-            time: new Date(),
-          }
-        );
-      });
-
-      test('2 frames', () => {
-        const dateGallery: DateGallery<string> = new DateGallery({
-          numberOfFrames: 2,
-          mode: 'day',
-          initialDate: '1989-03-21',
-        });
-
-        const subscriber = autoSubscribe(dateGallery);
-
-        const event1 = dateGallery.addEvent({
-          data: 'event1',
-          startDate: '1989-03-21 21:00',
-          endDate: '1989-03-21 21:00',
-        });
-
-        expect(event1 instanceof DateGalleryEvent).toBe(true);
-
-        expect(subscriber).toBeCalledTimes(1);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
-            mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event1',
-                        startDate: 'di 21-03-1989 21:00',
-                        endDate: 'di 21-03-1989 21:00',
-                        overlapsWith: [],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
+          expect(subscriber).toBeCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'do 23-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [
+                {
                   data: 'event1',
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
-                },],
-              },
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_ADDED',
+              event: dateGallery.events[0],
+              time: new Date(),
+            }
+          );
 
-              {
-                dates: [
-                  {
-                    date: 'wo 22-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [],
-                    hasEvents: false,
-                  },
-                ],
-                events: [],
-              },
-            ],
-            events: [
-              {
-                data: 'event1',
-                startDate: 'di 21-03-1989 21:00',
-                endDate: 'di 21-03-1989 21:00',
-                overlapsWith: [],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_ADDED',
-            event: dateGallery.events[0],
-            time: new Date(),
-          }
-        );
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21T20:00Z',
+            endDate: '1989-05-21T21:00Z',
+          });
 
-        const event2 = dateGallery.addEvent({
-          data: 'event2',
-          startDate: '1989-03-21 20:00',
-          endDate: '1989-05-21 21:00',
-        });
+          expect(event2 instanceof DateGalleryEvent).toBe(true);
 
-        expect(event2 instanceof DateGalleryEvent).toBe(true);
-
-        expect(subscriber).toBeCalledTimes(2);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
-            mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event2',
-                        startDate: 'di 21-03-1989 20:00',
-                        endDate: 'zo 21-05-1989 22:00', // Summer time
-                        overlapsWith: ['event1'],
-                      },
-                      {
-                        data: 'event1',
-                        startDate: 'di 21-03-1989 21:00',
-                        endDate: 'di 21-03-1989 21:00',
-                        overlapsWith: ['event2'],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [ {
+          expect(subscriber).toBeCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 22:00',
+                          overlapsWith: ['event1'],
+                        },
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00',
+                      overlapsWith: ['event1'],
+                    },
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 22:00',
+                          overlapsWith: ['event1'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00',
+                      overlapsWith: ['event1'],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'do 23-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 22:00',
+                          overlapsWith: ['event1'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00',
+                      overlapsWith: ['event1'],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
                   data: 'event2',
                   startDate: 'di 21-03-1989 20:00',
-                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: ['event1'],
                 },
                 {
@@ -27368,175 +27861,194 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: ['event2'],
-                }],
-              },
-
-              {
-                dates: [
-                  {
-                    date: 'wo 22-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event2',
-                        startDate: 'di 21-03-1989 20:00',
-                        endDate: 'zo 21-05-1989 22:00', // Summer time
-                        overlapsWith: ['event1'],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
-                  data: 'event2',
-                  startDate: 'di 21-03-1989 20:00',
-                  endDate: 'zo 21-05-1989 22:00', // Summer time
-                  overlapsWith: ['event1'],
-                },],
-              },
-            ],
-            events: [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: ['event1'],
-              },
-              {
-                data: 'event1',
-                startDate: 'di 21-03-1989 21:00',
-                endDate: 'di 21-03-1989 21:00',
-                overlapsWith: ['event2'],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_ADDED',
-            event: dateGallery.events[0],
-            time: new Date(),
-          }
-        );
-      });
-
-      test('1 frame', () => {
-        const dateGallery: DateGallery<string> = new DateGallery({
-          numberOfFrames: 1,
-          mode: 'day',
-          initialDate: '1989-03-21',
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_ADDED',
+              event: dateGallery.events[0],
+              time: new Date(),
+            }
+          );
         });
 
-        const subscriber = autoSubscribe(dateGallery);
-
-        const event1 = dateGallery.addEvent({
-          data: 'event1',
-          startDate: '1989-03-21 21:00',
-          endDate: '1989-03-21 21:00',
-        });
-
-        expect(event1 instanceof DateGalleryEvent).toBe(true);
-
-        expect(subscriber).toBeCalledTimes(1);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
+        test('2 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            isUTC: true,
+            numberOfFrames: 2,
             mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event1',
-                        startDate: 'di 21-03-1989 21:00',
-                        endDate: 'di 21-03-1989 21:00',
-                        overlapsWith: [],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
+            initialDate: '1989-03-21',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21T21:00Z',
+            endDate: '1989-03-21T21:00Z',
+          });
+
+          expect(event1 instanceof DateGalleryEvent).toBe(true);
+
+          expect(subscriber).toBeCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [
+                {
                   data: 'event1',
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
-                },],
-              },
-            ],
-            events: [
-              {
-                data: 'event1',
-                startDate: 'di 21-03-1989 21:00',
-                endDate: 'di 21-03-1989 21:00',
-                overlapsWith: [],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_ADDED',
-            event: dateGallery.events[0],
-            time: new Date(),
-          }
-        );
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_ADDED',
+              event: dateGallery.events[0],
+              time: new Date(),
+            }
+          );
 
-        const event2 = dateGallery.addEvent({
-          data: 'event2',
-          startDate: '1989-03-21 20:00',
-          endDate: '1989-05-21 21:00',
-        });
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21T20:00Z',
+            endDate: '1989-05-21T21:00Z',
+          });
 
-        expect(event2 instanceof DateGalleryEvent).toBe(true);
+          expect(event2 instanceof DateGalleryEvent).toBe(true);
 
-        expect(subscriber).toBeCalledTimes(2);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
-            mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event2',
-                        startDate: 'di 21-03-1989 20:00',
-                        endDate: 'zo 21-05-1989 22:00', // Summer time
-                        overlapsWith: ['event1'],
-                      },
-                      {
-                        data: 'event1',
-                        startDate: 'di 21-03-1989 21:00',
-                        endDate: 'di 21-03-1989 21:00',
-                        overlapsWith: ['event2'],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
+          expect(subscriber).toBeCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 22:00',
+                          overlapsWith: ['event1'],
+                        },
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00',
+                      overlapsWith: ['event1'],
+                    },
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 22:00',
+                          overlapsWith: ['event1'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00',
+                      overlapsWith: ['event1'],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
                   data: 'event2',
                   startDate: 'di 21-03-1989 20:00',
-                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: ['event1'],
                 },
                 {
@@ -27544,31 +28056,756 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: ['event2'],
-                },],
-              },
-            ],
-            events: [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: ['event1'],
-              },
-              {
-                data: 'event1',
-                startDate: 'di 21-03-1989 21:00',
-                endDate: 'di 21-03-1989 21:00',
-                overlapsWith: ['event2'],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_ADDED',
-            event: dateGallery.events[0],
-            time: new Date(),
-          }
-        );
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_ADDED',
+              event: dateGallery.events[0],
+              time: new Date(),
+            }
+          );
+        });
+
+        test('1 frame', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            isUTC: true,
+            numberOfFrames: 1,
+            mode: 'day',
+            initialDate: '1989-03-21',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21T21:00Z',
+            endDate: '1989-03-21T21:00Z',
+          });
+
+          expect(event1 instanceof DateGalleryEvent).toBe(true);
+
+          expect(subscriber).toBeCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: [],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_ADDED',
+              event: dateGallery.events[0],
+              time: new Date(),
+            }
+          );
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21T20:00Z',
+            endDate: '1989-05-21T21:00Z',
+          });
+
+          expect(event2 instanceof DateGalleryEvent).toBe(true);
+
+          expect(subscriber).toBeCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 22:00',
+                          overlapsWith: ['event1'],
+                        },
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00',
+                      overlapsWith: ['event1'],
+                    },
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00',
+                  overlapsWith: ['event1'],
+                },
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: ['event2'],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_ADDED',
+              event: dateGallery.events[0],
+              time: new Date(),
+            }
+          );
+        });
+      });
+
+      describe('when isUTC is false', () => {
+        test('3 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            numberOfFrames: 3,
+            mode: 'day',
+            initialDate: '1989-03-21 00:00',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21 21:00',
+            endDate: '1989-03-21 21:00',
+          });
+
+          expect(event1 instanceof DateGalleryEvent).toBe(true);
+
+          expect(subscriber).toBeCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'do 23-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: [],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_ADDED',
+              event: dateGallery.events[0],
+              time: new Date(),
+            }
+          );
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21 20:00',
+            endDate: '1989-05-21 21:00',
+          });
+
+          expect(event2 instanceof DateGalleryEvent).toBe(true);
+
+          expect(subscriber).toBeCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 21:00',
+                          overlapsWith: ['event1'],
+                        },
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 21:00',
+                      overlapsWith: ['event1'],
+                    },
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 21:00',
+                          overlapsWith: ['event1'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 21:00',
+                      overlapsWith: ['event1'],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'do 23-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 21:00',
+                          overlapsWith: ['event1'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 21:00',
+                      overlapsWith: ['event1'],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 21:00',
+                  overlapsWith: ['event1'],
+                },
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: ['event2'],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_ADDED',
+              event: dateGallery.events[0],
+              time: new Date(),
+            }
+          );
+        });
+
+        test('2 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            numberOfFrames: 2,
+            mode: 'day',
+            initialDate: '1989-03-21 00:00',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21 21:00',
+            endDate: '1989-03-21 21:00',
+          });
+
+          expect(event1 instanceof DateGalleryEvent).toBe(true);
+
+          expect(subscriber).toBeCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: [],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_ADDED',
+              event: dateGallery.events[0],
+              time: new Date(),
+            }
+          );
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21 20:00',
+            endDate: '1989-05-21 21:00',
+          });
+
+          expect(event2 instanceof DateGalleryEvent).toBe(true);
+
+          expect(subscriber).toBeCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 21:00',
+                          overlapsWith: ['event1'],
+                        },
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 21:00',
+                      overlapsWith: ['event1'],
+                    },
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 21:00',
+                          overlapsWith: ['event1'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 21:00',
+                      overlapsWith: ['event1'],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 21:00',
+                  overlapsWith: ['event1'],
+                },
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: ['event2'],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_ADDED',
+              event: dateGallery.events[0],
+              time: new Date(),
+            }
+          );
+        });
+
+        test('1 frame', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            numberOfFrames: 1,
+            mode: 'day',
+            initialDate: '1989-03-21 00:00',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21 21:00',
+            endDate: '1989-03-21 21:00',
+          });
+
+          expect(event1 instanceof DateGalleryEvent).toBe(true);
+
+          expect(subscriber).toBeCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: [],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_ADDED',
+              event: dateGallery.events[0],
+              time: new Date(),
+            }
+          );
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21 20:00',
+            endDate: '1989-05-21 21:00',
+          });
+
+          expect(event2 instanceof DateGalleryEvent).toBe(true);
+
+          expect(subscriber).toBeCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 21:00',
+                          overlapsWith: ['event1'],
+                        },
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 21:00',
+                      overlapsWith: ['event1'],
+                    },
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 21:00',
+                  overlapsWith: ['event1'],
+                },
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: ['event2'],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_ADDED',
+              event: dateGallery.events[0],
+              time: new Date(),
+            }
+          );
+        });
       });
     });
   });
@@ -27577,7 +28814,7 @@ describe('DateGallery', () => {
     test('should do nothing when event cannot be found', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const subscriber = autoSubscribe(dateGallery);
@@ -27604,483 +28841,983 @@ describe('DateGallery', () => {
     });
 
     describe('when removing an event update the frames, recalculate overlap, and re-order arrays', () => {
-      test('3 frames', () => {
-        const dateGallery: DateGallery<string> = new DateGallery({
-          numberOfFrames: 3,
-          mode: 'day',
-          initialDate: '1989-03-21',
-        });
-
-        const subscriber = autoSubscribe(dateGallery);
-
-        const event1 = dateGallery.addEvent({
-          data: 'event1',
-          startDate: '1989-03-21 21:00',
-          endDate: '1989-03-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(1);
-
-        const event2 = dateGallery.addEvent({
-          data: 'event2',
-          startDate: '1989-03-21 20:00',
-          endDate: '1989-05-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(2);
-
-        dateGallery.removeEvent(event1);
-
-        expect(subscriber).toBeCalledTimes(3);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
+      describe('when isUTC is true', () => {
+        test('3 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            isUTC: true,
+            numberOfFrames: 3,
             mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event2',
-                        startDate: 'di 21-03-1989 20:00',
-                        endDate: 'zo 21-05-1989 22:00', // Summer time
-                        overlapsWith: [],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
+            initialDate: '1989-03-21',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21T21:00Z',
+            endDate: '1989-03-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(1);
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21T20:00Z',
+            endDate: '1989-05-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(2);
+
+          dateGallery.removeEvent(event1);
+
+          expect(subscriber).toBeCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 22:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 22:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'do 23-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 22:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
                   data: 'event2',
                   startDate: 'di 21-03-1989 20:00',
-                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: [],
-                },],
-              },
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_REMOVED',
+              event: event1,
+              time: new Date(),
+            }
+          );
 
-              {
-                dates: [
-                  {
-                    date: 'wo 22-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event2',
-                        startDate: 'di 21-03-1989 20:00',
-                        endDate: 'zo 21-05-1989 22:00', // Summer time
-                        overlapsWith: [],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
-                  data: 'event2',
-                  startDate: 'di 21-03-1989 20:00',
-                  endDate: 'zo 21-05-1989 22:00', // Summer time
-                  overlapsWith: [],
-                },],
-              },
+          event2.remove();
 
-              {
-                dates: [
-                  {
-                    date: 'do 23-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event2',
-                        startDate: 'di 21-03-1989 20:00',
-                        endDate: 'zo 21-05-1989 22:00', // Summer time
-                        overlapsWith: [],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
-                  data: 'event2',
-                  startDate: 'di 21-03-1989 20:00',
-                  endDate: 'zo 21-05-1989 22:00', // Summer time
-                  overlapsWith: [],
-                },],
-              },
-            ],
-            events: [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: [],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_REMOVED',
-            event: event1,
-            time: new Date(),
-          }
-        );
+          expect(subscriber).toBeCalledTimes(4);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'do 23-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_REMOVED',
+              event: event2,
+              time: new Date(),
+            }
+          );
 
-        event2.remove();
+          event2.remove();
+          expect(subscriber).toBeCalledTimes(4);
+        });
 
-        expect(subscriber).toBeCalledTimes(4);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
+        test('2 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            isUTC: true,
+            numberOfFrames: 2,
             mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [],
-                    hasEvents: false,
-                  },
-                ],
-                events: [],
-              },
+            initialDate: '1989-03-21',
+          });
 
-              {
-                dates: [
-                  {
-                    date: 'wo 22-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [],
-                    hasEvents: false,
-                  },
-                ],
-                events: [],
-              },
+          const subscriber = autoSubscribe(dateGallery);
 
-              {
-                dates: [
-                  {
-                    date: 'do 23-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [],
-                    hasEvents: false,
-                  },
-                ],
-                events: [],
-              },
-            ],
-            events: [],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_REMOVED',
-            event: event2,
-            time: new Date(),
-          }
-        );
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21T21:00Z',
+            endDate: '1989-03-21T21:00Z',
+          });
 
-        event2.remove();
-        expect(subscriber).toBeCalledTimes(4);
+          expect(subscriber).toBeCalledTimes(1);
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21T20:00Z',
+            endDate: '1989-05-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(2);
+
+          dateGallery.removeEvent(event1);
+
+          expect(subscriber).toBeCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 22:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 22:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00',
+                  overlapsWith: [],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_REMOVED',
+              event: event1,
+              time: new Date(),
+            }
+          );
+
+          event2.remove();
+
+          expect(subscriber).toBeCalledTimes(4);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_REMOVED',
+              event: event2,
+              time: new Date(),
+            }
+          );
+
+          event2.remove();
+          expect(subscriber).toBeCalledTimes(4);
+        });
+
+        test('1 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            isUTC: true,
+            numberOfFrames: 1,
+            mode: 'day',
+            initialDate: '1989-03-21',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21T21:00Z',
+            endDate: '1989-03-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(1);
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21T20:00Z',
+            endDate: '1989-05-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(2);
+
+          dateGallery.removeEvent(event1);
+
+          expect(subscriber).toBeCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 22:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 22:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event2',
+                  startDate: 'di 21-03-1989 20:00',
+                  endDate: 'zo 21-05-1989 22:00',
+                  overlapsWith: [],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_REMOVED',
+              event: event1,
+              time: new Date(),
+            }
+          );
+
+          event2.remove();
+
+          expect(subscriber).toBeCalledTimes(4);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_REMOVED',
+              event: event2,
+              time: new Date(),
+            }
+          );
+
+          event2.remove();
+          expect(subscriber).toBeCalledTimes(4);
+        });
       });
 
-      test('2 frames', () => {
-        const dateGallery: DateGallery<string> = new DateGallery({
-          numberOfFrames: 2,
-          mode: 'day',
-          initialDate: '1989-03-21',
-        });
-
-        const subscriber = autoSubscribe(dateGallery);
-
-        const event1 = dateGallery.addEvent({
-          data: 'event1',
-          startDate: '1989-03-21 21:00',
-          endDate: '1989-03-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(1);
-
-        const event2 = dateGallery.addEvent({
-          data: 'event2',
-          startDate: '1989-03-21 20:00',
-          endDate: '1989-05-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(2);
-
-        dateGallery.removeEvent(event1);
-
-        expect(subscriber).toBeCalledTimes(3);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
+      describe('when isUTC is false', () => {
+        test('3 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            numberOfFrames: 3,
             mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event2',
-                        startDate: 'di 21-03-1989 20:00',
-                        endDate: 'zo 21-05-1989 22:00', // Summer time
-                        overlapsWith: [],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
+            initialDate: '1989-03-21 00:00',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21 21:00',
+            endDate: '1989-03-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(1);
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21 20:00',
+            endDate: '1989-05-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(2);
+
+          dateGallery.removeEvent(event1);
+
+          expect(subscriber).toBeCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'do 23-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
                   data: 'event2',
                   startDate: 'di 21-03-1989 20:00',
-                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: [],
-                },],
-              },
-              {
-                dates: [
-                  {
-                    date: 'wo 22-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event2',
-                        startDate: 'di 21-03-1989 20:00',
-                        endDate: 'zo 21-05-1989 22:00', // Summer time
-                        overlapsWith: [],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_REMOVED',
+              event: event1,
+              time: new Date(),
+            }
+          );
+
+          event2.remove();
+
+          expect(subscriber).toBeCalledTimes(4);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'do 23-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_REMOVED',
+              event: event2,
+              time: new Date(),
+            }
+          );
+
+          event2.remove();
+          expect(subscriber).toBeCalledTimes(4);
+        });
+
+        test('2 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            numberOfFrames: 2,
+            mode: 'day',
+            initialDate: '1989-03-21 00:00',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21 21:00',
+            endDate: '1989-03-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(1);
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21 20:00',
+            endDate: '1989-05-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(2);
+
+          dateGallery.removeEvent(event1);
+
+          expect(subscriber).toBeCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
                   data: 'event2',
                   startDate: 'di 21-03-1989 20:00',
-                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: [],
-                },],
-              },
-            ],
-            events: [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: [],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_REMOVED',
-            event: event1,
-            time: new Date(),
-          }
-        );
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_REMOVED',
+              event: event1,
+              time: new Date(),
+            }
+          );
 
-        event2.remove();
+          event2.remove();
 
-        expect(subscriber).toBeCalledTimes(4);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
+          expect(subscriber).toBeCalledTimes(4);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_REMOVED',
+              event: event2,
+              time: new Date(),
+            }
+          );
+
+          event2.remove();
+          expect(subscriber).toBeCalledTimes(4);
+        });
+
+        test('1 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            numberOfFrames: 1,
             mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [],
-                    hasEvents: false,
-                  },
-                ],
-                events: [],
-              },
+            initialDate: '1989-03-21 00:00',
+          });
 
-              {
-                dates: [
-                  {
-                    date: 'wo 22-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [],
-                    hasEvents: false,
-                  },
-                ],
-                events: [],
-              },
-            ],
-            events: [],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_REMOVED',
-            event: event2,
-            time: new Date(),
-          }
-        );
+          const subscriber = autoSubscribe(dateGallery);
 
-        event2.remove();
-        expect(subscriber).toBeCalledTimes(4);
-      });
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21 21:00',
+            endDate: '1989-03-21 21:00',
+          });
 
-      test('1 frames', () => {
-        const dateGallery: DateGallery<string> = new DateGallery({
-          numberOfFrames: 1,
-          mode: 'day',
-          initialDate: '1989-03-21',
-        });
+          expect(subscriber).toBeCalledTimes(1);
 
-        const subscriber = autoSubscribe(dateGallery);
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21 20:00',
+            endDate: '1989-05-21 21:00',
+          });
 
-        const event1 = dateGallery.addEvent({
-          data: 'event1',
-          startDate: '1989-03-21 21:00',
-          endDate: '1989-03-21 21:00',
-        });
+          expect(subscriber).toBeCalledTimes(2);
 
-        expect(subscriber).toBeCalledTimes(1);
+          dateGallery.removeEvent(event1);
 
-        const event2 = dateGallery.addEvent({
-          data: 'event2',
-          startDate: '1989-03-21 20:00',
-          endDate: '1989-05-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(2);
-
-        dateGallery.removeEvent(event1);
-
-        expect(subscriber).toBeCalledTimes(3);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
-            mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event2',
-                        startDate: 'di 21-03-1989 20:00',
-                        endDate: 'zo 21-05-1989 22:00', // Summer time
-                        overlapsWith: [],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
+          expect(subscriber).toBeCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event2',
+                          startDate: 'di 21-03-1989 20:00',
+                          endDate: 'zo 21-05-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event2',
+                      startDate: 'di 21-03-1989 20:00',
+                      endDate: 'zo 21-05-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
                   data: 'event2',
                   startDate: 'di 21-03-1989 20:00',
-                  endDate: 'zo 21-05-1989 22:00', // Summer time
+                  endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: [],
-                },],
-              },
-            ],
-            events: [
-              {
-                data: 'event2',
-                startDate: 'di 21-03-1989 20:00',
-                endDate: 'zo 21-05-1989 22:00', // Summer time
-                overlapsWith: [],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_REMOVED',
-            event: event1,
-            time: new Date(),
-          }
-        );
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_REMOVED',
+              event: event1,
+              time: new Date(),
+            }
+          );
 
-        event2.remove();
+          event2.remove();
 
-        expect(subscriber).toBeCalledTimes(4);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
-            mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [],
-                    hasEvents: false,
-                  },
-                ],
-                events: [],
-              },
-            ],
-            events: [],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_REMOVED',
-            event: event2,
-            time: new Date(),
-          }
-        );
+          expect(subscriber).toBeCalledTimes(4);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_REMOVED',
+              event: event2,
+              time: new Date(),
+            }
+          );
 
-        event2.remove();
-        expect(subscriber).toBeCalledTimes(4);
+          event2.remove();
+          expect(subscriber).toBeCalledTimes(4);
+        });
       });
     });
   });
@@ -28089,7 +29826,7 @@ describe('DateGallery', () => {
     test('should error when given a malformed start date', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const event = dateGallery.addEvent({
@@ -28138,7 +29875,7 @@ describe('DateGallery', () => {
     test('should error when given a malformed end date', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const event = dateGallery.addEvent({
@@ -28187,7 +29924,7 @@ describe('DateGallery', () => {
     test('should error when given a invalid range', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const event = dateGallery.addEvent({
@@ -28220,7 +29957,7 @@ describe('DateGallery', () => {
     test('should error when event cannot be found inside of the DateGallery', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const event = dateGallery.addEvent({
@@ -28255,7 +29992,7 @@ describe('DateGallery', () => {
     test('should do nothing if event is set to the same range', () => {
       const dateGallery: DateGallery<string> = new DateGallery({
         mode: 'week',
-        initialDate: '1990-09-26',
+        initialDate: '1990-09-26 00:00',
       });
 
       const event = dateGallery.addEvent({
@@ -28277,587 +30014,1199 @@ describe('DateGallery', () => {
     });
 
     describe('when moving an event update the frames, recalculate overlap, and re-order arrays', () => {
-      test('3 frames', () => {
-        const dateGallery: DateGallery<string> = new DateGallery({
-          numberOfFrames: 3,
-          mode: 'day',
-          initialDate: '1989-03-21',
-        });
-
-        const subscriber = autoSubscribe(dateGallery);
-
-        const event1 = dateGallery.addEvent({
-          data: 'event1',
-          startDate: '1989-03-21 21:00',
-          endDate: '1989-03-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(1);
-
-        const event2 = dateGallery.addEvent({
-          data: 'event2',
-          startDate: '1989-03-21 20:00',
-          endDate: '1989-05-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(2);
-
-        dateGallery.moveEvent(event2, {
-          startDate: '1989-05-21 20:00',
-          endDate: '1989-05-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(3);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
+      describe('when isUTC is true', () => {
+        test('3 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            isUTC: true,
+            numberOfFrames: 3,
             mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event1',
-                        startDate: 'di 21-03-1989 21:00',
-                        endDate: 'di 21-03-1989 21:00',
-                        overlapsWith: [],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
+            initialDate: '1989-03-21',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21T21:00Z',
+            endDate: '1989-03-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(1);
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21T20:00Z',
+            endDate: '1989-05-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(2);
+
+          dateGallery.moveEvent(event2, {
+            startDate: '1989-05-21T20:00Z',
+            endDate: '1989-05-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'do 23-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [
+                {
                   data: 'event1',
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
-                },],
-              },
+                },
+                {
+                  data: 'event2',
+                  startDate: 'zo 21-05-1989 21:00',
+                  endDate: 'zo 21-05-1989 22:00',
+                  overlapsWith: [],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_MOVED',
+              event: event2,
+              time: new Date(),
+            }
+          );
 
-              {
-                dates: [
-                  {
-                    date: 'wo 22-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [],
-                    hasEvents: false,
-                  },
-                ],
-                events: [],
-              },
-              {
-                dates: [
-                  {
-                    date: 'do 23-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [],
-                    hasEvents: false,
-                  },
-                ],
-                events: [],
-              },
-            ],
-            events: [
-              {
-                data: 'event1',
-                startDate: 'di 21-03-1989 21:00',
-                endDate: 'di 21-03-1989 21:00',
-                overlapsWith: [],
-              },
-              {
-                data: 'event2',
-                startDate: 'zo 21-05-1989 21:00',
-                endDate: 'zo 21-05-1989 22:00',
-                overlapsWith: [],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_MOVED',
-            event: event2,
-            time: new Date(),
-          }
-        );
+          event1.move({
+            startDate: '1989-01-21T21:00Z',
+            endDate: '1989-08-21T21:00Z',
+          });
 
-        event1.move({
-          startDate: '1989-01-21 21:00',
-          endDate: '1989-08-21 21:00',
+          expect(subscriber).toBeCalledTimes(4);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'za 21-01-1989 21:00',
+                          endDate: 'ma 21-08-1989 22:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 22:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'za 21-01-1989 21:00',
+                          endDate: 'ma 21-08-1989 22:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 22:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'do 23-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'za 21-01-1989 21:00',
+                          endDate: 'ma 21-08-1989 22:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 22:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event1',
+                  startDate: 'za 21-01-1989 21:00',
+                  endDate: 'ma 21-08-1989 22:00',
+                  overlapsWith: ['event2'],
+                },
+                {
+                  data: 'event2',
+                  startDate: 'zo 21-05-1989 21:00',
+                  endDate: 'zo 21-05-1989 22:00',
+                  overlapsWith: ['event1'],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_MOVED',
+              event: event1,
+              time: new Date(),
+            }
+          );
         });
 
-        expect(subscriber).toBeCalledTimes(4);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
+        test('2 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            isUTC: true,
+            numberOfFrames: 2,
             mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event1',
-                        startDate: 'za 21-01-1989 21:00',
-                        endDate: 'ma 21-08-1989 22:00',
-                        overlapsWith: ['event2'],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
-                  data: 'event1',
-                  startDate: 'za 21-01-1989 21:00',
-                  endDate: 'ma 21-08-1989 22:00',
-                  overlapsWith: ['event2'],
-                },],
-              },
+            initialDate: '1989-03-21',
+          });
 
-              {
-                dates: [
-                  {
-                    date: 'wo 22-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event1',
-                        startDate: 'za 21-01-1989 21:00',
-                        endDate: 'ma 21-08-1989 22:00',
-                        overlapsWith: ['event2'],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [ {
-                  data: 'event1',
-                  startDate: 'za 21-01-1989 21:00',
-                  endDate: 'ma 21-08-1989 22:00',
-                  overlapsWith: ['event2'],
-                },],
-              },
+          const subscriber = autoSubscribe(dateGallery);
 
-              {
-                dates: [
-                  {
-                    date: 'do 23-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event1',
-                        startDate: 'za 21-01-1989 21:00',
-                        endDate: 'ma 21-08-1989 22:00',
-                        overlapsWith: ['event2'],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [ {
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21T21:00Z',
+            endDate: '1989-03-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(1);
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21T20:00Z',
+            endDate: '1989-05-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(2);
+
+          dateGallery.moveEvent(event2, {
+            startDate: '1989-05-21T20:00Z',
+            endDate: '1989-05-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: [],
+                },
+                {
+                  data: 'event2',
+                  startDate: 'zo 21-05-1989 21:00',
+                  endDate: 'zo 21-05-1989 22:00',
+                  overlapsWith: [],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_MOVED',
+              event: event2,
+              time: new Date(),
+            }
+          );
+
+          event1.move({
+            startDate: '1989-01-21T21:00Z',
+            endDate: '1989-08-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(4);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'za 21-01-1989 21:00',
+                          endDate: 'ma 21-08-1989 22:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 22:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'za 21-01-1989 21:00',
+                          endDate: 'ma 21-08-1989 22:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 22:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
                   data: 'event1',
                   startDate: 'za 21-01-1989 21:00',
                   endDate: 'ma 21-08-1989 22:00',
                   overlapsWith: ['event2'],
-                },],
-              },
-            ],
-            events: [
-              {
-                data: 'event1',
-                startDate: 'za 21-01-1989 21:00',
-                endDate: 'ma 21-08-1989 22:00',
-                overlapsWith: ['event2'],
-              },
-              {
-                data: 'event2',
-                startDate: 'zo 21-05-1989 21:00',
-                endDate: 'zo 21-05-1989 22:00',
-                overlapsWith: ['event1'],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_MOVED',
-            event: event1,
-            time: new Date(),
-          }
-        );
+                },
+                {
+                  data: 'event2',
+                  startDate: 'zo 21-05-1989 21:00',
+                  endDate: 'zo 21-05-1989 22:00',
+                  overlapsWith: ['event1'],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_MOVED',
+              event: event1,
+              time: new Date(),
+            }
+          );
+        });
+
+        test('1 frame', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            isUTC: true,
+            numberOfFrames: 1,
+            mode: 'day',
+            initialDate: '1989-03-21',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21T21:00Z',
+            endDate: '1989-03-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(1);
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21T20:00Z',
+            endDate: '1989-05-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(2);
+
+          dateGallery.moveEvent(event2, {
+            startDate: '1989-05-21T20:00Z',
+            endDate: '1989-05-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: [],
+                },
+                {
+                  data: 'event2',
+                  startDate: 'zo 21-05-1989 21:00',
+                  endDate: 'zo 21-05-1989 22:00',
+                  overlapsWith: [],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_MOVED',
+              event: event2,
+              time: new Date(),
+            }
+          );
+
+          event1.move({
+            startDate: '1989-01-21T21:00Z',
+            endDate: '1989-08-21T21:00Z',
+          });
+
+          expect(subscriber).toBeCalledTimes(4);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: true,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'za 21-01-1989 21:00',
+                          endDate: 'ma 21-08-1989 22:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 22:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event1',
+                  startDate: 'za 21-01-1989 21:00',
+                  endDate: 'ma 21-08-1989 22:00',
+                  overlapsWith: ['event2'],
+                },
+                {
+                  data: 'event2',
+                  startDate: 'zo 21-05-1989 21:00',
+                  endDate: 'zo 21-05-1989 22:00',
+                  overlapsWith: ['event1'],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_MOVED',
+              event: event1,
+              time: new Date(),
+            }
+          );
+        });
       });
 
-      test('2 frames', () => {
-        const dateGallery: DateGallery<string> = new DateGallery({
-          numberOfFrames: 2,
-          mode: 'day',
-          initialDate: '1989-03-21',
-        });
-
-        const subscriber = autoSubscribe(dateGallery);
-
-        const event1 = dateGallery.addEvent({
-          data: 'event1',
-          startDate: '1989-03-21 21:00',
-          endDate: '1989-03-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(1);
-
-        const event2 = dateGallery.addEvent({
-          data: 'event2',
-          startDate: '1989-03-21 20:00',
-          endDate: '1989-05-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(2);
-
-        dateGallery.moveEvent(event2, {
-          startDate: '1989-05-21 20:00',
-          endDate: '1989-05-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(3);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
+      describe('when isUTC is false', () => {
+        test('3 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            numberOfFrames: 3,
             mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event1',
-                        startDate: 'di 21-03-1989 21:00',
-                        endDate: 'di 21-03-1989 21:00',
-                        overlapsWith: [],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
+            initialDate: '1989-03-21 00:00',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21 21:00',
+            endDate: '1989-03-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(1);
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21 20:00',
+            endDate: '1989-05-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(2);
+
+          dateGallery.moveEvent(event2, {
+            startDate: '1989-05-21 20:00',
+            endDate: '1989-05-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'do 23-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [
+                {
                   data: 'event1',
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
-                },],
-              },
+                },
+                {
+                  data: 'event2',
+                  startDate: 'zo 21-05-1989 20:00',
+                  endDate: 'zo 21-05-1989 21:00',
+                  overlapsWith: [],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_MOVED',
+              event: event2,
+              time: new Date(),
+            }
+          );
 
-              {
-                dates: [
-                  {
-                    date: 'wo 22-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [],
-                    hasEvents: false,
-                  },
-                ],
-                events: [],
-              },
-            ],
-            events: [
-              {
-                data: 'event1',
-                startDate: 'di 21-03-1989 21:00',
-                endDate: 'di 21-03-1989 21:00',
-                overlapsWith: [],
-              },
-              {
-                data: 'event2',
-                startDate: 'zo 21-05-1989 21:00',
-                endDate: 'zo 21-05-1989 22:00',
-                overlapsWith: [],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_MOVED',
-            event: event2,
-            time: new Date(),
-          }
-        );
+          event1.move({
+            startDate: '1989-01-21 21:00',
+            endDate: '1989-08-21 21:00',
+          });
 
-        event1.move({
-          startDate: '1989-01-21 21:00',
-          endDate: '1989-08-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(4);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
-            mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event1',
-                        startDate: 'za 21-01-1989 21:00',
-                        endDate: 'ma 21-08-1989 22:00',
-                        overlapsWith: ['event2'],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [{
+          expect(subscriber).toBeCalledTimes(4);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'za 21-01-1989 21:00',
+                          endDate: 'ma 21-08-1989 21:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'za 21-01-1989 21:00',
+                          endDate: 'ma 21-08-1989 21:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'do 23-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'za 21-01-1989 21:00',
+                          endDate: 'ma 21-08-1989 21:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
                   data: 'event1',
                   startDate: 'za 21-01-1989 21:00',
-                  endDate: 'ma 21-08-1989 22:00',
+                  endDate: 'ma 21-08-1989 21:00',
                   overlapsWith: ['event2'],
-                },],
-              },
-
-              {
-                dates: [
-                  {
-                    date: 'wo 22-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event1',
-                        startDate: 'za 21-01-1989 21:00',
-                        endDate: 'ma 21-08-1989 22:00',
-                        overlapsWith: ['event2'],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [ {
-                  data: 'event1',
-                  startDate: 'za 21-01-1989 21:00',
-                  endDate: 'ma 21-08-1989 22:00',
-                  overlapsWith: ['event2'],
-                },],
-              },
-            ],
-            events: [
-              {
-                data: 'event1',
-                startDate: 'za 21-01-1989 21:00',
-                endDate: 'ma 21-08-1989 22:00',
-                overlapsWith: ['event2'],
-              },
-              {
-                data: 'event2',
-                startDate: 'zo 21-05-1989 21:00',
-                endDate: 'zo 21-05-1989 22:00',
-                overlapsWith: ['event1'],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_MOVED',
-            event: event1,
-            time: new Date(),
-          }
-        );
-      });
-
-      test('1 frame', () => {
-        const dateGallery: DateGallery<string> = new DateGallery({
-          numberOfFrames: 1,
-          mode: 'day',
-          initialDate: '1989-03-21',
+                },
+                {
+                  data: 'event2',
+                  startDate: 'zo 21-05-1989 20:00',
+                  endDate: 'zo 21-05-1989 21:00',
+                  overlapsWith: ['event1'],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_MOVED',
+              event: event1,
+              time: new Date(),
+            }
+          );
         });
 
-        const subscriber = autoSubscribe(dateGallery);
-
-        const event1 = dateGallery.addEvent({
-          data: 'event1',
-          startDate: '1989-03-21 21:00',
-          endDate: '1989-03-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(1);
-
-        const event2 = dateGallery.addEvent({
-          data: 'event2',
-          startDate: '1989-03-21 20:00',
-          endDate: '1989-05-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(2);
-
-        dateGallery.moveEvent(event2, {
-          startDate: '1989-05-21 20:00',
-          endDate: '1989-05-21 21:00',
-        });
-
-        expect(subscriber).toBeCalledTimes(3);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
+        test('2 frames', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            numberOfFrames: 2,
             mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event1',
-                        startDate: 'di 21-03-1989 21:00',
-                        endDate: 'di 21-03-1989 21:00',
-                        overlapsWith: [],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [ {
+            initialDate: '1989-03-21 00:00',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21 21:00',
+            endDate: '1989-03-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(1);
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21 20:00',
+            endDate: '1989-05-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(2);
+
+          dateGallery.moveEvent(event2, {
+            startDate: '1989-05-21 20:00',
+            endDate: '1989-05-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [
+                {
                   data: 'event1',
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
-                },],
-              },
-            ],
-            events: [
-              {
-                data: 'event1',
-                startDate: 'di 21-03-1989 21:00',
-                endDate: 'di 21-03-1989 21:00',
-                overlapsWith: [],
-              },
-              {
-                data: 'event2',
-                startDate: 'zo 21-05-1989 21:00',
-                endDate: 'zo 21-05-1989 22:00',
-                overlapsWith: [],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_MOVED',
-            event: event2,
-            time: new Date(),
-          }
-        );
+                },
+                {
+                  data: 'event2',
+                  startDate: 'zo 21-05-1989 20:00',
+                  endDate: 'zo 21-05-1989 21:00',
+                  overlapsWith: [],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_MOVED',
+              event: event2,
+              time: new Date(),
+            }
+          );
 
-        event1.move({
-          startDate: '1989-01-21 21:00',
-          endDate: '1989-08-21 21:00',
+          event1.move({
+            startDate: '1989-01-21 21:00',
+            endDate: '1989-08-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(4);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'za 21-01-1989 21:00',
+                          endDate: 'ma 21-08-1989 21:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+                {
+                  dates: [
+                    {
+                      date: 'wo 22-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'za 21-01-1989 21:00',
+                          endDate: 'ma 21-08-1989 21:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event1',
+                  startDate: 'za 21-01-1989 21:00',
+                  endDate: 'ma 21-08-1989 21:00',
+                  overlapsWith: ['event2'],
+                },
+                {
+                  data: 'event2',
+                  startDate: 'zo 21-05-1989 20:00',
+                  endDate: 'zo 21-05-1989 21:00',
+                  overlapsWith: ['event1'],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_MOVED',
+              event: event1,
+              time: new Date(),
+            }
+          );
         });
 
-        expect(subscriber).toBeCalledTimes(4);
-        assertLastSubscriber(
-          subscriber,
-          {
-            history: [],
-            isUTC: false,
+        test('1 frame', () => {
+          const dateGallery: DateGallery<string> = new DateGallery({
+            numberOfFrames: 1,
             mode: 'day',
-            firstDayOfWeek: 0,
-            firstFrame: frameToTestFrame(dateGallery.frames[0]),
-            frames: [
-              {
-                dates: [
-                  {
-                    date: 'di 21-03-1989 00:00',
-                    isPadding: false,
-                    isSelected: false,
-                    isToday: false,
-                    events: [
-                      {
-                        data: 'event1',
-                        startDate: 'za 21-01-1989 21:00',
-                        endDate: 'ma 21-08-1989 22:00',
-                        overlapsWith: ['event2'],
-                      },
-                    ],
-                    hasEvents: true,
-                  },
-                ],
-                events: [
-                  {
-                    data: 'event1',
-                    startDate: 'za 21-01-1989 21:00',
-                    endDate: 'ma 21-08-1989 22:00',
-                    overlapsWith: ['event2'],
-                  },
-                ],
-              },
-            ],
-            events: [
-              {
-                data: 'event1',
-                startDate: 'za 21-01-1989 21:00',
-                endDate: 'ma 21-08-1989 22:00',
-                overlapsWith: ['event2'],
-              },
-              {
-                data: 'event2',
-                startDate: 'zo 21-05-1989 21:00',
-                endDate: 'zo 21-05-1989 22:00',
-                overlapsWith: ['event1'],
-              },
-            ],
-            selectedDates: [],
-          },
-          {
-            type: 'EVENT_MOVED',
-            event: event1,
-            time: new Date(),
-          }
-        );
+            initialDate: '1989-03-21 00:00',
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          const event1 = dateGallery.addEvent({
+            data: 'event1',
+            startDate: '1989-03-21 21:00',
+            endDate: '1989-03-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(1);
+
+          const event2 = dateGallery.addEvent({
+            data: 'event2',
+            startDate: '1989-03-21 20:00',
+            endDate: '1989-05-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(2);
+
+          dateGallery.moveEvent(event2, {
+            startDate: '1989-05-21 20:00',
+            endDate: '1989-05-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'di 21-03-1989 21:00',
+                          endDate: 'di 21-03-1989 21:00',
+                          overlapsWith: [],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'di 21-03-1989 21:00',
+                      endDate: 'di 21-03-1989 21:00',
+                      overlapsWith: [],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event1',
+                  startDate: 'di 21-03-1989 21:00',
+                  endDate: 'di 21-03-1989 21:00',
+                  overlapsWith: [],
+                },
+                {
+                  data: 'event2',
+                  startDate: 'zo 21-05-1989 20:00',
+                  endDate: 'zo 21-05-1989 21:00',
+                  overlapsWith: [],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_MOVED',
+              event: event2,
+              time: new Date(),
+            }
+          );
+
+          event1.move({
+            startDate: '1989-01-21 21:00',
+            endDate: '1989-08-21 21:00',
+          });
+
+          expect(subscriber).toBeCalledTimes(4);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              mode: 'day',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  dates: [
+                    {
+                      date: 'di 21-03-1989 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      isToday: false,
+                      events: [
+                        {
+                          data: 'event1',
+                          startDate: 'za 21-01-1989 21:00',
+                          endDate: 'ma 21-08-1989 21:00',
+                          overlapsWith: ['event2'],
+                        },
+                      ],
+                      hasEvents: true,
+                    },
+                  ],
+                  events: [
+                    {
+                      data: 'event1',
+                      startDate: 'za 21-01-1989 21:00',
+                      endDate: 'ma 21-08-1989 21:00',
+                      overlapsWith: ['event2'],
+                    },
+                  ],
+                },
+              ],
+              events: [
+                {
+                  data: 'event1',
+                  startDate: 'za 21-01-1989 21:00',
+                  endDate: 'ma 21-08-1989 21:00',
+                  overlapsWith: ['event2'],
+                },
+                {
+                  data: 'event2',
+                  startDate: 'zo 21-05-1989 20:00',
+                  endDate: 'zo 21-05-1989 21:00',
+                  overlapsWith: ['event1'],
+                },
+              ],
+              selectedDates: [],
+            },
+            {
+              type: 'EVENT_MOVED',
+              event: event1,
+              time: new Date(),
+            }
+          );
+        });
       });
     });
   });
@@ -29026,7 +31375,7 @@ describe('DateGallery', () => {
         }),
       ]);
 
-      dateGallery.activateRange('2001-01-01', '2001-01-10');
+      dateGallery.selectRange('2001-01-01', '2001-01-10');
 
       expect(dateGallery.history).toEqual([
         expect.objectContaining({
@@ -29320,7 +31669,7 @@ describe('DateGallery', () => {
     });
   });
 
-  describe('createViewChannelSubscriber', () => {
+  describe('createDateGallerySubscriberConfig', () => {
     test('that all methods are called correctly', () => {
       jest.useFakeTimers();
 
@@ -29394,7 +31743,7 @@ describe('DateGallery', () => {
         dateGallery
       );
 
-      dateGallery.activateRange('2001-01-01', '2001-01-10');
+      dateGallery.selectRange('2001-01-01', '2001-01-10');
 
       expect(config.onDateSelectedMultiple).toBeCalledTimes(1);
       expect(config.onDateSelectedMultiple).lastCalledWith(
@@ -29517,6 +31866,83 @@ describe('DateGallery', () => {
       // Should be unsubscribed and therefore 0 and not 1.
       dateGallery.selectDate('2010-03-21');
       expect(config.onDateSelected).toBeCalledTimes(0);
+    });
+  });
+
+  describe('subscribers', () => {
+    test('multiple subscribers', () => {
+      const dateGallery = new DateGallery<string>();
+      const subscriber = autoSubscribe(dateGallery);
+
+      const secondSubscriber = jest.fn();
+      const removeSecondSubscriber = dateGallery.subscribe(secondSubscriber);
+
+      const thirdSubscriber = jest.fn();
+      dateGallery.subscribe(thirdSubscriber);
+
+      dateGallery.next();
+
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+
+      removeSecondSubscriber();
+
+      dateGallery.next();
+
+      expect(subscriber).toHaveBeenCalledTimes(2);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(2);
+
+      dateGallery.unsubscribe(thirdSubscriber);
+
+      dateGallery.next();
+
+      expect(subscriber).toHaveBeenCalledTimes(3);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(2);
+    });
+
+    test('unsubscribeAll', () => {
+      const dateGallery = new DateGallery<string>();
+      const subscriber = autoSubscribe(dateGallery);
+
+      const secondSubscriber = jest.fn();
+      dateGallery.subscribe(secondSubscriber);
+
+      const thirdSubscriber = jest.fn();
+      dateGallery.subscribe(thirdSubscriber);
+
+      // All three should be informed of this
+      dateGallery.next();
+
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+
+      dateGallery.unsubscribeAll();
+
+      // no one should be informed after the unsubscribe all
+      dateGallery.next();
+
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
+
+      // Test if a new subscriber can still be added after the clear.
+      const newSubscriber = jest.fn();
+      dateGallery.subscribe(newSubscriber);
+
+      // Only new one should be informed
+      dateGallery.next();
+
+      // New one should be informed
+      expect(newSubscriber).toHaveBeenCalledTimes(1);
+
+      // Still not informed
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(secondSubscriber).toHaveBeenCalledTimes(1);
+      expect(thirdSubscriber).toHaveBeenCalledTimes(1);
     });
   });
 });

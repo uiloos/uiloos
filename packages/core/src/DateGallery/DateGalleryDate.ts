@@ -2,14 +2,14 @@ import { DateGallery } from './DateGallery';
 import { DateGalleryEvent } from './DateGalleryEvent';
 
 /**
- * Represents a piece of content in the `contents` array of the `DateGallery`.
+ * Represents a date inside of one of the `DateGallery` frames.
  *
- * The purpose of the DateGalleryDate is to act as a wrapper around the
- * value which is actually in the contents array. It knows things like
- * whether the item is active or not.
- *
- * It also contains methods to activate, remove, swap and move itself
- * within the DateGallery.
+ * A `DateGalleryDate` knows whether it has been selected or not,
+ * whether it is a padded date, which `DateGalleryEvent` lie on 
+ * the date etc etc.
+ * 
+ * You should never instantiate a `DateGalleryDate` directly instead
+ * the `DateGallery` should provide them to you.
  *
  * @since 1.6.0
  */
@@ -22,7 +22,8 @@ export class DateGalleryDate<T> {
   public dateGallery: DateGallery<T>;
 
   /**
-   * The date associated with this `DateGalleryDate`.
+   * The date associated with this `DateGalleryDate`, the time of 
+   * this date is midnight on 0 offset UTC.
    *
    * @since 1.6.0
    */
@@ -72,11 +73,11 @@ export class DateGalleryDate<T> {
    * Note: you should never create instances of DateGalleryDate yourself. You
    * are supposed to let DateGallery do this for you.
    *
-   * // TODO expand params
    * @param {DateGallery<T>} dateGallery The DateGallery this DateGalleryDate belongs to.
-   * @param {number} index The index of this DateGalleryDate within the DateGallery.
-   * @param {T} value The value this DateGalleryDate wraps.
-   *
+   * @param {Date} Date The date this `DateGalleryDate` represents.
+   * @param {DateGalleryEvent<T>[]} events The events that lie on this date.
+   * @param {boolean} isPadding Whether or not this DateGalleryDate is padding.
+   * @param {boolean} isSelected Whether or not this DateGalleryDate is selected.
    * @since 1.6.0
    */
   constructor(
@@ -96,16 +97,31 @@ export class DateGalleryDate<T> {
     this.hasEvents = events.length > 0;
   }
 
-  // TODO: docs
+   /**
+   * Selects the date represented by this DateGalleryDate.
+   *
+   * @since 1.6.0
+   */
   public select() {
     this.dateGallery.selectDate(this.date);
   }
 
-  // TODO: docs
+  /**
+   * Deselects the date represented by this DateGalleryDate.
+   *
+   * @since 1.6.0
+   */
   public deselect() {
     this.dateGallery.deselectDate(this.date);
   }
 
+  /**
+   * Toggles the date selection the date represented by this 
+   * DateGalleryDate. 
+   * 
+   * If the date is selected it becomes deselected, if the date is 
+   * deselected it becomes selected.
+   */
   public toggle() {
     this.dateGallery.toggleDateSelection(this.date);
   }

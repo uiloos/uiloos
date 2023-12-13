@@ -4,8 +4,7 @@ import {
 } from '@jest/globals';
 import { DateGallery, DateGalleryDate, DateGalleryEvent, DateGalleryFrame, DateGallerySubscriberEvent } from '../../src/DateGallery';
 
-
-export const formatter = new Intl.DateTimeFormat('nl-Nl', {
+export const samoaFormatter = new Intl.DateTimeFormat('nl-Nl', {
   year: 'numeric',
   month: '2-digit',
   weekday: 'short',
@@ -13,7 +12,18 @@ export const formatter = new Intl.DateTimeFormat('nl-Nl', {
   hour: '2-digit',
   minute: '2-digit',
   hour12: false,
-  timeZone: 'Europe/London', // +0 utc, but does have a summertime!
+  timeZone: 'Pacific/Samoa',
+});
+
+export const europeFormatter = new Intl.DateTimeFormat('nl-Nl', {
+  year: 'numeric',
+  month: '2-digit',
+  weekday: 'short',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false,
+  timeZone: 'Europe/London', // 0 UTC but has summertime!
 });
 
 export type DateGallerySansDatesAndEvents<T> = Pick<
@@ -49,6 +59,8 @@ export type TestDate<T> = Pick<
 };
 
 export function assertState(state: DateGallery<string>, expected: TestState<string>) {
+  const formatter = expected.isUTC ? europeFormatter : samoaFormatter;
+
   const callAsTestState: TestState<string> = {
     // maxActivationLimit: state.maxActivationLimit,
     // maxActivationLimitBehavior: state.maxActivationLimitBehavior,
@@ -79,6 +91,8 @@ export function frameToTestFrame(frame: DateGalleryFrame<string>): TestFrame<str
 export function eventToTestEvent(event: DateGalleryEvent<string>): TestEvent {
   expect(event instanceof DateGalleryEvent).toBe(true);
 
+  const formatter = event.dateGallery.isUTC ? europeFormatter : samoaFormatter;
+
   return {
     data: event.data,
     startDate: formatter.format(event.startDate),
@@ -94,6 +108,8 @@ export function eventToTestEvent(event: DateGalleryEvent<string>): TestEvent {
 
 export function dateToTestDate(date: DateGalleryDate<string>): TestDate<string> {
   expect(date instanceof DateGalleryDate).toBe(true);
+
+  const formatter = date.dateGallery.isUTC ? europeFormatter : samoaFormatter;
 
   return {
     date: formatter.format(date.date),

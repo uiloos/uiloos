@@ -3,15 +3,46 @@ import { DateGalleryDate } from './DateGalleryDate';
 import { DateGalleryEvent } from './DateGalleryEvent';
 
 /**
- * Configures the initial state of the `DateGallery`
+ * Configures the initial state of the `DateGallery`.
  *
  * @since 1.6.0
  */
 export type DateGalleryConfig<T> = {
   /**
-   * The range the `DateGallery` is going to show.
+   * The mode the `DateGallery` is going to start on.
    *
-   * Can be one of these modes: TODO
+   * Can be one of these modes:
+   *
+   * 1. 'day': a single day per frame.
+   *
+   * 2. 'week': seven days per frame, starting at the configured
+   *    `firstDayOfWeek`.
+   *
+   * 3. 'month': all days within a calendar month per frame. A frame
+   *     will then always start on the first of the month, and end on
+   *     the last day of the month.
+   *
+   * 4. 'month-six-weeks': all days within a calendar month, but padded
+   *    out to six weeks. Meaning that there are always 42 days in the
+   *    frame. Useful for when you want you calendar / datepicker to be
+   *    visually stable height wise.
+   *
+   *    Starts the days on the configured `firstDayOfWeek`.
+   *
+   * 5. 'month-pad-to-week': all days within a calendar month, but
+   *    padded out to the closest `firstDayOfWeek`.
+   *
+   *    For example given that firstDayOfWeek is set to 0 / Sunday:
+   *    if the first day of the month starts on Wednesday it will pad to
+   *    the previous Sunday of the previous month.
+   *
+   *    If the month ends on a friday, it will add the next saturday
+   *    of the next month.
+   *
+   *    Starts the days on the configured `firstDayOfWeek`.
+   *
+   * 6. 'year': a frame will contain all 365 days (or 366 when a leap year)
+   *     within a year.
    *
    * Defaults to 'month-six-weeks'.
    *
@@ -20,19 +51,23 @@ export type DateGalleryConfig<T> = {
   mode?: DateGalleryMode;
 
   /**
-   * Whether the `DateGallery` is in UTC mode.
+   * Whether the `DateGallery` is in UTC mode or not.
    *
-   * When the `DateGallery` is in UTC mode all dates are parsed as UTC.
+   * When the `DateGallery` is in UTC mode all dates that are given
+   * to you via the `DateGallery` through a `DateGalleryDate` are 
+   * given in UTC.
+   * 
+   * Also all operations on `Date` objects within the `DateGallery`
+   * or done via the `UTC` variants.
+   * 
+   * UTC is useful for when you want all datepickers / calendars 
+   * to look the same al around the world, which is not very often.
    *
-   * TODO: doc this
-   *
-   * TODO: implement this
-   *
-   * Defaults to `false` meaning the browsers local timezone is used.
+   * Defaults to `false` meaning the browsers local offset is used.
    *
    * @since 1.60
    */
-  isUtc?: boolean;
+  isUTC?: boolean;
 
   /**
    * A date that will act as the initial date for the date frame.
@@ -40,12 +75,12 @@ export type DateGalleryConfig<T> = {
    * It will set the date frame to the "closest" date given the
    * `mode`.
    *
-   * Can either be a Date instance, or a string which can be passed
-   * to the Date constructor to make a date. TODO UTC
+   * Can either be a `Date` instance, or a `string` which can be
+   * passed to the `Date` constructor to make a date.
    *
-   * For example if you use "2023-06-23" as the `anchorDate` and the
+   * For example if you use "2023-06-23" as the `initialDate` and the
    * `mode` is set to 'year', the date frame will be the year 2023. If
-   * for the same `anchorDate` the `mode` was set to `month-six-weeks`
+   * for the same `initialDate` the `mode` was set to `month-six-weeks`
    * the month of `June` would have been the date frame instead.
    *
    * Defaults to the current date.
@@ -59,7 +94,7 @@ export type DateGalleryConfig<T> = {
    * modes such as 'week' to determine on which day of the week to
    * start the frame.
    *
-   * The `firstDayOfTheWeek` is a number between 0 and 6, were each
+   * The `firstDayOfWeek` is a number between 0 and 6, were each
    * number represents a day of the week:
    *
    * 0 = Sunday
@@ -121,13 +156,32 @@ export type DateGalleryConfig<T> = {
   numberOfFrames?: number;
 };
 
+/**
+ * Represents a frame within the `DateGallery` it is an object
+ * containing all dates and events that belong on the frame.
+ *
+ * @since 1.6.0
+ */
 export type DateGalleryFrame<T> = {
+  /**
+   * All dates that belong to this frame.
+   *
+   * @since 1.6.0
+   */
   dates: DateGalleryDate<T>[];
+
+  /**
+   * All events that occur within this frame
+   *
+   * @since 1.6.0
+   */
   events: DateGalleryEvent<T>[];
 };
 
 /**
- * TODO docs
+ * Holds the configuration of an event which is placed in the
+ * `DateGallery`. From this configuration the actual
+ * `DateGalleryEvent` is created.
  *
  * @since 1.6.0
  */
@@ -152,9 +206,7 @@ export type DateGalleryEventConfig<T> = {
    * monday, tuesday and wednesday.
    *
    * Can either be a Date instance, or a string which can be passed
-   * to the Date constructor to make a date. TODO UTC
-   *
-   * TODO: string examples
+   * to the `Date` constructor to make a date.
    *
    * @since 1.6.0
    */
@@ -168,14 +220,19 @@ export type DateGalleryEventConfig<T> = {
    * monday, tuesday and wednesday.
    *
    * Can either be a Date instance, or a string which can be passed
-   * to the Date constructor to make a date. TODO UTC
+   * to the `Date` constructor to make a date.
    *
    * @since 1.6.0
    */
   endDate: Date | string;
 };
 
-// TODO doc
+/**
+ * Represents all valid values that can be given to the
+ * `DateGalleryConfig`s `firstDayOfWeek` property.
+ *
+ * @since 1.6.0
+ */
 export type DateGalleryDayOfWeek =
   | 0 // 'sunday'
   | 1 // 'monday'
@@ -185,23 +242,91 @@ export type DateGalleryDayOfWeek =
   | 5 // 'friday'
   | 6; // 'saturday';
 
-  // TODO doc
+/**
+ * All predefined modes of the `DateGallery`.
+ *
+ * @since 1.6.0
+ */
 export const DATE_FRAME_MODES = [
   'day',
   'week',
   'month',
   'month-six-weeks',
   'month-pad-to-week',
-  'year'
+  'year',
 ] as const;
 
-// TODO doc
-export type DateGalleryMode = typeof DATE_FRAME_MODES[number];
+/**
+ * All predefined modes of the `DateGallery`:
+ *
+ * 1. 'day': a single day per frame.
+ *
+ * 2. 'week': seven days per frame, starting at the configured
+ *    `firstDayOfWeek`.
+ *
+ * 3. 'month': all days within a calendar month per frame. A frame
+ *     will then always start on the first of the month, and end on
+ *     the last day of the month.
+ *
+ * 4. 'month-six-weeks': all days within a calendar month, but padded
+ *    out to six weeks. Meaning that there are always 42 days in the
+ *    frame. Useful for when you want you calendar / datepicker to be
+ *    visually stable height wise.
+ *
+ *    Starts the days on the configured `firstDayOfWeek`.
+ *
+ * 5. 'month-pad-to-week': all days within a calendar month, but padded
+ *    out to the closest `firstDayOfWeek`.
+ *
+ *    For example given that firstDayOfWeek is set to 0 / Sunday:
+ *    if the first day of the month starts on Wednesday it will pad to
+ *    the previous Sunday of the previous month.
+ *
+ *    If the month ends on a friday, it will add the next saturday
+ *    of the next month.
+ *
+ *    Starts the days on the configured `firstDayOfWeek`.
+ *
+ * 6. 'year': a frame will contain all 365 days (or 366 when a leap year)
+ *     within a year.
+ *
+ * @since 1.6.0
+ */
+export type DateGalleryMode = (typeof DATE_FRAME_MODES)[number];
 
-// TODO doc
+/**
+ * Represents a range of dates, from a start date to and end date.
+ *
+ * @since 1.6.0
+ */
 export type DateGalleryRange = {
-  startDate: Date | string,
-  endDate: Date | string
+  /**
+   * The start date of the range, includes the time.
+   *
+   * The `startDate` is inclusive: meaning if the event has a `startDate`
+   * which is monday and an `endDate` on wednesday, the range runs on
+   * monday, tuesday and wednesday.
+   *
+   * Can either be a Date instance, or a string which can be passed
+   * to the `Date` constructor to make a date.
+   *
+   * @since 1.6.0
+   */
+  startDate: Date | string;
+
+  /**
+   * The end date of the range, includes the time.
+   *
+   * The `endDate` is inclusive: meaning if the event has a `startDate`
+   * which is monday and an `endDate` on wednesday, the range runs on
+   * monday, tuesday and wednesday.
+   *
+   * Can either be a Date instance, or a string which can be passed
+   * to the `Date` constructor to make a date.
+   *
+   * @since 1.6.0
+   */
+  endDate: Date | string;
 };
 
 /**
@@ -219,7 +344,8 @@ export type DateGallerySubscriber<T> = (
 ) => void;
 
 /**
- * TODO
+ * Represents whether the `DateGallery` changed frames, added an
+ * event, selected a date etc etc.
  *
  * @since 1.6.0
  */
@@ -233,7 +359,7 @@ export type DateGallerySubscriberEventType =
   | 'DATE_DESELECTED_MULTIPLE'
   | 'EVENT_ADDED'
   | 'EVENT_REMOVED'
-  | 'EVENT_MOVED'
+  | 'EVENT_MOVED';
 
 /**
  * Represents an event which happened in the DateGallery. Based
@@ -378,7 +504,7 @@ export type DateGalleryDateDeselectedMultipleEvent = DateGalleryBaseEvent & {
 };
 
 /**
- * Represents the fact that an event has been added to the 
+ * Represents the fact that an event has been added to the
  * DateGallery.
  *
  * @since 1.6.0
@@ -400,7 +526,7 @@ export type DateGalleryEventAddedEvent<T> = DateGalleryBaseEvent & {
 };
 
 /**
- * Represents the fact that an event has been removed from the 
+ * Represents the fact that an event has been removed from the
  * DateGallery.
  *
  * @since 1.6.0
