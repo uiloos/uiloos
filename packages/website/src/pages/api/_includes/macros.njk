@@ -127,7 +127,15 @@
 {% endmacro %}
 
 {% macro displayComment(def) %}
-  <p>{{def.description | escape | nlnl2br | safe}}</p>
+  <p>
+  {% for summary in def.summary %}
+    {% if summary.kind == 'text' %}
+      {{summary.text | escape | nlnl2br | safe}}
+    {% else %}
+      <span class="high">{{summary.text | escape}}</span>
+    {% endif %}
+  {% endfor %}
+  </p>
 {% endmacro %}
 
 {% macro displayName(def) %}

@@ -70,6 +70,7 @@ function format(def, package, isSub = false) {
     package,
     kindString,
     description: getDescription(def),
+    summary: getSummary(def),
     link: `/api/${package}/${def.name}/`.toLowerCase(),
     generic: getGeneric(def),
     since: getSince(def, package),
@@ -87,6 +88,19 @@ function format(def, package, isSub = false) {
 
 function getDescription(def) {
   return def.comment?.summary.map((s) => s.text).join('');
+}
+
+function getSummary(def) {
+  const summary = def.comment?.summary ?? [];
+
+  return summary.map((summary) => {
+    if (summary.kind === 'code') {
+      // Strip surrounding ``;
+      summary.text = summary.text.replaceAll('`', '');
+    }
+
+    return summary;
+  });
 }
 
 function getGeneric(def) {
@@ -269,6 +283,7 @@ function getSignature({ def, name, signature, package, kindString, isMethod }) {
     package,
     kindString: kindString ?? getKindString(signature, package),
     description: getDescription(signature),
+    summary: getSummary(signature),
     parameters: getParameters(signature, package),
     since: getSince(signature, package),
     throws: getThrows(def, signature, package),
@@ -330,6 +345,7 @@ function getParameters(method, package) {
       name: parameter.name,
       type: getType(parameter.type, package),
       description: getDescription(parameter),
+      summary: getSummary(parameter),
     };
   });
 }
@@ -348,6 +364,7 @@ function getProperties(def, package) {
     name: property.name,
     package,
     description: getDescription(property),
+    summary: getSummary(property),
     since: getSince(property, package),
     type: getType(property.type, package),
     link: `/api/${package}/${def.name}/#${property.name}`.toLowerCase(),
@@ -377,6 +394,7 @@ function getKindString(def, package) {
 
     return 'class';
   }
+
 
   // A function of sorts
   if (def.kind === 32 || def.kind === 4096) {
