@@ -15,6 +15,7 @@ import { _History } from '../private/History';
 import { _Observer } from '../private/Observer';
 import {
   DATE_GALLERY_MODES,
+  DateGalleryAnchorDateChangedEvent,
   DateGalleryConfig,
   DateGalleryDateDeselectedEvent,
   DateGalleryDateDeselectedMultipleEvent,
@@ -125,13 +126,13 @@ export class DateGallery<T>
    * Whether the `DateGallery` is in UTC mode or not.
    *
    * When the `DateGallery` is in UTC mode all dates that are given
-   * to you via the `DateGallery` through a `DateGalleryDate` are 
+   * to you via the `DateGallery` through a `DateGalleryDate` are
    * given in UTC.
-   * 
+   *
    * Also all operations on `Date` objects within the `DateGallery`
    * or done via the `UTC` variants.
-   * 
-   * UTC is useful for when you want all datepickers / calendars 
+   *
+   * UTC is useful for when you want all datepickers / calendars
    * to look the same al around the world, which is not very often.
    *
    * @since 1.60
@@ -157,7 +158,7 @@ export class DateGallery<T>
   public firstFrame: DateGalleryFrame<T> = {
     dates: [],
     events: [],
-    anchorDate: new Date()
+    anchorDate: new Date(),
   };
 
   /**
@@ -174,7 +175,7 @@ export class DateGallery<T>
 
   /**
    * All dates which are currently considered selected.
-   * 
+   *
    * All dates will have their time set at midnight.
    *
    * @since 1.6.0
@@ -265,22 +266,24 @@ export class DateGallery<T>
    *
    *  1. INITIALIZED: fired when DateGallery is initialized.
    *
-   *  2. FRAME_CHANGED: fired when the frames changes. 
-   *  
-   *  3. MODE_CHANGED: fires when the mode changes.
-   *  
+   *  2. FRAME_CHANGED: fired when the frames changes.
+   *
+   *  3. MODE_CHANGED: fires when the mode is changed.
+   * 
+   *  4. ANCHOR_DATE_CHANGED: fires when the anchor date is changed.
+   *
    *  4. DATE_SELECTED: fires when a date is selected.
-   *  
+   *
    *  5. DATE_SELECTED_MULTIPLE: fires when multiple dates are selected.
-   *  
+   *
    *  6. DATE_DESELECTED: fires when a date is deselected.
-   *  
+   *
    *  7. DATE_DESELECTED_MULTIPLE: fires when multiple dates are deselected.
-   *  
+   *
    *  8. EVENT_ADDED: fires when an event such as a birthday / appointment is added.
-   *  
+   *
    *  9. EVENT_REMOVED:  fires when an event such as a birthday / appointment is removed.
-   *  
+   *
    *  10. EVENT_MOVED':  fires when an event such as a birthday / appointment is moved.
    *
    * Goes only as far back as configured in the `Config` property
@@ -474,18 +477,17 @@ export class DateGallery<T>
    * @param {DateGalleryMode} mode The mode you want to set the DateGallery on.
    * @param {Date | string} date An optional date to act as the new initial date
    * @throws {DateGalleryModeError} the mode must be one of the predefined modes
+   * @throws {DateGalleryInvalidDateError} date provided must be valid date
    * @since 1.6.0
    */
   public changeMode(mode: DateGalleryMode, date?: Date | string): void {
+    const method = 'changeMode';
+
     // When the mode is set to be the same mode
     if (this.mode === mode) {
       // Do nothing when anchorDates match
       if (
-        !date ||
-        this._sameDay(
-          this._dragAnchorFor(this._toDate(date, 'changeMode', 'date')),
-          this._anchorDate
-        )
+        !this._shouldChangeAnchor(method, date)
       ) {
         return;
       }
@@ -495,24 +497,88 @@ export class DateGallery<T>
 
     this.mode = mode;
 
-    // If a date is provided make it the new achorDate
-    if (date) {
-      this._anchorDate = this._toDate(date, 'changeMode', 'date');
+    this._changeAnchor(method, date);
+
+    const event: DateGalleryModeChangedEvent<T> = {
+      type: 'MODE_CHANGED',
+      mode,
+      anchorDate: new Date(this._anchorDate),
+      frames: this.frames,
+      time: new Date(),
+    };
+
+    this._inform(event);
+  }
+
+  /**
+   * Changes the anchor date of the DateGallery.
+   * 
+   * Moves the frames to the new anchor date, and takes into account
+   * the current `mode`.
+   *
+   * The date provided can either be a `Date` instance, or a `string`
+   * which can be passed to the `Date` constructor to make a date.
+   *
+   * @param {Date | string} date A date to act as the new anchor date
+   * @throws {DateGalleryInvalidDateError} date provided must be valid date
+   * @since 1.6.0
+   */
+  public changeAnchorDate(date: Date | string): void {
+    const method = 'changeAnchorDate';
+
+    if (!this._shouldChangeAnchor(method, date)) {
+      return
+    }
+
+    this._changeAnchor(method, date);
+
+    const event: DateGalleryAnchorDateChangedEvent<T> = {
+      type: 'ANCHOR_DATE_CHANGED',
+      anchorDate: new Date(this._anchorDate),
+      frames: this.frames,
+      time: new Date(),
+    };
+
+    this._inform(event);
+  }
+
+  private _shouldChangeAnchor(method: string, date?: Date | string): boolean {
+    if (!date) {
+      return false;
+    }
+
+    // Do nothing when anchorDates match
+    if (
+      this._sameDay(
+        this._dragAnchorFor(this._toDate(date, method, 'date')),
+        this._anchorDate
+      )
+    ) {
+      return false;
+    }
+    
+    return true;
+  }
+
+  private _changeAnchor(method: string, date?: Date | string): void {
+     // If a date is provided make it the new achorDate
+     if (date) {
+      this._anchorDate = this._toDate(date, method, 'date');
       this._toMidnight(this._anchorDate);
     }
 
     this._dragAnchor();
 
     this._buildFrames();
+  }
 
-    const event: DateGalleryModeChangedEvent<T> = {
-      type: 'MODE_CHANGED',
-      mode,
-      frames: this.frames,
-      time: new Date(),
-    };
-
-    this._inform(event);
+  /**
+   * Changes the anchor date of the DateGallery to today.
+   *
+   * @since 1.6.0
+   */
+  public today() {
+    this.changeAnchorDate(new Date());
   }
 
   private _buildFrames(inform = false): void {
@@ -528,7 +594,7 @@ export class DateGallery<T>
       const frame: DateGalleryFrame<T> = {
         dates: [],
         events: [],
-        anchorDate: new Date(this._anchorDate)
+        anchorDate: new Date(this._anchorDate),
       };
 
       // Copy the _anchorDate to prevent mutation.
@@ -668,8 +734,8 @@ export class DateGallery<T>
    * Selects the given date, the date can either be a `Date` instance,
    * or a `string` which can be passed to the `Date`constructor to
    * make a date.
-   * 
-   * The given date will be converted to midnight, so all times in 
+   *
+   * The given date will be converted to midnight, so all times in
    * the `selectedDates` array are always at midnight.
    *
    * @param {Date | string} date An optional date to act as the new initial date
@@ -703,7 +769,7 @@ export class DateGallery<T>
 
     const event: DateGalleryDateSelectedEvent = {
       type: 'DATE_SELECTED',
-      date: midnight,
+      date: new Date(midnight),
       time: new Date(),
     };
 
@@ -714,7 +780,7 @@ export class DateGallery<T>
    * Deselects the given date, the date can either be a `Date`
    * instance, or a `string` which can be passed to the `Date`
    * constructor to make a date.
-   * 
+   *
    * The given date will be converted to midnight so it better matches
    * the `selectedDates` which are always at midnight.
    *

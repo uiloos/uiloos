@@ -70,7 +70,8 @@ export type DateGalleryConfig<T> = {
   isUTC?: boolean;
 
   /**
-   * A date that will act as the initial date for the date frame.
+   * A date that will act as the initial anchor date for the date 
+   * frame.
    *
    * It will set the date frame to the "closest" date given the
    * `mode`.
@@ -180,9 +181,9 @@ export type DateGalleryFrame<T> = {
   /**
    * The date this frame is anchored to. 
    * 
-   * For month based modes it is the first of the month, for `'week'`
-   * it is the first day of the week, for `'year'` it is the first 
-   * day of the year.
+   * For month based modes it is the first date of the month, for 
+   * `'week'` it is the first day of the week, for `'year'` it is 
+   * the first day of the year.
    * 
    * Basically the same as the first date in the `dates` array which
    * is not a padded date.
@@ -368,6 +369,7 @@ export type DateGallerySubscriber<T> = (
 export type DateGallerySubscriberEventType =
   | 'INITIALIZED'
   | 'FRAME_CHANGED'
+  | 'ANCHOR_DATE_CHANGED'
   | 'MODE_CHANGED'
   | 'DATE_SELECTED'
   | 'DATE_SELECTED_MULTIPLE'
@@ -605,6 +607,42 @@ export type DateGalleryModeChangedEvent<T> = DateGalleryBaseEvent & {
    */
   mode: DateGalleryMode;
 
+   /**
+   * The new anchor date, is only changed when changeMode is 
+   * called with the second optional date parameter
+   *
+   * @since 1.6.0
+   */
+   anchorDate: Date;
+
+  /**
+   * The newly visible frames.
+   *
+   * @since 1.6.0
+   */
+  frames: DateGalleryFrame<T>[];
+};
+
+/**
+ * Represents the fact that the date frames mode has changed.
+ *
+ * @since 1.6.0
+ */
+export type DateGalleryAnchorDateChangedEvent<T> = DateGalleryBaseEvent & {
+  /**
+   * Which type occurred
+   *
+   * @since 1.6.0
+   */
+  type: 'ANCHOR_DATE_CHANGED';
+
+  /**
+   * The new anchor date.
+   *
+   * @since 1.6.0
+   */
+  anchorDate: Date;
+
   /**
    * The newly visible frames.
    *
@@ -628,6 +666,7 @@ export type DateGallerySubscriberEvent<T> =
   | DateGalleryEventAddedEvent<T>
   | DateGalleryEventRemovedEvent<T>
   | DateGalleryModeChangedEvent<T>
+  | DateGalleryAnchorDateChangedEvent<T>
   | DateGalleryDateSelectedMultipleEvent
   | DateGalleryDateDeselectedMultipleEvent
   | DateGalleryEventMovedEvent<T>;
