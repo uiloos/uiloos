@@ -438,6 +438,10 @@ function getKindString(def, package) {
       return 'component';
     }
 
+    if (def.name.includes('_')) {
+      return 'constant';
+    }
+
     return 'function';
   }
 

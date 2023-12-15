@@ -173,7 +173,6 @@ export type CreateDateGallerySubscriberConfig<T> = {
  * A. Simple example
  *
  * TODO
- * ```
  *
  * @example
  * B. All methods implemented

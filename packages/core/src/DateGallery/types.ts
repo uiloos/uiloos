@@ -65,7 +65,7 @@ export type DateGalleryConfig<T> = {
    *
    * Defaults to `false` meaning the browsers local offset is used.
    *
-   * @since 1.60
+   * @since 1.6.0
    */
   isUTC?: boolean;
 
@@ -243,11 +243,13 @@ export type DateGalleryDayOfWeek =
   | 6; // 'saturday';
 
 /**
- * All predefined modes of the `DateGallery`.
- *
+ * An array of strings containing  all predefined modes of the 
+ * `DateGallery`.
+ * 
+ * @see DateGalleryMode
  * @since 1.6.0
  */
-export const DATE_FRAME_MODES = [
+export const DATE_GALLERY_MODES = [
   'day',
   'week',
   'month',
@@ -292,7 +294,7 @@ export const DATE_FRAME_MODES = [
  *
  * @since 1.6.0
  */
-export type DateGalleryMode = (typeof DATE_FRAME_MODES)[number];
+export type DateGalleryMode = (typeof DATE_GALLERY_MODES)[number];
 
 /**
  * Represents a range of dates, from a start date to and end date.

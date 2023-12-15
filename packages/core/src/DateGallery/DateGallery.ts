@@ -14,7 +14,7 @@ import { Observable, UnsubscribeFunction } from '../generic/types';
 import { _History } from '../private/History';
 import { _Observer } from '../private/Observer';
 import {
-  DATE_FRAME_MODES,
+  DATE_GALLERY_MODES,
   DateGalleryConfig,
   DateGalleryDateDeselectedEvent,
   DateGalleryDateDeselectedMultipleEvent,
@@ -264,7 +264,23 @@ export class DateGallery<T>
    *
    *  1. INITIALIZED: fired when DateGallery is initialized.
    *
-   *  TODO
+   *  2. FRAME_CHANGED: fired when the frames changes. 
+   *  
+   *  3. MODE_CHANGED: fires when the mode changes.
+   *  
+   *  4. DATE_SELECTED: fires when a date is selected.
+   *  
+   *  5. DATE_SELECTED_MULTIPLE: fires when multiple dates are selected.
+   *  
+   *  6. DATE_DESELECTED: fires when a date is deselected.
+   *  
+   *  7. DATE_DESELECTED_MULTIPLE: fires when multiple dates are deselected.
+   *  
+   *  8. EVENT_ADDED: fires when an event such as a birthday / appointment is added.
+   *  
+   *  9. EVENT_REMOVED:  fires when an event such as a birthday / appointment is removed.
+   *  
+   *  10. EVENT_MOVED':  fires when an event such as a birthday / appointment is moved.
    *
    * Goes only as far back as configured in the `Config` property
    * `keepHistoryFor`, to prevent an infinitely growing history.
@@ -276,8 +292,6 @@ export class DateGallery<T>
    *
    * This means that a history at index 0 is further in the past than
    * an item at index 1.
-   *
-   * WARNING: TODO
    *
    * @since 1.6.0
    */
@@ -1178,7 +1192,7 @@ export class DateGallery<T>
   }
 
   private _checkMode(mode: DateGalleryMode) {
-    if (!DATE_FRAME_MODES.includes(mode)) {
+    if (!DATE_GALLERY_MODES.includes(mode)) {
       throw new DateGalleryModeError(mode);
     }
   }

@@ -121,6 +121,8 @@ export class DateGalleryDate<T> {
    * 
    * If the date is selected it becomes deselected, if the date is 
    * deselected it becomes selected.
+   * 
+   * @since 1.6.0
    */
   public toggle() {
     this.dateGallery.toggleDateSelection(this.date);
