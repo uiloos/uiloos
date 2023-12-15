@@ -1,6 +1,6 @@
 {
   "name": "@uiloos/alpine",
-  "version": "1.5.0",
+  "version": "1.6.0-alpha.0",
   "description": "The Alpine.js bindings of the uiloos headless UI",
   "keywords": [
     "uiloos",
@@ -30,7 +30,7 @@
     "apigen": "typedoc src  --json ../website/src/_data/api/alpine.json"
   },
   "dependencies": {
-    "@uiloos/core": "^1.5.0"
+    "@uiloos/core": "^1.6.0-alpha.0"
   },
   "peerDependencies": {
     "alpinejs": "^3.0.0"
