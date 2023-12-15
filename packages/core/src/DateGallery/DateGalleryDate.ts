@@ -41,6 +41,8 @@ export class DateGalleryDate<T> {
    * frame. Visually these are often "greyed out" dates on month
    * calendars, used to pad out the calendar for a nicer visual.
    *
+   * Padding can only occur in one of the month modes.
+   * 
    * @since 1.6.0
    */
   public isPadding: boolean;
@@ -66,6 +68,15 @@ export class DateGalleryDate<T> {
    * @since 1.6.0
    */
    public hasEvents: boolean;
+
+   /**
+    * Whether or not this `DateGalleryDate` has events that
+    * overlap with each other. In other words whether this day has
+    * events on the same times as each other.
+    *
+    * @since 1.6.0
+    */
+   public hasEventsWithOverlap: boolean;
 
   /**
    * Creates an DateGalleryDate which belongs to the given DateGallery.
@@ -95,6 +106,7 @@ export class DateGalleryDate<T> {
 
     this.isToday = dateGallery._sameDay(new Date(), date);
     this.hasEvents = events.length > 0;
+    this.hasEventsWithOverlap = this.events.some(e => e.overlapsWith.length > 0);
   }
 
    /**

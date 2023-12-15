@@ -176,6 +176,20 @@ export type DateGalleryFrame<T> = {
    * @since 1.6.0
    */
   events: DateGalleryEvent<T>[];
+
+  /**
+   * The date this frame is anchored to. 
+   * 
+   * For month based modes it is the first of the month, for `'week'`
+   * it is the first day of the week, for `'year'` it is the first 
+   * day of the year.
+   * 
+   * Basically the same as the first date in the `dates` array which
+   * is not a padded date.
+   * 
+   * @since 1.6.0
+   */
+  anchorDate: Date;
 };
 
 /**

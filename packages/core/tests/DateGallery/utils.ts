@@ -34,6 +34,7 @@ export type DateGallerySansDatesAndEvents<T> = Pick<
 type TestFrame<T> = {
   events: TestEvent[];
   dates: TestDate<T>[];
+  anchorDate: string;
 }
 
 export type TestState<T> = DateGallerySansDatesAndEvents<T> & {
@@ -52,7 +53,7 @@ export type TestEvent = {
 
 export type TestDate<T> = Pick<
   DateGalleryDate<T>,
-  'isPadding' | 'isToday' | 'isSelected' | 'hasEvents'
+  'isPadding' | 'isToday' | 'isSelected' | 'hasEvents' | 'hasEventsWithOverlap'
 > & {
   date: string;
   events: TestEvent[];
@@ -82,9 +83,12 @@ export function assertState(state: DateGallery<string>, expected: TestState<stri
 }
 
 export function frameToTestFrame(frame: DateGalleryFrame<string>): TestFrame<string> {
+  const formatter = frame.dates[0].dateGallery.isUTC ? europeFormatter : samoaFormatter;
+
   return {
     dates: frame.dates.map(dateToTestDate),
     events: frame.events.map(eventToTestEvent),
+    anchorDate: formatter.format(frame.anchorDate),
   }
 }
 
@@ -118,6 +122,7 @@ export function dateToTestDate(date: DateGalleryDate<string>): TestDate<string> 
     isSelected: date.isSelected,
     isToday: date.isToday,
     hasEvents: date.hasEvents,
+    hasEventsWithOverlap: date.hasEventsWithOverlap
   };
 }
 

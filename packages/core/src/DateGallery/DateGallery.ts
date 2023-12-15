@@ -157,6 +157,7 @@ export class DateGallery<T>
   public firstFrame: DateGalleryFrame<T> = {
     dates: [],
     events: [],
+    anchorDate: new Date()
   };
 
   /**
@@ -527,6 +528,7 @@ export class DateGallery<T>
       const frame: DateGalleryFrame<T> = {
         dates: [],
         events: [],
+        anchorDate: new Date(this._anchorDate)
       };
 
       // Copy the _anchorDate to prevent mutation.
