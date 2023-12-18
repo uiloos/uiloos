@@ -1,6 +1,6 @@
 {
   "name": "@uiloos/react",
-  "version": "1.6.0-alpha.0",
+  "version": "1.6.0-alpha.1",
   "description": "The React bindings of the uiloos headless UI",
   "keywords": [
     "uiloos"
@@ -27,7 +27,7 @@
     "apigen": "typedoc src  --json ../website/src/_data/api/react.json"
   },
   "dependencies": {
-    "@uiloos/core": "^1.6.0-alpha.0"
+    "@uiloos/core": "^1.6.0-alpha.1"
   },
   "peerDependencies": {
     "react": "^17.0.2 || ^18.1.0"
