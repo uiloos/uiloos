@@ -35542,6 +35542,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -35554,6 +35555,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -35594,6 +35596,7 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -35637,12 +35640,14 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 22:00',
                           overlapsWith: ['event1'],
+                          spansMultipleDays: true
                         },
                         {
                           data: 'event1',
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -35655,12 +35660,14 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 22:00',
                       overlapsWith: ['event1'],
+                      spansMultipleDays: true
                     },
                     {
                       data: 'event1',
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -35678,6 +35685,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 22:00',
                           overlapsWith: ['event1'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -35690,6 +35698,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 22:00',
                       overlapsWith: ['event1'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -35707,6 +35716,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 22:00',
                           overlapsWith: ['event1'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -35719,6 +35729,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 22:00',
                       overlapsWith: ['event1'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -35729,12 +35740,14 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 20:00',
                   endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: ['event1'],
+                  spansMultipleDays: true
                 },
                 {
                   data: 'event1',
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: ['event2'],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -35789,6 +35802,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -35801,6 +35815,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -35826,6 +35841,7 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -35869,12 +35885,14 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 22:00',
                           overlapsWith: ['event1'],
+                          spansMultipleDays: true
                         },
                         {
                           data: 'event1',
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -35887,12 +35905,14 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 22:00',
                       overlapsWith: ['event1'],
+                      spansMultipleDays: true
                     },
                     {
                       data: 'event1',
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -35910,6 +35930,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 22:00',
                           overlapsWith: ['event1'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -35922,6 +35943,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 22:00',
                       overlapsWith: ['event1'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -35932,12 +35954,14 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 20:00',
                   endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: ['event1'],
+                  spansMultipleDays: true
                 },
                 {
                   data: 'event1',
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: ['event2'],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -35992,6 +36016,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -36004,6 +36029,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -36014,6 +36040,7 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -36057,12 +36084,14 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 22:00',
                           overlapsWith: ['event1'],
+                          spansMultipleDays: true
                         },
                         {
                           data: 'event1',
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -36075,12 +36104,14 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 22:00',
                       overlapsWith: ['event1'],
+                      spansMultipleDays: true
                     },
                     {
                       data: 'event1',
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -36091,12 +36122,14 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 20:00',
                   endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: ['event1'],
+                  spansMultipleDays: true
                 },
                 {
                   data: 'event1',
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: ['event2'],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -36152,6 +36185,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -36164,6 +36198,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -36204,6 +36239,7 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -36247,12 +36283,14 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 21:00',
                           overlapsWith: ['event1'],
+                          spansMultipleDays: true
                         },
                         {
                           data: 'event1',
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -36265,12 +36303,14 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 21:00',
                       overlapsWith: ['event1'],
+                      spansMultipleDays: true
                     },
                     {
                       data: 'event1',
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -36288,6 +36328,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 21:00',
                           overlapsWith: ['event1'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -36300,6 +36341,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 21:00',
                       overlapsWith: ['event1'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -36317,6 +36359,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 21:00',
                           overlapsWith: ['event1'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -36329,6 +36372,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 21:00',
                       overlapsWith: ['event1'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -36339,12 +36383,14 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 20:00',
                   endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: ['event1'],
+                  spansMultipleDays: true
                 },
                 {
                   data: 'event1',
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: ['event2'],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -36398,6 +36444,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -36410,6 +36457,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -36435,6 +36483,7 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -36478,12 +36527,14 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 21:00',
                           overlapsWith: ['event1'],
+                          spansMultipleDays: true
                         },
                         {
                           data: 'event1',
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -36496,12 +36547,14 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 21:00',
                       overlapsWith: ['event1'],
+                      spansMultipleDays: true
                     },
                     {
                       data: 'event1',
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -36519,6 +36572,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 21:00',
                           overlapsWith: ['event1'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -36531,6 +36585,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 21:00',
                       overlapsWith: ['event1'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -36541,12 +36596,14 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 20:00',
                   endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: ['event1'],
+                  spansMultipleDays: true
                 },
                 {
                   data: 'event1',
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: ['event2'],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -36600,6 +36657,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -36612,6 +36670,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -36622,6 +36681,7 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -36665,12 +36725,14 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 21:00',
                           overlapsWith: ['event1'],
+                          spansMultipleDays: true
                         },
                         {
                           data: 'event1',
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -36683,12 +36745,14 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 21:00',
                       overlapsWith: ['event1'],
+                      spansMultipleDays: true
                     },
                     {
                       data: 'event1',
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -36699,12 +36763,14 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 20:00',
                   endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: ['event1'],
+                  spansMultipleDays: true
                 },
                 {
                   data: 'event1',
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: ['event2'],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -36804,6 +36870,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 22:00',
                           overlapsWith: [],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -36816,6 +36883,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 22:00',
                       overlapsWith: [],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -36833,6 +36901,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 22:00',
                           overlapsWith: [],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -36845,6 +36914,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 22:00',
                       overlapsWith: [],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -36862,6 +36932,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 22:00',
                           overlapsWith: [],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -36874,6 +36945,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 22:00',
                       overlapsWith: [],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -36884,6 +36956,7 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 20:00',
                   endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: [],
+                  spansMultipleDays: true
                 },
               ],
               selectedDates: [],
@@ -37019,6 +37092,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 22:00',
                           overlapsWith: [],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -37031,6 +37105,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 22:00',
                       overlapsWith: [],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -37048,6 +37123,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 22:00',
                           overlapsWith: [],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -37060,6 +37136,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 22:00',
                       overlapsWith: [],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -37070,6 +37147,7 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 20:00',
                   endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: [],
+                  spansMultipleDays: true
                 },
               ],
               selectedDates: [],
@@ -37190,6 +37268,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 22:00',
                           overlapsWith: [],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -37202,6 +37281,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 22:00',
                       overlapsWith: [],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -37212,6 +37292,7 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 20:00',
                   endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: [],
+                  spansMultipleDays: true
                 },
               ],
               selectedDates: [],
@@ -37318,6 +37399,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -37330,6 +37412,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -37347,6 +37430,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -37359,6 +37443,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -37376,6 +37461,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -37388,6 +37474,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -37398,6 +37485,7 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 20:00',
                   endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: true
                 },
               ],
               selectedDates: [],
@@ -37532,6 +37620,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -37544,6 +37633,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -37561,6 +37651,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -37573,6 +37664,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -37583,6 +37675,7 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 20:00',
                   endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: true
                 },
               ],
               selectedDates: [],
@@ -37702,6 +37795,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 20:00',
                           endDate: 'zo 21-05-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -37714,6 +37808,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 20:00',
                       endDate: 'zo 21-05-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -37724,6 +37819,7 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 20:00',
                   endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: true
                 },
               ],
               selectedDates: [],
@@ -38028,6 +38124,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -38040,6 +38137,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -38080,12 +38178,14 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
                 {
                   data: 'event2',
                   startDate: 'zo 21-05-1989 21:00',
                   endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -38126,6 +38226,7 @@ describe('DateGallery', () => {
                           startDate: 'za 21-01-1989 21:00',
                           endDate: 'ma 21-08-1989 22:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -38138,6 +38239,7 @@ describe('DateGallery', () => {
                       startDate: 'za 21-01-1989 21:00',
                       endDate: 'ma 21-08-1989 22:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -38155,6 +38257,7 @@ describe('DateGallery', () => {
                           startDate: 'za 21-01-1989 21:00',
                           endDate: 'ma 21-08-1989 22:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -38167,6 +38270,7 @@ describe('DateGallery', () => {
                       startDate: 'za 21-01-1989 21:00',
                       endDate: 'ma 21-08-1989 22:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -38184,6 +38288,7 @@ describe('DateGallery', () => {
                           startDate: 'za 21-01-1989 21:00',
                           endDate: 'ma 21-08-1989 22:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -38196,6 +38301,7 @@ describe('DateGallery', () => {
                       startDate: 'za 21-01-1989 21:00',
                       endDate: 'ma 21-08-1989 22:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -38206,12 +38312,14 @@ describe('DateGallery', () => {
                   startDate: 'za 21-01-1989 21:00',
                   endDate: 'ma 21-08-1989 22:00',
                   overlapsWith: ['event2'],
+                  spansMultipleDays: true
                 },
                 {
                   data: 'event2',
                   startDate: 'zo 21-05-1989 21:00',
                   endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: ['event1'],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -38279,6 +38387,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -38291,6 +38400,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -38316,12 +38426,14 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
                 {
                   data: 'event2',
                   startDate: 'zo 21-05-1989 21:00',
                   endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -38362,6 +38474,7 @@ describe('DateGallery', () => {
                           startDate: 'za 21-01-1989 21:00',
                           endDate: 'ma 21-08-1989 22:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -38374,6 +38487,7 @@ describe('DateGallery', () => {
                       startDate: 'za 21-01-1989 21:00',
                       endDate: 'ma 21-08-1989 22:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -38391,6 +38505,7 @@ describe('DateGallery', () => {
                           startDate: 'za 21-01-1989 21:00',
                           endDate: 'ma 21-08-1989 22:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -38403,6 +38518,7 @@ describe('DateGallery', () => {
                       startDate: 'za 21-01-1989 21:00',
                       endDate: 'ma 21-08-1989 22:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -38413,12 +38529,14 @@ describe('DateGallery', () => {
                   startDate: 'za 21-01-1989 21:00',
                   endDate: 'ma 21-08-1989 22:00',
                   overlapsWith: ['event2'],
+                  spansMultipleDays: true
                 },
                 {
                   data: 'event2',
                   startDate: 'zo 21-05-1989 21:00',
                   endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: ['event1'],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -38486,6 +38604,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -38498,6 +38617,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -38508,12 +38628,14 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
                 {
                   data: 'event2',
                   startDate: 'zo 21-05-1989 21:00',
                   endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -38554,6 +38676,7 @@ describe('DateGallery', () => {
                           startDate: 'za 21-01-1989 21:00',
                           endDate: 'ma 21-08-1989 22:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -38566,6 +38689,7 @@ describe('DateGallery', () => {
                       startDate: 'za 21-01-1989 21:00',
                       endDate: 'ma 21-08-1989 22:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -38576,12 +38700,14 @@ describe('DateGallery', () => {
                   startDate: 'za 21-01-1989 21:00',
                   endDate: 'ma 21-08-1989 22:00',
                   overlapsWith: ['event2'],
+                  spansMultipleDays: true
                 },
                 {
                   data: 'event2',
                   startDate: 'zo 21-05-1989 21:00',
                   endDate: 'zo 21-05-1989 22:00',
                   overlapsWith: ['event1'],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -38650,6 +38776,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -38662,6 +38789,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -38702,12 +38830,14 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
                 {
                   data: 'event2',
                   startDate: 'zo 21-05-1989 20:00',
                   endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -38748,6 +38878,7 @@ describe('DateGallery', () => {
                           startDate: 'za 21-01-1989 21:00',
                           endDate: 'ma 21-08-1989 21:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -38760,6 +38891,7 @@ describe('DateGallery', () => {
                       startDate: 'za 21-01-1989 21:00',
                       endDate: 'ma 21-08-1989 21:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -38777,6 +38909,7 @@ describe('DateGallery', () => {
                           startDate: 'za 21-01-1989 21:00',
                           endDate: 'ma 21-08-1989 21:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -38789,6 +38922,7 @@ describe('DateGallery', () => {
                       startDate: 'za 21-01-1989 21:00',
                       endDate: 'ma 21-08-1989 21:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -38806,6 +38940,7 @@ describe('DateGallery', () => {
                           startDate: 'za 21-01-1989 21:00',
                           endDate: 'ma 21-08-1989 21:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -38818,6 +38953,7 @@ describe('DateGallery', () => {
                       startDate: 'za 21-01-1989 21:00',
                       endDate: 'ma 21-08-1989 21:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -38828,12 +38964,14 @@ describe('DateGallery', () => {
                   startDate: 'za 21-01-1989 21:00',
                   endDate: 'ma 21-08-1989 21:00',
                   overlapsWith: ['event2'],
+                  spansMultipleDays: true
                 },
                 {
                   data: 'event2',
                   startDate: 'zo 21-05-1989 20:00',
                   endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: ['event1'],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -38900,6 +39038,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -38912,6 +39051,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -38937,12 +39077,14 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
                 {
                   data: 'event2',
                   startDate: 'zo 21-05-1989 20:00',
                   endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -38983,6 +39125,7 @@ describe('DateGallery', () => {
                           startDate: 'za 21-01-1989 21:00',
                           endDate: 'ma 21-08-1989 21:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -38995,6 +39138,7 @@ describe('DateGallery', () => {
                       startDate: 'za 21-01-1989 21:00',
                       endDate: 'ma 21-08-1989 21:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -39012,6 +39156,7 @@ describe('DateGallery', () => {
                           startDate: 'za 21-01-1989 21:00',
                           endDate: 'ma 21-08-1989 21:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -39024,6 +39169,7 @@ describe('DateGallery', () => {
                       startDate: 'za 21-01-1989 21:00',
                       endDate: 'ma 21-08-1989 21:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -39034,12 +39180,14 @@ describe('DateGallery', () => {
                   startDate: 'za 21-01-1989 21:00',
                   endDate: 'ma 21-08-1989 21:00',
                   overlapsWith: ['event2'],
+                  spansMultipleDays: true
                 },
                 {
                   data: 'event2',
                   startDate: 'zo 21-05-1989 20:00',
                   endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: ['event1'],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -39106,6 +39254,7 @@ describe('DateGallery', () => {
                           startDate: 'di 21-03-1989 21:00',
                           endDate: 'di 21-03-1989 21:00',
                           overlapsWith: [],
+                          spansMultipleDays: false
                         },
                       ],
                       hasEvents: true,
@@ -39118,6 +39267,7 @@ describe('DateGallery', () => {
                       startDate: 'di 21-03-1989 21:00',
                       endDate: 'di 21-03-1989 21:00',
                       overlapsWith: [],
+                      spansMultipleDays: false
                     },
                   ],
                 },
@@ -39128,12 +39278,14 @@ describe('DateGallery', () => {
                   startDate: 'di 21-03-1989 21:00',
                   endDate: 'di 21-03-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
                 {
                   data: 'event2',
                   startDate: 'zo 21-05-1989 20:00',
                   endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: [],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],
@@ -39174,6 +39326,7 @@ describe('DateGallery', () => {
                           startDate: 'za 21-01-1989 21:00',
                           endDate: 'ma 21-08-1989 21:00',
                           overlapsWith: ['event2'],
+                          spansMultipleDays: true
                         },
                       ],
                       hasEvents: true,
@@ -39186,6 +39339,7 @@ describe('DateGallery', () => {
                       startDate: 'za 21-01-1989 21:00',
                       endDate: 'ma 21-08-1989 21:00',
                       overlapsWith: ['event2'],
+                      spansMultipleDays: true
                     },
                   ],
                 },
@@ -39196,12 +39350,14 @@ describe('DateGallery', () => {
                   startDate: 'za 21-01-1989 21:00',
                   endDate: 'ma 21-08-1989 21:00',
                   overlapsWith: ['event2'],
+                  spansMultipleDays: true
                 },
                 {
                   data: 'event2',
                   startDate: 'zo 21-05-1989 20:00',
                   endDate: 'zo 21-05-1989 21:00',
                   overlapsWith: ['event1'],
+                  spansMultipleDays: false
                 },
               ],
               selectedDates: [],

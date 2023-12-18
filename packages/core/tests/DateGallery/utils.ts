@@ -32,7 +32,7 @@ export type DateGallerySansDatesAndEvents<T> = Pick<
 >;
 
 type TestFrame<T> = {
-  events: TestEvent[];
+  events: TestEvent<T>[];
   dates: TestDate<T>[];
   anchorDate: string;
 }
@@ -40,11 +40,13 @@ type TestFrame<T> = {
 export type TestState<T> = DateGallerySansDatesAndEvents<T> & {
   firstFrame: TestFrame<T>;
   frames: TestFrame<T>[];
-  events: TestEvent[];
+  events: TestEvent<T>[];
   selectedDates: string[];
 };
 
-export type TestEvent = {
+
+
+export type TestEvent<T> = Pick<DateGalleryEvent<T>, 'spansMultipleDays'> & {
   data: string;
   overlapsWith: string[];
   startDate: string;
@@ -56,7 +58,7 @@ export type TestDate<T> = Pick<
   'isPadding' | 'isToday' | 'isSelected' | 'hasEvents' | 'hasEventsWithOverlap'
 > & {
   date: string;
-  events: TestEvent[];
+  events: TestEvent<T>[];
 };
 
 export function assertState(state: DateGallery<string>, expected: TestState<string>) {
@@ -92,7 +94,7 @@ export function frameToTestFrame(frame: DateGalleryFrame<string>): TestFrame<str
   }
 }
 
-export function eventToTestEvent(event: DateGalleryEvent<string>): TestEvent {
+export function eventToTestEvent(event: DateGalleryEvent<string>): TestEvent<string> {
   expect(event instanceof DateGalleryEvent).toBe(true);
 
   const formatter = event.dateGallery.isUTC ? europeFormatter : samoaFormatter;
@@ -107,6 +109,8 @@ export function eventToTestEvent(event: DateGalleryEvent<string>): TestEvent {
       expect(e instanceof DateGalleryEvent);
       return e.data;
     }),
+
+    spansMultipleDays: event.spansMultipleDays
   };
 }
 

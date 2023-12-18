@@ -438,7 +438,7 @@ export class DateGallery<T>
       });
 
       this.events.forEach((e) => {
-        e._calcOverlap();
+        e._recalculate();
       });
     }
 
@@ -958,7 +958,7 @@ export class DateGallery<T>
     const addedEvent = this._doAddEvent(event, 'addEvent');
 
     this.events.forEach((e) => {
-      e._calcOverlap();
+      e._recalculate();
     });
 
     this._moveFrame(-1, this.numberOfFrames - 1);
@@ -1087,7 +1087,7 @@ export class DateGallery<T>
     });
 
     this.events.forEach((e) => {
-      e._calcOverlap();
+      e._recalculate();
     });
 
     this._moveFrame(-1, this.numberOfFrames - 1);

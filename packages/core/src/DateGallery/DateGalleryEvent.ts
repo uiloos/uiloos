@@ -75,6 +75,17 @@ export class DateGalleryEvent<T> {
    */
   public readonly overlapsWith: DateGalleryEvent<T>[] = [];
 
+   /**
+    * Whether or not this events spans over multiple days.
+    *
+    * Is `false` when the `startDate` and `endDate` are on the same 
+    * day, is `true` when the `startDate` and `endDate` are
+    * on different days.
+    * 
+    * @since 1.6.0
+    */
+   public spansMultipleDays: boolean = false;
+
   /**
    * Creates an DateGalleryEvent which belongs to the given DateGallery.
    *
@@ -99,8 +110,8 @@ export class DateGalleryEvent<T> {
     this.endDate = endDate;
   }
 
-  // Calculates the overlapping events
-  public _calcOverlap() {
+  // Calculates the computed properties.
+  public _recalculate() {
     // Reset overlap
     this.overlapsWith.length = 0;
 
@@ -118,6 +129,8 @@ export class DateGalleryEvent<T> {
     this.overlapsWith.sort((a, b) => {
       return a.startDate.getTime() - b.startDate.getTime();
     });
+
+    this.spansMultipleDays = !this.dateGallery._sameDay(this.startDate, this.endDate);
   }
 
   /**
