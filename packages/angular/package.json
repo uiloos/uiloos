@@ -1,6 +1,6 @@
 {
   "name": "@uiloos/angular",
-  "version": "1.6.0-alpha.1",
+  "version": "1.6.0-alpha.2",
   "description": "The Angular bindings of the uiloos headless UI",
   "keywords": [
     "uiloos"
@@ -21,7 +21,7 @@
     "@angular/core": "^13.2.0 || ^14.0.0 || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
-    "@uiloos/core": "^1.6.0-alpha.1"
+    "@uiloos/core": "^1.6.0-alpha.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "16.1.2",
