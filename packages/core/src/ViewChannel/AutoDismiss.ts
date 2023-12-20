@@ -100,7 +100,7 @@ export class _AutoDismiss<T, R> {
         this._view.viewChannel._doRemoveByIndex(
           this._view.index,
           result,
-          'AUTO_DISMISS'
+          'AUTO_DISMISS',
         );
       }
 

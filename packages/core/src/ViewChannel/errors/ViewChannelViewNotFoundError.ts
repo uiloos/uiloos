@@ -12,8 +12,8 @@ export class ViewChannelViewNotFoundError extends Error {
    *
    * @since 1.0.0
    */
-  constructor() {
-    super(`${common} dismiss > "ViewChannelView" not found in views array`);
+  constructor(method: string) {
+    super(`${common} ${method} > "ViewChannelView" not found in views array`);
     this.name = 'ViewChannelViewNotFoundError';
   }
 }

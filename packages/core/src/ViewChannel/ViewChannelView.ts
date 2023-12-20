@@ -247,4 +247,24 @@ export class ViewChannelView<T, R> {
   public stop(): void {
     this._autoDismiss._stop();
   }
+
+  /**
+   * Changes the data of this ViewChannelView, and informs the 
+   * subscribers of the change. 
+   * 
+   * Note: if you provide the exact same `data` it will still set the 
+   * `data` and inform the subscribers, even though nothing has
+   * actually changed. 
+   * 
+   * This way, when `data` is an object or an array, you can mutate
+   * the object / array directly, and pass in the same `data` object
+   * to the `changeData`, without having to create copies.
+   * 
+   *
+   * @param {T} data The new data for this ViewChannelView
+   * @since 1.6.0
+   */
+  public changeData(data: T): void {
+    this.viewChannel.changeData(this, data);
+  }
 }
