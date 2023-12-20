@@ -269,7 +269,7 @@ export class DateGallery<T>
    *  2. FRAME_CHANGED: fired when the frames changes.
    *
    *  3. MODE_CHANGED: fires when the mode is changed.
-   * 
+   *
    *  4. ANCHOR_DATE_CHANGED: fires when the anchor date is changed.
    *
    *  4. DATE_SELECTED: fires when a date is selected.
@@ -486,9 +486,7 @@ export class DateGallery<T>
     // When the mode is set to be the same mode
     if (this.mode === mode) {
       // Do nothing when anchorDates match
-      if (
-        !this._shouldChangeAnchor(method, date)
-      ) {
+      if (!this._shouldChangeAnchor(method, date)) {
         return;
       }
     }
@@ -512,7 +510,7 @@ export class DateGallery<T>
 
   /**
    * Changes the anchor date of the DateGallery.
-   * 
+   *
    * Moves the frames to the new anchor date, and takes into account
    * the current `mode`.
    *
@@ -527,7 +525,7 @@ export class DateGallery<T>
     const method = 'changeAnchorDate';
 
     if (!this._shouldChangeAnchor(method, date)) {
-      return
+      return;
     }
 
     this._changeAnchor(method, date);
@@ -556,13 +554,13 @@ export class DateGallery<T>
     ) {
       return false;
     }
-    
+
     return true;
   }
 
   private _changeAnchor(method: string, date?: Date | string): void {
-     // If a date is provided make it the new achorDate
-     if (date) {
+    // If a date is provided make it the new achorDate
+    if (date) {
       this._anchorDate = this._toDate(date, method, 'date');
       this._toMidnight(this._anchorDate);
     }
@@ -1232,6 +1230,30 @@ export class DateGallery<T>
       this.selectedDates.some((selected) => {
         return this._sameDay(selected, _date);
       })
+    );
+  }
+
+  /**
+   * Compares two dates and returns whether or not they are on the
+   * same date.
+   *
+   * The given dates can either be a `Date` instance, or a `string`
+   * which can be passed to the `Date` constructor to make a date.
+   *
+   * Takes into account the `isUTC` of the `DateGallery` when UTC is
+   * `true` it will compare the UTC dates.
+   *
+   * @param {Date | string} a The first date you want to check
+   * @param {Date | string} b The second date you want to check
+   * @throws {DateGalleryInvalidDateError} dates provided must be valid dates
+   * @returns {boolean} whether or not the dates are on the same date.
+   * @since 1.6.0
+   */
+  public isSameDay(a: Date | string, b: Date | string): boolean {
+    const method = 'isSameDay';
+    return this._sameDay(
+      this._toDate(a, method, 'a'),
+      this._toDate(b, method, 'b')
     );
   }
 

@@ -39373,6 +39373,184 @@ describe('DateGallery', () => {
     });
   });
 
+  describe('isSameDay', () => {
+    describe('when isUTC is true', () => {
+      test('should error when given a malformed date', () => {
+        const dateGallery: DateGallery<string> = new DateGallery({
+          mode: 'week',
+          isUTC: true
+        });
+  
+        const subscriber = autoSubscribe(dateGallery);
+  
+        expect(() => {
+          dateGallery.isSameDay('1990-125-24', '1990-01-01');
+        }).toThrowError(DateGalleryInvalidDateError);
+  
+        expect(() => {
+          dateGallery.isSameDay('1990-125-24', '1990-01-01');
+        }).toThrowError(
+          'uiloos > DateGallery > isSameDay > "a" is an or contains an invalid date'
+        );
+  
+        expect(() => {
+          dateGallery.isSameDay(new Date('1990-125-24'), new Date('1990-01-01'));
+        }).toThrowError(DateGalleryInvalidDateError);
+  
+        expect(() => {
+          dateGallery.isSameDay(new Date('1990-125-24'), new Date('1990-01-01'));
+        }).toThrowError(
+          'uiloos > DateGallery > isSameDay > "a" is an or contains an invalid date'
+        );
+  
+        expect(() => {
+          dateGallery.isSameDay('1990-01-01', '1990-125-24',);
+        }).toThrowError(DateGalleryInvalidDateError);
+  
+        expect(() => {
+          dateGallery.isSameDay('1990-01-01', '1990-125-24' );
+        }).toThrowError(
+          'uiloos > DateGallery > isSameDay > "b" is an or contains an invalid date'
+        );
+  
+        expect(() => {
+          dateGallery.isSameDay(new Date('1990-01-01'), new Date('1990-125-24'));
+        }).toThrowError(DateGalleryInvalidDateError);
+  
+        expect(() => {
+          dateGallery.isSameDay(new Date('1990-01-01'), new Date('1990-125-24'));
+        }).toThrowError(
+          'uiloos > DateGallery > isSameDay > "b" is an or contains an invalid date'
+        );
+  
+        expect(subscriber).toHaveBeenCalledTimes(0);
+      });
+  
+      test('should know when dates are the same', () => {
+        const dateGallery: DateGallery<string> = new DateGallery({
+          mode: 'week',
+          isUTC: true
+        });
+  
+        const subscriber = autoSubscribe(dateGallery);
+  
+        expect(dateGallery.isSameDay('2000-01-01', '2000-01-01')).toBe(true);
+        expect(dateGallery.isSameDay('2000-01-01T00:00-0500', '2000-01-01T00:00-0500')).toBe(true);
+        expect(dateGallery.isSameDay('2000-01-01T13:00Z', '2000-01-01T14:00Z')).toBe(true);
+        expect(dateGallery.isSameDay('2000-01-01T00:00', '2000-01-01T00:00')).toBe(true);
+        expect(dateGallery.isSameDay('2000-01-01T00:00Z', '2000-01-01T23:59Z')).toBe(true);
+
+        expect(dateGallery.isSameDay('2000-01-01', '2000-01-02')).toBe(false);
+        expect(dateGallery.isSameDay('2000-01-01T00:00-0500', '2000-01-01T00:00+0500')).toBe(false);
+
+        expect(dateGallery.isSameDay(new Date('2000-01-01'), new Date('2000-01-01'))).toBe(true);
+        expect(dateGallery.isSameDay(new Date('2000-01-01T00:00-0500'), new Date('2000-01-01T00:00-0500'))).toBe(true);
+        expect(dateGallery.isSameDay(new Date('2000-01-01T13:00Z'), new Date('2000-01-01T14:00Z'))).toBe(true);
+        expect(dateGallery.isSameDay(new Date('2000-01-01T00:00'), new Date('2000-01-01T00:00'))).toBe(true);
+        expect(dateGallery.isSameDay(new Date('2000-01-01T00:00Z'), new Date('2000-01-01T23:59Z'))).toBe(true);
+
+        expect(dateGallery.isSameDay(new Date('2000-01-01'), new Date('2000-01-02'))).toBe(false);
+        expect(dateGallery.isSameDay(new Date('2000-01-01T00:00-0500'), new Date('2000-01-01T00:00+0500'))).toBe(false);
+      
+        expect(subscriber).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    describe('when isUTC is false', () => {
+      test('should error when given a malformed date', () => {
+        const dateGallery: DateGallery<string> = new DateGallery({
+          mode: 'week',
+          isUTC: false
+        });
+  
+        const subscriber = autoSubscribe(dateGallery);
+  
+        expect(() => {
+          dateGallery.isSameDay('1990-125-24', '1990-01-01');
+        }).toThrowError(DateGalleryInvalidDateError);
+  
+        expect(() => {
+          dateGallery.isSameDay('1990-125-24', '1990-01-01');
+        }).toThrowError(
+          'uiloos > DateGallery > isSameDay > "a" is an or contains an invalid date'
+        );
+  
+        expect(() => {
+          dateGallery.isSameDay(new Date('1990-125-24'), new Date('1990-01-01'));
+        }).toThrowError(DateGalleryInvalidDateError);
+  
+        expect(() => {
+          dateGallery.isSameDay(new Date('1990-125-24'), new Date('1990-01-01'));
+        }).toThrowError(
+          'uiloos > DateGallery > isSameDay > "a" is an or contains an invalid date'
+        );
+  
+        expect(() => {
+          dateGallery.isSameDay('1990-01-01', '1990-125-24',);
+        }).toThrowError(DateGalleryInvalidDateError);
+  
+        expect(() => {
+          dateGallery.isSameDay('1990-01-01', '1990-125-24' );
+        }).toThrowError(
+          'uiloos > DateGallery > isSameDay > "b" is an or contains an invalid date'
+        );
+  
+        expect(() => {
+          dateGallery.isSameDay(new Date('1990-01-01'), new Date('1990-125-24'));
+        }).toThrowError(DateGalleryInvalidDateError);
+  
+        expect(() => {
+          dateGallery.isSameDay(new Date('1990-01-01'), new Date('1990-125-24'));
+        }).toThrowError(
+          'uiloos > DateGallery > isSameDay > "b" is an or contains an invalid date'
+        );
+  
+        expect(subscriber).toHaveBeenCalledTimes(0);
+      });
+  
+      test('should know when dates are the same', () => {
+        const dateGallery: DateGallery<string> = new DateGallery({
+          mode: 'week',
+          isUTC: false
+        });
+  
+        const subscriber = autoSubscribe(dateGallery);
+  
+        expect(dateGallery.isSameDay('2000-01-01', '2000-01-01')).toBe(true);
+        expect(dateGallery.isSameDay('2000-01-01T00:00-0500', '2000-01-01T00:00-0500')).toBe(true);
+        expect(dateGallery.isSameDay('2000-01-01T13:00Z', '2000-01-01T14:00Z')).toBe(true);
+        expect(dateGallery.isSameDay('2000-01-01T00:00', '2000-01-01T00:00')).toBe(true);
+        
+        // In samoa this is not the same day, due to the hour difference
+        expect(dateGallery.isSameDay('2000-01-01T00:00Z', '2000-01-01T23:59Z')).toBe(false);
+
+        // Twist around midnight samoan time
+        expect(dateGallery.isSameDay('2000-01-01T00:00Z', '1999-12-31T10:59Z')).toBe(false);
+        expect(dateGallery.isSameDay('2000-01-01T00:00Z', '1999-12-31T11:00Z')).toBe(true);
+        expect(dateGallery.isSameDay('2000-01-01T00:00Z', '1999-12-31T11:01Z')).toBe(true);
+
+        expect(dateGallery.isSameDay('2000-01-01', '2000-01-02')).toBe(false);
+
+        expect(dateGallery.isSameDay(new Date('2000-01-01'),new Date( '2000-01-01'))).toBe(true);
+        expect(dateGallery.isSameDay(new Date('2000-01-01T00:00-0500'),new Date( '2000-01-01T00:00-0500'))).toBe(true);
+        expect(dateGallery.isSameDay(new Date('2000-01-01T13:00Z'), new Date('2000-01-01T14:00Z'))).toBe(true);
+        expect(dateGallery.isSameDay(new Date('2000-01-01T00:00'),new Date( '2000-01-01T00:00'))).toBe(true);
+        
+        // In samoa this is not the same day, due to the hour difference
+        expect(dateGallery.isSameDay(new Date('2000-01-01T00:00Z'), new Date('2000-01-01T23:59Z'))).toBe(false);
+
+        // Twist around midnight samoan time
+        expect(dateGallery.isSameDay(new Date('2000-01-01T00:00Z'), new Date('1999-12-31T10:59Z'))).toBe(false);
+        expect(dateGallery.isSameDay(new Date('2000-01-01T00:00Z'), new Date('1999-12-31T11:00Z'))).toBe(true);
+        expect(dateGallery.isSameDay(new Date('2000-01-01T00:00Z'), new Date('1999-12-31T11:01Z'))).toBe(true);
+
+        expect(dateGallery.isSameDay(new Date('2000-01-01'), new Date('2000-01-02'))).toBe(false);
+      
+        expect(subscriber).toHaveBeenCalledTimes(0);
+      });
+    });
+  });
+
   // These test should pass TypeScript checking
   describe('generics', () => {
     describe('T', () => {
