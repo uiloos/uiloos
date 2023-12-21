@@ -24,6 +24,7 @@ import {
   DateGalleryDayOfWeek,
   DateGalleryEventAddedEvent,
   DateGalleryEventConfig,
+  DateGalleryEventDataChangedEvent,
   DateGalleryEventMovedEvent,
   DateGalleryEventRemovedEvent,
   DateGalleryFrame,
@@ -262,7 +263,7 @@ export class DateGallery<T>
   /**
    * Contains the history of the changes in the contents array.
    *
-   * Tracks 15 types of changes:
+   * Tracks 11 types of changes:
    *
    *  1. INITIALIZED: fired when DateGallery is initialized.
    *
@@ -278,13 +279,20 @@ export class DateGallery<T>
    *
    *  6. DATE_DESELECTED: fires when a date is deselected.
    *
-   *  7. DATE_DESELECTED_MULTIPLE: fires when multiple dates are deselected.
+   *  7. DATE_DESELECTED_MULTIPLE: fires when multiple dates are 
+   *     deselected.
    *
-   *  8. EVENT_ADDED: fires when an event such as a birthday / appointment is added.
+   *  8. EVENT_ADDED: fires when an event such as a birthday / 
+   *     appointment is added.
    *
-   *  9. EVENT_REMOVED:  fires when an event such as a birthday / appointment is removed.
+   *  9. EVENT_REMOVED:  fires when an event such as a birthday / 
+   *     appointment is removed.
    *
-   *  10. EVENT_MOVED':  fires when an event such as a birthday / appointment is moved.
+   *  10. EVENT_MOVED':  fires when an event such as a birthday / 
+   *      appointment is moved.
+   * 
+   *  11. EVENT_MOVED':  fires when an event such as a birthday / 
+   *      appointment has its data changed.
    *
    * Goes only as far back as configured in the `Config` property
    * `keepHistoryFor`, to prevent an infinitely growing history.
@@ -1073,7 +1081,7 @@ export class DateGallery<T>
     const index = this.events.indexOf(event);
 
     if (index === -1) {
-      throw new DateGalleryEventNotFoundError();
+      throw new DateGalleryEventNotFoundError('moveEvent');
     }
 
     event.startDate = startDate;
@@ -1094,6 +1102,42 @@ export class DateGallery<T>
     const e: DateGalleryEventMovedEvent<T> = {
       type: 'EVENT_MOVED',
       event,
+      time: new Date(),
+    };
+
+    this._inform(e);
+  }
+
+  /**
+   * Changes the data of the given DateGalleryEvent, and informs 
+   * the subscribers of the change. 
+   *
+   * Note: if you provide the exact same `data` it will still set the 
+   * `data` and inform the subscribers, even though nothing has
+   * actually changed. 
+   * 
+   * This way, when `data` is an object or an array, you can mutate
+   * the object / array directly, and pass in the same `data` object
+   * to the `changeData`, without having to create copies.
+   * 
+   * @param {DateGalleryEvent<T>} view The DateGalleryEvent to change the data for
+   * @param {T} data The new data for the DateGalleryEvent
+   * @throws {DateGalleryEventNotFoundError} item must be in the views array based on === equality
+   * @since 1.6.0
+   */
+  public changeEventData(event: DateGalleryEvent<T>, data: T): void {
+    const index = this.events.indexOf(event);
+
+    if (index === -1) {
+      throw new DateGalleryEventNotFoundError('changeEventData');
+    }
+
+    event.data = data;
+
+    const e: DateGalleryEventDataChangedEvent<T> = {
+      type: 'EVENT_DATA_CHANGED',
+      event,
+      data,
       time: new Date(),
     };
 

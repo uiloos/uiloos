@@ -377,7 +377,8 @@ export type DateGallerySubscriberEventType =
   | 'DATE_DESELECTED_MULTIPLE'
   | 'EVENT_ADDED'
   | 'EVENT_REMOVED'
-  | 'EVENT_MOVED';
+  | 'EVENT_MOVED'
+  | 'EVENT_DATA_CHANGED';
 
 /**
  * Represents an event which happened in the DateGallery. Based
@@ -588,6 +589,33 @@ export type DateGalleryEventMovedEvent<T> = DateGalleryBaseEvent & {
 };
 
 /**
+ * Represents a changing of the data of an event.
+ *
+ * @since 1.6.0
+ */
+export type DateGalleryEventDataChangedEvent<T> = DateGalleryBaseEvent & {
+  /**
+   * Which type occurred
+   *
+   * @since 1.6.0
+   */
+  type: 'EVENT_DATA_CHANGED';
+
+  /**
+   * The event which had its data changed
+   *
+   * @since 1.6.0
+   */
+  event: DateGalleryEvent<T>;
+
+  /**
+   * The new data for the DateGalleryEvent
+   *
+   * @since 1.6.0
+   */
+  data: T;
+};
+/**
  * Represents the fact that the date frames mode has changed.
  *
  * @since 1.6.0
@@ -669,4 +697,5 @@ export type DateGallerySubscriberEvent<T> =
   | DateGalleryAnchorDateChangedEvent<T>
   | DateGalleryDateSelectedMultipleEvent
   | DateGalleryDateDeselectedMultipleEvent
-  | DateGalleryEventMovedEvent<T>;
+  | DateGalleryEventMovedEvent<T>
+  | DateGalleryEventDataChangedEvent<T>

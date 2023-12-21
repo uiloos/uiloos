@@ -16,9 +16,9 @@ export class DateGalleryEventNotFoundError extends Error {
    *
    * @since 1.6.0
    */
-  constructor() {
+  constructor(method: string) {
     super(
-      `${common} moveEvent > event cannot be found in DateGallery`
+      `${common} ${method} > "DateGalleryEvent" not found in events array`
     );
     this.name = 'DateGalleryEventNotFoundError';
   }

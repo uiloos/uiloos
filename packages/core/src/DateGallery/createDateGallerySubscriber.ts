@@ -13,6 +13,7 @@ import {
   DateGalleryModeChangedEvent,
   DateGallerySubscriber,
   DateGallerySubscriberEvent,
+  DateGalleryEventDataChangedEvent
 } from './types';
 
 /**
@@ -136,6 +137,16 @@ export type CreateDateGallerySubscriberConfig<T> = {
    * @since 1.6.0
    */
   onEventMoved?: (event: DateGalleryEventMovedEvent<T>, dateGallery: DateGallery<T>) => void;
+
+  /**
+   * Method which is called whenever an `EVENT_DATA_CHANGED` event is fired
+   * from within the DateGallery.
+   *
+   * @param {DateGalleryEventDataChangedEvent<T>} event The event that was fired.
+   * @param {DateGallery<T>} dateGallery The DateGallery the event was fired from
+   * @since 1.6.0
+   */
+  onEventDataChanged?: (event: DateGalleryEventDataChangedEvent<T>, dateGallery: DateGallery<T>) => void;
 };
 
 /**
@@ -220,6 +231,10 @@ export type CreateDateGallerySubscriberConfig<T> = {
  * 
  *   onEventMoved(event, dateGallery) {
  *     console.log('onEventMoved', event, dateGallery)
+ *   },
+ * 
+ *   onEventDataChanged(event, dateGallery) {
+ *     console.log('onEventDataChanged', event, dateGallery)
  *   },
  * });
  * ```

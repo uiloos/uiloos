@@ -38037,7 +38037,7 @@ describe('DateGallery', () => {
           endDate: '2000-01-01 15:00',
         });
       }).toThrowError(
-        'uiloos > DateGallery > moveEvent > event cannot be found in DateGallery'
+        'uiloos > DateGallery > moveEvent > "DateGalleryEvent" not found in events array'
       );
 
       expect(subscriber).toBeCalledTimes(0);
@@ -39373,6 +39373,447 @@ describe('DateGallery', () => {
     });
   });
 
+  describe('changeEventData', () => {
+    describe('changeEventData', () => {
+      test('throws out DateGalleryEventNotFoundError when view is not in views array', () => {
+        const dateGallery = new DateGallery<string>();
+        const subscriber = autoSubscribe(dateGallery);
+
+        const eventFromOtherChannel = new DateGalleryEvent(
+          new DateGallery<string>(),
+          'blaat',
+          new Date(),
+          new Date()
+        );
+
+        expect(() => {
+          dateGallery.changeEventData(eventFromOtherChannel, 'OK');
+        }).toThrowError(
+          `uiloos > DateGallery > changeEventData > "DateGalleryEvent" not found in events array`
+        );
+
+        expect(() => {
+          dateGallery.changeEventData(eventFromOtherChannel, 'OK');
+        }).toThrowError(DateGalleryEventNotFoundError);
+
+        // It should not have resulted in any events
+        expect(subscriber).toHaveBeenCalledTimes(0);
+      });
+
+      test('throws out DateGalleryEventNotFoundError when event is no longer in events array', () => {
+        const dateGallery = new DateGallery<string>();
+        const subscriber = autoSubscribe(dateGallery);
+
+        const event = dateGallery.addEvent({
+          data: 'HEYO',
+          startDate: new Date(),
+          endDate: new Date(),
+        });
+        // One for addEvent
+        expect(subscriber).toHaveBeenCalledTimes(1);
+
+        event.remove();
+        // One for removed
+        expect(subscriber).toHaveBeenCalledTimes(2);
+
+        // Now changeData it should throw an error
+        expect(() => {
+          dateGallery.changeEventData(event, 'OK');
+        }).toThrowError(DateGalleryEventNotFoundError);
+
+        // It should not have resulted in more than 2 events.
+        expect(subscriber).toHaveBeenCalledTimes(2);
+      });
+
+      test('should change the data and inform subscribers', async () => {
+        const dateGallery = new DateGallery<string>({
+          mode: 'day'
+        });
+        const subscriber = autoSubscribe(dateGallery);
+
+        const event = dateGallery.addEvent({
+          data: 'HEYO',
+          startDate: new Date(),
+          endDate: new Date(),
+        });
+        // One for addEvent
+        expect(subscriber).toHaveBeenCalledTimes(1);
+
+        dateGallery.changeEventData(event, 'OK');
+
+        // One for addEvent, one for changeData
+        expect(subscriber).toBeCalledTimes(2);
+       
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: frameToTestFrame(dateGallery.frames[0]),
+            frames: [
+              {
+                anchorDate: 'za 01-01-2000 00:00',
+                dates: [
+                  {
+                    date: 'za 01-01-2000 00:00',
+                    isPadding: false,
+                    isSelected: false,
+                    isToday: true,
+                    events: [
+                      {
+                        data: 'OK',
+                        startDate: 'za 01-01-2000 01:00',
+                        endDate: 'za 01-01-2000 01:00',
+                        overlapsWith: [],
+                        spansMultipleDays: false
+                      },
+                    ],
+                    hasEvents: true,
+                    hasEventsWithOverlap: false,
+                  },
+                ],
+                events: [
+                  {
+                    data: 'OK',
+                    startDate: 'za 01-01-2000 01:00',
+                    endDate: 'za 01-01-2000 01:00',
+                    overlapsWith: [],
+                    spansMultipleDays: false
+                  },
+                ],
+              },
+            ],
+            events: [
+              {
+                data: 'OK',
+                startDate: 'za 01-01-2000 01:00',
+                endDate: 'za 01-01-2000 01:00',
+                overlapsWith: [],
+                spansMultipleDays: false
+              },
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_DATA_CHANGED',
+            event,
+            data: 'OK',
+            time: new Date()
+          }
+        );
+      });
+      
+      test('should still inform when data stays the same, for primitives', async () => {
+        const dateGallery = new DateGallery<string>({
+          mode: 'day'
+        });
+        const subscriber = autoSubscribe(dateGallery);
+
+        const event = dateGallery.addEvent({
+          data: 'same',
+          startDate: new Date(),
+          endDate: new Date(),
+        });
+        // One for addEvent
+        expect(subscriber).toHaveBeenCalledTimes(1);
+
+        dateGallery.changeEventData(event, 'same');
+
+        // One for addEvent, one for changeData
+        expect(subscriber).toBeCalledTimes(2);
+       
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            firstFrame: frameToTestFrame(dateGallery.frames[0]),
+            frames: [
+              {
+                anchorDate: 'za 01-01-2000 00:00',
+                dates: [
+                  {
+                    date: 'za 01-01-2000 00:00',
+                    isPadding: false,
+                    isSelected: false,
+                    isToday: true,
+                    events: [
+                      {
+                        data: 'same',
+                        startDate: 'za 01-01-2000 01:00',
+                        endDate: 'za 01-01-2000 01:00',
+                        overlapsWith: [],
+                        spansMultipleDays: false
+                      },
+                    ],
+                    hasEvents: true,
+                    hasEventsWithOverlap: false,
+                  },
+                ],
+                events: [
+                  {
+                    data: 'same',
+                    startDate: 'za 01-01-2000 01:00',
+                    endDate: 'za 01-01-2000 01:00',
+                    overlapsWith: [],
+                    spansMultipleDays: false
+                  },
+                ],
+              },
+            ],
+            events: [
+              {
+                data: 'same',
+                startDate: 'za 01-01-2000 01:00',
+                endDate: 'za 01-01-2000 01:00',
+                overlapsWith: [],
+                spansMultipleDays: false
+              },
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_DATA_CHANGED',
+            event,
+            data: 'same',
+            time: new Date()
+          }
+        );
+      });
+
+      test('should still inform when data stays the same, for objects', async () => {
+        const dateGallery = new DateGallery<{
+          title: string,
+          description: string;
+        }>({
+          mode: 'day'
+        });
+
+        const subscriber = jest.fn();
+        unsubscribe = dateGallery.subscribe(subscriber);
+
+        const event = dateGallery.addEvent({
+          data: {
+            title: 'doctors appointment',
+            description: 'embarrasing'
+          },
+          startDate: new Date(),
+          endDate: new Date(),
+        });
+        // One for addEvent
+        expect(subscriber).toHaveBeenCalledTimes(1);
+
+        event.data.title = 'private';
+
+        dateGallery.changeEventData(event, event.data);
+
+        // One for present, one for changeData
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            isUTC: false,
+            mode: 'day',
+            firstDayOfWeek: 0,
+            // @ts-expect-error allow non T = string
+            firstFrame: frameToTestFrame(dateGallery.frames[0]),
+            frames: [
+              {
+                anchorDate: 'za 01-01-2000 00:00',
+                dates: [
+                  {
+                    date: 'za 01-01-2000 00:00',
+                    isPadding: false,
+                    isSelected: false,
+                    isToday: true,
+                    events: [
+                      {
+                        // @ts-expect-error allow non T = string
+                        data: {
+                          title: 'private',
+                          description: 'embarrasing'
+                        },
+                        startDate: 'za 01-01-2000 01:00',
+                        endDate: 'za 01-01-2000 01:00',
+                        overlapsWith: [],
+                        spansMultipleDays: false
+                      },
+                    ],
+                    hasEvents: true,
+                    hasEventsWithOverlap: false,
+                  },
+                ],
+                events: [
+                  {
+                    // @ts-expect-error allow non T = string
+                    data: {
+                      title: 'private',
+                      description: 'embarrasing'
+                    },
+                    startDate: 'za 01-01-2000 01:00',
+                    endDate: 'za 01-01-2000 01:00',
+                    overlapsWith: [],
+                    spansMultipleDays: false
+                  },
+                ],
+              },
+            ],
+            events: [
+              {
+                // @ts-expect-error allow non T = string
+                data: {
+                  title: 'private',
+                  description: 'embarrasing'
+                },
+                startDate: 'za 01-01-2000 01:00',
+                endDate: 'za 01-01-2000 01:00',
+                overlapsWith: [],
+                spansMultipleDays: false
+              },
+            ],
+            selectedDates: [],
+          },
+          {
+            type: 'EVENT_DATA_CHANGED',
+            event,
+            data: {
+              title: 'private',
+              description: 'embarrasing'
+            },
+            time: new Date()
+          }
+        );
+      });
+    });
+
+    test('changeEventData via DateGalleryevent', async () => {
+      const dateGallery = new DateGallery<string>({
+        mode: 'day'
+      });
+      const subscriber = autoSubscribe(dateGallery);
+
+      const event = dateGallery.addEvent({
+        data: 'HEYO',
+        startDate: new Date(),
+        endDate: new Date(),
+      });
+      // One for addEvent
+      expect(subscriber).toHaveBeenCalledTimes(1);
+
+      event.changeData('OK');
+
+      // One for addEvent, one for changeData
+      expect(subscriber).toBeCalledTimes(2);
+     
+      assertLastSubscriber(
+        subscriber,
+        {
+          history: [],
+          isUTC: false,
+          mode: 'day',
+          firstDayOfWeek: 0,
+          firstFrame: frameToTestFrame(dateGallery.frames[0]),
+          frames: [
+            {
+              anchorDate: 'za 01-01-2000 00:00',
+              dates: [
+                {
+                  date: 'za 01-01-2000 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  isToday: true,
+                  events: [
+                    {
+                      data: 'OK',
+                      startDate: 'za 01-01-2000 01:00',
+                      endDate: 'za 01-01-2000 01:00',
+                      overlapsWith: [],
+                      spansMultipleDays: false
+                    },
+                  ],
+                  hasEvents: true,
+                  hasEventsWithOverlap: false,
+                },
+              ],
+              events: [
+                {
+                  data: 'OK',
+                  startDate: 'za 01-01-2000 01:00',
+                  endDate: 'za 01-01-2000 01:00',
+                  overlapsWith: [],
+                  spansMultipleDays: false
+                },
+              ],
+            },
+          ],
+          events: [
+            {
+              data: 'OK',
+              startDate: 'za 01-01-2000 01:00',
+              endDate: 'za 01-01-2000 01:00',
+              overlapsWith: [],
+              spansMultipleDays: false
+            },
+          ],
+          selectedDates: [],
+        },
+        {
+          type: 'EVENT_DATA_CHANGED',
+          event,
+          data: 'OK',
+          time: new Date()
+        }
+      );
+    });
+    //   const viewChannel = new ViewChannel<string, string>();
+    //   const subscriber = autoSubscribe(viewChannel);
+
+    //   const view = viewChannel.present({
+    //     data: 'b',
+    //   });
+
+    //   view.changeData('z');
+
+    //   // One for present, one for changeData
+    //   expect(subscriber).toBeCalledTimes(2);
+    //   assertLastSubscriber(
+    //     subscriber,
+    //     {
+    //       history: [],
+    //       views: [
+    //         {
+    //           index: 0,
+    //           priority: [0],
+    //           data: 'z',
+    //           isPresented: true,
+    //           autoDismiss: {
+    //             isPlaying: false,
+    //             duration: 0,
+    //           },
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       type: 'DATA_CHANGED',
+    //       index: 0,
+    //       data: 'z',
+    //       // @ts-expect-error objectContaining works
+    //       view: expect.objectContaining({
+    //         index: 0,
+    //         data: 'z',
+    //         priority: [0],
+    //         isPresented: true,
+    //       }),
+    //       time: new Date(),
+    //     }
+    //   );
+    // });
+  });
+
   describe('isSameDay', () => {
     describe('when isUTC is true', () => {
       test('should error when given a malformed date', () => {
@@ -39858,6 +40299,50 @@ describe('DateGallery', () => {
         }),
       ]);
 
+      dateGallery.changeEventData(event, 'yo');
+
+      expect(dateGallery.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+
+        expect.objectContaining({
+          type: 'FRAME_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'MODE_CHANGED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_DESELECTED',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_SELECTED_MULTIPLE',
+        }),
+
+        expect.objectContaining({
+          type: 'DATE_DESELECTED_MULTIPLE',
+        }),
+
+        expect.objectContaining({
+          type: 'EVENT_ADDED',
+        }),
+
+        expect.objectContaining({
+          type: 'EVENT_MOVED',
+        }),
+
+        expect.objectContaining({
+          type: 'EVENT_DATA_CHANGED',
+        }),
+      ]);
+
       dateGallery.removeEvent(event);
 
       expect(dateGallery.history).toEqual([
@@ -39895,6 +40380,10 @@ describe('DateGallery', () => {
 
         expect.objectContaining({
           type: 'EVENT_MOVED',
+        }),
+
+        expect.objectContaining({
+          type: 'EVENT_DATA_CHANGED',
         }),
 
         expect.objectContaining({
@@ -40024,6 +40513,7 @@ describe('DateGallery', () => {
         onEventAdded: jest.fn(),
         onEventRemoved: jest.fn(),
         onEventMoved: jest.fn(),
+        onEventDataChanged: jest.fn(),
       };
 
       const subscriber = createDateGallerySubscriber<string>(config);
@@ -40126,6 +40616,16 @@ describe('DateGallery', () => {
       expect(config.onEventMoved).lastCalledWith(
         expect.objectContaining({
           type: 'EVENT_MOVED',
+        }),
+        dateGallery
+      );
+
+      dateGallery.changeEventData(event, 'yo');
+
+      expect(config.onEventDataChanged).toBeCalledTimes(1);
+      expect(config.onEventDataChanged).lastCalledWith(
+        expect.objectContaining({
+          type: 'EVENT_DATA_CHANGED',
         }),
         dateGallery
       );

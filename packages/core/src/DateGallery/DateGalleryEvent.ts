@@ -156,4 +156,23 @@ export class DateGalleryEvent<T> {
   public move(range: DateGalleryRange) {
     this.dateGallery.moveEvent(this, range);
   }
+
+  /**
+   * Changes the data of this `DateGalleryEvent`, and informs the 
+   * subscribers of the change. 
+   * 
+   * Note: if you provide the exact same `data` it will still set the 
+   * `data` and inform the subscribers, even though nothing has
+   * actually changed. 
+   * 
+   * This way, when `data` is an object or an array, you can mutate
+   * the object / array directly, and pass in the same `data` object
+   * to the `changeData`, without having to create copies.
+   *
+   * @param {T} data The new data for this DateGalleryEvent
+   * @since 1.6.0
+   */
+  public changeData(data: T): void {
+    this.dateGallery.changeEventData(this, data);
+  }
 }
