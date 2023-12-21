@@ -28,7 +28,7 @@ export const europeFormatter = new Intl.DateTimeFormat('nl-Nl', {
 
 export type DateGallerySansDatesAndEvents<T> = Pick<
   DateGallery<T>,
-  'history' | 'firstDayOfWeek' | 'mode' | 'isUTC'
+  'history' | 'firstDayOfWeek' | 'mode' | 'isUTC' | 'numberOfFrames'
 >;
 
 type TestFrame<T> = {
@@ -43,8 +43,6 @@ export type TestState<T> = DateGallerySansDatesAndEvents<T> & {
   events: TestEvent<T>[];
   selectedDates: string[];
 };
-
-
 
 export type TestEvent<T> = Pick<DateGalleryEvent<T>, 'spansMultipleDays'> & {
   data: string;
@@ -79,6 +77,7 @@ export function assertState(state: DateGallery<string>, expected: TestState<stri
 
     events: state.events.map(eventToTestEvent),
     selectedDates: state.selectedDates.map((date) => formatter.format(date)),
+    numberOfFrames: state.numberOfFrames,
   };
 
   expect(callAsTestState).toEqual(expected);

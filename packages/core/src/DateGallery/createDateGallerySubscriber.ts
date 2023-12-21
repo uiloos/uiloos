@@ -10,10 +10,10 @@ import {
   DateGalleryEventRemovedEvent,
   DateGalleryFrameChangedEvent,
   DateGalleryInitializedEvent,
-  DateGalleryModeChangedEvent,
   DateGallerySubscriber,
   DateGallerySubscriberEvent,
-  DateGalleryEventDataChangedEvent
+  DateGalleryEventDataChangedEvent,
+  DateGalleryConfigChangedEvent
 } from './types';
 
 /**
@@ -59,14 +59,14 @@ export type CreateDateGallerySubscriberConfig<T> = {
   onFrameChanged?: (event: DateGalleryFrameChangedEvent<T>, dateGallery: DateGallery<T>) => void;
   
   /**
-   * Method which is called whenever an `MOVED` event is fired
+   * Method which is called whenever an `CONFIG_CHANGED` event is fired
    * from within the DateGallery.
    *
-   * @param {DateGalleryModeChangedEvent<T>} event The event that was fired.
+   * @param {DateGalleryConfigChangedEvent<T>} event The event that was fired.
    * @param {DateGallery<T>} dateGallery The DateGallery the event was fired from
    * @since 1.6.0
    */
-  onModeChanged?: (event: DateGalleryModeChangedEvent<T>, dateGallery: DateGallery<T>) => void;
+  onConfigChanged?: (event: DateGalleryConfigChangedEvent<T>, dateGallery: DateGallery<T>) => void;
   
   /**
    * Method which is called whenever an `MOVED` event is fired
@@ -201,8 +201,8 @@ export type CreateDateGallerySubscriberConfig<T> = {
  *     console.log('onFrameChanged', event, dateGallery)
  *   },
  * 
- *   onModeChanged(event, dateGallery) {
- *     console.log('onModeChanged', event, dateGallery)
+ *   onConfigChanged(event, dateGallery) {
+ *     console.log('onConfigChanged', event, dateGallery)
  *   },
  * 
  *   onDateSelected(event, dateGallery) {

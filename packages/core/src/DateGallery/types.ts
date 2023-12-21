@@ -54,13 +54,13 @@ export type DateGalleryConfig<T> = {
    * Whether the `DateGallery` is in UTC mode or not.
    *
    * When the `DateGallery` is in UTC mode all dates that are given
-   * to you via the `DateGallery` through a `DateGalleryDate` are 
+   * to you via the `DateGallery` through a `DateGalleryDate` are
    * given in UTC.
-   * 
+   *
    * Also all operations on `Date` objects within the `DateGallery`
    * or done via the `UTC` variants.
-   * 
-   * UTC is useful for when you want all datepickers / calendars 
+   *
+   * UTC is useful for when you want all datepickers / calendars
    * to look the same al around the world, which is not very often.
    *
    * Defaults to `false` meaning the browsers local offset is used.
@@ -70,7 +70,7 @@ export type DateGalleryConfig<T> = {
   isUTC?: boolean;
 
   /**
-   * A date that will act as the initial anchor date for the date 
+   * A date that will act as the initial anchor date for the date
    * frame.
    *
    * It will set the date frame to the "closest" date given the
@@ -158,6 +158,99 @@ export type DateGalleryConfig<T> = {
 };
 
 /**
+ * The configuration object for the `DateGallery`'s `changeConfig` 
+ * method.
+ *
+ * All properties are optional and can be used in any combination.
+ * Meaning you can change the `mode` and `numberOfFrames`, or the
+ * `mode` and `initialDate` or just the `numberOfFrames`.
+ *
+ * @since 1.6.0
+ */
+export type DateGalleryChangeConfig = {
+  /**
+   * The mode the `DateGallery` is going to start on.
+   *
+   * Can be one of these modes:
+   *
+   * 1. 'day': a single day per frame.
+   *
+   * 2. 'week': seven days per frame, starting at the configured
+   *    `firstDayOfWeek`.
+   *
+   * 3. 'month': all days within a calendar month per frame. A frame
+   *     will then always start on the first of the month, and end on
+   *     the last day of the month.
+   *
+   * 4. 'month-six-weeks': all days within a calendar month, but padded
+   *    out to six weeks. Meaning that there are always 42 days in the
+   *    frame. Useful for when you want you calendar / datepicker to be
+   *    visually stable height wise.
+   *
+   *    Starts the days on the configured `firstDayOfWeek`.
+   *
+   * 5. 'month-pad-to-week': all days within a calendar month, but
+   *    padded out to the closest `firstDayOfWeek`.
+   *
+   *    For example given that firstDayOfWeek is set to 0 / Sunday:
+   *    if the first day of the month starts on Wednesday it will pad to
+   *    the previous Sunday of the previous month.
+   *
+   *    If the month ends on a friday, it will add the next saturday
+   *    of the next month.
+   *
+   *    Starts the days on the configured `firstDayOfWeek`.
+   *
+   * 6. 'year': a frame will contain all 365 days (or 366 when a leap year)
+   *     within a year.
+   *
+   * Defaults to `undefined` meaning the mode is not changed.
+   *
+   * @since 1.6.0
+   */
+  mode?: DateGalleryMode;
+
+  /**
+   * An optional date that will act as the initial anchor date
+   * for the date frame.
+   *
+   * When no `date` is provided the DateGallery will move the frames
+   * to the closest date. For example when going from `day` to `year`
+   * the year will be set to the year of the current anchored date.
+   * When you move from `year` to `month` it will go to January of
+   * that year etc etc.
+   *
+   * Can either be a `Date` instance, or a `string` which can be
+   * passed to the `Date` constructor to make a date.
+   *
+   * For example if you use "2023-06-23" as the `initialDate` and the
+   * `mode` is set to 'year', the date frame will be the year 2023. If
+   * for the same `initialDate` the `mode` was set to `month-six-weeks`
+   * the month of `June` would have been the date frame instead.
+   *
+   * Defaults `undefined` meaning the current anchor date is used.
+   *
+   * @since 1.6.0
+   */
+  initialDate?: Date | string;
+
+  /**
+   * The number of frames that are visible at a time for the end user.
+   *
+   * This is useful for when you want to show a multiple frames at
+   * the same time. For example if you an entire years worth of
+   * `month-single-month` calendars you'd set the `numberOfFrames`
+   * to `12`.
+   *
+   * Defaults to `undefined` meaning the current `numberOfFrames`
+   * is used
+   *
+   * @since 1.6.0
+   */
+  numberOfFrames?: number;
+};
+
+/**
  * Represents a frame within the `DateGallery` it is an object
  * containing all dates and events that belong on the frame.
  *
@@ -179,15 +272,15 @@ export type DateGalleryFrame<T> = {
   events: DateGalleryEvent<T>[];
 
   /**
-   * The date this frame is anchored to. 
-   * 
-   * For month based modes it is the first date of the month, for 
-   * `'week'` it is the first day of the week, for `'year'` it is 
+   * The date this frame is anchored to.
+   *
+   * For month based modes it is the first date of the month, for
+   * `'week'` it is the first day of the week, for `'year'` it is
    * the first day of the year.
-   * 
+   *
    * Basically the same as the first date in the `dates` array which
    * is not a padded date.
-   * 
+   *
    * @since 1.6.0
    */
   anchorDate: Date;
@@ -258,9 +351,9 @@ export type DateGalleryDayOfWeek =
   | 6; // 'saturday';
 
 /**
- * An array of strings containing  all predefined modes of the 
+ * An array of strings containing  all predefined modes of the
  * `DateGallery`.
- * 
+ *
  * @see DateGalleryMode
  * @since 1.6.0
  */
@@ -369,8 +462,7 @@ export type DateGallerySubscriber<T> = (
 export type DateGallerySubscriberEventType =
   | 'INITIALIZED'
   | 'FRAME_CHANGED'
-  | 'ANCHOR_DATE_CHANGED'
-  | 'MODE_CHANGED'
+  | 'CONFIG_CHANGED'
   | 'DATE_SELECTED'
   | 'DATE_SELECTED_MULTIPLE'
   | 'DATE_DESELECTED'
@@ -615,61 +707,41 @@ export type DateGalleryEventDataChangedEvent<T> = DateGalleryBaseEvent & {
    */
   data: T;
 };
+
 /**
- * Represents the fact that the date frames mode has changed.
+ * Represents a changing in the DateGallery's `mode`, `initialDate`,
+ * or `numberOfFrames`
  *
  * @since 1.6.0
  */
-export type DateGalleryModeChangedEvent<T> = DateGalleryBaseEvent & {
+export type DateGalleryConfigChangedEvent<T> = DateGalleryBaseEvent & {
   /**
    * Which type occurred
    *
    * @since 1.6.0
    */
-  type: 'MODE_CHANGED';
+  type: 'CONFIG_CHANGED';
 
   /**
-   * The new mode.
+   * The current `mode` the DateGallery now has.
    *
    * @since 1.6.0
    */
   mode: DateGalleryMode;
 
-   /**
-   * The new anchor date, is only changed when changeMode is 
-   * called with the second optional date parameter
-   *
-   * @since 1.6.0
-   */
-   anchorDate: Date;
-
   /**
-   * The newly visible frames.
-   *
-   * @since 1.6.0
-   */
-  frames: DateGalleryFrame<T>[];
-};
-
-/**
- * Represents the fact that the date frames mode has changed.
- *
- * @since 1.6.0
- */
-export type DateGalleryAnchorDateChangedEvent<T> = DateGalleryBaseEvent & {
-  /**
-   * Which type occurred
-   *
-   * @since 1.6.0
-   */
-  type: 'ANCHOR_DATE_CHANGED';
-
-  /**
-   * The new anchor date.
+   * The current anchor date the DateGallery now has.
    *
    * @since 1.6.0
    */
   anchorDate: Date;
+
+  /**
+   * The current `numberOfFrames` the DateGallery now has.
+   *
+   * @since 1.6.0
+   */
+  numberOfFrames: number;
 
   /**
    * The newly visible frames.
@@ -693,9 +765,8 @@ export type DateGallerySubscriberEvent<T> =
   | DateGalleryDateDeselectedEvent
   | DateGalleryEventAddedEvent<T>
   | DateGalleryEventRemovedEvent<T>
-  | DateGalleryModeChangedEvent<T>
-  | DateGalleryAnchorDateChangedEvent<T>
   | DateGalleryDateSelectedMultipleEvent
   | DateGalleryDateDeselectedMultipleEvent
   | DateGalleryEventMovedEvent<T>
   | DateGalleryEventDataChangedEvent<T>
+  | DateGalleryConfigChangedEvent<T>;

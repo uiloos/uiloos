@@ -15,8 +15,9 @@ import { _History } from '../private/History';
 import { _Observer } from '../private/Observer';
 import {
   DATE_GALLERY_MODES,
-  DateGalleryAnchorDateChangedEvent,
+  DateGalleryChangeConfig,
   DateGalleryConfig,
+  DateGalleryConfigChangedEvent,
   DateGalleryDateDeselectedEvent,
   DateGalleryDateDeselectedMultipleEvent,
   DateGalleryDateSelectedEvent,
@@ -31,7 +32,6 @@ import {
   DateGalleryFrameChangedEvent,
   DateGalleryInitializedEvent,
   DateGalleryMode,
-  DateGalleryModeChangedEvent,
   DateGalleryRange,
   DateGallerySubscriber,
   DateGallerySubscriberEvent,
@@ -269,29 +269,27 @@ export class DateGallery<T>
    *
    *  2. FRAME_CHANGED: fired when the frames changes.
    *
-   *  3. MODE_CHANGED: fires when the mode is changed.
-   *
-   *  4. ANCHOR_DATE_CHANGED: fires when the anchor date is changed.
-   *
+   *  3. CONFIG_CHANGED: fires when the config is changed.
+   *   
    *  4. DATE_SELECTED: fires when a date is selected.
    *
    *  5. DATE_SELECTED_MULTIPLE: fires when multiple dates are selected.
    *
    *  6. DATE_DESELECTED: fires when a date is deselected.
    *
-   *  7. DATE_DESELECTED_MULTIPLE: fires when multiple dates are 
+   *  7. DATE_DESELECTED_MULTIPLE: fires when multiple dates are
    *     deselected.
    *
-   *  8. EVENT_ADDED: fires when an event such as a birthday / 
+   *  8. EVENT_ADDED: fires when an event such as a birthday /
    *     appointment is added.
    *
-   *  9. EVENT_REMOVED:  fires when an event such as a birthday / 
+   *  9. EVENT_REMOVED:  fires when an event such as a birthday /
    *     appointment is removed.
    *
-   *  10. EVENT_MOVED':  fires when an event such as a birthday / 
+   *  10. EVENT_MOVED':  fires when an event such as a birthday /
    *      appointment is moved.
-   * 
-   *  11. EVENT_MOVED':  fires when an event such as a birthday / 
+   *
+   *  11. EVENT_MOVED':  fires when an event such as a birthday /
    *      appointment has its data changed.
    *
    * Goes only as far back as configured in the `Config` property
@@ -390,6 +388,7 @@ export class DateGallery<T>
    * @throws {DateGalleryFirstDayOfWeekError} the configured day of the week must be between 0 and 6 inclusive.
    * @throws {DateGalleryInvalidDateError} dates provided must be valid dates
    * @throws {DateGalleryModeError} the mode must be one of the predefined modes
+   * @throws {DateGalleryNumberOfFramesError} numberOfFrames must be a positive number when defined
    * @since 1.6.0
    */
   public initialize(config: DateGalleryConfig<T>): void {
@@ -469,113 +468,86 @@ export class DateGallery<T>
   }
 
   /**
-   * Changes the mode of the DateGallery.
+   * Changes the configuration of the DateGallery, allowing you 
+   * to change the `mode` the initial date and `numberOfFrames`.
    *
-   * You can also optionally provide a `date` which will act as the
-   * initial date to anchor the DateGallery on. Can either be a `Date`
-   * instance, or a `string` which can be passed to the `Date` constructor
-   * to make a date.
+   * All properties are optional and can be used in any combination.
+   * Meaning you can change the `mode` and `numberOfFrames`, or the
+   * `mode` and `initialDate` or just the `numberOfFrames`.
+   * 
+   * Note: the `events` and `selectedDates` are kept as is.
    *
-   * When no `date` is provided the DateGallery will move the frames
-   * to the closest date. For example when going from `day` to `year`
-   * the year will be set to the year of the current anchored date.
-   * When you move from `year` to `month` it will go to January of
-   * that year etc etc.
-   *
-   * @param {DateGalleryMode} mode The mode you want to set the DateGallery on.
-   * @param {Date | string} date An optional date to act as the new initial date
+   * @param {DateGalleryChangeConfig} config The new configuration.
    * @throws {DateGalleryModeError} the mode must be one of the predefined modes
-   * @throws {DateGalleryInvalidDateError} date provided must be valid date
+   * @throws {DateGalleryInvalidDateError} the initialDate when provided must be valid date
+   * @throws {DateGalleryNumberOfFramesError} numberOfFrames must be a positive number when defined
    * @since 1.6.0
    */
-  public changeMode(mode: DateGalleryMode, date?: Date | string): void {
-    const method = 'changeMode';
-
-    // When the mode is set to be the same mode
-    if (this.mode === mode) {
-      // Do nothing when anchorDates match
-      if (!this._shouldChangeAnchor(method, date)) {
-        return;
-      }
-    }
-
-    this._checkMode(mode);
-
-    this.mode = mode;
-
-    this._changeAnchor(method, date);
-
-    const event: DateGalleryModeChangedEvent<T> = {
-      type: 'MODE_CHANGED',
-      mode,
-      anchorDate: new Date(this._anchorDate),
-      frames: this.frames,
-      time: new Date(),
-    };
-
-    this._inform(event);
-  }
-
-  /**
-   * Changes the anchor date of the DateGallery.
-   *
-   * Moves the frames to the new anchor date, and takes into account
-   * the current `mode`.
-   *
-   * The date provided can either be a `Date` instance, or a `string`
-   * which can be passed to the `Date` constructor to make a date.
-   *
-   * @param {Date | string} date A date to act as the new anchor date
-   * @throws {DateGalleryInvalidDateError} date provided must be valid date
-   * @since 1.6.0
-   */
-  public changeAnchorDate(date: Date | string): void {
-    const method = 'changeAnchorDate';
-
-    if (!this._shouldChangeAnchor(method, date)) {
+  public changeConfig(config: DateGalleryChangeConfig): void {
+    // When no new configs are provided do nothing.
+    if (
+      config.initialDate === undefined &&
+      config.mode === undefined &&
+      config.numberOfFrames === undefined
+    ) {
       return;
     }
 
-    this._changeAnchor(method, date);
+    let changed = false;
+    let drag = false;
 
-    const event: DateGalleryAnchorDateChangedEvent<T> = {
-      type: 'ANCHOR_DATE_CHANGED',
-      anchorDate: new Date(this._anchorDate),
-      frames: this.frames,
-      time: new Date(),
-    };
+    const method = 'changeConfig';
 
-    this._inform(event);
-  }
+    if (config.mode !== undefined) {
+      this._checkMode(config.mode);
 
-  private _shouldChangeAnchor(method: string, date?: Date | string): boolean {
-    if (!date) {
-      return false;
+      if (this.mode !== config.mode) {
+        this.mode = config.mode;
+        changed = true;
+        drag = true;
+      }
     }
 
-    // Do nothing when anchorDates match
-    if (
-      this._sameDay(
-        this._dragAnchorFor(this._toDate(date, method, 'date')),
-        this._anchorDate
-      )
-    ) {
-      return false;
+    if (config.initialDate !== undefined) {
+      const date = this._toDate(config.initialDate, method, 'initialDate');
+      this._toMidnight(date);
+
+      if (!this._sameDay(date, this._anchorDate)) {
+        this._anchorDate = date;
+        changed = true;
+        drag = true;
+      }
     }
 
-    return true;
-  }
+    if (config.numberOfFrames !== undefined) {
+      if (config.numberOfFrames <= 0) {
+        throw new DateGalleryNumberOfFramesError();
+      }
 
-  private _changeAnchor(method: string, date?: Date | string): void {
-    // If a date is provided make it the new achorDate
-    if (date) {
-      this._anchorDate = this._toDate(date, method, 'date');
-      this._toMidnight(this._anchorDate);
+      if (this.numberOfFrames !== config.numberOfFrames) {
+        this.numberOfFrames = config.numberOfFrames;
+        changed = true;
+      }
     }
 
-    this._dragAnchor();
+    if (changed) {
+      if (drag) {
+        this._dragAnchor();
+      }
 
-    this._buildFrames();
+      this._buildFrames();
+
+      const event: DateGalleryConfigChangedEvent<T> = {
+        type: 'CONFIG_CHANGED',
+        mode: this.mode,
+        anchorDate: new Date(this._anchorDate),
+        numberOfFrames: this.numberOfFrames,
+        frames: this.frames,
+        time: new Date(),
+      };
+
+      this._inform(event);
+    }
   }
 
   /**
@@ -584,7 +556,9 @@ export class DateGallery<T>
    * @since 1.6.0
    */
   public today() {
-    this.changeAnchorDate(new Date());
+    this.changeConfig({
+      initialDate: new Date()
+    });
   }
 
   private _buildFrames(inform = false): void {
@@ -1109,17 +1083,17 @@ export class DateGallery<T>
   }
 
   /**
-   * Changes the data of the given DateGalleryEvent, and informs 
-   * the subscribers of the change. 
+   * Changes the data of the given DateGalleryEvent, and informs
+   * the subscribers of the change.
    *
-   * Note: if you provide the exact same `data` it will still set the 
+   * Note: if you provide the exact same `data` it will still set the
    * `data` and inform the subscribers, even though nothing has
-   * actually changed. 
-   * 
+   * actually changed.
+   *
    * This way, when `data` is an object or an array, you can mutate
    * the object / array directly, and pass in the same `data` object
    * to the `changeData`, without having to create copies.
-   * 
+   *
    * @param {DateGalleryEvent<T>} view The DateGalleryEvent to change the data for
    * @param {T} data The new data for the DateGalleryEvent
    * @throws {DateGalleryEventNotFoundError} item must be in the views array based on === equality
@@ -1145,31 +1119,25 @@ export class DateGallery<T>
   }
 
   private _dragAnchor() {
-    this._anchorDate = this._dragAnchorFor(this._anchorDate);
-  }
-
-  private _dragAnchorFor(date: Date): Date {
     if (this.mode === 'year') {
       if (this.isUTC) {
-        date.setUTCDate(1);
-        date.setUTCMonth(0);
+        this._anchorDate.setUTCDate(1);
+        this._anchorDate.setUTCMonth(0);
       } else {
-        date.setDate(1);
-        date.setMonth(0);
+        this._anchorDate.setDate(1);
+        this._anchorDate.setMonth(0);
       }
     } else if (this.mode === 'week') {
-      date = this._firstDayOfWeek(date);
+      this._anchorDate = this._firstDayOfWeek(this._anchorDate);
     } else if (this.mode.startsWith('month')) {
       if (this.isUTC) {
-        date.setUTCDate(1);
+        this._anchorDate.setUTCDate(1);
       } else {
-        date.setDate(1);
+        this._anchorDate.setDate(1);
       }
     }
 
     // When mode is 'day' do nothing
-
-    return date;
   }
 
   public _inform(event: DateGallerySubscriberEvent<T>): void {
