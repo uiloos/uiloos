@@ -150,7 +150,7 @@ if (!uiloosTypewriter.createTypewriterSubscriber) {
 }
 
 load('dist/uiloos-date-gallery-VERSION.min.js');
-const dateGallery = new uiloosDateGallery.uiloosDateGallery.Typewriter({
+const dateGallery = new uiloosDateGallery.DateGallery({
   mode: 'day'
 });
 
