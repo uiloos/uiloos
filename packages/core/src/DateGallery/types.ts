@@ -213,12 +213,20 @@ export type DateGalleryChangeConfig = {
   /**
    * An optional date that will act as the initial anchor date
    * for the date frame.
-   *
-   * When no `date` is provided the DateGallery will move the frames
-   * to the closest date. For example when going from `day` to `year`
-   * the year will be set to the year of the current anchored date.
-   * When you move from `year` to `month` it will go to January of
-   * that year etc etc.
+   * 
+   * When no `date` is provided the DateGallery will move to the
+   * `anchorDate` of the `firstFrame`.
+   * 
+   * Some examples:
+   * 
+   * 1. When going from `day` to `year` the year will be set to the 
+   *    year of the `anchorDate`.
+   * 
+   * 2. When moving from `year` to `month` it will go to January 
+   *    1st of the year of the `anchorDate`
+   * 
+   * 3. When moving from `week` to `month` it will go to the first
+   *    of the month from the start of the week.
    *
    * Can either be a `Date` instance, or a `string` which can be
    * passed to the `Date` constructor to make a date.
@@ -730,7 +738,7 @@ export type DateGalleryConfigChangedEvent<T> = DateGalleryBaseEvent & {
   mode: DateGalleryMode;
 
   /**
-   * The current anchor date the DateGallery now has.
+   * The current anchor date the firstFrame of the DateGallery now has.
    *
    * @since 1.6.0
    */

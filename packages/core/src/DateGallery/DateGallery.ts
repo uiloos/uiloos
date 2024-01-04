@@ -270,7 +270,7 @@ export class DateGallery<T>
    *  2. FRAME_CHANGED: fired when the frames changes.
    *
    *  3. CONFIG_CHANGED: fires when the config is changed.
-   *   
+   *
    *  4. DATE_SELECTED: fires when a date is selected.
    *
    *  5. DATE_SELECTED_MULTIPLE: fires when multiple dates are selected.
@@ -468,13 +468,13 @@ export class DateGallery<T>
   }
 
   /**
-   * Changes the configuration of the DateGallery, allowing you 
+   * Changes the configuration of the DateGallery, allowing you
    * to change the `mode` the initial date and `numberOfFrames`.
    *
    * All properties are optional and can be used in any combination.
    * Meaning you can change the `mode` and `numberOfFrames`, or the
    * `mode` and `initialDate` or just the `numberOfFrames`.
-   * 
+   *
    * Note: the `events` and `selectedDates` are kept as is.
    *
    * @param {DateGalleryChangeConfig} config The new configuration.
@@ -557,12 +557,29 @@ export class DateGallery<T>
    */
   public today() {
     this.changeConfig({
-      initialDate: new Date()
+      initialDate: new Date(),
     });
   }
 
   private _buildFrames(inform = false): void {
     this.frames.length = 0;
+
+    /*
+      We need to restore to whatever the anchor was at the end of
+     `buildFrames`, the reason for this is as follows: 
+     
+     Say you have a year view consisting of 12 months, the mode you 
+     set to `month` and the numberOfFrames to `12`.
+
+     The user expects that when he goes from `year` to `month`, (note
+     that these are not modes) that the month he is going to is 
+     January, if we we did not restore it would be December.
+
+     The reason for this is that the anchorDate is mutated for each
+     frame in the for-loops body below, so the anchorDate would be 
+     December if we did not restore it.
+    */
+    const anchorAtStart = this._anchorDate;
 
     for (let i = 0; i < this.numberOfFrames; i++) {
       // For each frame this is not the first frame we must first
@@ -645,6 +662,9 @@ export class DateGallery<T>
       });
     }
 
+    // Restore the anchorDate
+    this._anchorDate = anchorAtStart;
+
     this.firstFrame = this.frames[0];
 
     if (inform) {
@@ -667,7 +687,8 @@ export class DateGallery<T>
    * @since 1.6.0
    */
   public next(): void {
-    this._moveFrame(1);
+    // Move the number of frames forward
+    this._moveFrame(this.numberOfFrames);
     this._buildFrames(true);
   }
 
@@ -680,30 +701,30 @@ export class DateGallery<T>
    * @since 1.6.0
    */
   public previous() {
-    this._moveFrame(-1, this.numberOfFrames * 2 - 1);
+    this._moveFrame(-this.numberOfFrames);
     this._buildFrames(true);
   }
 
-  private _moveFrame(mod: 1 | -1, skip = 1): void {
+  private _moveFrame(mod: number): void {
     const date = new Date(this._anchorDate);
 
     if (this.mode === 'day') {
-      this._moveDateBy(date, 1 * skip * mod);
+      this._moveDateBy(date, 1 * mod);
     } else if (this.mode === 'week') {
-      this._moveDateBy(date, 7 * skip * mod);
+      this._moveDateBy(date, 7 * mod);
     } else if (this.mode === 'year') {
       if (this.isUTC) {
-        date.setUTCFullYear(date.getUTCFullYear() + 1 * skip * mod);
+        date.setUTCFullYear(date.getUTCFullYear() + 1 * mod);
       } else {
-        date.setFullYear(date.getFullYear() + 1 * skip * mod);
+        date.setFullYear(date.getFullYear() + 1 * mod);
       }
     } else {
       // Mode has to be one of the months
 
       if (this.isUTC) {
-        date.setUTCMonth(date.getUTCMonth() + 1 * skip * mod);
+        date.setUTCMonth(date.getUTCMonth() + 1 * mod);
       } else {
-        date.setMonth(date.getMonth() + 1 * skip * mod);
+        date.setMonth(date.getMonth() + 1 * mod);
       }
     }
 
@@ -941,8 +962,9 @@ export class DateGallery<T>
       e._recalculate();
     });
 
-    this._moveFrame(-1, this.numberOfFrames - 1);
-
+    // Jump one frame back and rebuild the frame, so the events
+    // are synced
+   
     this._buildFrames();
 
     const e: DateGalleryEventAddedEvent<T> = {
@@ -1007,8 +1029,7 @@ export class DateGallery<T>
         e.overlapsWith.splice(index, 1);
       }
     });
-
-    this._moveFrame(-1, this.numberOfFrames - 1);
+   
     this._buildFrames();
 
     const e: DateGalleryEventRemovedEvent<T> = {
@@ -1070,7 +1091,6 @@ export class DateGallery<T>
       e._recalculate();
     });
 
-    this._moveFrame(-1, this.numberOfFrames - 1);
     this._buildFrames();
 
     const e: DateGalleryEventMovedEvent<T> = {
