@@ -46,7 +46,8 @@ export type TestState<T> = DateGallerySansDatesAndEvents<T> & {
 
 export type TestEvent<T> = Pick<DateGalleryEvent<T>, 'spansMultipleDays'> & {
   data: string;
-  overlapsWith: string[];
+  overlappingEvents: string[];
+  isOverlapping: boolean;
   startDate: string;
   endDate: string;
 };
@@ -104,11 +105,12 @@ export function eventToTestEvent(event: DateGalleryEvent<string>): TestEvent<str
     endDate: formatter.format(event.endDate),
 
     // To prevent circular references (infinite loop) we only check the 'data'
-    overlapsWith: event.overlapsWith.map((e) => {
+    overlappingEvents: event.overlappingEvents.map((e) => {
       expect(e instanceof DateGalleryEvent);
       return e.data;
     }),
 
+    isOverlapping: event.isOverlapping,
     spansMultipleDays: event.spansMultipleDays
   };
 }

@@ -961,9 +961,6 @@ export class DateGallery<T>
     this.events.forEach((e) => {
       e._recalculate();
     });
-
-    // Jump one frame back and rebuild the frame, so the events
-    // are synced
    
     this._buildFrames();
 
@@ -1021,13 +1018,8 @@ export class DateGallery<T>
 
     this.events.splice(index, 1);
 
-    // Remove the removed event from all events it overlaps with
     this.events.forEach((e) => {
-      const index = e.overlapsWith.indexOf(event);
-
-      if (index !== -1) {
-        e.overlapsWith.splice(index, 1);
-      }
+      e._recalculate();
     });
    
     this._buildFrames();

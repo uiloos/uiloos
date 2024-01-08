@@ -73,7 +73,15 @@ export class DateGalleryEvent<T> {
    *
    * @since 1.6.0
    */
-  public readonly overlapsWith: DateGalleryEvent<T>[] = [];
+  public readonly overlappingEvents: DateGalleryEvent<T>[] = [];
+
+   /**
+    * Whether or not this `DateGalleryEvent` overlaps with other
+    * events.
+    *
+    * @since 1.6.0
+    */
+   public isOverlapping: boolean = false;
 
    /**
     * Whether or not this events spans over multiple days.
@@ -113,7 +121,7 @@ export class DateGalleryEvent<T> {
   // Calculates the computed properties.
   public _recalculate() {
     // Reset overlap
-    this.overlapsWith.length = 0;
+    this.overlappingEvents.length = 0;
 
     // Check for overlap
     this.dateGallery.events.forEach((other) => {
@@ -122,15 +130,16 @@ export class DateGalleryEvent<T> {
       }
 
       if (_hasOverlap(this, other)) {
-        this.overlapsWith.push(other);
+        this.overlappingEvents.push(other);
       }
     });
 
-    this.overlapsWith.sort((a, b) => {
+    this.overlappingEvents.sort((a, b) => {
       return a.startDate.getTime() - b.startDate.getTime();
     });
 
     this.spansMultipleDays = !this.dateGallery._sameDay(this.startDate, this.endDate);
+    this.isOverlapping = this.overlappingEvents.length > 0;
   }
 
   /**

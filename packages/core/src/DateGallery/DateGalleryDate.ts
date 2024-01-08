@@ -106,7 +106,7 @@ export class DateGalleryDate<T> {
 
     this.isToday = dateGallery._sameDay(new Date(), date);
     this.hasEvents = events.length > 0;
-    this.hasEventsWithOverlap = this.events.some(e => e.overlapsWith.length > 0);
+    this.hasEventsWithOverlap = this.events.some(e => e.isOverlapping);
   }
 
    /**
