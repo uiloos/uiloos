@@ -133,6 +133,42 @@ export type DateGalleryConfig<T> = {
   events?: DateGalleryEventConfig<T>[];
 
   /**
+   * How many dates can be selected at the same time.
+   *
+   * When the value of `limit` is `false` there is no limit to the
+   * number of active items.
+   *
+   * Defaults to `false`.
+   *
+   * @since 1.6.0
+   */
+  maxSelectionLimit?: number | false;
+
+  /**
+   * How the limit is enforced. In other words what the behavior
+   * should be when the limit is surpassed.
+   *
+   * The modes are strings which can be the following values:
+   *
+   * 1. 'circular': the first date that was selected which will be 
+   *    removed so the last selected date  can be added without 
+   *    violating the limit. This basically means that the first one in 
+   *    is the first one out.
+   *
+   * 2. 'error': An error is thrown whenever the limit is surpassed,
+   *    the error is called the `DateGallerySelectionLimitReachedError`.
+   *
+   * 3. 'ignore': Nothing happens when an date is selected and the limit
+   *    is reached. The date is simply not selected, but no error is
+   *    thrown.
+   *
+   * Defaults to 'circular'.
+   *
+   * @since 1.6.0
+   */
+  maxSelectionLimitBehavior?: DateGalleryMaxSelectionLimitBehavior;
+
+  /**
    * The dates that are considered selected when the `DateGallery` is
    * initialized. Must be in the same format of the `dateFormat`.
    *
@@ -158,7 +194,7 @@ export type DateGalleryConfig<T> = {
 };
 
 /**
- * The configuration object for the `DateGallery`'s `changeConfig` 
+ * The configuration object for the `DateGallery`'s `changeConfig`
  * method.
  *
  * All properties are optional and can be used in any combination.
@@ -213,18 +249,18 @@ export type DateGalleryChangeConfig = {
   /**
    * An optional date that will act as the initial anchor date
    * for the date frame.
-   * 
+   *
    * When no `date` is provided the DateGallery will move to the
    * `anchorDate` of the `firstFrame`.
-   * 
+   *
    * Some examples:
-   * 
-   * 1. When going from `day` to `year` the year will be set to the 
+   *
+   * 1. When going from `day` to `year` the year will be set to the
    *    year of the `anchorDate`.
-   * 
-   * 2. When moving from `year` to `month` it will go to January 
+   *
+   * 2. When moving from `year` to `month` it will go to January
    *    1st of the year of the `anchorDate`
-   * 
+   *
    * 3. When moving from `week` to `month` it will go to the first
    *    of the month from the start of the week.
    *
@@ -413,6 +449,29 @@ export const DATE_GALLERY_MODES = [
 export type DateGalleryMode = (typeof DATE_GALLERY_MODES)[number];
 
 /**
+ * Describes all the behaviors for when the selection limit of the 
+ * DateGallery is surpassed.
+ *
+ * 1. 'circular': the first date that was selected which will be 
+ *    removed so the last selected date  can be added without 
+ *    violating the limit. This basically means that the first one in 
+ *    is the first one out.
+ *
+ * 2. 'error': An error is thrown whenever the limit is surpassed,
+ *    the error is called the `DateGallerySelectionLimitReachedError`.
+ *
+ * 3. 'ignore': Nothing happens when an date is selected and the limit
+ *    is reached. The date is simply not selected, but no error is
+ *    thrown.
+ * 
+ * @since 1.6.0
+ */
+export type DateGalleryMaxSelectionLimitBehavior =
+  | 'circular'
+  | 'ignore'
+  | 'error';
+
+/**
  * Represents a range of dates, from a start date to and end date.
  *
  * @since 1.6.0
@@ -557,6 +616,18 @@ export type DateGalleryDateSelectedEvent = DateGalleryBaseEvent & {
    * @since 1.6.0
    */
   date: Date;
+
+   /**
+   * The date which was deselected, will be `null` when no value
+   * was deselected as part of the selection.
+   * 
+   * A deselection will only happen as part of a selection when 
+   * `maxSelectionLimit` is set to a `number` and 
+   * `maxSelectionLimitBehavior` is set to `circular`.
+   *
+   * @since 1.6.0
+   */
+   deselectedDate: Date | null;
 };
 
 /**
@@ -578,6 +649,17 @@ export type DateGalleryDateSelectedMultipleEvent = DateGalleryBaseEvent & {
    * @since 1.6.0
    */
   dates: Date[];
+
+   /**
+   * The dates which were deselected.
+   * 
+   * A deselection will only happen as part of a selection when 
+   * `maxSelectionLimit` is set to a `number` and 
+   * `maxSelectionLimitBehavior` is set to `circular`.
+   *
+   * @since 1.6.0
+   */
+   deselectedDates: Date[]
 };
 
 /**

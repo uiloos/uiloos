@@ -31,6 +31,7 @@ import {
   DateGalleryFrame,
   DateGalleryFrameChangedEvent,
   DateGalleryInitializedEvent,
+  DateGalleryMaxSelectionLimitBehavior,
   DateGalleryMode,
   DateGalleryRange,
   DateGallerySubscriber,
@@ -45,6 +46,7 @@ import { DateGalleryFirstDayOfWeekError } from './errors/DateGalleryFirstDayOfWe
 import { DateGalleryInvalidDateError } from './errors/DateGalleryInvalidDateError';
 import { DateGalleryModeError } from './errors/DateGalleryModeError';
 import { DateGalleryNumberOfFramesError } from './errors/DateGalleryNumberOfFramesError';
+import { DateGallerySelectionLimitReachedError } from './errors/DateGallerySelectionLimitReachedError';
 
 /**
  * A DateGallery is a class that represents a frame of dates, a frame
@@ -173,6 +175,43 @@ export class DateGallery<T>
    * @since 1.6.0
    */
   public numberOfFrames = 1;
+
+  /**
+   * How many dates can be selected at the same time.
+   *
+   * When the value of `limit` is `false` there is no limit to the
+   * number of active items.
+   *
+   * Defaults to `false`.
+   *
+   * @since 1.6.0
+   */
+  public maxSelectionLimit: number | false = false;
+
+  /**
+   * How the limit is enforced. In other words what the behavior
+   * should be when the limit is surpassed.
+   *
+   * The modes are strings which can be the following values:
+   *
+   * 1. 'circular': the first date that was selected which will be
+   *    removed so the last selected date  can be added without
+   *    violating the limit. This basically means that the first one in
+   *    is the first one out.
+   *
+   * 2. 'error': An error is thrown whenever the limit is surpassed,
+   *    the error is called the `DateGallerySelectionLimitReachedError`.
+   *
+   * 3. 'ignore': Nothing happens when an date is selected and the limit
+   *    is reached. The date is simply not selected, but no error is
+   *    thrown.
+   *
+   * Defaults to 'circular'.
+   *
+   * @since 1.6.0
+   */
+  public maxSelectionLimitBehavior: DateGalleryMaxSelectionLimitBehavior =
+    'circular';
 
   /**
    * All dates which are currently considered selected.
@@ -323,6 +362,7 @@ export class DateGallery<T>
    * @throws {DateGalleryFirstDayOfWeekError} the configured day of the week must be between 0 and 6 inclusive.
    * @throws {DateGalleryInvalidDateError} dates provided must be valid dates
    * @throws {DateGalleryModeError} the mode must be one of the predefined modes
+   * @throws {DateGallerySelectionLimitReachedError} thrown when maxSelectionLimit is exceeded, and maxSelectionLimitBehavior is "error".
    * @since 1.6.0
    */
   constructor(
@@ -389,6 +429,7 @@ export class DateGallery<T>
    * @throws {DateGalleryInvalidDateError} dates provided must be valid dates
    * @throws {DateGalleryModeError} the mode must be one of the predefined modes
    * @throws {DateGalleryNumberOfFramesError} numberOfFrames must be a positive number when defined
+   * @throws {DateGallerySelectionLimitReachedError} thrown when maxSelectionLimit is exceeded, and maxSelectionLimitBehavior is "error".
    * @since 1.6.0
    */
   public initialize(config: DateGalleryConfig<T>): void {
@@ -415,6 +456,14 @@ export class DateGallery<T>
     if (this.numberOfFrames <= 0) {
       throw new DateGalleryNumberOfFramesError();
     }
+
+    this.maxSelectionLimit =
+      config.maxSelectionLimit !== undefined ? config.maxSelectionLimit : false;
+
+    this.maxSelectionLimitBehavior =
+      config.maxSelectionLimitBehavior !== undefined
+        ? config.maxSelectionLimitBehavior
+        : 'circular';
 
     this._anchorDate = config.initialDate
       ? this._toDate(config.initialDate, method, 'initialDate')
@@ -742,6 +791,7 @@ export class DateGallery<T>
    * @param {Date | string} date An optional date to act as the new initial date
    * @throws {DateGalleryModeError} the mode must be one of the predefined modes
    * @throws {DateGalleryInvalidDateError} date provided must be valid date
+   * @throws {DateGallerySelectionLimitReachedError} thrown when maxSelectionLimit is exceeded, and maxSelectionLimitBehavior is "error".
    * @since 1.6.0
    */
   public selectDate(date: string | Date): void {
@@ -756,25 +806,61 @@ export class DateGallery<T>
   }
 
   public _doSelectDate(date: Date, method: string): void {
+    const deselectedDates: Date[] = [];
+    const midnight = this._pushSelectDate(date, method, deselectedDates);
+
+    // If the push failed due to maxSelectionLimit return nothing.
+    if (!midnight) {
+      return;
+    }
+
+    this._setIsSelected();
+
+    let deselectedDate: Date | null = deselectedDates[0];
+    if (!deselectedDate) {
+      deselectedDate = null;
+    }
+
+    const event: DateGalleryDateSelectedEvent = {
+      type: 'DATE_SELECTED',
+      date: new Date(midnight),
+      deselectedDate,
+      time: new Date(),
+    };
+
+    this._inform(event);
+  }
+
+  public _pushSelectDate(
+    date: Date,
+    method: string,
+    deselectedDates: Date[]
+  ): Date | null {
+    const limitReached =
+      this.maxSelectionLimit === false
+        ? false
+        : this.maxSelectionLimit === this.selectedDates.length;
+
+    if (limitReached) {
+      if (this.maxSelectionLimitBehavior === 'error') {
+        throw new DateGallerySelectionLimitReachedError(method);
+      } else if (this.maxSelectionLimitBehavior === 'ignore') {
+        return null;
+      } else {
+        const deselected = this.selectedDates.shift();
+
+        if (deselected) {
+          deselectedDates.push(deselected);
+        }
+      }
+    }
+
     const midnight = this._toDate(date, method, 'date');
     this._toMidnight(midnight);
 
     this.selectedDates.push(midnight);
 
-    // Sort by past to future
-    this.selectedDates.sort((a, b) => {
-      return a.getTime() - b.getTime();
-    });
-
-    this._setIsSelected();
-
-    const event: DateGalleryDateSelectedEvent = {
-      type: 'DATE_SELECTED',
-      date: new Date(midnight),
-      time: new Date(),
-    };
-
-    this._inform(event);
+    return midnight;
   }
 
   /**
@@ -825,6 +911,7 @@ export class DateGallery<T>
    * @param {Date | string} date An optional date to act as the new initial date
    * @throws {DateGalleryModeError} the mode must be one of the predefined modes
    * @throws {DateGalleryInvalidDateError} date provided must be valid date
+   * @throws {DateGallerySelectionLimitReachedError} thrown when maxSelectionLimit is exceeded, and maxSelectionLimitBehavior is "error".
    * @since 1.6.0
    */
   public toggleDateSelection(date: string | Date): void {
@@ -884,20 +971,39 @@ export class DateGallery<T>
    * The given dates can either be a `Date` instance, or a `string`
    * which can be passed to the `Date` constructor to make a date.
    *
-   * Note: the order of the two parameters does not matter as
-   * `selectRange` will check whether `a` or `b` is the earlier date.
+   * The order of the two parameters does not matter as `selectRange`
+   * will check whether `a` or `b` is the earlier date.
    *
    * Note: if a date is already selected and falls within the range
    * the date will stay selected.
    *
+   * Dates can also become deselected if the `maxSelection` is set
+   * to a number and the `maxSelectionLimitBehavior` is set to
+   * "circular", if space needs to be made for the new dates.
+   *
+   * When `maxSelectionLimitBehavior` is set to "error", all dates
+   * that can be accommodated become selected, but when the limit is
+   * exceeded the selection stops. The subscribers are then informed
+   * of which dates were selected, and then the error is thrown.
+   *
+   * Even through each date is selected sequentially, only one event
+   * is emitted, and one call is made to the subscribers, even if
+   * multiple dates are selected and deselected.
+   *
+   * Within the `DateGalleryDateSelectedMultipleEvent` only the end
+   * activate / deactivate results are reported.
+   *
    * @param {Date | string} a the start or end date of the range
    * @param {Date | string} b The start or end date of the range
    * @throws {DateGalleryInvalidDateError} dates provided must be valid dates
+   * @throws {DateGallerySelectionLimitReachedError} thrown when maxSelectionLimit is exceeded, and maxSelectionLimitBehavior is "error".
    * @since 1.6.0
    */
   public selectRange(a: Date | string, b: Date | string): void {
-    const aDate = this._toDate(a, 'selectRange', 'a');
-    const bDate = this._toDate(b, 'selectRange', 'b');
+    const method = 'selectRange';
+
+    const aDate = this._toDate(a, method, 'a');
+    const bDate = this._toDate(b, method, 'b');
 
     const startDate = bDate.getTime() > aDate.getTime() ? aDate : bDate;
     const endDate = aDate === startDate ? bDate : aDate;
@@ -907,42 +1013,85 @@ export class DateGallery<T>
     this._moveDateBy(endDate, 1);
     this._toMidnight(endDate);
 
-    const dates = [];
-
     const date = new Date(startDate);
 
-    while (!this._sameDay(date, endDate)) {
-      const index = this.selectedDates.findIndex((s) => {
-        return this._sameDay(s, date);
-      });
+    // Reference to what was selected before selectRange 
+    // was called, used to calculate the diff.
+    const oldSelected = [...this.selectedDates];
 
-      if (index === -1) {
-        dates.push(new Date(date));
-        this.selectedDates.push(new Date(date));
+    // These arrays collect what selectRange has selected and 
+    // deselected during this call.
+    const selectedCollector: Date[] = [];
+    const deselectedCollector: Date[] = [];
+
+    // Might get filled with an DateGallerySelectionLimitReachedError
+    let error = null;
+
+    try {
+      while (!this._sameDay(date, endDate)) {
+        const index = this.selectedDates.findIndex((s) => {
+          return this._sameDay(s, date);
+        });
+
+        if (index === -1) {
+          const midnight = this._pushSelectDate(date, method, deselectedCollector);
+
+          // If the push succeeded to get past maxSelectionLimit then
+          // add it.
+          if (midnight) {
+            selectedCollector.push(midnight);
+          }
+        }
+
+        this._moveDateBy(date, 1);
       }
-
-      this._moveDateBy(date, 1);
+    } catch (e) {
+      if (e instanceof DateGallerySelectionLimitReachedError) {
+        error = e;
+      }
     }
 
-    // If nothing happened do not inform
-    if (dates.length === 0) {
+    // Due to 'circular' a date that was 'selected' might also get
+    // removed within selectRange, these must be treated as if they
+    // where never selected in the first place.
+    const reportedSelectedDates = selectedCollector.filter(
+      (selectedDate) => !deselectedCollector.includes(selectedDate)
+    );
+
+    // If nothing happened do not inform, not that if nothing got
+    // selected nothing had to make space when 'circular'.
+    if (reportedSelectedDates.length === 0) {
+      // If an `DateGallerySelectionLimitReachedError` was thrown 
+      // re-throw it. That happens when the limit is reached on 
+      // the first push.
+      if (error) {
+        throw error;
+      }
+
       return;
     }
 
-    // Sort by past to future
-    this.selectedDates.sort((a, b) => {
-      return a.getTime() - b.getTime();
-    });
+    // The deselected dates are all dates that previously were in the
+    // oldSelected but are selected no more.
+    const deselectedDates = oldSelected.filter((oldSelect) =>
+      !this.selectedDates.some(selectedDate => this._sameDay(oldSelect, selectedDate)),
+    );
 
     this._setIsSelected();
 
     const event: DateGalleryDateSelectedMultipleEvent = {
       type: 'DATE_SELECTED_MULTIPLE',
-      dates: dates,
+      dates: reportedSelectedDates.map((d) => new Date(d)),
+      deselectedDates: deselectedDates.map((d) => new Date(d)),
       time: new Date(),
     };
 
     this._inform(event);
+
+    // If an `DateGallerySelectionLimitReachedError` was thrown re-throw it.
+    if (error) {
+      throw error;
+    }
   }
 
   /**
@@ -961,7 +1110,7 @@ export class DateGallery<T>
     this.events.forEach((e) => {
       e._recalculate();
     });
-   
+
     this._buildFrames();
 
     const e: DateGalleryEventAddedEvent<T> = {
@@ -1021,7 +1170,7 @@ export class DateGallery<T>
     this.events.forEach((e) => {
       e._recalculate();
     });
-   
+
     this._buildFrames();
 
     const e: DateGalleryEventRemovedEvent<T> = {

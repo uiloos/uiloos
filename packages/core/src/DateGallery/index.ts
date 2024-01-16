@@ -7,6 +7,7 @@ import { DateGalleryInvalidDateError } from './errors/DateGalleryInvalidDateErro
 import { DateGalleryModeError } from './errors/DateGalleryModeError';
 import { DateGalleryNumberOfFramesError } from './errors/DateGalleryNumberOfFramesError';
 import { DateGalleryEventNotFoundError} from './errors/DateGalleryEventNotFoundError';
+import { DateGallerySelectionLimitReachedError} from './errors/DateGallerySelectionLimitReachedError';
 import { createDateGallerySubscriber, CreateDateGallerySubscriberConfig} from './createDateGallerySubscriber';
 
 export * from './types';
@@ -21,6 +22,7 @@ export {
   DateGalleryInvalidDateError,
   DateGalleryEventInvalidRangeError,
   DateGalleryEventNotFoundError,
+  DateGallerySelectionLimitReachedError,
   createDateGallerySubscriber, 
   CreateDateGallerySubscriberConfig
 };

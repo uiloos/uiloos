@@ -28,7 +28,7 @@ export const europeFormatter = new Intl.DateTimeFormat('nl-Nl', {
 
 export type DateGallerySansDatesAndEvents<T> = Pick<
   DateGallery<T>,
-  'history' | 'firstDayOfWeek' | 'mode' | 'isUTC' | 'numberOfFrames'
+  'history' | 'firstDayOfWeek' | 'mode' | 'isUTC' | 'numberOfFrames' | 'maxSelectionLimit' | 'maxSelectionLimitBehavior'
 >;
 
 type TestFrame<T> = {
@@ -64,8 +64,6 @@ export function assertState(state: DateGallery<string>, expected: TestState<stri
   const formatter = expected.isUTC ? europeFormatter : samoaFormatter;
 
   const callAsTestState: TestState<string> = {
-    // maxActivationLimit: state.maxActivationLimit,
-    // maxActivationLimitBehavior: state.maxActivationLimitBehavior,
     history: state.history,
 
     mode: state.mode,
@@ -79,6 +77,9 @@ export function assertState(state: DateGallery<string>, expected: TestState<stri
     events: state.events.map(eventToTestEvent),
     selectedDates: state.selectedDates.map((date) => formatter.format(date)),
     numberOfFrames: state.numberOfFrames,
+
+    maxSelectionLimit: state.maxSelectionLimit,
+    maxSelectionLimitBehavior: state.maxSelectionLimitBehavior,
   };
 
   expect(callAsTestState).toEqual(expected);
