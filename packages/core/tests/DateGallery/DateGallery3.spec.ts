@@ -10,6 +10,7 @@ import {
 import {
   CreateDateGallerySubscriberConfig,
   DateGallery,
+  DateGalleryDate,
   DateGalleryEvent,
   DateGalleryEventInvalidRangeError,
   DateGalleryEventNotFoundError,
@@ -86,6 +87,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -95,6 +97,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -104,6 +107,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -113,6 +117,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -122,6 +127,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -131,6 +137,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -140,6 +147,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -191,6 +199,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -200,6 +209,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -209,6 +219,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -218,6 +229,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -227,6 +239,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -236,6 +249,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -245,6 +259,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -297,6 +312,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -306,6 +322,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 01:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -315,6 +332,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -324,6 +342,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -333,6 +352,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -342,6 +362,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -351,6 +372,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -402,6 +424,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -411,6 +434,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -420,6 +444,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -429,6 +454,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -438,6 +464,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -447,6 +474,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -456,6 +484,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -526,6 +555,133 @@ describe('DateGallery', () => {
       expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
+    test('should do nothing when date it does not pass canSelect predicate, but select when it passes', () => {
+      const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+        expect(dateObj).toBeInstanceOf(DateGalleryDate);
+
+        return dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+      });
+
+      const dateGallery: DateGallery<string> = new DateGallery({
+        mode: 'week',
+        initialDate: '1990-09-26 00:00',
+        canSelect: canSelectSpy
+      });
+
+      const subscriber = autoSubscribe(dateGallery);
+
+      // These should not work!
+      dateGallery.selectDate(new Date('1990-09-23 00:00'));
+      dateGallery.selectDate(new Date('1990-09-25 00:00'));
+      expect(subscriber).toHaveBeenCalledTimes(0);
+
+      // But this one does
+      dateGallery.selectDate(new Date('1990-09-24 00:00'));
+      
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      assertLastSubscriber(
+        subscriber,
+        {
+          history: [],
+          isUTC: false,
+          numberOfFrames: 1,
+          mode: 'week',
+          firstDayOfWeek: 0,
+          firstFrame: frameToTestFrame(dateGallery.frames[0]),
+          frames: [
+            {
+              anchorDate: 'zo 23-09-1990 00:00',
+              dates: [
+                {
+                  date: 'zo 23-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  canBeSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'ma 24-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  canBeSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'di 25-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  canBeSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'wo 26-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  canBeSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'do 27-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  canBeSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'vr 28-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  canBeSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'za 29-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  canBeSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+              ],
+              events: [],
+            },
+          ],
+          events: [],
+          selectedDates: ['ma 24-09-1990 00:00'],
+          maxSelectionLimit: false,
+          maxSelectionLimitBehavior: 'circular',
+        },
+        {
+          type: 'DATE_SELECTED',
+          date: new Date('1990-09-24 00:00'),
+          deselectedDate: null,
+          time: new Date(),
+        }
+      );
+
+      expect(canSelectSpy).toHaveBeenCalled();
+    });
+
     describe('maxSelectionLimit', () => {
       describe('when maxSelectionLimit is 1', () => {
         test("when behavior is 'circular' once the limit is reached, the first one in is the first one out", () => {
@@ -562,6 +718,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -571,6 +728,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -580,6 +738,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -589,6 +748,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -598,6 +758,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -607,6 +768,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -616,6 +778,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -673,6 +836,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -682,6 +846,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -691,6 +856,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -700,6 +866,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -709,6 +876,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -718,6 +886,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -727,6 +896,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -821,6 +991,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -830,6 +1001,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -839,6 +1011,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -848,6 +1021,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -857,6 +1031,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -866,6 +1041,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -875,6 +1051,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -918,6 +1095,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -927,6 +1105,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -936,6 +1115,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -945,6 +1125,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -954,6 +1135,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -963,6 +1145,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -972,6 +1155,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1015,6 +1199,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1024,6 +1209,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1033,6 +1219,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1042,6 +1229,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1051,6 +1239,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1060,6 +1249,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1069,6 +1259,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1123,6 +1314,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1132,6 +1324,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1141,6 +1334,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1150,6 +1344,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1159,6 +1354,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1168,6 +1364,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1177,6 +1374,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1220,6 +1418,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1229,6 +1428,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1238,6 +1438,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1247,6 +1448,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1256,6 +1458,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1265,6 +1468,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1274,6 +1478,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1339,6 +1544,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1348,6 +1554,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1357,6 +1564,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1366,6 +1574,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1375,6 +1584,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1384,6 +1594,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1393,6 +1604,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1436,6 +1648,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1445,6 +1658,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1454,6 +1668,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1463,6 +1678,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1472,6 +1688,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1481,6 +1698,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1490,6 +1708,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -1533,6 +1752,1155 @@ describe('DateGallery', () => {
         });
       });
     });
+
+    describe('maxSelectionLimit in combination with canSelect', () => {
+      describe('when maxSelectionLimit is 1', () => {
+        test("when behavior is 'circular' once the limit is reached, the first one in is the first one out", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 1,
+            maxSelectionLimitBehavior: 'circular',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First select this date
+          dateGallery.selectDate(new Date('1990-09-27 00:00'));
+
+          // Then select the 24th which should not pass the canSelect
+          // so it gets ignored.
+          dateGallery.selectDate(new Date('1990-09-24 00:00'));
+
+          // Now select this date, due to circular it should now be selected
+          dateGallery.selectDate(new Date('1990-09-23 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['zo 23-09-1990 00:00'],
+              maxSelectionLimit: 1,
+              maxSelectionLimitBehavior: 'circular',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-23 00:00'),
+              deselectedDate: new Date('1990-09-27 00:00'),
+              time: new Date(),
+            }
+          );
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'ignore' once the limit is reached dates should no longer be added, but no errors are thrown", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 1,
+            maxSelectionLimitBehavior: 'ignore',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First select this date
+          dateGallery.selectDate(new Date('1990-09-23 00:00'));
+
+          // Then select the 24th which should not pass the canSelect
+          // so it gets ignored.
+          dateGallery.selectDate(new Date('1990-09-24 00:00'));
+
+          // Now select this date, due to 'ignore' it should not be selected
+          dateGallery.selectDate(new Date('1990-09-27 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['zo 23-09-1990 00:00'],
+              maxSelectionLimit: 1,
+              maxSelectionLimitBehavior: 'ignore',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-23 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Should still be the same
+          expect(dateGallery.selectedDates).toEqual([
+            new Date('1990-09-23 00:00'),
+          ]);
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'error' once the limit is reached and error should be thrown", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 1,
+            maxSelectionLimitBehavior: 'error',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First select this date
+          dateGallery.selectDate(new Date('1990-09-23 00:00'));
+
+          // Then select the 24th which should not pass the canSelect
+          // so it gets ignored, but it does not throw an error.
+          dateGallery.selectDate(new Date('1990-09-24 00:00'));
+
+          // Now select this date, due to 'error' it should throw
+          expect(() => {
+            dateGallery.selectDate(new Date('1990-09-27 00:00'));
+          }).toThrowError(DateGallerySelectionLimitReachedError);
+
+          // Now select this date, due to 'error' it should throw
+          expect(() => {
+            dateGallery.selectDate(new Date('1990-09-27 00:00'));
+          }).toThrowError(
+            'uiloos > DateGallery > selectDate > selection limit reached'
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+
+          // Should still be the same
+          expect(dateGallery.selectedDates).toEqual([
+            new Date('1990-09-23 00:00'),
+          ]);
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+      });
+
+      describe('when maxSelectionLimit is N', () => {
+        test("when behavior is 'circular' once the limit is reached, the first one in is the first one out", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 2,
+            maxSelectionLimitBehavior: 'circular',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First select this date
+          dateGallery.selectDate(new Date('1990-09-27 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['do 27-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'circular',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-27 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Now select this date it should also get selected
+          dateGallery.selectDate(new Date('1990-09-25 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['do 27-09-1990 00:00', 'di 25-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'circular',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-25 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Then select the 24th which should not pass the canSelect
+          // so it gets ignored.
+          dateGallery.selectDate(new Date('1990-09-24 00:00'));
+
+          // Now cross the limit, the first should be the first out
+          dateGallery.selectDate(new Date('1990-09-23 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['di 25-09-1990 00:00', 'zo 23-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'circular',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-23 00:00'),
+              deselectedDate: new Date('1990-09-27 00:00'),
+              time: new Date(),
+            }
+          );
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'ignore' once the limit is reached dates should no longer be added, but no errors are thrown", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 2,
+            maxSelectionLimitBehavior: 'ignore',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First select this date
+          dateGallery.selectDate(new Date('1990-09-27 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['do 27-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'ignore',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-27 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Now select this date it should also get selected
+          dateGallery.selectDate(new Date('1990-09-25 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['do 27-09-1990 00:00', 'di 25-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'ignore',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-25 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Then select the 24th which should not pass the canSelect
+          // so it gets ignored.
+          dateGallery.selectDate(new Date('1990-09-24 00:00'));
+
+          // Now cross the limit nothing should happen due to the ignore
+          dateGallery.selectDate(new Date('1990-09-23 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+
+           // Should still be the same
+           expect(dateGallery.selectedDates).toEqual([
+            new Date('1990-09-27 00:00'),
+            new Date('1990-09-25 00:00')
+          ]);
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'error' once the limit is reached and error should be thrown", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 2,
+            maxSelectionLimitBehavior: 'error',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First select this date
+          dateGallery.selectDate(new Date('1990-09-27 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['do 27-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'error',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-27 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Now select this date it should also get selected
+          dateGallery.selectDate(new Date('1990-09-25 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['do 27-09-1990 00:00', 'di 25-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'error',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-25 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Then select the 24th which should not pass the canSelect
+          // so it gets ignored.
+          dateGallery.selectDate(new Date('1990-09-24 00:00'));
+
+          // Now cross the limit an error should be thrown
+          expect(() => {
+            dateGallery.selectDate(new Date('1990-09-23 00:00'));
+          }).toThrowError(
+            'uiloos > DateGallery > selectDate > selection limit reached'
+          );
+
+          expect(() => {
+            dateGallery.selectDate(new Date('1990-09-23 00:00'));
+          }).toThrowError(DateGallerySelectionLimitReachedError);
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+
+          // Should still be the same
+          expect(dateGallery.selectedDates).toEqual([
+            new Date('1990-09-27 00:00'),
+            new Date('1990-09-25 00:00'),
+          ]);
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+      });
+    });
   });
 
   describe('deselectDate', () => {
@@ -1565,6 +2933,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1574,6 +2943,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1583,6 +2953,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1592,6 +2963,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1601,6 +2973,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1610,6 +2983,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1619,6 +2993,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1670,6 +3045,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1679,6 +3055,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1688,6 +3065,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1697,6 +3075,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1706,6 +3085,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1715,6 +3095,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1724,6 +3105,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1776,6 +3158,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1785,6 +3168,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1794,6 +3178,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1803,6 +3188,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1812,6 +3198,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1821,6 +3208,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1830,6 +3218,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1881,6 +3270,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1890,6 +3280,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1899,6 +3290,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1908,6 +3300,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1917,6 +3310,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1926,6 +3320,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -1935,6 +3330,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2004,6 +3400,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2013,6 +3410,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2022,6 +3420,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2031,6 +3430,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2040,6 +3440,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2049,6 +3450,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2058,6 +3460,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2142,6 +3545,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2151,6 +3555,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2160,6 +3565,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2169,6 +3575,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2178,6 +3585,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2187,6 +3595,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2196,6 +3605,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2247,6 +3657,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2256,6 +3667,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2265,6 +3677,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2274,6 +3687,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2283,6 +3697,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2292,6 +3707,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2301,6 +3717,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2352,6 +3769,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2361,6 +3779,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2370,6 +3789,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2379,6 +3799,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2388,6 +3809,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2397,6 +3819,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2406,6 +3829,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2458,6 +3882,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2467,6 +3892,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2476,6 +3902,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2485,6 +3912,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2494,6 +3922,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2503,6 +3932,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2512,6 +3942,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2564,6 +3995,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2573,6 +4005,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2582,6 +4015,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2591,6 +4025,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2600,6 +4035,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2609,6 +4045,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2618,6 +4055,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2670,6 +4108,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2679,6 +4118,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2688,6 +4128,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2697,6 +4138,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2706,6 +4148,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2715,6 +4158,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2724,6 +4168,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2775,6 +4220,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2784,6 +4230,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2793,6 +4240,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2802,6 +4250,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2811,6 +4260,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2820,6 +4270,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2829,6 +4280,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2880,6 +4332,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2889,6 +4342,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2898,6 +4352,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2907,6 +4362,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2916,6 +4372,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2925,6 +4382,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2934,6 +4392,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -2988,6 +4447,133 @@ describe('DateGallery', () => {
       expect(subscriber).toHaveBeenCalledTimes(0);
     });
 
+    test('should do nothing when date it does not pass canSelect predicate, but select when it passes', () => {
+      const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+        expect(dateObj).toBeInstanceOf(DateGalleryDate);
+
+        return dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+      });
+
+      const dateGallery: DateGallery<string> = new DateGallery({
+        mode: 'week',
+        initialDate: '1990-09-26 00:00',
+        canSelect: canSelectSpy
+      });
+
+      const subscriber = autoSubscribe(dateGallery);
+
+      // These should not work!
+      dateGallery.toggleDateSelection(new Date('1990-09-23 00:00'));
+      dateGallery.toggleDateSelection(new Date('1990-09-25 00:00'));
+      expect(subscriber).toHaveBeenCalledTimes(0);
+
+      // But this one does
+      dateGallery.toggleDateSelection(new Date('1990-09-24 00:00'));
+      
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      assertLastSubscriber(
+        subscriber,
+        {
+          history: [],
+          isUTC: false,
+          numberOfFrames: 1,
+          mode: 'week',
+          firstDayOfWeek: 0,
+          firstFrame: frameToTestFrame(dateGallery.frames[0]),
+          frames: [
+            {
+              anchorDate: 'zo 23-09-1990 00:00',
+              dates: [
+                {
+                  date: 'zo 23-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  canBeSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'ma 24-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  canBeSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'di 25-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  canBeSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'wo 26-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  canBeSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'do 27-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  canBeSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'vr 28-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  canBeSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'za 29-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  canBeSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+              ],
+              events: [],
+            },
+          ],
+          events: [],
+          selectedDates: ['ma 24-09-1990 00:00'],
+          maxSelectionLimit: false,
+          maxSelectionLimitBehavior: 'circular',
+        },
+        {
+          type: 'DATE_SELECTED',
+          date: new Date('1990-09-24 00:00'),
+          deselectedDate: null,
+          time: new Date(),
+        }
+      );
+
+      expect(canSelectSpy).toHaveBeenCalled();
+    });
+
     describe('maxSelectionLimit', () => {
       describe('when maxSelectionLimit is 1', () => {
         test("when behavior is 'circular' once the limit is reached, the first one in is the first one out", () => {
@@ -3024,6 +4610,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3033,6 +4620,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3042,6 +4630,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3051,6 +4640,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3060,6 +4650,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3069,6 +4660,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3078,6 +4670,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3135,6 +4728,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3144,6 +4738,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3153,6 +4748,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3162,6 +4758,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3171,6 +4768,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3180,6 +4778,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3189,6 +4788,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3283,6 +4883,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3292,6 +4893,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3301,6 +4903,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3310,6 +4913,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3319,6 +4923,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3328,6 +4933,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3337,6 +4943,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3380,6 +4987,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3389,6 +4997,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3398,6 +5007,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3407,6 +5017,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3416,6 +5027,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3425,6 +5037,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3434,6 +5047,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3477,6 +5091,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3486,6 +5101,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3495,6 +5111,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3504,6 +5121,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3513,6 +5131,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3522,6 +5141,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3531,6 +5151,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3585,6 +5206,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3594,6 +5216,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3603,6 +5226,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3612,6 +5236,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3621,6 +5246,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3630,6 +5256,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3639,6 +5266,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3682,6 +5310,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3691,6 +5320,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3700,6 +5330,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3709,6 +5340,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3718,6 +5350,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3727,6 +5360,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3736,6 +5370,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3801,6 +5436,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3810,6 +5446,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3819,6 +5456,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3828,6 +5466,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3837,6 +5476,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3846,6 +5486,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3855,6 +5496,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3898,6 +5540,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3907,6 +5550,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3916,6 +5560,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3925,6 +5570,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3934,6 +5580,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3943,6 +5590,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3952,6 +5600,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -3995,6 +5644,1155 @@ describe('DateGallery', () => {
         });
       });
     });
+
+    describe('maxSelectionLimit in combination with canSelect', () => {
+      describe('when maxSelectionLimit is 1', () => {
+        test("when behavior is 'circular' once the limit is reached, the first one in is the first one out", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 1,
+            maxSelectionLimitBehavior: 'circular',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First select this date
+          dateGallery.toggleDateSelection(new Date('1990-09-27 00:00'));
+
+          // Then select the 24th which should not pass the canSelect
+          // so it gets ignored.
+          dateGallery.toggleDateSelection(new Date('1990-09-24 00:00'));
+
+          // Now select this date, due to circular it should now be selected
+          dateGallery.toggleDateSelection(new Date('1990-09-23 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['zo 23-09-1990 00:00'],
+              maxSelectionLimit: 1,
+              maxSelectionLimitBehavior: 'circular',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-23 00:00'),
+              deselectedDate: new Date('1990-09-27 00:00'),
+              time: new Date(),
+            }
+          );
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'ignore' once the limit is reached dates should no longer be added, but no errors are thrown", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 1,
+            maxSelectionLimitBehavior: 'ignore',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First select this date
+          dateGallery.toggleDateSelection(new Date('1990-09-23 00:00'));
+
+          // Then select the 24th which should not pass the canSelect
+          // so it gets ignored.
+          dateGallery.toggleDateSelection(new Date('1990-09-24 00:00'));
+
+          // Now select this date, due to 'ignore' it should not be selected
+          dateGallery.toggleDateSelection(new Date('1990-09-27 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['zo 23-09-1990 00:00'],
+              maxSelectionLimit: 1,
+              maxSelectionLimitBehavior: 'ignore',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-23 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Should still be the same
+          expect(dateGallery.selectedDates).toEqual([
+            new Date('1990-09-23 00:00'),
+          ]);
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'error' once the limit is reached and error should be thrown", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 1,
+            maxSelectionLimitBehavior: 'error',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First select this date
+          dateGallery.toggleDateSelection(new Date('1990-09-23 00:00'));
+
+          // Then select the 24th which should not pass the canSelect
+          // so it gets ignored, but it does not throw an error.
+          dateGallery.toggleDateSelection(new Date('1990-09-24 00:00'));
+
+          // Now select this date, due to 'error' it should throw
+          expect(() => {
+            dateGallery.toggleDateSelection(new Date('1990-09-27 00:00'));
+          }).toThrowError(DateGallerySelectionLimitReachedError);
+
+          // Now select this date, due to 'error' it should throw
+          expect(() => {
+            dateGallery.toggleDateSelection(new Date('1990-09-27 00:00'));
+          }).toThrowError(
+            'uiloos > DateGallery > toggleDateSelection > selection limit reached'
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+
+          // Should still be the same
+          expect(dateGallery.selectedDates).toEqual([
+            new Date('1990-09-23 00:00'),
+          ]);
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+      });
+
+      describe('when maxSelectionLimit is N', () => {
+        test("when behavior is 'circular' once the limit is reached, the first one in is the first one out", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 2,
+            maxSelectionLimitBehavior: 'circular',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First select this date
+          dateGallery.toggleDateSelection(new Date('1990-09-27 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['do 27-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'circular',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-27 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Now select this date it should also get selected
+          dateGallery.toggleDateSelection(new Date('1990-09-25 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['do 27-09-1990 00:00', 'di 25-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'circular',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-25 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Then select the 24th which should not pass the canSelect
+          // so it gets ignored.
+          dateGallery.toggleDateSelection(new Date('1990-09-24 00:00'));
+
+          // Now cross the limit, the first should be the first out
+          dateGallery.toggleDateSelection(new Date('1990-09-23 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(3);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['di 25-09-1990 00:00', 'zo 23-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'circular',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-23 00:00'),
+              deselectedDate: new Date('1990-09-27 00:00'),
+              time: new Date(),
+            }
+          );
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'ignore' once the limit is reached dates should no longer be added, but no errors are thrown", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 2,
+            maxSelectionLimitBehavior: 'ignore',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First select this date
+          dateGallery.toggleDateSelection(new Date('1990-09-27 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['do 27-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'ignore',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-27 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Now select this date it should also get selected
+          dateGallery.toggleDateSelection(new Date('1990-09-25 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['do 27-09-1990 00:00', 'di 25-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'ignore',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-25 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Then select the 24th which should not pass the canSelect
+          // so it gets ignored.
+          dateGallery.toggleDateSelection(new Date('1990-09-24 00:00'));
+
+          // Now cross the limit nothing should happen due to the ignore
+          dateGallery.toggleDateSelection(new Date('1990-09-23 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+
+           // Should still be the same
+           expect(dateGallery.selectedDates).toEqual([
+            new Date('1990-09-27 00:00'),
+            new Date('1990-09-25 00:00')
+          ]);
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'error' once the limit is reached and error should be thrown", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 2,
+            maxSelectionLimitBehavior: 'error',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First select this date
+          dateGallery.toggleDateSelection(new Date('1990-09-27 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['do 27-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'error',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-27 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Now select this date it should also get selected
+          dateGallery.toggleDateSelection(new Date('1990-09-25 00:00'));
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['do 27-09-1990 00:00', 'di 25-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'error',
+            },
+            {
+              type: 'DATE_SELECTED',
+              date: new Date('1990-09-25 00:00'),
+              deselectedDate: null,
+              time: new Date(),
+            }
+          );
+
+          // Then select the 24th which should not pass the canSelect
+          // so it gets ignored.
+          dateGallery.toggleDateSelection(new Date('1990-09-24 00:00'));
+
+          // Now cross the limit an error should be thrown
+          expect(() => {
+            dateGallery.toggleDateSelection(new Date('1990-09-23 00:00'));
+          }).toThrowError(
+            'uiloos > DateGallery > toggleDateSelection > selection limit reached'
+          );
+
+          expect(() => {
+            dateGallery.toggleDateSelection(new Date('1990-09-23 00:00'));
+          }).toThrowError(DateGallerySelectionLimitReachedError);
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+
+          // Should still be the same
+          expect(dateGallery.selectedDates).toEqual([
+            new Date('1990-09-27 00:00'),
+            new Date('1990-09-25 00:00'),
+          ]);
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+      });
+    });
   });
 
   describe('deselectAll', () => {
@@ -4032,6 +6830,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4041,6 +6840,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4050,6 +6850,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4059,6 +6860,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4068,6 +6870,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4077,6 +6880,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4086,6 +6890,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4148,6 +6953,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4157,6 +6963,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4166,6 +6973,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4175,6 +6983,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4184,6 +6993,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4193,6 +7003,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4202,6 +7013,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4258,6 +7070,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4267,6 +7080,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4276,6 +7090,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4285,6 +7100,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4294,6 +7110,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4303,6 +7120,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4312,6 +7130,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4435,6 +7254,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4444,6 +7264,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4453,6 +7274,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4462,6 +7284,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4471,6 +7294,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4480,6 +7304,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4489,6 +7314,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4543,6 +7369,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4552,6 +7379,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4561,6 +7389,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4570,6 +7399,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4579,6 +7409,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4588,6 +7419,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4597,6 +7429,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4662,6 +7495,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 01:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4671,6 +7505,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4680,6 +7515,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 01:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4689,6 +7525,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 01:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4698,6 +7535,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 01:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4707,6 +7545,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 01:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4716,6 +7555,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 01:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4780,6 +7620,7 @@ describe('DateGallery', () => {
                   date: 'zo 23-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4789,6 +7630,7 @@ describe('DateGallery', () => {
                   date: 'ma 24-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4798,6 +7640,7 @@ describe('DateGallery', () => {
                   date: 'di 25-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4807,6 +7650,7 @@ describe('DateGallery', () => {
                   date: 'wo 26-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4816,6 +7660,7 @@ describe('DateGallery', () => {
                   date: 'do 27-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4825,6 +7670,7 @@ describe('DateGallery', () => {
                   date: 'vr 28-09-1990 00:00',
                   isPadding: false,
                   isSelected: true,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4834,6 +7680,7 @@ describe('DateGallery', () => {
                   date: 'za 29-09-1990 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: false,
                   events: [],
                   hasEvents: false,
@@ -4896,6 +7743,7 @@ describe('DateGallery', () => {
                 date: 'zo 23-09-1990 00:00',
                 isPadding: false,
                 isSelected: false,
+                canBeSelected: true,
                 isToday: false,
                 events: [],
                 hasEvents: false,
@@ -4905,6 +7753,7 @@ describe('DateGallery', () => {
                 date: 'ma 24-09-1990 00:00',
                 isPadding: false,
                 isSelected: false,
+                canBeSelected: true,
                 isToday: false,
                 events: [],
                 hasEvents: false,
@@ -4914,6 +7763,7 @@ describe('DateGallery', () => {
                 date: 'di 25-09-1990 00:00',
                 isPadding: false,
                 isSelected: true,
+                canBeSelected: true,
                 isToday: false,
                 events: [],
                 hasEvents: false,
@@ -4923,6 +7773,7 @@ describe('DateGallery', () => {
                 date: 'wo 26-09-1990 00:00',
                 isPadding: false,
                 isSelected: true,
+                canBeSelected: true,
                 isToday: false,
                 events: [],
                 hasEvents: false,
@@ -4932,6 +7783,7 @@ describe('DateGallery', () => {
                 date: 'do 27-09-1990 00:00',
                 isPadding: false,
                 isSelected: false,
+                canBeSelected: true,
                 isToday: false,
                 events: [],
                 hasEvents: false,
@@ -4941,6 +7793,7 @@ describe('DateGallery', () => {
                 date: 'vr 28-09-1990 00:00',
                 isPadding: false,
                 isSelected: false,
+                canBeSelected: true,
                 isToday: false,
                 events: [],
                 hasEvents: false,
@@ -4950,6 +7803,7 @@ describe('DateGallery', () => {
                 date: 'za 29-09-1990 00:00',
                 isPadding: false,
                 isSelected: false,
+                canBeSelected: true,
                 isToday: false,
                 events: [],
                 hasEvents: false,
@@ -4964,6 +7818,143 @@ describe('DateGallery', () => {
         maxSelectionLimit: false,
         maxSelectionLimitBehavior: 'circular',
       });
+    });
+
+    test('should do nothing when date it does not pass canSelect predicate, but select when it passes', () => {
+      const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+        expect(dateObj).toBeInstanceOf(DateGalleryDate);
+
+        return !dateObj.dateGallery.isSameDay(new Date('1990-09-26 00:00'), dateObj.date);
+      });
+
+      const dateGallery: DateGallery<string> = new DateGallery({
+        mode: 'week',
+        initialDate: '1990-09-26 00:00',
+        canSelect: canSelectSpy
+      });
+
+      const subscriber = autoSubscribe(dateGallery);
+
+      // All dates in the range should be activated, except for
+      // the 26th which is not allowed.
+      dateGallery.selectRange('1990-09-23 00:00', '1990-09-29 00:00');
+
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      assertLastSubscriber(
+        subscriber,
+        {
+          history: [],
+          isUTC: false,
+          numberOfFrames: 1,
+          mode: 'week',
+          firstDayOfWeek: 0,
+          firstFrame: frameToTestFrame(dateGallery.frames[0]),
+          frames: [
+            {
+              anchorDate: 'zo 23-09-1990 00:00',
+              dates: [
+                {
+                  date: 'zo 23-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  canBeSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'ma 24-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  canBeSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'di 25-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  canBeSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'wo 26-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: false,
+                  canBeSelected: false,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'do 27-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  canBeSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'vr 28-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  canBeSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+                {
+                  date: 'za 29-09-1990 00:00',
+                  isPadding: false,
+                  isSelected: true,
+                  canBeSelected: true,
+                  isToday: false,
+                  events: [],
+                  hasEvents: false,
+                  hasEventsWithOverlap: false,
+                },
+              ],
+              events: [],
+            },
+          ],
+          events: [],
+          selectedDates: [
+            'zo 23-09-1990 00:00',
+            'ma 24-09-1990 00:00',
+            'di 25-09-1990 00:00',
+            "do 27-09-1990 00:00",
+           "vr 28-09-1990 00:00",
+         "za 29-09-1990 00:00",
+          ],
+          maxSelectionLimit: false,
+          maxSelectionLimitBehavior: 'circular',
+        },
+        {
+          type: 'DATE_SELECTED_MULTIPLE',
+          dates: [
+            new Date('1990-09-23 00:00'),
+            new Date('1990-09-24 00:00'),
+            new Date('1990-09-25 00:00'),
+            new Date('1990-09-27 00:00'),
+            new Date('1990-09-28 00:00'),
+            new Date('1990-09-29 00:00'),
+          ],
+          deselectedDates: [],
+          time: new Date(),
+        }
+      );
+
+      expect(canSelectSpy).toHaveBeenCalled();
     });
 
     describe('maxSelectionLimit', () => {
@@ -5005,6 +7996,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5014,6 +8006,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5023,6 +8016,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5032,6 +8026,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5041,6 +8036,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5050,6 +8046,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5059,6 +8056,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5104,6 +8102,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5113,6 +8112,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5122,6 +8122,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5131,6 +8132,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5140,6 +8142,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5149,6 +8152,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5158,6 +8162,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5218,6 +8223,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5227,6 +8233,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5236,6 +8243,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5245,6 +8253,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5254,6 +8263,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5263,6 +8273,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5272,6 +8283,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5338,6 +8350,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5347,6 +8360,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5356,6 +8370,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5365,6 +8380,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5374,6 +8390,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5383,6 +8400,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5392,6 +8410,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5476,6 +8495,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5485,6 +8505,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5494,6 +8515,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5503,6 +8525,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5512,6 +8535,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5521,6 +8545,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5530,6 +8555,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5592,6 +8618,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5601,6 +8628,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5610,6 +8638,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5619,6 +8648,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5628,6 +8658,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5637,6 +8668,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5646,6 +8678,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5701,6 +8734,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5710,6 +8744,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5719,6 +8754,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5728,6 +8764,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5737,6 +8774,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5746,6 +8784,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5755,6 +8794,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5823,6 +8863,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5832,6 +8873,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5841,6 +8883,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5850,6 +8893,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5859,6 +8903,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5868,6 +8913,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5877,6 +8923,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5957,6 +9004,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5966,6 +9014,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5975,6 +9024,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5984,6 +9034,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -5993,6 +9044,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -6002,6 +9054,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -6011,6 +9064,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -6106,6 +9160,7 @@ describe('DateGallery', () => {
                       date: 'zo 23-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -6115,6 +9170,7 @@ describe('DateGallery', () => {
                       date: 'ma 24-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -6124,6 +9180,7 @@ describe('DateGallery', () => {
                       date: 'di 25-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -6133,6 +9190,7 @@ describe('DateGallery', () => {
                       date: 'wo 26-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -6142,6 +9200,7 @@ describe('DateGallery', () => {
                       date: 'do 27-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -6151,6 +9210,7 @@ describe('DateGallery', () => {
                       date: 'vr 28-09-1990 00:00',
                       isPadding: false,
                       isSelected: true,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -6160,6 +9220,7 @@ describe('DateGallery', () => {
                       date: 'za 29-09-1990 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -6184,6 +9245,1381 @@ describe('DateGallery', () => {
               time: new Date(),
             }
           );
+        });
+      });
+    });
+
+    describe('maxSelectionLimit in combination with canSelect', () => {
+      describe('when maxSelectionLimit is 1', () => {
+        test("when behavior is 'circular' once the limit is reached, the first one in is the first one out", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 1,
+            maxSelectionLimitBehavior: 'circular',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // Only the 27 should remain in the end, but no dates
+          // should be deselected as they were selected inside
+          // of this call, but this was never observed by the
+          // outside.
+          dateGallery.selectRange(
+            new Date('1990-09-23 00:00'),
+            new Date('1990-09-27 00:00')
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['do 27-09-1990 00:00'],
+              maxSelectionLimit: 1,
+              maxSelectionLimitBehavior: 'circular',
+            },
+            {
+              type: 'DATE_SELECTED_MULTIPLE',
+              dates: [new Date('1990-09-27 00:00')],
+              deselectedDates: [], // No dates should be deselected!
+              time: new Date(),
+            }
+          );
+
+          // The 24th is ignored so should end up at 23rd.
+          dateGallery.selectRange(
+            new Date('1990-09-20 00:00'),
+            new Date('1990-09-24 00:00')
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['zo 23-09-1990 00:00'],
+              maxSelectionLimit: 1,
+              maxSelectionLimitBehavior: 'circular',
+            },
+            {
+              type: 'DATE_SELECTED_MULTIPLE',
+              dates: [new Date('1990-09-23 00:00')],
+              deselectedDates: [new Date('1990-09-27 00:00')],
+              time: new Date(),
+            }
+          );
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'ignore' once the limit is reached dates should no longer be added, but no errors are thrown", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 1,
+            maxSelectionLimitBehavior: 'ignore',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // Only the 25 should remain in the end, but no dates
+          // should be deselected as they were selected inside
+          // of this call, but this was never observed by the
+          // outside.
+          dateGallery.selectRange(
+            new Date('1990-09-24 00:00'),
+            new Date('1990-09-28 00:00')
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['di 25-09-1990 00:00'],
+              maxSelectionLimit: 1,
+              maxSelectionLimitBehavior: 'ignore',
+            },
+            {
+              type: 'DATE_SELECTED_MULTIPLE',
+              dates: [new Date('1990-09-25 00:00')],
+              deselectedDates: [], // No dates should be deselected!
+              time: new Date(),
+            }
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+
+           // Nothing should happen due to the ignore
+           dateGallery.selectRange(
+            new Date('1990-09-20 00:00'),
+            new Date('1990-09-29 00:00')
+          );
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'error' once the limit is reached and error should be thrown", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 1,
+            maxSelectionLimitBehavior: 'error',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First prove that a selection can be made.
+          dateGallery.selectRange(
+            new Date('1990-09-24 00:00'),
+            new Date('1990-09-25 00:00')
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['di 25-09-1990 00:00'],
+              maxSelectionLimit: 1,
+              maxSelectionLimitBehavior: 'error',
+            },
+            {
+              type: 'DATE_SELECTED_MULTIPLE',
+              dates: [new Date('1990-09-25 00:00')],
+              deselectedDates: [], // No dates should be deselected!
+              time: new Date(),
+            }
+          );
+
+          // This should be possible and not throw an error.
+          dateGallery.selectRange(
+            new Date('1990-09-24 00:00'),
+            new Date('1990-09-24 00:00')
+          );
+
+          // Now select this date, due to 'error' it should throw
+          expect(() => {
+            dateGallery.selectRange(
+              new Date('1990-09-23 00:00'),
+              new Date('1990-09-28 00:00')
+            );
+          }).toThrowError(DateGallerySelectionLimitReachedError);
+
+          // Now select this date, due to 'error' it should throw
+          expect(() => {
+            dateGallery.selectRange(
+              new Date('1990-09-23 00:00'),
+              new Date('1990-09-28 00:00')
+            );
+          }).toThrowError(
+            'uiloos > DateGallery > selectRange > selection limit reached'
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+
+          // Still only the 25th should be selected
+          expect(dateGallery.selectedDates).toEqual([
+            new Date('1990-09-25 00:00'),
+          ]);
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'error' once the limit is reached and error should be thrown, but can also inform and throw in one go", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 1,
+            maxSelectionLimitBehavior: 'error',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // Should select the 23th and also throw an error when 25 is selected.
+          expect(() => {
+            dateGallery.selectRange(
+              new Date('1990-09-23 00:00'),
+              new Date('1990-09-25 00:00')
+            );
+          }).toThrowError(DateGallerySelectionLimitReachedError);
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['zo 23-09-1990 00:00'],
+              maxSelectionLimit: 1,
+              maxSelectionLimitBehavior: 'error',
+            },
+            {
+              type: 'DATE_SELECTED_MULTIPLE',
+              dates: [new Date('1990-09-23 00:00')],
+              deselectedDates: [], // No dates should be deselected!
+              time: new Date(),
+            }
+          );
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+      });
+
+      describe('when maxSelectionLimit is N', () => {
+        test("when behavior is 'circular' once the limit is reached, the first one in is the first one out", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 3,
+            maxSelectionLimitBehavior: 'circular',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // Only the 25, 26, 27 should remain in the end, but no dates
+          // should be deselected as they were selected inside
+          // of this call, but this was never observed by the
+          // outside.
+          dateGallery.selectRange(
+            new Date('1990-09-23 00:00'),
+            new Date('1990-09-27 00:00')
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: [
+                'di 25-09-1990 00:00',
+                'wo 26-09-1990 00:00',
+                'do 27-09-1990 00:00',
+              ],
+              maxSelectionLimit: 3,
+              maxSelectionLimitBehavior: 'circular',
+            },
+            {
+              type: 'DATE_SELECTED_MULTIPLE',
+              dates: [
+                new Date('1990-09-25 00:00'),
+                new Date('1990-09-26 00:00'),
+                new Date('1990-09-27 00:00'),
+              ],
+              deselectedDates: [], // No dates should be deselected!
+              time: new Date(),
+            }
+          );
+
+          // // Only the 23, 25, 26 should remain in the end, and
+          // // the 27 should be deselected. The 24th is ignored.
+          dateGallery.selectRange(
+            new Date('1990-09-20 00:00'),
+            new Date('1990-09-26 00:00')
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(2);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: [
+                'zo 23-09-1990 00:00',
+                'di 25-09-1990 00:00',
+                'wo 26-09-1990 00:00',
+              ],
+              maxSelectionLimit: 3,
+              maxSelectionLimitBehavior: 'circular',
+            },
+            {
+              type: 'DATE_SELECTED_MULTIPLE',
+              dates: [
+                new Date('1990-09-23 00:00'),
+                new Date('1990-09-25 00:00'),
+                new Date('1990-09-26 00:00'),
+              ],
+              deselectedDates: [new Date('1990-09-27 00:00')],
+              time: new Date(),
+            }
+          );
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'ignore' once the limit is reached dates should no longer be added, but no errors are thrown", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 3,
+            maxSelectionLimitBehavior: 'ignore',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // Only the 23, 25, 26 should remain in the end, but no dates
+          // should be deselected as they were selected inside
+          // of this call, but this was never observed by the
+          // outside.
+          dateGallery.selectRange(
+            new Date('1990-09-23 00:00'),
+            new Date('1990-09-27 00:00')
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: [
+                'zo 23-09-1990 00:00',
+                'di 25-09-1990 00:00',
+                'wo 26-09-1990 00:00',
+              ],
+              maxSelectionLimit: 3,
+              maxSelectionLimitBehavior: 'ignore',
+            },
+            {
+              type: 'DATE_SELECTED_MULTIPLE',
+              dates: [
+                new Date('1990-09-23 00:00'),
+                new Date('1990-09-25 00:00'),
+                new Date('1990-09-26 00:00'),
+              ],
+              deselectedDates: [], // No dates should be deselected!
+              time: new Date(),
+            }
+          );
+
+          // This call should be ignored.
+          dateGallery.selectRange(
+            new Date('1990-09-10 00:00'),
+            new Date('1990-09-16 00:00')
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+
+           // Should have remained the same.
+           expect(dateGallery.selectedDates).toEqual([
+            new Date('1990-09-23 00:00'),
+            new Date('1990-09-25 00:00'),
+            new Date('1990-09-26 00:00'),
+          ]);
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'error' once the limit is reached and error should be thrown", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 3,
+            maxSelectionLimitBehavior: 'error',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // First prove that a selection can be made.
+          dateGallery.selectRange(
+            new Date('1990-09-24 00:00'),
+            new Date('1990-09-27 00:00')
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: [
+                'di 25-09-1990 00:00',
+                'wo 26-09-1990 00:00',
+                'do 27-09-1990 00:00',
+              ],
+              maxSelectionLimit: 3,
+              maxSelectionLimitBehavior: 'error',
+            },
+            {
+              type: 'DATE_SELECTED_MULTIPLE',
+              dates: [
+                new Date('1990-09-25 00:00'),
+                new Date('1990-09-26 00:00'),
+                new Date('1990-09-27 00:00'),
+              ],
+              deselectedDates: [], // No dates should be deselected!
+              time: new Date(),
+            }
+          );
+
+          // This should be ignored
+          dateGallery.selectRange(
+            new Date('1990-09-24 00:00'),
+            new Date('1990-09-24 00:00')
+          );
+
+          // Now select this date, due to 'error' it should throw
+          expect(() => {
+            dateGallery.selectRange(
+              new Date('1990-09-23 00:00'),
+              new Date('1990-09-28 00:00')
+            );
+          }).toThrowError(DateGallerySelectionLimitReachedError);
+
+          // Now select this date, due to 'error' it should throw
+          expect(() => {
+            dateGallery.selectRange(
+              new Date('1990-09-23 00:00'),
+              new Date('1990-09-28 00:00')
+            );
+          }).toThrowError(
+            'uiloos > DateGallery > selectRange > selection limit reached'
+          );
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+
+          // Still only the original three should be selected
+          expect(dateGallery.selectedDates).toEqual([
+            new Date('1990-09-25 00:00'),
+            new Date('1990-09-26 00:00'),
+            new Date('1990-09-27 00:00'),
+          ]);
+
+          expect(canSelectSpy).toHaveBeenCalled();
+        });
+
+        test("when behavior is 'error' once the limit is reached and error should be thrown, but can also inform and throw in one go", () => {
+          const canSelectSpy = jest.fn((dateObj: DateGalleryDate<string>) => {
+            expect(dateObj).toBeInstanceOf(DateGalleryDate);
+    
+            return !dateObj.dateGallery.isSameDay(new Date('1990-09-24 00:00'), dateObj.date);
+          });
+
+          const dateGallery: DateGallery<string> = new DateGallery({
+            mode: 'week',
+            initialDate: '1990-09-26 00:00',
+            maxSelectionLimit: 2,
+            maxSelectionLimitBehavior: 'error',
+            canSelect: canSelectSpy
+          });
+
+          const subscriber = autoSubscribe(dateGallery);
+
+          // Should select the 25th, 26 and also throw an error when 27 is selected.
+          expect(() => {
+            dateGallery.selectRange(
+              new Date('1990-09-24 00:00'),
+              new Date('1990-09-28 00:00')
+            );
+          }).toThrowError(DateGallerySelectionLimitReachedError);
+
+          expect(subscriber).toHaveBeenCalledTimes(1);
+          assertLastSubscriber(
+            subscriber,
+            {
+              history: [],
+              isUTC: false,
+              numberOfFrames: 1,
+              mode: 'week',
+              firstDayOfWeek: 0,
+              firstFrame: frameToTestFrame(dateGallery.frames[0]),
+              frames: [
+                {
+                  anchorDate: 'zo 23-09-1990 00:00',
+                  dates: [
+                    {
+                      date: 'zo 23-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'ma 24-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: false,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'di 25-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'wo 26-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: true,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'do 27-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'vr 28-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                    {
+                      date: 'za 29-09-1990 00:00',
+                      isPadding: false,
+                      isSelected: false,
+                      canBeSelected: true,
+                      isToday: false,
+                      events: [],
+                      hasEvents: false,
+                      hasEventsWithOverlap: false,
+                    },
+                  ],
+                  events: [],
+                },
+              ],
+              events: [],
+              selectedDates: ['di 25-09-1990 00:00', 'wo 26-09-1990 00:00'],
+              maxSelectionLimit: 2,
+              maxSelectionLimitBehavior: 'error',
+            },
+            {
+              type: 'DATE_SELECTED_MULTIPLE',
+              dates: [
+                new Date('1990-09-25 00:00'),
+                new Date('1990-09-26 00:00'),
+              ],
+              deselectedDates: [], // No dates should be deselected!
+              time: new Date(),
+            }
+          );
+
+          expect(canSelectSpy).toHaveBeenCalled();
         });
       });
     });
@@ -6351,6 +10787,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -6384,6 +10821,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -6399,6 +10837,7 @@ describe('DateGallery', () => {
                       date: 'do 23-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -6455,6 +10894,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -6504,6 +10944,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -6537,6 +10978,7 @@ describe('DateGallery', () => {
                       date: 'do 23-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -6630,6 +11072,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -6663,6 +11106,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -6719,6 +11163,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -6768,6 +11213,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -6861,6 +11307,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -6935,6 +11382,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -7045,6 +11493,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -7078,6 +11527,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -7093,6 +11543,7 @@ describe('DateGallery', () => {
                       date: 'do 23-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -7149,6 +11600,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -7198,6 +11650,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -7231,6 +11684,7 @@ describe('DateGallery', () => {
                       date: 'do 23-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -7323,6 +11777,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -7356,6 +11811,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -7412,6 +11868,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -7461,6 +11918,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -7553,6 +12011,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -7627,6 +12086,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -7781,6 +12241,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -7814,6 +12275,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -7847,6 +12309,7 @@ describe('DateGallery', () => {
                       date: 'do 23-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -7915,6 +12378,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -7930,6 +12394,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -7945,6 +12410,7 @@ describe('DateGallery', () => {
                       date: 'do 23-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -8016,6 +12482,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -8049,6 +12516,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -8117,6 +12585,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -8132,6 +12601,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -8203,6 +12673,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -8271,6 +12742,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -8343,6 +12815,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -8376,6 +12849,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -8409,6 +12883,7 @@ describe('DateGallery', () => {
                       date: 'do 23-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -8477,6 +12952,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -8492,6 +12968,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -8507,6 +12984,7 @@ describe('DateGallery', () => {
                       date: 'do 23-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -8577,6 +13055,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -8610,6 +13089,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -8678,6 +13158,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -8693,6 +13174,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -8763,6 +13245,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -8831,6 +13314,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -9101,6 +13585,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -9134,6 +13619,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -9149,6 +13635,7 @@ describe('DateGallery', () => {
                       date: 'do 23-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -9210,6 +13697,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -9243,6 +13731,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -9276,6 +13765,7 @@ describe('DateGallery', () => {
                       date: 'do 23-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -9382,6 +13872,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -9415,6 +13906,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -9476,6 +13968,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -9509,6 +14002,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -9615,6 +14109,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -9694,6 +14189,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -9801,6 +14297,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -9834,6 +14331,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -9849,6 +14347,7 @@ describe('DateGallery', () => {
                       date: 'do 23-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -9910,6 +14409,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -9943,6 +14443,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -9976,6 +14477,7 @@ describe('DateGallery', () => {
                       date: 'do 23-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -10081,6 +14583,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -10114,6 +14617,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [],
                       hasEvents: false,
@@ -10175,6 +14679,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -10208,6 +14713,7 @@ describe('DateGallery', () => {
                       date: 'wo 22-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -10313,6 +14819,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -10392,6 +14899,7 @@ describe('DateGallery', () => {
                       date: 'di 21-03-1989 00:00',
                       isPadding: false,
                       isSelected: false,
+                      canBeSelected: true,
                       isToday: false,
                       events: [
                         {
@@ -10540,6 +15048,7 @@ describe('DateGallery', () => {
                     date: 'za 01-01-2000 00:00',
                     isPadding: false,
                     isSelected: false,
+                    canBeSelected: true,
                     isToday: true,
                     events: [
                       {
@@ -10626,6 +15135,7 @@ describe('DateGallery', () => {
                     date: 'za 01-01-2000 00:00',
                     isPadding: false,
                     isSelected: false,
+                    canBeSelected: true,
                     isToday: true,
                     events: [
                       {
@@ -10690,7 +15200,7 @@ describe('DateGallery', () => {
         const event = dateGallery.addEvent({
           data: {
             title: 'doctors appointment',
-            description: 'embarrasing',
+            description: 'embarrassing',
           },
           startDate: new Date(),
           endDate: new Date(),
@@ -10721,13 +15231,14 @@ describe('DateGallery', () => {
                     date: 'za 01-01-2000 00:00',
                     isPadding: false,
                     isSelected: false,
+                    canBeSelected: true,
                     isToday: true,
                     events: [
                       {
                         // @ts-expect-error allow non T = string
                         data: {
                           title: 'private',
-                          description: 'embarrasing',
+                          description: 'embarrassing',
                         },
                         startDate: 'za 01-01-2000 01:00',
                         endDate: 'za 01-01-2000 01:00',
@@ -10745,7 +15256,7 @@ describe('DateGallery', () => {
                     // @ts-expect-error allow non T = string
                     data: {
                       title: 'private',
-                      description: 'embarrasing',
+                      description: 'embarrassing',
                     },
                     startDate: 'za 01-01-2000 01:00',
                     endDate: 'za 01-01-2000 01:00',
@@ -10761,7 +15272,7 @@ describe('DateGallery', () => {
                 // @ts-expect-error allow non T = string
                 data: {
                   title: 'private',
-                  description: 'embarrasing',
+                  description: 'embarrassing',
                 },
                 startDate: 'za 01-01-2000 01:00',
                 endDate: 'za 01-01-2000 01:00',
@@ -10779,7 +15290,7 @@ describe('DateGallery', () => {
             event,
             data: {
               title: 'private',
-              description: 'embarrasing',
+              description: 'embarrassing',
             },
             time: new Date(),
           }
@@ -10823,6 +15334,7 @@ describe('DateGallery', () => {
                   date: 'za 01-01-2000 00:00',
                   isPadding: false,
                   isSelected: false,
+                  canBeSelected: true,
                   isToday: true,
                   events: [
                     {
@@ -11188,7 +15700,7 @@ describe('DateGallery', () => {
 
         dateGallery.addEvent({
           data: {
-            text: 'Datenight',
+            text: 'Date night',
             type: 'home',
           },
           startDate: '2000-01-01 12:00',

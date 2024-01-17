@@ -54,6 +54,16 @@ export class DateGalleryDate<T> {
    */
   public isSelected: boolean;
 
+   /**
+   * Whether or not this `DateGalleryDate` can be selected, is 
+   * determined by calling the `canSelectPredicate` from the 
+   * `DateGalleryConfig` at the time of the `DateGalleryDate`
+   * construction.
+   * 
+   * @since 1.6.0
+   */
+   public canBeSelected: boolean = true;
+
   /**
    * Whether or not this `DateGalleryDate` represents a date which is
    * today.
@@ -107,6 +117,10 @@ export class DateGalleryDate<T> {
     this.isToday = dateGallery._sameDay(new Date(), date);
     this.hasEvents = events.length > 0;
     this.hasEventsWithOverlap = this.events.some(e => e.isOverlapping);
+
+    if (dateGallery._canSelect) {
+      this.canBeSelected = dateGallery._canSelect(this);
+    }
   }
 
    /**

@@ -171,12 +171,48 @@ export type DateGalleryConfig<T> = {
   /**
    * The dates that are considered selected when the `DateGallery` is
    * initialized. Must be in the same format of the `dateFormat`.
+   * 
+   * The dates you provide will be converted to midnight.
    *
+   * Are passed through the `canSelect` predicate any date that 
+   * cannot be selected is filtered out of the array.
+   * 
    * Defaults to `[]` for no events.
    *
    * @since 1.6.0
    */
   selectedDates?: (Date | string)[];
+
+  /**
+   * An optional callback predicate that is given a `DateGalleryDate`
+   * and must return a boolean, when the boolean is `true` that date
+   * can be selected, when `false` the date cannot be selected.
+   * 
+   * Useful for when wanting to implement a min and max date, or 
+   * prevent the weekends from being selected, or dates that have
+   * events.
+   * 
+   * This callback is called when:
+   * 
+   * 1. A `DateGalleryDate` is constructed for a frame to determine
+   *    the value of the `DateGalleryDate`s `canBeSelected` boolean.
+   *    This happens when the frame changes, or when an event is 
+   *    added / removed, or a date is selected / deselected.
+   * 
+   * 2. Whenever a date is about to get selected, to check if that
+   *    date can be selected. Happens for example when `selectDate`
+   *    or `selectRange` etc etc is called.
+   * 
+   * IMPORTANT: try to make the predicate pure to make it easier to 
+   * reason about. Otherwise you might get a scenario in which a 
+   * `DateGalleryDate`s `canBeSelected` is `true`, but can still be 
+   * selected via `selectDate`.
+   * 
+   * Defaults to `undefined` meaning all dates an be selected.
+   * 
+   * @since 1.6.0
+   */
+  canSelect?: DateGalleryCanSelectPredicate<T>
 
   /**
    * The number of frames that are visible at a time for the end user.
@@ -192,6 +228,19 @@ export type DateGalleryConfig<T> = {
    */
   numberOfFrames?: number;
 };
+
+/**
+ * Represents a callback predicate which is given a `DateGalleryDate`
+ * and needs to return a boolean, when `true` is returned the 
+ * `DateGalleryDate` can be selected, when `false` is returned 
+ * the `DateGalleryDate` cannot be selected.
+ *
+ * @param {DateGalleryDate<T>} dateGalleryDate The DateGalleryDate for which this predicate will determine if it can be selected.
+ * @returns {boolean} Whether or not the DateGalleryDate can be selected.
+ *
+ * @since 1.6.0
+ */
+export type DateGalleryCanSelectPredicate<T> = (dateGalleryDate: DateGalleryDate<T>) => boolean 
 
 /**
  * The configuration object for the `DateGallery`'s `changeConfig`

@@ -54,7 +54,7 @@ export type TestEvent<T> = Pick<DateGalleryEvent<T>, 'spansMultipleDays'> & {
 
 export type TestDate<T> = Pick<
   DateGalleryDate<T>,
-  'isPadding' | 'isToday' | 'isSelected' | 'hasEvents' | 'hasEventsWithOverlap'
+  'isPadding' | 'isToday' | 'isSelected' | 'hasEvents' | 'hasEventsWithOverlap' | 'canBeSelected'
 > & {
   date: string;
   events: TestEvent<T>[];
@@ -126,9 +126,10 @@ export function dateToTestDate(date: DateGalleryDate<string>): TestDate<string> 
     isPadding: date.isPadding,
     events: date.events.map(eventToTestEvent),
     isSelected: date.isSelected,
+    canBeSelected: date.canBeSelected,
     isToday: date.isToday,
     hasEvents: date.hasEvents,
-    hasEventsWithOverlap: date.hasEventsWithOverlap
+    hasEventsWithOverlap: date.hasEventsWithOverlap,
   };
 }
 

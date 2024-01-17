@@ -15,6 +15,7 @@ import { _History } from '../private/History';
 import { _Observer } from '../private/Observer';
 import {
   DATE_GALLERY_MODES,
+  DateGalleryCanSelectPredicate,
   DateGalleryChangeConfig,
   DateGalleryConfig,
   DateGalleryConfigChangedEvent,
@@ -221,6 +222,8 @@ export class DateGallery<T>
    * @since 1.6.0
    */
   public readonly selectedDates: Date[] = [];
+
+  public _canSelect: DateGalleryCanSelectPredicate<T> | undefined = undefined;
 
   /**
    * All events, such as birthdays, meetings etc that are associated
@@ -480,6 +483,9 @@ export class DateGallery<T>
     this.events.length = 0;
     this.selectedDates.length = 0;
 
+    // Before setting the selectedDates update the _canSelect
+    this._canSelect = config.canSelect;
+
     // First set the selectedDates
     if (config.selectedDates) {
       config.selectedDates.forEach((s) => {
@@ -647,7 +653,7 @@ export class DateGallery<T>
       const anchor = new Date(this._anchorDate);
 
       if (this.mode === 'day') {
-        frame.dates.push(this._makeDate(anchor, false));
+        frame.dates.push(this._makeDate(anchor));
       } else if (this.mode === 'week') {
         this._addNoDates(anchor, 7, frame);
       } else if (this.mode === 'year') {
@@ -669,7 +675,7 @@ export class DateGallery<T>
 
         // Add the dates until we are in the desired month.
         while (this._getMonth(date) !== anchorMonth) {
-          this._pushDay(date, true, frame);
+          this._pushDay(date, frame);
         }
 
         // Add the dates until out of the desired month.
@@ -677,19 +683,13 @@ export class DateGallery<T>
 
         // Continue into the next month until we are in the new week.
         while (this._getDay(date) !== this.firstDayOfWeek) {
-          this._pushDay(date, true, frame);
+          this._pushDay(date, frame);
         }
       } else if (this.mode === 'month-six-weeks') {
         const date = this._firstDayOfWeek(anchor);
 
-        const anchorMonth = this._getMonth(anchor);
-
         // 6 * 7 = 42;
-        this._addNoDates(date, 42, frame, (d) => {
-          // A day is padded when the month does not match
-          // the anchor's month.
-          return this._getMonth(d) !== anchorMonth;
-        });
+        this._addNoDates(date, 42, frame);
       }
 
       this.frames.push(frame);
@@ -787,6 +787,10 @@ export class DateGallery<T>
    *
    * The given date will be converted to midnight, so all times in
    * the `selectedDates` array are always at midnight.
+   * 
+   * When a `canSelect` predicate is configured, the date is first 
+   * checked to see if it can be added. When a date does not pass the 
+   * check nothing happens, and no error is thrown. 
    *
    * @param {Date | string} date An optional date to act as the new initial date
    * @throws {DateGalleryModeError} the mode must be one of the predefined modes
@@ -809,12 +813,12 @@ export class DateGallery<T>
     const deselectedDates: Date[] = [];
     const midnight = this._pushSelectDate(date, method, deselectedDates);
 
-    // If the push failed due to maxSelectionLimit return nothing.
+    // If the push failed due to maxSelectionLimit / predicate return nothing.
     if (!midnight) {
       return;
     }
 
-    this._setIsSelected();
+    this._buildFrames();
 
     let deselectedDate: Date | null = deselectedDates[0];
     if (!deselectedDate) {
@@ -836,6 +840,14 @@ export class DateGallery<T>
     method: string,
     deselectedDates: Date[]
   ): Date | null {
+    const midnight = this._toDate(date, method, 'date');
+    this._toMidnight(midnight);
+
+    // If the date cannot be selected do nothing.
+    if (this._canSelect && !this._canSelect(this._makeDate(midnight))) {
+      return null;
+    }
+
     const limitReached =
       this.maxSelectionLimit === false
         ? false
@@ -855,11 +867,7 @@ export class DateGallery<T>
       }
     }
 
-    const midnight = this._toDate(date, method, 'date');
-    this._toMidnight(midnight);
-
     this.selectedDates.push(midnight);
-
     return midnight;
   }
 
@@ -889,7 +897,7 @@ export class DateGallery<T>
   public _doDeselectDate(index: number, date: Date): void {
     this.selectedDates.splice(index, 1);
 
-    this._setIsSelected();
+    this._buildFrames();
 
     const event: DateGalleryDateDeselectedEvent = {
       type: 'DATE_DESELECTED',
@@ -907,6 +915,13 @@ export class DateGallery<T>
    *
    * The given date can either be a `Date` instance, or a `string`
    * which can be passed to the `Date` constructor to make a date.
+   * 
+   * The given date will be converted to midnight, so all times in
+   * the `selectedDates` array are always at midnight.
+   * 
+   * When a `canSelect` predicate is configured, the date is first 
+   * checked to see if it can be added. When a date does not pass the 
+   * check nothing happens, and no error is thrown. 
    *
    * @param {Date | string} date An optional date to act as the new initial date
    * @throws {DateGalleryModeError} the mode must be one of the predefined modes
@@ -950,7 +965,7 @@ export class DateGallery<T>
 
     this.selectedDates.length = 0;
 
-    this._setIsSelected();
+    this._buildFrames();
 
     const e: DateGalleryDateDeselectedMultipleEvent = {
       type: 'DATE_DESELECTED_MULTIPLE',
@@ -974,8 +989,12 @@ export class DateGallery<T>
    * The order of the two parameters does not matter as `selectRange`
    * will check whether `a` or `b` is the earlier date.
    *
-   * Note: if a date is already selected and falls within the range
-   * the date will stay selected.
+   * If a date is already selected and falls within the range the date 
+   * will stay selected.
+   * 
+   * When a `canSelect` predicate is configured, the date is first 
+   * checked to see if it can be added. When a date does not pass the 
+   * check nothing happens, and no error is thrown. 
    *
    * Dates can also become deselected if the `maxSelection` is set
    * to a number and the `maxSelectionLimitBehavior` is set to
@@ -1015,11 +1034,11 @@ export class DateGallery<T>
 
     const date = new Date(startDate);
 
-    // Reference to what was selected before selectRange 
+    // Reference to what was selected before selectRange
     // was called, used to calculate the diff.
     const oldSelected = [...this.selectedDates];
 
-    // These arrays collect what selectRange has selected and 
+    // These arrays collect what selectRange has selected and
     // deselected during this call.
     const selectedCollector: Date[] = [];
     const deselectedCollector: Date[] = [];
@@ -1034,10 +1053,14 @@ export class DateGallery<T>
         });
 
         if (index === -1) {
-          const midnight = this._pushSelectDate(date, method, deselectedCollector);
+          const midnight = this._pushSelectDate(
+            date,
+            method,
+            deselectedCollector
+          );
 
-          // If the push succeeded to get past maxSelectionLimit then
-          // add it.
+          // If the push succeeded to get past maxSelectionLimit or
+          // predicate then add it.
           if (midnight) {
             selectedCollector.push(midnight);
           }
@@ -1061,8 +1084,8 @@ export class DateGallery<T>
     // If nothing happened do not inform, not that if nothing got
     // selected nothing had to make space when 'circular'.
     if (reportedSelectedDates.length === 0) {
-      // If an `DateGallerySelectionLimitReachedError` was thrown 
-      // re-throw it. That happens when the limit is reached on 
+      // If an `DateGallerySelectionLimitReachedError` was thrown
+      // re-throw it. That happens when the limit is reached on
       // the first push.
       if (error) {
         throw error;
@@ -1073,11 +1096,14 @@ export class DateGallery<T>
 
     // The deselected dates are all dates that previously were in the
     // oldSelected but are selected no more.
-    const deselectedDates = oldSelected.filter((oldSelect) =>
-      !this.selectedDates.some(selectedDate => this._sameDay(oldSelect, selectedDate)),
+    const deselectedDates = oldSelected.filter(
+      (oldSelect) =>
+        !this.selectedDates.some((selectedDate) =>
+          this._sameDay(oldSelect, selectedDate)
+        )
     );
 
-    this._setIsSelected();
+    this._buildFrames();
 
     const event: DateGalleryDateSelectedMultipleEvent = {
       type: 'DATE_SELECTED_MULTIPLE',
@@ -1348,11 +1374,10 @@ export class DateGallery<T>
   private _addNoDates(
     date: Date,
     amount: number,
-    frame: DateGalleryFrame<T>,
-    isPadding?: (date: Date) => boolean
+    frame: DateGalleryFrame<T>
   ): void {
     for (let i = 0; i < amount; i++) {
-      this._pushDay(date, isPadding ? isPadding(date) : false, frame);
+      this._pushDay(date, frame);
     }
   }
 
@@ -1362,23 +1387,29 @@ export class DateGallery<T>
     frame: DateGalleryFrame<T>
   ): void {
     while (this._getMonth(date) === month) {
-      this._pushDay(date, false, frame);
+      this._pushDay(date, frame);
     }
   }
 
-  private _pushDay(
-    date: Date,
-    isPadding: boolean,
-    frame: DateGalleryFrame<T>
-  ): void {
-    frame.dates.push(this._makeDate(date, isPadding));
+  private _pushDay(date: Date, frame: DateGalleryFrame<T>): void {
+    frame.dates.push(this._makeDate(date));
 
     this._moveDateBy(date, 1);
   }
 
-  private _makeDate(date: Date, isPadding: boolean): DateGalleryDate<T> {
+  private _makeDate(date: Date): DateGalleryDate<T> {
     const _date = new Date(date);
     this._toMidnight(_date);
+
+    // By default there is no padding.
+    let isPadding = false;
+
+    // Only when the mode is one of the modes that have padding
+    // calculate if this date has padding.
+    if (this.mode === 'month-pad-to-week' || this.mode === 'month-six-weeks') {
+      const anchorMonth = this._getMonth(this._anchorDate);
+      isPadding = this._getMonth(_date) !== anchorMonth;
+    }
 
     return new DateGalleryDate<T>(
       this,
@@ -1474,15 +1505,5 @@ export class DateGallery<T>
     } else {
       date.setDate(date.getDate() + mod);
     }
-  }
-
-  private _setIsSelected() {
-    this.frames.forEach((frame) => {
-      frame.dates.forEach((d) => {
-        d.isSelected = this.selectedDates.some((selected) => {
-          return this._sameDay(selected, d.date);
-        });
-      });
-    });
   }
 }
