@@ -5,6 +5,7 @@ import { useActiveList } from './ActiveList/useActiveList';
 import { useViewChannel } from './ViewChannel/useViewChannel';
 import { useTypewriter } from './Typewriter/useTypewriter';
 import { useTypewriterFromSentences } from './Typewriter/useTypewriterFromSentences';
+import { useDateGallery } from './DateGallery/useDateGallery';
 
 /**
  * The uiloos Vue plugin, add it to vue via `app.use()`;
@@ -58,4 +59,5 @@ export {
   useViewChannel,
   useTypewriter,
   useTypewriterFromSentences,
+  useDateGallery
 };
