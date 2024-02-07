@@ -32,6 +32,12 @@ const config = [
     core: 'uiloosTypewriter'
   }),
   createEntry({
+    input: 'dateGallery',
+    output: 'date-gallery',
+    name: 'uiloosAlpineDateGallery',
+    core: 'uiloosDateGallery'
+  }),
+  createEntry({
     input: 'subscribe',
     output: 'subscribe',
     name: 'uiloosAlpineSubscribe',

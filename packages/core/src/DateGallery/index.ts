@@ -13,7 +13,7 @@ import { createDateGallerySubscriber, CreateDateGallerySubscriberConfig} from '.
 export * from './types';
 
 export {
-  DateGallery as DateGallery,
+  DateGallery,
   DateGalleryEvent,
   DateGalleryDate,
   DateGalleryModeError,
