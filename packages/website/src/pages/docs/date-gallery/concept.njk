@@ -1,0 +1,681 @@
+---
+title: Concepts | DateGallery | Docs
+layout: layouts/docs.njk
+permalink: /docs/date-gallery/concepts/
+parent: 'date-gallery'
+current: 'date-gallery-concepts'
+description: "Provides a conceptual overview of the DateGallery component from the uiloos library. The DateGallery can be used to create calendars, datepickers, and date range pickers."
+keywords: "DateGallery concept, DateGallery overview, DateGallery use-cases, datepicker, date range picker, calendar"
+---
+
+<script src="/assets/date-gallery-concepts.js" defer="true"></script>
+
+<article>
+  <h1>DateGallery Concepts</h1>
+
+  <nav class="2xl:fixed 2xl:top-24 2xl:right-2 2xl:w-[270px]" role="doc-toc">
+    <em>Table of contents</em>
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8">
+        <a href="#overview" class="text-purple-600 underline">Overview</a>
+      </li>
+      <li class="ml-8">
+        <a href="#initialization" class="text-purple-600 underline">Initialization</a>
+      </li>
+      <li class="ml-8">
+        <a href="#live-properties" class="text-purple-600 underline">Live properties</a>
+      </li>
+      <li class="ml-8">
+        <a href="#modes" class="text-purple-600 underline">Modes</a>
+      </li>
+      <li class="ml-8">
+        <a href="#frames" class="text-purple-600 underline">Frames</a>
+      </li>
+      <li class="ml-8">
+        <a href="#dates" class="text-purple-600 underline">Dates</a>
+      </li>
+      <li class="ml-8">
+        <a href="#events" class="text-purple-600 underline">Events</a>
+      </li>
+      <li class="ml-8">
+        <a href="#selection" class="text-purple-600 underline">Selection</a>
+      </li>
+      <li class="ml-8">
+        <a href="#i18n" class="text-purple-600 underline">I18N</a>
+      </li>
+      <li class="ml-8">
+        <a href="#dealing-with-date" class="text-purple-600 underline">Dealing with Date</a>
+      </li>
+      <li class="ml-8">
+        <a href="#utc" class="text-purple-600 underline">UTC</a>
+      </li>
+      <li class="ml-8">
+        <a href="#history" class="text-purple-600 underline">History</a>
+      </li>
+    </ol>
+  </nav>
+
+  <section>
+    <h2 id="overview">
+      <a href="#overview">1. Overview</a>
+    </h2>
+
+    <p>
+      The <a href="/api/core/dategallery/" class="underline high">DateGallery</a> 
+      is a component that can be used to create date based components, such 
+      as date pickers, date range pickers and even fully fledged calendars:
+    </p>
+
+    {% include './concepts/datepicker/datepicker.njk' %}
+    {% include './concepts/daterangepicker/daterangepicker.njk' %}
+    {% include './concepts/month-calendar/month-calendar.njk' %}
+    {% include './concepts/week-calendar/week-calendar.njk' %}
+    {% include './concepts/day-calendar/day-calendar.njk' %}
+
+    <p>
+      The name <a href="/api/core/dategallery/" class="underline high">DateGallery</a> is a 
+      pun on the fact that date based components tend to show you a collection of dates.
+    </p>
+
+    <p>
+      What the <span class="high">DateGallery</span> provides is an API to move 
+      through a frame of dates, for examples: move from one month to the next 
+      month. It also provides an API to select dates, and has support for having 
+      events on dates, events are in the sense of a "doctors appointment" or "meeting".
+    </p>
+
+    <p>
+      A <span class="high">DateGallery</span> structurally consists of a couple of classes:
+      The first is a <a href="/api/core/dategalleryframe/" class="underline high">DateGalleryFrame</a>,
+      which represent a group of dates that are currently visible, a date is  
+      represented by a  <a href="/api/core/dategallerydate/" class="underline high">DateGalleryDate</a>.
+    </p>
+
+    <p>
+      A <a href="/api/core/dategallerydate/" class="underline high">DateGalleryDate</a> has all the 
+      information about the day it represents: whether or not it is selected, if there are any events, 
+      or if the date it represents is today, and more.
+    </p>
+
+    <p>
+      How many dates are contained in the <a href="/api/core/dategalleryframe/" class="underline high">DateGalleryFrame</a>
+      depends on the <a href="/api/core/dategallerymode/" class="underline high">mode</a> the DateGallery is in.
+      For example when the mode is "year" a whole year of dates are shown, when the mode is "week" only 7 days 
+      are shown.
+    </p>
+
+    <p>
+      The <a href="/api/core/dategalleryevent/" class="underline high">DateGalleryEvent</a> represents
+      the events of the <a href="/api/core/dategallery/" class="underline high">DateGallery</a>. 
+      An event always has a start and an end date, and optionally can hold any other data you might 
+      want to give it: such as a title or a description. A <a href="/api/core/dategalleryevent/" class="underline high">DateGalleryEvent</a>
+      also knows which events overlap him.
+    </p>
+  <section>
+
+  <section>
+    <h2 id="initialization">
+      <a href="#initialization">2. Initialization</a>
+    </h2>
+
+    <p>
+      The DateGallery can be initialized by calling the <a href="/api/core/dategallery/#constructor" class="high underline">constructor</a>.
+      The constructor takes two arguments the <a href="/api/core/dategalleryconfig/" class="high underline">config</a>
+      and an optional <a href="/api/core/dategallerysubscriber/" class="high underline">subscriber</a>.
+    </p>
+
+    <p>
+      The <a href="/api/core/dategalleryconfig/" class="high underline">config</a>
+      allows for the DateGallery to be tuned to the use case. In the next sections
+      we dive deeper into what can be configured.
+    </p>
+
+    <p>
+      The second argument is an optional <a href="/api/core/dategallerysubscriber/" class="high underline">subscriber</a>,
+      the subscriber is a callback function, allowing you to observe changes 
+      of the DateGallery. When using vanilla JavaScript the callback is the place
+      to perform any DOM manipulations. The callback receives the <a href="/api/core/dategallerysubscriberevent/" class="high underline">event</a>
+      that occurred so you can act on it.
+    </p>
+
+    <p>
+      When using reactive frameworks such as React, Vue, Angular or Svelte etc etc. 
+      The subscriber is not necessary since your framework of choice will do the 
+      heavy lifting of syncing the state of the DateGallery with the DOM. For more information see 
+      <a href="/docs/active-list/usage-with-frameworks/" class="underline">"Usage with Frameworks"</a>
+    </p>
+
+    {% include './concepts/initialization.njk' %}
+  </section>
+
+  <section>
+    <h2 id="live-properties">
+      <a href="#live-properties">3. Live properties</a>
+    </h2>
+
+    <p>
+      The DateGallery tracks the status of itself in "live" properties. 
+      These live properties will sync automatically whenever you perform an 
+      action (call a method) of the DateGallery, such as adding or 
+      removing an event, or jumping to the next or previous frame.
+    </p>
+
+    <p>
+      In other words: each time you call a method to alter the DateGallery,
+      all "live" properties will have been updated to reflect the current 
+      status. 
+    </p>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        <span class="high">mode</span> mode the DateGallery is in, for example: 
+        <span class="high">day</span>, <span class="high">week</span> or 
+        <span class="high">month-six-weeks</span> etc etc.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">events</span> contains all <a href="/api/core/dategalleryevent/" class="underline high">events</a> from 
+        within the DateGallery.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">selectedDates</span> contains <span class="high">Date</span> objects
+        which are selected. <span class="high">selectedDates</span> determine if a 
+        <span class="high">DateGalleryEvent</span> is selected.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">frames</span> all frames that are currently visible. The number 
+        of frames is determined by <span class="high">numberOfFrames</span>.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">firstFrame</span> the first item in the <span class="high">frames</span> array, 
+        handy shortcut for when only showing one frame at a time.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">numberOfFrames</span> the number of frames that are visible to 
+        the user at the same time. For example when <span class="high">mode</span> is 
+        set to <span class="high">month</span> and the <span class="high">numberOfFrames</span>
+        to <span class="high">3</span>, three months are shown.
+      </li> 
+    </ol>
+  <section>
+
+  <section>
+    <h2 id="modes">
+      <a href="#modes">4. Modes</a>
+    </h2>
+
+    <p>
+      The DateGallery has modes which determine how many dates
+      are shown in a single frame. 
+    </p>
+
+    <p>
+      For example if you set the mode to <span class="high">"week"</span>,
+      each frame will have seven days. When calling <a href="/api/core/dategallery/#next" class="high underline">next()</a> 
+      the frame will contain the next seven days.
+    </p>
+
+    <p>
+      You can change the mode of a DateGallery by calling <a href="/api/core/dategallery/#changeconfig" class="high underline">changeConfig()</a>
+      with a <a href="/api/core/dategallery/#dategallerychangeconfig" class="high underline">DateGalleryChangeConfig</a> that 
+      has a mode property.
+    </p>
+
+    <p>There are 6 modes in total:</p>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        <span class="high">"day"</span> a single day per frame, useful 
+        for when creating calendars with a "day" view.
+      </li>
+
+      <li class="ml-8 mb-4">
+        <span class="high">"week"</span> seven days per frame, starting at the 
+        configured firstDayOfWeek. Handy when creating a calendar with a
+        "week" view.
+      </li>
+
+      <li class="ml-8 mb-4">
+        <span class="high">"month"</span> all days within a calendar month 
+        per frame. A frame will then always start on the first of the month, 
+        and end on the last day of the month.
+      </li>
+
+      <li class="ml-8 mb-4">
+        <p>
+          <span class="high">"month-six-weeks"</span> all days within a 
+          calendar month, but padded out to six weeks. Meaning that there 
+          are always 42 days in the frame. Useful for when you want you 
+          calendar / datepicker to be visually stable height wise.
+          Starts the days on the configured firstDayOfWeek.
+        </p>
+      </li>
+
+      <li class="ml-8 mb-4">
+        <p>
+          <span class="high">"month-pad-to-week"</span> all days within a 
+          calendar month, but padded out to the closest firstDayOfWeek.
+          For example given that firstDayOfWeek is set to 0 / Sunday: if 
+          the first day of the month starts on Wednesday it will pad to the 
+          previous Sunday of the previous month. If the month ends on a 
+          friday, it will add the next saturday of the next month.
+          Starts the days on the configured firstDayOfWeek.
+        </p>
+      </li>
+
+      <li class="ml-8 mb-4">
+        <span class="high">"year"</span> a frame will contain all 365 
+        days (or 366 when a leap year) within a year.
+      </li>
+    </ol>
+
+    <p>
+      The default mode is <span class="high">"month-six-weeks"</span>.
+    </p>
+
+    <p>
+      On padding: the modes <span class="high">"month-six-weeks"</span> and 
+      <span class="high">"month-pad-to-week"</span> both pad out their month,
+      to contain extra dates for aesthetic reasons. In most UIs these 
+      padding days tend to be greyed out. You can tell if a <a class="high underline" href="/api/core/dategallerydate">DateGalleryDate</a>
+      is padding if the  <a class="high underline" href="/api/core/dategallerydate#ispadding">isPadding</a>
+      boolean is set to <span class="high">true</span>.
+    </p>
+  <section>
+
+  <section>
+    <h2 id="frames">
+      <a href="#frames">5. Frames</a>
+    </h2>
+
+    <p>
+      In some situations you want to show multiple frames of a mode 
+      at the same time. For example you might want to show 12 <span class="high">"month"</span>
+      calendars in a grid to show an overview of an entire year.
+    </p>
+
+    <p>
+      Or you want to create a date range picker which shows not just one month, 
+      but three months side by side to make picking, for example: a vacation easier.
+    </p>
+
+    <p>
+      In these scenarios you want to use <a href="/api/core/dategallery/#numberofframes" class="high underline">numberOfFrames</a>, 
+      it tells the DateGallery just how many items the <a href="/api/core/dategallery/#frames" class="high underline">frames</a> array 
+      should have.
+    </p>
+
+    <p>
+      For the first scenario you would set the mode to <span class="high">"month"</span>
+      and <span class="high">"numberOfFrames"</span> to <span class="high">12</span>
+    </p>
+
+    <p>
+      For the second scenario you would set the mode to <span class="high">"month"</span>
+      (or another month mode) and <span class="high">"numberOfFrames"</span> to <span class="high">3</span>.
+    </p>
+
+    <p>
+      All visible frames are stored in the <a href="/api/core/dategallery/#frames" class="high underline">frames</a> array
+      and are represented by the <a href="/api/core/dategalleryframe/" class="high underline">DateGalleryFrames</a> class.
+      Which holds a reference to the dates and events which are in the frame. 
+    </p>
+
+    <p>
+      Each frame also an <a href="/api/core/dategalleryframe#anchordate" class="high underline">anchorDate</a>
+      which represents the first date this frame represents. This date can be used to render the 
+      "title" of the frame, for example in a month based calendar the name of the month, or in 
+      a year based calendar the year that is displayed. The <span class="high">anchorDate</span> will 
+      always have its time set to midnight.
+    </p>
+
+    <p>
+      There also exists <a href="/api/core/dategallery/#firstframe" class="high underline">firstFrame</a> property 
+      which is a shortcut to the first object within the <span class="high">frames</span> array. 
+      This is useful for when the <span class="high">numberOfFrames</span> is set to <span class="high">1</span>, 
+      so you do not have to write a nested loop.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="dates">
+      <a href="#dates">6. Dates</a>
+    </h2>
+
+    <p>
+      A day is represented by the <a href="/api/core/dategallerydate/" class="high underline">DateGalleryDate</a> 
+      class, and in the example code it is often given the variable name <span class="high">dateObj</span>.
+    </p>
+
+    <p>
+     The DateGalleryDate main purpose is to be iterated / looped over to
+     display the dates of the <a href="/api/core/dategalleryframe/" class="high underline">DateGalleryFrames</a>.
+    </p>
+
+    <p>
+      The most important property of the DateGalleryDate is its <a href="/api/core/dategallerydate#date" class="high underline">date</a>, 
+      a JavaScript <span class="high">Date</span> object, which has its time set to midnight.
+      It is the <span class="high">date</span> property you use to render a string which 
+      represents this date, in a month based calendar this would be the days number for example. 
+    </p>
+
+    <p>
+      A DateGalleryDate also knows which events are happening on that day, knows if it is selected 
+      or not, and if the date it represents is on today. You can use all of this information to 
+      drive which CSS classes you would apply on the DOM element.
+    </p>
+
+    <p>
+      It also has methods to select / deselect and toggle the selection of that date.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="events">
+      <a href="#events">7. Events</a>
+    </h2>
+
+    <p>
+      The main point of creating calendar UIs is to show events on that
+      calendar, for example which movies are showing at the cinema, 
+      which appointment and meetings a person has etc etc.
+    </p>
+
+    <p>
+      An event is represented by the <a href="/api/core/dategalleryevent/" class="high underline">DateGalleryEvent</a> 
+      class.
+    </p>
+
+    <p>
+      Events can be added via to the DateGallery via the <a href="/api/core/dategallery/#addevent" class="high underline">addEvent</a> method, 
+      or via the config on the <a href="/api/core/dategalleryconfig/#events" class="high underline">events</a> property.
+    </p>
+
+    <p>
+      The only thing the DateGallery wants to know about an event, is what the <span class="high">startDate</span> and 
+      <span class="high">startDate</span> of an event are. These are JavaScript <span class="high">Date</span> objects
+      and therefore can also hold the time.
+    </p>
+
+    <p>
+      The rest of the information you want to add to the event you can add on the <span class="high">data</span> property.
+      The value <span class="high">data</span> can by anything you want, from an array, to an object, or even strings or numbers.
+      For example: you could set date to be an object containing for example the title, 
+      description, guest, and color of the event.
+    </p>
+
+    <p>
+      The DateGalleryEvent also contains meta information about an event: 
+      if the event spans multiple days, which can be used to give the 
+      event a different appearance. It also knows what all overlapping events are.
+      and when that happens you might give a visual clue to warn the user.
+    </p>
+
+    <p>
+      There are also several methods on the DateGalleryEvent, which allow 
+      you to move the event, remove the event, and change the data of 
+      an event.
+    </p>  
+
+    <p>
+      The events are stored on the DateGallery on the <a href="/api/core/dategallery/#events" class="high underline">events</a>
+      array. The events array sorted from earlier to later / past to future.
+    </p>
+
+    <p>
+      Each <a href="/api/core/dategallerydate#events" class="high underline">DateGalleryDate</a> also 
+      knows which events happen on that specific date. This allows you to 
+      iterate / loop over all events of a specific day.
+    </p>
+
+    <p>
+      A <a href="/api/core/dategalleryframe#events" class="high underline">DateGalleryFrame</a> also 
+      knows which events occur on it. This allows you to iterate over each event to render all 
+      events of that frame. This is useful if you want to create a month calendar, but display 
+      the events in a separate panel for example.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="selection">
+      <a href="#selection">8. Selection</a>
+    </h2>
+
+    <p>
+      When writing date pickers or date range pickers you want the user to be able 
+      to select dates. So they can pick the time of a meeting, or select the 
+      range of dates to go on vacation.
+    </p>
+
+    <p>
+      Within the DateGallery selection is done based on JavaScript 
+      <span class="high">Date</span> objects, which are stored in an 
+      array called <a href="/api/core/dategallery#selecteddates" class="high underline">selectedDates</a>.
+      All dates inside of <a href="/api/core/dategallery#selecteddates" class="high underline">selectedDates</a>
+      are set to midnight. The array is sorted on insertion order.
+    </p> 
+
+    <p>
+      Whenever a <a href="/api/core/dategallerydate" class="high underline">DateGalleryDate</a>
+      is created it is checked if it matches one of the dates of the <span class="high">selectedDates</span>
+      to see if it is selected.
+    </p>
+
+    <p>
+      You can select / deselect dates via <a href="/api/core/dategallerydate/#methods" class="underline">methods</a> 
+      on the DateGalleryDate, or via <a href="/api/core/dategallery/#methods" class="underline">methods</a> of the 
+      DateGallery, it is even possible to select ranges via <a href="/api/core/dategallery/#selectrange" class="high underline">selectRange</a>.
+    </p>
+
+    <p>
+      You also can predefine selected dates via the config by setting the <a href="/api/core/dategalleryconfig#selecteddates" class="high underline">selectedDates</a> property.
+    </p>
+
+    <p>
+      Sometimes you want to prevent a date from being able to be selected.
+      For example you do not want users to be able to book appointments
+      on the weekend, or in the future / past.
+    </p>
+
+    <p>
+      In this scenario you can provide a <a href="/api/core/dategalleryconfig#canselect" class="high underline">canSelect</a>
+      function when configuring the DateGallery. The <span class="high">canSelect</span> is called with a 
+      <a href="/api/core/dategallerydate" class="underline high">DateGalleryDate</a> instance and you should 
+      return a <span class="high">boolean</span> for whether or not the date can be selected.
+    </p>
+
+    <p>
+      Every DateGalleryDate has a property called 
+      <a href="/api/core/dategallerydate#canbeselected" class="underline high">canBeSelected</a>
+      which is the result of calling <span class="high">canSelect</span> with that DateGalleryDate.
+      You can use <span class="high">canBeSelected</span> to give dates that cannot be selected
+      a different set of CSS classes.
+    </p>
+
+    <p>
+      If no <span class="high">canSelect</span> is provided all dates can be selected.
+    </p>
+
+    <p>
+      You can also limit the number of dates that can be selected setting
+      <a href="/api/core/dategalleryconfig#maxselectionlimit" class="high underline">maxSelectionLimit</a>
+      to a number.
+  </section>
+
+  <section>
+    <h2 id="i18n">
+      <a href="#i18n">9. I18N</a>
+    </h2>
+
+    <p>
+      The DateGallery component does not provide ways to format 
+      JavaScript <span class="high">Date</span> objects. Instead we 
+      advise you to use the excellent built in date formatters in 
+      JavaScript itself.
+    </p>
+
+    <p>
+      This API is called: <a class="underline high" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat">DateTimeFormat</a>, 
+      and has been in JavaScript for quite some time. It allows you 
+      to format days in various languages, and in various formats,
+      without having to download one extra bit.
+    </p>
+
+     <p>
+      The one thing the DateGallery does support is setting what the  
+      <a href="/api/core/dategalleryconfig#firstdayofweek" class="high underline">firstDayOfWeek</a> is 
+      considered to be. This is used in various modes such as the <span class="high">"week"</span>
+      mode to determine on which day a week begins.
+    </p>
+
+    <p>
+      It defaults to <span class="high">0</span> which stands for sunday.
+    </p>
+  </section>
+
+   <section>
+    <h2 id="dealing-with-date">
+      <a href="#dealing-with-date">10. Dealing with Date</a>
+    </h2>
+
+    <p>
+      Many of the DateGallery's methods accept dates as arguments, 
+      these can either be given as a <span class="high">string</span> or 
+      a <span class="high">Date</span> object.
+    </p>
+
+    <p>
+      When providing <span class="high">Date</span>'s the DateGallery
+      will use the <span class="high">Date</span> as is but it will
+      always create a copy, so the original is not mutated.
+    </p>
+
+    <p>
+      When providing a <span class="high">string</span> that string is 
+      used as an argument to the <span class="high">Date</span> 
+      constructor. When using <span class="high">string</span> it is 
+      important that you understand how the <span class="high">Date</span> 
+      constructor treats strings! We recommend that you read this section 
+      on MDN carefully: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format" class="underline">Date time string format</a>.
+    </p>
+
+    <p>
+      An alternative is to parse dates one of the JavaScript date 
+      libraries out there, to make sure your string dates are in 
+      fact valid.
+    </p>
+
+    <p>
+      Another thing to note is that "uiloos" does not provide any date 
+      manipulation functions / utility functions such as adding 
+      hours to dates, get differences between dates etc etc
+    </p>
+
+    <p>
+      Instead you should choose one of the many excellent date utility 
+      libraries out there, for all your parsing, and date manipulation
+      needs.
+    </p>
+
+    <p>
+      Here are some recommendations, in no particular order:
+    </p>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        <a href="https://date-fns.org" class="underline">date-fns</a> has a function
+        based API where each operation is a function call away. 
+      </li>
+      <li class="ml-8 mb-4">
+        <a href="https://day.js.org/" class="underline">date-fns</a> a very small in kB
+        object oriented API. Great for chaining together operations in a readable way.
+      </li>
+      <li class="ml-8 mb-4">
+        <a class="underline" href="https://moment.github.io/luxon/#/">Luxon</a> is the 
+        successor to Moment.js, they share a lot of DNA but the main difference 
+        is that Luxon is immutable whereas Moment.js is mutable. Has an
+        object oriented API. 
+      </li>
+      <li class="ml-8 mb-4">
+        <a class="underline" href="https://momentjs.com/">Moment.js</a> is an older library 
+        but one that is still used a lot. Our advice is to use Luxon / Day.js if you like a object
+        oriented API, but if you already use Moment.js extensively it is fine.
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="utc">
+      <a href="#i18n">11. UTC</a>
+    </h2>
+
+    <p>
+      It is possible to set the DateGallery to UTC mode via the 
+      <a href="/api/core/dategalleryconfig/#isutc" class="high underline">isUTC</a> configuration.
+    </p>
+
+    <p>
+      UTC allows you to create calendars / date pickers which look the same all across the world,
+      no matter what timezone you are in. <b>Most of the time this is not what you want!</b>
+    </p>
+
+    <p>
+      When is <span class="high">isUTC</span> is set to <span class="high">true</span> all operations
+      the DateGallery internally performs on JavaScript <span class="high">Date</span> objects, are 
+      done with the UTC variants.
+    </p>
+
+     <p>
+      Also all <span class="high">Date</span> objects the DateGallery gives back to you are set in 
+      <span class="high">UTC</span>.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="history">
+      <a href="#history">12. History</a>
+    </h2>
+
+    <p>
+      The DateGallery can keep track of all
+      <a href="/api/core/dategallerysubscriberevent/" class="high underline">events</a> that
+      occurred, by default is it
+      <a href="/api/core/dategalleryconfig/#keepHistoryFor" class="high underline"
+        >configured</a
+      >
+      not to keep any history.
+    </p>
+
+    <p>
+      When you set
+      <a href="/api/core/dategalleryconfig/#keepHistoryFor" class="high underline"
+        >keepHistoryFor</a
+      >
+      to a number, the DateGallery will make sure the
+      <span class="high">history</span>
+      array will never exceed that size.
+    </p>
+
+    <p>
+      If the size is exceeded the oldest event is removed to make place for the new
+      event. This is based on the first in first out principle.
+    </p>
+  </section>
+
+  <a
+    class="card"
+    href="/docs/date-gallery/tutorial/"
+  >
+    <div>
+      <div class="text-normal font-medium mb-1">Tutorial</div>
+      <div class="text-sm">Learn how to use the DateGallery</div>
+    </div>
+    <svg
+      class="w-4 h-4 fill-current text-blue-600 shrink-0 ml-6"
+      viewBox="0 0 16 16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z"></path>
+    </svg>
+  </a>
+
+</article>

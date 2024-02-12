@@ -1,0 +1,50 @@
+<details>
+  <summary class="mb-4">Initialization code example</summary>
+
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 dark:bg-gray-700 px-2 pt-2 pb-4 gap-4">
+      <button class="font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">JavaScript</button>
+      <button class="font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">TypeScript</button>
+    </div>
+
+    <div class="example">
+      {% highlight "javascript" %}
+import { DateGallery } from '@uiloos/core';
+
+const config = {
+  mode: 'week'
+};
+
+function subscriber(dateGallery, event) {
+  console.log(event);
+}
+
+const dateGallery = new DateGallery(config, subscriber)
+{% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "typescript" %}
+import { DateGallery, DateGallerySubscriberEvent } from '@uiloos/core';
+
+type EventData = {
+  title: string;
+  description: string;
+  color: string;
+};
+
+const config = {
+  mode: 'week'
+};
+
+function subscriber(
+  dateGallery: DateGallery<EventData>,
+  event: DateGallerySubscriberEvent<EventData>
+) {
+  console.log(event);
+}
+
+const dateGallery = new DateGallery<EventData>(config, subscriber);
+
+{% endhighlight %}
+  </div>
+</details>

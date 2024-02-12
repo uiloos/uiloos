@@ -142,5 +142,45 @@
     "url": "https://codesandbox.io/p/sandbox/activelist-svelte-f6sdsl",
     "tags": ["Svelte"],
     "for": "ActiveList"
+  },
+  {
+    "id": 28,
+    "text": "DateGallery usage in vanilla JavaScript",
+    "description": "Shows how to create a calendar, datepicker and date ranger picker.",
+    "url": "https://codesandbox.io/p/devbox/dategallery-vanilla-snf4xr",
+    "tags": ["JavaScript"],
+    "for": "DateGallery"
+  },
+  {
+    "id": 29,
+    "text": "DateGallery usage in Vue",
+    "description": "Shows how to use the `useDateGallery` composable",
+    "url": "https://codesandbox.io/p/devbox/dategallery-vue-5y7rrh",
+    "tags": ["Vue"],
+    "for": "DateGallery"
+  },
+  {
+    "id": 30,
+    "text": "DateGallery usage in React",
+    "description": "Demonstrates the `useDateGallery` hook",
+    "url": "https://codesandbox.io/p/devbox/dategallery-react-9s2zcl",
+    "tags": ["React"],
+    "for": "DateGallery"
+  },
+  {
+    "id": 31,
+    "text": "DateGallery usage in Angular",
+    "description": "Shows how integrate the `DateGallery` with Angular",
+    "url": "https://codesandbox.io/p/devbox/dategallery-angular-ynppjp",
+    "tags": ["Angular"],
+    "for": "DateGallery"
+  },
+  {
+    "id": 32,
+    "text": "DateGallery usage in Svelte",
+    "description": "The `createDateGalleryStore` is used to defined various components",
+    "url": "https://codesandbox.io/p/devbox/dategallery-svelte-8q672r",
+    "tags": ["Svelte"],
+    "for": "DateGallery"
   }
 ]

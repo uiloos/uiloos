@@ -1,0 +1,72 @@
+.daterangepicker-example {
+  display: grid;
+  justify-items: center;
+  height: 360px;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.daterangepicker-example .topbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  align-self: start;
+}
+
+.daterangepicker-example .topbar .title {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.daterangepicker-example .topbar button {
+  width: 42px;
+  font-size: 32px;
+  background-color: white;
+}
+
+.daterangepicker-example .daygrid {
+  display: grid;
+  grid-template-columns: repeat(7, 42px);
+  justify-items: center;
+  align-self: end;
+}
+
+.daterangepicker-example .dates button {
+  width: 42px;
+  height: 42px;
+  background-color: white;
+}
+
+.daterangepicker-example .dates .selected {
+  background-color: skyblue;
+  font-weight: bold;
+}
+
+.daterangepicker-example .dates .start-of-range {
+  border-top-left-radius: 100%;
+  border-bottom-left-radius: 100%;
+}
+
+.daterangepicker-example .dates .end-of-range {
+  border-top-right-radius: 100%;
+  border-bottom-right-radius: 100%;
+}
+
+.daterangepicker-example .dates button:disabled {
+  color: gray;
+}
+
+.daterangepicker-example .bottombar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+}
+
+.daterangepicker-example .bottombar button {
+  padding: 4px;
+  color: white;
+  background-color: #6b21a8;
+}

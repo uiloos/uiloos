@@ -1,0 +1,68 @@
+.datepicker-example {
+  display: grid;
+  justify-items: center;
+  height: 360px;
+}
+
+.datepicker-example .topbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  align-self: start;
+}
+
+.datepicker-example .topbar .month {
+  font-size: 16px;
+}
+
+.datepicker-example .topbar .year {
+  width: 42px;
+}
+
+.datepicker-example .topbar button {
+  width: 42px;
+  font-size: 32px;
+  background-color: white;
+}
+
+.datepicker-example .daygrid {
+  display: grid;
+  grid-template-columns: repeat(7, 42px);
+  justify-items: center;
+  align-self: end;
+}
+
+.datepicker-example .dates button {
+  width: 42px;
+  height: 42px;
+  background-color: white;
+}
+
+.datepicker-example .dates button:disabled {
+  color: gray;
+}
+
+.datepicker-example .dates .today {
+  background-color: limegreen;
+  font-weight: bold;
+  border-radius: 100%;
+}
+
+.datepicker-example .dates .selected {
+  background-color: skyblue;
+  font-weight: bold;
+  border-radius: 100%;
+}
+
+.datepicker-example .bottombar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+}
+
+.datepicker-example .bottombar button {
+  padding: 4px;
+}

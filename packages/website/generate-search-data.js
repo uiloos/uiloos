@@ -191,6 +191,18 @@ const data = [
     type: 'Release',
     link: '/releases/react/',
   },
+  {
+    name: 'Releases of @uiloos/svelte',
+    description: 'View all releases of @uiloos/svelte',
+    type: 'Release',
+    link: '/releases/svelte/',
+  },
+  {
+    name: 'Releases of @uiloos/alpine',
+    description: 'View all releases of @uiloos/alpine',
+    type: 'Release',
+    link: '/releases/alpine/',
+  },
 
   ...releases,
 ];

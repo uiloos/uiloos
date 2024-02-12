@@ -218,6 +218,9 @@ export class DateGallery<T>
    * All dates which are currently considered selected.
    *
    * All dates will have their time set at midnight.
+   * 
+   * The array is not sorted, the items will appear in insertion 
+   * order.
    *
    * @since 1.6.0
    */

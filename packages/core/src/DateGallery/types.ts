@@ -170,7 +170,7 @@ export type DateGalleryConfig<T> = {
 
   /**
    * The dates that are considered selected when the `DateGallery` is
-   * initialized. Must be in the same format of the `dateFormat`.
+   * initialized.
    * 
    * The dates you provide will be converted to midnight.
    *
@@ -237,7 +237,7 @@ export type DateGalleryConfig<T> = {
  *
  * @param {DateGalleryDate<T>} dateGalleryDate The DateGalleryDate for which this predicate will determine if it can be selected.
  * @returns {boolean} Whether or not the DateGalleryDate can be selected.
- *
+ * 
  * @since 1.6.0
  */
 export type DateGalleryCanSelectPredicate<T> = (dateGalleryDate: DateGalleryDate<T>) => boolean 

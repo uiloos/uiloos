@@ -1,0 +1,53 @@
+<strong>
+  A. datepicker
+</strong>
+
+<p>
+ A datepicker component from which the user can select a single date
+</p>
+
+<style>
+  {% include "./datepicker-example.css" %}
+</style>
+
+{% include "./datepicker-example.html" %}
+
+<details>
+  <summary class="mb-4">View code</summary>
+
+  <div class="js-example-switcher">
+    <div class="flex bg-gray-200 dark:bg-gray-700 px-2 pt-2 pb-4 gap-4">
+      <button class="font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">JavaScript</button>
+      <button class="font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">HTML</button>
+      <button class="font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">CSS</button>
+    </div>
+
+    <div class="example">
+      {% highlight "js" %}
+      {% include "./datepicker-example.js" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "html" %}
+      {% include "./datepicker-example.html" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "css" %}
+      {% include "./datepicker-example.css" %}
+      {% endhighlight %}
+    </div>
+  </div>
+</details>
+
+<p>
+  For a more complete datepicker example that triggers on an input element, which
+  also has keyboard support see the: 
+  <a href="/docs/date-gallery/examples" class="underline">DateGallery examples</a>
+</p>
+
+<p class="note">
+  Perhaps the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date" class="underline">input type date</a> or 
+  <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local" class="underline">input type datetime-local</a> can 
+  fulfill your needs instead of rolling your own date picker, be sure to check them out!
+</p>
