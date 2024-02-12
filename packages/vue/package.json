@@ -1,6 +1,6 @@
 {
   "name": "@uiloos/vue",
-  "version": "1.6.0-alpha.11",
+  "version": "1.6.0-alpha.12",
   "description": "The Vue bindings of the uiloos headless UI",
   "keywords": [
     "uiloos"
@@ -49,9 +49,9 @@
     "typedoc": "0.24.8",
     "typescript": "5.1.5",
     "vite": "4.3.9",
+    "vite-plugin-dts": "3.7.2",
     "vitest": "0.32.2",
-    "vue": "3.3.4",
-    "vite-plugin-dts": "3.7.2"
+    "vue": "3.3.4"
   },
   "gitHead": "0be49f92c7e4ea9970be2610af79eb06e8d9477d"
 }
