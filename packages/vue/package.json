@@ -31,7 +31,7 @@
     "clean": "rm -rf coverage && rm -rf dist",
     "test": "vitest run --coverage",
     "tsc": "tsc --version && tsc --noEmit",
-    "build": "rm -rf dist && vite build && tsc --emitDeclarationOnly --outfile dist/index",
+    "build": "rm -rf dist && vite build",
     "apigen": "typedoc src/index.ts --json ../website/src/_data/api/vue.json"
   },
   "dependencies": {
@@ -50,7 +50,8 @@
     "typescript": "5.1.5",
     "vite": "4.3.9",
     "vitest": "0.32.2",
-    "vue": "3.3.4"
+    "vue": "3.3.4",
+    "vite-plugin-dts": "3.7.2"
   },
   "gitHead": "0be49f92c7e4ea9970be2610af79eb06e8d9477d"
 }
