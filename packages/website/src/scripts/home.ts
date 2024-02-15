@@ -4,12 +4,18 @@ import {
   ViewChannel,
   ViewChannelEvent,
   typewriterFromSentences,
+  DateGallery,
+  DateGalleryConfig,
+  DateGalleryDayOfWeek,
+  DateGalleryMode,
+  DateGalleryMaxSelectionLimitBehavior,
 } from '@uiloos/core';
 
 document.addEventListener('DOMContentLoaded', function () {
   initCarousel();
   initTypewriter();
   initViewChannel();
+  initDateGallery();
 });
 
 function initCarousel() {
@@ -84,7 +90,7 @@ function initCarousel() {
       const button = document.getElementById(
         `carousel-button-${carousel.lastActivated}`
       ) as HTMLButtonElement;
-      
+
       button.style.animation = `progress ${carousel.autoPlay.duration}ms linear`;
       return;
     }
@@ -293,6 +299,8 @@ type FlashMessage = {
   text: string;
 };
 
+let showAlert = (text: string) => {};
+
 function initViewChannel() {
   const prioritySelect = document.getElementById(
     'flashmessage-priority'
@@ -458,6 +466,7 @@ function initViewChannel() {
       },
     });
   }
+  showAlert = errorFlashMessage;
 
   function successFlashMessage(text: string) {
     flashMessageChannel.present({
@@ -522,5 +531,249 @@ function initViewChannel() {
 
   errorButton.onclick = () => {
     errorFlashMessage('An error message');
+  };
+}
+
+function initDateGallery() {
+  const datepickerEl = document.getElementById('datepicker') as HTMLDivElement;
+
+  const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  // 12-31-2000
+  const dateFormatter = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+
+  // December 2002
+  const monthAndYearFormatter = new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    year: 'numeric',
+  });
+
+  const config: DateGalleryConfig<unknown> = {
+    mode: 'month-six-weeks',
+    firstDayOfWeek: 0,
+    numberOfFrames: 1,
+    maxSelectionLimit: 1,
+    maxSelectionLimitBehavior: 'circular',
+  };
+
+  const datepicker = new DateGallery(config, (datepicker) => {
+    datepickerEl.innerHTML = '';
+
+    datepickerEl.className = 'grid content-start gap-8';
+
+    let first = true;
+    for (const frame of datepicker.frames) {
+      const topbarEl = document.createElement('div');
+      topbarEl.className = 'flex justify-around items-center';
+
+      const titleEl = document.createElement('b');
+      titleEl.textContent = monthAndYearFormatter.format(frame.anchorDate);
+
+      if (first) {
+        first = false;
+
+        const prevButton = document.createElement('button');
+        prevButton.className = 'text-4xl';
+        prevButton.textContent = '‹';
+        prevButton.ariaLabel = 'Go to previous month';
+        prevButton.onclick = () => {
+          datepicker.previous();
+        };
+
+        const nextButton = document.createElement('button');
+        nextButton.className = 'text-5xl';
+        nextButton.textContent = '›';
+        nextButton.ariaLabel = 'Go to next month';
+        nextButton.onclick = () => {
+          datepicker.next();
+        };
+
+        topbarEl.append(prevButton, titleEl, nextButton);
+      } else {
+        topbarEl.append(titleEl);
+      }
+
+      datepickerEl.append(topbarEl);
+
+      const dayNamesEl = document.createElement('ul');
+      dayNamesEl.className = 'grid grid-cols-7';
+
+      for (
+        let i = datepicker.firstDayOfWeek;
+        i < datepicker.firstDayOfWeek + 7;
+        i++
+      ) {
+        const dayEl = document.createElement('li');
+        dayEl.className = 'grid place-items-center font-bold';
+        dayEl.textContent = DAYS[i % 7];
+
+        dayNamesEl.append(dayEl);
+      }
+
+      datepickerEl.append(dayNamesEl);
+
+      const daysEl = document.createElement('ul');
+      daysEl.className = 'grid grid-cols-7';
+
+      for (const dateObj of frame.dates) {
+        const dayEl = document.createElement('li');
+        dayEl.className = 'grid place-items-center p-1';
+
+        let column = 0;
+        if (dateObj.date.getDay() >= datepicker.firstDayOfWeek) {
+          column = dateObj.date.getDay() - datepicker.firstDayOfWeek;
+        } else {
+          column =
+            7 - Math.abs(datepicker.firstDayOfWeek - dateObj.date.getDay());
+        }
+
+        dayEl.style.gridColumn = `${column + 1}`;
+
+        dayEl.innerHTML = `
+          <button 
+            class="w-full"
+            aria-label="Select ${dateFormatter.format(dateObj.date)}"
+            type="button"
+          >
+            <time datetime="${dateObj.date.toISOString()}">
+              ${dateObj.date.getDate()}
+            </time>
+          </button>
+        `;
+
+        const buttonEl = dayEl.querySelector('button');
+
+        if (buttonEl) {
+          if (dateObj.isPadding) {
+            buttonEl.classList.add('text-gray-400');
+          }
+
+          if (dateObj.isToday) {
+            buttonEl.classList.add('bg-green-700', 'text-white', 'rounded-lg');
+          }
+
+          if (dateObj.isSelected) {
+            buttonEl.classList.add('bg-purple-700', 'text-white', 'rounded-lg');
+          }
+
+          buttonEl.onclick = () => {
+            try {
+              dateObj.toggle();
+            } catch {
+              const plural =
+                datepicker.maxSelectionLimit === 1 ? 'date' : 'dates';
+
+              showAlert(
+                `You cannot select more than ${datepicker.maxSelectionLimit} ${plural}!`
+              );
+            }
+          };
+        }
+
+        daysEl.append(dayEl);
+      }
+
+      datepickerEl.append(daysEl);
+
+      first = false;
+    }
+
+    const bottomBarEl = document.createElement('div');
+    bottomBarEl.className = 'flex justify-around items-center';
+
+    const todayButton = document.createElement('button');
+    todayButton.className = 'p-2 text-white bg-purple-600 hover:bg-purple-700';
+    todayButton.textContent = 'Today';
+    todayButton.onclick = () => {
+      datepicker.today();
+    };
+
+    bottomBarEl.append(todayButton);
+
+    datepickerEl.append(bottomBarEl);
+  });
+
+  const modeSelect = document.getElementById(
+    'datepicker-mode'
+  ) as HTMLSelectElement;
+
+  modeSelect.onchange = (event) => {
+    // @ts-expect-error Is always a value
+    const newMode = event.target.value as DateGalleryMode;
+
+    config.mode = newMode;
+
+    config.selectedDates = [...datepicker.selectedDates];
+    datepicker.initialize(config);
+  };
+
+  const firstDayOfWeekSelect = document.getElementById(
+    'datepicker-firstDayOfWeek'
+  ) as HTMLSelectElement;
+
+  firstDayOfWeekSelect.onchange = (event) => {
+    const firstDayOfWeek = parseInt(
+      // @ts-expect-error Is always a value
+      event.target.value,
+      10
+    ) as DateGalleryDayOfWeek;
+
+    config.firstDayOfWeek = firstDayOfWeek;
+
+    config.selectedDates = [...datepicker.selectedDates];
+    datepicker.initialize(config);
+  };
+
+  const numberOfFramesSelect = document.getElementById(
+    'datepicker-numberOfFrames'
+  ) as HTMLSelectElement;
+
+  numberOfFramesSelect.onchange = (event) => {
+    const numberOfFrames = parseInt(
+      // @ts-expect-error Is always a value
+      event.target.value,
+      10
+    );
+
+    config.numberOfFrames = numberOfFrames;
+
+    config.selectedDates = [...datepicker.selectedDates];
+    datepicker.initialize(config);
+  };
+
+  const maxSelectionLimitSelect = document.getElementById(
+    'datepicker-maxSelectionLimit'
+  ) as HTMLSelectElement;
+
+  maxSelectionLimitSelect.onchange = (event) => {
+    // @ts-expect-error Is always a value
+    const value = event.target.value as string;
+
+    if (value === 'false') {
+      config.maxSelectionLimit = false;
+    } else {
+      config.maxSelectionLimit = parseInt(value, 10);
+    }
+
+    config.selectedDates = [...datepicker.selectedDates];
+    datepicker.initialize(config);
+  };
+
+  const maxSelectionLimitBehaviorSelect = document.getElementById(
+    'datepicker-maxSelectionLimitBehavior'
+  ) as HTMLSelectElement;
+
+  maxSelectionLimitBehaviorSelect.onchange = (event) => {
+    // @ts-expect-error Is always a value
+    const value = event.target.value as DateGalleryMaxSelectionLimitBehavior;
+
+    config.maxSelectionLimitBehavior = value;
+
+    config.selectedDates = [...datepicker.selectedDates];
+    datepicker.initialize(config);
   };
 }
