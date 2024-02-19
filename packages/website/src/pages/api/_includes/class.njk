@@ -43,35 +43,49 @@
       {% endif %}
     </nav>
 
-    <p class="font-mono mb-4 font-extrabold text-blue-800">CLASS</p>
+    <section role="contentinfo" aria-label="Description of {{ def.name }}">
+      <p class="font-mono mb-4 font-extrabold text-blue-800">CLASS</p>
 
-    {{ displayComment(def) }}
+      {{ displayComment(def) }}
 
-    {{ displaySince(def) }}
+      {{ displaySince(def) }}
+    </section>
     
     {% if def.constructor %}
-      <h2 id="constructor" class="text-2xl"><a href="#constructor">Constructor</a></h3>
-      <div class="border px-2 pt-4 mb-4">
-        {{ displaySignature(def.constructor) }}
-      </div>
+      <section>
+        <h2 id="constructor" class="text-2xl"><a href="#constructor">Constructor</a></h3>
+        <div class="border px-2 pt-4 mb-4">
+          {{ displaySignature(def.constructor) }}
+        </div>
+      </section>
     {% endif %}
     
     {% if def.properties.length > 0 %}
-      <h2 id="properties" class="text-2xl"><a href="#properties">Properties</a></h2>
-      {% for item in def.properties %}
-        {{ displayProperty(item) }}
-      {% endfor %}
+      <section>
+        <h2 id="properties" class="text-2xl"><a href="#properties">Properties</a></h2>
+
+        <ul>
+          {% for item in def.properties %}
+            {{ displayProperty(item) }}
+          {% endfor %}
+        </ul>
+      </section>
     {% endif %}
 
     {% if def.methods.length > 0 %}
-      <h2 id="methods" class="text-2xl"><a href="#methods">Methods</a></h2>
-      {% for item in def.methods %}
-        <div class="border px-2 pt-4 mb-4">
-          <h3 class="font-mono text-xl" id="{{item.name.toLowerCase()}}"><a href="#{{item.name.toLowerCase()}}">{{item.name}}</a></h3>
+      <section>
+        <h2 id="methods" class="text-2xl"><a href="#methods">Methods</a></h2>
 
-          {{ displaySignature(item) }}
-        </div>
-      {% endfor %}
+        <ul>
+        {% for item in def.methods %}
+          <li class="border px-2 pt-4 mb-4">
+            <h3 class="font-mono text-xl" id="{{item.name.toLowerCase()}}"><a href="#{{item.name.toLowerCase()}}">{{item.name}}</a></h3>
+
+            {{ displaySignature(item) }}
+          </li>
+        {% endfor %}
+        </ul>
+      </section>
     {% endif %}
 
   </article>

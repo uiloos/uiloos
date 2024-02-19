@@ -26,21 +26,28 @@
     {% endif %}
   </nav>
 
-  <p class="font-mono mb-4 font-extrabold text-pink-400">INTERFACE</p>
+  <section role="contentinfo" aria-label="Description of {{ def.name }}">
+    <p class="font-mono mb-4 font-extrabold text-pink-400">INTERFACE</p>
 
-  {{ displayComment(def) }}
+    {{ displayComment(def) }}
 
-  {{ displaySince(def) }}  
+    {{ displaySince(def) }}  
+  </section>
   
   {% if def.methods.length > 0 %}
-    <h2 id="methods" class="text-2xl"><a href="#methods">Methods</a></h2>
-    {% for item in def.methods %}
-      <div class="border px-2 pt-4 mb-4">
-        <h3 class="font-mono text-xl" id="{{item.name.toLowerCase()}}"><a href="#{{item.name.toLowerCase()}}">{{item.name}}</a></h3>
+    <section>
+      <h2 id="methods" class="text-2xl"><a href="#methods">Methods</a></h2>
 
-        {{ displaySignature(item) }}
-      </div>
-    {% endfor %}
+      <ul>
+        {% for item in def.methods %}
+          <li class="border px-2 pt-4 mb-4">
+            <h3 class="font-mono text-xl" id="{{item.name.toLowerCase()}}"><a href="#{{item.name.toLowerCase()}}">{{item.name}}</a></h3>
+
+            {{ displaySignature(item) }}
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
   {% endif %}
 </article>
 {% endmacro %}

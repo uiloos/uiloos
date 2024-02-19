@@ -1,7 +1,7 @@
 {% from "./macros.njk" import displayType, displaySince, displayComment %}
 
 {% macro displayProperty(item) %}
-  <div class="border px-2 pt-4 mb-4">
+  <li class="border px-2 pt-4 mb-4">
     <h3 class="font-mono text-xl" id="{{item.name.toLowerCase()}}"><a href="#{{item.name.toLowerCase()}}">{{item.name}}</a></h3>
     
     <p class="mb-4 font-mono">
@@ -11,6 +11,5 @@
     {{ displayComment(item) }}
 
     {{ displaySince(item) }}
-  </div>
-
+  </li>
 {% endmacro %}

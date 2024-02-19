@@ -16,16 +16,16 @@
     {% if def.type.type === 'reflection' %}
       {{ displayProperties(def.type.value) }}
     {% elif def.type.type === 'union' %}
-      <h2 class="mt-4 text-2xl">Union of</h2>
+      <b class="mt-4 text-2xl">Union of</b>
       <p class="mb-4 font-mono">
         {{ displayType(def.type, false) }}
       </p>
     {% elif def.type.type === 'intersection' %}
       {% for inter in def.type.value %}
         {% if inter.type === 'reference' %}
-          <h2 class="text-2xl">Extends
+          <b class="text-2xl">Extends
             <a class="underline text-purple-600" href="{{ inter.link}}/">{{inter.value}}</a>
-          </h2>
+          </b>
         {% else %}
           {{ displayProperties(inter.value) }}
         {% endif %}
@@ -36,8 +36,6 @@
 {% endmacro %}
 
 {% macro displayProperties(properties) %}
-  <h2 class="text-2xl mt-4">Properties</h2>
-
   <nav 
     class="hidden 2xl:block 2xl:absolute 2xl:top-[80px] 2xl:right-2 2xl:w-[270px]" 
     role="doc-toc"
@@ -61,32 +59,38 @@
     {% endif %}
   </nav>
 
-  {% for type in properties %}
-    <div class="border px-2 pt-4 mb-4">
-      <h3 class="text-xl font-mono" id="{{type.name.toLowerCase()}}">
-        <a href="#{{type.name.toLowerCase()}}">{{type.name}}</a>
-        {% if type.isOptional %}
-          <span class="text-sm italic">Optional</span>
-        {% endif %}
-      </h3>
+  <section>
+    <h2 class="text-2xl mt-4">Properties</h2>
 
-      {% if type.kindString === 'function' %}
-        {{ displaySignature(type) }}
-      {% else %}
-        {% if type.type.type !== 'reflection' %}
-          <p class="mb-4 font-mono">
-            {{ displayType(type.type) }}
-          </p>
-        {% endif %}
+    <ul>
+      {% for type in properties %}
+        <li class="border px-2 pt-4 mb-4">
+          <h3 class="text-xl font-mono" id="{{type.name.toLowerCase()}}">
+            <a href="#{{type.name.toLowerCase()}}">{{type.name}}</a>
+            {% if type.isOptional %}
+              <span class="text-sm italic">Optional</span>
+            {% endif %}
+          </h3>
 
-        {{ displayComment(type) }}
+          {% if type.kindString === 'function' %}
+            {{ displaySignature(type) }}
+          {% else %}
+            {% if type.type.type !== 'reflection' %}
+              <p class="mb-4 font-mono">
+                {{ displayType(type.type) }}
+              </p>
+            {% endif %}
 
-        {{ displaySince(type) }}
+            {{ displayComment(type) }}
 
-        {% if type.type.type === 'reflection' %}
-          {{ displayType(type.type) }}
-        {% endif %}
-      {% endif %}
-    </div>
-  {% endfor %}
+            {{ displaySince(type) }}
+
+            {% if type.type.type === 'reflection' %}
+              {{ displayType(type.type) }}
+            {% endif %}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
 {% endmacro %}

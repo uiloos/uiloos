@@ -14,9 +14,12 @@
 
   {% if def.properties.length > 0 %}
     <h2 id="properties" class="text-xl"><a href="#properties">Properties</a></h2>
-    {% for item in def.properties %}
-      {{ displayProperty(item) }}
-    {% endfor %}
+
+    <ul>
+      {% for item in def.properties %}
+        {{ displayProperty(item) }}
+      {% endfor %}
+    </ul>
   {% endif %}
 
   <h2 class="text-2xl">Example</h2>
