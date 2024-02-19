@@ -4,7 +4,7 @@ const dateRangePickerEl = document.querySelector('.daterangepicker-example');
 const titleEl = dateRangePickerEl.querySelector('.title');
 const resultEl = document.querySelector('#daterangepicker-example-result');
 
-// December
+// December 2000
 export const monthYearFormatter = new Intl.DateTimeFormat('en-US', {
   month: 'long',
   year: 'numeric',

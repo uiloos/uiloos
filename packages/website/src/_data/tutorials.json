@@ -30,5 +30,21 @@
     "url": "/docs/active-list/tutorials/snap-carousel/",
     "tags": ["JavaScript"],
     "for": "ActiveList"
+  },
+  {
+    "id": 5,
+    "text": "Datepicker",
+    "description": "Learn how to create a datepicker that acts as a regular input component",
+    "url": "/docs/date-gallery/tutorials/datepicker/",
+    "tags": ["JavaScript"],
+    "for": "DateGallery"
+  },
+  {
+    "id": 6,
+    "text": "Week calendar",
+    "description": "Learn how to create a week based calendar",
+    "url": "/docs/date-gallery/tutorials/week-calendar/",
+    "tags": ["JavaScript"],
+    "for": "DateGallery"
   }
 ]
