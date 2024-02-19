@@ -66,3 +66,21 @@
 .translate-z-0 {
   transform: translateZ(0);
 }
+
+/* Style the list */
+.breadcrumb ol {
+  display: flex;
+  gap: 4px;
+  @apply mb-4;
+}
+
+.breadcrumb li+li:before {
+  padding: 8px;
+  color: black;
+  content: "›";
+}
+
+.breadcrumb li a:hover {
+  text-decoration: underline;
+}
+

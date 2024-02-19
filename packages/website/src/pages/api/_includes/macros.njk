@@ -151,3 +151,26 @@
     {% endfor %}
   {% endfor %}
 {% endmacro %}
+
+{% macro displayBreadcrumb(def) %}
+  <nav aria-label="Breadcrumb" class='breadcrumb'>
+    <ol>
+      <li>
+        <a href="../../">
+          API
+        </a>
+      </li>
+      <li>
+        <a href=".." class="capitalize">
+          {{def.package}}
+        </a>
+      </li>
+      <li>
+        <a href="" aria-current="page" class="font-bold">
+          {{def.name}}
+        </a>
+      </li>
+    </ol>
+  </nav>
+{% endmacro %}
+

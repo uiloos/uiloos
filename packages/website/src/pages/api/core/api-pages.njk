@@ -18,6 +18,9 @@ eleventyComputed:
 {% from "../_includes/instance.njk" import instancePage %}
 {% from "../_includes/interface.njk" import interfacePage %}
 {% from "../_includes/constant.njk" import constantPage %}
+{% from "../_includes/macros.njk" import displayBreadcrumb %}
+
+{{ displayBreadcrumb(def) }}
 
 {% if def.kindString === 'error' %}
   {{ errorPage(def) }}

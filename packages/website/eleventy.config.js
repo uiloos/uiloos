@@ -78,8 +78,6 @@ module.exports = function (eleventyConfig) {
       return aValue - bValue;
     });
 
-    console.log(result.map(x => x.name));
-
     return result;
   });
 

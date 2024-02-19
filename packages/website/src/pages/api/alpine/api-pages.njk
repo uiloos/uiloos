@@ -13,6 +13,9 @@ eleventyComputed:
 
 {% from "../_includes/function.njk" import functionPage %}
 {% from "../_includes/typealias.njk" import typealiasPage %}
+{% from "../_includes/macros.njk" import displayBreadcrumb %}
+
+{{ displayBreadcrumb(def) }}
 
 {% if def.kindString === 'component' %}
   {% include "./_includes/component.njk" %}
