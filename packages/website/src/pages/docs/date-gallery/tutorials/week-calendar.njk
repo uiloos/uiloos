@@ -1,0 +1,709 @@
+---
+title: Week calendar | Tutorials | DateGallery | Docs
+layout: layouts/docs.njk
+permalink: /docs/date-gallery/tutorials/week-calendar/
+parent: 'date-gallery'
+current: 'date-gallery-tutorial'
+description: "Tutorial which teaches you how to create a week based calendar"
+keywords: "DateGallery tutorial, DateGallery week calendar tutorial"
+---
+
+<article>
+  <h1>DateGallery week calendar tutorial</h1>
+
+  <nav class="2xl:fixed 2xl:top-24 2xl:right-2 2xl:w-[270px]" role="doc-toc">
+    <em>Table of contents</em>
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8">
+        <a href="#introduction" class="text-purple-600 underline">Introduction</a>
+      </li>
+      <li class="ml-8">
+        <a href="#files-overview" class="text-purple-600 underline">Files overview</a>
+      </li>
+      <li class="ml-8">
+        <a href="#goals" class="text-purple-600 underline">Goals</a>
+      </li>
+      <li class="ml-8">
+        <a href="#dategallery-setup" class="text-purple-600 underline">DateGallery setup</a>
+      </li>
+      <li class="ml-8">
+        <a href="#setting-the-title" class="text-purple-600 underline">Setting the title</a>
+      </li>
+      <li class="ml-8">
+        <a href="#navigation" class="text-purple-600 underline">Navigation</a>
+      </li>
+      <li class="ml-8">
+        <a href="#day-names" class="text-purple-600 underline">Day names</a>
+      </li>
+      <li class="ml-8">
+        <a href="#hours" class="text-purple-600 underline">Hours</a>
+      </li>
+      <li class="ml-8">
+        <a href="#events" class="text-purple-600 underline">Events</a>
+      </li>
+      <li class="ml-8">
+        <a href="#posters" class="text-purple-600 underline">Posters</a>
+      </li>
+      <li class="ml-8">
+        <a href="#what-you-have-learned" class="text-purple-600 underline">What you have learned</a>
+      </li>
+      <li class="ml-8">
+        <a href="#further-reading" class="text-purple-600 underline">Further reading</a>
+      </li>
+       <li class="ml-8">
+        <a href="#full-code" class="text-purple-600 underline">Full code</a>
+      </li>
+    </ol>
+  </nav>
+
+  <section>
+    <h2 id="introduction"><a href="#introduction">1. Introduction</a></h2>
+
+    <p>
+      In this tutorial we are going to use the <a href="/api/core/dategallery/" class="underline high">DateGallery</a>
+      to create a week based calendar view. The calendar will show the agenda for a cinema.
+    </p>
+
+    <p class="note">
+      That we are using vanilla JavaScript which requires us to
+      write our own DOM manipulation inside of a subscriber. When using
+      a reactive framework such as Angular or React, this is not necessary,
+      as these frameworks handle synchronizing with the DOM for us.
+      See <a class="underline" href="/docs/date-gallery/usage-with-frameworks/">Usage with Frameworks</a>
+      for more information.
+    </p>
+
+    <p>
+      To get started with the tutorial open and fork this 
+      <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/p/devbox/dategallery-week-calendar-tutorial-9cmts9?file=%2Fcalendar.js" class="underline text-purple-600">sandbox</a>.
+      By using the sandbox you do not have to worry to much about setting
+      up an entire development environment.
+    </p>
+
+    <h2 id="files-overview"><a href="#files-overview">2. Files overview</a></h2>
+
+    <p>
+      In the sandbox you will see a couple of files, most of them 
+      setup the dev environment, but these are the relevant files
+      containing the code:
+    </p>
+
+    <ol class="list-disc m-2 mb-4">
+      <li class="ml-8 mb-4">
+        <span class="high">index.html</span> contains the HTML for 
+        our week based calendar.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">calendar.js</span> this file is going to 
+        contain our week calendar implementation.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">calendar.css</span> it contains all styles for the calendar.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">form.js</span> the logic for the birthday form.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">modal.js</span> contains code to open up a model dialog.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">formatters.js</span> contains various Date formatters.
+      </li>
+       <li class="ml-8 mb-4">
+        <span class="high">events.js</span> contains utility functions that are about events.
+      </li>
+      <li class="ml-8">
+        <span class="high">utils.js</span> contains utilities functions.
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="goals"><a href="#goals">3. Goals</a></h2>
+
+    <p>
+      We want our month calendar to do the following things:
+    </p>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        We want to be able to navigate to the next and previous month.
+      </li>
+      <li class="ml-8 mb-4">
+        We want to show all movies as events within the calendar
+      </li>
+      <li class="ml-8 mb-4">
+        We want to be able to view the poster of the movie.
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="dategallery-setup"><a href="#dategallery-setup">4. DateGallery setup</a></h2>
+
+    <p>
+      Currently the screen is empty except for two buttons to move to the next 
+      and previous dates, so lets bring it to life!
+    </p>
+
+    <p>
+      We will start by creating an instance of the <a href="/api/core/dategallery" class="underline high">DateGallery</a> in
+      the mode <span class="high">"week"</span>:
+    </p>
+
+    <p>
+      In the file called "calendar.js" add the following at the 
+      bottom of the file, but keep the imports as is:
+    </p>
+
+    {% highlight "js" %}
+const dateGallery = new window.uiloosDateGallery.DateGallery(
+  {
+    mode: 'week'
+  },
+  (dateGallery) => {
+    // subscriber function
+  }
+);
+    {% endhighlight %}
+
+    <p>
+      We use <span class="high">window.uiloosDateGallery</span> variable which 
+      comes from using the pre-minified builds. You can also install "uiloos" via 
+      the "package.json" instead.
+    </p>
+
+    <p>
+      The first argument to the <a href="/api/core/dategallery" class="underline high">DateGallery</a> is 
+      a configuration object called <a href="/api/core/dategalleryconfig" class="underline high">DateGalleryConfig</a>.
+      It allows you to setup the <span class="high">DateGallery</span>, in our case we only set the mode 
+      to <span class="high">"week"</span>.
+    </p>
+
+    <p>
+      The <span class="high">"week"</span> mode will give each frame 7 days which is exactly 
+      what we need.
+    </p>
+
+    <p>
+      The second argument is a subscriber function, it will get called whenever the 
+      <span class="high">DateGallery</span> changes. It receives the <span class="high">DateGallery</span>
+      as the first argument, and the event that caused the change as the second argument.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="setting-the-title"><a href="#setting-the-title">5. Setting the title</a></h2>
+
+    <p>
+      Lets set the title of the week calendar first, it should be the 
+      month and year for that week.
+    </p>
+
+    <p>
+      First we need a reference to the title element, in "calendar.js"
+      add the following above below the imports:
+    </p>
+
+    {% highlight "js" %}
+const titleEl = document.querySelector('.calendar-title');
+    {% endhighlight %}
+
+    <p>
+      Now add the following to the subscriber function:
+    </p>
+
+    {% highlight "js" %}
+titleEl.textContent = monthYearFormatter.format(
+  dateGallery.firstFrame.anchorDate
+);
+    {% endhighlight %}
+
+    <p>
+      You should see the current month and year now!
+    </p>
+
+    <p class="note">
+      To see changes you will have to press the "Refresh" button in the fake 
+      browser window.
+    </p>
+
+    <p>
+      The <span class="high">monthYearFormatter</span> is a 
+      <a target="_blank" rel="noopener noreferrer" class="underline text-purple-600" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat">Intl.DateTimeFormat</a>
+      instance: which is the browsers native way to format human readable dates.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="navigation"><a href="#navigation">6. Navigation</a></h2>
+
+    <p>
+      Lets make the next and previous navigation buttons work, add 
+      the following at the bottom of "calendar.js":
+    </p>
+
+    {% highlight "js" %}
+document.querySelector('.previous').onclick = () => {
+  dateGallery.previous();
+};
+
+document.querySelector('.next').onclick = () => {
+  dateGallery.next();
+};
+    {% endhighlight %}
+
+    <p>
+      If you refresh the fake browser window you should now be able 
+      to go to the next and previous weeks. Note that it takes on 
+      average 4 clicks to go out of a month! So you must click it 
+      multiple times to see a change.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="day-names"><a href="#day-names">7. Day names</a></h2>
+
+    <p>
+      It is time now to start making our calendar week grid. The CSS
+      setup a CSS grid for us with 7 columns one for each day. Lets 
+      start by adding the names of the day.
+    </p>
+
+    <p>
+      First we need to get a reference to the grid, add the following
+      above the <span class="high">const titleEl</span> definition:
+    </p>
+
+    {% highlight "js" %}
+const gridEl = document.querySelector('.calendar-week-grid');
+    {% endhighlight %}
+
+    <p>
+      Now in the subscriber function add this to the bottom:
+    </p>
+
+    {% highlight "js" %}
+dateGallery.firstFrame.dates.forEach((dateObj) => {
+  const dayNameEl = document.createElement('button');
+  dayNameEl.className = 'calendar-week-dayname';
+  dayNameEl.innerHTML = `
+    <time datetime="${dateObj.date.toISOString()}">
+      ${weekDayFormatter.format(dateObj.date)}
+    </time>
+  `;
+
+  /* 
+    Add the day to the appropriate CSS grid column.
+     +2 is needed becausea CSS grid starts at 1, and
+    we want to keep the first column free for the 
+    hour indicators.
+
+    The getDay() on date returns the day of the week, 
+    sunday = 0 and saturday = 6.
+  */
+  dayNameEl.style.gridColumn = dateObj.date.getDay() + 2;
+
+  gridEl.appendChild(dayNameEl);
+});
+    {% endhighlight %}
+
+    <p>
+      After a refresh you should now see the names of the day 
+      inside of a column.
+    </p>
+
+    <p>
+      Lets try to understand what we have done, by understanding 
+      the <span class="high">DateGallery</span> a little better:
+    </p>
+
+    <p>
+      A <span class="high">DateGallery</span> shows a number of frames, 
+      a frame (represented by the class <a href="/api/core/dategalleryframe" class="high underline">DateGalleryFrame</a>) is 
+      an array containing <a href="/api/core/dategallerydate" class="high underline">DateGalleryDate</a>'s, 
+      which in turn represents a "date".
+    </p>
+
+    <p>
+      The idea is that based on the mode of the <span class="high">DateGallery</span> the frames contain 
+      different amount of dates. When the mode is <span class="high">"day"</span> a frame contains one day, 
+      when the mode is <span class="high">year</span> a frame contain 365 days.
+    </p>
+
+    <p>
+      Since our mode is <span class="high">"week"</span> 7 days are 
+      contained in a frame. Since we have not configured the amount of frames, the
+      <span class="high">DateGallery</span> will default to having a single frame.
+    </p>
+
+    <p>
+      We use the <span class="high">firstFrame</span> shortcut to access the first 
+      frame instead of using <span class="high">frames[0]</span>. This makes 
+      the code a little easier to follow.
+    </p>
+
+    <p>
+      Now we just loop over each date in the <span class="high">firstFrame.dates</span> and 
+      render each date as a <span class="high">div</span>. The date itself is rendered as 
+      a <span class="high">time</span> for screen readers.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="hours"><a href="#hours">8. Hours</a></h2>
+
+    <p>
+      Lets add the hours of the day next: the first thing we need 
+      to do is some setup, add this below the <span class="high">const titleEl</span> declaration:
+    </p>
+
+    {% highlight "js" %}
+const START_HOUR = 10;
+const END_HOUR = 25;
+
+const HEIGHT = (END_HOUR - START_HOUR - 1) * 60;
+
+const calendarExampleEl = document.querySelector(
+  '.calendar-week-example'
+);
+calendarExampleEl.style.setProperty('--height', HEIGHT);
+    {% endhighlight %}
+
+    <p>
+      The <span class="high">START_HOUR</span> and <span class="high">END_HOUR</span> are going 
+      to determine how many hours are going to be shown. The cinema is open from 10:00 to 24:00 
+      hours. If you want to change the hours displayed you can modify these variables!
+    </p>
+
+    <p>
+      Next we calculate the <span class="high">HEIGHT</span> of our week calendar and set 
+      it as a CSS variable for the <span class="class">.calendar-week-example</span> element.
+      This way the CSS knows how large we want our week calendar to be.
+    </p>
+
+     <p>
+      The <span class="high">60</span> pixel height per hour is because a hour has 60 minutes.
+      This way we map one minute to one pixel, and this makes creating our calendar much easier.
+      <b>Always base the height of an hour on 60!</b> so 120, 180 etc etc.
+    </p>
+
+    <p>
+      Now that the groundwork is done, lets render the hours, add the following below <span class="high">gridEl.innerHTML = ''</span>:
+    </p>
+
+    {% highlight "js" %}
+// Render the hours on the left
+for (let i = START_HOUR; i < END_HOUR; i++) {
+  const hourEl = document.createElement('span');
+  hourEl.className = 'calendar-week-hour';
+  hourEl.ariaHidden = true;
+
+  // + 3 To skip the first two rows, CSS grids start at 1!
+  const row = (i - START_HOUR) * 60 + 3;
+  // Each row is "minute" and we want it to span one hour.
+  hourEl.style.gridRow = `${row} / ${row + 60}`;
+
+  // Create a new Date, the "date" does not really matter
+  const date = new Date();
+  
+  // but the time does: set the hour to the hour rendered
+  date.setHours(i, 0, 0, 0);
+
+  // Now format it to HH:MM format
+  const time = timeFormatter.format(date);
+  hourEl.textContent = time;
+
+  // and add it to the grid.
+  gridEl.appendChild(hourEl);
+}
+    {% endhighlight %}
+
+    <p>
+      Et voilà: we now have hour indicators, and it is starting 
+      to look like something. 
+    </p>
+  </section>
+
+  <section>
+    <h2 id="events"><a href="#events">9. Events</a></h2>
+
+    <p>
+      No for the most difficult part: adding events. Lets first 
+      add events to our <span class="high">DateGallery</span>'s
+      configuration:
+    </p>
+
+    <p>
+      Add the following below the <span class="high">mode</span> configuration:
+    </p>
+
+    {% highlight "js" %}
+{
+  mode: 'week',
+  events: generateEvents()
+},
+    {% endhighlight %}
+
+    <p>
+      What <span class="high">generateEvents()</span> does is create some 
+      placeholder events, which are movie screenings. A <span class="high">DateGallery</span>
+      can contain as many events as you want. 
+    </p>
+
+    <p>
+      An event is represented by a class called <a href="/api/core/dategalleryevent" class="underline high">DateGalleryEvent</a>.
+      An event contains the start and end date of the event, but also knows whether or not an other event overlaps 
+      with itself. You can also add custom data on the event on the data property. Which in our case 
+      is the title of the movie, color and poster image.
+    </p>
+
+    <p>
+      What the <span class="high">DateGallery</span> also does is add all events that belong on a  <a href="/api/core/dategallerydate#events" class="underline high">DateGalleryDate</a>
+      and <a href="/api/core/dategalleryframe#events" class="underline high">DateGalleryFrame</a>.
+      This makes it easy to loop over all events of a particular date.
+    </p>
+
+    <p>
+      Now to start rendering the events / movie screenings, we must first 
+      get a reference to the template element for events. Add the following 
+      code below the <span class="high">const titleEl</span> declaration:
+    </p>
+
+    {% highlight "js" %}
+const eventTemplate = document.querySelector(
+  '#calendar-week-event-template'
+);
+    {% endhighlight %}
+
+    <p>
+      Take a look at the template in the "index.html" file so you can 
+      understand the HTML structure an event is going to have.
+    </p>
+
+    <p>
+      Lets add the events now. This is going to be a large chunk
+      of code but try to read the comments to get a sense of 
+      what is going on. Below <span class="high">gridEl.appendChild(dayNameEl)</span> add:
+    </p>
+
+    {% highlight "js" %}
+// Will be a subgrid for each day containing the events
+const dayEl = document.createElement('ul');
+dayEl.className = 'calendar-week-day-grid';
+
+// + 2: grids start at 1, and the hour indicators are on 1.
+dayEl.style.gridColumn = dateObj.date.getDay() + 2;
+
+/* 
+  Events can overlap with each other and when this happens 
+  we want to display the events next to each other.
+  
+  What the `calculateEventColumns` function does is determine 
+  which CSS column each event should have, so that they 
+  are neatly packed together visually.
+
+  You should read the code for `calculateEventColumns` to 
+  see how the algorithm works.
+*/
+const eventColumns = calculateEventColumns(dateObj);
+
+dateObj.events.forEach((event) => {
+  // Clones the <template> fragment.
+  const eventEl = clone(eventTemplate);
+
+  // Create a button with the correct color for the movie.
+  const buttonEl = eventEl.querySelector('button');
+  buttonEl.style.backgroundColor = event.data.color;
+  
+  // yiq calculates whether black or white text is
+  // more visible based on the background color.
+  buttonEl.style.color = yiq(event.data.color);
+
+  // Empty for now we will do this next.
+  buttonEl.onclick = () => {
+    
+  };
+
+  // Get the <i> element and set the title and content
+  // to the name of the movie.
+  const titleEl = eventEl.querySelector('i');
+  titleEl.title = event.data.title;
+  titleEl.textContent = event.data.title;
+
+  // Next set the start and end times to HH:MM
+  const [startTimeEl, endTimeEl] = Array.from(
+    eventEl.querySelectorAll('b')
+  );
+  startTimeEl.textContent = timeFormatter.format(
+    event.startDate
+  );
+  endTimeEl.textContent = timeFormatter.format(
+    event.endDate
+  );
+
+  // Calculate where to put the event vertically. 
+  // This is of course based on which hour the 
+  // week calendar stars. In our case 10:00 hours.
+  const start = getMinutesSinceStart(event.startDate, START_HOUR);
+  const end = getMinutesSinceStart(event.endDate, START_HOUR);
+
+  // + 2 because CSS grids start at 1, and the first 
+  // row contains the week day names.
+  eventEl.style.gridRow = `${start + 2} / ${end + 2}`;
+
+  // Finally place the event in the day column
+  // as was calculated by `calculateEventColumns`.
+  eventEl.style.gridColumn = eventColumns.get(event);
+
+  dayEl.appendChild(eventEl);
+});
+
+gridEl.appendChild(dayEl);
+    {% endhighlight %}
+
+    <p>
+      We now have a pretty nice looking week calendar, built on 
+      a CSS grid.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="posters"><a href="#posters">10. Posters</a></h2>
+
+    <p>
+      Finally just so the movies can be clicked, lets fill in the <span class="high">onclick</span> of the <span class="high">buttonEl</span>:
+    </p>
+
+    {% highlight "js" %}
+buttonEl.onclick = () => {
+  openDialog(`
+    <div class="poster">
+      <img 
+        src="${event.data.image}" 
+        alt="Poster for the movie '${event.data.title}'" 
+      />
+    </div>
+  `);
+};
+    {% endhighlight %}
+
+    <p>
+      When you click a movie screening now the poster should be displayed in a modal.
+    </p>
+
+    <p>
+      This concludes this tutorial.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="what-you-have-learned"><a href="#what-you-have-learned">11. What you have learned</a></h2>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        That the <span class="high">subscriber</span> receives all events 
+        that take place on the DateGallery, and that in the subscriber you
+        must sync the DOM with what occurred.
+      </li>
+
+       <li class="ml-8 mb-4">
+        That a events are represented by the <a class="high underline" href="/api/core/dategalleryevent">DateGalleryEvent</a>
+        class.
+      </li>
+
+      <li class="ml-8 mb-4">
+        That you can get all events for the <a class="high underline" href="/api/core/dategalleryframe#events">DateGalleryFrame</a>, 
+        <a class="high underline" href="/api/core/dategallerydate#events">DateGalleryDate</a> or 
+        <a class="high underline" href="/api/core/dategallery#events">DateGallery</a>.
+      </li>
+
+      <li class="ml-8 mb-4">
+        That <a class="high underline" href="/api/core/dategallery#firstframe">firstFrame</a> is 
+        a shortcut to the first frame in the <a class="high underline" href="/api/core/dategallery#frames">frames</a> array.
+      </li>
+
+      <li class="ml-8 mb-4">
+        That you can move between frames using the <a class="high underline" href="/api/core/dategallery#next">next()</a> and 
+        <a class="high underline" href="/api/core/dategallery#previous">previous()</a> methods.
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="further-reading"><a href="#further-reading">12. Further reading</a></h2>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        Read through the API of the <a href="/api/core/dategallery/" class="underline high">DateGallery</a>,
+        <a href="/api/core/dategalleryframe/" class="underline high">DateGalleryFrame</a>, 
+        <a href="/api/core/dategalleryevent/" class="underline high">DateGalleryEvent</a>, 
+        and <a href="/api/core/dategallerydate/" class="underline high">DateGalleryDate</a>.
+      </li>
+
+      <li class="ml-8 mb-4">
+        You can also create datepickers using the <span class="high">DateGallery</span>.
+        The <a href="/docs/date-gallery/tutorials/datepicker/" class="underline">tutorial for a datepicker</a> shows you how.
+      </li>
+
+      <li class="ml-8 mb-4">
+        When using vanilla JavaScript you must handle DOM manipulation yourself, 
+        contrast this with <a href="/docs/date-gallery/examples/" class="underline">the examples that use a framework</a>.
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="full-code"><a href="#full-code">13. Full code</a></h2>
+
+     <p>
+      <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/p/devbox/dategallery-week-calendar-tutorial-finished-js32pm" class="underline text-purple-600">This is the finished code for this tutorial</a>, 
+      for reference.
+    </p>
+
+    <p>
+      A week calendar is one thing but how about a calendar with day, week, year 
+      and month modes. Take a look a the <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/p/devbox/dategallery-vanilla-snf4xr" class="underline text-purple-600">reference implementation of a calendar in vanilla JS.</a>
+    </p>
+
+    <p>
+      <b>It has a bazillion more features:</b>
+    </p>
+
+    <ol class="list-disc m-2 mb-4">
+      <li class="ml-8 mb-4">
+        Drag and drop events from one day to the next.
+      </li>
+
+      <li class="ml-8 mb-4">
+        Increasing the duration of an event by dragging the edges of an event.
+      </li>
+
+      <li class="ml-8 mb-4">
+        Switch between year, month, week and day calendars.
+      </li>
+     
+      <li class="ml-8 mb-4">
+        Adding events by clicking on empty places in the calendar.
+      </li>
+
+      <li class="ml-8">
+        Editing existing events, and the ability to remove them.
+      </li>
+    </ol>
+  </section>
+
+  <a 
+    class="card" 
+    href="/docs/date-gallery/usage-with-frameworks/"
+  >
+    <div>
+      <div class="text-normal font-medium mb-1">Usage with Frameworks</div>
+      <div class="text-sm">Learn how to use the DateGallery in combination with frameworks such as Angular and Svelte.</div>
+    </div>
+    <svg class="w-4 h-4 fill-current text-blue-600 shrink-0 ml-6" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z"></path>
+    </svg>
+  </a>
+
+</article>

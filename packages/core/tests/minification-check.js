@@ -149,4 +149,19 @@ if (!uiloosTypewriter.createTypewriterSubscriber) {
   process.exit(1);
 }
 
+load('dist/uiloos-date-gallery-VERSION.min.js');
+const dateGallery = new uiloosDateGallery.DateGallery({
+  mode: 'day'
+});
+
+if (dateGallery.firstFrame.dates.length !== 1) {
+  console.error('dateGallery.firstFrame.dates.length should be 1');
+  process.exit(1);
+}
+
+if (!uiloosDateGallery.createDateGallerySubscriber) {
+  console.error('uiloosDateGallery.createDateGallerySubscriber is not defined');
+  process.exit(1);
+}
+
 console.log("Finished checking minification");

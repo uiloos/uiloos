@@ -1,0 +1,29 @@
+<div class="calendar-week-example">
+  <div class='calendar-controls'>
+    <button aria-label="previous" type="button" class="previous calendar-button">‹</button>
+    <span class="calendar-title"></span>
+    <button aria-label="next" type="button" class="next calendar-button">›</button>
+  </div>
+
+  <div class="calendar-wrapper"></div>
+</div>
+
+<template id="calendar-week-template">
+  <div class="calendar-week">
+    <div class="calendar-week-grid"></div>
+  </div>
+</template>
+
+<template id="calendar-week-event-template">
+  <li class="calendar-week-event">
+    <button>
+      <span class="text-container">
+        <span class="inner-text-container">
+          <b></b>
+          <i></i>
+        </span>
+        <b class="end-time"></b>
+      </span>
+    </button>
+  </li>
+</template>

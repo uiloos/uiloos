@@ -1,0 +1,25 @@
+{% from "./macros.njk" import displayExamples, displayName, displaySince, displayComment %}
+
+{% macro constantPage(def) %}
+  <article>
+    {{ displayName(def) }}
+
+    <p class="font-mono mb-4 font-extrabold text-green-800">CONSTANT</p>
+
+    {{ displayComment(def) }}
+
+    {{ displaySince(def) }}
+
+    {% for see in def.sees %}
+      <p>
+        <strong>See:</strong>
+        <a 
+          class="ml-2 underline text-purple-600 font-mono font-bold" 
+          href="/api/core/{{ see.name | slug}}/"
+        >
+          {{ see.name }}
+        </a>
+      </p>
+    {% endfor %}
+  </article>
+{% endmacro %}

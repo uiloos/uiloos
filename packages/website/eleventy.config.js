@@ -37,7 +37,8 @@ module.exports = function (eleventyConfig) {
       'predicate',
       'base', // So base events are above the events
       'event',
-      'error'
+      'error',
+      'constant'
     ];
   
     function sortValue(def) {
@@ -81,7 +82,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter('groupApi', (definitions, groups, groupName) => {
     // The last item collects all non matching items.
     const lastInGroup = groups[groups.length - 1];
-
+    
     if (lastInGroup === groupName) {
       // Leave only the normal groups
       const filteredGroup = groups.filter(
@@ -93,13 +94,20 @@ module.exports = function (eleventyConfig) {
       return definitions.filter((def) => {
         return filteredGroup.every(
           (filteredGroupName) =>
-            !def.name.toLowerCase().includes(filteredGroupName.toLowerCase())
+           !inGroup(def.name, filteredGroupName)
         );
       });
     } else {
-      return definitions.filter((def) =>
-        def.name.toLowerCase().includes(groupName.toLowerCase())
-      );
+      return definitions.filter((def) => inGroup(def.name, groupName));
+    }
+
+    function inGroup(name, group) {
+      // DateGalleryDate -> dategallerydate
+      // DATE_GALLERY_MODES -> dategallerymodes 
+      name = name.split("_").join('').toLowerCase();
+      group = group.toLowerCase();
+
+      return name.includes(group);
     }
   });
 

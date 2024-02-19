@@ -1,0 +1,105 @@
+.calendar-month-example
+.calendar-controls {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  place-items: center;
+}
+
+.calendar-month-example .calendar-button {
+  padding: 4px;
+  background-color: white;
+  font-size: 32px;
+}
+
+.calendar-month-example .calendar-title {
+  font-size: 26px;
+}
+
+.calendar-month-example .calendar-month-daynames {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(32px, 1fr));
+  gap: 2px;
+}
+
+.calendar-month-example .calendar-month-dayname {
+  display: grid;
+  place-content: left;
+  height: 100px;
+  font-size: 22px;
+}
+
+.calendar-month-example .calendar-month-daycells {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(32px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 0;
+}
+
+.calendar-month-example .calendar-month-daycell {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  box-shadow: 0 0 0 1px black;
+  min-height: 120px;
+  font-size: 22px;
+  background-color: white;
+  cursor: pointer;
+  padding-bottom: 8px;
+  overflow: hidden;
+}
+
+.calendar-month-example .calendar-month-daycell.padding {
+  color: gray;
+}
+
+.calendar-month-example .calendar-month-daycell-number {
+  padding: 4px;
+  justify-self: left;
+  background-color: white;
+  font-size: 22px;
+  color: inherit;
+}
+
+.calendar-month-example .calendar-month-daycell-events {
+  display: grid;
+  grid-template-rows: 32px;
+  gap: 4px;
+  height: 100%;
+}
+
+.calendar-month-example .calendar-month-event {
+  --color: #000000; /* color is set from js */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  background-color: white;
+  font-size: 16px;
+  min-height: 32px;
+}
+
+.calendar-month-example .calendar-month-event::before {
+  content: "";
+  border-radius: 25px;
+  background-color: var(--color);
+  width: 10px;
+  height: 10px;
+  margin-left: 4px;
+}
+
+.calendar-month-example .calendar-month-event-wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  background-color: transparent;
+  padding: 0 4px;
+}
+
+.calendar-month-example .calendar-month-event-title {
+  width: 75px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+

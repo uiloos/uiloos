@@ -67,7 +67,7 @@ keywords: "uiloos, headless ui, component library, common web behaviors, javascr
   <div class="grid">
     <div class="grid gap-6 lg:grid-cols-2 pb-8 border-b border-gray-200">
       <!-- Code panel -->
-      <div class="shadow-xl text-left font-mono bg-gray-800 text-white p-4 text-sm sm:text-lg overflow-scroll">
+      <div class="order-2 lg:order-1 shadow-xl text-left font-mono bg-gray-800 text-white p-4 text-sm sm:text-lg overflow-scroll">
         <div class="flex">
           <span class="text-purple-400 mr-2">const</span> 
           <span class="text-red-400 mr-2">carousel</span> 
@@ -113,7 +113,7 @@ keywords: "uiloos, headless ui, component library, common web behaviors, javascr
               <span class="text-white">duration</span>
               <span class="text-white">:</span>
               <div class="ml-2 flex">
-                <select id="carousel-duration" class="text-black bg-white-700 bg-[center_left_3.5rem] pl-1 pr-9 h-6 p-0 border-none">
+                <select id="carousel-duration" class="text-black py-0 pr-16 pl-4">
                   <option value="1000">1000</option>
                   <option value="2000">2000</option>
                   <option value="3000" selected>3000</option>
@@ -127,7 +127,7 @@ keywords: "uiloos, headless ui, component library, common web behaviors, javascr
               <div class="ml-8 flex">
               <span class="text-white">stopsOnUserInteraction:</span>
               <div class="ml-2 flex">
-                <select id="carousel-stops-on-user-interaction" class="text-black bg-white-700 bg-[center_left_3.5rem] pl-1 pr-6 h-6 p-0 border-none">
+                <select id="carousel-stops-on-user-interaction" class="text-black py-0 pr-16 pl-4">
                   <option value="true" selected>true</option>
                   <option value="false">false</option>
                 </select>
@@ -144,7 +144,7 @@ keywords: "uiloos, headless ui, component library, common web behaviors, javascr
         <div class="ml-8 flex">
           <span class="text-white">isCircular:</span>
           <div class="ml-2 flex">
-            <select id="carousel-is-circular" class="text-black bg-white-700 bg-[center_left_3.5rem] pl-1 pr-6 h-6 p-0 border-none">
+            <select id="carousel-is-circular" class="text-black py-0 pr-16 pl-4">
               <option value="true" selected>true</option>
               <option value="false">false</option>
             </select>
@@ -200,7 +200,7 @@ keywords: "uiloos, headless ui, component library, common web behaviors, javascr
       </div>
 
       <!-- Carousel -->
-      <div id="carousel" class="relative shadow-xl overflow-hidden text-white bg-purple-800 h-[35rem] sm:h-[40rem] md:h-[42rem] lg:h-[47rem]">
+      <div id="carousel" class="order-1 lg:order-2 relative shadow-xl overflow-hidden text-white bg-purple-800 h-[35rem] sm:h-[40rem] md:h-[42rem] lg:h-[47rem]">
         <!-- Slides -->
         <ul>
           <li
@@ -371,7 +371,7 @@ keywords: "uiloos, headless ui, component library, common web behaviors, javascr
     <!-- ViewChannel example -->
     <div class="grid gap-6 lg:grid-cols-2 py-8 border-b border-gray-200"> 
       <!-- Flash messages -->
-      <div>
+      <div class="order-1">
         <div class="flash-messages">
           <div 
             id="flash-messages-container" 
@@ -422,7 +422,7 @@ keywords: "uiloos, headless ui, component library, common web behaviors, javascr
       </div>
 
        <!-- Code panel -->
-      <div class="shadow-xl text-left font-mono bg-gray-800 text-white p-4 text-sm sm:text-lg overflow-scroll">
+      <div class="order-2 shadow-xl text-left font-mono bg-gray-800 text-white p-4 text-sm sm:text-lg overflow-scroll">
         <div class="flex mb-4">
           <span class="text-purple-400 mr-2">const</span> 
           <span class="text-red-400 mr-2">flashMessageChannel</span> 
@@ -458,7 +458,7 @@ keywords: "uiloos, headless ui, component library, common web behaviors, javascr
           <div>},</div>
         </div>
         <div class="ml-12">priority: 
-          <select id="flashmessage-priority" class="text-black bg-white-700 bg-[center_left_3.5rem] pl-1 pr-9 h-6 p-0 border-none">
+          <select id="flashmessage-priority" class="text-black py-0 pr-16 pl-4">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -469,7 +469,7 @@ keywords: "uiloos, headless ui, component library, common web behaviors, javascr
         <div class="ml-12">
           autoDismiss: {
           <div class="ml-6">duration:
-            <select id="flashmessage-duration" class="text-black bg-white-700 bg-[center_left_3.5rem] pl-1 pr-9 h-6 p-0 border-none">
+            <select id="flashmessage-duration" class="text-black py-0 pr-16 pl-4">
               <option value="1000">1000</option>
               <option value="2000" selected>2000</option>
               <option value="3000">3000</option>
@@ -483,6 +483,116 @@ keywords: "uiloos, headless ui, component library, common web behaviors, javascr
         </div>
         <div class="ml-6">});</div>
         }
+      </div>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-2 py-8 border-b border-gray-200">
+      <!-- Code panel -->
+      <div class="order-2 lg:order-1 shadow-xl text-left font-mono bg-gray-800 text-white p-4 text-sm sm:text-lg overflow-scroll">
+        <div class="flex">
+          <span class="text-purple-400 mr-2">const</span> 
+          <span class="text-red-400 mr-2">datePicker</span> 
+          <span class="mr-2">=</span> 
+          <span class="text-blue-300 mr-2">new</span> 
+          <span class="text-blue-500">DateGallery</span> 
+          <span class="text-blue-500">(</span> 
+        </div>
+
+        <span class="ml-4">{</span>
+
+        <div class="ml-4 flex flex-col">
+          <div class="ml-8">mode: 
+            <select id="datepicker-mode" class="text-black py-0 pr-16 pl-4">
+              <option value="month">"month"</option>
+              <option value="month-six-weeks" selected>"month-six-weeks"</option>
+              <option value="month-pad-to-week">"month-pad-to-week"</option>
+            </select>,
+          </div>
+
+          <div class="ml-8">firstDayOfWeek: 
+            <select id="datepicker-firstDayOfWeek" class="text-black py-0 pr-16 pl-4">
+              <option value="0" selected>0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>,
+          </div>
+
+          <div class="ml-8">numberOfFrames: 
+            <select id="datepicker-numberOfFrames" class="text-black py-0 pr-16 pl-4">
+              <option value="1" selected>1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>,
+          </div>
+
+          <div class="ml-8">maxSelectionLimit: 
+            <select id="datepicker-maxSelectionLimit" class="text-black py-0 pr-16 pl-4">
+              <option value="false">false</option>
+              <option value="1" selected>1</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+            </select>,
+          </div>
+
+          <div class="ml-8">maxSelectionLimitBehavior: 
+            <select id="datepicker-maxSelectionLimitBehavior" class="text-black py-0 pr-16 pl-4">
+              <option value="ignore">"ignore"</option>
+              <option value="circular" selected>"circular"</option>
+              <option value="error">"error"</option>
+            </select>
+          </div>
+
+          <div class="flex">
+            <span>}</span>
+            <span>,</span>
+          </div>
+        </div>
+
+        <div class="flex">
+          <span class="inline lg:hidden text-blue-500">)</span>
+          <span class="inline lg:hidden">;</span>
+        </div>
+
+        <div class="ml-4 hidden lg:block">
+          <div class="flex">
+            (
+            <span class="text-orange-400">datePicker</span>
+            <span class="mr-1">,</span> 
+            <span class="text-orange-400">event</span>
+            <span class="mr-1">)</span> 
+            <span class="text-purple-400 mr-1">=></span> 
+            {
+          </div>
+          <div class="ml-4 text-green-400">
+            <div>/*</div>
+            <div class="ml-4 mb-4">
+              This is a callback function which informs you of changes
+              inside of the DateGallery. In vanilla JavaScript you 
+              manipulate the DOM here or re-render the DOM.
+            </div>
+            <div class="ml-4">
+              When using a framework such as Svelte, Vue or React,
+              you will not need this callback because the framework 
+              will handle the DOM manipulation for you.
+            </div>
+            <div>*/</div>
+          </div>
+          }
+        </div>
+        <div class="flex">
+          <span class="hidden lg:inline text-blue-500">)</span>
+          <span class="hidden lg:inline">;</span>
+        </div>
+      </div>
+
+      <!-- DatePicker -->
+      <div class="order-1 lg:order-2">
+        <div id="datepicker">
+        </div>
       </div>
     </div>
   </div>

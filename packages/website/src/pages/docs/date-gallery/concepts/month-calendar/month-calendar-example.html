@@ -1,0 +1,42 @@
+<div class="calendar-month-example">
+  <div class='calendar-controls'>
+    <button aria-label="previous" type="button" class="previous calendar-button">‹</button>
+    <span class="calendar-title"></span>
+    <button aria-label="next" type="button" class="next calendar-button">›</button>
+  </div>
+
+  <div class="calendar-wrapper"></div>
+</div>
+
+<template id="calendar-month-template">
+  <div class="calendar-month">
+    <ul class="calendar-month-daynames">
+      <li class="calendar-month-dayname">Sun</li>
+      <li class="calendar-month-dayname">Mon</li>
+      <li class="calendar-month-dayname">Tue</li>
+      <li class="calendar-month-dayname">Wed</li>
+      <li class="calendar-month-dayname">Thu</li>
+      <li class="calendar-month-dayname">Fri</li>
+      <li class="calendar-month-dayname">Sat</li>
+    </ul>
+
+    <ul class="calendar-month-daycells"></ul>
+  </div>
+</template>
+
+<template id="calendar-month-daycell-template">
+  <li class="calendar-month-daycell">
+    <button class="calendar-month-daycell-number"></button>
+    <ul class="calendar-month-daycell-events">
+    </ul>
+  </li>
+</template>
+
+<template id="calendar-month-event-template">
+  <li class="calendar-month-event">
+    <button class="calendar-month-event-wrapper">
+      <span class="calendar-month-event-title"></span>
+      <span class="calendar-month-event-time"></span>
+    </button>
+  </li>
+</template>

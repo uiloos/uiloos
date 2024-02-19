@@ -6,6 +6,8 @@ import { useViewChannel } from './ViewChannel/useViewChannel';
 import { useTypewriter } from './Typewriter/useTypewriter';
 import { useTypewriterFromSentences } from './Typewriter/useTypewriterFromSentences';
 
+import { useDateGallery } from './DateGallery/useDateGallery';
+
 export {
   ActiveList,
   useActiveList,
@@ -13,4 +15,5 @@ export {
   useViewChannel,
   useTypewriter,
   useTypewriterFromSentences,
+  useDateGallery
 };

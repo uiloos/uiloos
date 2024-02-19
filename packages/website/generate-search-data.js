@@ -160,6 +160,26 @@ const data = [
     link: '/docs/typewriter/composer/',
   },
 
+  // DateGallery
+  {
+    name: 'DateGallery Concepts',
+    description: 'Learn the concepts behind the DateGallery',
+    type: 'Docs',
+    link: '/docs/date-gallery/concepts/',
+  },
+  {
+    name: 'DateGallery tutorials',
+    description: 'Learn how to build a datepicker / calendar with the DateGallery',
+    type: 'Docs',
+    link: '/docs/date-gallery/tutorials/',
+  },
+  {
+    name: 'DateGallery examples',
+    description: 'Examples for the DateGallery',
+    type: 'Docs',
+    link: '/docs/date-gallery/examples/',
+  },
+
   // Releases
   {
     name: 'Releases HUB',

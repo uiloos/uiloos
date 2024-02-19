@@ -1,0 +1,25 @@
+<div class="calendar-day-example">
+  <div class='calendar-controls'>
+    <button aria-label="previous" type="button" class="previous calendar-button">‹</button>
+    <span class="calendar-title"></span>
+    <button aria-label="next" type="button" class="next calendar-button">›</button>
+  </div>
+
+  <div class="calendar-wrapper"></div>
+</div>
+
+<template id="calendar-day-template">
+  <ul class="calendar-day-grid"></ul>
+</template>
+
+<template id="calendar-day-event-template">
+  <li class="calendar-day-event">
+    <button>
+      <span class="text-container">
+        <b></b>
+        <i></i>
+        <b class="end-time"></b>
+      </span>
+    </button>
+  </li>
+</template>

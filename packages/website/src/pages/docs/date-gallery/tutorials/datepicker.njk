@@ -1,0 +1,855 @@
+---
+title: Datepicker | Tutorials | DateGallery | Docs
+layout: layouts/docs.njk
+permalink: /docs/date-gallery/tutorials/datepicker/
+parent: 'date-gallery'
+current: 'date-gallery-tutorial'
+description: "Tutorial which teaches you how to create a datepicker that acts as a regular input component"
+keywords: "DateGallery tutorial, DateGallery datepicker tutorial"
+---
+
+<article>
+  <h1>DateGallery datepicker tutorial</h1>
+
+  <nav class="2xl:fixed 2xl:top-24 2xl:right-2 2xl:w-[270px]" role="doc-toc">
+    <em>Table of contents</em>
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8">
+        <a href="#introduction" class="text-purple-600 underline">Introduction</a>
+      </li>
+      <li class="ml-8">
+        <a href="#files-overview" class="text-purple-600 underline">Files overview</a>
+      </li>
+      <li class="ml-8">
+        <a href="#goals" class="text-purple-600 underline">Goals</a>
+      </li>
+      <li class="ml-8">
+        <a href="#before-we-start" class="text-purple-600 underline">Before we start</a>
+      </li>
+      <li class="ml-8">
+        <a href="#opening-the-dialog" class="text-purple-600 underline">Opening the dialog</a>
+      </li>
+      <li class="ml-8">
+        <a href="#rendering-dates" class="text-purple-600 underline">Rendering dates</a>
+      </li>
+      <li class="ml-8">
+        <a href="#navigation" class="text-purple-600 underline">Navigation</a>
+      </li>
+      <li class="ml-8">
+        <a href="#selection" class="text-purple-600 underline">Selection</a>
+      </li>
+      <li class="ml-8">
+        <a href="#min-and-max" class="text-purple-600 underline">Min and max</a>
+      </li>
+      <li class="ml-8">
+        <a href="#keyboard-navigation" class="text-purple-600 underline">Keyboard navigation</a>
+      </li>
+      <li class="ml-8">
+        <a href="#cleanup" class="text-purple-600 underline">Cleanup</a>
+      </li>
+      <li class="ml-8">
+        <a href="#what-you-have-learned" class="text-purple-600 underline">What you have learned</a>
+      </li>
+      <li class="ml-8">
+        <a href="#further-reading" class="text-purple-600 underline">Further reading</a>
+      </li>
+       <li class="ml-8">
+        <a href="#full-code" class="text-purple-600 underline">Full code</a>
+      </li>
+    </ol>
+  </nav>
+
+  <section>
+    <h2 id="introduction"><a href="#introduction">1. Introduction</a></h2>
+
+    <p>
+      We are going to enhance a custom datepicker form element web-component.
+      The web-component we currently have shows an input element which 
+      checks if the user entered date is valid, but it is missing one 
+      critical feature: a way to select dates visually. This is
+      where the <a href="/api/core/dategallery/" class="underline high">DateGallery</a> 
+      comes in.
+    </p>
+
+    <p class="note">
+      That we are using vanilla JavaScript which requires us to
+      write our own DOM manipulation inside of a subscriber. When using
+      a reactive framework such as Angular or React, this is not necessary,
+      as these frameworks handle synchronizing with the DOM for us.
+      See <a class="underline" href="/docs/date-gallery/usage-with-frameworks/">Usage with Frameworks</a>
+      for more information.
+    </p>
+
+    <p>
+      To get started with the tutorial open and fork this 
+      <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/p/devbox/dategallery-datepicker-tutorial-75xvgg" class="underline text-purple-600">sandbox</a>.
+      By using the sandbox you do not have to worry to much about setting
+      up an entire development environment.
+    </p>
+
+    <h2 id="files-overview"><a href="#files-overview">2. Files overview</a></h2>
+
+    <p>
+      In the sandbox you will see a couple of files, most of them 
+      setup the dev environment, but these are the relevant files
+      containing the code:
+    </p>
+
+    <ol class="list-disc m-2 mb-4">
+      <li class="ml-8 mb-4">
+        <span class="high">index.html</span> contains the HTML for the datepicker, 
+        shows a birthday form. It also includes "uiloos" from the UNPKG cdn.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">datepicker.js</span> this file contains an implementation of 
+        a web-component that acts as a native HTML form element.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">datepicker.css</span> it contains all styles for the datepicker.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">form.js</span> the logic for the birthday form.
+      </li>
+      <li class="ml-8 mb-4">
+        <span class="high">formatters.js</span> contains various Date formatters.
+      </li>
+      <li class="ml-8">
+        <span class="high">utils.js</span> contains a utility for parsing dates.
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="goals"><a href="#goals">3. Goals</a></h2>
+
+    <p>
+      We want our datepicker to do the following things:
+    </p>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        We want the datepicker to open when clicking a button.
+      </li>
+      <li class="ml-8 mb-4">
+        We want to be able to navigate to the previous and next 
+        months.
+      </li>
+      <li class="ml-8 mb-4">
+        It should be possible to only select a single date.
+      </li>
+      <li class="ml-8 mb-4">
+        Have some form of keyboard navigation, to navigate 
+        between months and select dates.
+      </li>
+      <li class="ml-8 mb-4">
+        A button so we can quickly go to the current date, otherwise
+        known as a "today" button.
+      </li>
+      <li class="ml-8 mb-4">
+        We want the datepicker to respect the "min" and "max" dates 
+        that the web-component accepts.
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="before-we-start"><a href="#goals">4. Before we start</a></h2>
+
+    <p>
+      First thing you want to do is look a the existing code a bit, 
+      to see how you can create a custom form element using web-components.
+    </p>
+
+    <p>
+      The power to create actual custom form elements that work nicely 
+      in HTML form elements is very exciting!
+    </p>
+
+    <p>
+      I recommend reading the following resources first:
+    </p>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        This article on web.dev called: <a target="_blank" rel="noopener noreferrer" class="underline text-purple-600"  href="https://web.dev/articles/more-capable-form-controls#defining_a_form-associated_custom_element">Defining a form-associated custom element</a> is
+        a treasure trove of information on how to create a custom form element.
+      </li>
+      <li class="ml-8 mb-4">
+        For a more technical view read the specs: <a target="_blank" rel="noopener noreferrer" class="underline text-purple-600" href="https://html.spec.whatwg.org/dev/custom-elements.html">custom elements</a> on the whatwg website.
+      </li>
+    </ol>
+
+    <p>
+      If you are new to web-component, do not worry. The code we are
+      going to write in this tutorial has very little to do with 
+      them.
+    </p>
+
+    <p>
+      Second thing I want you to do is actually use the "uiloos-datepicker"
+      as it is know, play with it a little, enter some dates, see if 
+      it gives you error messages when you provide the wrong format,
+      enter a date deep in the past as your birthday etc etc.
+    </p>
+
+    <p>
+      Now that you know how the code behind the custom element works, 
+      and you understand what it does, we can begin.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="opening-the-dialog"><a href="#opening-the-dialog">5. Opening the dialog</a></h2>
+
+    <p>
+      In the file called "datepicker.js" file you will see a method called 
+      <span class="high">connectedCallback</span>, in here you will find 
+      that the <span class="high">innerHTML</span> is set to give the 
+      inputs their appearance. 
+    </p>
+
+    <p>
+      You will also find an empty <span class="high">dialog</span> element, this is 
+      where we want to render our datepicker in. If you are not familiar with the 
+      <span class="high">dialog</span> element: it allows you to create 
+      modals windows. The benefit of using the <span class="high">dialog</span> element
+      is that you get all sorts of accessibility benefits straight from the browser itself.
+    </p>
+
+    <p>
+      If you want to read up on the dialog element see: <a target="_blank" rel="noopener noreferrer" class="underline text-purple-600" href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement">dialog on MDN</a>
+      for more information.
+    </p>
+
+    <p>
+      A modal is good place to show a datepicker in, so that is what we are going 
+      to do, but we need a button to open the <span class="high">dialog</span> with.
+    </p>
+
+    <p>
+      Add the following button in the "datepicker.js" file, as the 
+      last child of the <span class="high">div.datepicker-input-wrapper</span>:
+    </p>
+
+    {% highlight "html" %}
+<button 
+  aria-label="Open calendar" 
+  class="calendar-button" 
+  type="button"
+>
+  📅
+</button>
+    {% endhighlight %}
+
+    <p class="note">
+      To see changes you will have to press the "Refresh" button in the fake 
+      browser window.
+    </p>
+
+    <p>
+      The effect is that we now have button, lets add a click event 
+      listener, as the bottom of the <span class="high">onConnected</span> callback:
+    </p>
+
+    {% highlight "js" %}
+// Get the calendar button
+this.buttonEl = this.querySelector("button");
+
+this.buttonEl.onclick = () => {
+  this.showPicker();
+};
+    {% endhighlight %}
+
+    <p>
+      Now lets define the <span class="high">showPicker</span> method.
+      Add it just above the <span class="high">disconnectedCallback</span> method:
+    </p>
+
+    {% highlight "js" %}
+// Form controls that show "pickers" should 
+// implement a showPicker method.
+showPicker() {
+  // Open the dialog when clicked
+  this.dialogEl.showModal();
+}
+    {% endhighlight %}
+
+    <p>
+      The <span class="high">showPicker</span> method should open the
+      picker up, just like a regular input that has a picker. This way 
+      we stay true to the browser. For more information see <a target="_blank" rel="noopener noreferrer" class="underline text-purple-600" href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/showPicker">showPicker on MDN</a>.
+    </p>
+
+    <p>
+      Clicking the calendar button should now open up the dialog element, 
+      which is completely empty for now.
+    </p>
+
+    <p>
+      Note: you can close the dialog by pressing ESC and you get that 
+      for free. Unfortunately however a dialog does not close when clicking 
+      on the backdrop. I had to implement this manually, look for: <span class="high">dialogEl.onclose</span>
+      to see how this is pulled off.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="rendering-dates"><a href="#rendering-dates">6. Rendering dates</a></h2>
+ 
+    <p>
+      Now that the dialog can be opened, lets add the <a href="/api/core/dategallery/" class="underline high">DateGallery</a>.
+      Add the following code at the bottom of the <span class="high">showPicker</span> method:
+    </p>
+
+    {% highlight "js" %}
+// Get a reference to the Datepicker instance, for use
+// in the dateGallery subscriber.
+const datepicker = this;
+
+this.dateGallery = new window.uiloosDateGallery.DateGallery(
+  {
+    mode: "month",
+  },
+  (dateGallery) => {
+    datepicker.dialogEl.innerHTML = `Hello world!`;
+  },
+);
+    {% endhighlight%}
+
+    <p>
+      This will instantiate the <span class="high">DateGallery</span> in 
+      the <span class="high">"month"</span> mode. The second argument
+      is the subscriber function, which will get called whenever the 
+      <span class="high">DateGallery</span> changes.
+    </p>
+
+    <p>
+      Whenever a change occurs we are simply going to re-create 
+      the dialog again, this "nuke" the HTML to re-render approach 
+      is performant for small chunks of HTML.
+    </p>
+
+    <p>
+      Lets change the "Hello world!" to something that resembles 
+      as datepicker a little more:
+    </p>
+
+    {% highlight "html"%}
+<div class="datepicker-dialog-content">
+  <div class="topbar">
+    <button aria-label="previous" type="button">‹</button>
+    <span class="title"></span>
+    <button aria-label="next" type="button">›</button>
+  </div>
+
+  <ul class="daygrid">
+    <li><abbr title="Sunday">S</abbr></li>
+    <li><abbr title="Monday">M</abbr></li>
+    <li><abbr title="Tuesday">T</abbr></li>
+    <li><abbr title="Wednesday">W</abbr></li>
+    <li><abbr title="Thursday">T</abbr></li>
+    <li><abbr title="Friday">F</abbr></li>
+    <li><abbr title="Saturday">S</abbr></li>
+  </ul>
+
+  <ul class="dates daygrid"></ul>
+
+  <div class="bottombar">
+    <button type="button">Cancel</button>
+    <button type="button">Today</button>
+  </div>
+</div>
+    {% endhighlight %}
+
+    <p>
+      The <span class="high">ul.dates</span> element is what is 
+      going to hold the dates. Lets add them, add the following 
+      code inside of the subscriber:
+    </p>
+
+    {% highlight "js" %}
+const datesEl = datepicker.dialogEl.querySelector(".dates");
+
+dateGallery.firstFrame.dates.forEach((dateObj) => {
+  const dayEl = document.createElement("li");
+
+  dayEl.innerHTML = `
+    <button 
+      aria-label="Select ${dateFormatter.format(dateObj.date)}"
+      type="button"
+    >
+      <time datetime="${dateObj.date.toISOString()}">
+        ${dateObj.date.getDate()}
+      </time>
+    </button>
+  `;
+
+  // + 1 since CSS grids start at 1 and not 0.
+  dayEl.style.gridColumn = dateObj.date.getDay() + 1;
+
+  datesEl.appendChild(dayEl);
+});
+    {% endhighlight %}
+
+    <p>
+      Lets try to understand what we have done, by understanding 
+      the <span class="high">DateGallery</span> a little better:
+    </p>
+
+    <p>
+      A <span class="high">DateGallery</span> shows a number of frames, 
+      a frame (represented by the class <a href="/api/core/dategalleryframe" class="high underline">DateGalleryFrame</a>) is 
+      an array containing <a href="/api/core/dategallerydate" class="high underline">DateGalleryDate</a>'s, 
+      which in turn represents a "date".
+    </p>
+
+    <p>
+      The idea is that based on the mode of the <span class="high">DateGallery</span> the frames contain 
+      different amount of dates. When the mode is <span class="high">"week"</span> a frame contains 7 days, 
+      when the mode is <span class="high">year</span> a frame contain 365 days.
+    </p>
+
+    <p>
+      Since our mode is <span class="high">"month"</span> one months worth of dates are 
+      contained in a frame. Since we have not configured the amount of frames, the
+      <span class="high">DateGallery</span> will default to having a single frame.
+    </p>
+
+    <p>
+      We use the <span class="high">firstFrame</span> shortcut to access the first 
+      frame instead of using <span class="high">frames[0]</span>. This makes 
+      the code a little easier to follow.
+    </p>
+
+    <p>
+      Now we just loop over each date in the <span class="high">firstFrame.dates</span> and 
+      render each date as a <span class="high">li</span>. Each date is a button so they can 
+      be selected, and has a <span class="high">time</span> for screen readers.
+    </p>
+
+    <p>
+      The <span class="high">ul.dates</span> is a CSS Grid with 
+      seven columns, one for each day of the week. So whenever 
+      we render a date we must place it into the correct <span class="high">gridColumn</span>.
+      Remember: <span class="high">getDay()</span> returns the day of the week, not the day of the month!
+    </p>
+
+    <p>
+      The last thing I want to do is set the title, so we can see which 
+      month and year are shown. Add the following code just below 
+      the setting of the dialogs innerHTML:
+    </p>
+
+    {% highlight "js" %}
+const titleElement = datepicker.dialogEl.querySelector(
+  ".title"
+);
+titleElement.textContent = monthYearFormatter.format(
+  dateGallery.firstFrame.anchorDate,
+);
+    {% endhighlight %}
+
+    <p>
+      The <span class="high">monthYearFormatter</span> is a 
+      <a target="_blank" rel="noopener noreferrer" class="underline text-purple-600" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat">Intl.DateTimeFormat</a>
+      instance: which is the browsers native way to format human readable dates.
+    </p>
+
+    <p>
+      The <span class="high">anchorDate</span> can be seen as the first 
+      date within the frame, ideal to be used for purposes such as 
+      adding a title.
+    </p>
+
+    <p>
+      Now "refresh" the fake browser and take a look at our beautiful datepicker.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="navigation"><a href="#navigation">7. Navigation</a></h2>
+
+    <p>
+      Our datepicker is still static, and stuck on the current month, 
+      lets make the buttons work, add the following underneath 
+      in the subscriber:
+    </p>
+
+{% highlight "js" %}
+const [prevButtonEl, nextButtonEl] = Array.from(
+  datepicker.dialogEl.querySelectorAll(".topbar button"),
+);
+
+prevButtonEl.onclick = () => {
+  dateGallery.previous();
+};
+
+nextButtonEl.onclick = () => {
+  dateGallery.next();
+};
+
+const [cancelButtonEl, todayButtonEl] = Array.from(
+  datepicker.dialogEl.querySelectorAll(".bottombar button"),
+);
+
+cancelButtonEl.onclick = () => {
+  this.dialogEl.close();
+};
+
+todayButtonEl.onclick = () => {
+  this.dateGallery.today();
+};
+{% endhighlight %}
+
+    <p>
+      Now you can move to the next and previous frames by clicking the 
+      chevrons / arrows, and go to todays date by clicking "Today".
+    </p>
+
+    <p>
+      All these actions simply call the appropriate method of the 
+      <span class="high">DateGallery</span> instance. Letting the  
+      <span class="high">DateGallery</span> do all the heavy lifting.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="selection"><a href="#selection">8. Selection</a></h2>
+
+    <p>
+      A datepicker without the ability to select dates is not a datepicker, 
+      lets remedy that, just before <span class="high">datesEl.appendChild(dayEl);</span>
+      add:
+    </p>
+
+    {% highlight "js" %}
+dayEl.onclick = () => {
+  const date = dateFormatter.format(dateObj.date);
+
+  this._changeDate(date);
+
+  this.dialogEl.close();
+};
+    {% endhighlight %}
+
+    <p>
+      Whenever the day button is clicked, the date get selected, and the dialog
+      element is closed.
+    </p>
+
+    <p>
+      One annoying thing is that the datepicker does not open up at the 
+      selected date. To see it for yourself: select birthday two months 
+      in the past and open the datepicker again.
+    </p>
+
+    <p>
+      To fix this we need to initialize the <span class="high">DateGallery</span> with 
+      an initial date and selected dates, change the creation / instantiation 
+      of the <span class="high">DateGallery</span> to:
+    </p>
+
+    {% highlight "js" %}
+// Default to the current day
+let initialDate = new Date();
+
+// but if there is a value
+if (this.value) {
+  const date = parseAsDate(this.value);
+
+  // and it is valid
+  if (isValid(date)) {
+    // select that date as the initial date
+    initialDate = date;
+  }
+}
+
+this.dateGallery = new window.uiloosDateGallery.DateGallery(
+  {
+    mode: "month",
+    initialDate,
+    selectedDates: [initialDate],
+  },
+    {% endhighlight %}
+
+    <p>
+      The datepicker opens up at the correct date but does not visually
+      show which date is selected. Lets show the selected date in blue, 
+      add this before the <span class="high">dayEl.onclick</span>:
+    </p>
+
+    {% highlight "js" %}
+// Get the button and apply styles 
+// based on the dateObj's state.
+const buttonEl = dayEl.firstElementChild;
+
+if (dateObj.isSelected) {
+  buttonEl.classList.add("selected");
+}
+    {% endhighlight %}
+
+    <p>
+      The nice thing about a <a class="high underline" href="/api/core/dategallerydate">DateGalleryDate</a> is that 
+      it knows all sorts of things about the date, whether or not it has events, 
+      whether or not it represents today, and what we have been using: <span class="high">isSelected</span> for 
+      whether or not the date is selected.
+    </p>
+
+    <p>
+      All this information you can use to set your CSS classes. For example you 
+      could set a CSS class <span class="high">.today</span> whenever 
+      <span class="high">dateObj.isToday</span> is <span class="high">true</span>.
+    </p>
+
+    <p>
+      Do A quick refresh and the selected date should now be blue. 
+    </p>
+  </section>
+
+  <section>
+    <h2 id="min-and-max"><a href="#min-and-max">9. Min and max</a></h2>
+
+    <p>
+      The "uiloos-datepicker" supports a min and max date, this way you cannot 
+      set your birthday to a date in the future. Our <span class="high">DateGallery</span>
+      should also respect this.
+    <p>
+
+    <p>
+      Change the constructor of the <span class="high">DateGallery</span> once again:
+    </p>
+
+    {% highlight "js" %}
+this.dateGallery = new window.uiloosDateGallery.DateGallery(
+  {
+    mode: "month",
+    initialDate,
+    selectedDates: [initialDate],
+    maxSelectionLimit: 1,
+    canSelect(dateObj) {
+      if (datepicker.min && dateObj.date < datepicker.min) {
+        return false;
+      } else if (datepicker.max && dateObj.date > datepicker.max) {
+        return false;
+      }
+
+      return true;
+    },
+  },
+    {% endhighlight %}
+
+    <p>
+      By providing a <span class="high">canSelect</span> function we
+      can control which dates can and cannot be selected.
+    </p>
+
+    <p>
+      Now all we have to do is disable day buttons which cannot be 
+      selected, add this below the <span class="high">dateObj.isSelected</span> if-statement:
+    </p>
+
+    {% highlight 'js' %}
+if (!dateObj.canBeSelected) {
+  buttonEl.disabled = true;
+}
+  {% endhighlight %}
+
+    <p>
+      By disabling the button the "onclick" event handler will no longer get called.
+      Also note that disabled dates are greyed due to a CSS rule.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="keyboard-navigation"><a href="#keyboard-navigation">10. Keyboard navigation</a></h2>
+
+    <p>
+      It would be nice if we could select dates using the keyboard, so 
+      lets add that, add the following code at the bottom of the 
+      <span class="high">showPicker</span> method:
+    </p>
+
+    {% highlight "js" %}
+this.dialogEl.onkeydown = (event) => {
+  if (
+    ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)
+  ) {
+    // Copy date as not to mutate the selected date.
+    const date = new Date(this.dateGallery.selectedDates.at(0));
+
+    // Mutate the date based on the arrow keys
+    if (event.key === "ArrowLeft") {
+      date.setDate(date.getDate() - 1);
+    } else if (event.key === "ArrowRight") {
+      date.setDate(date.getDate() + 1);
+    } else if (event.key === "ArrowUp") {
+      date.setDate(date.getDate() - 7);
+    } else if (event.key === "ArrowDown") {
+      date.setDate(date.getDate() + 7);
+    }
+
+    // Select the date so it highlights in blue.
+    this.dateGallery.selectDate(date);
+
+    // Change the initialDate (changes the frames) so the user
+    // can navigate to other months.
+    this.dateGallery.changeConfig({ initialDate: date });
+  } else if (event.key === "Enter") {
+    // When enter is pressed close the dialog and set
+    // the value to the selected date.
+
+    // We do not want the dialog to open again.
+    event.preventDefault();
+
+    const date = dateFormatter.format(this.dateGallery.selectedDates[0]);
+
+    this._changeDate(date);
+
+    this.dialogEl.close();
+  }
+};
+    {% endhighlight %}
+
+    <p>
+      What the above code does is listen to the arrow keys, and 
+      move the selected date based on which arrow is pressed. 
+      You should try it out.
+    </p>
+
+    <p>
+      When calling <span class="high">setDate</span> on a <span class="high">Date</span> object 
+      you can change the date. The funny thing about <span class="high">Date</span> is that 
+      it rolls over to the next year or month automatically.
+    </p>
+
+    <p>
+      For example: if you set a date to the first of the month, and do <span class="high">date.setDate(date.getDate() - 1);</span> 
+      the date is now at the last day of the previous month.
+    </p>
+
+    <div class="important">
+      <p>
+        One important thing to know about <span class="high">Date</span> objects is that they are mutable!
+        If you call <span class="high">setDate</span> you actually change that date. This can lead to 
+        bugs if you accidentally share <span class="high">Date</span> objects.
+      </p>
+
+      <p>
+        That is why it is important to always clone / copy dates whenever you mutate a 
+        <span class="high">Date</span> coming from the <span class="high">DateGallery</span>.
+      </p>
+    </div>
+
+  </section>
+
+  <section>
+    <h2 id="cleanup"><a href="#cleanup">11. Cleanup</a></h2>
+
+    <p>
+      When a web-component is disconnected from the DOM the 
+      <span class="high">disconnectedCallback</span> is called.
+      To cleanup after the DateGallery you need to add these 
+      two lines:
+    </p>
+
+    {% highlight "js" %}
+// Also clean up the dateGallery and button
+this.dateGallery = null;
+this.buttonEl = null;
+    {% endhighlight %}
+
+    <p>
+      We should also clear the DateGallery whenever we close the 
+      model, find the <span class="high">dialogEl.onclose</span> and 
+      add the following:
+    </p>
+    
+    {% highlight "js" %}
+// Clear the dateGallery whenever the modal is closed as
+// it is no longer needed.
+this.dateGallery = null;
+    {% endhighlight %}
+  </section>
+
+  <section>
+    <h2 id="what-you-have-learned"><a href="#what-you-have-learned">14. What you have learned</a></h2>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        That the <span class="high">subscriber</span> receives all events 
+        that take place on the DateGallery, and that in the subscriber you
+        must sync the DOM with what occurred.
+      </li>
+
+      <li class="ml-8 mb-4">
+        That a <a class="high underline" href="/api/core/dategallery">DateGallery</a> has 
+        one or multiple <a class="high underline" href="/api/core/dategalleryframe">DateGalleryFrame</a>'s, 
+        which in turn has one or more <a class="high underline" href="/api/core/dategallerydate">DateGalleryDate</a>'s.
+      </li>
+
+      <li class="ml-8 mb-4">
+        That <a class="high underline" href="/api/core/dategallery#firstframe">firstFrame</a> is 
+        a shortcut to the first frame in the <a class="high underline" href="/api/core/dategallery#frames">frames</a> array.
+      </li>
+
+      <li class="ml-8 mb-4">
+        That you can move between frames using the <a class="high underline" href="/api/core/dategallery#next">next()</a> and 
+        <a class="high underline" href="/api/core/dategallery#previous">previous()</a> methods.
+      </li>
+
+      <li class="ml-8 mb-4">
+        That you can select dates via <a class="high underline" href="/api/core/dategallery#selectdate">selectDate()</a>.
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="further-reading"><a href="#further-reading">15. Further reading</a></h2>
+
+    <ol class="list-decimal m-2 mb-4">
+      <li class="ml-8 mb-4">
+        Read through the API of the <a href="/api/core/dategallery/" class="underline high">DateGallery</a>,
+        <a href="/api/core/dategalleryframe/" class="underline high">DateGalleryFrame</a>, 
+        <a href="/api/core/dategalleryevent/" class="underline high">DateGalleryEvent</a>, 
+        and <a href="/api/core/dategallerydate/" class="underline high">DateGalleryDate</a>.
+      </li>
+
+      <li class="ml-8 mb-4">
+        You can also create calendars using the <span class="high">DateGallery</span> which shows events.
+        Check out the <a href="/docs/date-gallery/tutorials/week-calendar/" class="underline">tutorial to learn how to create a week calendar</a>.
+      </li>
+
+      <li class="ml-8 mb-4">
+        When using vanilla JavaScript you must handle DOM manipulation yourself, 
+        contrast this with <a href="/docs/date-gallery/examples/" class="underline">the examples that use a framework</a>.
+      </li
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="full-code"><a href="#full-code">16. Full code</a></h2>
+
+    <p>
+      For reference here is the <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/p/devbox/nostalgic-matsumoto-r4vvxf" class="underline text-purple-600">complete code for this tutorial.</a>
+    </p>
+
+     <p>
+      A more fully fledged example can be found here at the <a target="_blank" rel="noopener noreferrer" href="https://codesandbox.io/p/devbox/dategallery-vanilla-snf4xr" class="underline text-purple-600">reference implementation of a datepicker in vanilla JS.</a>
+      It also shows you how to create a date range picker, and how to create a calendar.
+    </p>
+  </section>
+
+  <a 
+    class="card" 
+    href="/docs/date-gallery/usage-with-frameworks/"
+  >
+    <div>
+      <div class="text-normal font-medium mb-1">Usage with Frameworks</div>
+      <div class="text-sm">Learn how to use the DateGallery in combination with frameworks such as Angular and Svelte.</div>
+    </div>
+    <svg class="w-4 h-4 fill-current text-blue-600 shrink-0 ml-6" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z"></path>
+    </svg>
+  </a>
+
+</article>

@@ -23,8 +23,8 @@
     "prepublishOnly": "UILOOSVERSION=$(jq -r .version ./package.json) && find dist -name \"*.js\" | grep min.js | sed \"p;s/VERSION/${UILOOSVERSION}/g\" | xargs -n2 mv",
     "before-publish": "cp ../../README.MD ./ && cp ../../LICENSE.MD dist",
     "clean": "rm -rf coverage && rm -rf dist",
-    "test": "jest --coverage && node ./tests/minification-check.js",
-    "start": "jest --watch --coverage",
+    "test": "TZ=Pacific/Samoa jest --coverage && node ./tests/minification-check.js",
+    "start": "TZ=Pacific/Samoa jest --watchAll --coverage",
     "tsc": "tsc --version && tsc --noEmit",
     "build": "rm -rf dist && rollup -c rollup.typings.config.cjs && rollup -c rollup.esm-cjs.config.cjs && rollup -c rollup.minification.config.cjs && rm -rf dist/cjs/types && rm -rf dist/esm/types && rm -rf dist/types",
     "apigen": "typedoc src  --json ../website/src/_data/api/core.json"
