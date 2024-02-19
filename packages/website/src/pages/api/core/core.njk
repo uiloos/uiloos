@@ -9,11 +9,15 @@ keywords: "API hub @uiloos/core"
 {% from "../_includes/displayApi.njk" import displayApi %}
 
 {% macro displayApiGroup(definitions, groups = []) %}
-  {% for group in groups %}
-    <h2 id="{{group}}"><a href="#{{group}}">{{loop.index}}. {{group}}</a></h3>
+  <ol>
+    {% for group in groups %}
+      <li>
+        <h2 id="{{group}}"><a href="#{{group}}">{{loop.index}}. {{group}}</a></h3>
 
-    {{ displayApi(definitions | groupApi(groups, group)) }}
-  {% endfor %}
+        {{ displayApi(definitions | groupApi(groups, group)) }}
+      </li>
+    {% endfor %}
+  <ol>
 {% endmacro %}
 
 <article>

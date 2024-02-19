@@ -1,43 +1,45 @@
 {% macro displayApi(definitions) %}
-  <div class="px-1 mb-2 grid gap-2">
-  {% for def in definitions | sortApi(definitions) %}
-    <a 
-      href="{{ def.link }}" 
-      class="flex justify gap-2 items-center font-mono text-ellipsis overflow-hidden whitespace-nowrap"
-      title="{{ def.name }}"
-    >
-      {% if def.kindString === 'component' %}
-        <span class="bg-red-400 font-bold text-white inline-block px-1 text-sm">C</span>
-      {% elif def.kindString === 'hook' %}
-        <span class="bg-yellow-500 font-bold text-white inline-block px-1 text-sm">H</span>
-      {% elif def.kindString === 'composable' %}
-        <span class="bg-yellow-500 font-bold text-white inline-block px-1 text-sm">C</span>
-      {% elif def.kindString === 'module' %}
-        <span class="bg-purple-500 font-bold text-white inline-block px-1 text-sm">M</span>
-      {% elif def.kindString === 'directive' %}
-        <span class="bg-yellow-500 font-bold text-white inline-block px-1 text-sm">D</span>
-      {% elif def.kindString === 'store creator' %}
-        <span class="bg-yellow-500 font-bold text-white inline-block px-1 text-sm">S</span>
-      {% elif def.kindString === 'error'%}
-        <span class="bg-red-400 font-bold text-white inline-block px-1 text-sm">E</span>
-      {% elif def.kindString === 'plugin' %}
-        <span class="bg-purple-400 font-bold text-white inline-block px-1 text-sm">P</span>
-      {% elif def.kindString === 'class' %}
-        <span class="bg-blue-400 font-bold text-white inline-block px-1 text-sm">C</span>
-      {% elif def.kindString === 'function' %}
-        <span class="bg-green-400 font-bold text-white inline-block px-1 text-sm">F</span>
-      {% elif def.kindString === 'instance' %}
-        <span class="bg-green-400 font-bold text-white inline-block px-1 text-sm">I</span>
-      {% elif def.kindString === 'constant' %}
-        <span class="bg-gray-400 font-bold text-white inline-block px-1 text-sm">C</span>
-      {% elif def.kindString === 'interface' %}
-        <span class="bg-pink-400 font-bold text-white inline-block px-1 text-sm">I</span>
-      {% else %}
-        <span class="bg-orange-400 font-bold text-white inline-block px-1 text-sm">T</span>
-      {% endif %}
-      
-      {{def.name}}
-    </a>
-  {% endfor %}
-  </div>
+  <ol class="px-1 mb-2 grid gap-2">
+    {% for def in definitions | sortApi(definitions) %}
+      <li>
+        <a 
+          href="{{ def.link }}" 
+          class="flex justify gap-2 items-center font-mono text-ellipsis overflow-hidden whitespace-nowrap"
+          title="{{ def.name }}"
+        >
+          {% if def.kindString === 'component' %}
+            <span class="bg-red-400 font-bold text-white inline-block px-1 text-sm">C</span>
+          {% elif def.kindString === 'hook' %}
+            <span class="bg-yellow-500 font-bold text-white inline-block px-1 text-sm">H</span>
+          {% elif def.kindString === 'composable' %}
+            <span class="bg-yellow-500 font-bold text-white inline-block px-1 text-sm">C</span>
+          {% elif def.kindString === 'module' %}
+            <span class="bg-purple-500 font-bold text-white inline-block px-1 text-sm">M</span>
+          {% elif def.kindString === 'directive' %}
+            <span class="bg-yellow-500 font-bold text-white inline-block px-1 text-sm">D</span>
+          {% elif def.kindString === 'store creator' %}
+            <span class="bg-yellow-500 font-bold text-white inline-block px-1 text-sm">S</span>
+          {% elif def.kindString === 'error'%}
+            <span class="bg-red-400 font-bold text-white inline-block px-1 text-sm">E</span>
+          {% elif def.kindString === 'plugin' %}
+            <span class="bg-purple-400 font-bold text-white inline-block px-1 text-sm">P</span>
+          {% elif def.kindString === 'class' %}
+            <span class="bg-blue-400 font-bold text-white inline-block px-1 text-sm">C</span>
+          {% elif def.kindString === 'function' %}
+            <span class="bg-green-400 font-bold text-white inline-block px-1 text-sm">F</span>
+          {% elif def.kindString === 'instance' %}
+            <span class="bg-green-400 font-bold text-white inline-block px-1 text-sm">I</span>
+          {% elif def.kindString === 'constant' %}
+            <span class="bg-gray-400 font-bold text-white inline-block px-1 text-sm">C</span>
+          {% elif def.kindString === 'interface' %}
+            <span class="bg-pink-400 font-bold text-white inline-block px-1 text-sm">I</span>
+          {% else %}
+            <span class="bg-orange-400 font-bold text-white inline-block px-1 text-sm">T</span>
+          {% endif %}
+          
+          {{def.name}}
+        </a>
+      </li>
+    {% endfor %}
+  </ol>
 {% endmacro %}
