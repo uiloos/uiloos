@@ -46,8 +46,8 @@ export type ActiveListConfig<T> = {
    *    the error is called the `ActiveListActivationLimitReachedError`.
    *
    * 3. 'ignore': Nothing happens when an item is added and the limit
-   *    is ignored. The item is simply not added, but no error is
-   *    thrown.
+ *    is reached. The item is simply not added, but no error is
+ *    thrown.
    *
    * Defaults to 'circular'.
    *
@@ -177,7 +177,7 @@ export type ActiveListConfig<T> = {
  *    the error is called the `ActiveListActivationLimitReachedError`.
  *
  * 3. 'ignore': Nothing happens when an item is added and the limit
- *    is ignored. The item is simply not added, but no error is
+ *    is reached. The item is simply not added, but no error is
  *    thrown.
  * 
  * @since 1.0.0
@@ -642,7 +642,7 @@ export type ActiveListInitializedEvent<T> = ActiveListBaseEvent & {
   /**
    * The values which were active upon initialization.
    *
-   * Note: there are the values at the time of the initialization, they might
+   * Note: these are the values at the time of the initialization, they might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
    * copy is made.
@@ -654,7 +654,7 @@ export type ActiveListInitializedEvent<T> = ActiveListBaseEvent & {
   /**
    * The indexes of the values which were active upon initialization.
    *
-   * Note: there are the indexes at the time of the initialization, it might
+   * Note: these are the indexes at the time of the initialization, it might
    * no longer be accurate.
    *
    * @since 1.0.0
@@ -750,7 +750,7 @@ export type ActiveListRemovedMultipleEvent<T> = ActiveListBaseEvent & {
   /**
    * The values which were removed
    *
-   * Note: there are the values at the time of removal, they might
+   * Note: these are the values at the time of removal, they might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
    * copy is made.
@@ -762,7 +762,7 @@ export type ActiveListRemovedMultipleEvent<T> = ActiveListBaseEvent & {
   /**
    * The indexes of the removed items.
    *
-   * Note: there are the indexes at the time of the removal, it might
+   * Note: these are the indexes at the time of the removal, it might
    * no longer be accurate.
    *
    * @since 1.0.0
@@ -813,7 +813,7 @@ export type ActiveListActivatedEvent<T> = ActiveListBaseEvent & {
    * `maxActivationLimit` is set to a `number` and 
    * `maxActivationLimitBehavior` is set to `circular`.
    *
-   * Note: there are the values at the time of deactivation, they might
+   * Note: these are the values at the time of deactivation, they might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
    * copy is made.
@@ -855,7 +855,7 @@ export type ActiveListActivatedMultipleEvent<T> = ActiveListBaseEvent & {
   /**
    * The values which were activated.
    *
-   * Note: there are the values at the time of activation, they might
+   * Note: these are the values at the time of activation, they might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
    * copy is made.
@@ -876,8 +876,12 @@ export type ActiveListActivatedMultipleEvent<T> = ActiveListBaseEvent & {
 
   /**
    * The values which were deactivated.
+   * 
+   * A deactivation will only happen as part of an activation when 
+   * `maxActivationLimit` is set to a `number` and 
+   * `maxActivationLimitBehavior` is set to `circular`.
    *
-   * Note: there are the values at the time of deactivation, they might
+   * Note: these are the values at the time of deactivation, they might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
    * copy is made.
@@ -888,6 +892,10 @@ export type ActiveListActivatedMultipleEvent<T> = ActiveListBaseEvent & {
 
   /**
    * The indexes of the deactivated items.
+   * 
+   * A deactivation will only happen as part of an activation when 
+   * `maxActivationLimit` is set to a `number` and 
+   * `maxActivationLimitBehavior` is set to `circular`.
    *
    * Note: these are the indexes at the time of the deactivation, it might
    * no longer be accurate.
@@ -959,7 +967,7 @@ export type ActiveListDeactivatedMultipleEvent<T> = ActiveListBaseEvent & {
   /**
    * The values which were deactivated.
    *
-   * Note: there are the values at the time of deactivation, they might
+   * Note: these are the values at the time of deactivation, they might
    * no longer be accurate. Keep in mind that when the `value` is
    * an object or an array, they can still be mutated, because no
    * copy is made.

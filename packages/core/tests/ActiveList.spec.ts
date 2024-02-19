@@ -243,6 +243,28 @@ describe('ActiveList', () => {
         })
       );
     });
+
+    test('that it throws error when activation limit is reached', () => {
+      expect(() => {
+        new ActiveList({
+          contents: ['a', 'b', 'c'],
+          activeIndexes: [0, 2],
+          maxActivationLimit: 1,
+          maxActivationLimitBehavior: 'error',
+        });
+      }).toThrowError(
+        `uiloos > ActiveList > activateByIndex > activation limit reached`
+      );
+
+      expect(() => {
+        new ActiveList({
+          contents: ['a', 'b', 'c'],
+          activeIndexes: [0, 2],
+          maxActivationLimit: 1,
+          maxActivationLimitBehavior: 'error',
+        });
+      }).toThrowError(ActiveListActivationLimitReachedError);
+    });
   });
 
   describe('initialize', () => {
@@ -795,6 +817,30 @@ describe('ActiveList', () => {
       });
 
       expect(subscriber).toHaveBeenCalledTimes(0);
+    });
+
+    test('that it throws error when activation limit is reached', () => {
+      const activeList = new ActiveList();
+
+      expect(() => {
+        activeList.initialize({
+          contents: ['a', 'b', 'c'],
+          activeIndexes: [0, 2],
+          maxActivationLimit: 1,
+          maxActivationLimitBehavior: 'error',
+        });
+      }).toThrowError(
+        `uiloos > ActiveList > activateByIndex > activation limit reached`
+      );
+
+      expect(() => {
+        activeList.initialize({
+          contents: ['a', 'b', 'c'],
+          activeIndexes: [0, 2],
+          maxActivationLimit: 1,
+          maxActivationLimitBehavior: 'error',
+        });
+      }).toThrowError(ActiveListActivationLimitReachedError);
     });
 
     describe('reset behavior', () => {

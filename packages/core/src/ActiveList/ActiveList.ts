@@ -118,8 +118,8 @@ export class ActiveList<T>
    *    the error is called the `ActiveListActivationLimitReachedError`.
    *
    * 3. 'ignore': Nothing happens when an item is added and the limit
-   *    is ignored. The item is simply not added, but no error is
-   *    thrown.
+ *    is reached. The item is simply not added, but no error is
+ *    thrown.
    *
    * Defaults to 'circular'.
    *
@@ -157,7 +157,7 @@ export class ActiveList<T>
    * the last chronologically.
    *
    * When nothing is activated in the `ActiveList` the value of
-   * `lastActivated` will be `null.
+   * `lastActivated` will be `null`.
    *
    * @since 1.0.0
    */
@@ -171,7 +171,7 @@ export class ActiveList<T>
    * activated the last chronologically.
    *
    * When nothing is activated in the `ActiveList` the value of
-   * `lastActivatedContent` will be `null.
+   * `lastActivatedContent` will be `null`.
    *
    * @since 1.0.0
    */
@@ -196,7 +196,7 @@ export class ActiveList<T>
    * value which was deactivated.
    *
    * When nothing was deactivated previously in the `ActiveList` the
-   * value of `lastDeactivated` will be `null.
+   * value of `lastDeactivated` will be `null`.
    *
    * @since 1.5.0
    */
@@ -207,7 +207,7 @@ export class ActiveList<T>
    * was deactivated.
    *
    * When nothing was deactivated previously in the `ActiveList` the
-   * value of `lastDeactivatedContent` will be `null.
+   * value of `lastDeactivatedContent` will be `null`.
    *
    * @since 1.5.0
    */
@@ -417,6 +417,7 @@ export class ActiveList<T>
    * @param {ActiveListConfig<T>} config The initial configuration of the ActiveList.
    * @param {ActiveListSubscriber<T> | undefined} subscriber An optional subscriber which responds to changes in the ActiveList.
    * @throws {ActiveListAutoPlayDurationError} autoPlay duration must be a positive number when defined
+   * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
    * @since 1.0.0
    */
   constructor(
@@ -478,9 +479,8 @@ export class ActiveList<T>
    * history, autoPlay and cooldown.
    *
    * @param {ActiveListConfig<T>} config The new configuration which will override the old one
-   *
    * @throws {ActiveListAutoPlayDurationError} autoPlay duration must be a positive number when defined
-   *
+   * @throws {ActiveListActivationLimitReachedError} thrown when maxActivationLimit is exceeded, and maxActivationLimitBehavior is "error".
    * @since 1.0.0
    */
   public initialize(config: ActiveListConfig<T>): void {
@@ -799,6 +799,11 @@ export class ActiveList<T>
    * Items can also be deactivated if the `maxActivationLimit` is set
    * to a number and the `maxActivationLimitBehavior` is set to
    * "circular", if space needs to be made for the new activations.
+   * 
+   * When `maxActivationLimitBehavior` is set to "error", all items 
+   * that can be accommodated are activated, but when the limit is 
+   * exceeded the activation stops. The subscribers are then informed
+   * of which items were activated, and then the error is thrown.
    *
    * Even through each item is activated sequentially, only one event
    * is emitted, and one call is made to the subscribers, even if
