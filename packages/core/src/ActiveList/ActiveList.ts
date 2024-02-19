@@ -304,7 +304,7 @@ export class ActiveList<T>
    *
    *  5. ACTIVATED: fired when an item is activated.
    *
-   *  6  ACTIVATED_MULTIPLE: fired when multiple items are activated with a predicate.
+   *  6. ACTIVATED_MULTIPLE: fired when multiple items are activated with a predicate.
    *
    *  7. DEACTIVATED: fired when an item is deactivated.
    *

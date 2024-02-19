@@ -25,21 +25,15 @@ export type DateGalleryConfig<T> = {
    * 4. 'month-six-weeks': all days within a calendar month, but padded
    *    out to six weeks. Meaning that there are always 42 days in the
    *    frame. Useful for when you want you calendar / datepicker to be
-   *    visually stable height wise.
-   *
-   *    Starts the days on the configured `firstDayOfWeek`.
+   *    visually stable height wise. Starts the days on the configured 
+   *    `firstDayOfWeek`.
    *
    * 5. 'month-pad-to-week': all days within a calendar month, but
-   *    padded out to the closest `firstDayOfWeek`.
-   *
-   *    For example given that firstDayOfWeek is set to 0 / Sunday:
-   *    if the first day of the month starts on Wednesday it will pad to
-   *    the previous Sunday of the previous month.
-   *
-   *    If the month ends on a friday, it will add the next saturday
-   *    of the next month.
-   *
-   *    Starts the days on the configured `firstDayOfWeek`.
+   *    padded out so it always contains full weeks. Only the smallest 
+   *    amount of padding is added to get to the full weeks. Starts 
+   *    the days on the configured `firstDayOfWeek`. For example if
+   *    the week is configured to start on sunday, and the month starts 
+   *    on a tuesday, it will add monday and sunday.
    *
    * 6. 'year': a frame will contain all 365 days (or 366 when a leap year)
    *     within a year.
@@ -270,21 +264,15 @@ export type DateGalleryChangeConfig = {
    * 4. 'month-six-weeks': all days within a calendar month, but padded
    *    out to six weeks. Meaning that there are always 42 days in the
    *    frame. Useful for when you want you calendar / datepicker to be
-   *    visually stable height wise.
-   *
-   *    Starts the days on the configured `firstDayOfWeek`.
+   *    visually stable height wise. Starts the days on the configured 
+   *    `firstDayOfWeek`.
    *
    * 5. 'month-pad-to-week': all days within a calendar month, but
-   *    padded out to the closest `firstDayOfWeek`.
-   *
-   *    For example given that firstDayOfWeek is set to 0 / Sunday:
-   *    if the first day of the month starts on Wednesday it will pad to
-   *    the previous Sunday of the previous month.
-   *
-   *    If the month ends on a friday, it will add the next saturday
-   *    of the next month.
-   *
-   *    Starts the days on the configured `firstDayOfWeek`.
+   *    padded out so it always contains full weeks. Only the smallest 
+   *    amount of padding is added to get to the full weeks. Starts 
+   *    the days on the configured `firstDayOfWeek`. For example if
+   *    the week is configured to start on sunday, and the month starts 
+   *    on a tuesday, it will add monday and sunday.
    *
    * 6. 'year': a frame will contain all 365 days (or 366 when a leap year)
    *     within a year.
@@ -474,21 +462,15 @@ export const DATE_GALLERY_MODES = [
  * 4. 'month-six-weeks': all days within a calendar month, but padded
  *    out to six weeks. Meaning that there are always 42 days in the
  *    frame. Useful for when you want you calendar / datepicker to be
- *    visually stable height wise.
+ *    visually stable height wise. Starts the days on the configured 
+ *    `firstDayOfWeek`.
  *
- *    Starts the days on the configured `firstDayOfWeek`.
- *
- * 5. 'month-pad-to-week': all days within a calendar month, but padded
- *    out to the closest `firstDayOfWeek`.
- *
- *    For example given that firstDayOfWeek is set to 0 / Sunday:
- *    if the first day of the month starts on Wednesday it will pad to
- *    the previous Sunday of the previous month.
- *
- *    If the month ends on a friday, it will add the next saturday
- *    of the next month.
- *
- *    Starts the days on the configured `firstDayOfWeek`.
+ * 5. 'month-pad-to-week': all days within a calendar month, but
+ *    padded out so it always contains full weeks. Only the smallest 
+ *    amount of padding is added to get to the full weeks. Starts 
+ *    the days on the configured `firstDayOfWeek`. For example if
+ *    the week is configured to start on sunday, and the month starts 
+ *    on a tuesday, it will add monday and sunday.
  *
  * 6. 'year': a frame will contain all 365 days (or 366 when a leap year)
  *     within a year.
