@@ -36,7 +36,6 @@ module.exports = function (eleventyConfig) {
       'predicate',
       'base', // So base events are above the events
       'event',
-      'error',
       'constant',
     ];
 
@@ -55,6 +54,11 @@ module.exports = function (eleventyConfig) {
         return -1;
       }
 
+      // Errors should be at the bottom:
+      if (def.kindString.endsWith('error')) {
+        return sort.length + 1;
+      }
+
       let index = 1;
       for (const name of sort) {
         if (defName.includes(name)) {
@@ -67,12 +71,16 @@ module.exports = function (eleventyConfig) {
       return 0;
     }
 
-    return definitions.sort((a, b) => {
+    const result = definitions.sort((a, b) => {
       const aValue = sortValue(a);
       const bValue = sortValue(b);
 
       return aValue - bValue;
     });
+
+    console.log(result.map(x => x.name));
+
+    return result;
   });
 
   // Filters the api definitions based on the groups, the last
