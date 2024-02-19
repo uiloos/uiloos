@@ -25,6 +25,7 @@ import {
   ViewChannelViewDismissedEvent,
   ViewChannelViewDismissedEventReason,
   ViewChannelViewDismissedAllEvent,
+  ViewChannelViewDataChangedEvent,
 } from './types';
 import { ViewChannelView } from './ViewChannelView';
 
@@ -91,22 +92,26 @@ export class ViewChannel<T, R = void>
   /**
    * Contains the history of the changes in the views array.
    *
-   * Tracks 6 types of changes:
+   * Tracks 8 types of changes:
    *
    *  1. INITIALIZED: fired when ViewChannel is initialized.
    *
    *  2. PRESENTED: fired when ViewChannel presented a ViewChannelView.
    *
    *  3. DISMISSED: fired when ViewChannel dismissed a ViewChannelView.
+   * 
+   *  4. DISMISSED_ALL: fired when ViewChannel dismisses all ViewChannelView's.
    *
-   *  4. AUTO_DISMISS_PLAYING: fired when ViewChannelView started to
+   *  5. AUTO_DISMISS_PLAYING: fired when ViewChannelView started to
    *     play after a stop or pause.
    *
-   *  5. AUTO_DISMISS_PAUSED: fired when a ViewChannelView auto
+   *  6. AUTO_DISMISS_PAUSED: fired when a ViewChannelView auto
    *     dismiss was paused.
    *
-   *  6. AUTO_DISMISS_STOPPED: fired when a ViewChannelView auto
+   *  7. AUTO_DISMISS_STOPPED: fired when a ViewChannelView auto
    *     dismiss was stopped.
+   *
+   *  8. DATA_CHANGED: fired when a ViewChannelView data is changed.
    *
    * Goes only as far back as configured in the `Config` property
    * `keepHistoryFor`, to prevent an infinitely growing history.
@@ -268,7 +273,7 @@ export class ViewChannel<T, R = void>
     reason: ViewChannelViewDismissedEventReason
   ): void {
     if (index < 0 || index >= this.views.length) {
-      throw new ViewChannelIndexOutOfBoundsError();
+      throw new ViewChannelIndexOutOfBoundsError('dismissByIndex');
     }
 
     const view = this.views[index];
@@ -333,7 +338,7 @@ export class ViewChannel<T, R = void>
    * Note: if the `ViewChannelView` does not exist in the views array it
    * will throw an error.
    *
-   * @param {number} index The index of the ViewChannelView to dismiss
+   * @param {ViewChannelView<T, R>} view The ViewChannelView to dismiss
    * @param {R} result The value to resolve the promise of the ViewChannelView with.
    * @throws {ViewChannelNotFoundError} item must be in the views array based on === equality
    * @since 1.0.0
@@ -350,7 +355,7 @@ export class ViewChannel<T, R = void>
     const index = this.views.indexOf(view);
 
     if (index === -1) {
-      throw new ViewChannelViewNotFoundError();
+      throw new ViewChannelViewNotFoundError('dismiss');
     }
 
     this.dismissByIndex(index, result);
@@ -408,6 +413,70 @@ export class ViewChannel<T, R = void>
     };
 
     this._inform(event);
+  }
+
+  /**
+   * Changes the data of the given ViewChannelView, and informs 
+   * the subscribers of the change. 
+   * 
+   * Note: if you provide the exact same `data` it will still set the 
+   * `data` and inform the subscribers, even though nothing has
+   * actually changed. 
+   * 
+   * This way, when `data` is an object or an array, you can mutate
+   * the object / array directly, and pass in the same `data` object
+   * to the `changeData`, without having to create copies.
+   *
+   * @param {number} index The index of the ViewChannelView to change the data for.
+   * @param {T} data The new data for the ViewChannelView
+   * @throws {ViewChannelIndexOutOfBoundsError} index cannot be out of bounds
+   * @since 1.6.0
+   */
+  public changeDataByIndex(index: number, data: T): void {
+    if (index < 0 || index >= this.views.length) {
+      throw new ViewChannelIndexOutOfBoundsError('changeDataByIndex');
+    }
+
+    const view = this.views[index];
+
+    view.data = data;
+
+    const event: ViewChannelViewDataChangedEvent<T, R> = {
+      type: 'DATA_CHANGED',
+      view: view,
+      data,
+      index: view.index,
+      time: new Date(),
+    };
+
+    this._inform(event);
+  }
+
+  /**
+   * Changes the data of the given ViewChannelView, and informs 
+   * the subscribers of the change. 
+   *
+   * Note: if you provide the exact same `data` it will still set the 
+   * `data` and inform the subscribers, even though nothing has
+   * actually changed. 
+   * 
+   * This way, when `data` is an object or an array, you can mutate
+   * the object / array directly, and pass in the same `data` object
+   * to the `changeData`, without having to create copies.
+   * 
+   * @param {ViewChannelView<T, R>} view The ViewChannelView to change the data for
+   * @param {T} data The new data for the ViewChannelView
+   * @throws {ViewChannelNotFoundError} item must be in the views array based on === equality
+   * @since 1.6.0
+   */
+  public changeData(view: ViewChannelView<T, R>, data: T): void {
+    const index = this.views.indexOf(view);
+
+    if (index === -1) {
+      throw new ViewChannelViewNotFoundError('changeData');
+    }
+
+    this.changeDataByIndex(index, data);
   }
 
   // Gets the index for the given priority, based on what is already

@@ -137,7 +137,7 @@ export class ViewChannelView<T, R> {
    *
    * @param {ViewChannel<T, R>} viewChannel The ViewChannel this ViewChannelView belongs to.
    * @param {number} index The index of this ViewChannelView within the ViewChannel.
-   * @param {T} data The data function which when called provides the data for this ViewChannelView.
+   * @param {T} data The data of this ViewChannelView.
    * @param {number} priority The priority this ViewChannelView has within the ViewChannel
    * @param {ViewChannelViewAutoDismissConfig<R>} autoDismiss Whether or not this ViewChannelView is auto dismissed after a duration. 
    * 
@@ -246,5 +246,25 @@ export class ViewChannelView<T, R> {
    */
   public stop(): void {
     this._autoDismiss._stop();
+  }
+
+  /**
+   * Changes the data of this ViewChannelView, and informs the 
+   * subscribers of the change. 
+   * 
+   * Note: if you provide the exact same `data` it will still set the 
+   * `data` and inform the subscribers, even though nothing has
+   * actually changed. 
+   * 
+   * This way, when `data` is an object or an array, you can mutate
+   * the object / array directly, and pass in the same `data` object
+   * to the `changeData`, without having to create copies.
+   * 
+   *
+   * @param {T} data The new data for this ViewChannelView
+   * @since 1.6.0
+   */
+  public changeData(data: T): void {
+    this.viewChannel.changeData(this, data);
   }
 }

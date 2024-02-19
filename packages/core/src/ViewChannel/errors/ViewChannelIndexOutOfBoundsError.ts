@@ -11,8 +11,8 @@ export class ViewChannelIndexOutOfBoundsError extends Error {
    *
    * @since 1.0.0
    */
-  constructor() {
-    super(`${common} dismissByIndex > "index" is out of bounds`);
+  constructor(method: string) {
+    super(`${common} ${method} > "index" is out of bounds`);
     this.name = 'ViewChannelIndexOutOfBoundsError';
   }
 }

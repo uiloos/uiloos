@@ -120,6 +120,7 @@ describe('ViewChannel', () => {
           keepHistoryFor: 1,
         });
 
+        expect(subscriber).toBeCalledTimes(1);
         assertLastSubscriber(
           subscriber,
           {
@@ -151,6 +152,8 @@ describe('ViewChannel', () => {
           data: 'a',
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(1);
       assertLastSubscriber(
         subscriber,
         {
@@ -192,6 +195,8 @@ describe('ViewChannel', () => {
           data: 'b',
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(2);
       assertLastSubscriber(
         subscriber,
         {
@@ -243,6 +248,8 @@ describe('ViewChannel', () => {
           data: 'c',
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(3);
       assertLastSubscriber(
         subscriber,
         {
@@ -310,6 +317,8 @@ describe('ViewChannel', () => {
           priority: [1],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(1);
       assertLastSubscriber(
         subscriber,
         {
@@ -352,6 +361,8 @@ describe('ViewChannel', () => {
           priority: [0],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(2);
       assertLastSubscriber(
         subscriber,
         {
@@ -404,6 +415,8 @@ describe('ViewChannel', () => {
           priority: [3],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(3);
       assertLastSubscriber(
         subscriber,
         {
@@ -466,6 +479,8 @@ describe('ViewChannel', () => {
           priority: [2],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(4);
       assertLastSubscriber(
         subscriber,
         {
@@ -543,6 +558,8 @@ describe('ViewChannel', () => {
           priority: [0],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(1);
       assertLastSubscriber(
         subscriber,
         {
@@ -585,6 +602,8 @@ describe('ViewChannel', () => {
           priority: [1],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(2);
       assertLastSubscriber(
         subscriber,
         {
@@ -638,6 +657,8 @@ describe('ViewChannel', () => {
           priority: [1],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(3);
       assertLastSubscriber(
         subscriber,
         {
@@ -701,6 +722,8 @@ describe('ViewChannel', () => {
           priority: [1],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(4);
       assertLastSubscriber(
         subscriber,
         {
@@ -774,6 +797,8 @@ describe('ViewChannel', () => {
           priority: [0],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(5);
       assertLastSubscriber(
         subscriber,
         {
@@ -861,6 +886,8 @@ describe('ViewChannel', () => {
           priority: [0, 1, 0],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(1);
       assertLastSubscriber(
         subscriber,
         {
@@ -903,6 +930,8 @@ describe('ViewChannel', () => {
           priority: [0, 0, 0],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(2);
       assertLastSubscriber(
         subscriber,
         {
@@ -955,6 +984,8 @@ describe('ViewChannel', () => {
           priority: [0, 1, 2],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(3);
       assertLastSubscriber(
         subscriber,
         {
@@ -1017,6 +1048,8 @@ describe('ViewChannel', () => {
           priority: [0, 1, 0],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(4);
       assertLastSubscriber(
         subscriber,
         {
@@ -1089,6 +1122,8 @@ describe('ViewChannel', () => {
           priority: [0, 1, 1],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(5);
       assertLastSubscriber(
         subscriber,
         {
@@ -1172,6 +1207,8 @@ describe('ViewChannel', () => {
           priority: [0, 1],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(6);
       assertLastSubscriber(
         subscriber,
         {
@@ -1264,6 +1301,8 @@ describe('ViewChannel', () => {
           data: 'g',
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(7);
       assertLastSubscriber(
         subscriber,
         {
@@ -1366,6 +1405,8 @@ describe('ViewChannel', () => {
           priority: [0, 0, 1],
         })
       ).toBeInstanceOf(ViewChannelView);
+
+      expect(subscriber).toBeCalledTimes(8);
       assertLastSubscriber(
         subscriber,
         {
@@ -1543,6 +1584,8 @@ describe('ViewChannel', () => {
         // Check if the promise is resolved now
         expect(view.result).resolves.toBe('SUCCESS');
 
+        // Three for present, one for dismiss
+        expect(subscriber).toBeCalledTimes(4);
         assertLastSubscriber(
           subscriber,
           {
@@ -1635,7 +1678,7 @@ describe('ViewChannel', () => {
         expect(subscriber).toHaveBeenCalledTimes(2);
       });
 
-      test('dismiss', () => {
+      test('should remove the content, return the content, resolve the promise with the result, and inform subscribers', () => {
         const viewChannel = new ViewChannel<string, string>();
         const subscriber = autoSubscribe(viewChannel);
 
@@ -1657,6 +1700,8 @@ describe('ViewChannel', () => {
         // Check if the promise is resolved now
         expect(view.result).resolves.toBe('SUCCESS');
 
+        // Three for present, one for dismiss
+        expect(subscriber).toBeCalledTimes(4);
         assertLastSubscriber(
           subscriber,
           {
@@ -1725,7 +1770,6 @@ describe('ViewChannel', () => {
 
         // Three for the present, one for the dismissAll
         expect(subscriber).toBeCalledTimes(4);
-
         assertLastSubscriber(
           subscriber,
           {
@@ -1764,7 +1808,7 @@ describe('ViewChannel', () => {
       });
     });
 
-    test('dismiss via ViewChannelContent', () => {
+    test('dismiss via ViewChannelView', () => {
       const viewChannel = new ViewChannel<string, string>();
       const subscriber = autoSubscribe(viewChannel);
 
@@ -1786,6 +1830,8 @@ describe('ViewChannel', () => {
       // Check if the promise is resolved now
       expect(view.result).resolves.toBe('SUCCESS');
 
+      // Three for present, one for dismiss
+      expect(subscriber).toBeCalledTimes(4);
       assertLastSubscriber(
         subscriber,
         {
@@ -2477,6 +2523,353 @@ describe('ViewChannel', () => {
       expect(view.isPresented).toBe(true);
       expect(view.autoDismiss).toEqual({ isPlaying: true, duration: 1000 });
       assertEvents(subscriber, ['PRESENTED']);
+    });
+  });
+
+  describe('changeData', () => {
+    describe('changeDataByIndex', () => {
+      describe('when it throws out of bounds', () => {
+        test('throws out of bounds when index is to large', () => {
+          const viewChannel = new ViewChannel<string, string>();
+          const subscriber = autoSubscribe(viewChannel);
+
+          expect(() => {
+            viewChannel.changeDataByIndex(4, 'YUP');
+          }).toThrowError(
+            `uiloos > ViewChannel > changeDataByIndex > "index" is out of bounds`
+          );
+
+          expect(() => {
+            viewChannel.changeDataByIndex(4, 'YUP');
+          }).toThrowError(ViewChannelIndexOutOfBoundsError);
+
+          expect(() => {
+            viewChannel.changeDataByIndex(3, 'YUP');
+          }).toThrowError(
+            `uiloos > ViewChannel > changeDataByIndex > "index" is out of bounds`
+          );
+
+          expect(() => {
+            viewChannel.changeDataByIndex(3, 'YUP');
+          }).toThrowError(ViewChannelIndexOutOfBoundsError);
+
+          expect(subscriber).toHaveBeenCalledTimes(0);
+        });
+
+        test('throws out of bounds when index is less than zero', () => {
+          const viewChannel = new ViewChannel<string, string>();
+          const subscriber = autoSubscribe(viewChannel);
+
+          expect(() => {
+            viewChannel.changeDataByIndex(-1, 'YUP');
+          }).toThrowError(
+            `uiloos > ViewChannel > changeDataByIndex > "index" is out of bounds`
+          );
+
+          expect(() => {
+            viewChannel.changeDataByIndex(-1, 'YUP');
+          }).toThrowError(ViewChannelIndexOutOfBoundsError);
+
+          expect(subscriber).toHaveBeenCalledTimes(0);
+        });
+      });
+
+      test('should change the data and inform subscribers', async () => {
+        const viewChannel = new ViewChannel<string, string>();
+        const subscriber = autoSubscribe(viewChannel);
+
+        viewChannel.present({
+          data: 'b',
+        });
+
+        viewChannel.changeDataByIndex(0, 'z');
+
+        // One for present, one for changeData
+        expect(subscriber).toBeCalledTimes(2);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            views: [
+              {
+                index: 0,
+                priority: [0],
+                data: 'z',
+                isPresented: true,
+                autoDismiss: {
+                  isPlaying: false,
+                  duration: 0,
+                },
+              },
+            ],
+          },
+          {
+            type: 'DATA_CHANGED',
+            index: 0,
+            data: 'z',
+            // @ts-expect-error objectContaining works
+            view: expect.objectContaining({
+              index: 0,
+              data: 'z',
+              priority: [0],
+              isPresented: true,
+            }),
+            time: new Date(),
+          }
+        );
+      });
+
+      test('should still inform when data stays the same, for primitives', async () => {
+        const viewChannel = new ViewChannel<string, string>();
+        const subscriber = autoSubscribe(viewChannel);
+
+        viewChannel.present({
+          data: 'b',
+        });
+
+        viewChannel.changeDataByIndex(0, 'b');
+
+        // One for present, one for changeData
+        expect(subscriber).toBeCalledTimes(2);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            views: [
+              {
+                index: 0,
+                priority: [0],
+                data: 'b',
+                isPresented: true,
+                autoDismiss: {
+                  isPlaying: false,
+                  duration: 0,
+                },
+              },
+            ],
+          },
+          {
+            type: 'DATA_CHANGED',
+            index: 0,
+            data: 'b',
+            // @ts-expect-error objectContaining works
+            view: expect.objectContaining({
+              index: 0,
+              data: 'b',
+              priority: [0],
+              isPresented: true,
+            }),
+            time: new Date(),
+          }
+        );
+      });
+
+      test('should still inform when data stays the same, for objects', async () => {
+        const viewChannel = new ViewChannel<{
+          name: string,
+          age: number;
+        }, string>();
+
+        const subscriber = jest.fn();
+        unsubscribe = viewChannel.subscribe(subscriber);
+
+        const view = viewChannel.present({
+          data: {
+            name: 'Maarten',
+            age: 34,
+          },
+        });
+
+        view.data.age = 35;
+
+        
+        viewChannel.changeDataByIndex(0, view.data);
+
+        // One for present, one for changeData
+        expect(subscriber).toBeCalledTimes(2);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            views: [
+              {
+                index: 0,
+                priority: [0],
+                // @ts-expect-error Allow me to pass in an object
+                data: {
+                  name: 'Maarten',
+                  age: 35,
+                },
+                isPresented: true,
+                autoDismiss: {
+                  isPlaying: false,
+                  duration: 0,
+                },
+              },
+            ],
+          },
+          {
+            type: 'DATA_CHANGED',
+            index: 0,
+            data: {
+              name: 'Maarten',
+              age: 35,
+            },
+            view: expect.objectContaining({
+              index: 0,
+              data: {
+                name: 'Maarten',
+                age: 35,
+              },
+              priority: [0],
+              isPresented: true,
+            }),
+            time: new Date(),
+          }
+        );
+      });
+    });
+
+    describe('changeData', () => {
+      test('throws out ViewChannelViewNotFoundError when view is not in views array', () => {
+        const viewChannel = new ViewChannel<string, string>();
+        const subscriber = autoSubscribe(viewChannel);
+
+        const viewFromOtherChannel = new ViewChannelView(
+          new ViewChannel<string, string>(),
+          0,
+          'blaat',
+          [0],
+          undefined
+        );
+
+        expect(() => {
+          viewChannel.changeData(viewFromOtherChannel, 'OK');
+        }).toThrowError(
+          `uiloos > ViewChannel > changeData > "ViewChannelView" not found in views array`
+        );
+
+        expect(() => {
+          viewChannel.changeData(viewFromOtherChannel, 'OK');
+        }).toThrowError(ViewChannelViewNotFoundError);
+
+        // It should not have resulted in any events
+        expect(subscriber).toHaveBeenCalledTimes(0);
+      });
+
+      test('throws out ViewChannelViewNotFoundError when view is no longer in views array', () => {
+        const viewChannel = new ViewChannel<string, string>();
+        const subscriber = autoSubscribe(viewChannel);
+
+        viewChannel.present({
+          data: 'HEYO',
+        });
+        // One for presented
+        expect(subscriber).toHaveBeenCalledTimes(1);
+
+        const viewChannelView = viewChannel.views[0];
+        viewChannel.dismiss(viewChannelView, 'OK');
+        // One for dismissed
+        expect(subscriber).toHaveBeenCalledTimes(2);
+
+        // Now changeData it should throw an error
+        expect(() => {
+          viewChannel.changeData(viewChannelView, 'OK');
+        }).toThrowError(ViewChannelViewNotFoundError);
+
+        // It should not have resulted in more than 2 events.
+        expect(subscriber).toHaveBeenCalledTimes(2);
+      });
+
+      test('should change the data and inform subscribers', async () => {
+        const viewChannel = new ViewChannel<string, string>();
+        const subscriber = autoSubscribe(viewChannel);
+
+        const view = viewChannel.present({
+          data: 'b',
+        });
+
+        viewChannel.changeData(view, 'z');
+
+        // One for present, one for changeData
+        expect(subscriber).toBeCalledTimes(2);
+        assertLastSubscriber(
+          subscriber,
+          {
+            history: [],
+            views: [
+              {
+                index: 0,
+                priority: [0],
+                data: 'z',
+                isPresented: true,
+                autoDismiss: {
+                  isPlaying: false,
+                  duration: 0,
+                },
+              },
+            ],
+          },
+          {
+            type: 'DATA_CHANGED',
+            index: 0,
+            data: 'z',
+            // @ts-expect-error objectContaining works
+            view: expect.objectContaining({
+              index: 0,
+              data: 'z',
+              priority: [0],
+              isPresented: true,
+            }),
+            time: new Date(),
+          }
+        );
+      });
+    });
+
+    test('changeData via ViewChannelView', async () => {
+      const viewChannel = new ViewChannel<string, string>();
+      const subscriber = autoSubscribe(viewChannel);
+
+      const view = viewChannel.present({
+        data: 'b',
+      });
+
+      view.changeData('z');
+
+      // One for present, one for changeData
+      expect(subscriber).toBeCalledTimes(2);
+      assertLastSubscriber(
+        subscriber,
+        {
+          history: [],
+          views: [
+            {
+              index: 0,
+              priority: [0],
+              data: 'z',
+              isPresented: true,
+              autoDismiss: {
+                isPlaying: false,
+                duration: 0,
+              },
+            },
+          ],
+        },
+        {
+          type: 'DATA_CHANGED',
+          index: 0,
+          data: 'z',
+          // @ts-expect-error objectContaining works
+          view: expect.objectContaining({
+            index: 0,
+            data: 'z',
+            priority: [0],
+            isPresented: true,
+          }),
+          time: new Date(),
+        }
+      );
     });
   });
 
@@ -3229,6 +3622,144 @@ describe('ViewChannel', () => {
           index: 0,
         }),
       ]);
+
+      view.changeData('z');
+
+      expect(viewChannel.history).toEqual([
+        expect.objectContaining({
+          type: 'INITIALIZED',
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'a',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'b',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 1,
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 1,
+            data: 'c',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 2,
+        }),
+        expect.objectContaining({
+          type: 'DISMISSED',
+          reason: 'USER_INTERACTION',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'a',
+            isPresented: false,
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'DISMISSED_ALL',
+          views: [
+            expect.objectContaining({
+              index: 0,
+              data: 'b',
+              isPresented: false,
+              priority: [0],
+            }),
+            expect.objectContaining({
+              index: 1, // Note that c has now become the second index
+              data: 'c',
+              isPresented: false,
+              priority: [0],
+            }),
+          ],
+          indexes: [0, 1],
+        }),
+        expect.objectContaining({
+          type: 'PRESENTED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'z',
+            isPresented: true,
+            autoDismiss: {
+              isPlaying: false,
+              duration: 0,
+            },
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'AUTO_DISMISS_PAUSED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'z',
+            isPresented: true,
+            autoDismiss: {
+              isPlaying: false,
+              duration: 0,
+            },
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'AUTO_DISMISS_PLAYING',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'z',
+            isPresented: true,
+            autoDismiss: {
+              isPlaying: false,
+              duration: 0,
+            },
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'AUTO_DISMISS_STOPPED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'z',
+            isPresented: true,
+            autoDismiss: {
+              isPlaying: false,
+              duration: 0,
+            },
+            priority: [0],
+          }),
+          index: 0,
+        }),
+        expect.objectContaining({
+          type: 'DATA_CHANGED',
+          view: expect.objectContaining({
+            index: 0,
+            data: 'z',
+            isPresented: true,
+            autoDismiss: {
+              isPlaying: false,
+              duration: 0,
+            },
+            priority: [0],
+          }),
+          index: 0,
+          data: 'z',
+        }),
+      ]);
     });
 
     test('that a history is kept for a maximum number of events', () => {
@@ -3408,6 +3939,7 @@ describe('ViewChannel', () => {
         onAutoDismissPlaying: jest.fn(),
         onAutoDismissPaused: jest.fn(),
         onAutoDismissStopped: jest.fn(),
+        onDataChanged: jest.fn(),
       };
 
       const subscriber = createViewChannelSubscriber<string, string>(config);
@@ -3423,7 +3955,7 @@ describe('ViewChannel', () => {
       );
 
       const eggs = viewChannel.present({
-        data: 'eggs'
+        data: 'eggs',
       });
 
       expect(config.onPresented).toBeCalledTimes(1);
@@ -3431,7 +3963,7 @@ describe('ViewChannel', () => {
         expect.objectContaining({
           type: 'PRESENTED',
           view: eggs,
-          index: 0
+          index: 0,
         }),
         viewChannel
       );
@@ -3444,23 +3976,23 @@ describe('ViewChannel', () => {
           type: 'DISMISSED',
           reason: 'USER_INTERACTION',
           view: eggs,
-          index: 0
+          index: 0,
         }),
         viewChannel
       );
 
       const ham = viewChannel.present({
-        data: 'ham'
+        data: 'ham',
       });
 
-      viewChannel.dismissAll('reason')
+      viewChannel.dismissAll('reason');
 
       expect(config.onDismissedAll).toBeCalledTimes(1);
       expect(config.onDismissedAll).lastCalledWith(
         expect.objectContaining({
           type: 'DISMISSED_ALL',
           views: [ham],
-          indexes: [0]
+          indexes: [0],
         }),
         viewChannel
       );
@@ -3469,8 +4001,8 @@ describe('ViewChannel', () => {
         data: 'jam',
         autoDismiss: {
           duration: 1000,
-          result: 'auto_dismiss'
-        }
+          result: 'auto_dismiss',
+        },
       });
 
       jam.pause();
@@ -3480,7 +4012,7 @@ describe('ViewChannel', () => {
         expect.objectContaining({
           type: 'AUTO_DISMISS_PAUSED',
           view: jam,
-          index:0
+          index: 0,
         }),
         viewChannel
       );
@@ -3492,7 +4024,7 @@ describe('ViewChannel', () => {
         expect.objectContaining({
           type: 'AUTO_DISMISS_PLAYING',
           view: jam,
-          index:0
+          index: 0,
         }),
         viewChannel
       );
@@ -3504,7 +4036,20 @@ describe('ViewChannel', () => {
         expect.objectContaining({
           type: 'AUTO_DISMISS_STOPPED',
           view: jam,
-          index:0
+          index: 0,
+        }),
+        viewChannel
+      );
+
+      jam.changeData('z');
+
+      expect(config.onDataChanged).toBeCalledTimes(1);
+      expect(config.onDataChanged).lastCalledWith(
+        expect.objectContaining({
+          type: 'DATA_CHANGED',
+          view: jam,
+          index: 0,
+          data: 'z',
         }),
         viewChannel
       );

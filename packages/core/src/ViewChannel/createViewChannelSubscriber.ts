@@ -7,6 +7,7 @@ import {
   ViewChannelViewAutoDismissPausedEvent,
   ViewChannelViewAutoDismissPlayingEvent,
   ViewChannelViewAutoDismissStoppedEvent,
+  ViewChannelViewDataChangedEvent,
   ViewChannelViewDismissedAllEvent,
   ViewChannelViewDismissedEvent,
   ViewChannelViewPresentedEvent,
@@ -124,6 +125,19 @@ export type CreateViewChannelSubscriberConfig<T, R> = {
     event: ViewChannelViewAutoDismissStoppedEvent<T, R>,
     viewChannel: ViewChannel<T, R>
   ) => void;
+
+  /**
+   * Method which is called whenever an `DATA_CHANGED` event is fired
+   * from within the ViewChannel.
+   *
+   * @param {ViewChannelViewDataChangedEvent<T, R>} event The event that was fired.
+   * @param {ViewChannel<T, R>} viewChannel The ViewChannel the event was fired from
+   * @since 1.5.0
+   */
+  onDataChanged?: (
+    event: ViewChannelViewDataChangedEvent<T, R>,
+    viewChannel: ViewChannel<T, R>
+  ) => void;
 };
 
 /**
@@ -218,6 +232,10 @@ export type CreateViewChannelSubscriberConfig<T, R> = {
  *
  *   onAutoDismissStopped(event, viewChannel) {
  *     console.log('onAutoDismissStopped', event, viewChannel);
+ *   },
+ * 
+ *   onDataChanged(event, viewChannel) {
+ *     console.log('onDataChanged', event, viewChannel);
  *   },
  * });
  * ```
