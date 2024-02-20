@@ -14,8 +14,12 @@
     <div class="shrink-0 mr-4">
       <!-- Logo -->
       <a class="flex flex-row items-center" href="/" aria-label="uiloos">
-        <img alt="Outline of an owl" src="/images/uiloos.svg" width="64" height="64" class="dark:hidden"/>
-        <img alt="Outline of an owl" src="/images/uiloos-dark.svg" width="64" height="64" class="hidden dark:block"/>
+        <img 
+          alt="Outline of an owl"
+          src="/images/uiloos-colored.svg" 
+          width="64" 
+          height="64" 
+        />
         <span class="ml-4 maven text-4xl">uiloos</span>
       </a>
     </div>
@@ -73,18 +77,21 @@
     <div class="flex lg:hidden" x-data="{ expanded: false }">
       <!-- Hamburger button -->
       <button
-        class="hamburger"
-        :class="{ 'active': expanded }"
         @click.stop="expanded = !expanded"
         aria-controls="mobile-nav"
         :aria-expanded="expanded"
       >
         <span class="sr-only">Menu</span>
-        <svg class="w-6 h-6 fill-current text-gray-900 dark:text-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <rect y="4" width="24" height="2"/>
-          <rect y="11" width="24" height="2"/>
-          <rect y="18" width="24" height="2"/>
-        </svg>
+        <ul
+          class="hamburger-menu"
+          :class="{ 'active': expanded }"
+          aria-hidden="true"
+         >
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
       </button>
 
       <!-- Mobile navigation -->
