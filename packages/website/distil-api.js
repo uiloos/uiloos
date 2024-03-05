@@ -1,6 +1,7 @@
 const fs = require('fs');
 const crypto = require('crypto');
 const { PACKAGES } = require('./packages.js');
+const path = require( "path" );
 
 console.log('Distilling api json files');
 
@@ -9,7 +10,7 @@ const OUTPUT_DIR = './src/_data/distilled';
 fs.rmSync(OUTPUT_DIR, { recursive: true, force: true });
 fs.mkdirSync(OUTPUT_DIR);
 
-const EXAMPLES_OUTPUT_DIR = './src/_includes/';
+const EXAMPLES_OUTPUT_DIR = './src/_includes/examples/';
 
 const includesDir = fs.readdirSync(EXAMPLES_OUTPUT_DIR);
 
@@ -211,15 +212,19 @@ function getExamples(def, package) {
 
           const hash = crypto.createHash('md5').update(code).digest('hex');
 
-          const fileName = `example-${package}-${def.name.toLowerCase()}-${hash}.njk`;
+          const fileName = `/example-${package}-${def.name.toLowerCase()}-${hash}.njk`;
 
           const content = `{% raw %}${code}{% endraw %}`;
 
           fs.writeFileSync(`${EXAMPLES_OUTPUT_DIR}/${fileName}`, content, {
             flag: 'w',
           });
-
-          parts.push({ type: 'code', fileName, extension });
+          
+          parts.push({ 
+            type: 'code', 
+            fileName: `${__dirname}/src/_includes/examples${fileName}`, 
+            extension 
+          });
         }
       });
 

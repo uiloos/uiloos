@@ -14,7 +14,7 @@ vite.config.ts.timestamp-*
 packages/website/_site/
 packages/website/src/_data/api/
 packages/website/src/_data/distilled/
-packages/website/src/_includes/example-**
+packages/website/src/_includes/examples/example-**
 packages/website/src/search/
 
 .cache
