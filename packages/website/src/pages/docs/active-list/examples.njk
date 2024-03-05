@@ -18,7 +18,7 @@ keywords: "ActiveList examples, ActiveList carousel example, ActiveList tabs exa
 
   <div class="grid lg:grid-cols-2 gap-4">
     {% for example in examples %}
-      {% if example.for === 'ActiveList' %}
+      {% if example.component === 'ActiveList' %}
         {% include "../../../_includes/components/example.njk" %}
       {% endif %}
     {% endfor %}

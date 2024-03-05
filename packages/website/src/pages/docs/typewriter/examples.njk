@@ -17,7 +17,7 @@ keywords: "Typewriter example, Typewriter multiple cursors example"
 
   <div class="grid lg:grid-cols-2 gap-4">
     {% for example in examples %}
-      {% if example.for === 'Typewriter' %}
+      {% if example.component === 'Typewriter' %}
         {% include "../../../_includes/components/example.njk" %}
       {% endif %}
     {% endfor %}

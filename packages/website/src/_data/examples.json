@@ -3,184 +3,232 @@
     "id": 9,
     "text": "ViewChannel usage in vanilla JavaScript",
     "description": "Shows a notification center, a flash message, a modal and a confirmation dialog.",
-    "url": "https://codesandbox.io/s/viewchannel-vanilla-94hwi3?file=/scripts/main.js",
-    "tags": ["JavaScript"],
-    "for": "ViewChannel"
+    "keywords": "headless JavaScript notification center, headless JavaScript flash messages, headless JavaScript modal, headless JavaScript confirmation dialog",
+    "github": "/uiloos/examples/tree/main/vanilla/view-channel",
+    "framework": "Vanilla",
+    "url": "view-channel",
+    "component": "ViewChannel"
   },
   {
     "id": 10,
     "text": "ViewChannel usage in Vue",
     "description": "Shows how to use the composable `useViewChannel` in order to create the example.",
-    "url": "https://codesandbox.io/s/viewchannel-vue-pth0sr?file=/src/App.vue",
-    "tags": ["Vue"],
-    "for": "ViewChannel"
+    "keywords": "headless Vue notification center, headless Vue flash messages, headless Vue modal, headless Vue confirmation dialog",
+    "github": "/uiloos/examples/tree/main/vue/view-channel",
+    "framework": "Vue",
+    "url": "view-channel",
+    "component": "ViewChannel"
   },
   {
     "id": 11,
     "text": "ViewChannel usage in React",
     "description": "Shows how to use the `useViewChannel` hook in order to create the example.",
-    "url": "https://codesandbox.io/s/viewchannel-react-756b3i?file=/src/App.tsx",
-    "tags": ["React"],
-    "for": "ViewChannel"
+    "keywords": "headless React notification center, headless React flash messages, headless React modal, headless React confirmation dialog",
+    "github": "/uiloos/examples/tree/main/react/view-channel",
+    "framework": "React",
+    "url": "view-channel",
+    "component": "ViewChannel"
   },
   {
     "id": 12,
     "text": "ViewChannel usage in Angular",
     "description": "Shows how to create services for each type of ViewChannel and use them to create the example.",
-    "url": "https://codesandbox.io/s/viewchannel-angular-xpd5h6?file=/src/app/app.component.ts",
-    "tags": ["Angular"],
-    "for": "ViewChannel"
-  },
-  {
-    "id": 9,
-    "text": "Typewriter usage in vanilla JavaScript",
-    "description": "Shows a couple of typewriter animations using vanilla JavaScript",
-    "url": "https://codesandbox.io/s/typewriter-vanilla-8xjcwz",
-    "tags": ["JavaScript"],
-    "for": "Typewriter"
-  },
-  {
-    "id": 10,
-    "text": "Typewriter usage in Vue",
-    "description": "Demonstrates how to use the `useTypewriter` and 'useTypewriterFromSentences' composables to create animations",
-    "url": "https://codesandbox.io/s/typewriter-vue-pmksm4",
-    "tags": ["Vue"],
-    "for": "Typewriter"
-  },
-  {
-    "id": 11,
-    "text": "Typewriter usage in React",
-    "description": "Demonstrates how to use the `useTypewriter` and 'useTypewriterFromSentences' hooks to create animations",
-    "url": "https://codesandbox.io/s/typewriter-react-psp7gx",
-    "tags": ["React"],
-    "for": "Typewriter"
-  },
-  {
-    "id": 12,
-    "text": "Typewriter usage in Angular",
-    "description": "Shows how create animations by combining the Typewriter class and angular @Components",
-    "url": "https://codesandbox.io/s/typewriter-angular-zktywz",
-    "tags": ["Angular"],
-    "for": "Typewriter"
+    "keywords": "headless Angular notification center, headless Angular flash messages, headless Angular modal, headless Angular confirmation dialog",
+    "github": "/uiloos/examples/tree/main/angular/view-channel",
+    "framework": "Angular",
+    "url": "view-channel",
+    "component": "ViewChannel"
   },
   {
     "id": 17,
     "text": "ViewChannel usage in Svelte",
     "description": "Shows how to use the `createViewChannelStore` function in order to create the example.",
-    "url": "https://codesandbox.io/p/sandbox/viewchannel-svelte-j73536",
-    "tags": ["Svelte"],
-    "for": "ViewChannel"
-  },
-  {
-    "id": 18,
-    "text": "Typewriter usage in Svelte",
-    "description": "Demonstrates how to use the `createTypewriterStore` function to create animations",
-    "url": "https://codesandbox.io/p/sandbox/typewriter-svelte-z4f3fp",
-    "tags": ["Svelte"],
-    "for": "Typewriter"
+    "keywords": "headless Svelte notification center, headless Svelte flash messages, headless Svelte modal, headless Svelte confirmation dialog",
+    "github": "/uiloos/examples/tree/main/svelte/view-channel",
+    "framework": "Svelte",
+    "url": "view-channel",
+    "component": "ViewChannel"
   },
   {
     "id": 19,
     "text": "ViewChannel usage in Alpine",
     "description": "Shows how to use the `createViewChannelStore` function in order to create the example.",
-    "url": "https://codesandbox.io/s/viewchannel-alpine-6868ky",
-    "tags": ["Alpine"],
-    "for": "ViewChannel"
+    "keywords": "headless Alpine notification center, headless Alpine flash messages, headless Alpine modal, headless Alpine confirmation dialog",
+    "github": "/uiloos/examples/tree/main/alpine/view-channel",
+    "framework": "Alpine",
+    "url": "view-channel",
+    "component": "ViewChannel"
   },
+  {
+    "id": 9,
+    "text": "Typewriter usage in vanilla JavaScript",
+    "description": "Shows a couple of typewriter animations using vanilla JavaScript.",
+    "keywords": "headless JavaScript typewriter animation",
+    "github": "/uiloos/examples/tree/main/vanilla/typewriter",
+    "framework": "Vanilla",
+    "url": "typewriter",
+    "component": "Typewriter"
+  },
+  {
+    "id": 10,
+    "text": "Typewriter usage in Vue",
+    "description": "Demonstrates how to use the `useTypewriter` and 'useTypewriterFromSentences' composables to create animations.",
+    "keywords": "headless Vue typewriter animation",
+    "github": "/uiloos/examples/tree/main/vue/typewriter",
+    "framework": "Vue",
+    "url": "typewriter",
+    "component": "Typewriter"
+  },
+  {
+    "id": 11,
+    "text": "Typewriter usage in React",
+    "description": "Demonstrates how to use the `useTypewriter` and 'useTypewriterFromSentences' hooks to create animations.",
+    "keywords": "headless React typewriter animation",
+    "github": "/uiloos/examples/tree/main/react/typewriter",
+    "framework": "React",
+    "url": "typewriter",
+    "component": "Typewriter"
+  },
+  {
+    "id": 12,
+    "text": "Typewriter usage in Angular",
+    "description": "Shows how create animations by combining the Typewriter class and angular @Components.",
+    "keywords": "headless Angular typewriter animation",
+    "github": "/uiloos/examples/tree/main/angular/typewriter",
+    "framework": "Angular",
+    "url": "typewriter",
+    "component": "Typewriter"
+  },
+
+  {
+    "id": 18,
+    "text": "Typewriter usage in Svelte",
+    "description": "Demonstrates how to use the `createTypewriterStore` function to create animations.",
+    "keywords": "headless Svelte typewriter animation",
+    "github": "/uiloos/examples/tree/main/svelte/typewriter",
+    "framework": "Svelte",
+    "url": "typewriter",
+    "component": "Typewriter"
+  },
+
   {
     "id": 20,
     "text": "Typewriter usage in Alpine",
-    "description": "Demonstrates how to use the `typewriter`, `subscribe` and `typewriterFromSentences` functions to create animations",
-    "url": "https://codesandbox.io/s/typewriter-alpine-dlqx83",
-    "tags": ["Alpine"],
-    "for": "Typewriter"
+    "description": "Demonstrates how to use the `typewriter`, `subscribe` and `typewriterFromSentences` functions to create animations.",
+    "keywords": "headless Alpine typewriter animation",
+    "github": "/uiloos/examples/tree/main/alpine/typewriter",
+    "framework": "Alpine",
+    "url": "typewriter",
+    "component": "Typewriter"
   },
   {
     "id": 22,
     "text": "ActiveList usage in vanilla JavaScript",
-    "description": "Shows how to create various carousels, accordions, segmented buttons and more",
-    "url": "https://codesandbox.io/s/activelist-vanilla-xmf5zj",
-    "tags": ["JavaScript"],
-    "for": "ActiveList"
+    "description": "Shows how to create various carousels, accordions, segmented buttons and more.",
+    "keywords": "headless JavaScript carousel, headless JavaScript accordion, headless JavaScript segmented button, headless JavaScript tabs, headless JavaScript image gallery",
+    "github": "/uiloos/examples/tree/main/vanilla/active-list",
+    "framework": "Vanilla",
+    "url": "active-list",
+    "component": "ActiveList"
   },
   {
     "id": 23,
     "text": "ActiveList usage in Vue",
-    "description": "Shows how to use the `useActiveList` composable",
-    "url": "https://codesandbox.io/p/sandbox/activelist-vue-7mo9ru",
-    "tags": ["Vue"],
-    "for": "ActiveList"
+    "description": "Shows how to use the `useActiveList` composable.",
+    "keywords": "headless Vue carousel, headless Vue accordion, headless Vue segmented button, headless Vue tabs, headless Vue image gallery",
+    "github": "/uiloos/examples/tree/main/vue/active-list",
+    "framework": "Vue",
+    "url": "active-list",
+    "component": "ActiveList"
   },
   {
     "id": 24,
     "text": "ActiveList usage in React",
-    "description": "Demonstrates the `useActiveList` hook",
-    "url": "https://codesandbox.io/p/sandbox/activelist-react-zy9gpv",
-    "tags": ["React"],
-    "for": "ActiveList"
+    "description": "Demonstrates the `useActiveList` hook.",
+    "keywords": "headless React carousel, headless React accordion, headless React segmented button, headless React tabs, headless React image gallery",
+    "github": "/uiloos/examples/tree/main/react/active-list",
+    "framework": "React",
+    "url": "active-list",
+    "component": "ActiveList"
   },
   {
     "id": 25,
     "text": "ActiveList usage in Angular",
-    "description": "Shows how integrate the `ActiveList` with Angular",
-    "url": "https://codesandbox.io/p/sandbox/activelist-angular-f8zjn7",
-    "tags": ["Angular"],
-    "for": "ActiveList"
+    "description": "Shows how integrate the `ActiveList` with Angular.",
+    "keywords": "headless Angular carousel, headless Angular accordion, headless Angular segmented button, headless Angular tabs, headless Angular image gallery",
+    "github": "/uiloos/examples/tree/main/angular/active-list",
+    "framework": "Angular",
+    "url": "active-list",
+    "component": "ActiveList"
   },
   {
     "id": 26,
     "text": "ActiveList usage in Alpine",
-    "description": "Examples of how to use the `ActiveList` from within your html with Alpine.js",
-    "url": "https://codesandbox.io/s/activelist-alpine-kzgj2m",
-    "tags": ["Alpine"],
-    "for": "ActiveList"
+    "description": "Examples of how to use the `ActiveList` from within your html with Alpine.js.",
+    "keywords": "headless Alpine carousel, headless Alpine accordion, headless Alpine segmented button, headless Alpine tabs, headless Alpine image gallery",
+    "github": "/uiloos/examples/tree/main/alpine/active-list",
+    "framework": "Alpine",
+    "url": "active-list",
+    "component": "ActiveList"
   },
   {
     "id": 27,
     "text": "ActiveList usage in Svelte",
-    "description": "The `createActiveListStore` is used to defined various components",
-    "url": "https://codesandbox.io/p/sandbox/activelist-svelte-f6sdsl",
-    "tags": ["Svelte"],
-    "for": "ActiveList"
+    "description": "The `createActiveListStore` is used to defined various components.",
+    "keywords": "headless Svelte carousel, headless Svelte accordion, headless Svelte segmented button, headless Svelte tabs, headless Svelte image gallery",
+    "github": "/uiloos/examples/tree/main/svelte/active-list",
+    "framework": "Svelte",
+    "url": "active-list",
+    "component": "ActiveList"
   },
   {
     "id": 28,
     "text": "DateGallery usage in vanilla JavaScript",
     "description": "Shows how to create a calendar, datepicker and date ranger picker.",
-    "url": "https://codesandbox.io/p/devbox/dategallery-vanilla-snf4xr",
-    "tags": ["JavaScript"],
-    "for": "DateGallery"
+    "keywords": "headless JavaScript datepicker, headless JavaScript calendar, headless JavaScript date range picker",
+    "github": "/uiloos/examples/tree/main/vanilla/date-gallery",
+    "framework": "Vanilla",
+    "url": "date-gallery",
+    "component": "DateGallery"
   },
   {
     "id": 29,
     "text": "DateGallery usage in Vue",
-    "description": "Shows how to use the `useDateGallery` composable",
-    "url": "https://codesandbox.io/p/devbox/dategallery-vue-5y7rrh",
-    "tags": ["Vue"],
-    "for": "DateGallery"
+    "description": "Shows how to use the `useDateGallery` composable.",
+    "keywords": "headless Vue datepicker, headless Vue calendar, headless Vue date range picker",
+    "github": "/uiloos/examples/tree/main/vue/date-gallery",
+    "framework": "Vue",
+    "url": "date-gallery",
+    "component": "DateGallery"
   },
   {
     "id": 30,
     "text": "DateGallery usage in React",
-    "description": "Demonstrates the `useDateGallery` hook",
-    "url": "https://codesandbox.io/p/devbox/dategallery-react-9s2zcl",
-    "tags": ["React"],
-    "for": "DateGallery"
+    "description": "Demonstrates the `useDateGallery` hook.",
+    "keywords": "headless React datepicker, headless React calendar, headless React date range picker",
+    "github": "/uiloos/examples/tree/main/react/date-gallery",
+    "framework": "React",
+    "url": "date-gallery",
+    "component": "DateGallery"
   },
   {
     "id": 31,
     "text": "DateGallery usage in Angular",
-    "description": "Shows how integrate the `DateGallery` with Angular",
-    "url": "https://codesandbox.io/p/devbox/dategallery-angular-ynppjp",
-    "tags": ["Angular"],
-    "for": "DateGallery"
+    "description": "Shows how integrate the `DateGallery` with Angular.",
+    "keywords": "headless Angular datepicker, headless Angular calendar, headless Angular date range picker",
+    "github": "/uiloos/examples/tree/main/angular/date-gallery",
+    "framework": "Angular",
+    "url": "date-gallery",
+    "component": "DateGallery"
   },
   {
     "id": 32,
     "text": "DateGallery usage in Svelte",
-    "description": "The `createDateGalleryStore` is used to defined various components",
-    "url": "https://codesandbox.io/p/devbox/dategallery-svelte-8q672r",
-    "tags": ["Svelte"],
-    "for": "DateGallery"
+    "description": "The `createDateGalleryStore` is used to defined various components.",
+    "keywords": "headless Svelte datepicker, headless Svelte calendar, headless Svelte date range picker",
+    "github": "/uiloos/examples/tree/main/svelte/date-gallery",
+    "framework": "Svelte",
+    "url": "date-gallery",
+    "component": "DateGallery"
   }
 ]

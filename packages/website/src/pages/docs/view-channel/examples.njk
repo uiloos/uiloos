@@ -19,7 +19,7 @@ keywords: "ViewChannel examples, ViewChannel flash messages example, ViewChannel
 
   <div class="grid lg:grid-cols-2 gap-4">
     {% for example in examples %}
-      {% if example.for === 'ViewChannel' %}
+      {% if example.component === 'ViewChannel' %}
         {% include "../../../_includes/components/example.njk" %}
       {% endif %}
     {% endfor %}
