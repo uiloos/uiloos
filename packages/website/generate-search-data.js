@@ -289,7 +289,7 @@ function getReleases() {
             name: `@uiloos/${file} ${version}`,
             description: `The release notes / change logs of @uiloos/${file} ${version}`,
             type: 'Release',
-            link: `/releases/${file}/${version}`,
+            link: `/releases/${file}/${version}/`,
           });
         }
       });

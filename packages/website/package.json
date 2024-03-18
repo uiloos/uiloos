@@ -10,6 +10,7 @@
     "start": "npm-run-all apigen:post clean --parallel serve:*",
     "build-docs:webpack": "webpack --mode production",
     "build-docs:eleventy": "ELEVENTY_ENV=production eleventy --config=./eleventy.config.js",
+    "build-docs:sitemap": "node ./generate-sitemap.js",
     "build-docs": "NODE_ENV=production run-s clean build-docs:*",
     "build": "echo ignoring build for website package",
     "distil-api": "node ./distil-api.js",
