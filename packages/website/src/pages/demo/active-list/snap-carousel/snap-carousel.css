@@ -1,0 +1,85 @@
+.snap-carousel {
+  display: grid;
+  justify-content: center;
+}
+
+.snap-carousel-slides {
+  display: flex;
+  gap: 8px;
+  max-width: 640px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  list-style-type: none;
+}
+
+.snap-carousel .slide {
+  /* 
+    Show the previous and next slides a little, 
+    I call this peek ahead 
+  */
+  min-width: calc(640px - 48px);
+  scroll-snap-align: center;
+}
+
+/* @media only screen and (max-width: 1200px) {
+  snap-carousel-slides {
+    max-width: 300px;
+  }
+  
+  .snap-carousel .slide {
+    min-width: calc(300px - 16px);
+    background-color: blue;
+  }
+} */
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.snap-carousel-slides::-webkit-scrollbar {
+  display: none;
+}
+
+.snap-carousel .slide img {
+  max-width: 100%;
+  height: auto;
+}
+
+.snap-carousel article {
+  padding: 12px 0px;
+}
+
+.snap-carousel article h4 {
+  margin-bottom: 8px;
+}
+
+.snap-carousel-progress {
+  margin-bottom: 4px;
+  height: 8px;
+  background: linear-gradient(
+    to right,
+    rgb(107 33 168) 50%,
+    rgb(102, 102, 102) 50%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes progress {
+  from {
+    background-position: right bottom;
+  }
+  to {
+    background-position: left bottom;
+  }
+}
+
+@media only screen and (max-width: 680px) {
+  .snap-carousel-slides {
+    max-width: 320px;
+  }
+  
+  .snap-carousel .slide {
+    max-width: 320px;
+    min-width: 320px;
+  }
+}

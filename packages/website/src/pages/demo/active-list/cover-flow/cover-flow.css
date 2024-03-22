@@ -1,0 +1,50 @@
+.cover-flow {
+  display: grid;
+  justify-content: center;
+  margin-bottom: 42px;
+  overflow: hidden;
+}
+
+.cover-flow .carousel {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  perspective: 500px;
+  transform-style: preserve-3d;
+}
+
+.cover-flow .card-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotateY(calc(var(--offset) * 50deg))
+    scaleY(calc(1 + var(--abs-offset) * -0.4))
+    translateZ(calc(var(--abs-offset) * -30rem))
+    translateX(calc(var(--direction) * -5rem));
+  filter: blur(calc(var(--abs-offset) * 1rem));
+  transition: all 0.3s ease-out;
+}
+
+.cover-flow .card {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.cover-flow img, .cover-flow picture {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.cover-flow button {
+  color: black;
+  font-size: 5rem;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  z-index: 2;
+  cursor: pointer;
+}

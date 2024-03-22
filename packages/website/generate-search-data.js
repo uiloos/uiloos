@@ -31,6 +31,13 @@ const data = [
     type: 'Docs',
     link: '/docs/getting-started/overview/',
   },
+  {
+    name: 'Demo',
+    description:
+      'Take a look at the types of components you can make with uiloos.',
+    type: 'Demo',
+    link: '/demo',
+  },
 
   // Miscellaneous
   {

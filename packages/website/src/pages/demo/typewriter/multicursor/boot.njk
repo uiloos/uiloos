@@ -1,0 +1,35 @@
+<h1 class="mx-auto text-center">Typewriter</h1>
+
+<style>
+  {% include "./multicursor.css" %}
+</style>
+
+{% include "./multicursor.html" %}
+
+<details>
+  <summary class="mb-4">View code</summary>
+
+  <div class="js-example-switcher w-full">
+    <div class="flex bg-gray-200 dark:bg-gray-700 px-2 pt-2 pb-4 gap-4">
+      <button class="font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">JavaScript</button>
+      <button class="font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">HTML</button>
+      <button class="font-bold border-b-4 hover:text-purple-500 hover:border-purple-500">CSS</button>
+    </div>
+
+    <div class="example">
+      {% highlight "js" %}
+      {% include "./multicursor.js" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "html" %}
+      {% include "./multicursor.html" %}
+      {% endhighlight %}
+    </div>
+    <div class="example">
+      {% highlight "css" %}
+      {% include "./multicursor.css" %}
+      {% endhighlight %}
+    </div>
+  </div>
+</details>

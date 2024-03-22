@@ -1,0 +1,137 @@
+.datepicker {
+  display: grid;
+  gap: 4px;
+}
+
+.datepicker .datepicker-input-wrapper {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
+  gap: 4px;
+}
+
+@media only screen and (min-width: 420px) {
+  .datepicker .datepicker-input-wrapper {
+    display: flex;
+    gap: 4px;
+  }
+}
+
+.datepicker input {
+  border: solid 1px black;
+  padding: 4px;
+}
+
+.datepicker input.date {
+  flex-grow: 1;
+}
+
+.datepicker input.time {
+  min-width: 50px;
+  flex-basis: 0;
+}
+
+.datepicker.invalid input.date .datepicker.invalid input.time {
+  border: solid 1px red;
+}
+
+.datepicker .error {
+  color: red;
+}
+
+.datepicker .calendar-button {
+  background-color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+}
+
+@media only screen and (min-width: 420px) {
+  .datepicker .calendar-button {
+    border: none;
+  }
+}
+
+.datepicker button {
+  cursor: pointer;
+}
+
+.datepicker button:disabled {
+  cursor: not-allowed;
+}
+
+.datepicker ul {
+  list-style-type: none;
+}
+
+.datepicker .datepicker-dialog-content {
+  display: grid;
+  justify-items: center;
+  height: 360px;
+}
+
+.datepicker dialog .topbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  align-self: start;
+}
+
+.datepicker dialog .topbar .topbar-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.datepicker dialog .topbar .month {
+  font-size: 16px;
+  border-color: black;
+}
+
+.datepicker dialog .topbar .year {
+  width: 60px;
+  height: 42px;
+}
+
+.datepicker dialog .topbar button {
+  width: 42px;
+  font-size: 32px;
+  background-color: white;
+}
+
+.datepicker dialog .daygrid {
+  display: grid;
+  grid-template-columns: repeat(7, 42px);
+  justify-items: center;
+  align-self: end;
+}
+
+.datepicker dialog .dates button {
+  width: 42px;
+  height: 42px;
+  background-color: white;
+}
+
+.datepicker dialog .dates .today {
+  background-color: limegreen;
+  font-weight: bold;
+  border-radius: 100%;
+}
+
+.datepicker dialog .dates .selected {
+  background-color: skyblue;
+  font-weight: bold;
+  border-radius: 100%;
+}
+
+.datepicker dialog .bottombar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+}
+
+.datepicker dialog .bottombar button {
+  padding: 4px;
+}

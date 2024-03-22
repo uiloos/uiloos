@@ -1,0 +1,92 @@
+/* Note: --offset, --opacity and --count are set from JavaScript */
+
+.notification-center {
+  display: grid;
+  gap: 28px;
+  max-width: 1000px;
+  margin: 0 auto 16px auto;
+
+  --notification-height: 42px;
+  --notification-gap: 5px;
+}
+
+.notification-center .notification-group ol {
+  display: grid;
+  width: 100%;
+  height: calc(var(--notification-height) + (2px * var(--count)));
+  perspective: 500px;
+  transform-style: preserve-3d;
+  transition: all 0.2s ease-in-out;
+}
+
+.notification-center .notification-group.open ol {
+  gap: var(--notification-gap);
+  height: calc(
+    ((var(--notification-height) + var(--notification-gap)) * var(--count))
+  );
+}
+
+.notification-center .notification-group .notification-group-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.notification-center .notification {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 42px;
+  border: black 1px solid;
+  color: black;
+  background-color: white;
+  padding: 0 4px;
+
+  transform: translateZ(calc(var(--offset) * -1px))
+    translateY(calc(var(--offset) * -35px))
+    scale(calc(1 + var(--offset) * -0.009));
+  filter: blur(calc(var(--offset) * 0.5px));
+  opacity: var(--opacity);
+  transition: all 0.2s ease-in-out;
+}
+
+.notification-center .notification-content {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.notification-center .notification-icon {
+  font-size: 32px;
+  height: 42px;
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.notification-center
+  .notification-group.open
+  ol
+  .notification:nth-child(n + 2) {
+  transform: translateY(var(--offset));
+  opacity: 1;
+  filter: none;
+}
+
+.notification-center .fade-out {
+  opacity: 0 !important;
+}
+
+.notification-center .notification-group-topbar-open {
+  font-size: 32px;
+}
+
+.notification-center .notification-delete {
+  font-size: 22px;
+}
+
+.notification-center .notification-group-empty {
+  margin: 0;
+}

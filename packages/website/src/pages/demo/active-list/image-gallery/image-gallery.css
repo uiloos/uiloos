@@ -1,0 +1,114 @@
+.image-gallery {
+  display: grid;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.image-gallery .gallery-selected {
+  margin-bottom: 16px;
+  max-width: 1200px;
+}
+
+.image-gallery ul {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.image-gallery li {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  place-content: center;
+}
+
+.image-gallery button {
+  cursor: pointer;
+}
+
+.image-gallery button.next,
+.image-gallery button.previous {
+  position: absolute;
+  top: calc(50% - 32px);
+  width: 64px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  background-color: white;
+  font-size: 32px;
+  border: 1px white solid;
+  border-radius: 999999%;
+}
+
+.image-gallery button.next:hover,
+.image-gallery button.previous:hover {
+  transition: all 0.8s;
+  border-color: black;
+  color: white;
+  background-color: black;
+}
+
+.image-gallery button.previous {
+  left: 0px;
+}
+
+.image-gallery button.next {
+  right: 0px;
+}
+
+.image-gallery img {
+  max-width: 100%;
+  height: auto;
+}
+
+.image-gallery dialog {
+  max-width: 960px;
+  padding: 32px;
+  background-color: transparent;
+  overflow: hidden;
+}
+
+.image-gallery dialog[open] {
+  animation: fade-in 0.4s ease-in;
+}
+
+.image-gallery dialog[open].out,
+.image-gallery dialog[open].out::backdrop {
+  animation: fade-out 0.4s ease-out;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.image-gallery dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+@media only screen and (max-width: 800px) {
+  .image-gallery ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .image-gallery .gallery-selected,
+  .image-gallery picture {
+    max-width: 320px;
+    min-width: 320px;
+  }
+}

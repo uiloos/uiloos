@@ -1,0 +1,104 @@
+.daterangepicker {
+  display: grid;
+  gap: 4px;
+}
+
+.daterangepicker .calendar-button {
+  background-color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.daterangepicker button {
+  cursor: pointer;
+}
+
+.daterangepicker button:disabled {
+  cursor: not-allowed;
+}
+
+.daterangepicker ul {
+  list-style-type: none;
+}
+
+.daterangepicker .daterangepicker-dialog-content {
+  display: grid;
+  justify-items: center;
+  height: 430px;
+}
+
+.daterangepicker .daterangepicker-dialog-content-calendar {
+  display: grid;
+  gap: 4px;
+  height: 350px;
+}
+
+.daterangepicker dialog .topbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  align-self: start;
+}
+
+.daterangepicker dialog .topbar .topbar-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.daterangepicker dialog .topbar .month {
+  font-size: 16px;
+  border-color: black;
+}
+
+.daterangepicker dialog .topbar .year {
+  width: 60px;
+  height: 42px;
+}
+
+.daterangepicker dialog .topbar button {
+  width: 42px;
+  font-size: 32px;
+  background-color: white;
+}
+
+.daterangepicker dialog .daygrid {
+  display: grid;
+  grid-template-columns: repeat(7, 42px);
+  justify-items: center;
+  align-self: end;
+}
+
+.daterangepicker dialog .dates button {
+  width: 42px;
+  height: 42px;
+  background-color: white;
+}
+
+.daterangepicker dialog .dates .selected {
+  background-color: skyblue;
+  font-weight: bold;
+}
+
+.daterangepicker dialog .dates .start-of-range {
+  border-top-left-radius: 100%;
+  border-bottom-left-radius: 100%;
+}
+
+.daterangepicker dialog .dates .end-of-range {
+  border-top-right-radius: 100%;
+  border-bottom-right-radius: 100%;
+}
+
+.daterangepicker dialog .bottombar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+}
+
+.daterangepicker dialog .bottombar button {
+  padding: 4px;
+}
