@@ -1,8 +1,5 @@
 import { typewriterActionTypeBackspace } from '../keys';
-import {
-  TypewriterAction,
-  TypewriterSubscriber,
-} from '../types';
+import { TypewriterAction, TypewriterSubscriber } from '../types';
 import { Typewriter } from '../Typewriter';
 
 // MANUALLY SYNCHED WITH `TypewriterConfig` SO DOCS RENDER BETTER.
@@ -20,7 +17,8 @@ export type TypewriterFromSentencesConfig = {
   sentences: string[];
 
   /**
-   * The delay in between letters, meaning the speed at which to type.
+   * The delay in milliseconds between letters, meaning the speed at
+   * which to type.
    *
    * Defaults to 50ms
    *
@@ -29,7 +27,8 @@ export type TypewriterFromSentencesConfig = {
   delay?: number;
 
   /**
-   * The delay in between sentences.
+   * The delay milliseconds in between sentences, is not applied for 
+   * the first sentence.
    *
    * Defaults to 2000ms
    *
@@ -96,6 +95,16 @@ export type TypewriterFromSentencesConfig = {
    * @since 1.2.0
    */
   autoPlay?: boolean;
+
+  /**
+   * The time in milliseconds before the animation starts playing when
+   * `autoPlay` is `true`.
+   *
+   * Defaults to the `delay` config value when not set.
+   *
+   * @since 1.7.0
+   */
+  autoPlayAfter?: number;
 
   /**
    * Whether or not this animation repeats and how often.
@@ -253,6 +262,12 @@ export function typewriterFromSentences(
     firstSentence = false;
   }
 
+  // The animation is auto playing change the first action's delay 
+  // to match the `autoPlayAfter`.
+  if ((config.autoPlay === undefined || config.autoPlay === true) && config.autoPlayAfter) {
+    actions[0].delay = config.autoPlayAfter;
+  }
+
   return new Typewriter<void>(
     {
       // Set the repeat delay to sentence delay this way when,
@@ -266,4 +281,4 @@ export function typewriterFromSentences(
   );
 }
 
-const _KEYBOARD = 'keyboard'
+const _KEYBOARD = 'keyboard';

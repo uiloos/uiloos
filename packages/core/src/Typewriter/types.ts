@@ -104,8 +104,8 @@ export type TypewriterConfig<T> = {
   text?: string;
 
   /**
-   * The time it takes until a cursor starts blinking again after 
-   * the cursor was used.
+   * The time in milliseconds it takes until a cursor starts blinking 
+   * again after the cursor was used.
    * 
    * A cursor does not blink when it is used until after a certain 
    * time. So if you keep typing the cursor does not blink, until 
